@@ -27,7 +27,7 @@ const config: Configuration = {
   // Fixes "require is not defined" errors if nodeIntegration is off
   // https://gist.github.com/msafi/d1b8571aa921feaaa0f893ab24bb727b
   target: 'web',
-  entry: './app/index.js',
+  entry: './app/index.ts',
 
   output: {
     publicPath: '',
@@ -35,17 +35,10 @@ const config: Configuration = {
   },
 
   resolve: {
-    // This prevents looking
-    // prevents resolution of packages installed under shell/node_modules  -> yes
-    //modules: [path.resolve(`${__dirname}/app/node_modules`), "./node_modules"],
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.css'],
     alias: {
-      'react-dnd': require.resolve('react-dnd', {
-        paths: [path.resolve(`${__dirname}/app/node_modules`)],
-      }),
-      'styled-components': require.resolve('styled-components', {
-        paths: [path.resolve(`${__dirname}/app/node_modules`)],
-      }),
+      'react-dnd': require.resolve('react-dnd'),
+      'styled-components': require.resolve('styled-components'),
       'webviz-core/src': path.resolve(`${__dirname}/app`),
       'webviz-core/shared': path.resolve(`${__dirname}/app/shared`),
       'webviz-core/migrations': path.resolve(`${__dirname}/app/migrations`),

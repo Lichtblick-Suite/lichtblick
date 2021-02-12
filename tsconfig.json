@@ -7,13 +7,13 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "noImplicitAny": true,
+    "allowJs": true,
     "sourceMap": true,
     "moduleResolution": "node",
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "strict": true,
-    "typeRoots": ["node_modules/@types", "./typings"],
-    "paths": {}
+    "typeRoots": ["node_modules/@types", "./typings"]
   },
   "include": ["app/**/*"],
   "exclude": ["node_modules", "app/players/UserNodePlayer/nodeTransformerWorker/typescript/**/*"]

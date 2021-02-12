@@ -1,5 +1,5 @@
 {
-  "name": "foxglove-studio-app",
+  "name": "@foxglove-studio/app",
   "private": true,
   "dependencies": {
     "@mdi/svg": "5.7.55",
