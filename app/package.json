@@ -2,7 +2,6 @@
   "name": "foxglove-studio-app",
   "private": true,
   "dependencies": {
-    "@cruise-automation/hooks": "0.0.1",
     "@mdi/svg": "5.7.55",
     "@sentry/browser": "6.1.0",
     "@sentry/types": "6.1.0",

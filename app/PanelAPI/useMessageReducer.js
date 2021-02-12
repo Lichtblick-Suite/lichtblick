@@ -6,10 +6,10 @@
 //  found in the LICENSE file in the root directory of this source tree.
 //  You may not use this file except in compliance with the License.
 
-import { useCleanup } from "@cruise-automation/hooks";
 import { useRef, useCallback, useMemo, useState, useEffect, useContext } from "react";
 import uuid from "uuid";
 
+import useCleanup from "webviz-core/src/hooks/useCleanup";
 import { useMessagePipeline } from "webviz-core/src/components/MessagePipeline";
 import PanelContext from "webviz-core/src/components/PanelContext";
 import type { Message, SubscribePayload } from "webviz-core/src/players/types";

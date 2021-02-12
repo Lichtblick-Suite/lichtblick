@@ -552,16 +552,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cruise-automation/hooks@npm:0.0.1":
-  version: 0.0.1
-  resolution: "@cruise-automation/hooks@npm:0.0.1"
-  peerDependencies:
-    react: 16.x
-    react-dom: 16.x
-  checksum: 5250a2315e371756d0907515a2e9c5036d33ea78c6260510e4dc966cc4bf61c3af2830597301b537841f504adea8ca98930ce31d395f7800077a6b4f4ba64f96
-  languageName: node
-  linkType: hard
-
 "@discoveryjs/json-ext@npm:^0.5.0":
   version: 0.5.2
   resolution: "@discoveryjs/json-ext@npm:0.5.2"
@@ -6205,7 +6195,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "foxglove-studio-app@workspace:app"
   dependencies:
-    "@cruise-automation/hooks": 0.0.1
     "@mdi/svg": 5.7.55
     "@sentry/browser": 6.1.0
     "@sentry/types": 6.1.0
