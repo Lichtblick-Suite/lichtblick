@@ -4,3 +4,5 @@ yarn-error.log
 # Yarn
 .yarn/*
 !.yarn/releases
+
+.webpack
