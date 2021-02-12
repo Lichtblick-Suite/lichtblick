@@ -1,0 +1,79 @@
+//  Copyright (c) 2018-present, Cruise LLC
+//
+//  This source code is licensed under the Apache License, Version 2.0,
+//  found in the LICENSE file in the root directory of this source tree.
+//  You may not use this file except in compliance with the License.
+
+@import "~webviz-core/src/styles/colors.module.scss";
+@import "~webviz-core/src/styles/mixins.module.scss";
+
+.container {
+  @extend %floating-box;
+  min-width: 50px;
+  flex: 0 0 auto;
+  overflow-y: auto;
+  max-height: 100%;
+
+  hr {
+    padding: 0;
+    background-color: $divider;
+  }
+
+  a {
+    text-decoration: none;
+  }
+}
+
+.item {
+  @extend %menu-item;
+
+  &.active {
+    @extend %menu-item-active;
+  }
+
+  &.disabled {
+    color: $text-disabled;
+    cursor: not-allowed;
+    &:hover {
+      background-color: transparent;
+      color: $text-disabled;
+    }
+  }
+
+  &.header {
+    text-transform: uppercase;
+    opacity: 0.6;
+    font-size: 11px;
+    letter-spacing: 1px;
+    padding-top: 16px;
+
+    &:hover {
+      cursor: default;
+      background-color: inherit; // disable usual item hover color
+      opacity: 0.5;
+    }
+  }
+
+  &.hoverForScreenshot {
+    @extend %menu-item-hover;
+  }
+}
+
+.submenuIconLeft,
+.submenuIconRight {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  fill: currentColor;
+  opacity: 0.6;
+}
+.submenuIconLeft {
+  position: relative;
+  right: 6px;
+}
+
+.icon {
+  margin-right: 12px;
+  font-size: 14px;
+  vertical-align: middle;
+}

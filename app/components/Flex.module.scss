@@ -1,0 +1,64 @@
+//  Copyright (c) 2018-present, Cruise LLC
+//
+//  This source code is licensed under the Apache License, Version 2.0,
+//  found in the LICENSE file in the root directory of this source tree.
+//  You may not use this file except in compliance with the License.
+
+.flex {
+  display: flex;
+  flex-direction: row;
+  flex: 1 1 auto;
+}
+.flex.reverse {
+  flex-direction: row-reverse;
+}
+
+.clip {
+  overflow: hidden;
+}
+
+.col {
+  flex-direction: column;
+}
+.flex.col.reverse {
+  flex-direction: column-reverse;
+}
+
+.center {
+  align-items: center;
+  justify-content: center;
+}
+
+.start {
+  align-items: start;
+}
+
+.end {
+  align-items: flex-end;
+}
+
+.wrap {
+  flex-wrap: wrap;
+}
+
+.scroll {
+  overflow-y: auto;
+}
+
+.flex::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+.flex::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.flex::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+}
+
+.scrollX {
+  overflow-x: auto;
+}
