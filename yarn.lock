@@ -552,18 +552,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cruise-automation/button@npm:0.0.7":
-  version: 0.0.7
-  resolution: "@cruise-automation/button@npm:0.0.7"
-  dependencies:
-    classnames: ^2.2.5
-    styled-components: ^3.3.0
-  peerDependencies:
-    react: 16.x
-  checksum: 3abfea2c1cc54df64bc5c0de3389ef2acffdec4be2cb0363c55d862b5d10eae02831b36260d4f0314001ea717dacae32ee4ab353e525b25727eb4a8a3233fabc
-  languageName: node
-  linkType: hard
-
 "@cruise-automation/hooks@npm:0.0.1":
   version: 0.0.1
   resolution: "@cruise-automation/hooks@npm:0.0.1"
@@ -3166,7 +3154,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"buffer@npm:^5.0.3, buffer@npm:^5.5.0":
+"buffer@npm:^5.5.0":
   version: 5.7.1
   resolution: "buffer@npm:5.7.1"
   dependencies:
@@ -4335,7 +4323,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"css-to-react-native@npm:^2.0.3, css-to-react-native@npm:^2.2.2":
+"css-to-react-native@npm:^2.2.2":
   version: 2.3.2
   resolution: "css-to-react-native@npm:2.3.2"
   dependencies:
@@ -5924,7 +5912,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fbjs@npm:^0.8.0, fbjs@npm:^0.8.16":
+"fbjs@npm:^0.8.0":
   version: 0.8.17
   resolution: "fbjs@npm:0.8.17"
   dependencies:
@@ -6228,7 +6216,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "foxglove-studio-app@workspace:app"
   dependencies:
-    "@cruise-automation/button": 0.0.7
     "@cruise-automation/hooks": 0.0.1
     "@cruise-automation/tooltip": 0.0.7
     "@mdi/svg": 5.7.55
@@ -7055,13 +7042,6 @@ fsevents@~2.3.1:
   version: 1.1.0
   resolution: "has-cors@npm:1.1.0"
   checksum: c8257cbe3fc1c2f49d293879f0c6873c6fa7ba7be44147f9a9023cc421c7842833c3553f46bdc04459f046c1c74eb9c7a98e63fdd2c7713caaddd26b1b7f9043
-  languageName: node
-  linkType: hard
-
-"has-flag@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "has-flag@npm:1.0.0"
-  checksum: 556423170e15c694061a69052773114159c18ddf4ca0c72912591343f9568878c0ab29c16ab901f3466eaca25faf5ca4b1c6831b6795a3a3cd5d1606bdc6fa1f
   languageName: node
   linkType: hard
 
@@ -12012,7 +11992,7 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"react-is@npm:^16.12.0, react-is@npm:^16.13.1, react-is@npm:^16.3.1, react-is@npm:^16.6.0, react-is@npm:^16.7.0, react-is@npm:^16.8.1":
+"react-is@npm:^16.12.0, react-is@npm:^16.13.1, react-is@npm:^16.6.0, react-is@npm:^16.7.0, react-is@npm:^16.8.1":
   version: 16.13.1
   resolution: "react-is@npm:16.13.1"
   checksum: 11bcf1267a314a522615f626f3ce3727a3a24cdbf61c4d452add3550a7875326669631326cfb1ba3e92b6f72244c32ffecf93ad21c0cad8455d3e169d0e3f060
@@ -14211,25 +14191,6 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"styled-components@npm:^3.3.0":
-  version: 3.4.10
-  resolution: "styled-components@npm:3.4.10"
-  dependencies:
-    buffer: ^5.0.3
-    css-to-react-native: ^2.0.3
-    fbjs: ^0.8.16
-    hoist-non-react-statics: ^2.5.0
-    prop-types: ^15.5.4
-    react-is: ^16.3.1
-    stylis: ^3.5.0
-    stylis-rule-sheet: ^0.0.10
-    supports-color: ^3.2.3
-  peerDependencies:
-    react: ">= 0.14.0 < 17.0.0-0"
-  checksum: 5e4df29b686d4e4fee0e140568146aaac9a14ed4a8a30d912392cd557c52a4869bcd3ed8a4fed3585d385425d185457fff8e2c8c182fc1be5b1bc800a2d2b05d
-  languageName: node
-  linkType: hard
-
 "stylis-rule-sheet@npm:^0.0.10":
   version: 0.0.10
   resolution: "stylis-rule-sheet@npm:0.0.10"
@@ -14266,15 +14227,6 @@ fsevents@~2.3.1:
   version: 2.0.0
   resolution: "supports-color@npm:2.0.0"
   checksum: 5d6fb449e29f779cc639756f0d6b9ab6138048e753683cd2c647f36a9254714051909a5f569e6aa83c5310c8dfe8a1f481967e02bef401ac8eed46ee0950d779
-  languageName: node
-  linkType: hard
-
-"supports-color@npm:^3.2.3":
-  version: 3.2.3
-  resolution: "supports-color@npm:3.2.3"
-  dependencies:
-    has-flag: ^1.0.0
-  checksum: d26b4f5f7ab4408e3ecf5809896a399a0d388b948701a8958bb6610ca30aa837e75d56d7dfb5e175f8ffd92431dc1e149faa6183cf166178ea63c74e974a87ce
   languageName: node
   linkType: hard
 
