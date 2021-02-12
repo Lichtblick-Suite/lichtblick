@@ -6,7 +6,6 @@
 //  found in the LICENSE file in the root directory of this source tree.
 //  You may not use this file except in compliance with the License.
 
-import Tooltip from "@cruise-automation/tooltip";
 import PauseIcon from "@mdi/svg/svg/pause.svg";
 import PlayIcon from "@mdi/svg/svg/play.svg";
 import SkipNextOutlineIcon from "@mdi/svg/svg/skip-next-outline.svg";
@@ -21,6 +20,7 @@ import uuid from "uuid";
 import styles from "./index.module.scss";
 import PlaybackBarHoverTicks from "./PlaybackBarHoverTicks";
 import { ProgressPlot } from "./ProgressPlot";
+import Tooltip from "webviz-core/src/components/TooltipBase";
 import { clearHoverValue, setHoverValue } from "webviz-core/src/actions/hoverValue";
 import Button from "webviz-core/src/components/Button";
 import Flex from "webviz-core/src/components/Flex";

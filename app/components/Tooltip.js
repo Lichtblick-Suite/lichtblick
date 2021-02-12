@@ -6,9 +6,9 @@
 //  found in the LICENSE file in the root directory of this source tree.
 //  You may not use this file except in compliance with the License.
 
-import BaseTooltip from "@cruise-automation/tooltip";
 import * as React from "react";
 
+import BaseTooltip from "webviz-core/src/components/TooltipBase";
 import styles from "./Tooltip.module.scss";
 
 // Wrapper around BaseTooltip for consistent styling and behavior.

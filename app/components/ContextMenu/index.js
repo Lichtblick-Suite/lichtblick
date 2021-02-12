@@ -6,9 +6,9 @@
 //  found in the LICENSE file in the root directory of this source tree.
 //  You may not use this file except in compliance with the License.
 
-import Tooltip from "@cruise-automation/tooltip";
 import * as React from "react";
 
+import Tooltip from "webviz-core/src/components/TooltipBase";
 import Menu from "webviz-core/src/components/Menu";
 
 type Props = {
