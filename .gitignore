@@ -1,8 +1,13 @@
 node_modules
 yarn-error.log
+.DS_Store
 
 # Yarn
 .yarn/*
 !.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
 
 .webpack
