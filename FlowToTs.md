@@ -19,6 +19,7 @@ yarn dlx @khanacademy/flow-to-ts --prettier --write --delete-source /path/to/flo
 | `$FlowFixMe` comments                   | Remove                                                               |                                                 |
 | AnimationFrameID                        | ReturnType<typeof requestAnimationFrame>                             |                                                 |
 | TimeoutID                               | ReturnType<typeof setTimeout>                                        |                                                 |
+| require                                 | import                                                               | Change uses of `require` to import              |
 
 # Future
 

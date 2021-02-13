@@ -947,6 +947,8 @@ __metadata:
     "@sentry/browser": 6.1.0
     "@sentry/types": 6.1.0
     "@types/classnames": 2.2.11
+    "@types/css-font-loading-module": 0.0.4
+    "@types/react-dom": 17.0.1
     "@types/styled-components": 5.1.7
     cbor-js: 0.1.0
     chart.js: "davidswinegar/Chart.js#0785c29a4c57b3e1b4243f8163df7950a00b2a80"
@@ -1335,6 +1337,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/css-font-loading-module@npm:0.0.4":
+  version: 0.0.4
+  resolution: "@types/css-font-loading-module@npm:0.0.4"
+  checksum: 71fac6f63b823a4757c95e03d5c06e76be733472f0a6184d0d4a7fffc9eb9e963e4507a399cedb9bdc3d220c2362f135f1e2bc498cd8c0fdf25d93cbaabf940c
+  languageName: node
+  linkType: hard
+
 "@types/eslint-scope@npm:^3.7.0":
   version: 3.7.0
   resolution: "@types/eslint-scope@npm:3.7.0"
@@ -1556,6 +1565,15 @@ __metadata:
   version: 1.2.3
   resolution: "@types/range-parser@npm:1.2.3"
   checksum: 092fabae0ecbd728d3e4debc938cd043e97cb9f210cfec1c56ff6065c6e91666f376eb586591825d6757a058fd1a1dc4831d34e04ecfbb0800f35b8d86d38635
+  languageName: node
+  linkType: hard
+
+"@types/react-dom@npm:17.0.1":
+  version: 17.0.1
+  resolution: "@types/react-dom@npm:17.0.1"
+  dependencies:
+    "@types/react": "*"
+  checksum: 695dd4bbef4fabdc726359e4031b2887b913d65fb2ff59e5a9e81f9ae20ca4dd8f2b6fe1f39fa5c1197babdb86f6b81b385f5d4438536f2ceeb5ff136102f45b
   languageName: node
   linkType: hard
 

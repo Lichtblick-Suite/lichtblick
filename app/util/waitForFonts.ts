@@ -1,4 +1,3 @@
-// @flow
 //
 //  Copyright (c) 2018-present, Cruise LLC
 //
@@ -14,6 +13,5 @@
 // appear in screenshot tests.
 
 export default function waitForFonts() {
-  // $FlowFixMe - doesn't understand document.fonts.
   return Promise.all([...document.fonts].map((font) => font.load()));
 }

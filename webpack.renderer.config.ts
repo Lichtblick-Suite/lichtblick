@@ -28,6 +28,7 @@ const config: Configuration = {
   // https://gist.github.com/msafi/d1b8571aa921feaaa0f893ab24bb727b
   target: 'web',
   entry: './app/index.tsx',
+  devtool: 'eval-cheap-source-map',
 
   output: {
     publicPath: '',
