@@ -1,14 +1,14 @@
-import path from 'path';
-import type { Configuration } from 'webpack';
+import path from "path";
+import type { Configuration } from "webpack";
 
 const config: Configuration = {
-  context: path.resolve('./desktop'),
-  entry: './index.ts',
-  target: 'electron-main',
+  context: path.resolve("./desktop"),
+  entry: "./index.ts",
+  target: "electron-main",
 
   output: {
-    publicPath: '',
-    path: path.resolve(__dirname, '.webpack', 'main'),
+    publicPath: "",
+    path: path.resolve(__dirname, ".webpack", "main"),
   },
 
   module: {
@@ -17,7 +17,7 @@ const config: Configuration = {
         test: /\.tsx?$/,
         exclude: /node_modules/,
         use: {
-          loader: 'ts-loader',
+          loader: "ts-loader",
           options: {
             transpileOnly: true,
           },
@@ -27,7 +27,7 @@ const config: Configuration = {
   },
 
   resolve: {
-    extensions: ['.js', '.ts', '.tsx', '.json'],
+    extensions: [".js", ".ts", ".tsx", ".json"],
   },
 };
 

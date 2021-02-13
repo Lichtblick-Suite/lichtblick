@@ -1,27 +1,27 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-import { FileContext } from '@foxglove-studio/app/components/FileContext';
-import Root from '@foxglove-studio/app/components/Root';
-import { ROSBRIDGE_WEBSOCKET_URL_QUERY_KEY } from '@foxglove-studio/app/util/globalConstants';
+import { FileContext } from "@foxglove-studio/app/components/FileContext";
+import Root from "@foxglove-studio/app/components/Root";
+import { ROSBRIDGE_WEBSOCKET_URL_QUERY_KEY } from "@foxglove-studio/app/util/globalConstants";
 
-import { usePrompt } from '@foxglove-studio/app/hooks/usePrompt';
-import { OsContextSingleton } from '@foxglove-studio/app/OsContext';
+import { usePrompt } from "@foxglove-studio/app/hooks/usePrompt";
+import { OsContextSingleton } from "@foxglove-studio/app/OsContext";
 
 function App() {
   const [bagFile, setBagFile] = useState<File | undefined>();
-  const prompt = usePrompt('ws://localhost:9090');
+  const prompt = usePrompt("ws://localhost:9090");
 
   useEffect(() => {
     OsContextSingleton?.installMenuHandlers({
-      'file.open-bag': () => {
+      "file.open-bag": () => {
         // The main thread simulated a mouse click for us which allows us to invoke input.click();
         // The idea is to move handling of opening the file to the renderer thread
-        const input = document.createElement('input');
-        input.setAttribute('type', 'file');
-        input.setAttribute('accept', '.bag');
+        const input = document.createElement("input");
+        input.setAttribute("type", "file");
+        input.setAttribute("accept", ".bag");
 
         input.addEventListener(
-          'input',
+          "input",
           () => {
             if (input.files?.length && input.files.length > 0) {
               setBagFile(input.files[0]);
@@ -32,7 +32,7 @@ function App() {
 
         input.click();
       },
-      'file.open-websocket-url': async () => {
+      "file.open-websocket-url": async () => {
         const result = await prompt();
 
         // Note(roman): Architecturally we should move the param handling out of nested components

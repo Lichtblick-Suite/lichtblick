@@ -8,13 +8,13 @@
 // Custom formatters for Chrome dev tools. See documentation: http://bit.ly/object-formatters
 // Note that the "Enable custom formatters" setting must be turned on in order to use these formatters.
 
-import seedrandom from 'seedrandom';
+import seedrandom from "seedrandom";
 
 // @ts-expect-error: typescript complains that bobjectFieldNames is not an exported member
 //                   likely due to parsing errors on the underlying js module
 //                   use ts-expect-error so when we fix this we can remove this suppression
-import { deepParse, isBobject, isArrayView, bobjectFieldNames } from './binaryObjects';
-import { isTime } from './time';
+import { deepParse, isBobject, isArrayView, bobjectFieldNames } from "./binaryObjects";
+import { isTime } from "./time";
 
 type HtmlTemplate = unknown;
 type DevtoolFormatterConfig = {
@@ -36,13 +36,13 @@ declare global {
 
 const timeFormatter: DevtoolFormatter = (() => {
   function groupDigits(str: string) {
-    const result = ['span', {}];
+    const result = ["span", {}];
     let start = 0;
     let end = str.length % 3 || 3;
     while (start < str.length) {
       result.push([
-        'span',
-        { style: end < str.length ? 'margin-right: 2px;' : '' },
+        "span",
+        { style: end < str.length ? "margin-right: 2px;" : "" },
         str.substring(start, end),
       ]);
       start = end;
@@ -67,13 +67,13 @@ const timeFormatter: DevtoolFormatter = (() => {
       ) {
         return null;
       }
-      const nsec = maybeTime.nsec.toFixed().padStart(9, '0');
+      const nsec = maybeTime.nsec.toFixed().padStart(9, "0");
       const rng = seedrandom(`${maybeTime.sec}.${nsec}`);
       return [
-        'span',
+        "span",
         { style: `color: hsl(${rng() * 360}deg, ${40 + rng() * 60}%, ${20 + rng() * 40}%);` },
         groupDigits(String(maybeTime.sec)),
-        '.',
+        ".",
         groupDigits(nsec),
       ];
     },
@@ -89,7 +89,7 @@ const bobjectFormatter: DevtoolFormatter = {
   header(obj, config) {
     // If it's a nested object, use the object key as the header.
     if (config && config.bobjectFormatter) {
-      return ['div', {}, config.key];
+      return ["div", {}, config.key];
     }
     // If it's not a bobject, use the default formatter.
     if (!isBobject(obj)) {
@@ -97,16 +97,16 @@ const bobjectFormatter: DevtoolFormatter = {
     }
     if (isArrayView(obj)) {
       return [
-        'div',
+        "div",
         {},
         `ArrayView Bobject with length ${(obj as { length: () => number }).length()}`,
       ];
     }
     return [
-      'div',
+      "div",
       {},
-      ['span', {}, 'Bobject with properties: '],
-      ['span', { style: 'color: #7E7D7D' }, bobjectFieldNames(obj).join(', ')],
+      ["span", {}, "Bobject with properties: "],
+      ["span", { style: "color: #7E7D7D" }, bobjectFieldNames(obj).join(", ")],
     ];
   },
   hasBody() {
@@ -115,8 +115,8 @@ const bobjectFormatter: DevtoolFormatter = {
   body(obj) {
     const parsedBody = isBobject(obj) ? deepParse(obj) : obj;
     return [
-      'div',
-      { style: 'margin-left: 20px; color: darkblue;' },
+      "div",
+      { style: "margin-left: 20px; color: darkblue;" },
       `\n${JSON.stringify(parsedBody, null, 2)}`,
     ];
   },

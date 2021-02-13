@@ -1,10 +1,10 @@
-import path from 'path';
-import type { Configuration } from 'webpack';
-import type { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
+import path from "path";
+import type { Configuration } from "webpack";
+import type { Configuration as WebpackDevServerConfiguration } from "webpack-dev-server";
 
-import main from './webpack.main.config';
-import renderer from './webpack.renderer.config';
-import preload from './webpack.preload.config';
+import main from "./webpack.main.config";
+import renderer from "./webpack.renderer.config";
+import preload from "./webpack.preload.config";
 
 interface WebpackConfiguration extends Configuration {
   devServer?: WebpackDevServerConfiguration;
@@ -17,12 +17,12 @@ const devServerConfig: WebpackConfiguration = {
 
   // Output path must be specified here for HtmlWebpackPlugin within render config to work
   output: {
-    publicPath: '',
-    path: path.resolve(__dirname, '.webpack'),
+    publicPath: "",
+    path: path.resolve(__dirname, ".webpack"),
   },
 
   devServer: {
-    contentBase: path.join(__dirname, '.webpack'),
+    contentBase: path.join(__dirname, ".webpack"),
     writeToDisk: (filePath) => {
       // Electron needs to open the main thread source and preload source from disk
       // avoid writing the hot-update js and json files

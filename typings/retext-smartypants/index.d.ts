@@ -1,1 +1,1 @@
-declare module 'retext-smartypants';
+declare module "retext-smartypants";

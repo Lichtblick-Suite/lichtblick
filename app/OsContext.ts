@@ -1,4 +1,4 @@
-import { OsMenuHandler } from '@foxglove-studio/app/OsMenuHandler';
+import { OsMenuHandler } from "@foxglove-studio/app/OsMenuHandler";
 
 /** OsContext is exposed over the electron Context Bridge */
 interface OsContext {

@@ -1,15 +1,15 @@
-import { contextBridge, ipcRenderer } from 'electron';
+import { contextBridge, ipcRenderer } from "electron";
 
-import { MenuHandler } from '@foxglove-studio/app/MenuHandler';
-import { Bridge } from '@foxglove-studio/app/Bridge';
+import { OsMenuHandler } from "@foxglove-studio/app/OsMenuHandler";
+import { OsContext } from "@foxglove-studio/app/OsContext";
 
-const bridge: Bridge = {
-  installMenuHandlers: (handlers: MenuHandler) => {
-    ipcRenderer.on('menu.file.open-bag', async () => {
-      handlers['file.open-bag']();
+const ctx: OsContext = {
+  installMenuHandlers: (handlers: OsMenuHandler) => {
+    ipcRenderer.on("menu.file.open-bag", async () => {
+      handlers["file.open-bag"]();
     });
-    ipcRenderer.on('menu.file.open-websocket-url', async () => {
-      handlers['file.open-websocket-url']();
+    ipcRenderer.on("menu.file.open-websocket-url", async () => {
+      handlers["file.open-websocket-url"]();
     });
   },
 };
@@ -18,4 +18,4 @@ const bridge: Bridge = {
 // and the outside world. These restrictions impact what the api surface can expose and how.
 //
 // i.e.: returning a class instance doesn't work because prototypes do not survive the boundary
-contextBridge.exposeInMainWorld('ctxbridge', bridge);
+contextBridge.exposeInMainWorld("ctxbridge", ctx);

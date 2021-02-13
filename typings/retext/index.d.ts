@@ -1,1 +1,1 @@
-declare module 'retext';
+declare module "retext";

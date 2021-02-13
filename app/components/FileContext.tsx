@@ -1,10 +1,10 @@
-import * as React from 'react';
+import { createContext, useContext } from "react";
 
 /** FileContext provides a way to send File instances down the tree */
-const FileContext = React.createContext<File | undefined>(undefined);
+const FileContext = createContext<File | undefined>(undefined);
 
 export function useFileContext(): File | undefined {
-  return React.useContext(FileContext);
+  return useContext(FileContext);
 }
 
 export { FileContext };

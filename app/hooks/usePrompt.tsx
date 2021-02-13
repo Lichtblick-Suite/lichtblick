@@ -1,9 +1,9 @@
-import React, { useRef } from 'react';
-import styled from 'styled-components';
+import React, { useRef } from "react";
+import styled from "styled-components";
 
-import Modal from '@foxglove-studio/app/components/Modal';
-import Button from '@foxglove-studio/app/components/Button';
-import renderToBody from '@foxglove-studio/app/components/renderToBody';
+import Modal from "@foxglove-studio/app/components/Modal";
+import Button from "@foxglove-studio/app/components/Button";
+import renderToBody from "@foxglove-studio/app/components/renderToBody";
 
 type PromptFunction = () => Promise<string | undefined>;
 
@@ -38,7 +38,7 @@ function usePrompt(initialValue: string): PromptFunction {
           <ModalContent>
             <div>
               <input
-                style={{ width: '100%' }}
+                style={{ width: "100%" }}
                 type="text"
                 defaultValue={valueRef.current}
                 onChange={handleInputEvent}

@@ -5,16 +5,16 @@
 //  found in the LICENSE file in the root directory of this source tree.
 //  You may not use this file except in compliance with the License.
 
-import cx from 'classnames';
-import { LegacyRef } from 'react';
+import cx from "classnames";
+import { LegacyRef } from "react";
 
-import BaseButton from '@foxglove-studio/app/components/ButtonBase';
-import Tooltip from '@foxglove-studio/app/components/Tooltip';
-import { colors } from '@foxglove-studio/app/util/sharedStyleConstants';
+import BaseButton from "@foxglove-studio/app/components/ButtonBase";
+import Tooltip from "@foxglove-studio/app/components/Tooltip";
+import { colors } from "@foxglove-studio/app/util/sharedStyleConstants";
 
-export type Props = JSX.LibraryManagedAttributes<typeof BaseButton, BaseButton['props']> & {
+export type Props = JSX.LibraryManagedAttributes<typeof BaseButton, BaseButton["props"]> & {
   innerRef: LegacyRef<BaseButton> | null | undefined;
-  tooltipProps?: JSX.LibraryManagedAttributes<typeof Tooltip, Tooltip['props']>;
+  tooltipProps?: JSX.LibraryManagedAttributes<typeof Tooltip, Tooltip["props"]>;
   style: {
     [key: string]: string | number;
   };
@@ -57,7 +57,7 @@ export default class Button extends React.Component<Props> {
       return (
         <Tooltip contents={tooltip} {...tooltipProps}>
           {/* Extra div allows Tooltip to insert the necessary event listeners */}
-          <div style={{ display: 'inline-flex' }}>
+          <div style={{ display: "inline-flex" }}>
             <BaseButton
               style={styleAlt}
               {...otherProps}

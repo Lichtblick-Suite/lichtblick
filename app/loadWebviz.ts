@@ -4,7 +4,7 @@ import {
   getGlobalConfig,
   setGlobalConfig,
   resetGlobalConfigToDefault,
-} from '@foxglove-studio/app/GlobalConfig';
+} from "@foxglove-studio/app/GlobalConfig";
 
 export function getGlobalHooks() {
   return getGlobalConfig();
