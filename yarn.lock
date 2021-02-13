@@ -949,6 +949,7 @@ __metadata:
     "@types/classnames": 2.2.11
     "@types/css-font-loading-module": 0.0.4
     "@types/react-dom": 17.0.1
+    "@types/seedrandom": 2.4.28
     "@types/styled-components": 5.1.7
     cbor-js: 0.1.0
     chart.js: "davidswinegar/Chart.js#0785c29a4c57b3e1b4243f8163df7950a00b2a80"
@@ -1600,6 +1601,13 @@ __metadata:
   dependencies:
     "@types/node": "*"
   checksum: e6e6613c800aeda63e2331e753e8d21df1a2c9aa7a4bc71ed792a848e4811fc96e609759089355314a2318c76eff1f161499cd242044838ab1e6f56e463ebb9c
+  languageName: node
+  linkType: hard
+
+"@types/seedrandom@npm:2.4.28":
+  version: 2.4.28
+  resolution: "@types/seedrandom@npm:2.4.28"
+  checksum: 4e56ed5ff9b6e2a73fc9804b7b388648347f73a7ea15512c4e3b59860831a4e791da0f35422b1b3326e5c1ffcafc48902fa9f3bf3fa4f0c242d7e5f1a0ec426e
   languageName: node
   linkType: hard
 
