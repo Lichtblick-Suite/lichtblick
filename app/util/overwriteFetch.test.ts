@@ -1,4 +1,3 @@
-// @flow
 //
 //  Copyright (c) 2018-present, Cruise LLC
 //
@@ -28,7 +27,7 @@ describe("overwriteFetch", () => {
     // We should have replaced the original error with our new error.
     expect(error).not.toBe(originalError);
     expect(error?.message).toEqual(
-      "Failed to fetch: url: url This likely means there was a CORS issue, which can happen when the server is down."
+      "Failed to fetch: url: url This likely means there was a CORS issue, which can happen when the server is down.",
     );
   });
 

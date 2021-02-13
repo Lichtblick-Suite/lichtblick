@@ -1,4 +1,3 @@
-// @flow
 //
 //  Copyright (c) 2019-present, Cruise LLC
 //
@@ -10,10 +9,10 @@
 // in our logs and want the logs to more fully reflect the error message.
 export default function overwriteFetch() {
   const originalFetch = global.fetch;
-  global.fetch = function(url, init) {
+  global.fetch = (url, init) => {
     // Use this replacement error instead of the original one, because this one will have the correct stack trace.
     const replacementError = new TypeError(
-      `Failed to fetch: url: ${url} This likely means there was a CORS issue, which can happen when the server is down.`
+      `Failed to fetch: url: ${url} This likely means there was a CORS issue, which can happen when the server is down.`,
     );
     return originalFetch(url, init).catch((error) => {
       if (error.message === "Failed to fetch") {
@@ -22,5 +21,4 @@ export default function overwriteFetch() {
       throw error;
     });
   };
-  global.fetch.original = originalFetch;
 }
