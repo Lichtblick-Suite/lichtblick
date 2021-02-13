@@ -5,7 +5,7 @@ import '@foxglove-studio/app/styles/global.scss';
 import installDevtoolsFormatters from '@foxglove-studio/app/util/installDevtoolsFormatters';
 import overwriteFetch from '@foxglove-studio/app/util/overwriteFetch';
 import waitForFonts from '@foxglove-studio/app/util/waitForFonts';
-import { getGlobalHooks } from '@foxglove-studio/app/loadWebviz';
+import { getGlobalConfig } from '@foxglove-studio/app/GlobalConfig';
 
 import { App } from '@foxglove-studio/app/App';
 
@@ -22,7 +22,7 @@ async function main() {
   await waitForFonts();
 
   // This should live within App and become part of startup
-  await getGlobalHooks().load();
+  await getGlobalConfig().load();
 
   ReactDOM.render(<App />, rootEl);
 }
