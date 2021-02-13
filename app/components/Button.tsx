@@ -1,4 +1,3 @@
-// @flow
 //
 //  Copyright (c) 2018-present, Cruise LLC
 //
@@ -6,22 +5,23 @@
 //  found in the LICENSE file in the root directory of this source tree.
 //  You may not use this file except in compliance with the License.
 
-import cx from "classnames";
-import * as React from "react";
+import cx from 'classnames';
+import { LegacyRef } from 'react';
 
-import BaseButton from "webviz-core/src/components/ButtonBase";
-import Tooltip from "webviz-core/src/components/Tooltip";
-import { colors } from "webviz-core/src/util/sharedStyleConstants";
+import BaseButton from '@foxglove-studio/app/components/ButtonBase';
+import Tooltip from '@foxglove-studio/app/components/Tooltip';
+import { colors } from '@foxglove-studio/app/util/sharedStyleConstants';
 
-export type Props = {
-  ...React.ElementConfig<typeof BaseButton>,
-  innerRef: ?React.Ref<typeof BaseButton>,
-  tooltipProps?: $Shape<{ ...React.ElementConfig<typeof Tooltip> }>,
-  style: { [string]: string | number },
-  isPrimary?: boolean,
+export type Props = JSX.LibraryManagedAttributes<typeof BaseButton, BaseButton['props']> & {
+  innerRef: LegacyRef<BaseButton> | null | undefined;
+  tooltipProps?: JSX.LibraryManagedAttributes<typeof Tooltip, Tooltip['props']>;
+  style: {
+    [key: string]: string | number;
+  };
+  isPrimary?: boolean;
 };
 
-export type { BaseButton };
+export { BaseButton };
 
 // Wrapper for BaseButton which uses our standard Tooltip styling.
 export default class Button extends React.Component<Props> {
@@ -57,12 +57,26 @@ export default class Button extends React.Component<Props> {
       return (
         <Tooltip contents={tooltip} {...tooltipProps}>
           {/* Extra div allows Tooltip to insert the necessary event listeners */}
-          <div style={{ display: "inline-flex" }}>
-            <BaseButton style={styleAlt} {...otherProps} {...eventHandlers} className={newClassName} ref={innerRef} />
+          <div style={{ display: 'inline-flex' }}>
+            <BaseButton
+              style={styleAlt}
+              {...otherProps}
+              {...eventHandlers}
+              className={newClassName}
+              ref={innerRef}
+            />
           </div>
         </Tooltip>
       );
     }
-    return <BaseButton style={styleAlt} {...otherProps} {...eventHandlers} className={newClassName} ref={innerRef} />;
+    return (
+      <BaseButton
+        style={styleAlt}
+        {...otherProps}
+        {...eventHandlers}
+        className={newClassName}
+        ref={innerRef}
+      />
+    );
   }
 }

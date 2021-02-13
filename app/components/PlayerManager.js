@@ -38,6 +38,7 @@ import videoRecordingClient from "webviz-core/src/players/automatedRun/videoReco
 import OrderedStampPlayer from "webviz-core/src/players/OrderedStampPlayer";
 import RandomAccessPlayer from "webviz-core/src/players/RandomAccessPlayer";
 import RosbridgePlayer from "webviz-core/src/players/RosbridgePlayer";
+import { useFileContext } from "webviz-core/src/components/FileContext";
 import type { Player } from "webviz-core/src/players/types";
 import UserNodePlayer from "webviz-core/src/players/UserNodePlayer";
 import type { UserNodes } from "webviz-core/src/types/panels";
@@ -194,26 +195,31 @@ function PlayerManager({
   const [player, setPlayerInternal] = React.useState<?OrderedStampPlayer>();
   const [inputDescription, setInputDescription] = React.useState<React.Node>("No input selected.");
 
+  const fileContext = useFileContext();
+
   // We don't want to recreate the player when the message order changes, but we do want to
   // initialize it with the right order, so make a variable for its initial value we can use in the
   // dependency array below to defeat the linter.
   const [initialMessageOrder] = React.useState(messageOrder);
-  const setPlayer = React.useCallback((playerDefinition: ?PlayerDefinition) => {
-    if (!playerDefinition) {
-      setPlayerInternal(undefined);
-      setInputDescription("No input selected.");
-      return;
-    }
-    setInputDescription(playerDefinition.inputDescription);
-    const userNodePlayer = new UserNodePlayer(playerDefinition.player, {
-      setUserNodeDiagnostics: setDiagnostics,
-      addUserNodeLogs: setLogs,
-      setUserNodeRosLib: setRosLib,
-    });
-    const headerStampPlayer = new OrderedStampPlayer(userNodePlayer, initialMessageOrder);
-    headerStampPlayer.setGlobalVariables(globalVariablesRef.current);
-    setPlayerInternal(headerStampPlayer);
-  }, [setDiagnostics, setLogs, setRosLib, initialMessageOrder]);
+  const setPlayer = React.useCallback(
+    (playerDefinition: ?PlayerDefinition) => {
+      if (!playerDefinition) {
+        setPlayerInternal(undefined);
+        setInputDescription("No input selected.");
+        return;
+      }
+      setInputDescription(playerDefinition.inputDescription);
+      const userNodePlayer = new UserNodePlayer(playerDefinition.player, {
+        setUserNodeDiagnostics: setDiagnostics,
+        addUserNodeLogs: setLogs,
+        setUserNodeRosLib: setRosLib,
+      });
+      const headerStampPlayer = new OrderedStampPlayer(userNodePlayer, initialMessageOrder);
+      headerStampPlayer.setGlobalVariables(globalVariablesRef.current);
+      setPlayerInternal(headerStampPlayer);
+    },
+    [setDiagnostics, setLogs, setRosLib, initialMessageOrder]
+  );
 
   React.useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -263,8 +269,14 @@ function PlayerManager({
       buildPlayerFromBagURLs(urls).then((playerDefinition: ?PlayerDefinition) => {
         setPlayer(playerDefinition);
       });
+    } else if (fileContext) {
+      setPlayer(buildPlayerFromFiles([fileContext]));
     } else {
-      const websocketUrl = params.get(ROSBRIDGE_WEBSOCKET_URL_QUERY_KEY) || "ws://localhost:9090";
+      const websocketUrl = params.get(ROSBRIDGE_WEBSOCKET_URL_QUERY_KEY);
+      if (!websocketUrl) {
+        return;
+      }
+
       setPlayer({
         player: new RosbridgePlayer(websocketUrl),
         inputDescription: (
@@ -274,7 +286,7 @@ function PlayerManager({
         ),
       });
     }
-  }, [loadLayout, setPlayer, setVariables]);
+  }, [loadLayout, setPlayer, setVariables, fileContext]);
 
   React.useEffect(() => {
     if (player) {

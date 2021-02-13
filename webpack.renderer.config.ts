@@ -27,7 +27,7 @@ const config: Configuration = {
   // Fixes "require is not defined" errors if nodeIntegration is off
   // https://gist.github.com/msafi/d1b8571aa921feaaa0f893ab24bb727b
   target: 'web',
-  entry: './app/index.ts',
+  entry: './app/index.tsx',
 
   output: {
     publicPath: '',
@@ -182,7 +182,10 @@ const config: Configuration = {
         `,
     }),
     new webpack.ProvidePlugin({
-      Buffer: 'buffer',
+      // since we avoid "import React from 'react'" we shim here when used globally
+      React: 'react',
+      // the buffer module exposes the Buffer class as a property
+      Buffer: ['buffer', 'Buffer'],
       process: 'process/browser',
     }),
     new ForkTsCheckerWebpackPlugin(),
