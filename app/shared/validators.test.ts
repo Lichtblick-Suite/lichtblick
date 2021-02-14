@@ -1,4 +1,3 @@
-// @flow
 //
 //  Copyright (c) 2019-present, Cruise LLC
 //
@@ -22,8 +21,8 @@ describe("isLayoutName", () => {
     expect(layoutNameValidator("")).toBe("must contain at least 1 character");
     expect(
       layoutNameValidator(
-        "Labore adipisicing ut eu velit irure voluptate id nulla sunt amet reprehenderit anim. Consequat reprehenderit magna id cillum aute ut Lorem qui duis sunt proident veniam in. Aliquip enim paria"
-      )
+        "Labore adipisicing ut eu velit irure voluptate id nulla sunt amet reprehenderit anim. Consequat reprehenderit magna id cillum aute ut Lorem qui duis sunt proident veniam in. Aliquip enim paria",
+      ),
     ).toBe("must contain at most 120 characters");
     expect(layoutNameValidator("abc@")).toBe(getLayoutNameError("abc@"));
     expect(layoutNameValidator("abc#")).toBe(undefined);
@@ -95,14 +94,22 @@ describe("cameraStateValidator", () => {
   });
 
   it("combines errors from different fields", () => {
-    const cameraState = { distance: "abc", targetOffset: [1, 12, "121"], targetOrientation: [1, 1, 1] };
+    const cameraState = {
+      distance: "abc",
+      targetOffset: [1, 12, "121"],
+      targetOrientation: [1, 1, 1],
+    };
     expect(cameraStateValidator(cameraState)).toEqual({
       distance: "must be a number",
       targetOffset: 'must contain only numbers in the array. "121" is not a number.',
       targetOrientation: "must contain 4 array items",
     });
 
-    const cameraState1 = { distance: "abc", targetOffset: [1, 12, "121"], targetOrientation: [1, 1, 1, 1] };
+    const cameraState1 = {
+      distance: "abc",
+      targetOffset: [1, 12, "121"],
+      targetOrientation: [1, 1, 1, 1],
+    };
 
     expect(cameraStateValidator(cameraState1)).toEqual({
       targetOrientation: "must be valid quaternion",
@@ -127,15 +134,30 @@ describe("polygonPointsValidator", () => {
     expect(polygonPointsValidator([{}])).toEqual("must be an array of x and y points");
   });
   it("returns error for non-number input", () => {
-    expect(polygonPointsValidator([[{ x: "1", y: 1 }, { x: 2, y: 2 }, { x: 3, y: 3 }]])).toEqual(
-      "x and y points must be numbers"
-    );
+    expect(
+      polygonPointsValidator([
+        [
+          { x: "1", y: 1 },
+          { x: 2, y: 2 },
+          { x: 3, y: 3 },
+        ],
+      ]),
+    ).toEqual("x and y points must be numbers");
   });
   it("returns error when missing input for x/y point", () => {
-    expect(polygonPointsValidator([[{ y: 1 }, { x: 2, y: 2 }, { x: 3, y: 3 }]])).toEqual("must contain x and y points");
+    expect(polygonPointsValidator([[{ y: 1 }, { x: 2, y: 2 }, { x: 3, y: 3 }]])).toEqual(
+      "must contain x and y points",
+    );
   });
   it("does not return error when the input points have 0 as coordinates", () => {
-    expect(polygonPointsValidator([[{ x: 0.000001, y: 0.0 }, { x: 0, y: 0.0 }]])).toEqual(undefined);
+    expect(
+      polygonPointsValidator([
+        [
+          { x: 0.000001, y: 0.0 },
+          { x: 0, y: 0.0 },
+        ],
+      ]),
+    ).toEqual(undefined);
   });
 });
 

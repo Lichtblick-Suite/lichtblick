@@ -1,4 +1,3 @@
-// @flow
 //
 //  Copyright (c) 2019-present, Cruise LLC
 //
@@ -7,9 +6,9 @@
 //  You may not use this file except in compliance with the License.
 import { isEqual } from "lodash";
 
-type Rule = (value: any) => ?string;
+type Rule = (value: any) => string | null | undefined;
 type Rules = {
-  [name: string]: ((value: any) => ?string)[],
+  [name: string]: Rule[];
 };
 
 const layoutNameRegex = /[@%]/; // Don't allow these characters in layoutName.
@@ -18,20 +17,23 @@ function isEmpty(value: any) {
   return value == null;
 }
 
-export const isEmail = (value: any): boolean => {
+export const isEmail = (value?: unknown): boolean => {
   const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return !isEmpty(value) && regex.test(value);
+  return !isEmpty(value) && regex.test(String(value));
 };
 
-export const isRequired = (value: any): ?string => (value == null ? "is required" : undefined);
+export const isRequired = (value: any): string | null | undefined =>
+  value == null ? "is required" : undefined;
 
-export const isNumber = (value: any): ?string =>
+export const isNumber = (value: any): string | null | undefined =>
   !isEmpty(value) && typeof value !== "number" ? "must be a number" : undefined;
 
-export const isBoolean = (value: any): ?string =>
+export const isBoolean = (value: any): string | null | undefined =>
   !isEmpty(value) && typeof value !== "boolean" ? `must be "true" or "false"` : undefined;
 
-export const isNumberArray = (expectArrLen: number = 0) => (value: any): ?string => {
+export const isNumberArray = (expectArrLen: number = 0) => (
+  value: unknown,
+): string | null | undefined => {
   if (Array.isArray(value)) {
     if (value.length !== expectArrLen) {
       return `must contain ${expectArrLen} array items`;
@@ -44,13 +46,13 @@ export const isNumberArray = (expectArrLen: number = 0) => (value: any): ?string
   }
 };
 
-export const isOrientation = (value: any): ?string => {
+export const isOrientation = (value: unknown): string | null | undefined => {
   const isNumberArrayErr = isNumberArray(4)(value);
   if (isNumberArrayErr) {
     return isNumberArrayErr;
   }
   if (value) {
-    const quaternionSum = value.reduce((memo, item) => memo + item * item, 0);
+    const quaternionSum = (value as Array<number>).reduce((memo, item) => memo + item * item, 0);
     // Very rough validation to make sure the quaternion numbers are not too far off
     if (Math.abs(quaternionSum - 1) > 0.1) {
       return "must be valid quaternion";
@@ -58,9 +60,10 @@ export const isOrientation = (value: any): ?string => {
   }
 };
 
-export const isString = (value: any): ?string => (typeof value !== "string" ? "must be string" : undefined);
+export const isString = (value: any): string | null | undefined =>
+  typeof value !== "string" ? "must be string" : undefined;
 
-export const minLen = (minLength: number = 0) => (value: any): ?string => {
+export const minLen = (minLength: number = 0) => (value: any): string | null | undefined => {
   if (Array.isArray(value)) {
     return value.length < minLength
       ? `must contain at least ${minLength} array ${minLength === 1 ? "item" : "items"}`
@@ -72,7 +75,7 @@ export const minLen = (minLength: number = 0) => (value: any): ?string => {
   }
 };
 
-export const maxLen = (maxLength: number = 0) => (value: any): ?string => {
+export const maxLen = (maxLength: number = 0) => (value: any): string | null | undefined => {
   if (Array.isArray(value)) {
     return value.length > maxLength ? `must contain at most ${maxLength} array items` : undefined;
   } else if (typeof value === "string") {
@@ -80,26 +83,29 @@ export const maxLen = (maxLength: number = 0) => (value: any): ?string => {
   }
 };
 
-export const hasLen = (len: number = 0) => (value: string | any[]): ?string => {
+export const hasLen = (len: number = 0) => (value: string | any[]): string | null | undefined => {
   if (Array.isArray(value)) {
     return value.length !== len
       ? `must contain exact ${len} array items (current item count: ${value.length})`
       : undefined;
   } else if (typeof value === "string") {
-    return value.length !== len ? `must contain ${len} characters (current count: ${value.length})` : undefined;
+    return value.length !== len
+      ? `must contain ${len} characters (current count: ${value.length})`
+      : undefined;
   }
 };
 
-export const isNotPrivate = (value: any): ?string =>
+export const isNotPrivate = (value: any): string | null | undefined =>
   typeof value !== "string" && value.startsWith("_") ? "must not start with _" : undefined;
 
 // return the first error
-const join = (rules) => (value) => rules.map((rule) => rule(value)).filter((error) => !!error)[0];
+const join = (rules: Array<Rule>) => (value: unknown) =>
+  rules.map((rule) => rule(value)).filter((error) => !!error)[0];
 
 export const getWebsocketUrlError = (websocketUrl: string) => {
   return `"${websocketUrl}" is an invalid WebSocket URL`;
 };
-export const isWebsocketUrl = (value: string): ?string => {
+export const isWebsocketUrl = (value: string): string | null | undefined => {
   const pattern = new RegExp(`wss?://[a-z.-_\\d]+(:(d+))?`, "gi");
   if (!pattern.test(value)) {
     return getWebsocketUrlError(value);
@@ -107,11 +113,15 @@ export const isWebsocketUrl = (value: string): ?string => {
 };
 
 export const createValidator = (rules: Rules) => {
-  return (data: any = {}): { [field: string]: string } => {
-    const errors = {};
+  return (
+    data: any = {},
+  ): {
+    [field: string]: string;
+  } => {
+    const errors: Record<string, string> = {};
     Object.keys(rules).forEach((key) => {
       // concat enables both functions and arrays of functions
-      const rule = join([].concat(rules[key]));
+      const rule = join(rules[key]);
       const error = rule(data[key]);
       if (error) {
         errors[key] = error;
@@ -122,7 +132,7 @@ export const createValidator = (rules: Rules) => {
 };
 
 export const createPrimitiveValidator = (rules: Rule[]) => {
-  return (data: any): ?string => {
+  return (data: any): string | null | undefined => {
     for (let i = 0; i < rules.length; i++) {
       const error = rules[i](data);
       if (error) {
@@ -135,7 +145,7 @@ export const createPrimitiveValidator = (rules: Rule[]) => {
 export type ValidationResult =
   | string
   | {
-      [fieldName: string]: string,
+      [fieldName: string]: string;
     };
 
 export const validationErrorToString = (validationResult: ValidationResult): string =>
@@ -145,7 +155,7 @@ export const validationErrorToString = (validationResult: ValidationResult): str
         .map((key) => `${key}: ${validationResult[key]}`)
         .join(", ");
 
-export const cameraStateValidator = (jsonData: any): ?ValidationResult => {
+export const cameraStateValidator = (jsonData: any): ValidationResult | null | undefined => {
   const data = typeof jsonData !== "object" ? {} : jsonData;
   const rules = {
     distance: [isNumber],
@@ -162,7 +172,7 @@ export const cameraStateValidator = (jsonData: any): ?ValidationResult => {
   return Object.keys(result).length === 0 ? undefined : result;
 };
 
-const isXYPointArray = (value: any): ?string => {
+const isXYPointArray = (value: any): string | null | undefined => {
   if (Array.isArray(value)) {
     for (const item of value) {
       if (!item || item.x == null || item.y == null) {
@@ -177,7 +187,7 @@ const isXYPointArray = (value: any): ?string => {
   }
 };
 
-const isPolygons = (value: any): ?string => {
+const isPolygons = (value: any): string | null | undefined => {
   if (Array.isArray(value)) {
     for (const item of value) {
       const error = isXYPointArray(item);
@@ -191,7 +201,7 @@ const isPolygons = (value: any): ?string => {
 };
 
 // validate the polygons must be a nested array of xy points
-export const polygonPointsValidator = (jsonData: any): ?ValidationResult => {
+export const polygonPointsValidator = (jsonData?: unknown): ValidationResult | null | undefined => {
   if (!jsonData || isEqual(jsonData, []) || isEqual(jsonData, {})) {
     return undefined;
   }
@@ -201,7 +211,7 @@ export const polygonPointsValidator = (jsonData: any): ?ValidationResult => {
   return Object.keys(result).length === 0 ? undefined : result.polygons;
 };
 
-export const point2DValidator = (jsonData: any): ?ValidationResult => {
+export const point2DValidator = (jsonData?: unknown): ValidationResult | null | undefined => {
   const data = typeof jsonData !== "object" ? {} : jsonData;
   const rules = { x: [isRequired, isNumber], y: [isRequired, isNumber] };
   const validator = createValidator(rules);
@@ -212,7 +222,7 @@ export const point2DValidator = (jsonData: any): ?ValidationResult => {
 export const getLayoutNameError = (layoutName: string) => {
   return `"${layoutName}" is an invalid layout name. Layout name cannot contain @, %, or spaces`;
 };
-const isLayoutName = (value: string): ?string => {
+const isLayoutName = (value: string): string | null | undefined => {
   const pattern = new RegExp(layoutNameRegex);
   if (pattern.test(value)) {
     return getLayoutNameError(value);

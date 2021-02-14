@@ -1,4 +1,3 @@
-// @flow
 //
 //  Copyright (c) 2018-present, Cruise LLC
 //
@@ -7,8 +6,8 @@
 //  You may not use this file except in compliance with the License.
 
 export type Signal<T> = Promise<T> & {
-  resolve: (T) => void,
-  reject: (Error) => void,
+  resolve: (arg0: T) => void;
+  reject: (arg0: Error) => void;
 };
 
 export default function signal<T>(): Signal<T> {

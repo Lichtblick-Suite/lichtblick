@@ -1,4 +1,3 @@
-// @flow
 //
 //  Copyright (c) 2019-present, Cruise LLC
 //
@@ -44,8 +43,17 @@ describe("getFolderIdAndLayoutNameFromLayoutId", () => {
   it("has fallbacks", () => {
     expect(getFolderIdAndLayoutNameFromLayoutId("")).toEqual({ folderId: "", layoutName: "" });
     expect(getFolderIdAndLayoutNameFromLayoutId("/")).toEqual({ folderId: "", layoutName: "" });
-    expect(getFolderIdAndLayoutNameFromLayoutId("private/")).toEqual({ folderId: "", layoutName: "" });
-    expect(getFolderIdAndLayoutNameFromLayoutId("private/foo")).toEqual({ folderId: "foo", layoutName: "" });
-    expect(getFolderIdAndLayoutNameFromLayoutId("/foo")).toEqual({ folderId: "foo", layoutName: "" });
+    expect(getFolderIdAndLayoutNameFromLayoutId("private/")).toEqual({
+      folderId: "",
+      layoutName: "",
+    });
+    expect(getFolderIdAndLayoutNameFromLayoutId("private/foo")).toEqual({
+      folderId: "foo",
+      layoutName: "",
+    });
+    expect(getFolderIdAndLayoutNameFromLayoutId("/foo")).toEqual({
+      folderId: "foo",
+      layoutName: "",
+    });
   });
 });
