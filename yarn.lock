@@ -958,6 +958,7 @@ __metadata:
     "@types/classnames": 2.2.11
     "@types/css-font-loading-module": 0.0.4
     "@types/enzyme": 3.10.8
+    "@types/history": 4.7.8
     "@types/react": 17.0.2
     "@types/react-dom": 17.0.1
     "@types/react-redux": 7.1.16
@@ -1473,6 +1474,13 @@ __metadata:
   dependencies:
     "@types/unist": "*"
   checksum: 8aff367be477854d6cd3e5cf03d7154cd163a67bc3266777c2f4b1c32d07a335420ba58a8a799965dbc3190f1ed9989880008afb1392043290acc384a155a7a3
+  languageName: node
+  linkType: hard
+
+"@types/history@npm:4.7.8":
+  version: 4.7.8
+  resolution: "@types/history@npm:4.7.8"
+  checksum: 54020371a412e949d0a329cc325253f16daf5b33e2e485135d39d3b30d3f9a8e323b00ce1162da82387c8ecf0397a8da49ad36ab309f06284326c064092879c7
   languageName: node
   linkType: hard
 

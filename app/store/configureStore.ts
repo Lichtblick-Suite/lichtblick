@@ -1,4 +1,3 @@
-// @flow
 //
 //  Copyright (c) 2018-present, Cruise LLC
 //
@@ -9,15 +8,18 @@
 import { createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 
-import type { Store } from "webviz-core/src/types/Store";
+import { Store } from "@foxglove-studio/app/types/Store";
 
-const configureStore = (reducer: (any, any) => any, middleware?: Array<any> = []): Store => {
+const configureStore = (
+  reducer: (arg0: unknown, arg1: unknown) => unknown,
+  middleware: Array<any> = [],
+): Store => {
   let enhancer = applyMiddleware(thunk, ...middleware);
   if (process.env.NODE_ENV !== "production") {
     const { composeWithDevTools } = require("redux-devtools-extension");
     enhancer = composeWithDevTools(enhancer);
   }
-  return createStore(reducer, window.initialState, enhancer);
+  return createStore(reducer, undefined, enhancer);
 };
 
 export default configureStore;

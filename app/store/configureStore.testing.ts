@@ -1,4 +1,3 @@
-// @flow
 //
 //  Copyright (c) 2018-present, Cruise LLC
 //
@@ -10,18 +9,19 @@ import { routerMiddleware, onLocationChanged, LOCATION_CHANGE } from "connected-
 import { createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 
-import type { State } from "webviz-core/src/reducers";
+// @ts-expect-error
+import { State } from "@foxglove-studio/app/reducers";
 
 const configureStore = (
-  reducer: (any, any) => any,
-  middleware?: Array<any> = [],
+  reducer: (arg0: any, arg1: any) => any,
+  middleware: Array<any> = [],
   history: any,
-  preloadedState?: State
+  preloadedState?: State,
 ) => {
-  const store = createStore<*, *, *>(
+  const store = createStore(
     reducer,
     preloadedState,
-    applyMiddleware(thunk, routerMiddleware(history), ...middleware)
+    applyMiddleware(thunk, routerMiddleware(history), ...middleware),
   );
 
   // if there is no history, initialize the router state

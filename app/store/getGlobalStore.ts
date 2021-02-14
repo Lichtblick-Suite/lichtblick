@@ -1,4 +1,3 @@
-// @flow
 //
 //  Copyright (c) 2019-present, Cruise LLC
 //
@@ -8,30 +7,40 @@
 import { routerMiddleware, replace } from "connected-react-router";
 import { createMemoryHistory } from "history";
 
-import updateUrlAndLocalStorageMiddleware from "webviz-core/src/middleware/updateUrlAndLocalStorage";
-import createRootReducer from "webviz-core/src/reducers";
-import configureStore from "webviz-core/src/store";
-import history from "webviz-core/src/util/history";
+// @ts-expect-error
+import updateUrlAndLocalStorageMiddleware from "@foxglove-studio/app/middleware/updateUrlAndLocalStorage";
+// @ts-expect-error
+import createRootReducer from "@foxglove-studio/app/reducers";
+import configureStore from "@foxglove-studio/app/store";
+import configureTestingStore from "@foxglove-studio/app/store/configureStore.testing";
+// @ts-expect-error
+import history from "@foxglove-studio/app/util/history";
+import { Store } from "@foxglove-studio/app/types/Store";
 
-let store;
+let store: Store | undefined = undefined;
 // We have to wrap the actual creation of the global store in a function so that we only run it
 // after Cruise/open-source specific "hooks" have been initialized.
 function getGlobalStore() {
   if (!store) {
-    store = configureStore(createRootReducer(history), [routerMiddleware(history), updateUrlAndLocalStorageMiddleware]);
+    store = configureStore(createRootReducer(history), [
+      routerMiddleware(history),
+      updateUrlAndLocalStorageMiddleware,
+    ]);
   }
   return store;
 }
 
-export function getGlobalStoreForTest(args: ?{ search?: string, testAuth?: any }) {
+export function getGlobalStoreForTest(
+  args: { search?: string; testAuth?: any } | null | undefined,
+) {
   const memoryHistory = createMemoryHistory();
-  const testStore = configureStore(
+  const testStore = configureTestingStore(
     createRootReducer(memoryHistory, { testAuth: args?.testAuth }),
     [routerMiddleware(memoryHistory), updateUrlAndLocalStorageMiddleware],
-    memoryHistory
+    memoryHistory,
   );
   // Attach a helper method to the test store.
-  testStore.push = (path) => memoryHistory.push(path);
+  // testStore.push = (path) => memoryHistory.push(path);
   const search = args?.search;
   if (search) {
     testStore.dispatch(replace(`/${search}`));
