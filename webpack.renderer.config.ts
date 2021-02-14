@@ -132,9 +132,9 @@ export default (_: never, argv: { mode?: string }): Configuration => {
           // eslint-disable-next-line no-useless-escape
           test: /players\/UserNodePlayer\/nodeTransformerWorker\/typescript\/.+\.ts$/,
           exclude: /node_modules/,
-          use: { loader: "raw-loader" },
+          type: "asset/source",
         },
-        { test: /\.md$/, loader: "raw-loader" },
+        { test: /\.md$/, type: "asset/source" },
         {
           test: /\.svg$/,
           loader: "react-svg-loader",
@@ -147,7 +147,12 @@ export default (_: never, argv: { mode?: string }): Configuration => {
         { test: /\.ne$/, loader: "nearley-loader" },
         {
           test: /\.(png|jpg|gif)$/i,
-          use: [{ loader: "url-loader", options: { limit: 8192 } }],
+          type: "asset",
+          parser: {
+            dataUrlCondition: {
+              maxSize: 8 * 1024, // 8kb
+            },
+          },
         },
         {
           test: /\.s?css$/,
@@ -170,8 +175,8 @@ export default (_: never, argv: { mode?: string }): Configuration => {
           ],
         },
         { test: /\.scss$/, loader: "sass-loader", options: { sourceMap: true } },
-        { test: /\.woff2?$/, loader: "url-loader" },
-        { test: /\.(glb|bag|ttf|bin)$/, loader: "file-loader" },
+        { test: /\.woff2?$/, type: "asset/inline" },
+        { test: /\.(glb|bag|ttf|bin)$/, type: "asset/resource" },
         {
           test: /node_modules\/compressjs\/.*\.js/,
           loader: "string-replace-loader",
