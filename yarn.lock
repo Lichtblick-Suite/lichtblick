@@ -6301,18 +6301,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"file-loader@npm:4.3.0":
-  version: 4.3.0
-  resolution: "file-loader@npm:4.3.0"
-  dependencies:
-    loader-utils: ^1.2.3
-    schema-utils: ^2.5.0
-  peerDependencies:
-    webpack: ^4.0.0
-  checksum: 03535f889b56836dc462f20e138ba5ad46893cc079cfb970b3434aa4d4e959a1e52770fa62e87d657f4d7d3dd9207726a464dee19eb82ccdafdc2e5c6a80f92a
-  languageName: node
-  linkType: hard
-
 "file-uri-to-path@npm:1.0.0":
   version: 1.0.0
   resolution: "file-uri-to-path@npm:1.0.0"
@@ -6586,7 +6574,6 @@ __metadata:
     eslint: 7.19.0
     eslint-config-prettier: 7.2.0
     eslint-plugin-prettier: 3.3.1
-    file-loader: 4.3.0
     fork-ts-checker-webpack-plugin: 6.1.0
     html-webpack-plugin: 5.0.0
     monaco-editor: 0.22.3
@@ -13524,7 +13511,7 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"schema-utils@npm:^2.5.0, schema-utils@npm:^2.6.5":
+"schema-utils@npm:^2.6.5":
   version: 2.7.1
   resolution: "schema-utils@npm:2.7.1"
   dependencies:

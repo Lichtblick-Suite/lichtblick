@@ -87,15 +87,7 @@ export default (_: never, argv: { mode?: string }): Configuration => {
         },
         {
           test: /\.wasm$/,
-          // Bypass webpack's default importing logic for .wasm files.
-          // https://webpack.js.org/configuration/module/#ruletype
-          type: "javascript/auto",
-          use: {
-            loader: "file-loader",
-            options: {
-              name: "[name]-[hash].[ext]",
-            },
-          },
+          type: "asset/resource",
         },
         {
           test: /\.worker\.js$/,
