@@ -4,18 +4,37 @@
 //  found in the LICENSE file in the root directory of this source tree.
 //  You may not use this file except in compliance with the License.
 import { mount } from "enzyme";
-import * as React from "react";
+import { DependencyList } from "react";
 
 import useEventListener from "./useEventListener";
 
+interface EventSource {
+  addEventListener: Element["addEventListener"];
+  removeEventListener: Element["removeEventListener"];
+}
+
 describe("useEventListener", () => {
-  const Test = ({ target = window, type, enable, handler, dependencies = [] }) => {
+  type TestParams = {
+    target: EventSource;
+    type: string;
+    enable: boolean;
+    handler: () => void;
+    dependencies?: DependencyList;
+  };
+  const Test = ({ target, type, enable, handler, dependencies = [] }: TestParams) => {
     useEventListener(target, type, enable, handler, dependencies);
     return null;
   };
 
   const handler = jest.fn();
-  const target = {};
+  type TestElement = {
+    addEventListener: jest.Mock<void, Parameters<Element["addEventListener"]>>;
+    removeEventListener: jest.Mock;
+  };
+  const target: TestElement = {
+    addEventListener: jest.fn(),
+    removeEventListener: jest.fn(),
+  };
 
   beforeEach(() => {
     target.addEventListener = jest.fn();
@@ -27,9 +46,15 @@ describe("useEventListener", () => {
     expect(target.addEventListener.mock.calls).toEqual([["keyup", handler]]);
     el.setProps({ type: "keydown" });
     expect(target.removeEventListener.mock.calls).toEqual([["keyup", handler]]);
-    expect(target.addEventListener.mock.calls).toEqual([["keyup", handler], ["keydown", handler]]);
+    expect(target.addEventListener.mock.calls).toEqual([
+      ["keyup", handler],
+      ["keydown", handler],
+    ]);
     el.unmount();
-    expect(target.removeEventListener.mock.calls).toEqual([["keyup", handler], ["keydown", handler]]);
+    expect(target.removeEventListener.mock.calls).toEqual([
+      ["keyup", handler],
+      ["keydown", handler],
+    ]);
   });
 
   it("doesn't register the handler if enable is false", () => {
@@ -38,10 +63,10 @@ describe("useEventListener", () => {
   });
 
   it("updates when target changes", () => {
-    const target1 = {};
-
-    target1.addEventListener = jest.fn();
-    target1.removeEventListener = jest.fn();
+    const target1 = {
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+    };
 
     const el = mount(<Test type="keyup" enable handler={handler} target={target} />);
     el.setProps({ target: target1 });
@@ -62,7 +87,15 @@ describe("useEventListener", () => {
     expect(target.addEventListener.mock.calls).toEqual([["keyup", handler]]);
   });
   it("updates when dependency changes", () => {
-    const el = mount(<Test type="keyup" enable handler={handler} target={target} dependencies={["any-depdency"]} />);
+    const el = mount(
+      <Test
+        type="keyup"
+        enable
+        handler={handler}
+        target={target}
+        dependencies={["any-depdency"]}
+      />,
+    );
     el.setProps({ dependencies: ["changed-dependencies"] });
     expect(target.addEventListener).toHaveBeenCalledTimes(2);
   });
