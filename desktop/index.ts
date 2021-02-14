@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu, MenuItemConstructorOptions } from "electron";
+import { app, shell, BrowserWindow, Menu, MenuItemConstructorOptions } from "electron";
 import path from "path";
 
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
@@ -100,7 +100,6 @@ const createWindow = (): void => {
       {
         label: "Learn More",
         click: async () => {
-          const { shell } = require("electron");
           await shell.openExternal("https://electronjs.org");
         },
       },

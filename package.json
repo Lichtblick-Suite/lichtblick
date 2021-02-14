@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev:webpack": "yarn webpack serve --mode development",
-    "dev:electron": "yarn electron .webpack/main/main.js"
+    "dev:electron": "yarn electron .webpack/main/main.js",
+    "lint": "yarn eslint ."
   },
   "workspaces": {
     "packages": [
@@ -39,9 +40,11 @@
     "css-loader": "5.0.2",
     "electron": "11.2.3",
     "electron-squirrel-startup": "1.0.0",
-    "eslint": "7.19.0",
+    "eslint": "7.20.0",
     "eslint-config-prettier": "7.2.0",
+    "eslint-plugin-import": "2.22.1",
     "eslint-plugin-prettier": "3.3.1",
+    "eslint-plugin-react": "7.22.0",
     "fork-ts-checker-webpack-plugin": "6.1.0",
     "html-webpack-plugin": "5.0.0",
     "monaco-editor": "0.22.3",
