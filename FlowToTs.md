@@ -25,6 +25,8 @@ that silently intercepts the files we have converted.
 | AnimationFrameID                        | ReturnType<typeof requestAnimationFrame>                             |                                                 |
 | TimeoutID                               | ReturnType<typeof setTimeout>                                        |                                                 |
 | require                                 | import                                                               | Change uses of `require` to import              |
+| $Shape                                  | Partial<T>                                                           |                                                 |
+| $Readonly                               | Readonly<T>                                                          |                                                 |
 
 # Future
 
