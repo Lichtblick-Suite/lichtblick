@@ -954,6 +954,7 @@ __metadata:
     "@types/react-redux": 7.1.16
     "@types/seedrandom": 2.4.28
     "@types/styled-components": 5.1.7
+    "@types/tinycolor2": 1.4.2
     cbor-js: 0.1.0
     chart.js: "davidswinegar/Chart.js#0785c29a4c57b3e1b4243f8163df7950a00b2a80"
     chartjs-plugin-annotation: 0.5.7
@@ -1771,6 +1772,13 @@ __metadata:
   version: 1.0.6
   resolution: "@types/tapable@npm:1.0.6"
   checksum: 01709a2f8dbea665a39c008ba6995c76210fabb52434815e7632c7fff22ecad1dd49a1d75b8f5b2e9b365c6d7a6407127bed834587df4777b800110c2a74fc36
+  languageName: node
+  linkType: hard
+
+"@types/tinycolor2@npm:1.4.2":
+  version: 1.4.2
+  resolution: "@types/tinycolor2@npm:1.4.2"
+  checksum: e6a53ee633b20fc6516c3888b9326192b00277476f04574f8c618fd9817fcc66517d704d045d67de78bc3b8c98f4da2fa23e25aa2ca6ab17e7bc7a7901321560
   languageName: node
   linkType: hard
 

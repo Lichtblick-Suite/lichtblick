@@ -11,7 +11,6 @@ import { LegacyRef } from "react";
 import BaseButton from "@foxglove-studio/app/components/ButtonBase";
 // @ts-expect-error
 import Tooltip from "@foxglove-studio/app/components/Tooltip";
-// @ts-expect-error
 import { colors } from "@foxglove-studio/app/util/sharedStyleConstants";
 
 export type Props = JSX.LibraryManagedAttributes<typeof BaseButton, BaseButton["props"]> & {

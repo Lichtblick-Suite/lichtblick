@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { FileContext } from "@foxglove-studio/app/components/FileContext";
 // @ts-expect-error
 import Root from "@foxglove-studio/app/components/Root";
-// @ts-expect-error
 import { ROSBRIDGE_WEBSOCKET_URL_QUERY_KEY } from "@foxglove-studio/app/util/globalConstants";
 
 import { usePrompt } from "@foxglove-studio/app/hooks/usePrompt";
