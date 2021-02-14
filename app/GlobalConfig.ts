@@ -12,7 +12,7 @@ let importedPerPanelHooks: unknown;
 const defaultHooks = {
   areHooksImported: () => importedPanelsByCategory && importedPerPanelHooks,
   getLayoutFromUrl: async (search: string) => {
-    const { LAYOUT_URL_QUERY_KEY } = require('webviz-core/src/util/globalConstants');
+    const { LAYOUT_URL_QUERY_KEY } = require("webviz-core/src/util/globalConstants");
     const params = new URLSearchParams(search);
     const layoutUrl = params.get(LAYOUT_URL_QUERY_KEY);
     if (!layoutUrl) {
@@ -36,7 +36,8 @@ const defaultHooks = {
       if (importedPanelsByCategory && importedPerPanelHooks) {
         resolve();
       }
-      import('./hooksImporter')
+      // @ts-expect-error
+      import("./hooksImporter")
         .then((hooksImporter) => {
           importedPerPanelHooks = hooksImporter.perPanelHooks();
           importedPanelsByCategory = hooksImporter.panelsByCategory();
@@ -49,22 +50,22 @@ const defaultHooks = {
   },
   nodes: () => [],
   getDefaultPersistedState() {
-    const { defaultPlaybackConfig } = require('webviz-core/src/reducers/panels');
+    const { defaultPlaybackConfig } = require("webviz-core/src/reducers/panels");
 
     /* eslint-disable no-restricted-modules */
-    const { CURRENT_LAYOUT_VERSION } = require('webviz-core/migrations/constants');
+    const { CURRENT_LAYOUT_VERSION } = require("webviz-core/migrations/constants");
     // All panel fields have to be present.
     return {
       fetchedLayout: { isLoading: false, data: undefined },
-      search: '',
+      search: "",
       panels: {
         layout: {
-          direction: 'row',
-          first: 'DiagnosticSummary!3edblo1',
+          direction: "row",
+          first: "DiagnosticSummary!3edblo1",
           second: {
-            direction: 'row',
-            first: 'RosOut!1f38b3d',
-            second: '3D Panel!1my2ydk',
+            direction: "row",
+            first: "RosOut!1f38b3d",
+            second: "3D Panel!1my2ydk",
             splitPercentage: 50,
           },
           splitPercentage: 33.3333333333,
@@ -79,26 +80,26 @@ const defaultHooks = {
     };
   },
   migratePanels(panels: unknown) {
-    const migratePanels = require('webviz-core/migrations').default;
+    const migratePanels = require("webviz-core/migrations").default;
     return migratePanels(panels);
   },
   panelCategories() {
     return [
-      { label: 'ROS', key: 'ros' },
-      { label: 'Utilities', key: 'utilities' },
-      { label: 'Debugging', key: 'debugging' },
+      { label: "ROS", key: "ros" },
+      { label: "Utilities", key: "utilities" },
+      { label: "Debugging", key: "debugging" },
     ];
   },
   panelsByCategory: () => {
     if (!importedPanelsByCategory) {
-      throw new Error('panelsByCategory requested before hooks have been imported');
+      throw new Error("panelsByCategory requested before hooks have been imported");
     }
     return importedPanelsByCategory;
   },
   helpPageFootnote: () => null,
   perPanelHooks: () => {
     if (!importedPerPanelHooks) {
-      throw new Error('perPanelHooks requested before hooks have been imported');
+      throw new Error("perPanelHooks requested before hooks have been imported");
     }
     return importedPerPanelHooks;
   },
@@ -110,13 +111,13 @@ const defaultHooks = {
         },
         getDefaultSettings: () => ({}),
         getDefaultTopicTree: () => ({
-          name: 'root',
+          name: "root",
           children: [
             {
-              name: 'TF',
-              topicName: '/tf',
+              name: "TF",
+              topicName: "/tf",
               children: [],
-              description: 'Visualize relationships between /tf frames.',
+              description: "Visualize relationships between /tf frames.",
             },
           ],
         }),
@@ -125,26 +126,26 @@ const defaultHooks = {
     };
   },
   load: async () => {
-    const { initializeLogEvent } = require('webviz-core/src/util/logEvent');
+    const { initializeLogEvent } = require("webviz-core/src/util/logEvent");
     initializeLogEvent(() => undefined, {}, {});
   },
   getWorkerDataProviderWorker: () => {
-    return require('webviz-core/src/dataProviders/WorkerDataProvider.worker');
+    return require("webviz-core/src/dataProviders/WorkerDataProvider.worker");
   },
   getAdditionalDataProviders: () => {},
   experimentalFeaturesList() {
     return {
       diskBagCaching: {
-        name: 'Disk Bag Caching (requires reload)',
+        name: "Disk Bag Caching (requires reload)",
         description:
           "When streaming bag data, persist it on disk, so that when reloading the page we don't have to download the data again. However, this might result in an overall slower experience, and is generally experimental, so we only recommend it if you're on a slow network connection. Alternatively, you can download the bag to disk manually, and drag it into Webviz.",
         developmentDefault: false,
         productionDefault: false,
       },
       unlimitedMemoryCache: {
-        name: 'Unlimited in-memory cache (requires reload)',
+        name: "Unlimited in-memory cache (requires reload)",
         description:
-          'If you have a lot of memory in your computer, and you frequently have to play all the way through large bags, you can turn this on to fully buffer the bag into memory. However, use at your own risk, as this might crash the browser.',
+          "If you have a lot of memory in your computer, and you frequently have to play all the way through large bags, you can turn this on to fully buffer the bag into memory. However, use at your own risk, as this might crash the browser.",
         developmentDefault: false,
         productionDefault: false,
       },
@@ -152,7 +153,7 @@ const defaultHooks = {
   },
   linkMessagePathSyntaxToHelpPage: () => true,
   getSecondSourceUrlParams() {
-    const { REMOTE_BAG_URL_2_QUERY_KEY } = require('webviz-core/src/util/globalConstants');
+    const { REMOTE_BAG_URL_2_QUERY_KEY } = require("webviz-core/src/util/globalConstants");
     return [REMOTE_BAG_URL_2_QUERY_KEY];
   },
   updateUrlToTrackLayoutChanges: async () => {

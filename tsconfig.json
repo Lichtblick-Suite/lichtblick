@@ -6,7 +6,6 @@
     "esModuleInterop": true,
     "noImplicitAny": true,
     "sourceMap": true,
-    "allowJs": true,
     "moduleResolution": "node",
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,

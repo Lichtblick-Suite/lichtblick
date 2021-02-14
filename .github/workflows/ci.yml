@@ -29,4 +29,5 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-yarn-
     - run: yarn install --immutable
-    - run: yarn run webpack --mode production
+    # Our build is so large that it requires more memory from v8
+    - run: NODE_OPTIONS=--max-old-space-size=4096 yarn run webpack --mode production

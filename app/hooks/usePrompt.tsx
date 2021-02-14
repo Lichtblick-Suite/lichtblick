@@ -1,8 +1,10 @@
 import React, { useRef } from "react";
 import styled from "styled-components";
 
+// @ts-expect-error
 import Modal from "@foxglove-studio/app/components/Modal";
 import Button from "@foxglove-studio/app/components/Button";
+// @ts-expect-error
 import renderToBody from "@foxglove-studio/app/components/renderToBody";
 
 type PromptFunction = () => Promise<string | undefined>;

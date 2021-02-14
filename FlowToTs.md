@@ -8,6 +8,11 @@ yarn dlx @khanacademy/flow-to-ts --prettier --write --delete-source /path/to/flo
 
 # Cleanup
 
+If a typescript file imports a flow file add `// @ts-expect-error` on the line before the import.
+This will suppress the "cannot find module declaration error" but when we do conert the underlying file
+to typescript we will get notified to remove this line. We do this instead of "declare module..." since
+that silently intercepts the files we have converted.
+
 | Flow                                    | Typescript                                                           | Notes                                           |
 | --------------------------------------- | -------------------------------------------------------------------- | ----------------------------------------------- |
 | `import React from 'react'`             | Remove.                                                              | We provide React globally                       |
@@ -30,3 +35,4 @@ yarn dlx @khanacademy/flow-to-ts --prettier --write --delete-source /path/to/flo
 # References
 
 - https://www.saltycrane.com/cheat-sheets/flow-type/latest/
+- https://github.com/Kiikurage/babel-plugin-flow-to-typescript

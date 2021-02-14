@@ -37,7 +37,7 @@ export default (_: never, argv: { mode?: string }): Configuration => {
     target: "web",
     context: path.resolve("./app"),
     entry: "./index.tsx",
-    devtool: "eval-cheap-source-map",
+    devtool: isDev ? "eval-cheap-source-map" : "source-map",
 
     output: {
       publicPath: "",
@@ -79,6 +79,9 @@ export default (_: never, argv: { mode?: string }): Configuration => {
             loader: "ts-loader",
             options: {
               transpileOnly: isDev,
+              // https://github.com/TypeStrong/ts-loader#onlycompilebundledfiles
+              // avoid looking at files which are not part of the bundle
+              onlyCompileBundledFiles: true,
             },
           },
         },
@@ -100,7 +103,7 @@ export default (_: never, argv: { mode?: string }): Configuration => {
           use: {
             loader: "worker-loader",
             options: {
-              filename: "[name].[ext]?[hash]",
+              filename: "[name].js?[hash]",
               /* action item to remove this and move workers to esmodule style */
               esModule: false,
             },
