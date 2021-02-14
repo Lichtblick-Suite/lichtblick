@@ -1,4 +1,3 @@
-// @flow
 //
 //  Copyright (c) 2018-present, GM Cruise LLC
 //
@@ -6,8 +5,8 @@
 //  found in the LICENSE file in the root directory of this source tree.
 //  You may not use this file except in compliance with the License.
 
+import { $Values } from "utility-types";
 import cx from "classnames";
-import * as React from "react";
 
 export const PROGRESS_DIRECTION = Object.freeze({
   HORIZONTAL: "horizontal",
@@ -41,9 +40,11 @@ function injectKeyframes() {
 }
 
 type ProgressProps = {
-  customStyle?: { [string]: any },
-  direction?: ProgressDirection,
-  percentage: number,
+  customStyle?: {
+    [key: string]: any;
+  };
+  direction?: ProgressDirection;
+  percentage: number;
 };
 
 function getProgressStyle(props: ProgressProps) {
@@ -63,35 +64,39 @@ function getProgressStyle(props: ProgressProps) {
 }
 
 type Props = {
-  id?: string,
-  small?: boolean,
-  large?: boolean,
-  primary?: boolean,
-  warning?: boolean,
-  danger?: boolean,
-  disabled?: boolean,
-  onClick?: (event: SyntheticEvent<HTMLButtonElement>) => void,
-  onFocus?: (event: SyntheticEvent<HTMLButtonElement>) => void,
-  onMouseUp?: (event: SyntheticEvent<HTMLButtonElement>) => void,
-  onMouseLeave?: (event: SyntheticEvent<HTMLButtonElement>) => void,
-  children: React.Node,
-  className?: string,
-  delay?: number,
-  progressClassName?: string,
-  progressDirection?: ProgressDirection,
-  progressStyle?: { [key: string]: any },
-  style?: { [key: string]: any },
-  tooltip?: string,
+  id?: string;
+  small?: boolean;
+  large?: boolean;
+  primary?: boolean;
+  warning?: boolean;
+  danger?: boolean;
+  disabled?: boolean;
+  onClick?: (event: React.SyntheticEvent<HTMLButtonElement>) => void;
+  onFocus?: (event: React.SyntheticEvent<HTMLButtonElement>) => void;
+  onMouseUp?: (event: React.SyntheticEvent<HTMLButtonElement>) => void;
+  onMouseLeave?: (event: React.SyntheticEvent<HTMLButtonElement>) => void;
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+  progressClassName?: string;
+  progressDirection?: ProgressDirection;
+  progressStyle?: {
+    [key: string]: any;
+  };
+  style?: {
+    [key: string]: any;
+  };
+  tooltip?: string;
 };
 
 type State = {
-  mouseDown: boolean,
-  progressPercentage: number,
+  mouseDown: boolean;
+  progressPercentage: number;
 };
 
 export default class Button extends React.Component<Props, State> {
-  animationId: AnimationFrameID;
-  cancelTimeoutId: TimeoutID;
+  animationId?: ReturnType<typeof requestAnimationFrame>;
+  cancelTimeoutId?: ReturnType<typeof setTimeout>;
 
   static defaultProps = {
     progressDirection: PROGRESS_DIRECTION.VERTICAL,
@@ -103,11 +108,15 @@ export default class Button extends React.Component<Props, State> {
   };
 
   componentWillUnmount() {
-    cancelAnimationFrame(this.animationId);
-    clearTimeout(this.cancelTimeoutId);
+    if (this.animationId) {
+      cancelAnimationFrame(this.animationId);
+    }
+    if (this.cancelTimeoutId) {
+      clearTimeout(this.cancelTimeoutId);
+    }
   }
 
-  onDelayFinished = (e: SyntheticEvent<HTMLButtonElement>) => {
+  onDelayFinished = (e: React.SyntheticEvent<HTMLButtonElement>) => {
     const { onClick } = this.props;
     // slightly delay reseting to a non-progress state
     // this allows the consumer to apply some kind of 'toggled on' class to the button
@@ -119,7 +128,7 @@ export default class Button extends React.Component<Props, State> {
     onClick(e);
   };
 
-  onMouseUp = (e: SyntheticEvent<HTMLButtonElement>) => {
+  onMouseUp = (e: React.SyntheticEvent<HTMLButtonElement>) => {
     const { onMouseUp } = this.props;
     this.cancelDown();
     if (onMouseUp) {
@@ -127,7 +136,7 @@ export default class Button extends React.Component<Props, State> {
     }
   };
 
-  onMouseLeave = (e: SyntheticEvent<HTMLButtonElement>) => {
+  onMouseLeave = (e: React.SyntheticEvent<HTMLButtonElement>) => {
     const { onMouseLeave } = this.props;
     this.cancelDown();
     if (onMouseLeave) {
@@ -135,7 +144,7 @@ export default class Button extends React.Component<Props, State> {
     }
   };
 
-  onMouseDown = (e: SyntheticEvent<HTMLButtonElement>) => {
+  onMouseDown = (e: React.SyntheticEvent<HTMLButtonElement>) => {
     const { delay } = this.props;
     if (!delay) {
       return;
@@ -156,7 +165,9 @@ export default class Button extends React.Component<Props, State> {
     }
     // if just finshed a previous click there might be a pending cancel operation
     // so clear it out
-    clearTimeout(this.cancelTimeoutId);
+    if (this.cancelTimeoutId) {
+      clearTimeout(this.cancelTimeoutId);
+    }
 
     this.animationId = requestAnimationFrame(() => {
       const tickStamp = Date.now();
@@ -170,7 +181,7 @@ export default class Button extends React.Component<Props, State> {
     });
   }
 
-  onClick = (e: SyntheticEvent<HTMLButtonElement>) => {
+  onClick = (e: React.SyntheticEvent<HTMLButtonElement>) => {
     const { onClick, delay } = this.props;
     e.stopPropagation();
     e.preventDefault();
@@ -206,7 +217,9 @@ export default class Button extends React.Component<Props, State> {
           zIndex: 1,
           backgroundColor: "rgba(0, 0, 0, 0.5)",
           animation:
-            progressDirection === PROGRESS_DIRECTION.PULSE && "cruise-automation-button-pulse 1s linear infinite",
+            progressDirection === PROGRESS_DIRECTION.PULSE
+              ? "cruise-automation-button-pulse 1s linear infinite"
+              : undefined,
           ...getProgressStyle({
             direction: progressDirection,
             percentage: progressPercentage,
@@ -255,7 +268,8 @@ export default class Button extends React.Component<Props, State> {
         onMouseUp={this.onMouseUp}
         style={{ position: "relative", zIndex: 0, overflow: "hidden", ...style }}
         title={tooltip}
-        disabled={disabled}>
+        disabled={disabled}
+      >
         {children}
         {this.renderProgressBar()}
       </button>

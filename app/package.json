@@ -84,14 +84,18 @@
     "tinycolor2": "1.4.2",
     "typescript": "3.5.3",
     "use-debounce": "3.3.0",
+    "utility-types": "3.10.0",
     "uuid": "3.3.2",
     "wasm-lz4": "1.0.0"
   },
   "devDependencies": {
     "@types/classnames": "2.2.11",
     "@types/css-font-loading-module": "0.0.4",
+    "@types/enzyme": "3.10.8",
+    "@types/react": "17.0.2",
     "@types/react-dom": "17.0.1",
     "@types/seedrandom": "2.4.28",
-    "@types/styled-components": "5.1.7"
+    "@types/styled-components": "5.1.7",
+    "enzyme": "3.11.0"
   }
 }

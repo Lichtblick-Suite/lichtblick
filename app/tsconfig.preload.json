@@ -1,0 +1,14 @@
+{
+  "extends": "../tsconfig.json",
+
+  "compilerOptions": {
+    "baseUrl": ".",
+
+    "paths": {
+      "@foxglove-studio/app/*": ["./*"]
+    }
+  },
+
+  "include": ["preload.ts"],
+  "exclude": ["node_modules"]
+}

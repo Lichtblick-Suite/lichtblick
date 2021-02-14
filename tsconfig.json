@@ -1,7 +1,5 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
-    "jsx": "react",
     "target": "esnext",
     "module": "commonjs",
     "skipLibCheck": true,
@@ -9,16 +7,12 @@
     "noImplicitAny": true,
     "sourceMap": true,
     "allowJs": true,
-    "lib": ["DOM"],
     "moduleResolution": "node",
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "strict": true,
-    "typeRoots": ["node_modules/@types", "./typings"],
-    "paths": {
-      "@foxglove-studio/app/*": ["./app/*"]
-    }
+    "typeRoots": ["node_modules/@types", "./typings"]
   },
-  "include": ["app/index.tsx", "typings/react.d.ts"],
-  "exclude": ["node_modules", "app/players/UserNodePlayer/nodeTransformerWorker/typescript/**/*"]
+  "include": ["*.ts"],
+  "exclude": ["node_modules"]
 }

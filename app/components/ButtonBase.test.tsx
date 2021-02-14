@@ -1,4 +1,3 @@
-// @flow
 //
 //  Copyright (c) 2018-present, GM Cruise LLC
 //
@@ -7,7 +6,7 @@
 //  You may not use this file except in compliance with the License.
 
 import { mount } from "enzyme";
-import React from "react";
+import React, { SyntheticEvent } from "react";
 
 import Button from "./ButtonBase";
 
@@ -36,7 +35,7 @@ describe("<Button />", () => {
     const el = mount(
       <Button className="foo" onClick={done}>
         hello
-      </Button>
+      </Button>,
     );
     expect(el.hasClass("foo")).toBe(true);
     done();
@@ -53,7 +52,7 @@ describe("<Button />", () => {
     const el = mount(
       <Button small primary warning danger>
         hello
-      </Button>
+      </Button>,
     );
     const classes = el.getDOMNode().classList;
     expect(classes).toContain("is-small");
@@ -68,7 +67,7 @@ describe("<Button />", () => {
     const el = mount(
       <Button delay={1000} onClick={fail}>
         hello
-      </Button>
+      </Button>,
     );
     el.simulate("click");
     setImmediate(() => {
@@ -79,7 +78,7 @@ describe("<Button />", () => {
 
   it("delays click callback when mouse is down", (done) => {
     let clicked = false;
-    const onClick = (e) => {
+    const onClick = (e: SyntheticEvent<HTMLButtonElement>) => {
       clicked = true;
       expect(e).toBeTruthy();
       done();
@@ -88,7 +87,7 @@ describe("<Button />", () => {
     const el = mount(
       <Button delay={10} onClick={onClick} progressClassName="foo">
         hello
-      </Button>
+      </Button>,
     );
     el.simulate("mouseDown");
     expect(clicked).toBe(false);
@@ -99,21 +98,21 @@ describe("<Button />", () => {
       el.unmount(); // eslint-disable-line no-use-before-define
       done();
     };
-    const el = mount(
+    const el = mount<Button>(
       <Button delay={10} onClick={onClick}>
         testing
-      </Button>
+      </Button>,
     );
-    el.instance().onMouseDown(({ persist: () => {} }: any));
+    el.instance().onMouseDown({ persist: () => {} } as any);
   });
 
   it("unmounting cancels done callback", (done: any) => {
-    const el = mount(
+    const el = mount<Button>(
       <Button delay={1} onClick={() => done("Should not call done callback")}>
         testing
-      </Button>
+      </Button>,
     );
-    el.instance().onMouseDown(({ persist: () => {} }: any));
+    el.instance().onMouseDown({ persist: () => {} } as any);
     setImmediate(() => {
       el.unmount();
       done();

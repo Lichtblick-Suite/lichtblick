@@ -1,0 +1,20 @@
+{
+  "extends": "../tsconfig.json",
+
+  "compilerOptions": {
+    "baseUrl": ".",
+    "jsx": "react",
+    "lib": ["DOM"],
+
+    "paths": {
+      "@foxglove-studio/app/*": ["./*"]
+    }
+  },
+
+  "include": ["**/*", "../typings/react.d.ts"],
+  "exclude": [
+    "node_modules",
+    "preload.ts",
+    "players/UserNodePlayer/nodeTransformerWorker/typescript/**/*"
+  ]
+}

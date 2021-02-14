@@ -29,4 +29,4 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-yarn-
     - run: yarn install --immutable
-    - run: yarn run webpack
+    - run: yarn run webpack --mode production

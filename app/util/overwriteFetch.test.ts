@@ -10,7 +10,7 @@ import overwriteFetch from "./overwriteFetch";
 describe("overwriteFetch", () => {
   afterEach(() => {
     // reset the test
-    global.fetch = undefined;
+    global.fetch = () => Promise.reject("not available");
   });
 
   it("overwrites the default fetch", async () => {

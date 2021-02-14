@@ -6,7 +6,7 @@ import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import MonacoWebpackPlugin from "monaco-editor-webpack-plugin";
-import webpack, { Configuration } from "webpack";
+import webpack, { Configuration, WebpackPluginInstance } from "webpack";
 
 declare const visit: any;
 
@@ -22,158 +22,168 @@ function remarkSmartypants() {
   return transformer;
 }
 
-const config: Configuration = {
-  // force web target instead of electron-render
-  // Fixes "require is not defined" errors if nodeIntegration is off
-  // https://gist.github.com/msafi/d1b8571aa921feaaa0f893ab24bb727b
-  target: "web",
-  entry: "./app/index.tsx",
-  devtool: "eval-cheap-source-map",
+export default (_: never, argv: { mode?: string }): Configuration => {
+  const isDev = argv.mode === "development";
+  const plugins: WebpackPluginInstance[] = [];
 
-  output: {
-    publicPath: "",
-    path: path.resolve(__dirname, ".webpack", "renderer"),
-  },
+  if (isDev) {
+    plugins.push(new ForkTsCheckerWebpackPlugin());
+  }
 
-  resolve: {
-    extensions: [".js", ".ts", ".jsx", ".tsx", ".css"],
-    alias: {
-      "react-dnd": require.resolve("react-dnd"),
-      "styled-components": require.resolve("styled-components"),
-      "webviz-core/src": path.resolve(`${__dirname}/app`),
-      "webviz-core/shared": path.resolve(`${__dirname}/app/shared`),
-      "webviz-core/migrations": path.resolve(`${__dirname}/app/migrations`),
+  return {
+    // force web target instead of electron-render
+    // Fixes "require is not defined" errors if nodeIntegration is off
+    // https://gist.github.com/msafi/d1b8571aa921feaaa0f893ab24bb727b
+    target: "web",
+    context: path.resolve("./app"),
+    entry: "./index.tsx",
+    devtool: "eval-cheap-source-map",
+
+    output: {
+      publicPath: "",
+      path: path.resolve(__dirname, ".webpack", "renderer"),
     },
-    fallback: {
-      path: require.resolve("path-browserify"),
-      stream: require.resolve("stream-browserify"),
-      zlib: require.resolve("browserify-zlib"),
-      crypto: require.resolve("crypto-browserify"),
-      fs: false,
-      pnpapi: false,
-      // These are optional for react-mosaic-component
-      "@blueprintjs/core": false,
-      "@blueprintjs/icons": false,
+
+    resolve: {
+      extensions: [".js", ".ts", ".jsx", ".tsx", ".css"],
+      alias: {
+        "react-dnd": require.resolve("react-dnd"),
+        "styled-components": require.resolve("styled-components"),
+        "webviz-core/src": path.resolve(`${__dirname}/app`),
+        "webviz-core/shared": path.resolve(`${__dirname}/app/shared`),
+        "webviz-core/migrations": path.resolve(`${__dirname}/app/migrations`),
+      },
+      fallback: {
+        path: require.resolve("path-browserify"),
+        stream: require.resolve("stream-browserify"),
+        zlib: require.resolve("browserify-zlib"),
+        crypto: require.resolve("crypto-browserify"),
+        fs: false,
+        pnpapi: false,
+        // These are optional for react-mosaic-component
+        "@blueprintjs/core": false,
+        "@blueprintjs/icons": false,
+      },
     },
-  },
-  module: {
-    rules: [
-      // Add support for native node modules
-      {
-        test: /\.node$/,
-        use: "node-loader",
-      },
-      {
-        test: /\.tsx?$/,
-        exclude: /(node_modules|players\/UserNodePlayer\/nodeTransformerWorker\/typescript\/)/,
-        use: {
-          loader: "ts-loader",
-          options: {
-            transpileOnly: true,
-          },
+    module: {
+      rules: [
+        // Add support for native node modules
+        {
+          test: /\.node$/,
+          use: "node-loader",
         },
-      },
-      {
-        test: /\.wasm$/,
-        // Bypass webpack's default importing logic for .wasm files.
-        // https://webpack.js.org/configuration/module/#ruletype
-        type: "javascript/auto",
-        use: {
-          loader: "file-loader",
-          options: {
-            name: "[name]-[hash].[ext]",
-          },
-        },
-      },
-      {
-        test: /\.worker\.js$/,
-        exclude: /node_modules/,
-        use: {
-          loader: "worker-loader",
-          options: {
-            filename: "[name].[ext]?[hash]",
-            /* action item to remove this and move workers to esmodule style */
-            esModule: false,
-          },
-        },
-      },
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: { loader: "babel-loader?cacheDirectory" },
-      },
-      {
-        test: /\.mdx$/,
-        use: [
-          "babel-loader?cacheDirectory",
-          {
-            loader: "@mdx-js/loader",
+        {
+          test: /\.tsx?$/,
+          exclude: /(node_modules|players\/UserNodePlayer\/nodeTransformerWorker\/typescript\/)/,
+          use: {
+            loader: "ts-loader",
             options: {
-              hastPlugins: [rehypePrism],
-              mdPlugins: [remarkSmartypants],
+              transpileOnly: isDev,
             },
           },
-        ],
-      },
-      {
-        // We use stringified Typescript in Node Playground.
-        // eslint-disable-next-line no-useless-escape
-        test: /players\/UserNodePlayer\/nodeTransformerWorker\/typescript\/.+\.ts$/,
-        exclude: /node_modules/,
-        use: { loader: "raw-loader" },
-      },
-      { test: /\.md$/, loader: "raw-loader" },
-      {
-        test: /\.svg$/,
-        loader: "react-svg-loader",
-        options: {
-          svgo: {
-            plugins: [{ removeViewBox: false }, { removeDimensions: false }],
+        },
+        {
+          test: /\.wasm$/,
+          // Bypass webpack's default importing logic for .wasm files.
+          // https://webpack.js.org/configuration/module/#ruletype
+          type: "javascript/auto",
+          use: {
+            loader: "file-loader",
+            options: {
+              name: "[name]-[hash].[ext]",
+            },
           },
         },
-      },
-      { test: /\.ne$/, loader: "nearley-loader" },
-      {
-        test: /\.(png|jpg|gif)$/i,
-        use: [{ loader: "url-loader", options: { limit: 8192 } }],
-      },
-      {
-        test: /\.s?css$/,
-        loader: "style-loader",
-      },
-      {
-        test: /\.s?css$/,
-        oneOf: [
-          {
-            test: /\.module\./,
-            loader: "css-loader",
+        {
+          test: /\.worker\.js$/,
+          exclude: /node_modules/,
+          use: {
+            loader: "worker-loader",
             options: {
-              modules: {
-                localIdentName: "[path][name]-[sha512:hash:base32:5]--[local]",
+              filename: "[name].[ext]?[hash]",
+              /* action item to remove this and move workers to esmodule style */
+              esModule: false,
+            },
+          },
+        },
+        {
+          test: /\.js$/,
+          exclude: /node_modules/,
+          use: { loader: "babel-loader?cacheDirectory" },
+        },
+        {
+          test: /\.mdx$/,
+          use: [
+            "babel-loader?cacheDirectory",
+            {
+              loader: "@mdx-js/loader",
+              options: {
+                hastPlugins: [rehypePrism],
+                mdPlugins: [remarkSmartypants],
               },
-              sourceMap: true,
+            },
+          ],
+        },
+        {
+          // We use stringified Typescript in Node Playground.
+          // eslint-disable-next-line no-useless-escape
+          test: /players\/UserNodePlayer\/nodeTransformerWorker\/typescript\/.+\.ts$/,
+          exclude: /node_modules/,
+          use: { loader: "raw-loader" },
+        },
+        { test: /\.md$/, loader: "raw-loader" },
+        {
+          test: /\.svg$/,
+          loader: "react-svg-loader",
+          options: {
+            svgo: {
+              plugins: [{ removeViewBox: false }, { removeDimensions: false }],
             },
           },
-          { loader: "css-loader", options: { sourceMap: true } },
-        ],
-      },
-      { test: /\.scss$/, loader: "sass-loader", options: { sourceMap: true } },
-      { test: /\.woff2?$/, loader: "url-loader" },
-      { test: /\.(glb|bag|ttf|bin)$/, loader: "file-loader" },
-      {
-        test: /node_modules\/compressjs\/.*\.js/,
-        loader: "string-replace-loader",
-        options: {
-          search: "if (typeof define !== 'function') { var define = require('amdefine')(module); }",
-          replace:
-            "/* webviz: removed broken amdefine shim (https://github.com/webpack/webpack/issues/5316) */",
         },
-      },
-    ],
-  },
-  plugins: [
-    new HtmlWebpackPlugin({
-      templateContent: `
+        { test: /\.ne$/, loader: "nearley-loader" },
+        {
+          test: /\.(png|jpg|gif)$/i,
+          use: [{ loader: "url-loader", options: { limit: 8192 } }],
+        },
+        {
+          test: /\.s?css$/,
+          loader: "style-loader",
+        },
+        {
+          test: /\.s?css$/,
+          oneOf: [
+            {
+              test: /\.module\./,
+              loader: "css-loader",
+              options: {
+                modules: {
+                  localIdentName: "[path][name]-[sha512:hash:base32:5]--[local]",
+                },
+                sourceMap: true,
+              },
+            },
+            { loader: "css-loader", options: { sourceMap: true } },
+          ],
+        },
+        { test: /\.scss$/, loader: "sass-loader", options: { sourceMap: true } },
+        { test: /\.woff2?$/, loader: "url-loader" },
+        { test: /\.(glb|bag|ttf|bin)$/, loader: "file-loader" },
+        {
+          test: /node_modules\/compressjs\/.*\.js/,
+          loader: "string-replace-loader",
+          options: {
+            search:
+              "if (typeof define !== 'function') { var define = require('amdefine')(module); }",
+            replace:
+              "/* webviz: removed broken amdefine shim (https://github.com/webpack/webpack/issues/5316) */",
+          },
+        },
+      ],
+    },
+    plugins: [
+      new HtmlWebpackPlugin({
+        templateContent: `
           <html>
             <script>global = globalThis;</script>
             <body>
@@ -181,36 +191,37 @@ const config: Configuration = {
             </body>
           </html>
         `,
-    }),
-    new webpack.ProvidePlugin({
-      // since we avoid "import React from 'react'" we shim here when used globally
-      React: "react",
-      // the buffer module exposes the Buffer class as a property
-      Buffer: ["buffer", "Buffer"],
-      process: "process/browser",
-    }),
-    new ForkTsCheckerWebpackPlugin(),
-    new webpack.DefinePlugin({
-      RAVEN_URL: JSON.stringify(undefined),
-      GIT_INFO: JSON.stringify({ hash: "", dirty: false }),
-      CURRENT_VERSION: JSON.stringify(""),
-      MINIMUM_CHROME_VERSION: JSON.stringify(parseInt(process.env.MINIMUM_CHROME_VERSION ?? "68")),
-    }),
-    new CaseSensitivePathsPlugin(),
-    // https://webpack.js.org/plugins/ignore-plugin/#example-of-ignoring-moment-locales
-    new webpack.IgnorePlugin({
-      resourceRegExp: /^\.\/locale$/,
-      contextRegExp: /moment$/,
-    }),
-    new MonacoWebpackPlugin({
-      // available options: https://github.com/Microsoft/monaco-editor-webpack-plugin#options
-      languages: ["typescript", "javascript"],
-    }),
-  ],
-  node: {
-    __dirname: true,
-    __filename: true,
-  },
+      }),
+      new webpack.ProvidePlugin({
+        // since we avoid "import React from 'react'" we shim here when used globally
+        React: "react",
+        // the buffer module exposes the Buffer class as a property
+        Buffer: ["buffer", "Buffer"],
+        process: "process/browser",
+      }),
+      new webpack.DefinePlugin({
+        RAVEN_URL: JSON.stringify(undefined),
+        GIT_INFO: JSON.stringify({ hash: "", dirty: false }),
+        CURRENT_VERSION: JSON.stringify(""),
+        MINIMUM_CHROME_VERSION: JSON.stringify(
+          parseInt(process.env.MINIMUM_CHROME_VERSION ?? "68"),
+        ),
+      }),
+      new CaseSensitivePathsPlugin(),
+      // https://webpack.js.org/plugins/ignore-plugin/#example-of-ignoring-moment-locales
+      new webpack.IgnorePlugin({
+        resourceRegExp: /^\.\/locale$/,
+        contextRegExp: /moment$/,
+      }),
+      new MonacoWebpackPlugin({
+        // available options: https://github.com/Microsoft/monaco-editor-webpack-plugin#options
+        languages: ["typescript", "javascript"],
+      }),
+      ...plugins,
+    ],
+    node: {
+      __dirname: true,
+      __filename: true,
+    },
+  };
 };
-
-export default config;
