@@ -8,7 +8,6 @@ import { useEffect } from "react";
 
 // @ts-expect-error
 import OrderedStampPlayer from "@foxglove-studio/app/players/OrderedStampPlayer";
-// @ts-expect-error
 import { UserNodes } from "@foxglove-studio/app/types/panels";
 
 type Props = {
