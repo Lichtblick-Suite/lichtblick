@@ -1,4 +1,3 @@
-// @flow
 //
 //  Copyright (c) 2019-present, Cruise LLC
 //

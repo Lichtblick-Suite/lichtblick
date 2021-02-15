@@ -37,7 +37,6 @@ const defaultHooks = {
       if (importedPanelsByCategory && importedPerPanelHooks) {
         resolve();
       }
-      // @ts-expect-error: flow import has 'any' type
       import("./hooksImporter")
         .then((hooksImporter) => {
           importedPerPanelHooks = hooksImporter.perPanelHooks();

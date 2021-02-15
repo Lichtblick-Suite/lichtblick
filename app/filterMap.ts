@@ -1,4 +1,3 @@
-// @flow
 //
 //  Copyright (c) 2019-present, Cruise LLC
 //
@@ -7,8 +6,11 @@
 //  You may not use this file except in compliance with the License.
 
 // More efficient version of [...values].map(mapFn).filter(Boolean)
-export default function filterMap<T, U>(values: Iterable<T>, mapFn: (T, number) => ?U): U[] {
-  const results = [];
+export default function filterMap<T, U>(
+  values: Iterable<T>,
+  mapFn: (arg0: T, arg1: number) => U | null | undefined,
+): U[] {
+  const results: Array<U> = [];
   let index = 0;
   for (const item of values) {
     const mappedItem = mapFn(item, index++);

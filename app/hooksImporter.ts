@@ -1,5 +1,3 @@
-/* eslint-disable header/header */
-
 //  Copyright (c) 2018-present, Cruise LLC
 //
 //  This source code is licensed under the Apache License, Version 2.0,
@@ -8,15 +6,17 @@
 
 import memoize from "lodash/memoize";
 
-import { getGlobalHooks } from "./loadWebviz";
+import { getGlobalHooks } from "@foxglove-studio/app/loadWebviz";
+
+/* eslint-disable @typescript-eslint/no-var-requires */
 
 /*
 We've split this code out seperately from the rest of the hooks so that we can lazy load these components by
 lazily importing this file at runtime.
 */
-
 export function panelsByCategory() {
-  const DiagnosticStatusPanel = require("webviz-core/src/panels/diagnostics/DiagnosticStatusPanel").default;
+  const DiagnosticStatusPanel = require("webviz-core/src/panels/diagnostics/DiagnosticStatusPanel")
+    .default;
   const DiagnosticSummary = require("webviz-core/src/panels/diagnostics/DiagnosticSummary").default;
   const GlobalVariables = require("webviz-core/src/panels/GlobalVariables").default;
   const GlobalVariableSlider = require("webviz-core/src/panels/GlobalVariableSlider").default;
@@ -82,7 +82,9 @@ export function perPanelHooks() {
   const RobotIcon = require("@mdi/svg/svg/robot.svg").default;
   const CubeOutline = require("@mdi/svg/svg/cube-outline.svg").default;
   const LaserScanVert = require("webviz-core/src/panels/ThreeDimensionalViz/LaserScanVert").default;
-  const { defaultMapPalette } = require("webviz-core/src/panels/ThreeDimensionalViz/commands/utils");
+  const {
+    defaultMapPalette,
+  } = require("webviz-core/src/panels/ThreeDimensionalViz/commands/utils");
   const {
     GEOMETRY_MSGS_POLYGON_STAMPED_DATATYPE,
     NAV_MSGS_OCCUPANCY_GRID_DATATYPE,
@@ -132,7 +134,7 @@ export function perPanelHooks() {
         offset: [0, 0],
       },
       imageMarkerDatatypes: ["visualization_msgs/ImageMarker", "webviz_msgs/ImageMarkerArray"],
-      canTransformMarkersByTopic: (topic) => !topic.includes("rect"),
+      canTransformMarkersByTopic: (topic: string) => !topic.includes("rect"),
     },
     GlobalVariableSlider: {
       getVariableSpecificOutput: () => null,
@@ -177,7 +179,9 @@ export function perPanelHooks() {
         "text",
         "triangleList",
       ],
-      renderAdditionalMarkers: () => {},
+      renderAdditionalMarkers: () => {
+        // no-op
+      },
       topics: [],
       iconsByDatatype: {
         [VISUALIZATION_MSGS_MARKER_DATATYPE]: HexagonIcon,
@@ -194,18 +198,23 @@ export function perPanelHooks() {
       icons: {},
       AdditionalToolbarItems: () => null,
       LaserScanVert,
-      sceneBuilderHooks: require("webviz-core/src/panels/ThreeDimensionalViz/SceneBuilder/defaultHooks").default,
+      sceneBuilderHooks: require("webviz-core/src/panels/ThreeDimensionalViz/SceneBuilder/defaultHooks")
+        .default,
       getMapPalette() {
         return defaultMapPalette;
       },
-      consumePose: () => {},
+      consumePose: () => {
+        // no-op
+      },
       ungroupedNodesCategory: "Topics",
       rootTransformFrame: "map",
       defaultFollowTransformFrame: null,
       useWorldspacePointSize: () => true,
       createPointCloudPositionBuffer: () => null,
     },
-    RawMessages: { docLinkFunction: (filename) => `https://www.google.com/search?q=${filename}` },
+    RawMessages: {
+      docLinkFunction: (filename: string) => `https://www.google.com/search?q=${filename}`,
+    },
   };
 }
 
