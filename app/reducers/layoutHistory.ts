@@ -1,4 +1,3 @@
-// @flow
 //
 //  Copyright (c) 2018-present, Cruise LLC
 //
@@ -7,41 +6,46 @@
 //  You may not use this file except in compliance with the License.
 
 import { isEqual } from "lodash";
-import simpleDeepFreeze from "simple-deep-freeze";
 
-import type { ActionTypes } from "webviz-core/src/actions";
-import { panelEditingActions } from "webviz-core/src/actions/panels";
-import type { State } from "webviz-core/src/reducers";
-import { type PersistedState } from "webviz-core/src/reducers/index";
-import { type EditHistoryOptions } from "webviz-core/src/types/panels";
-import { pushState, redoChange, undoChange, type StateHistory } from "webviz-core/src/util/stateHistory";
+import { ActionTypes } from "@foxglove-studio/app/actions";
+import { panelEditingActions } from "@foxglove-studio/app/actions/panels";
+import { State } from "@foxglove-studio/app/reducers";
+import { PersistedState } from "@foxglove-studio/app/reducers/index";
+import { EditHistoryOptions } from "@foxglove-studio/app/types/panels";
+import {
+  pushState,
+  redoChange,
+  undoChange,
+  StateHistory,
+  // @ts-expect-error
+} from "@foxglove-studio/app/util/stateHistory";
 
 const LAYOUT_HISTORY_SIZE = 20;
 // Threshold is a guess, and could be refined if it seems we're saving too few or too many entries
 // in the undo/redo history.
 export const NEVER_PUSH_LAYOUT_THRESHOLD_MS = 1000; // Exported for tests
 
-type UndoRedoState = { persistedState: PersistedState, url: string };
-export type LayoutHistory = {|
-  redoStates: UndoRedoState[],
-  undoStates: UndoRedoState[],
+type UndoRedoState = { persistedState: PersistedState; url: string };
+export type LayoutHistory = {
+  redoStates: UndoRedoState[];
+  undoStates: UndoRedoState[];
   // We want to avoid pushing too many states onto the undo history when actions are quickly
   // dispatched -- either automatically, or as the result of quick user interactions like typing or
   // continuous scrolls/drags. While actions continue uninterrupted, do not create "save points".
-  lastTimestamp: number,
-|};
+  lastTimestamp: number;
+};
 
-export const initialLayoutHistoryState: LayoutHistory = simpleDeepFreeze({
+export const initialLayoutHistoryState: LayoutHistory = {
   undoStates: [],
   redoStates: [],
   lastTimestamp: 0,
-});
+};
 
 // Helper to encode the panels and layout history as a StateHistory object so we can do generic
 // push, undo and redo operations.
 const toStateHistory = (
   persistedState: PersistedState,
-  { redoStates, undoStates }: LayoutHistory
+  { redoStates, undoStates }: LayoutHistory,
 ): StateHistory<UndoRedoState> => {
   return {
     currentState: {
@@ -55,8 +59,8 @@ const toStateHistory = (
 
 // Helper to decode a generic StateHistory object into panels and layoutHistory to store in redux.
 const fromStateHistory = (
-  stateHistory: StateHistory<UndoRedoState>
-): {| undoRedoState: UndoRedoState, layoutHistory: LayoutHistory |} => {
+  stateHistory: StateHistory<UndoRedoState>,
+): { undoRedoState: UndoRedoState; layoutHistory: LayoutHistory } => {
   const { currentState, redoStates, undoStates } = stateHistory;
   return {
     undoRedoState: currentState,
@@ -68,34 +72,37 @@ const fromStateHistory = (
 
 const redoLayoutChange = (
   persistedState: PersistedState,
-  layoutHistory: LayoutHistory
-): {| undoRedoState: UndoRedoState, layoutHistory: LayoutHistory |} => {
+  layoutHistory: LayoutHistory,
+): { undoRedoState: UndoRedoState; layoutHistory: LayoutHistory } => {
   return fromStateHistory(redoChange(toStateHistory(persistedState, layoutHistory)));
 };
 
 const undoLayoutChange = (
   persistedState: PersistedState,
-  layoutHistory: LayoutHistory
-): {| undoRedoState: UndoRedoState, layoutHistory: LayoutHistory |} => {
+  layoutHistory: LayoutHistory,
+): { undoRedoState: UndoRedoState; layoutHistory: LayoutHistory } => {
   return fromStateHistory(undoChange(toStateHistory(persistedState, layoutHistory)));
 };
 
 const pushLayoutChange = (
-  oldPersistedState: ?PersistedState,
+  oldPersistedState: PersistedState | null | undefined,
   newPersistedState: PersistedState,
   layoutHistory: LayoutHistory,
-  action: any
+  action: any,
 ): LayoutHistory => {
   const time = Date.now();
-  const historyOptions: ?EditHistoryOptions = action.payload?.historyOptions;
-  if (historyOptions === "SUPPRESS_HISTORY_ENTRY" || isEqual(oldPersistedState, newPersistedState)) {
+  const historyOptions: EditHistoryOptions | null | undefined = action.payload?.historyOptions;
+  if (
+    historyOptions === "SUPPRESS_HISTORY_ENTRY" ||
+    isEqual(oldPersistedState, newPersistedState)
+  ) {
     return layoutHistory;
   }
   if (oldPersistedState && time - layoutHistory.lastTimestamp > NEVER_PUSH_LAYOUT_THRESHOLD_MS) {
     const { undoStates, redoStates } = pushState(
       toStateHistory(oldPersistedState, layoutHistory),
       { persistedState: newPersistedState, url: window.location.href },
-      LAYOUT_HISTORY_SIZE
+      LAYOUT_HISTORY_SIZE,
     );
     return { redoStates, undoStates, lastTimestamp: time };
   }
@@ -105,25 +112,41 @@ const pushLayoutChange = (
   return { ...layoutHistory, lastTimestamp: time };
 };
 
-export default function(state: State, action: ActionTypes, oldPersistedState?: ?PersistedState): State {
+export default function (
+  state: State,
+  action: ActionTypes,
+  oldPersistedState?: PersistedState | null | undefined,
+): State {
   switch (action.type) {
     case "UNDO_LAYOUT_CHANGE": {
-      const { undoRedoState, layoutHistory } = undoLayoutChange(state.persistedState, state.layoutHistory);
+      const { undoRedoState, layoutHistory } = undoLayoutChange(
+        state.persistedState,
+        state.layoutHistory,
+      );
       const { persistedState, url } = undoRedoState;
       history.replaceState(null, document.title, url);
       return { ...state, persistedState, layoutHistory };
     }
     case "REDO_LAYOUT_CHANGE": {
-      const { undoRedoState, layoutHistory } = redoLayoutChange(state.persistedState, state.layoutHistory);
+      const { undoRedoState, layoutHistory } = redoLayoutChange(
+        state.persistedState,
+        state.layoutHistory,
+      );
       const { persistedState, url } = undoRedoState;
       history.replaceState(null, document.title, url);
       return { ...state, persistedState, layoutHistory };
     }
     default:
       if (panelEditingActions.has(action.type)) {
-        const newLayoutHistory = pushLayoutChange(oldPersistedState, state.persistedState, state.layoutHistory, action);
+        const newLayoutHistory = pushLayoutChange(
+          oldPersistedState,
+          state.persistedState,
+          state.layoutHistory,
+          action,
+        );
         return { ...state, layoutHistory: newLayoutHistory };
       }
+
       return { ...state };
   }
 }

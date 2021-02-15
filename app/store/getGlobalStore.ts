@@ -9,7 +9,6 @@ import { createMemoryHistory } from "history";
 
 // @ts-expect-error
 import updateUrlAndLocalStorageMiddleware from "@foxglove-studio/app/middleware/updateUrlAndLocalStorage";
-// @ts-expect-error
 import createRootReducer from "@foxglove-studio/app/reducers";
 import configureStore from "@foxglove-studio/app/store";
 import configureTestingStore from "@foxglove-studio/app/store/configureStore.testing";
@@ -30,21 +29,22 @@ function getGlobalStore() {
   return store;
 }
 
-export function getGlobalStoreForTest(
-  args: { search?: string; testAuth?: any } | null | undefined,
-) {
+export function getGlobalStoreForTest(args?: { search?: string; testAuth?: any }) {
   const memoryHistory = createMemoryHistory();
   const testStore = configureTestingStore(
     createRootReducer(memoryHistory, { testAuth: args?.testAuth }),
     [routerMiddleware(memoryHistory), updateUrlAndLocalStorageMiddleware],
     memoryHistory,
   );
+
   // Attach a helper method to the test store.
-  // testStore.push = (path) => memoryHistory.push(path);
+  (testStore as any).push = (path: string) => memoryHistory.push(path);
+
   const search = args?.search;
   if (search) {
     testStore.dispatch(replace(`/${search}`));
   }
+
   return testStore;
 }
 export default getGlobalStore;

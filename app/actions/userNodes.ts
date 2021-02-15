@@ -1,4 +1,3 @@
-// @flow
 //
 //  Copyright (c) 2018-present, Cruise LLC
 //
@@ -6,26 +5,29 @@
 //  found in the LICENSE file in the root directory of this source tree.
 //  You may not use this file except in compliance with the License.
 
-import type { UserNodeDiagnostics, UserNodeLogs } from "webviz-core/src/players/UserNodePlayer/types";
+import {
+  UserNodeDiagnostics,
+  UserNodeLogs,
+} from "@foxglove-studio/app/players/UserNodePlayer/types";
 
 type SET_USER_NODE_DIAGNOSTICS = {
-  type: "SET_USER_NODE_DIAGNOSTICS",
-  payload: { diagnostics: UserNodeDiagnostics, skipSettingLocalStorage: true },
+  type: "SET_USER_NODE_DIAGNOSTICS";
+  payload: { diagnostics: UserNodeDiagnostics; skipSettingLocalStorage: true };
 };
 
 type ADD_USER_NODE_LOGS = {
-  type: "ADD_USER_NODE_LOGS",
-  payload: UserNodeLogs,
+  type: "ADD_USER_NODE_LOGS";
+  payload: UserNodeLogs;
 };
 
 type CLEAR_USER_NODE_LOGS = {
-  type: "CLEAR_USER_NODE_LOGS",
-  payload: string,
+  type: "CLEAR_USER_NODE_LOGS";
+  payload: string;
 };
 
 type SET_USER_NODE_ROS_LIB = {
-  type: "SET_USER_NODE_ROS_LIB",
-  payload: string,
+  type: "SET_USER_NODE_ROS_LIB";
+  payload: string;
 };
 
 export const setUserNodeDiagnostics = (diagnostics: UserNodeDiagnostics) => ({

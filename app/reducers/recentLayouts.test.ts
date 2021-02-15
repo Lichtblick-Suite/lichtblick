@@ -1,4 +1,3 @@
-// @flow
 //
 //  Copyright (c) 2018-present, Cruise LLC
 //
@@ -8,11 +7,13 @@
 
 import fetchMock from "fetch-mock";
 
+import delay from "@foxglove-studio/app/shared/delay";
+import { fetchLayout } from "@foxglove-studio/app/actions/panels";
+import { getGlobalStoreForTest } from "@foxglove-studio/app/store/getGlobalStore";
+// @ts-expect-error
+import Storage from "@foxglove-studio/app/util/Storage";
+
 import { maybeStoreNewRecentLayout, getRecentLayouts } from "./recentLayouts";
-import delay from "webviz-core/shared/delay";
-import { fetchLayout } from "webviz-core/src/actions/panels";
-import { getGlobalStoreForTest } from "webviz-core/src/store/getGlobalStore";
-import Storage from "webviz-core/src/util/Storage";
 
 const storage = new Storage();
 
@@ -57,7 +58,11 @@ describe("recentLayouts", () => {
     expect(getRecentLayouts()).toEqual(["loadedLayout"]);
     expect(storage.getItem("recentLayouts")).toEqual(["loadedLayout"]);
 
-    fetchMock.get("https://www.foo.com", { status: 200, body: { name: "loadedLayout2" } }, { overwriteRoutes: true });
+    fetchMock.get(
+      "https://www.foo.com",
+      { status: 200, body: { name: "loadedLayout2" } },
+      { overwriteRoutes: true },
+    );
     store.dispatch(fetchLayout("?layout-url=https://www.foo.com"));
 
     await delay(500);

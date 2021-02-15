@@ -23,7 +23,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:7.12.16, @babel/core@npm:^7.4.5":
+"@babel/core@npm:7.12.16, @babel/core@npm:^7.0.0, @babel/core@npm:^7.4.5":
   version: 7.12.16
   resolution: "@babel/core@npm:7.12.16"
   dependencies:
@@ -513,7 +513,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.1.2, @babel/runtime@npm:^7.10.1, @babel/runtime@npm:^7.11.1, @babel/runtime@npm:^7.11.2, @babel/runtime@npm:^7.12.1, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.3.1, @babel/runtime@npm:^7.4.2, @babel/runtime@npm:^7.7.2, @babel/runtime@npm:^7.8.7":
+"@babel/runtime@npm:^7.0.0, @babel/runtime@npm:^7.1.2, @babel/runtime@npm:^7.10.1, @babel/runtime@npm:^7.11.1, @babel/runtime@npm:^7.11.2, @babel/runtime@npm:^7.12.1, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.3.1, @babel/runtime@npm:^7.4.2, @babel/runtime@npm:^7.7.2, @babel/runtime@npm:^7.8.7":
   version: 7.12.13
   resolution: "@babel/runtime@npm:7.12.13"
   dependencies:
@@ -973,6 +973,7 @@ __metadata:
     compressjs: 1.0.3
     connected-react-router: 6.5.2
     enzyme: 3.11.0
+    fetch-mock: 9.11.0
     fuzzysort: 1.1.4
     gl-matrix: 2.8.1
     hammerjs: 2.0.8
@@ -1039,7 +1040,6 @@ __metadata:
     seedrandom: 2.4.4
     shallowequal: 1.1.0
     sharedworker-loader: 2.1.1
-    simple-deep-freeze: 0.0.2
     string-hash: 1.1.3
     styled-components: 5.2.1
     text-width: 1.2.0
@@ -4496,7 +4496,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"core-js@npm:^3.6.5":
+"core-js@npm:^3.0.0, core-js@npm:^3.6.5":
   version: 3.8.3
   resolution: "core-js@npm:3.8.3"
   checksum: 3c67d1732d505f6afaf836f18038dae8267e8c0e8e84e1c679bac67589e66d0807c24750c7d8b1118cc386c3d66a1d96f20d9cb0f6a879b19cfc04e9f073fe78
@@ -6470,6 +6470,29 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fetch-mock@npm:9.11.0":
+  version: 9.11.0
+  resolution: "fetch-mock@npm:9.11.0"
+  dependencies:
+    "@babel/core": ^7.0.0
+    "@babel/runtime": ^7.0.0
+    core-js: ^3.0.0
+    debug: ^4.1.1
+    glob-to-regexp: ^0.4.0
+    is-subset: ^0.1.1
+    lodash.isequal: ^4.5.0
+    path-to-regexp: ^2.2.1
+    querystring: ^0.2.0
+    whatwg-url: ^6.5.0
+  peerDependencies:
+    node-fetch: "*"
+  peerDependenciesMeta:
+    node-fetch:
+      optional: true
+  checksum: ba019727c6aeabd8c9109723c5747ff71fc96813c8d52312f239e3d0f6e90612e1ad520895c4919503d05adc79876384050d6b2f947ed16701aafcda441abad3
+  languageName: node
+  linkType: hard
+
 "figgy-pudding@npm:^3.5.1":
   version: 3.5.2
   resolution: "figgy-pudding@npm:3.5.2"
@@ -7206,7 +7229,7 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"glob-to-regexp@npm:^0.4.1":
+"glob-to-regexp@npm:^0.4.0, glob-to-regexp@npm:^0.4.1":
   version: 0.4.1
   resolution: "glob-to-regexp@npm:0.4.1"
   checksum: 6093c15d9f92d010998dd7cc7a5ba4e74eea83878d3f8c2616c6935dab9a79bf31ca7ddc214604b84a87c65b9e51481221e325be68f5fe6db8ed27dc76a5230f
@@ -9418,6 +9441,13 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+"lodash.sortby@npm:^4.7.0":
+  version: 4.7.0
+  resolution: "lodash.sortby@npm:4.7.0"
+  checksum: 43cde11276c66da7b3eda5e9f00dc6edc276d2bcf0a5969ffc62b612cd1c4baf2eff5e84cee11383005722c460a9ca0f521fad4fa1cd2dc1ef013ee4da2dfe63
+  languageName: node
+  linkType: hard
+
 "lodash.throttle@npm:^4.1.1":
   version: 4.1.1
   resolution: "lodash.throttle@npm:4.1.1"
@@ -11398,6 +11428,13 @@ fsevents@~2.3.1:
   dependencies:
     isarray: 0.0.1
   checksum: 4c0d9aaf3fc55db0b2d9aab379856acbf4e437f2252bbc2a178aec9f707c8457f8084ea6243a80e0b37c8c1c20d23e918cd43e772a7e71142a8ad67af699686b
+  languageName: node
+  linkType: hard
+
+"path-to-regexp@npm:^2.2.1":
+  version: 2.4.0
+  resolution: "path-to-regexp@npm:2.4.0"
+  checksum: 643c15bf32ce32ad4c0ea378f88a3400c0ab3f1178d2b77ffd2f2d3700637e9e15cf92eb3e94a1d75d701e52f9cc1f1a179c1f7477abb3b6089786d3f96787b0
   languageName: node
   linkType: hard
 
@@ -14062,13 +14099,6 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"simple-deep-freeze@npm:0.0.2":
-  version: 0.0.2
-  resolution: "simple-deep-freeze@npm:0.0.2"
-  checksum: 4386665f35d247f2d6c8a0134b92f2f049714bdb7026896ce1ae0a3a68e02e2714eac26f0236dfc571787779c349a5507f8cd9f367e623617a783267a5a0e17e
-  languageName: node
-  linkType: hard
-
 "simple-swizzle@npm:^0.2.2":
   version: 0.2.2
   resolution: "simple-swizzle@npm:0.2.2"
@@ -15191,6 +15221,15 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+"tr46@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "tr46@npm:1.0.1"
+  dependencies:
+    punycode: ^2.1.0
+  checksum: 66e2e4d6799d3c2fcc56ad6084e8ab7b3e744f138babc86100e5e2bfaf011231d00d229cfccfaf338da953b96c3ea9128d182274915c1516c5189ee75b7c0ad9
+  languageName: node
+  linkType: hard
+
 "trim-newlines@npm:^1.0.0":
   version: 1.0.0
   resolution: "trim-newlines@npm:1.0.0"
@@ -16085,6 +16124,13 @@ typescript@4.1.5:
   languageName: node
   linkType: hard
 
+"webidl-conversions@npm:^4.0.2":
+  version: 4.0.2
+  resolution: "webidl-conversions@npm:4.0.2"
+  checksum: 75c2ada4262cda41410ec898178f4f2a31419a905415a98a0bd1b93441ce4a2b942bae2d0ac6d637b749b9d3b309be5a49dbc3b06aae9d9e65280554268a2c94
+  languageName: node
+  linkType: hard
+
 "webpack-cli@npm:4.5.0":
   version: 4.5.0
   resolution: "webpack-cli@npm:4.5.0"
@@ -16340,6 +16386,17 @@ typescript@4.1.5:
   version: 3.5.0
   resolution: "whatwg-fetch@npm:3.5.0"
   checksum: dd41999927e87c4cd0af572fe9976dcb1529c00b89c2074b0d1c02baa03670ff7b7cc45ca5b475c02a4a5b274cc1def56a9be7870df7af5c0f9b7d4fb4588ae6
+  languageName: node
+  linkType: hard
+
+"whatwg-url@npm:^6.5.0":
+  version: 6.5.0
+  resolution: "whatwg-url@npm:6.5.0"
+  dependencies:
+    lodash.sortby: ^4.7.0
+    tr46: ^1.0.1
+    webidl-conversions: ^4.0.2
+  checksum: 454a06402d3ccec0057b8b2d00231153a38bb985749268903111166175e599254175461515b351cd3e6c7e1a9674c35adbcf708304cd38e6aae5b81c6ac9e095
   languageName: node
   linkType: hard
 

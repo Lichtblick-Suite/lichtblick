@@ -5,15 +5,12 @@
 //  found in the LICENSE file in the root directory of this source tree.
 //  You may not use this file except in compliance with the License.
 
-import { createStore, applyMiddleware } from "redux";
+import { createStore, applyMiddleware, Reducer } from "redux";
 import thunk from "redux-thunk";
 
 import { Store } from "@foxglove-studio/app/types/Store";
 
-const configureStore = (
-  reducer: (arg0: unknown, arg1: unknown) => unknown,
-  middleware: Array<any> = [],
-): Store => {
+const configureStore = (reducer: Reducer<any, any>, middleware: Array<any> = []): Store => {
   let enhancer = applyMiddleware(thunk, ...middleware);
   if (process.env.NODE_ENV !== "production") {
     const { composeWithDevTools } = require("redux-devtools-extension");

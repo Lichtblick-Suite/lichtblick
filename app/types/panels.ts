@@ -7,25 +7,22 @@
 import { GlobalVariables } from "@foxglove-studio/app/hooks/useGlobalVariables";
 // @ts-expect-error: flow import has 'any' type
 import { LinkedGlobalVariables } from "@foxglove-studio/app/panels/ThreeDimensionalViz/Interactions/useLinkedGlobalVariables";
-// @ts-expect-error: flow import has 'any' type
 import { PanelsState } from "@foxglove-studio/app/reducers/panels";
 // @ts-expect-error: flow import has 'any' type
 import { TimestampMethod } from "@foxglove-studio/app/util/time";
 
+import type {
+  MosaicNode as OrigMosaicNode,
+  MosaicPath,
+  MosaicBranch,
+  MosaicDirection,
+} from "react-mosaic-component";
+
 // Mosaic Types
-export type MosaicBranch = "first" | "second";
-export type MosaicPath = MosaicBranch[];
-export type MosaicKey = string;
-export type MosaicDirection = "row" | "column";
+export type MosaicKey = string | number;
 export type MosaicDropTargetPosition = "top" | "bottom" | "left" | "right";
-export type MosaicNode =
-  | {
-    direction: MosaicDirection;
-    first: MosaicNode;
-    second: MosaicNode;
-    splitPercentage?: number;
-  }
-  | MosaicKey;
+export type { MosaicPath, MosaicBranch, MosaicDirection };
+export type MosaicNode = OrigMosaicNode<string>;
 
 export type PanelConfig = {
   [key: string]: any;
@@ -55,7 +52,7 @@ export type ConfigsPayload = {
   defaultConfig?: PanelConfig;
 };
 export type ChangePanelLayoutPayload = {
-  layout: MosaicNode | null | undefined;
+  layout: MosaicNode | null;
   trimSavedProps?: boolean;
   historyOptions?: EditHistoryOptions;
 };

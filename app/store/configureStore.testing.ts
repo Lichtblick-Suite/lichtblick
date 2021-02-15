@@ -9,7 +9,6 @@ import { routerMiddleware, onLocationChanged, LOCATION_CHANGE } from "connected-
 import { createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 
-// @ts-expect-error
 import { State } from "@foxglove-studio/app/reducers";
 
 const configureStore = (

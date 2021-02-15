@@ -1,4 +1,3 @@
-// @flow
 //
 //  Copyright (c) 2018-present, Cruise LLC
 //
@@ -8,8 +7,8 @@
 import { uniq } from "lodash";
 import { getLeaves } from "react-mosaic-component";
 
-import type { ActionTypes } from "webviz-core/src/actions";
-import type { State } from "webviz-core/src/reducers";
+import { ActionTypes } from "@foxglove-studio/app/actions";
+import { State } from "@foxglove-studio/app/reducers";
 
 export default function mosaicReducer(state: State, action: ActionTypes): State {
   switch (action.type) {
@@ -20,7 +19,10 @@ export default function mosaicReducer(state: State, action: ActionTypes): State 
         ...state,
         mosaic: {
           ...state.mosaic,
-          selectedPanelIds: uniq<string>([...state.mosaic.selectedPanelIds, action.payload]),
+          selectedPanelIds: uniq<string | number>([
+            ...state.mosaic.selectedPanelIds,
+            action.payload,
+          ]),
         },
       };
     case "REMOVE_SELECTED_PANEL_ID":
@@ -34,7 +36,13 @@ export default function mosaicReducer(state: State, action: ActionTypes): State 
     case "SET_SELECTED_PANEL_IDS":
       return { ...state, mosaic: { ...state.mosaic, selectedPanelIds: action.payload } };
     case "SELECT_ALL_PANELS":
-      return { ...state, mosaic: { ...state.mosaic, selectedPanelIds: getLeaves(state.persistedState.panels.layout) } };
+      return {
+        ...state,
+        mosaic: {
+          ...state.mosaic,
+          selectedPanelIds: getLeaves(state.persistedState.panels.layout),
+        },
+      };
     default:
       return { ...state, mosaic: state.mosaic };
   }

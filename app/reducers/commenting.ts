@@ -1,4 +1,3 @@
-// @flow
 //
 //  Copyright (c) 2018-present, Cruise LLC
 //
@@ -6,10 +5,10 @@
 //  found in the LICENSE file in the root directory of this source tree.
 //  You may not use this file except in compliance with the License.
 
-import type { CommentingActions } from "webviz-core/src/actions/commenting";
-import type { State } from "webviz-core/src/reducers";
+import { CommentingActions } from "@foxglove-studio/app/actions/commenting";
+import { State } from "@foxglove-studio/app/reducers";
 
-export default function(state: State, action: CommentingActions): State {
+export default function (state: State, action: CommentingActions): State {
   switch (action.type) {
     case "SET_FETCHED_COMMENTS_BASE":
       return {

@@ -5,7 +5,6 @@
 //  found in the LICENSE file in the root directory of this source tree.
 //  You may not use this file except in compliance with the License.
 
-// @ts-expect-error: flow import has 'any' type
 import { PanelsState } from "@foxglove-studio/app/reducers/panels";
 import { MosaicNode } from "@foxglove-studio/app/types/panels";
 
