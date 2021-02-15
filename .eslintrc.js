@@ -1,13 +1,13 @@
 module.exports = {
-  "env": {
+  env: {
     "browser": true,
     "es6": true,
     "node": true
   },
-  "ignorePatterns": [
+  ignorePatterns: [
     "app/**/*.js" // ignore flow files for now
   ],
-  "extends": [
+  extends: [
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:@typescript-eslint/eslint-recommended",
@@ -16,18 +16,21 @@ module.exports = {
     "plugin:import/warnings",
     "plugin:import/typescript"
   ],
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
+  parser: "@typescript-eslint/parser",
+  parserOptions: {
     "ecmaFeatures": {
       "jsx": true
     },
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "plugins": [
+  plugins: [
     "react",
     "@typescript-eslint"
   ],
+  rules: {
+    "react/react-in-jsx-scope": "off",
+  },
   settings: {
     "import/ignore": ["\\.js$"], // ignore flow files for now
   },
