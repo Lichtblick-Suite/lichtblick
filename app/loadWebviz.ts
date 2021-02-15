@@ -10,7 +10,7 @@ export function getGlobalHooks() {
   return getGlobalConfig();
 }
 
-export function setHooks(hooksToSet: object) {
+export function setHooks(hooksToSet: Record<string, unknown>) {
   setGlobalConfig(hooksToSet);
 }
 

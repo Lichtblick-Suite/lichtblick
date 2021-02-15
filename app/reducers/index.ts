@@ -7,7 +7,7 @@
 import { connectRouter } from "connected-react-router";
 
 import { ActionTypes } from "@foxglove-studio/app/actions";
-// @ts-expect-error
+// @ts-expect-error: flow import has 'any' type
 import { ros_lib_dts } from "@foxglove-studio/app/players/UserNodePlayer/nodeTransformerWorker/typescript/ros";
 import commenting from "@foxglove-studio/app/reducers/commenting";
 import hoverValue from "@foxglove-studio/app/reducers/hoverValue";

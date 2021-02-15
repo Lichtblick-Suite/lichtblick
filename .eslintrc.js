@@ -29,9 +29,13 @@ module.exports = {
     "@typescript-eslint"
   ],
   rules: {
+    "@typescript-eslint/ban-ts-comment": "off", // TODO: remove once we fix all TS issues
     "react/react-in-jsx-scope": "off",
   },
   settings: {
     "import/ignore": ["\\.js$"], // ignore flow files for now
+    react: {
+      version: "detect",
+    },
   },
 };

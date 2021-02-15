@@ -13,6 +13,8 @@ import { Store } from "@foxglove-studio/app/types/Store";
 const configureStore = (reducer: Reducer<any, any>, middleware: Array<any> = []): Store => {
   let enhancer = applyMiddleware(thunk, ...middleware);
   if (process.env.NODE_ENV !== "production") {
+    // Unclear whether this require can be safely moved to an import
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const { composeWithDevTools } = require("redux-devtools-extension");
     enhancer = composeWithDevTools(enhancer);
   }

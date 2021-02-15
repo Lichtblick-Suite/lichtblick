@@ -6,6 +6,7 @@
 //  You may not use this file except in compliance with the License.
 
 // We put all the internal requires inside functions, so that when they load the hooks have been properly set.
+/* eslint-disable @typescript-eslint/no-var-requires */
 
 let importedPanelsByCategory: unknown;
 let importedPerPanelHooks: unknown;
@@ -132,7 +133,9 @@ const defaultHooks = {
   getWorkerDataProviderWorker: () => {
     return require("webviz-core/src/dataProviders/WorkerDataProvider.worker");
   },
-  getAdditionalDataProviders: () => { },
+  getAdditionalDataProviders: () => {
+    // do nothing
+  },
   experimentalFeaturesList() {
     return {
       diskBagCaching: {
@@ -176,7 +179,7 @@ export function getGlobalConfig() {
   return hooks;
 }
 
-export function setGlobalConfig(hooksToSet: object) {
+export function setGlobalConfig(hooksToSet: Record<string, unknown>) {
   hooks = { ...hooks, ...hooksToSet };
 }
 

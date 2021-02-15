@@ -11,7 +11,7 @@ import { changePanelLayout, savePanelConfigs } from "@foxglove-studio/app/action
 import { NEVER_PUSH_LAYOUT_THRESHOLD_MS } from "@foxglove-studio/app/reducers/layoutHistory";
 import { GLOBAL_STATE_STORAGE_KEY } from "@foxglove-studio/app/reducers/panels";
 import { getGlobalStoreForTest } from "@foxglove-studio/app/store/getGlobalStore";
-// @ts-expect-error
+// @ts-expect-error: flow import has 'any' type
 import Storage from "@foxglove-studio/app/util/Storage";
 import { State } from "@foxglove-studio/app/reducers";
 

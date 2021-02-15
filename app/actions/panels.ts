@@ -12,7 +12,7 @@ import { $Values } from "utility-types";
 import { create as JsonDiffCreate } from "jsondiffpatch";
 
 import { getGlobalHooks } from "@foxglove-studio/app/loadWebviz";
-// @ts-expect-error
+// @ts-expect-error: flow import has 'any' type
 import { LinkedGlobalVariables } from "@foxglove-studio/app/panels/ThreeDimensionalViz/Interactions/useLinkedGlobalVariables";
 import { Dispatcher } from "@foxglove-studio/app/reducers";
 import { PanelsState } from "@foxglove-studio/app/reducers/panels";
@@ -31,9 +31,9 @@ import {
   SetFetchedLayoutPayload,
 } from "@foxglove-studio/app/types/panels";
 import { LAYOUT_URL_QUERY_KEY, PATCH_QUERY_KEY } from "@foxglove-studio/app/util/globalConstants";
-// @ts-expect-error
+// @ts-expect-error: flow import has 'any' type
 import { dictForPatchCompression } from "@foxglove-studio/app/util/layout";
-// @ts-expect-error
+// @ts-expect-error: flow import has 'any' type
 import sendNotification from "@foxglove-studio/app/util/sendNotification";
 
 const jsondiffpatch = JsonDiffCreate({});
@@ -152,7 +152,7 @@ export function applyPatchToLayout(
     );
     const bufferToJS = CBOR.decode(buffer);
     const clonedLayout = cloneDeep(layout);
-    jsondiffpatch.patch(clonedLayout, bufferToJS as object);
+    jsondiffpatch.patch(clonedLayout, bufferToJS as Record<string, unknown>);
     return clonedLayout;
   } catch (e) {
     sendNotification(

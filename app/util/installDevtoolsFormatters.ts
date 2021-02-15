@@ -24,9 +24,9 @@ type DevtoolFormatterConfig = {
 };
 
 interface DevtoolFormatter {
-  header: (object: object, config: DevtoolFormatterConfig) => HtmlTemplate;
+  header: (object: Record<string, unknown>, config: DevtoolFormatterConfig) => HtmlTemplate;
   hasBody: (object: unknown) => boolean;
-  body?: (object: object) => HtmlTemplate;
+  body?: (object: Record<string, unknown>) => HtmlTemplate;
 }
 
 declare global {

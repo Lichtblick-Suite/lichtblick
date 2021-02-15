@@ -125,7 +125,7 @@ export type RegistrationOutput = {
 };
 
 export type ProcessMessageOutput = {
-  message: {} | null | undefined;
+  message: Record<string, unknown> | null | undefined;
   error: null | string;
   userNodeLogs: UserNodeLog[];
   userNodeDiagnostics: Diagnostic[];

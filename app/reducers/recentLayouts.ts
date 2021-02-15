@@ -8,7 +8,7 @@
 import { ActionTypes } from "@foxglove-studio/app/actions";
 import { panelEditingActions } from "@foxglove-studio/app/actions/panels";
 import { State, PersistedState } from "@foxglove-studio/app/reducers";
-// @ts-expect-error
+// @ts-expect-error: flow import has 'any' type
 import Storage from "@foxglove-studio/app/util/Storage";
 
 const storage = new Storage();

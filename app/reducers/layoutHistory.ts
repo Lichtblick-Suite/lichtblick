@@ -17,7 +17,7 @@ import {
   redoChange,
   undoChange,
   StateHistory,
-  // @ts-expect-error
+  // @ts-expect-error: flow import has 'any' type
 } from "@foxglove-studio/app/util/stateHistory";
 
 const LAYOUT_HISTORY_SIZE = 20;

@@ -25,6 +25,7 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-yarn-
     - run: yarn install --immutable
+    - run: yarn run lint
     - run: yarn run webpack --mode production
       env:
         # Our build is so large that it requires more memory from v8
