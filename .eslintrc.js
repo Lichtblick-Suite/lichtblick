@@ -13,7 +13,8 @@ module.exports = {
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:import/errors",
-    "plugin:import/warnings"
+    "plugin:import/warnings",
+    "plugin:import/typescript"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -26,5 +27,8 @@ module.exports = {
   "plugins": [
     "react",
     "@typescript-eslint"
-  ]
+  ],
+  settings: {
+    "import/ignore": ["\\.js$"], // ignore flow files for now
+  },
 };

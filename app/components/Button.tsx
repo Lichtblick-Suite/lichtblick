@@ -9,7 +9,7 @@ import cx from "classnames";
 import { LegacyRef } from "react";
 
 import BaseButton from "@foxglove-studio/app/components/ButtonBase";
-// @ts-expect-error
+// @ts-expect-error: flow import has 'any' type
 import Tooltip from "@foxglove-studio/app/components/Tooltip";
 import { colors } from "@foxglove-studio/app/util/sharedStyleConstants";
 

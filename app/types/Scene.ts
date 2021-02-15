@@ -24,7 +24,7 @@ import {
   InstancedLineListMarker,
   OverlayIconMarker,
 } from "@foxglove-studio/app/types/Messages";
-// @ts-expect-error
+// @ts-expect-error: flow import has 'any' type
 import Bounds from "@foxglove-studio/app/util/Bounds";
 
 export type Scene = {

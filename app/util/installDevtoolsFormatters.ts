@@ -14,7 +14,7 @@ import seedrandom from "seedrandom";
 //                   likely due to parsing errors on the underlying js module
 //                   use ts-expect-error so when we fix this we can remove this suppression
 import { deepParse, isBobject, isArrayView, bobjectFieldNames } from "./binaryObjects";
-// @ts-expect-error
+// @ts-expect-error: flow import has 'any' type
 import { isTime } from "./time";
 
 type HtmlTemplate = unknown;

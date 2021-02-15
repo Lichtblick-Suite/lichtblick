@@ -7,9 +7,9 @@
 
 import type { Action, Store as ReduxStore, Dispatch as ReduxDispatch } from "redux";
 
-// @ts-expect-error
+// @ts-expect-error: flow import has 'any' type
 import { ActionTypes } from "@foxglove-studio/app/actions";
-// @ts-expect-error
+// @ts-expect-error: flow import has 'any' type
 import { State } from "@foxglove-studio/app/reducers";
 
 export type Store = ReduxStore<State, Action<void>>;

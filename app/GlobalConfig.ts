@@ -36,7 +36,7 @@ const defaultHooks = {
       if (importedPanelsByCategory && importedPerPanelHooks) {
         resolve();
       }
-      // @ts-expect-error
+      // @ts-expect-error: flow import has 'any' type
       import("./hooksImporter")
         .then((hooksImporter) => {
           importedPerPanelHooks = hooksImporter.perPanelHooks();
@@ -132,7 +132,7 @@ const defaultHooks = {
   getWorkerDataProviderWorker: () => {
     return require("webviz-core/src/dataProviders/WorkerDataProvider.worker");
   },
-  getAdditionalDataProviders: () => {},
+  getAdditionalDataProviders: () => { },
   experimentalFeaturesList() {
     return {
       diskBagCaching: {

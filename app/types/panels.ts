@@ -5,11 +5,11 @@
 //  found in the LICENSE file in the root directory of this source tree.
 //  You may not use this file except in compliance with the License.
 import { GlobalVariables } from "@foxglove-studio/app/hooks/useGlobalVariables";
-// @ts-expect-error
+// @ts-expect-error: flow import has 'any' type
 import { LinkedGlobalVariables } from "@foxglove-studio/app/panels/ThreeDimensionalViz/Interactions/useLinkedGlobalVariables";
-// @ts-expect-error
+// @ts-expect-error: flow import has 'any' type
 import { PanelsState } from "@foxglove-studio/app/reducers/panels";
-// @ts-expect-error
+// @ts-expect-error: flow import has 'any' type
 import { TimestampMethod } from "@foxglove-studio/app/util/time";
 
 // Mosaic Types
@@ -20,11 +20,11 @@ export type MosaicDirection = "row" | "column";
 export type MosaicDropTargetPosition = "top" | "bottom" | "left" | "right";
 export type MosaicNode =
   | {
-      direction: MosaicDirection;
-      first: MosaicNode;
-      second: MosaicNode;
-      splitPercentage?: number;
-    }
+    direction: MosaicDirection;
+    first: MosaicNode;
+    second: MosaicNode;
+    splitPercentage?: number;
+  }
   | MosaicKey;
 
 export type PanelConfig = {

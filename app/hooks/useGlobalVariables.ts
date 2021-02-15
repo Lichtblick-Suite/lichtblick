@@ -9,9 +9,9 @@ import { useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 
-// @ts-expect-error
+// @ts-expect-error: flow import has 'any' type
 import { setGlobalVariables, overwriteGlobalVariables } from "@foxglove-studio/app/actions/panels";
-// @ts-expect-error
+// @ts-expect-error: flow import has 'any' type
 import { State } from "@foxglove-studio/app/reducers";
 
 export type GlobalVariables = {

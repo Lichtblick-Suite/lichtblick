@@ -8,7 +8,7 @@
 // All message types supported by Rviz
 // http://wiki.ros.org/rviz/DisplayTypes
 
-// @ts-expect-error
+// @ts-expect-error: flow import has 'any' type
 import { ArrayView } from "@foxglove-studio/app/util/binaryObjects";
 
 export type BinaryTime = Readonly<{
