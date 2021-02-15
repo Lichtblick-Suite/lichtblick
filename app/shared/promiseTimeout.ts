@@ -7,8 +7,8 @@
 
 function promiseTimeout<T>(
   promise: Promise<T>,
-  ms: number = 30000,
-  reason: string = "unknown reason",
+  ms = 30000,
+  reason = "unknown reason",
 ): Promise<T> {
   return Promise.race([
     promise,

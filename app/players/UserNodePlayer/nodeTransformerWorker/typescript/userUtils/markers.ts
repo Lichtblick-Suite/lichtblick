@@ -30,10 +30,10 @@ export class Marker implements IMarker {
     },
     seq: 0,
   };
-  ns: string = "";
-  id: number = 0;
-  type: number = 0;
-  action: number = 0;
+  ns = "";
+  id = 0;
+  type = 0;
+  action = 0;
   pose: Pose = {
     position: {
       x: 0,
@@ -54,12 +54,12 @@ export class Marker implements IMarker {
   };
   color: RGBA = { r: 0, g: 0, b: 0, a: 0 };
   lifetime: Time = { sec: 0, nsec: 0 };
-  frame_locked: boolean = false;
+  frame_locked = false;
   points: Point[] = [];
   colors: RGBA[] = [];
-  text: string = "";
-  mesh_resource: string = "";
-  mesh_use_embedded_materials: boolean = false;
+  text = "";
+  mesh_resource = "";
+  mesh_use_embedded_materials = false;
 
   constructor({
     header,

@@ -7,7 +7,7 @@ type vec3 = [number, number, number];
  */
 export function dot(vec1: number[], vec2: number[]) {
   let i;
-  let ret: number = 0.0;
+  let ret = 0.0;
   for (i = 0; i < vec1.length; ++i) {
     ret += vec1[i] * vec2[i];
   }
@@ -20,7 +20,7 @@ export function dot(vec1: number[], vec2: number[]) {
 export function cross(vec1: vec3, vec2: vec3) {
   const [ax, ay, az] = vec1;
   const [bx, by, bz] = vec2;
-  let ret = [ay * bz - az * by, az * bx - ax * bz, ax * by - ay * bx];
+  const ret = [ay * bz - az * by, az * bx - ax * bz, ax * by - ay * bx];
   return ret;
 }
 
@@ -66,7 +66,7 @@ export function scalarMultiply(vector: number[], scalar: number) {
  */
 export function vectorAddition(vectors: number[][]): number[] {
   let i;
-  let ret = vectors[0].slice();
+  const ret = vectors[0].slice();
   for (i = 1; i < vectors.length; ++i) {
     let j;
     for (j = 0; j < ret.length; ++j) {

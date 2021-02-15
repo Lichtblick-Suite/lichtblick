@@ -31,7 +31,7 @@ export const isNumber = (value: any): string | null | undefined =>
 export const isBoolean = (value: any): string | null | undefined =>
   !isEmpty(value) && typeof value !== "boolean" ? `must be "true" or "false"` : undefined;
 
-export const isNumberArray = (expectArrLen: number = 0) => (
+export const isNumberArray = (expectArrLen = 0) => (
   value: unknown,
 ): string | null | undefined => {
   if (Array.isArray(value)) {
@@ -63,7 +63,7 @@ export const isOrientation = (value: unknown): string | null | undefined => {
 export const isString = (value: any): string | null | undefined =>
   typeof value !== "string" ? "must be string" : undefined;
 
-export const minLen = (minLength: number = 0) => (value: any): string | null | undefined => {
+export const minLen = (minLength = 0) => (value: any): string | null | undefined => {
   if (Array.isArray(value)) {
     return value.length < minLength
       ? `must contain at least ${minLength} array ${minLength === 1 ? "item" : "items"}`
@@ -75,7 +75,7 @@ export const minLen = (minLength: number = 0) => (value: any): string | null | u
   }
 };
 
-export const maxLen = (maxLength: number = 0) => (value: any): string | null | undefined => {
+export const maxLen = (maxLength = 0) => (value: any): string | null | undefined => {
   if (Array.isArray(value)) {
     return value.length > maxLength ? `must contain at most ${maxLength} array items` : undefined;
   } else if (typeof value === "string") {
@@ -83,7 +83,7 @@ export const maxLen = (maxLength: number = 0) => (value: any): string | null | u
   }
 };
 
-export const hasLen = (len: number = 0) => (value: string | any[]): string | null | undefined => {
+export const hasLen = (len = 0) => (value: string | any[]): string | null | undefined => {
   if (Array.isArray(value)) {
     return value.length !== len
       ? `must contain exact ${len} array items (current item count: ${value.length})`
