@@ -29,6 +29,9 @@ export default (_: never, argv: { mode?: string }): Configuration => {
             loader: "ts-loader",
             options: {
               transpileOnly: isDev,
+              // https://github.com/TypeStrong/ts-loader#onlycompilebundledfiles
+              // avoid looking at files which are not part of the bundle
+              onlyCompileBundledFiles: true,
             },
           },
         },

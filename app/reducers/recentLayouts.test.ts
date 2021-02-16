@@ -10,7 +10,6 @@ import fetchMock from "fetch-mock";
 import delay from "@foxglove-studio/app/shared/delay";
 import { fetchLayout } from "@foxglove-studio/app/actions/panels";
 import { getGlobalStoreForTest } from "@foxglove-studio/app/store/getGlobalStore";
-// @ts-expect-error: flow import has 'any' type
 import Storage from "@foxglove-studio/app/util/Storage";
 
 import { maybeStoreNewRecentLayout, getRecentLayouts } from "./recentLayouts";

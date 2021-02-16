@@ -14,7 +14,7 @@ import Flex from "webviz-core/src/components/Flex";
 import { WrappedIcon } from "webviz-core/src/components/Icon";
 import { openLayoutModal } from "webviz-core/src/components/LayoutModal";
 import Menu, { Item } from "webviz-core/src/components/Menu";
-import { ClearBagCacheMenuItem } from "webviz-core/src/util/indexeddb/clearIndexedDb";
+import ClearBagCacheMenuItem from "webviz-core/src/components/ClearBagCacheMenuItem";
 
 export default function LayoutMenu() {
   const [isOpen, setIsOpen] = useState(false);

@@ -12,7 +12,6 @@ import updateUrlAndLocalStorageMiddleware from "@foxglove-studio/app/middleware/
 import createRootReducer from "@foxglove-studio/app/reducers";
 import configureStore from "@foxglove-studio/app/store";
 import configureTestingStore from "@foxglove-studio/app/store/configureStore.testing";
-// @ts-expect-error: flow import has 'any' type
 import history from "@foxglove-studio/app/util/history";
 import { Store } from "@foxglove-studio/app/types/Store";
 

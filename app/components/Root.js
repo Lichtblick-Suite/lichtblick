@@ -9,6 +9,7 @@ import cx from "classnames";
 import { ConnectedRouter } from "connected-react-router";
 import React, { useEffect, useRef } from "react";
 import { hot } from "react-hot-loader/root";
+import { setConfig } from "react-hot-loader";
 import { connect, Provider } from "react-redux";
 import { Route } from "react-router";
 
@@ -30,11 +31,16 @@ import Toolbar from "webviz-core/src/components/Toolbar";
 import withDragDropContext from "webviz-core/src/components/withDragDropContext";
 import type { State } from "webviz-core/src/reducers";
 import getGlobalStore from "webviz-core/src/store/getGlobalStore";
-import { setReactHotLoaderConfig } from "webviz-core/src/util/dev";
 import browserHistory from "webviz-core/src/util/history";
 import inAutomatedRunMode from "webviz-core/src/util/inAutomatedRunMode";
-// Only used in dev.
-setReactHotLoaderConfig();
+
+setConfig({
+  // react-hot-loader re-writes hooks with a wrapper function that is designed
+  // to be re-invoked on module updates. While good in some cases, reloading
+  // hooks in webviz causes havoc on our internal state since we depend on a
+  // hooks to initilialize playback.
+  reloadHooks: false,
+});
 
 const LOGO_SIZE = 24;
 

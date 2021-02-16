@@ -9,7 +9,7 @@
 // in our logs and want the logs to more fully reflect the error message.
 export default function overwriteFetch() {
   const originalFetch = global.fetch;
-  global.fetch = (url, init) => {
+  global.fetch = (url: RequestInfo, init?: RequestInit) => {
     // Use this replacement error instead of the original one, because this one will have the correct stack trace.
     const replacementError = new TypeError(
       `Failed to fetch: url: ${url} This likely means there was a CORS issue, which can happen when the server is down.`,

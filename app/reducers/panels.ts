@@ -1,3 +1,4 @@
+// @ts-nocheck
 //
 //  Copyright (c) 2018-present, Cruise LLC
 //
@@ -72,9 +73,7 @@ import {
   removePanelFromTabPanel,
   stringifyParams,
   updateDocumentTitle,
-  // @ts-expect-error: flow import has 'any' type
 } from "@foxglove-studio/app/util/layout";
-// @ts-expect-error: flow import has 'any' type
 import Storage from "@foxglove-studio/app/util/Storage";
 
 const storage = new Storage();
@@ -242,22 +241,22 @@ function savePanelConfigs(state: PanelsState, payload: SaveConfigsPayload): Pane
       return override
         ? { ...currentSavedProps, [id]: config }
         : {
-          ...currentSavedProps,
-          [id]: {
-            // merge new config with old one
-            // similar to how this.setState merges props
-            // When updating the panel state, we merge the new config (which may be just a part of config) with the old config and the default config every time.
-            // Previously this was done inside the component, but since the lifecycle of Redux is Action => Reducer => new state => Component,
-            // dispatching an update to the panel state is not instant and can take some time to propagate back to the component.
-            // If the existing panel config is the complete config1, and two actions were fired in quick succession the component with partial config2 and config3,
-            // the correct behavior is to merge config2 with config1 and dispatch that, and then merge config 3 with the combined config2 and config1.
-            // Instead we had stale state so we would merge config3 with config1 and overwrite any keys that exist in config2 but do not exist in config3.
-            // The solution is to do this merge inside the reducer itself, since the state inside the reducer is never stale (unlike the state inside the component).
-            ...defaultConfig,
-            ...currentSavedProps[id],
-            ...config,
-          },
-        };
+            ...currentSavedProps,
+            [id]: {
+              // merge new config with old one
+              // similar to how this.setState merges props
+              // When updating the panel state, we merge the new config (which may be just a part of config) with the old config and the default config every time.
+              // Previously this was done inside the component, but since the lifecycle of Redux is Action => Reducer => new state => Component,
+              // dispatching an update to the panel state is not instant and can take some time to propagate back to the component.
+              // If the existing panel config is the complete config1, and two actions were fired in quick succession the component with partial config2 and config3,
+              // the correct behavior is to merge config2 with config1 and dispatch that, and then merge config 3 with the combined config2 and config1.
+              // Instead we had stale state so we would merge config3 with config1 and overwrite any keys that exist in config2 but do not exist in config3.
+              // The solution is to do this merge inside the reducer itself, since the state inside the reducer is never stale (unlike the state inside the component).
+              ...defaultConfig,
+              ...currentSavedProps[id],
+              ...config,
+            },
+          };
     },
     state.savedProps,
   );
@@ -338,9 +337,12 @@ const splitPanel = (
     const relatedConfigs =
       type === TAB_PANEL_TYPE
         ? getPanelIdsInsideTabPanels([id], savedProps).reduce(
-          (res: Record<string, unknown>, panelId: MosaicKey) => ({ ...res, [panelId]: savedProps[panelId] }),
-          {},
-        )
+            (res: Record<string, unknown>, panelId: MosaicKey) => ({
+              ...res,
+              [panelId]: savedProps[panelId],
+            }),
+            {},
+          )
         : null;
     newPanelsState = savePanelConfigs(
       newPanelsState,
@@ -541,9 +543,9 @@ const dropPanel = (
   const newLayout = tabId
     ? panelsState.layout
     : updateTree<string>(
-      panelsState.layout!,
-      createAddUpdates(panelsState.layout, id, destinationPath, position),
-    );
+        panelsState.layout!,
+        createAddUpdates(panelsState.layout, id, destinationPath, position),
+      );
 
   // 'relatedConfigs' are used in Tab panel presets, so that the panels'
   // respective configs will be saved globally.

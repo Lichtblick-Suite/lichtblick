@@ -8,7 +8,6 @@ import { GlobalVariables } from "@foxglove-studio/app/hooks/useGlobalVariables";
 // @ts-expect-error: flow import has 'any' type
 import { LinkedGlobalVariables } from "@foxglove-studio/app/panels/ThreeDimensionalViz/Interactions/useLinkedGlobalVariables";
 import { PanelsState } from "@foxglove-studio/app/reducers/panels";
-// @ts-expect-error: flow import has 'any' type
 import { TimestampMethod } from "@foxglove-studio/app/util/time";
 
 import type {

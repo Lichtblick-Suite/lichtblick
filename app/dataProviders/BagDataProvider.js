@@ -41,9 +41,7 @@ const log = new Logger(__filename);
 function reportMalformedError(operation: string, error: Error): void {
   sendNotification(
     `Error during ${operation}`,
-    `An error was encountered during ${operation}. This usually happens if the bag is somehow malformed.\n\n${
-      error.stack
-    }`,
+    `An error was encountered during ${operation}. This usually happens if the bag is somehow malformed.\n\n${error.stack}`,
     "user",
     "error"
   );
@@ -146,7 +144,7 @@ export default class BagDataProvider implements DataProvider {
     const { startTime, endTime, chunkInfos } = this._bag;
     const connections: Connection[] = [];
     const emptyConnections: any[] = [];
-    for (const connection of objectValues(this._bag.connections)) {
+    for (const [_, connection] of this._bag.connections) {
       const { messageDefinition, md5sum, topic, type } = connection;
       if (messageDefinition && md5sum && topic && type) {
         connections.push({ messageDefinition, md5sum, topic, type });
@@ -180,9 +178,7 @@ export default class BagDataProvider implements DataProvider {
     if (chunksOverlapCount > chunkInfos.length * 0.25) {
       sendNotification(
         "Bag is unsorted, which is slow",
-        `This bag has many overlapping chunks (${chunksOverlapCount} out of ${
-          chunkInfos.length
-        }), which means that we have to decompress many chunks in order to load a particular time range. This is slow. Ideally, fix this where you're generating your bags, by sorting the messages by receive time, e.g. using a script like this: https://gist.github.com/janpaul123/deaa92338d5e8309ef7aa7a55d625152`,
+        `This bag has many overlapping chunks (${chunksOverlapCount} out of ${chunkInfos.length}), which means that we have to decompress many chunks in order to load a particular time range. This is slow. Ideally, fix this where you're generating your bags, by sorting the messages by receive time, e.g. using a script like this: https://gist.github.com/janpaul123/deaa92338d5e8309ef7aa7a55d625152`,
         "user",
         "warn"
       );

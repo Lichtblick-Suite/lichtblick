@@ -955,14 +955,19 @@ __metadata:
     "@mdi/svg": 5.7.55
     "@sentry/browser": 6.1.0
     "@sentry/types": 6.1.0
+    "@types/chart.js": 2.9.30
+    "@types/chartjs-plugin-annotation": 0.5.1
     "@types/classnames": 2.2.11
     "@types/css-font-loading-module": 0.0.4
     "@types/enzyme": 3.10.8
     "@types/history": 4.7.8
+    "@types/js-yaml": 4.0.0
+    "@types/moment-duration-format": 2.2.2
     "@types/react": 17.0.2
     "@types/react-dom": 17.0.1
     "@types/react-redux": 7.1.16
     "@types/seedrandom": 2.4.28
+    "@types/shallowequal": 1.1.1
     "@types/styled-components": 5.1.7
     "@types/tinycolor2": 1.4.2
     cbor-js: 0.1.0
@@ -984,6 +989,7 @@ __metadata:
     int53: 1.0.0
     inter-ui: 3.0.0
     intervals-fn: 3.0.3
+    js-yaml: 4.0.0
     jsondiffpatch: 0.4.1
     lodash: 4.17.20
     memoize-weak: 1.0.2
@@ -1034,7 +1040,7 @@ __metadata:
     redux-thunk: 2.3.0
     regl-worldview: 0.16.0
     reselect: 4.0.0
-    rosbag: 2.6.3
+    rosbag: "github:foxglove/rosbag.js#06f41a828659b16340e9c19ca68b2acf950b1b83"
     roslib: 1.1.0
     sanitize-html: 1.20.0
     seedrandom: 2.4.4
@@ -1356,6 +1362,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/chart.js@npm:*, @types/chart.js@npm:2.9.30":
+  version: 2.9.30
+  resolution: "@types/chart.js@npm:2.9.30"
+  dependencies:
+    moment: ^2.10.2
+  checksum: a129e7333091db162bfc481b3e79bd1859258768aad5f82cbe0ba89d4bbe6afcc28964350a8a5186b45a391a4d12bf3544f9435c4d01d91660ec76fe9bc4bee8
+  languageName: node
+  linkType: hard
+
+"@types/chartjs-plugin-annotation@npm:0.5.1":
+  version: 0.5.1
+  resolution: "@types/chartjs-plugin-annotation@npm:0.5.1"
+  dependencies:
+    "@types/chart.js": "*"
+    moment: ^2.10.2
+  checksum: 63dcaff8dec6cc0141638628f47fb203b0b462760fec9d863bb2246f20050643fb32e9f1a0b6a0c88b586ac55ce2339c353068dfbe775b34f7ddcf5019859794
+  languageName: node
+  linkType: hard
+
 "@types/cheerio@npm:*":
   version: 0.22.24
   resolution: "@types/cheerio@npm:0.22.24"
@@ -1563,6 +1588,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/js-yaml@npm:4.0.0":
+  version: 4.0.0
+  resolution: "@types/js-yaml@npm:4.0.0"
+  checksum: 7a4431db3069988c5fa7fd00be45f18f6e355ab227b3ba23c993eeb949ee6ee39bf7180663b94f5a2378bece277ec4c49f26a27189edc263da7eeb6cd4a09d27
+  languageName: node
+  linkType: hard
+
 "@types/json-schema@npm:*, @types/json-schema@npm:^7.0.3, @types/json-schema@npm:^7.0.4, @types/json-schema@npm:^7.0.5, @types/json-schema@npm:^7.0.6":
   version: 7.0.7
   resolution: "@types/json-schema@npm:7.0.7"
@@ -1622,6 +1654,15 @@ __metadata:
   version: 3.0.3
   resolution: "@types/minimatch@npm:3.0.3"
   checksum: 672ccdac197e8176eed1a9441d0caf8a29a90eb139b1cefdd4c9e71b1c48f5c749f5d101a2d85da15c6259214ebda95072835021407d60330a731a2672964b82
+  languageName: node
+  linkType: hard
+
+"@types/moment-duration-format@npm:2.2.2":
+  version: 2.2.2
+  resolution: "@types/moment-duration-format@npm:2.2.2"
+  dependencies:
+    moment: ">=2.14.0"
+  checksum: 1784d37fb57753b1a6fc23ea6a207ec39fb2e55c29a49985e33c863080fb5eff78a4190ed86ea500e23cb0c93d385ed594cbf35c793a014d879bc02eb2651b36
   languageName: node
   linkType: hard
 
@@ -1771,6 +1812,13 @@ __metadata:
     "@types/mime": ^1
     "@types/node": "*"
   checksum: f261127514057b5c038d76259128d7b765dd92bfeaf769d05b8ddf5f254d066ce6142a935e2fc707bb3009d6544a979591852f0d135d0ed4d0c56db08738df6b
+  languageName: node
+  linkType: hard
+
+"@types/shallowequal@npm:1.1.1":
+  version: 1.1.1
+  resolution: "@types/shallowequal@npm:1.1.1"
+  checksum: 19a4448f32091d9e8e76faf4a5da3a0161d9ec9b6b763b141820201f28c058b0c5f479c8bc81b72e3e2fd252cabce44c90bd0167aaba5287a4675bba340678a5
   languageName: node
   linkType: hard
 
@@ -2669,6 +2717,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"argparse@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "argparse@npm:2.0.1"
+  checksum: 160b7a25d2a7097fd5fdf25eb8a99e037340078f70e6c7cfdef305837ed14d54570b2b13261bcae26c8cd44ad6e9a7136a0110d815ac65a7891c69c7bf2f4afd
+  languageName: node
+  linkType: hard
+
 "arr-diff@npm:^4.0.0":
   version: 4.0.0
   resolution: "arr-diff@npm:4.0.0"
@@ -3475,13 +3530,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"buffer@npm:5.2.1":
-  version: 5.2.1
-  resolution: "buffer@npm:5.2.1"
+"buffer@npm:6.0.3":
+  version: 6.0.3
+  resolution: "buffer@npm:6.0.3"
   dependencies:
-    base64-js: ^1.0.2
-    ieee754: ^1.1.4
-  checksum: 4f6a14d7b4752ac99145dc24063e43d8207fca021d0d15cf016e4a64dee63bc4cdf8ce0b9576c13ffb6bf205dba1015720cfc6b17da72dbedc7c4d567090556e
+    base64-js: ^1.3.1
+    ieee754: ^1.2.1
+  checksum: a8cf6a58571dc7c43b24ab821ad4c72222d9040775f49fd143a30fad45f33ec0a8e0d572ca80d589ad4f8b4715aa012c029dc2b925dc95467f135c2d13d7abfb
   languageName: node
   linkType: hard
 
@@ -8067,7 +8122,7 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"ieee754@npm:^1.1.13, ieee754@npm:^1.1.4":
+"ieee754@npm:^1.1.13, ieee754@npm:^1.1.4, ieee754@npm:^1.2.1":
   version: 1.2.1
   resolution: "ieee754@npm:1.2.1"
   checksum: 6c1cfab995ecab3b0dbb6cfb7e192686eb02f0f8e788f2d962e1fc02e2d5ab38a85e06d417221f136bd029663a77cdb920d99605d68d3730a05597dd7910426a
@@ -8981,6 +9036,17 @@ fsevents@~2.3.1:
   version: 4.0.0
   resolution: "js-tokens@npm:4.0.0"
   checksum: 1fc4e4667ac2d972aba65148b9cbf9c17566b2394d3504238d8492bbd3e68f496c657eab06b26b40b17db5cac0a34d153a12130e2d2d2bb6dc2cdc8a4764eb1b
+  languageName: node
+  linkType: hard
+
+"js-yaml@npm:4.0.0":
+  version: 4.0.0
+  resolution: "js-yaml@npm:4.0.0"
+  dependencies:
+    argparse: ^2.0.1
+  bin:
+    js-yaml: bin/js-yaml.js
+  checksum: ee9b16cdbba690ec70f46d61737b28b35e26e6d51606c466de7fa876d3517de0cfdffd2e1ef21263d5ca3b32659d2e4c65255f50d6e236f022305bce72242d46
   languageName: node
   linkType: hard
 
@@ -10100,7 +10166,7 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"moment@npm:>= 2.9.0, moment@npm:^2.10.2":
+"moment@npm:>= 2.9.0, moment@npm:>=2.14.0, moment@npm:^2.10.2":
   version: 2.29.1
   resolution: "moment@npm:2.29.1"
   checksum: 86729013febf7160de5b93da69273dd304d674b0224f9544b3abd09a87671ddd2cdd57598261ce57588910d63747ffd5590965e83c790d8bf327083c0e0a06e0
@@ -13585,14 +13651,14 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"rosbag@npm:2.6.3":
+"rosbag@github:foxglove/rosbag.js#06f41a828659b16340e9c19ca68b2acf950b1b83":
   version: 2.6.3
-  resolution: "rosbag@npm:2.6.3"
+  resolution: "rosbag@https://github.com/foxglove/rosbag.js.git#commit=06f41a828659b16340e9c19ca68b2acf950b1b83"
   dependencies:
-    buffer: 5.2.1
+    buffer: 6.0.3
     heap: 0.2.6
     int53: 1.0.0
-  checksum: 7062b9ed00d64732ec9779e32781218d79cb013e951e374fc90c9737e74d814a4e6b073aaca4f113734bd7f210da7047187ca2bdb30e6bfe5c0ef6a841c82055
+  checksum: a185ebab88e2632efafea7a106b229d262f983d5d107175e5dc0ecd105977417d072e2aac5dd0c83bd7531369c6026852b7a499938fd351df6938cc574ae3f58
   languageName: node
   linkType: hard
 

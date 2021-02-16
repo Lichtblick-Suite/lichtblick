@@ -22,7 +22,7 @@ export type SaveLayoutPayload = {
   isAutosaved?: boolean;
 };
 
-export type TabConfig = { title: string; layout: MosaicNode | null | undefined };
+export type TabConfig = { title: string; layout: MosaicNode | null };
 
 export type TabPanelConfig = {
   activeTabIdx: number;

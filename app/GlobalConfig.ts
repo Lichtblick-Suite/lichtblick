@@ -5,6 +5,8 @@
 //  found in the LICENSE file in the root directory of this source tree.
 //  You may not use this file except in compliance with the License.
 
+import { PersistedState } from "@foxglove-studio/app/reducers";
+
 // We put all the internal requires inside functions, so that when they load the hooks have been properly set.
 /* eslint-disable @typescript-eslint/no-var-requires */
 
@@ -55,7 +57,7 @@ const defaultHooks = {
     /* eslint-disable no-restricted-modules */
     const { CURRENT_LAYOUT_VERSION } = require("webviz-core/migrations/constants");
     // All panel fields have to be present.
-    return {
+    const state: PersistedState = {
       fetchedLayout: { isLoading: false, data: undefined },
       search: "",
       panels: {
@@ -78,6 +80,7 @@ const defaultHooks = {
         version: CURRENT_LAYOUT_VERSION,
       },
     };
+    return state;
   },
   migratePanels(panels: unknown) {
     const migratePanels = require("webviz-core/migrations").default;

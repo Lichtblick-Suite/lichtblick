@@ -8,7 +8,6 @@ import CBOR from "cbor-js";
 import { cloneDeep } from "lodash";
 import { MosaicPath } from "react-mosaic-component";
 import zlib from "zlib";
-import { $Values } from "utility-types";
 import { create as JsonDiffCreate } from "jsondiffpatch";
 
 import { getGlobalHooks } from "@foxglove-studio/app/loadWebviz";
@@ -31,9 +30,7 @@ import {
   SetFetchedLayoutPayload,
 } from "@foxglove-studio/app/types/panels";
 import { LAYOUT_URL_QUERY_KEY, PATCH_QUERY_KEY } from "@foxglove-studio/app/util/globalConstants";
-// @ts-expect-error: flow import has 'any' type
 import { dictForPatchCompression } from "@foxglove-studio/app/util/layout";
-// @ts-expect-error: flow import has 'any' type
 import sendNotification from "@foxglove-studio/app/util/sendNotification";
 
 const jsondiffpatch = JsonDiffCreate({});
