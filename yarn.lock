@@ -963,6 +963,7 @@ __metadata:
     "@types/history": 4.7.8
     "@types/js-yaml": 4.0.0
     "@types/moment-duration-format": 2.2.2
+    "@types/promise.allsettled": 1.0.3
     "@types/react": 17.0.2
     "@types/react-dom": 17.0.1
     "@types/react-redux": 7.1.16
@@ -970,6 +971,7 @@ __metadata:
     "@types/shallowequal": 1.1.1
     "@types/styled-components": 5.1.7
     "@types/tinycolor2": 1.4.2
+    "@types/uuid": 3.4.6
     cbor-js: 0.1.0
     chart.js: "davidswinegar/Chart.js#0785c29a4c57b3e1b4243f8163df7950a00b2a80"
     chartjs-plugin-annotation: 0.5.7
@@ -1694,6 +1696,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/promise.allsettled@npm:1.0.3":
+  version: 1.0.3
+  resolution: "@types/promise.allsettled@npm:1.0.3"
+  checksum: df97f00baed578c34690b6130c6edfdb4d40109905ce29c2797929b02e4f62209ab30ab269a2f4fd98421f2b4b7d9456e347e24b884c7e1d1ad62a229d54f38c
+  languageName: node
+  linkType: hard
+
 "@types/prop-types@npm:*, @types/prop-types@npm:^15.7.3":
   version: 15.7.3
   resolution: "@types/prop-types@npm:15.7.3"
@@ -1867,6 +1876,15 @@ __metadata:
   version: 2.0.3
   resolution: "@types/unist@npm:2.0.3"
   checksum: 42e0dc4ac75a27c4bb91a3f8e82edfd8819cacb6edda08bdfb436700ea01a587faa30017fde744b0a0b33825f5e37686398c1eb5b664cabc3a72a6b3757f85a5
+  languageName: node
+  linkType: hard
+
+"@types/uuid@npm:3.4.6":
+  version: 3.4.6
+  resolution: "@types/uuid@npm:3.4.6"
+  dependencies:
+    "@types/node": "*"
+  checksum: 2bffff522ccff94ac3ab8b040b70a1371a3ad8614afdaae3e056a5335b5f430bdaf9a6eb99910825e813e52dda85b648ae1957b21b47831059c8f3333c996d75
   languageName: node
   linkType: hard
 

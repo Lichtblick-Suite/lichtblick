@@ -73,19 +73,6 @@ export default (_: never, argv: { mode?: string }): Configuration => {
           use: "node-loader",
         },
         {
-          test: /\.tsx?$/,
-          exclude: /(node_modules|players\/UserNodePlayer\/nodeTransformerWorker\/typescript\/)/,
-          use: {
-            loader: "ts-loader",
-            options: {
-              transpileOnly: isDev,
-              // https://github.com/TypeStrong/ts-loader#onlycompilebundledfiles
-              // avoid looking at files which are not part of the bundle
-              onlyCompileBundledFiles: true,
-            },
-          },
-        },
-        {
           test: /\.wasm$/,
           type: "asset/resource",
         },
@@ -98,6 +85,19 @@ export default (_: never, argv: { mode?: string }): Configuration => {
               filename: "[name].js?[hash]",
               /* action item to remove this and move workers to esmodule style */
               esModule: false,
+            },
+          },
+        },
+        {
+          test: /\.tsx?$/,
+          exclude: /(node_modules|players\/UserNodePlayer\/nodeTransformerWorker\/typescript\/)/,
+          use: {
+            loader: "ts-loader",
+            options: {
+              transpileOnly: isDev,
+              // https://github.com/TypeStrong/ts-loader#onlycompilebundledfiles
+              // avoid looking at files which are not part of the bundle
+              onlyCompileBundledFiles: true,
             },
           },
         },

@@ -132,9 +132,6 @@ const defaultHooks = {
     const { initializeLogEvent } = require("webviz-core/src/util/logEvent");
     initializeLogEvent(() => undefined, {}, {});
   },
-  getWorkerDataProviderWorker: () => {
-    return require("webviz-core/src/dataProviders/WorkerDataProvider.worker");
-  },
   getAdditionalDataProviders: () => {
     // do nothing
   },

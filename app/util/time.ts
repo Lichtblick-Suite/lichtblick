@@ -8,7 +8,6 @@
 // No time functions that require `moment` should live in this file.
 import { Time, TimeUtil } from "rosbag";
 
-// @ts-expect-error flow import has 'any' type
 import { MIN_MEM_CACHE_BLOCK_SIZE_NS } from "@foxglove-studio/app/dataProviders/MemoryCacheDataProvider";
 // @ts-expect-error flow import has 'any' type
 import { cast, Bobject, Message } from "@foxglove-studio/app/players/types";
