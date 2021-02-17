@@ -5,7 +5,7 @@
 //  found in the LICENSE file in the root directory of this source tree.
 //  You may not use this file except in compliance with the License.
 
-import { PersistedState } from "@foxglove-studio/app/reducers";
+import { PersistedState, Store } from "@foxglove-studio/app/reducers";
 
 // We put all the internal requires inside functions, so that when they load the hooks have been properly set.
 /* eslint-disable @typescript-eslint/no-var-requires */
@@ -161,7 +161,7 @@ const defaultHooks = {
     const { REMOTE_BAG_URL_2_QUERY_KEY } = require("webviz-core/src/util/globalConstants");
     return [REMOTE_BAG_URL_2_QUERY_KEY];
   },
-  updateUrlToTrackLayoutChanges: async () => {
+  updateUrlToTrackLayoutChanges: async (opt: { store: Store; skipPatch: boolean }) => {
     // Persist the layout state in URL or remote storage if needed.
     await Promise.resolve();
   },

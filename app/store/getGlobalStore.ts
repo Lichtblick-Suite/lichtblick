@@ -7,7 +7,6 @@
 import { routerMiddleware, replace } from "connected-react-router";
 import { createMemoryHistory } from "history";
 
-// @ts-expect-error: flow import has 'any' type
 import updateUrlAndLocalStorageMiddleware from "@foxglove-studio/app/middleware/updateUrlAndLocalStorage";
 import createRootReducer from "@foxglove-studio/app/reducers";
 import configureStore from "@foxglove-studio/app/store";

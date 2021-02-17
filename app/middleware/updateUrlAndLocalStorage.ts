@@ -1,4 +1,3 @@
-// @flow
 //
 //  Copyright (c) 2020-present, Cruise LLC
 //
@@ -6,15 +5,15 @@
 //  found in the LICENSE file in the root directory of this source tree.
 //  You may not use this file except in compliance with the License.
 
-import { PANELS_ACTION_TYPES } from "webviz-core/src/actions/panels";
-import { getGlobalHooks } from "webviz-core/src/loadWebviz";
-import type { Store } from "webviz-core/src/reducers";
-import { setPersistedStateInLocalStorage } from "webviz-core/src/reducers/panels";
-import { getShouldProcessPatch } from "webviz-core/src/util/layout";
+import { PANELS_ACTION_TYPES } from "@foxglove-studio/app/actions/panels";
+import { getGlobalHooks } from "@foxglove-studio/app/loadWebviz";
+import { Store } from "@foxglove-studio/app/reducers";
+import { setPersistedStateInLocalStorage } from "@foxglove-studio/app/reducers/panels";
+import { getShouldProcessPatch } from "@foxglove-studio/app/util/layout";
 
-type Action = { type: string, payload: any };
+type Action = { type: string; payload: any };
 
-let updateUrlTimer;
+let updateUrlTimer: ReturnType<typeof setTimeout> | undefined;
 
 function maybeSetPersistedStateInLocalStorage(store: Store, skipSettingLocalStorage: boolean) {
   if (skipSettingLocalStorage) {
@@ -28,6 +27,7 @@ function maybeSetPersistedStateInLocalStorage(store: Store, skipSettingLocalStor
   };
   setPersistedStateInLocalStorage(persistedState);
 }
+
 const {
   LOAD_LAYOUT,
   IMPORT_PANEL_LAYOUT,
@@ -50,34 +50,36 @@ const {
   END_DRAG,
 } = PANELS_ACTION_TYPES;
 
-const updateUrlAndLocalStorageMiddlewareDebounced = (store: Store) => (next: (Action) => any) => (action: Action) => {
+const updateUrlActions = [
+  LOAD_LAYOUT,
+  IMPORT_PANEL_LAYOUT,
+  CHANGE_PANEL_LAYOUT,
+  SAVE_PANEL_CONFIGS,
+  SAVE_FULL_PANEL_CONFIG,
+  CREATE_TAB_PANEL,
+  OVERWRITE_GLOBAL_DATA,
+  SET_GLOBAL_DATA,
+  SET_USER_NODES,
+  SET_LINKED_GLOBAL_VARIABLES,
+  SET_PLAYBACK_CONFIG,
+  CLOSE_PANEL,
+  SPLIT_PANEL,
+  SWAP_PANEL,
+  MOVE_TAB,
+  ADD_PANEL,
+  DROP_PANEL,
+  START_DRAG,
+  END_DRAG,
+].map((item) => item.toString());
+
+const updateUrlAndLocalStorageMiddlewareDebounced = (store: Store) => (
+  next: (arg0: Action) => any,
+) => (action: Action) => {
   const result = next(action); // eslint-disable-line callback-return
   // Any action that changes panels state should potentially trigger a URL update.
   const skipSettingLocalStorage = !!action.payload?.skipSettingLocalStorage;
 
-  if (
-    [
-      LOAD_LAYOUT,
-      IMPORT_PANEL_LAYOUT,
-      CHANGE_PANEL_LAYOUT,
-      SAVE_PANEL_CONFIGS,
-      SAVE_FULL_PANEL_CONFIG,
-      CREATE_TAB_PANEL,
-      OVERWRITE_GLOBAL_DATA,
-      SET_GLOBAL_DATA,
-      SET_USER_NODES,
-      SET_LINKED_GLOBAL_VARIABLES,
-      SET_PLAYBACK_CONFIG,
-      CLOSE_PANEL,
-      SPLIT_PANEL,
-      SWAP_PANEL,
-      MOVE_TAB,
-      ADD_PANEL,
-      DROP_PANEL,
-      START_DRAG,
-      END_DRAG,
-    ].includes(action.type)
-  ) {
+  if (updateUrlActions.includes(action.type)) {
     if (updateUrlTimer) {
       clearTimeout(updateUrlTimer);
     }
