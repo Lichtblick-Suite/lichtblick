@@ -21,7 +21,6 @@ import {
   GetMessagesResult,
   GetMessagesTopics,
 } from "@foxglove-studio/app/dataProviders/types";
-// @ts-expect-error flow imports have any type
 import { Progress } from "@foxglove-studio/app/players/types";
 import Database from "@foxglove-studio/app/util/indexeddb/Database";
 import { Range, deepIntersect, isRangeCoveredByRanges } from "@foxglove-studio/app/util/ranges";

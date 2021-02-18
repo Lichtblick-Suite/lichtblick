@@ -11,6 +11,7 @@ import createGetDataProvider from "@foxglove-studio/app/dataProviders/createGetD
 import MemoryCacheDataProvider from "@foxglove-studio/app/dataProviders/MemoryCacheDataProvider";
 import ParseMessagesDataProvider from "@foxglove-studio/app/dataProviders/ParseMessagesDataProvider";
 import RewriteBinaryDataProvider from "@foxglove-studio/app/dataProviders/RewriteBinaryDataProvider";
+import { NotifyPlayerManagerReplyData } from "@foxglove-studio/app/players/types";
 
 function getProvider() {
   return new ParseMessagesDataProvider(
@@ -47,8 +48,9 @@ const dummyExtensionPoint = {
   reportMetadataCallback() {
     // no-op
   },
-  notifyPlayerManager: async () => {
+  notifyPlayerManager: async (): Promise<NotifyPlayerManagerReplyData | null | undefined> => {
     // no-op
+    return;
   },
 };
 

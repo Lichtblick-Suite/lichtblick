@@ -11,8 +11,7 @@ import BagDataProvider from "@foxglove-studio/app/dataProviders/BagDataProvider"
 import ParsedMessageCache, {
   CACHE_SIZE_BYTES,
 } from "@foxglove-studio/app/dataProviders/ParsedMessageCache";
-// @ts-expect-error flow imports have any type
-import { cast } from "@foxglove-studio/app/players/types";
+import { cast, NotifyPlayerManagerReplyData } from "@foxglove-studio/app/players/types";
 import { BinaryHeader } from "@foxglove-studio/app/types/BinaryMessages";
 import { getObject, wrapJsObject } from "@foxglove-studio/app/util/binaryObjects";
 import { definitions } from "@foxglove-studio/app/util/binaryObjects/messageDefinitionUtils.test";
@@ -28,8 +27,9 @@ describe("parsedMessageCache", () => {
       reportMetadataCallback: () => {
         // no-op
       },
-      notifyPlayerManager: async () => {
+      notifyPlayerManager: async (): Promise<NotifyPlayerManagerReplyData | null | undefined> => {
         // no-op
+        return;
       },
     });
     if (messageDefinitions.type !== "raw") {
@@ -140,7 +140,7 @@ describe("parsedMessageCache", () => {
 
     const messageReadersByTopic = { "/some_topic": new MessageReader(parseMessageDefinition("")) };
     const cache = new ParsedMessageCache();
-    const [parsedMessage] = cache.parseMessages([wrappedMessage], messageReadersByTopic);
+    const [parsedMessage] = cache.parseMessages([wrappedMessage as any], messageReadersByTopic);
     expect(parsedMessage).toEqual({
       topic: "/some_topic",
       receiveTime: { sec: 105, nsec: 0 },

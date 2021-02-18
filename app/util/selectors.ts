@@ -10,7 +10,6 @@ import microMemoize from "micro-memoize";
 import { createSelectorCreator, defaultMemoize, createSelector } from "reselect";
 import shallowequal from "shallowequal";
 
-// @ts-expect-error flow import has 'any' type
 import { Topic } from "@foxglove-studio/app/players/types";
 import { RosDatatypes } from "@foxglove-studio/app/types/RosDatatypes";
 import { SECOND_SOURCE_PREFIX } from "@foxglove-studio/app/util/globalConstants";

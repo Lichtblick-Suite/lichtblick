@@ -7,7 +7,6 @@
 
 import int53 from "int53";
 
-// @ts-expect-error: flow import has 'any' type
 import { cast, Bobject } from "@foxglove-studio/app/players/types";
 import { RosDatatypes } from "@foxglove-studio/app/types/RosDatatypes";
 import { ArrayView, getArrayView } from "@foxglove-studio/app/util/binaryObjects/ArrayViews";

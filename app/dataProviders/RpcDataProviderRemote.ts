@@ -10,7 +10,6 @@ import {
   DataProviderDescriptor,
   DataProviderMetadata,
 } from "@foxglove-studio/app/dataProviders/types";
-// @ts-expect-error flow imports have any type
 import { NotifyPlayerManagerData } from "@foxglove-studio/app/players/types";
 import Rpc from "@foxglove-studio/app/util/Rpc";
 import { setupWorker } from "@foxglove-studio/app/util/RpcWorkerUtils";

@@ -8,7 +8,6 @@
 import Bag, { parseMessageDefinition } from "rosbag";
 
 import { Connection } from "@foxglove-studio/app/dataProviders/types";
-// @ts-expect-error flow import has 'any' type
 import { Topic } from "@foxglove-studio/app/players/types";
 import { RosDatatypes } from "@foxglove-studio/app/types/RosDatatypes";
 import { objectValues } from "@foxglove-studio/app/util";

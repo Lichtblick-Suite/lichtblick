@@ -35,9 +35,7 @@ import {
 } from "@foxglove-studio/app/reducers/panels";
 import { getGlobalStoreForTest } from "@foxglove-studio/app/store/getGlobalStore";
 import { TAB_PANEL_TYPE } from "@foxglove-studio/app/util/globalConstants";
-// @ts-expect-error: flow import has 'any' type
 import { getPanelTypeFromId } from "@foxglove-studio/app/util/layout";
-// @ts-expect-error: flow import has 'any' type
 import Storage from "@foxglove-studio/app/util/Storage";
 import { State } from "@foxglove-studio/app/reducers";
 

@@ -193,13 +193,14 @@ describe("RenameDataProvider", () => {
         const calls = mockProgressCallback.mock.calls;
         expect(calls.length).toBe(3); // once on init, once per call.
         const cache1 = calls[1][0].messageCache;
-        const blocks1 = cache1.blocks;
+        const blocks1 = cache1?.blocks;
         const cache2 = calls[2][0].messageCache;
-        const blocks2 = cache2.blocks;
+        const blocks2 = cache2?.blocks;
         expect(cache1).not.toBe(cache2);
         expect(cache1).toEqual(cache2);
         expect(blocks1).not.toBe(blocks2);
-        expect(blocks1[0]).toBe(blocks2[0]);
+        expect(blocks.length).toBe(1);
+        expect(blocks1).toBe(blocks2);
       });
 
       it("can preserve cache identity across successive calls", async () => {

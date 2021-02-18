@@ -24,7 +24,6 @@ import {
   MessageDefinitions,
 } from "@foxglove-studio/app/dataProviders/types";
 import filterMap from "@foxglove-studio/app/filterMap";
-// @ts-expect-error flow imports have any type
 import { Message, Progress, Topic } from "@foxglove-studio/app/players/types";
 
 export default class RenameDataProvider implements DataProvider {

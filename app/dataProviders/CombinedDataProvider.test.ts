@@ -21,7 +21,6 @@ import CombinedDataProvider, {
 import MemoryDataProvider from "@foxglove-studio/app/dataProviders/MemoryDataProvider";
 import { mockExtensionPoint } from "@foxglove-studio/app/dataProviders/mockExtensionPoint";
 import RenameDataProvider from "@foxglove-studio/app/dataProviders/RenameDataProvider";
-// @ts-expect-error flow imports have any type
 import { Bobject, BobjectMessage } from "@foxglove-studio/app/players/types";
 import { wrapJsObject } from "@foxglove-studio/app/util/binaryObjects";
 import { SECOND_SOURCE_PREFIX } from "@foxglove-studio/app/util/globalConstants";
@@ -525,8 +524,8 @@ describe("CombinedDataProvider", () => {
       const p1 = new MemoryDataProvider({
         messages: {
           parsedMessages: [
-            { topic: "/some_topic", receiveTime: { sec: 100, nsec: 0 }, message: undefined },
-            { topic: "/some_topic", receiveTime: { sec: 130, nsec: 0 }, message: undefined },
+            { topic: "/some_topic", receiveTime: { sec: 100, nsec: 0 }, message: undefined as any },
+            { topic: "/some_topic", receiveTime: { sec: 130, nsec: 0 }, message: undefined as any },
           ],
           bobjects: undefined,
           rosBinaryMessages: undefined,
@@ -539,8 +538,16 @@ describe("CombinedDataProvider", () => {
       const p2 = new MemoryDataProvider({
         messages: {
           parsedMessages: [
-            { topic: "/some_topic2", receiveTime: { sec: 170, nsec: 0 }, message: undefined },
-            { topic: "/some_topic2", receiveTime: { sec: 200, nsec: 0 }, message: undefined },
+            {
+              topic: "/some_topic2",
+              receiveTime: { sec: 170, nsec: 0 },
+              message: undefined as any,
+            },
+            {
+              topic: "/some_topic2",
+              receiveTime: { sec: 200, nsec: 0 },
+              message: undefined as any,
+            },
           ],
           bobjects: undefined,
           rosBinaryMessages: undefined,

@@ -18,7 +18,6 @@ import delay from "@foxglove-studio/app/shared/delay";
 import { CoreDataProviders } from "@foxglove-studio/app/dataProviders/constants";
 import MemoryDataProvider from "@foxglove-studio/app/dataProviders/MemoryDataProvider";
 import { mockExtensionPoint } from "@foxglove-studio/app/dataProviders/mockExtensionPoint";
-// @ts-expect-error flow imports have any type
 import { Bobject, BobjectMessage, Message } from "@foxglove-studio/app/players/types";
 import { getObject } from "@foxglove-studio/app/util/binaryObjects";
 import naturalSort from "@foxglove-studio/app/util/naturalSort";

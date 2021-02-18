@@ -13,6 +13,7 @@ import BagDataProvider, {
   TimedDataThroughput,
 } from "@foxglove-studio/app/dataProviders/BagDataProvider";
 import sendNotification from "@foxglove-studio/app/util/sendNotification";
+import { NotifyPlayerManagerReplyData } from "@foxglove-studio/app/players/types";
 
 const dummyExtensionPoint = {
   progressCallback() {
@@ -21,8 +22,9 @@ const dummyExtensionPoint = {
   reportMetadataCallback() {
     // no-op
   },
-  notifyPlayerManager: async () => {
+  notifyPlayerManager: async (): Promise<NotifyPlayerManagerReplyData | null | undefined> => {
     // no-op
+    return;
   },
 };
 

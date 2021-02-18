@@ -7,7 +7,6 @@
 
 import { Time } from "rosbag";
 
-// @ts-expect-error: flow import has 'any' type
 import { Message } from "@foxglove-studio/app/players/types";
 import { RosDatatypes } from "@foxglove-studio/app/types/RosDatatypes";
 import {

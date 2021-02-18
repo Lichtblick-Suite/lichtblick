@@ -13,8 +13,8 @@ function getProvider(isRoot: boolean = false) {
   const memoryDataProvider = new MemoryDataProvider({
     messages: {
       parsedMessages: [
-        { topic: "/some_topic", receiveTime: { sec: 100, nsec: 0 }, message: 0 },
-        { topic: "/some_topic", receiveTime: { sec: 105, nsec: 0 }, message: 1 },
+        { topic: "/some_topic", receiveTime: { sec: 100, nsec: 0 }, message: 0 as any },
+        { topic: "/some_topic", receiveTime: { sec: 105, nsec: 0 }, message: 1 as any },
       ],
       bobjects: undefined,
       rosBinaryMessages: undefined,

@@ -6,7 +6,6 @@
 //  You may not use this file except in compliance with the License.
 
 import signal from "@foxglove-studio/app/shared/signal";
-// @ts-expect-error flow imports have 'any' type
 import { cast } from "@foxglove-studio/app/players/types";
 import { deepParse, getObject, wrapJsObject } from "@foxglove-studio/app/util/binaryObjects";
 import {

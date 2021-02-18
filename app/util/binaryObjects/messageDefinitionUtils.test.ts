@@ -6,7 +6,6 @@
 //  You may not use this file except in compliance with the License.
 
 import { addTimeTypes, friendlyTypeName, typeSize } from "./messageDefinitionUtils";
-// @ts-expect-error flow import has 'any' type
 import { RosValue } from "@foxglove-studio/app/players/types";
 import { BinaryHeader } from "@foxglove-studio/app/types/BinaryMessages";
 import { RosDatatypes } from "@foxglove-studio/app/types/RosDatatypes";

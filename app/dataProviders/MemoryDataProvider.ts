@@ -21,7 +21,6 @@ import {
   Topic,
   MessageDefinitionsByTopic,
   ParsedMessageDefinitionsByTopic,
-  // @ts-expect-error flow imports have any type
 } from "@foxglove-studio/app/players/types";
 import { RosDatatypes } from "@foxglove-studio/app/types/RosDatatypes";
 
@@ -118,9 +117,14 @@ export default class MemoryDataProvider implements DataProvider {
       };
     }
 
+    const lastReceiveTime = last(sortedMessages)?.receiveTime;
+    if (!lastReceiveTime) {
+      throw new Error("MemoryDataProvider invariant: no sorted messages");
+    }
+
     return {
       start: sortedMessages[0].receiveTime,
-      end: last(sortedMessages).receiveTime,
+      end: lastReceiveTime,
       topics: this.topics || [],
       messageDefinitions,
       providesParsedMessages: this.providesParsedMessages,

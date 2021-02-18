@@ -11,7 +11,6 @@ import { TimeUtil } from "rosbag";
 import MemoryDataProvider from "@foxglove-studio/app/dataProviders/MemoryDataProvider";
 import { mockExtensionPoint } from "@foxglove-studio/app/dataProviders/mockExtensionPoint";
 import RewriteBinaryDataProvider from "@foxglove-studio/app/dataProviders/RewriteBinaryDataProvider";
-// @ts-expect-error flow imports have any type
 import { Message, TypedMessage } from "@foxglove-studio/app/players/types";
 import { isBobject } from "@foxglove-studio/app/util/binaryObjects";
 import naturalSort from "@foxglove-studio/app/util/naturalSort";

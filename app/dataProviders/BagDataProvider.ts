@@ -22,7 +22,6 @@ import {
   AverageThroughput,
 } from "@foxglove-studio/app/dataProviders/types";
 import { getReportMetadataForChunk } from "@foxglove-studio/app/dataProviders/util";
-// @ts-expect-error flow import has any type
 import { Message } from "@foxglove-studio/app/players/types";
 import { bagConnectionsToTopics } from "@foxglove-studio/app/util/bagConnectionsHelper";
 import { getBagChunksOverlapCount } from "@foxglove-studio/app/util/bags";
@@ -198,7 +197,7 @@ export default class BagDataProvider implements DataProvider {
       );
     }
 
-    const messageDefinitionsByTopic: Record<string, unknown> = {};
+    const messageDefinitionsByTopic: Record<string, string> = {};
     const messageDefinitionMd5SumByTopic: Record<string, string> = {};
     for (const connection of connections) {
       messageDefinitionsByTopic[connection.topic] = connection.messageDefinition;
@@ -258,7 +257,7 @@ export default class BagDataProvider implements DataProvider {
     let numberOfMessages = 0;
     const messages: Message[] = [];
     const onMessage = (msg: Message) => {
-      const { data, topic, timestamp } = msg;
+      const { data, topic, timestamp } = msg as any;
       messages.push({
         topic,
         receiveTime: timestamp,
@@ -292,7 +291,7 @@ export default class BagDataProvider implements DataProvider {
       },
     };
     try {
-      await this._bag?.readMessages(options, onMessage);
+      await this._bag?.readMessages(options, onMessage as any);
     } catch (error) {
       reportMalformedError("bag parsing", error);
       throw error;

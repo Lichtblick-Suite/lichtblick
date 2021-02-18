@@ -10,7 +10,6 @@ import IdbCacheWriterDataProvider from "./IdbCacheWriterDataProvider";
 import { CoreDataProviders } from "@foxglove-studio/app/dataProviders/constants";
 import MemoryDataProvider from "@foxglove-studio/app/dataProviders/MemoryDataProvider";
 import { mockExtensionPoint } from "@foxglove-studio/app/dataProviders/mockExtensionPoint";
-// @ts-expect-error flow imports have any type
 import { TypedMessage } from "@foxglove-studio/app/players/types";
 import { getDatabasesInTests } from "@foxglove-studio/app/util/indexeddb/getDatabasesInTests";
 

@@ -6,7 +6,6 @@
 //  You may not use this file except in compliance with the License.
 import { useEffect } from "react";
 
-// @ts-expect-error: flow import has 'any' type
 import OrderedStampPlayer from "@foxglove-studio/app/players/OrderedStampPlayer";
 import { UserNodes } from "@foxglove-studio/app/types/panels";
 

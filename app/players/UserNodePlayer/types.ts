@@ -7,9 +7,11 @@
 import { $Values } from "utility-types";
 
 import { GlobalVariables } from "@foxglove-studio/app/hooks/useGlobalVariables";
-// @ts-ignore
 import { Topic, Message } from "@foxglove-studio/app/players/types";
 import { RosDatatypes } from "@foxglove-studio/app/types/RosDatatypes";
+
+// make sure to use import type to avoid bringing in the actual implementations to the bundle
+import type { SourceFile, TypeChecker } from "typescript";
 
 export const DiagnosticSeverity = {
   Hint: 1,
@@ -88,8 +90,8 @@ export type NodeData = {
   datatypes: RosDatatypes;
   // Should be ts.SourceFile and ts.TypeChecker. Not strongly typing here since we want to keep
   // Typescript out of the main bundle.
-  sourceFile: any | null | undefined;
-  typeChecker: any | null | undefined;
+  sourceFile: SourceFile | null | undefined;
+  typeChecker: TypeChecker | null | undefined;
   rosLib: string;
   // An array of globalVariable names
   globalVariables: ReadonlyArray<string>;

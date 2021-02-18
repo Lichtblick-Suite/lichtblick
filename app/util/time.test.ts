@@ -6,7 +6,6 @@
 //  You may not use this file except in compliance with the License.
 
 import * as time from "./time";
-// @ts-expect-error flow import has 'any' type
 import { cast } from "@foxglove-studio/app/players/types";
 import { BinaryTime } from "@foxglove-studio/app/types/BinaryMessages";
 import { deepParse, wrapJsObject } from "@foxglove-studio/app/util/binaryObjects";

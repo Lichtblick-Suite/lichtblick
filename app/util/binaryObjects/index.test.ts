@@ -30,7 +30,6 @@ import {
   HasJson,
   HasInt64s,
 } from "./messageDefinitionUtils.test";
-// @ts-expect-error flow import has 'any' type
 import { cast } from "@foxglove-studio/app/players/types";
 import { BinaryHeader, BinaryTime } from "@foxglove-studio/app/types/BinaryMessages";
 

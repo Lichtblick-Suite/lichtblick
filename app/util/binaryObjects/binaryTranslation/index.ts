@@ -11,7 +11,6 @@ import { sumBy, maxBy } from "lodash";
 import ModuleFactory from "./bin/translator";
 // @ts-expect-error
 import ModuleWasm from "./bin/translator.wasm";
-// @ts-expect-error flow imports have any type
 import { Message } from "@foxglove-studio/app/players/types";
 import { RosDatatype, RosDatatypes } from "@foxglove-studio/app/types/RosDatatypes";
 
@@ -157,7 +156,7 @@ export default class BinaryMessageWriter {
     // Translate messages
     const offsets = messages.map((m) => {
       const { topic } = m;
-      const data: ArrayBuffer = m.message;
+      const data: ArrayBuffer = m.message as any;
       const dataLength = data.byteLength;
 
       const view = new Uint8Array(data);

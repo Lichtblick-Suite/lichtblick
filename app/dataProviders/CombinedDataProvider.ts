@@ -26,12 +26,12 @@ import {
   MessageDefinitions,
   ParsedMessageDefinitions,
 } from "@foxglove-studio/app/dataProviders/types";
-// @ts-expect-error flow imports have any type
 import { Message, Progress, Topic } from "@foxglove-studio/app/players/types";
 import { objectValues } from "@foxglove-studio/app/util";
 import { deepIntersect } from "@foxglove-studio/app/util/ranges";
 import sendNotification from "@foxglove-studio/app/util/sendNotification";
 import { clampTime } from "@foxglove-studio/app/util/time";
+import filterMap from "@foxglove-studio/app/filterMap";
 
 const sortTimes = (times: Time[]) => times.sort(TimeUtil.compare);
 const emptyGetMessagesResult = {
@@ -205,7 +205,7 @@ function intersectProgress(progresses: Progress[]): Progress {
 
   return {
     fullyLoadedFractionRanges: deepIntersect(
-      progresses.map((p) => p.fullyLoadedFractionRanges).filter(Boolean),
+      filterMap(progresses, (p) => p.fullyLoadedFractionRanges),
     ),
     ...(messageCache != null ? { messageCache } : undefined),
   };

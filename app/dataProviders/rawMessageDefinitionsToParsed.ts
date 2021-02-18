@@ -8,7 +8,6 @@
 import { fromPairs, uniq } from "lodash";
 
 import { MessageDefinitions, ParsedMessageDefinitions } from "./types";
-// @ts-expect-error flow imports have any type
 import { Topic, ParsedMessageDefinitionsByTopic } from "@foxglove-studio/app/players/types";
 import { RosDatatypes } from "@foxglove-studio/app/types/RosDatatypes";
 import parseMessageDefinitionsCache from "@foxglove-studio/app/util/parseMessageDefinitionsCache";
@@ -27,7 +26,6 @@ function parsedMessageDefinitionsToDatatypes(
   topLevelDatatypeNames.forEach((datatypeName) => {
     const topicName = topicNameByDatatypeName[datatypeName];
     const parsedMessageDefinition = parsedMessageDefinitionsByTopic[topicName];
-    // @ts-expect-error when we have types for ParsedMessageDefinitionsByTopic this will resolve
     parsedMessageDefinition.forEach(({ name, definitions }, index) => {
       // The first definition usually doesn't have an explicit name,
       // so we get the name from the datatype.

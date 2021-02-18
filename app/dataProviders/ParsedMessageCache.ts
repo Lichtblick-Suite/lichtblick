@@ -9,7 +9,6 @@ import { sortBy } from "lodash";
 import { MessageReader } from "rosbag";
 
 import filterMap from "@foxglove-studio/app/filterMap";
-// @ts-expect-error flow imports have any type
 import { Message } from "@foxglove-studio/app/players/types";
 import { deepParse, inaccurateByteSize, isBobject } from "@foxglove-studio/app/util/binaryObjects";
 import sendNotification from "@foxglove-studio/app/util/sendNotification";
@@ -33,7 +32,7 @@ function readMessage(
     throw new Error(`Could not find message reader for topic ${message.topic}`);
   }
   try {
-    return { ...message, message: reader.readMessage(Buffer.from(message.message)) };
+    return { ...message, message: reader.readMessage(Buffer.from(message.message as any)) };
   } catch (error) {
     sendNotification(
       `Error reading messages from ${message.topic}: ${error.message}`,
@@ -85,7 +84,7 @@ export default class ParsedMessageCache {
       // Update the access time.
       cache.lastAccessIndex = this._cacheAccessIndex++;
 
-      let outputMessage = cache.map.get(message);
+      let outputMessage: Message | null | undefined = cache.map.get(message);
       if (!outputMessage) {
         outputMessage = readMessage(message, readersByTopic);
         if (outputMessage) {

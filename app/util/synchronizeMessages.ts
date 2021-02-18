@@ -8,9 +8,7 @@
 import { mapValues } from "lodash";
 import { TimeUtil, Time } from "rosbag";
 
-// @ts-expect-error flow import has 'any' type
 import { cast, Message } from "@foxglove-studio/app/players/types";
-// @ts-expect-error flow import has 'any' type
 import { RosObject } from "@foxglove-studio/app/players/types";
 import { StampedMessage } from "@foxglove-studio/app/types/Messages";
 

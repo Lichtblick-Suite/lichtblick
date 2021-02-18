@@ -20,7 +20,6 @@ import {
   InitializationResult,
 } from "@foxglove-studio/app/dataProviders/types";
 import filterMap from "@foxglove-studio/app/filterMap";
-// @ts-expect-error flow imports have any type
 import { BobjectMessage } from "@foxglove-studio/app/players/types";
 import { inaccurateByteSize } from "@foxglove-studio/app/util/binaryObjects";
 import { getNewConnection } from "@foxglove-studio/app/util/getNewConnection";
@@ -199,7 +198,7 @@ export default class MemoryCacheDataProvider implements DataProvider {
   _blocks: ReadonlyArray<MemoryCacheBlock | null | undefined> = [];
 
   // The start time of the bag. Used for computing from and to nanoseconds since the start.
-  _startTime?: Time;
+  _startTime: Time = { sec: 0, nsec: 0 };
 
   // The topics that we were most recently asked to load.
   // This is always set by the last `getMessages` call.

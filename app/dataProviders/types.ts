@@ -16,7 +16,6 @@ import {
   ParsedMessageDefinitionsByTopic,
   TypedMessage,
   NotifyPlayerManager,
-  // @ts-expect-error flow imports have any type
 } from "@foxglove-studio/app/players/types";
 import { RosDatatypes } from "@foxglove-studio/app/types/RosDatatypes";
 

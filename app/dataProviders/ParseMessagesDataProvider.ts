@@ -16,7 +16,6 @@ import {
   GetMessagesResult,
   GetMessagesTopics,
 } from "@foxglove-studio/app/dataProviders/types";
-// @ts-expect-error flow imports have any type
 import { ParsedMessageDefinitionsByTopic } from "@foxglove-studio/app/players/types";
 import { RosDatatypes } from "@foxglove-studio/app/types/RosDatatypes";
 import { FREEZE_MESSAGES } from "@foxglove-studio/app/util/globalConstants";
