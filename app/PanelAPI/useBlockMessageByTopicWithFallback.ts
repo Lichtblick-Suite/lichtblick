@@ -1,4 +1,3 @@
-// @flow
 //
 //  Copyright (c) 2019-present, Cruise LLC
 //
@@ -8,37 +7,37 @@
 
 import { useCallback, useMemo, useRef } from "react";
 
-import * as PanelAPI from "webviz-core/src/PanelAPI";
-import { blockMessageCache } from "webviz-core/src/PanelAPI/useBlocksByTopic";
-import { useChangeDetector } from "webviz-core/src/util/hooks";
+import * as PanelAPI from "@foxglove-studio/app/PanelAPI";
+import { blockMessageCache } from "@foxglove-studio/app/PanelAPI/useBlocksByTopic";
+import { useChangeDetector } from "@foxglove-studio/app/util/hooks";
 
-type DiagnosticMsgs$KeyValue = {|
-  key: string,
-  value: string,
-|};
+type DiagnosticMsgs$KeyValue = {
+  key: string;
+  value: string;
+};
 
-export type CruiseMsgs$Metadata = {|
-  git_hash: string,
-  map_hash: string,
-  hostname: string,
-  params: string,
-  env_vars: string,
-  city_name: string,
-  param_modules_on_disk: DiagnosticMsgs$KeyValue[],
-  semantic_db_version_live: string,
-|};
-export type CruiseMsgs$DriveId = {|
-  data: string,
-|};
+export type CruiseMsgs$Metadata = {
+  git_hash: string;
+  map_hash: string;
+  hostname: string;
+  params: string;
+  env_vars: string;
+  city_name: string;
+  param_modules_on_disk: DiagnosticMsgs$KeyValue[];
+  semantic_db_version_live: string;
+};
+export type CruiseMsgs$DriveId = {
+  data: string;
+};
 
-function usePlaybackMessage<T>(topic: string): ?T {
+function usePlaybackMessage<T>(topic: string): T | null | undefined {
   // DANGER! We circumvent PanelAPI.useMessageReducer's system of keeping state here.
   // We should rarely do that, since it's error-prone to implement your own
   // state management in panels. However, in this case it's really annoying that
   // the message gets reset to the default whenever a seek happens. (This is a more general
   // problem with static/latched topics that we should fix, possibly orthogonally to the
   // use of block message storage.)
-  const lastMessage = useRef<?T>();
+  const lastMessage = useRef<T | null | undefined>();
 
   const { playerId } = PanelAPI.useDataSourceInfo();
   const hasChangedPlayerId = useChangeDetector([playerId], false);
@@ -46,7 +45,7 @@ function usePlaybackMessage<T>(topic: string): ?T {
     lastMessage.current = undefined;
   }
 
-  const newMessage = PanelAPI.useMessageReducer<?T>({
+  const newMessage = PanelAPI.useMessageReducer<T | null | undefined>({
     topics: [topic],
     restore: useCallback((prevState) => prevState || lastMessage.current, [lastMessage]),
     addMessage: useCallback((prevState, { message }) => prevState || message, []),
@@ -56,7 +55,7 @@ function usePlaybackMessage<T>(topic: string): ?T {
   return lastMessage.current;
 }
 
-export default function useBlockMessageByTopicWithFallback<T>(topic: string): ?T {
+export default function useBlockMessageByTopicWithFallback<T>(topic: string): T | null | undefined {
   const { blocks, messageReadersByTopic } = PanelAPI.useBlocksByTopic([topic]);
 
   const binaryBlocksMessage = useMemo(() => {
@@ -68,11 +67,13 @@ export default function useBlockMessageByTopicWithFallback<T>(topic: string): ?T
   }, [blocks, messageReadersByTopic, topic]);
 
   const parsedBlockMessage =
-    binaryBlocksMessage && blockMessageCache.parseMessages([binaryBlocksMessage], messageReadersByTopic)[0]?.message;
+    binaryBlocksMessage &&
+    blockMessageCache.parseMessages([binaryBlocksMessage], messageReadersByTopic)[0]?.message;
 
   // Not all players provide blocks, so have a playback fallback.
   // TODO(steel/jp): Neither subscription should request eagerly-parsed binary messages once
   // we have an option for that.
   const playbackMessage = usePlaybackMessage(topic);
-  return parsedBlockMessage || playbackMessage;
+  // @ts-expect-error once the type definitions are fixed these will no longer be unknown
+  return parsedBlockMessage ?? playbackMessage;
 }

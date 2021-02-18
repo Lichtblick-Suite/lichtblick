@@ -5,7 +5,7 @@ The `PanelAPI` namespace contains React [Hooks](https://reactjs.org/docs/hooks-i
 To use PanelAPI, it's recommended that you import the whole namespace, so that all usage sites look consistent, like `PanelAPI.useSomething()`.
 
 ```js
-import * as PanelAPI from "webviz-core/src/PanelAPI";
+import * as PanelAPI from "@foxglove-studio/app/PanelAPI";
 ```
 
 ## [`PanelAPI.useDataSourceInfo()`](useDataSourceInfo.js)
@@ -62,6 +62,7 @@ The `useMessageReducer` hook returns a user-defined "state" (`T`). The `restore`
 These reducers should be wrapped in [`useCallback()`](https://reactjs.org/docs/hooks-reference.html#usecallback), because the useMessageReducer hook will do extra work when they change, so they should change only when the interpretation of message data is actually changing.
 
 - `restore: (?T) => T`:
+
   - Called with `undefined` to initialize a new state when the panel first renders, and when the user seeks to a different playback time (at which point Webviz automatically clears out state across all panels).
   - Called with the previous state when the `restore` or `addMessage`/`addMessages` reducer functions change. This allows the panel an opportunity to reuse its previous state when a parameter changes, without totally discarding it (as in the case of a seek) and waiting for new messages to come in from the data source.
 

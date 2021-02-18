@@ -1,4 +1,3 @@
-// @flow
 //
 //  Copyright (c) 2019-present, Cruise LLC
 //
@@ -10,13 +9,24 @@ import { mount } from "enzyme";
 import * as React from "react";
 
 import * as PanelAPI from ".";
-import { MockMessagePipelineProvider } from "webviz-core/src/components/MessagePipeline";
-import { wrapJsObject } from "webviz-core/src/util/binaryObjects";
+// @ts-expect-error flow imports have any type
+import { MockMessagePipelineProvider } from "@foxglove-studio/app/components/MessagePipeline";
+import { wrapJsObject } from "@foxglove-studio/app/util/binaryObjects";
 
 describe("useMessageReducer", () => {
   // Create a helper component that exposes restore, addMessage, and the results of the hook for mocking
-  function createTest(useAddMessage: boolean = true, useAddMessages: boolean = false, useAddBobjects = false) {
-    function Test({ topics, addMessagesOverride }: { topics: string[], addMessagesOverride?: any }) {
+  function createTest(
+    useAddMessage: boolean = true,
+    useAddMessages: boolean = false,
+    useAddBobjects = false,
+  ) {
+    function Test({
+      topics,
+      addMessagesOverride,
+    }: {
+      topics: string[];
+      addMessagesOverride?: any;
+    }) {
       try {
         Test.result(
           PanelAPI.useMessageReducer({
@@ -25,7 +35,7 @@ describe("useMessageReducer", () => {
             addMessages: useAddMessages ? addMessagesOverride || Test.addMessages : undefined,
             addBobjects: useAddBobjects ? Test.addBobjects : undefined,
             restore: Test.restore,
-          })
+          }),
         );
       } catch (e) {
         Test.error(e);
@@ -48,7 +58,7 @@ describe("useMessageReducer", () => {
     const root = mount(
       <MockMessagePipelineProvider>
         <Test topics={["/foo"]} />
-      </MockMessagePipelineProvider>
+      </MockMessagePipelineProvider>,
     );
 
     await Promise.resolve();
@@ -75,7 +85,7 @@ describe("useMessageReducer", () => {
       mount(
         <MockMessagePipelineProvider>
           <Test topics={["/foo"]} />
-        </MockMessagePipelineProvider>
+        </MockMessagePipelineProvider>,
       );
       if (shouldThrow) {
         expect(Test.result.mock.calls).toHaveLength(0);
@@ -84,7 +94,7 @@ describe("useMessageReducer", () => {
         expect(Test.error.mock.calls).toHaveLength(0);
         expect(Test.result.mock.calls).toHaveLength(1);
       }
-    }
+    },
   );
 
   it("calls restore to initialize and addMessage for initial messages", async () => {
@@ -102,7 +112,7 @@ describe("useMessageReducer", () => {
     const root = mount(
       <MockMessagePipelineProvider messages={[message]}>
         <Test topics={["/foo"]} />
-      </MockMessagePipelineProvider>
+      </MockMessagePipelineProvider>,
     );
 
     expect(Test.restore.mock.calls).toEqual([[undefined]]);
@@ -128,7 +138,7 @@ describe("useMessageReducer", () => {
     const root = mount(
       <MockMessagePipelineProvider messages={[message]}>
         <Test topics={["/foo"]} />
-      </MockMessagePipelineProvider>
+      </MockMessagePipelineProvider>,
     );
 
     expect(Test.restore.mock.calls).toEqual([[undefined]]);
@@ -154,7 +164,7 @@ describe("useMessageReducer", () => {
     const root = mount(
       <MockMessagePipelineProvider bobjects={[message]}>
         <Test topics={["/foo"]} />
-      </MockMessagePipelineProvider>
+      </MockMessagePipelineProvider>,
     );
 
     expect(Test.restore.mock.calls).toEqual([[undefined]]);
@@ -186,7 +196,7 @@ describe("useMessageReducer", () => {
     const root = mount(
       <MockMessagePipelineProvider messages={[]}>
         <Test topics={["/foo"]} />
-      </MockMessagePipelineProvider>
+      </MockMessagePipelineProvider>,
     );
 
     root.setProps({ messages: [message1] });
@@ -205,7 +215,10 @@ describe("useMessageReducer", () => {
     root.setProps({ messages: [message2] });
 
     expect(Test.restore.mock.calls).toEqual([[undefined]]);
-    expect(Test.addMessage.mock.calls).toEqual([[1, message1], [2, message2]]);
+    expect(Test.addMessage.mock.calls).toEqual([
+      [1, message1],
+      [2, message2],
+    ]);
     expect(Test.result.mock.calls).toEqual([[1], [2], [2], [3]]);
 
     root.unmount();
@@ -236,7 +249,7 @@ describe("useMessageReducer", () => {
     const root = mount(
       <MockMessagePipelineProvider messages={[]}>
         <Test topics={["/foo"]} />
-      </MockMessagePipelineProvider>
+      </MockMessagePipelineProvider>,
     );
 
     root.setProps({ messages: [message1] });
@@ -258,7 +271,10 @@ describe("useMessageReducer", () => {
 
     expect(Test.restore.mock.calls).toEqual([[undefined]]);
     expect(Test.addMessage.mock.calls).toEqual([]);
-    expect(Test.addMessages.mock.calls).toEqual([[1, [message1]], [2, [message2, message3]]]);
+    expect(Test.addMessages.mock.calls).toEqual([
+      [1, [message1]],
+      [2, [message2, message3]],
+    ]);
     expect(Test.result.mock.calls).toEqual([[1], [2], [2], [4]]);
 
     root.unmount();
@@ -272,7 +288,7 @@ describe("useMessageReducer", () => {
     const root = mount(
       <MockMessagePipelineProvider setSubscriptions={setSubscriptions}>
         <Test topics={["/foo"]} />
-      </MockMessagePipelineProvider>
+      </MockMessagePipelineProvider>,
     );
 
     // Updating to change topics.
@@ -281,7 +297,10 @@ describe("useMessageReducer", () => {
     // And unsubscribes properly, too.
     root.unmount();
     expect(setSubscriptions.mock.calls).toEqual([
-      [expect.any(String), [{ topic: "/foo", format: "parsedMessages", preloadingFallback: false }]],
+      [
+        expect.any(String),
+        [{ topic: "/foo", format: "parsedMessages", preloadingFallback: false }],
+      ],
       [
         expect.any(String),
         [
@@ -308,7 +327,7 @@ describe("useMessageReducer", () => {
     const root = mount(
       <MockMessagePipelineProvider messages={[]}>
         <Test topics={["/foo"]} />
-      </MockMessagePipelineProvider>
+      </MockMessagePipelineProvider>,
     );
 
     root.setProps({ messages: [message1] });
@@ -346,7 +365,7 @@ describe("useMessageReducer", () => {
     const root = mount(
       <MockMessagePipelineProvider messages={[message1]}>
         <Test topics={["/foo"]} />
-      </MockMessagePipelineProvider>
+      </MockMessagePipelineProvider>,
     );
 
     expect(Test.restore.mock.calls).toEqual([[undefined]]);
@@ -382,7 +401,7 @@ describe("useMessageReducer", () => {
     const root = mount(
       <MockMessagePipelineProvider messages={[message1, message2]}>
         <Test topics={["/bar"]} />
-      </MockMessagePipelineProvider>
+      </MockMessagePipelineProvider>,
     );
 
     expect(Test.restore.mock.calls).toEqual([[undefined]]);
@@ -418,7 +437,7 @@ describe("useMessageReducer", () => {
     const root = mount(
       <MockMessagePipelineProvider messages={[message]}>
         <Test topics={["/foo"]} />
-      </MockMessagePipelineProvider>
+      </MockMessagePipelineProvider>,
     );
 
     expect(Test.restore.mock.calls).toEqual([[undefined]]);
@@ -444,7 +463,7 @@ describe("useMessageReducer", () => {
     const root = mount(
       <MockMessagePipelineProvider noActiveData>
         <Test topics={["/foo"]} />
-      </MockMessagePipelineProvider>
+      </MockMessagePipelineProvider>,
     );
 
     expect(Test.restore.mock.calls).toEqual([[undefined]]);
@@ -468,7 +487,7 @@ describe("useMessageReducer", () => {
     const root = mount(
       <MockMessagePipelineProvider requestBackfill={requestBackfill}>
         <Test topics={["/foo"]} />
-      </MockMessagePipelineProvider>
+      </MockMessagePipelineProvider>,
     );
     expect(requestBackfill.mock.calls.length).toEqual(1);
     requestBackfill.mockClear();
@@ -484,13 +503,13 @@ describe("useMessageReducer", () => {
     requestBackfill.mockClear();
 
     // Passing in a different `addMessage` function should NOT result in any calls.
-    Test.addMessage = () => {};
+    Test.addMessage = jest.fn();
     root.setProps({ children: <Test topics={["/foo", "/bar"]} /> });
     expect(requestBackfill.mock.calls.length).toEqual(0);
     requestBackfill.mockClear();
 
     // Passing in a different `restore` function should NOT result in any calls.
-    Test.restore = () => {};
+    Test.restore = jest.fn();
     root.setProps({ children: <Test topics={["/foo", "/bar"]} /> });
     expect(requestBackfill.mock.calls.length).toEqual(0);
     requestBackfill.mockClear();
@@ -513,7 +532,7 @@ describe("useMessageReducer", () => {
     const root = mount(
       <MockMessagePipelineProvider messages={[message1]}>
         <Test topics={["/foo"]} />
-      </MockMessagePipelineProvider>
+      </MockMessagePipelineProvider>,
     );
 
     expect(Test.restore.mock.calls).toEqual([[undefined]]);

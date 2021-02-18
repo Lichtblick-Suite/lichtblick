@@ -1,4 +1,3 @@
-// @flow
 //
 //  Copyright (c) 2019-present, Cruise LLC
 //
@@ -10,7 +9,9 @@ import { mount } from "enzyme";
 import * as React from "react";
 
 import * as PanelAPI from ".";
-import { MockMessagePipelineProvider } from "webviz-core/src/components/MessagePipeline";
+
+// @ts-expect-error flow imports have any type
+import { MockMessagePipelineProvider } from "@foxglove-studio/app/components/MessagePipeline";
 
 describe("useDataSourceInfo", () => {
   const topics = [{ name: "/foo", datatype: "Foo" }];
@@ -47,9 +48,10 @@ describe("useDataSourceInfo", () => {
         datatypes={datatypes}
         capabilities={["hello"]}
         messages={[messages[0]]}
-        startTime={{ sec: 0, nsec: 1 }}>
+        startTime={{ sec: 0, nsec: 1 }}
+      >
         <Test />
-      </MockMessagePipelineProvider>
+      </MockMessagePipelineProvider>,
     );
     expect(Test.renderFn.mock.calls).toEqual([
       [
@@ -73,9 +75,10 @@ describe("useDataSourceInfo", () => {
         datatypes={datatypes}
         capabilities={["hello"]}
         messages={[messages[0]]}
-        startTime={{ sec: 0, nsec: 1 }}>
+        startTime={{ sec: 0, nsec: 1 }}
+      >
         <Test />
-      </MockMessagePipelineProvider>
+      </MockMessagePipelineProvider>,
     );
     expect(Test.renderFn.mock.calls).toEqual([
       [
@@ -97,7 +100,10 @@ describe("useDataSourceInfo", () => {
     expect(Test.renderFn.mock.calls).toEqual([
       [
         {
-          topics: [{ name: "/bar", datatype: "Bar" }, { name: "/foo", datatype: "Foo" }],
+          topics: [
+            { name: "/bar", datatype: "Bar" },
+            { name: "/foo", datatype: "Foo" },
+          ],
           datatypes: { Foo: { fields: [] } },
           capabilities: ["hello"],
           startTime: { sec: 0, nsec: 1 },

@@ -1,4 +1,3 @@
-// @flow
 //
 //  Copyright (c) 2019-present, Cruise LLC
 //
@@ -11,9 +10,10 @@ import * as React from "react";
 
 import * as PanelAPI from ".";
 import { concatAndTruncate } from "./useMessagesByTopic";
-import { MockMessagePipelineProvider } from "webviz-core/src/components/MessagePipeline";
-import type { MessageFormat } from "webviz-core/src/players/types";
-import { wrapJsObject } from "webviz-core/src/util/binaryObjects";
+// @ts-expect-error flow imports have any type
+import { MockMessagePipelineProvider } from "@foxglove-studio/app/components/MessagePipeline";
+import { MessageFormat } from "@foxglove-studio/app/players/types";
+import { wrapJsObject } from "@foxglove-studio/app/util/binaryObjects";
 
 describe("useMessagesByTopic", () => {
   // Create a helper component that exposes the results of the hook for mocking.
@@ -23,9 +23,9 @@ describe("useMessagesByTopic", () => {
       historySize,
       format = "parsedMessages",
     }: {
-      topics: string[],
-      historySize: number,
-      format?: MessageFormat,
+      topics: string[];
+      historySize: number;
+      format?: MessageFormat;
     }) {
       Test.result(PanelAPI.useMessagesByTopic({ topics, historySize, format }));
       return null;
@@ -40,7 +40,7 @@ describe("useMessagesByTopic", () => {
     const root = mount(
       <MockMessagePipelineProvider>
         <Test topics={["/foo"]} historySize={1} />
-      </MockMessagePipelineProvider>
+      </MockMessagePipelineProvider>,
     );
 
     await Promise.resolve();
@@ -67,11 +67,14 @@ describe("useMessagesByTopic", () => {
     const root = mount(
       <MockMessagePipelineProvider messages={[message1]}>
         <Test topics={["/foo"]} historySize={Infinity} />
-      </MockMessagePipelineProvider>
+      </MockMessagePipelineProvider>,
     );
     root.setProps({ messages: [message2] });
 
-    expect(Test.result.mock.calls).toEqual([[{ "/foo": [message1] }], [{ "/foo": [message1, message2] }]]);
+    expect(Test.result.mock.calls).toEqual([
+      [{ "/foo": [message1] }],
+      [{ "/foo": [message1, message2] }],
+    ]);
 
     // Make sure that the identities are also the same, not just deep-equal.
     expect(Test.result.mock.calls[0][0]["/foo"][0]).toBe(message1);
@@ -97,11 +100,14 @@ describe("useMessagesByTopic", () => {
     const root = mount(
       <MockMessagePipelineProvider messages={[message1, message2]}>
         <Test topics={["/foo"]} historySize={Infinity} />
-      </MockMessagePipelineProvider>
+      </MockMessagePipelineProvider>,
     );
     root.setProps({ messages: [], children: <Test topics={["/foo", "/bar"]} historySize={1} /> });
 
-    expect(Test.result.mock.calls).toEqual([[{ "/foo": [message1, message2] }], [{ "/foo": [message2], "/bar": [] }]]);
+    expect(Test.result.mock.calls).toEqual([
+      [{ "/foo": [message1, message2] }],
+      [{ "/foo": [message2], "/bar": [] }],
+    ]);
 
     // Make sure that the identities are also the same, not just deep-equal.
     expect(Test.result.mock.calls[1][0]["/foo"][0]).toBe(message2);
@@ -120,7 +126,7 @@ describe("useMessagesByTopic", () => {
     const root = mount(
       <MockMessagePipelineProvider bobjects={[message]}>
         <Test topics={["/foo"]} historySize={1} format="bobjects" />
-      </MockMessagePipelineProvider>
+      </MockMessagePipelineProvider>,
     );
 
     expect(Test.result.mock.calls).toEqual([[{ "/foo": [message] }]]);

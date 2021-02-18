@@ -1,4 +1,3 @@
-// @flow
 //
 //  Copyright (c) 2019-present, Cruise LLC
 //
@@ -12,12 +11,14 @@ import * as React from "react";
 import { MessageReader, parseMessageDefinition } from "rosbag";
 
 import * as PanelAPI from ".";
-import { MockMessagePipelineProvider } from "webviz-core/src/components/MessagePipeline";
+
+// @ts-expect-error flow imports have any type
+import { MockMessagePipelineProvider } from "@foxglove-studio/app/components/MessagePipeline";
 
 describe("useBlocksByTopic", () => {
   // Create a helper component that exposes the results of the hook for mocking.
   function createTest() {
-    function Test({ topics }) {
+    function Test({ topics }: { topics: string[] }) {
       Test.result(PanelAPI.useBlocksByTopic(topics));
       return null;
     }
@@ -31,7 +32,7 @@ describe("useBlocksByTopic", () => {
     const root = mount(
       <MockMessagePipelineProvider>
         <Test topics={["/foo"]} />
-      </MockMessagePipelineProvider>
+      </MockMessagePipelineProvider>,
     );
 
     expect(Test.result.mock.calls).toEqual([[{ blocks: [], messageReadersByTopic: {} }]]);
@@ -88,7 +89,7 @@ describe("useBlocksByTopic", () => {
             "/subscribed_defined_and_present",
           ]}
         />
-      </MockMessagePipelineProvider>
+      </MockMessagePipelineProvider>,
     );
 
     expect(Test.result.mock.calls).toEqual([
@@ -98,8 +99,7 @@ describe("useBlocksByTopic", () => {
             {
               // Messages from the subscribed and defined topic that is present in the block.
               "/subscribed_defined_and_present": [],
-            },
-            // Missing block transformed into empty messages-by-topic. Missing/uncached data for
+            }, // Missing block transformed into empty messages-by-topic. Missing/uncached data for
             // topics is signaled through missing entries in these objects.
             {},
           ],
@@ -117,12 +117,14 @@ describe("useBlocksByTopic", () => {
   });
 
   it("returns no messagesByTopic when the player does not provide blocks", async () => {
-    const activeData = { parsedMessageDefinitionsByTopic: { "/topic": parseMessageDefinition("uint32 id") } };
+    const activeData = {
+      parsedMessageDefinitionsByTopic: { "/topic": parseMessageDefinition("uint32 id") },
+    };
     const Test = createTest();
     const root = mount(
       <MockMessagePipelineProvider activeData={activeData}>
         <Test topics={["/topic1"]} />
-      </MockMessagePipelineProvider>
+      </MockMessagePipelineProvider>,
     );
     // Consumers just need to check in one place to see whether they need a fallback for a topic:
     // in messageReadersByTopic. (They don't also need to check the presence of blocks.)
@@ -144,7 +146,7 @@ describe("useBlocksByTopic", () => {
     const root = mount(
       <MockMessagePipelineProvider activeData={activeData} progress={progress}>
         <Test topics={["/topic1"]} />
-      </MockMessagePipelineProvider>
+      </MockMessagePipelineProvider>,
     );
     // No message readers, even though we have a definition and we try to subscribe to the topic.
     // This means the data will never be provided.
@@ -153,7 +155,9 @@ describe("useBlocksByTopic", () => {
   });
 
   it("maintains block identity across repeated renders", async () => {
-    const activeData = { parsedMessageDefinitionsByTopic: { "/topic": parseMessageDefinition("uint32 id") } };
+    const activeData = {
+      parsedMessageDefinitionsByTopic: { "/topic": parseMessageDefinition("uint32 id") },
+    };
     const progress = {
       messageCache: {
         blocks: [{ sizeInBytes: 0, messagesByTopic: { "/topic": [] } }],
@@ -165,7 +169,7 @@ describe("useBlocksByTopic", () => {
     const root = mount(
       <MockMessagePipelineProvider activeData={activeData} progress={progress}>
         <Test topics={["/topic"]} />
-      </MockMessagePipelineProvider>
+      </MockMessagePipelineProvider>,
     );
 
     // Make sure the calls are actual rerenders caused
@@ -183,7 +187,9 @@ describe("useBlocksByTopic", () => {
     // Block identity is the same, but blocks array identity changes.
     root.setProps({
       activeData,
-      progress: { messageCache: { ...progress.messageCache, blocks: progress.messageCache.blocks.slice() } },
+      progress: {
+        messageCache: { ...progress.messageCache, blocks: progress.messageCache.blocks.slice() },
+      },
     });
 
     // Both identities change.

@@ -1,4 +1,3 @@
-// @flow
 //
 //  Copyright (c) 2019-present, Cruise LLC
 //
@@ -7,16 +6,16 @@
 //  You may not use this file except in compliance with the License.
 
 // This file contains hooks and components comprising the public API for Webviz panel development.
-// Recommended use: import * as PanelAPI from "webviz-core/src/PanelAPI";
+// Recommended use: import * as PanelAPI from "@foxglove-studio/app/PanelAPI";
 
 // More to come soon!
 
 export { default as useDataSourceInfo } from "./useDataSourceInfo";
-export type { DataSourceInfo } from "./useDataSourceInfo";
+export { DataSourceInfo } from "./useDataSourceInfo";
 
 export { useMessageReducer } from "./useMessageReducer";
-export type { RequestedTopic } from "./useMessageReducer";
+export { RequestedTopic } from "./useMessageReducer";
 
 export { useMessagesByTopic } from "./useMessagesByTopic";
-export type { MessagesByTopic } from "./useMessagesByTopic";
+export { MessagesByTopic } from "./useMessagesByTopic";
 export { useBlocksByTopic } from "./useBlocksByTopic";
