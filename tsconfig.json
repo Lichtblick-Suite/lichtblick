@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "esnext",
+    "target": "es2020",
     "module": "commonjs",
     "skipLibCheck": true,
     "esModuleInterop": true,

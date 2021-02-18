@@ -3,6 +3,7 @@
 
   "compilerOptions": {
     "baseUrl": ".",
+    "module": "es2020",
 
     "paths": {
       "@foxglove-studio/app/*": ["./*"]
