@@ -27,6 +27,8 @@ that silently intercepts the files we have converted.
 | require                                 | import                                                               | Change uses of `require` to import              |
 | $Shape                                  | Partial<T>                                                           |                                                 |
 | $Readonly                               | Readonly<T>                                                          |                                                 |
+| React$Element                           | ReactElement                                                         |                                                 |
+| React$Node                              | ReactNode                                                            |                                                 |
 
 # Future
 

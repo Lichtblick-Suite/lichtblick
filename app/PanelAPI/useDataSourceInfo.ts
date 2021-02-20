@@ -11,7 +11,6 @@ import { Time } from "rosbag";
 import {
   useMessagePipeline,
   MessagePipelineContext,
-  // @ts-expect-error flow imports have any type
 } from "@foxglove-studio/app/components/MessagePipeline";
 import { Topic } from "@foxglove-studio/app/players/types";
 import { RosDatatypes } from "@foxglove-studio/app/types/RosDatatypes";

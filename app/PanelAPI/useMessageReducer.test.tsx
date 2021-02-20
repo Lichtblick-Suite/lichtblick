@@ -9,7 +9,6 @@ import { mount } from "enzyme";
 import * as React from "react";
 
 import * as PanelAPI from ".";
-// @ts-expect-error flow imports have any type
 import { MockMessagePipelineProvider } from "@foxglove-studio/app/components/MessagePipeline";
 import { wrapJsObject } from "@foxglove-studio/app/util/binaryObjects";
 
@@ -162,7 +161,7 @@ describe("useMessageReducer", () => {
     };
 
     const root = mount(
-      <MockMessagePipelineProvider bobjects={[message]}>
+      <MockMessagePipelineProvider bobjects={[message] as any}>
         <Test topics={["/foo"]} />
       </MockMessagePipelineProvider>,
     );

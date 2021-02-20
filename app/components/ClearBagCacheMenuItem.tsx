@@ -6,11 +6,8 @@
 //  You may not use this file except in compliance with the License.
 import NukeIcon from "@mdi/svg/svg/nuke.svg";
 
-// @ts-expect-error flow import has 'any' type
 import Confirm from "@foxglove-studio/app/components/Confirm";
-// @ts-expect-error flow import has 'any' type
 import { useExperimentalFeature } from "@foxglove-studio/app/components/ExperimentalFeatures";
-// @ts-expect-error flow import has 'any' type
 import { Item } from "@foxglove-studio/app/components/Menu";
 import { clearIndexedDbWithoutConfirmation } from "@foxglove-studio/app/util/indexeddb/clearIndexedDb";
 

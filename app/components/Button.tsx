@@ -6,19 +6,16 @@
 //  You may not use this file except in compliance with the License.
 
 import cx from "classnames";
-import { LegacyRef } from "react";
+import { CSSProperties, LegacyRef } from "react";
 
 import BaseButton from "@foxglove-studio/app/components/ButtonBase";
-// @ts-expect-error: flow import has 'any' type
 import Tooltip from "@foxglove-studio/app/components/Tooltip";
 import { colors } from "@foxglove-studio/app/util/sharedStyleConstants";
 
 export type Props = JSX.LibraryManagedAttributes<typeof BaseButton, BaseButton["props"]> & {
   innerRef: LegacyRef<BaseButton> | null | undefined;
   tooltipProps?: JSX.LibraryManagedAttributes<typeof Tooltip, Tooltip["props"]>;
-  style: {
-    [key: string]: string | number;
-  };
+  style: CSSProperties;
   isPrimary?: boolean;
 };
 

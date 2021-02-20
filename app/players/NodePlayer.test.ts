@@ -7,7 +7,6 @@
 
 import NodePlayer from "./NodePlayer";
 import signal from "@foxglove-studio/app/shared/signal";
-// @ts-expect-error flow imports have any type
 import FakePlayer from "@foxglove-studio/app/components/MessagePipeline/FakePlayer";
 import {
   SubscribePayload,
@@ -210,7 +209,7 @@ describe("NodePlayer", () => {
 
   it("subscribes to underlying topics when node topics are subscribed", () => {
     const fakePlayer = new FakePlayer();
-    jest.spyOn(fakePlayer, "setSubscriptions");
+    const setSubSpy = jest.spyOn(fakePlayer, "setSubscriptions");
     const nodePlayer = new NodePlayer(fakePlayer, [node]);
     const messages: PlayerState[] = [];
     nodePlayer.setListener(async (playerState) => {
@@ -220,7 +219,7 @@ describe("NodePlayer", () => {
       { topic: "/webviz/test", format: "parsedMessages" },
       { topic: "/input/baz", format: "parsedMessages" },
     ]);
-    expect(fakePlayer.setSubscriptions.mock.calls).toEqual([
+    expect(setSubSpy.mock.calls).toEqual([
       [
         [
           { topic: "/input/baz", format: "parsedMessages" },

@@ -15,9 +15,7 @@ import useCleanup from "@foxglove-studio/app/hooks/useCleanup";
 import {
   useMessagePipeline,
   MessagePipelineContext,
-  // @ts-expect-error flow imports have any type
 } from "@foxglove-studio/app/components/MessagePipeline";
-// @ts-expect-error flow imports have any type
 import PanelContext from "@foxglove-studio/app/components/PanelContext";
 import { MemoryCacheBlock } from "@foxglove-studio/app/dataProviders/MemoryCacheDataProvider";
 import ParsedMessageCache from "@foxglove-studio/app/dataProviders/ParsedMessageCache";

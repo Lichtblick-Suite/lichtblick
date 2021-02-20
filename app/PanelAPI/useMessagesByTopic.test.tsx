@@ -10,7 +10,6 @@ import * as React from "react";
 
 import * as PanelAPI from ".";
 import { concatAndTruncate } from "./useMessagesByTopic";
-// @ts-expect-error flow imports have any type
 import { MockMessagePipelineProvider } from "@foxglove-studio/app/components/MessagePipeline";
 import { MessageFormat } from "@foxglove-studio/app/players/types";
 import { wrapJsObject } from "@foxglove-studio/app/util/binaryObjects";
@@ -124,7 +123,7 @@ describe("useMessagesByTopic", () => {
     };
 
     const root = mount(
-      <MockMessagePipelineProvider bobjects={[message]}>
+      <MockMessagePipelineProvider bobjects={[message] as any}>
         <Test topics={["/foo"]} historySize={1} format="bobjects" />
       </MockMessagePipelineProvider>,
     );

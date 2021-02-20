@@ -10,7 +10,6 @@ import * as React from "react";
 
 import * as PanelAPI from ".";
 
-// @ts-expect-error flow imports have any type
 import { MockMessagePipelineProvider } from "@foxglove-studio/app/components/MessagePipeline";
 
 describe("useDataSourceInfo", () => {

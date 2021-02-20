@@ -9,9 +9,7 @@ import { isEqual, sortBy, partition } from "lodash";
 import { MessageReader, Time, parseMessageDefinition } from "rosbag";
 import uuid from "uuid";
 
-// @ts-expect-error flow imports have any type
 import renderToBody from "@foxglove-studio/app/components/renderToBody";
-// @ts-expect-error flow imports have any type
 import WssErrorModal from "@foxglove-studio/app/components/WssErrorModal";
 import {
   AdvertisePayload,

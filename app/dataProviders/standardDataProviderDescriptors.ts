@@ -5,7 +5,6 @@
 //  found in the LICENSE file in the root directory of this source tree.
 //  You may not use this file except in compliance with the License.
 
-// @ts-expect-error flow imports have any type
 import { getExperimentalFeature } from "@foxglove-studio/app/components/ExperimentalFeatures";
 import { CoreDataProviders } from "@foxglove-studio/app/dataProviders/constants";
 import { DataProviderDescriptor } from "@foxglove-studio/app/dataProviders/types";

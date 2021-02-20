@@ -14,9 +14,7 @@ import useCleanup from "@foxglove-studio/app/hooks/useCleanup";
 import {
   useMessagePipeline,
   MessagePipelineContext,
-  // @ts-expect-error flow imports have any type
 } from "@foxglove-studio/app/components/MessagePipeline";
-// @ts-expect-error flow imports have any type
 import PanelContext from "@foxglove-studio/app/components/PanelContext";
 import { Message, MessageFormat, SubscribePayload } from "@foxglove-studio/app/players/types";
 import {
@@ -114,7 +112,7 @@ function useSubscriptions({
   }, [preloadingFallback, format, panelType, requestedTopics]);
 }
 
-const NO_MESSAGES = Object.freeze([]);
+const NO_MESSAGES: any[] = [];
 
 type Props<T> = {
   topics: ReadonlyArray<RequestedTopic>;
@@ -218,7 +216,6 @@ export function useMessageReducer<T>(props: Props<T>): T {
         if (lastProcessedMessagesRef.current === messageData) {
           return useContextSelector.BAILOUT;
         }
-        // @ts-expect-error once we have converted MessagePipeline to typescript we will get a type definition for topic
         const filteredMessages = messageData.filter(({ topic }) =>
           latestRequestedTopicsRef.current.has(topic),
         );

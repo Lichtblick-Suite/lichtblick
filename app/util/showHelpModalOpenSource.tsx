@@ -6,11 +6,9 @@
 //  You may not use this file except in compliance with the License.
 import * as React from "react";
 
-// @ts-expect-error flow import has 'any' type
 import HelpModal from "@foxglove-studio/app/components/HelpModal";
 // @ts-expect-error flow import has 'any' type
 import messagePathSyntax from "@foxglove-studio/app/components/MessagePathSyntax/index.help.md";
-// @ts-expect-error flow import has 'any' type
 import renderToBody from "@foxglove-studio/app/components/renderToBody";
 // @ts-expect-error flow import has 'any' type
 import helpContent from "@foxglove-studio/app/util/helpModalOpenSource.help.md";

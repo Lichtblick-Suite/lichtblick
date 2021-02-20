@@ -12,7 +12,7 @@
     }
   },
 
-  "include": ["**/*", "../typings/react.d.ts"],
+  "include": ["**/*", "../typings/react.d.ts", "../typings/scss.d.ts", "../typings/png.d.ts"],
   "exclude": [
     "node_modules",
     "preload.ts",

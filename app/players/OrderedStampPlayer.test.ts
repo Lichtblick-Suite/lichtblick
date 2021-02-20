@@ -9,7 +9,6 @@ import { TimeUtil } from "rosbag";
 
 import OrderedStampPlayer, { BUFFER_DURATION_SECS } from "./OrderedStampPlayer";
 import signal from "@foxglove-studio/app/shared/signal";
-// @ts-expect-error flow imports have any type
 import FakePlayer from "@foxglove-studio/app/components/MessagePipeline/FakePlayer";
 import {
   PlayerCapabilities,
@@ -239,7 +238,7 @@ describe("OrderedStampPlayer", () => {
 
   it("sets time correctly", async () => {
     const { fakePlayer, player } = makePlayers("headerStamp");
-    jest.spyOn(fakePlayer, "setPlaybackSpeed");
+    const setPlaybakcSpeedSpy = jest.spyOn(fakePlayer, "setPlaybackSpeed");
     const states = [];
     player.setListener(async (playerState) => {
       states.push(playerState);
@@ -248,23 +247,23 @@ describe("OrderedStampPlayer", () => {
     await fakePlayer.emit({
       ...getState(),
     });
-    expect(fakePlayer.setPlaybackSpeed.mock.calls).toEqual([]);
+    expect(setPlaybakcSpeedSpy.mock.calls).toEqual([]);
 
     // Set playback speed during backfill. Passed straight through.
     player.setPlaybackSpeed(12345);
-    expect(fakePlayer.setPlaybackSpeed.mock.calls).toEqual([[12345]]);
+    expect(setPlaybakcSpeedSpy.mock.calls).toEqual([[12345]]);
 
     await fakePlayer.emit({
       ...getState(),
       currentTime: TimeUtil.add(getState().currentTime, fromSec(BUFFER_DURATION_SECS + 0.1)),
     });
     // No additional setSpeed calls.
-    expect(fakePlayer.setPlaybackSpeed.mock.calls).toEqual([[12345]]);
+    expect(setPlaybakcSpeedSpy.mock.calls).toEqual([[12345]]);
   });
 
   it("passes through data normally in receiveTime mode", async () => {
     const { fakePlayer, player } = makePlayers("receiveTime");
-    jest.spyOn(fakePlayer, "setPlaybackSpeed");
+    const setPlaybackSpeedSpy = jest.spyOn(fakePlayer, "setPlaybackSpeed");
     const states: PlayerState[] = [];
     player.setListener(async (playerState) => {
       states.push(playerState);
@@ -274,14 +273,14 @@ describe("OrderedStampPlayer", () => {
       ...getState(),
     });
     // No backfilling, no setPlayback calls.
-    expect(fakePlayer.setPlaybackSpeed.mock.calls).toEqual([]);
+    expect(setPlaybackSpeedSpy.mock.calls).toEqual([]);
 
     // Data passed straight through.
     expect(states).toEqual([expect.objectContaining({ activeData: getState() })]);
 
     // setPlaybackSpeed calls are passed straight through as well.
     player.setPlaybackSpeed(12345);
-    expect(fakePlayer.setPlaybackSpeed.mock.calls).toEqual([[12345]]);
+    expect(setPlaybackSpeedSpy.mock.calls).toEqual([[12345]]);
   });
 
   it("seeks appropriately with dynamic order switching", async () => {
@@ -369,13 +368,11 @@ describe("OrderedStampPlayer", () => {
     const upstreamMessages = [makeMessage(8.9, 9.5)];
     class ModifiedFakePlayer extends FakePlayer {
       seekPlayback() {
-        // @ts-expect-error once FakePlayer is converted to typescript we will have the class definition
         this.emit({ ...getState(), currentTime, messages: upstreamMessages });
       }
     }
     // Need to put a UserNodePlayer in between to satisfy flow.
     const fakePlayer = new ModifiedFakePlayer();
-    // @ts-expect-error once FakePlayer is converted to typescript we will have the class definition
     fakePlayer.setCapabilities([PlayerCapabilities.setSpeed]);
     const player = new OrderedStampPlayer(
       new UserNodePlayer(fakePlayer as any, {

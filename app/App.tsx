@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
 import { FileContext } from "@foxglove-studio/app/components/FileContext";
-// @ts-expect-error: flow import has 'any' type
 import Root from "@foxglove-studio/app/components/Root";
 import { ROSBRIDGE_WEBSOCKET_URL_QUERY_KEY } from "@foxglove-studio/app/util/globalConstants";
 
