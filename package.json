@@ -3,9 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev:webpack": "yarn webpack serve --mode development",
-    "dev:electron": "yarn electron .webpack/main/main.js",
-    "lint": "yarn eslint ."
+    "start": "yarn run dev:electron",
+    "dev:webpack": "yarn run webpack serve --mode development",
+    "dev:electron": "yarn run electron .webpack/main/main.js",
+    "lint": "yarn run eslint ."
   },
   "workspaces": {
     "packages": [
