@@ -6,7 +6,8 @@
     "start": "yarn run dev:electron",
     "dev:webpack": "yarn run webpack serve --mode development",
     "dev:electron": "yarn run electron .webpack/main/main.js",
-    "lint": "yarn run eslint ."
+    "lint": "yarn run eslint .",
+    "fix": "yarn run lint --fix"
   },
   "workspaces": {
     "packages": [

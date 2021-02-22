@@ -9,8 +9,8 @@ import { isEqual } from "lodash";
 
 import { ActionTypes } from "@foxglove-studio/app/actions";
 import { panelEditingActions } from "@foxglove-studio/app/actions/panels";
-import { State } from "@foxglove-studio/app/reducers";
-import { PersistedState } from "@foxglove-studio/app/reducers/index";
+import { State , PersistedState } from "@foxglove-studio/app/reducers";
+
 import { EditHistoryOptions } from "@foxglove-studio/app/types/panels";
 import {
   pushState,

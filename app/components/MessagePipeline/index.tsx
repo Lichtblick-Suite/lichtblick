@@ -42,8 +42,8 @@ import {
 } from "@foxglove-studio/app/util/hooks";
 import naturalSort from "@foxglove-studio/app/util/naturalSort";
 import sendNotification from "@foxglove-studio/app/util/sendNotification";
-import { ReactElement } from "react";
-import { ReactNode } from "react";
+import { ReactElement , ReactNode } from "react";
+
 
 export const WARN_ON_SUBSCRIPTIONS_WITHIN_TIME_MS = 1000;
 

@@ -6,8 +6,8 @@
 //  You may not use this file except in compliance with the License.
 import React, { ReactNode, useCallback } from "react";
 
-import { SliderWithTicks } from "@foxglove-studio/app/components/SliderWithTicks";
-import { SliderProps } from "@foxglove-studio/app/components/SliderWithTicks";
+import { SliderWithTicks , SliderProps } from "@foxglove-studio/app/components/SliderWithTicks";
+
 import useGlobalVariables from "@foxglove-studio/app/hooks/useGlobalVariables";
 
 type Props = {

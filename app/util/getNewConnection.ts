@@ -6,8 +6,8 @@
 //  You may not use this file except in compliance with the License.
 import { isOverlapping } from "intervals-fn";
 
-import { Range } from "./ranges";
-import { isRangeCoveredByRanges, missingRanges } from "./ranges";
+import { Range , isRangeCoveredByRanges, missingRanges } from "./ranges";
+
 
 // Based on a number of properties this function determines if a new connection should be opened or
 // not. It can be used for any type of ranges, be it bytes, timestamps, or something else.

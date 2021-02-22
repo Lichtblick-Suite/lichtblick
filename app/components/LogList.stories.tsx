@@ -8,8 +8,8 @@
 import { storiesOf } from "@storybook/react";
 import React, { Component } from "react";
 
-import LogList from "./LogList";
-import { RenderRow } from "./LogList";
+import LogList, { RenderRow } from "./LogList";
+
 
 const MSG_BATCH_SIZE = 100;
 

@@ -12,8 +12,8 @@ import {
   setNotificationHandler,
   DetailsType,
   NotificationType,
-} from "@foxglove-studio/app/util/sendNotification";
-import { NotificationSeverity } from "@foxglove-studio/app/util/sendNotification";
+ NotificationSeverity } from "@foxglove-studio/app/util/sendNotification";
+
 
 export function setupSendReportNotificationHandler(rpc: Rpc) {
   setNotificationHandler(

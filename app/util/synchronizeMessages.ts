@@ -8,8 +8,8 @@
 import { mapValues } from "lodash";
 import { TimeUtil, Time } from "rosbag";
 
-import { cast, Message } from "@foxglove-studio/app/players/types";
-import { RosObject } from "@foxglove-studio/app/players/types";
+import { cast, Message , RosObject } from "@foxglove-studio/app/players/types";
+
 import { StampedMessage } from "@foxglove-studio/app/types/Messages";
 
 export const defaultGetHeaderStamp = (
