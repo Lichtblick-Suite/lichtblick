@@ -28,9 +28,7 @@ import Icon from "@foxglove-studio/app/components/Icon";
 import PanelToolbar from "@foxglove-studio/app/components/PanelToolbar";
 import SpinningLoadingIcon from "@foxglove-studio/app/components/SpinningLoadingIcon";
 import { getGlobalHooks } from "@foxglove-studio/app/loadWebviz";
-// @ts-expect-error flow imports have any type
 import PanelList from "@foxglove-studio/app/panels/PanelList";
-// @ts-expect-error flow imports have any type
 import { EmptyDropTarget } from "@foxglove-studio/app/panels/Tab/EmptyDropTarget";
 import { State, Dispatcher } from "@foxglove-studio/app/reducers";
 import { MosaicNode, SaveConfigsPayload } from "@foxglove-studio/app/types/panels";
@@ -186,8 +184,8 @@ export function UnconnectedPanelLayout(props: Props) {
           removeRootDropTarget={removeRootDropTarget}
         />
       ) : (
-        <EmptyDropTarget tabId={tabId} mosaicId={mosaicId} />
-      ),
+          <EmptyDropTarget tabId={tabId} mosaicId={mosaicId} />
+        ),
     [
       isDemoMode,
       layout,

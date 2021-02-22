@@ -77,20 +77,8 @@ export default (_: never, argv: { mode?: string }): Configuration => {
           type: "asset/resource",
         },
         {
-          test: /\.worker\.js$/,
-          exclude: /node_modules/,
-          use: {
-            loader: "worker-loader",
-            options: {
-              filename: "[name].js?[hash]",
-              /* action item to remove this and move workers to esmodule style */
-              esModule: false,
-            },
-          },
-        },
-        {
           test: /\.tsx?$/,
-          exclude: /(node_modules|players\/UserNodePlayer\/nodeTransformerWorker\/typescript\/)/,
+          exclude: /node_modules/,
           use: {
             loader: "ts-loader",
             options: {
@@ -122,7 +110,7 @@ export default (_: never, argv: { mode?: string }): Configuration => {
         {
           // We use stringified Typescript in Node Playground.
           // eslint-disable-next-line no-useless-escape
-          test: /players\/UserNodePlayer\/nodeTransformerWorker\/typescript\/.+\.ts$/,
+          test: /players\/UserNodePlayer\/nodeTransformerWorker\/typescript\/.+template\.ts$/,
           exclude: /node_modules/,
           type: "asset/source",
         },

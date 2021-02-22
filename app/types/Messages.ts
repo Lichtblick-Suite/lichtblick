@@ -110,7 +110,7 @@ export type BaseMarker = Readonly<
     scale: Scale;
     color?: Color;
     colors?: Colors;
-    lifetime?: Time | null | undefined;
+    lifetime?: Time;
     frame_locked?: boolean; // TODO: required
     text?: string;
     mesh_resource?: string; // TODO: required

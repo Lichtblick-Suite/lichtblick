@@ -53,7 +53,6 @@ import KeyListener from "@foxglove-studio/app/components/KeyListener";
 import PanelContext from "@foxglove-studio/app/components/PanelContext";
 import MosaicDragHandle from "@foxglove-studio/app/components/PanelToolbar/MosaicDragHandle";
 import * as PanelAPI from "@foxglove-studio/app/PanelAPI";
-// @ts-expect-error flow imports have any type
 import PanelList, { getPanelsByType } from "@foxglove-studio/app/panels/PanelList";
 import { Topic } from "@foxglove-studio/app/players/types";
 import { TabPanelConfig } from "@foxglove-studio/app/types/layouts";
@@ -111,16 +110,16 @@ export default function Panel<Config extends PanelConfig>(
   PanelComponent: (
     | ComponentType
     | ComponentType<
-        $Shape<{
-          config: Config;
-          saveConfig: SaveConfig<Config>;
-          openSiblingPanel: (arg0: string, cb: (arg0: PanelConfig) => PanelConfig) => void;
-          topics: Topic[];
-          capabilities: string[];
-          datatypes: RosDatatypes;
-          isHovered: boolean;
-        }>
-      >
+      $Shape<{
+        config: Config;
+        saveConfig: SaveConfig<Config>;
+        openSiblingPanel: (arg0: string, cb: (arg0: PanelConfig) => PanelConfig) => void;
+        topics: Topic[];
+        capabilities: string[];
+        datatypes: RosDatatypes;
+        isHovered: boolean;
+      }>
+    >
   ) &
     PanelStatics<Config>, // TODO(JP): Add `& PanelStatics<Config>` to the return type when we have figured out
   // https://stackoverflow.com/questions/52508434/adding-static-variable-to-union-of-class-types

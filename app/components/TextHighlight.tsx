@@ -25,7 +25,7 @@ type Props = {
 
 export default function TextHighlight({ targetStr = "", searchText = "" }: Props) {
   if (!searchText) {
-    return targetStr;
+    return <>targetStr</>;
   }
   const result = fuzzySort.highlight(
     fuzzySort.single(searchText, targetStr) as any,

@@ -11,7 +11,7 @@ import { PersistedState, Store } from "@foxglove-studio/app/reducers";
 /* eslint-disable @typescript-eslint/no-var-requires */
 
 let importedPanelsByCategory: unknown;
-let importedPerPanelHooks: unknown;
+let importedPerPanelHooks: any;
 const defaultHooks = {
   areHooksImported: () => importedPanelsByCategory && importedPerPanelHooks,
   getLayoutFromUrl: async (search: string) => {
@@ -33,7 +33,7 @@ const defaultHooks = {
         throw new Error(`Failed to fetch layout from URL: ${e.message}`);
       });
   },
-  getDemoModeComponent: () => undefined,
+  getDemoModeComponent: () => null,
   async importHooksAsync() {
     return new Promise<void>((resolve, reject) => {
       if (importedPanelsByCategory && importedPerPanelHooks) {

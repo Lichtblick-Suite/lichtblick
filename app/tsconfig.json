@@ -1,21 +1,18 @@
 {
   "extends": "../tsconfig.json",
-
   "compilerOptions": {
     "baseUrl": ".",
     "module": "es2020",
     "jsx": "react",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
-
     "paths": {
       "@foxglove-studio/app/*": ["./*"]
     }
   },
-
-  "include": ["**/*", "../typings/react.d.ts", "../typings/scss.d.ts", "../typings/png.d.ts"],
+  "include": ["**/*", "../typings/*.d.ts"],
   "exclude": [
     "node_modules",
     "preload.ts",
-    "players/UserNodePlayer/nodeTransformerWorker/typescript/**/*"
+    "players/UserNodePlayer/nodeTransformerWorker/typescript/**/*.template*"
   ]
 }

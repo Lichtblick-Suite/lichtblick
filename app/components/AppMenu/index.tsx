@@ -13,7 +13,6 @@ import { addPanel, AddPanelPayload } from "@foxglove-studio/app/actions/panels";
 import ChildToggle from "@foxglove-studio/app/components/ChildToggle";
 import { WrappedIcon } from "@foxglove-studio/app/components/Icon";
 import Menu from "@foxglove-studio/app/components/Menu";
-// @ts-expect-error flow imports have any type
 import PanelList, { PanelSelection } from "@foxglove-studio/app/panels/PanelList";
 import { State as ReduxState } from "@foxglove-studio/app/reducers";
 import logEvent, { getEventNames, getEventTags } from "@foxglove-studio/app/util/logEvent";

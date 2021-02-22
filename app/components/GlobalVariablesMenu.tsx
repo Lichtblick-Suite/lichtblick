@@ -22,9 +22,7 @@ import { WrappedIcon } from "@foxglove-studio/app/components/Icon";
 import Menu from "@foxglove-studio/app/components/Menu";
 import HelpButton from "@foxglove-studio/app/components/PanelToolbar/HelpButton";
 import useGlobalVariables from "@foxglove-studio/app/hooks/useGlobalVariables";
-// @ts-expect-error flow imports have any type
 import GlobalVariables from "@foxglove-studio/app/panels/GlobalVariables";
-// @ts-expect-error flow imports have any type
 import helpContent from "@foxglove-studio/app/panels/GlobalVariables/index.help.md";
 // @ts-expect-error flow imports have any type
 import inScreenshotTests from "@foxglove-studio/app/stories/inScreenshotTests";

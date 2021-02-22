@@ -40,7 +40,6 @@ import PanelContext from "@foxglove-studio/app/components/PanelContext";
 import { getPanelTypeFromMosaic } from "@foxglove-studio/app/components/PanelToolbar/utils";
 import renderToBody from "@foxglove-studio/app/components/renderToBody";
 import ShareJsonModal from "@foxglove-studio/app/components/ShareJsonModal";
-// @ts-expect-error flow imports have any type
 import PanelList, { PanelSelection } from "@foxglove-studio/app/panels/PanelList";
 import frameless from "@foxglove-studio/app/util/frameless";
 import { TAB_PANEL_TYPE } from "@foxglove-studio/app/util/globalConstants";
@@ -124,7 +123,7 @@ function StandardMenuItems({ tabId, isUnknownPanel }: { tabId?: string; isUnknow
         type,
         root: mosaicActions.getRoot() as any,
         path: mosaicWindowActions.getPath(),
-        config,
+        config: config as any,
         relatedConfigs,
       });
       logEvent({ name: getEventNames().PANEL_SWAP, tags: { [getEventTags().PANEL_TYPE]: type } });

@@ -5,7 +5,6 @@
 //  found in the LICENSE file in the root directory of this source tree.
 //  You may not use this file except in compliance with the License.
 import { GlobalVariables } from "@foxglove-studio/app/hooks/useGlobalVariables";
-// @ts-expect-error: flow import has 'any' type
 import { LinkedGlobalVariables } from "@foxglove-studio/app/panels/ThreeDimensionalViz/Interactions/useLinkedGlobalVariables";
 import { PanelsState } from "@foxglove-studio/app/reducers/panels";
 import { TimestampMethod } from "@foxglove-studio/app/util/time";
@@ -116,7 +115,7 @@ export type SetFetchedLayoutPayload = {
 
 export type SaveConfig<Config> = (
   arg0: Partial<Config>,
-  arg1: { historyOptions?: EditHistoryOptions } | null | undefined,
+  arg1?: { historyOptions?: EditHistoryOptions } | null,
 ) => void;
 
 export type UpdatePanelConfig<Config> = (

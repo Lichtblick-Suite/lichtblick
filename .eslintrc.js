@@ -30,6 +30,7 @@ module.exports = {
     // It's sometimes useful to explicitly name to guard against future changes
     "@typescript-eslint/no-inferrable-types": "off",
     "react/react-in-jsx-scope": "off",
+    "react/prop-types": "warn",
   },
   settings: {
     "import/ignore": ["\\.js$"], // ignore flow files for now

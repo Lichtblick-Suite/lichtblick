@@ -7,10 +7,8 @@
 import * as React from "react";
 
 import HelpModal from "@foxglove-studio/app/components/HelpModal";
-// @ts-expect-error flow import has 'any' type
 import messagePathSyntax from "@foxglove-studio/app/components/MessagePathSyntax/index.help.md";
 import renderToBody from "@foxglove-studio/app/components/renderToBody";
-// @ts-expect-error flow import has 'any' type
 import helpContent from "@foxglove-studio/app/util/helpModalOpenSource.help.md";
 
 export function showHelpModalOpenSource(event: React.MouseEvent<any> | null | undefined) {

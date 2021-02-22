@@ -11,7 +11,6 @@ import zlib from "zlib";
 import { create as JsonDiffCreate } from "jsondiffpatch";
 
 import { getGlobalHooks } from "@foxglove-studio/app/loadWebviz";
-// @ts-expect-error: flow import has 'any' type
 import { LinkedGlobalVariables } from "@foxglove-studio/app/panels/ThreeDimensionalViz/Interactions/useLinkedGlobalVariables";
 import { Dispatcher } from "@foxglove-studio/app/reducers";
 import { PanelsState } from "@foxglove-studio/app/reducers/panels";

@@ -19,9 +19,7 @@ import { ValidatedResizingInput } from "@foxglove-studio/app/components/input/Va
 import Menu, { Item } from "@foxglove-studio/app/components/Menu";
 import Tooltip from "@foxglove-studio/app/components/Tooltip";
 import useGlobalVariables, { GlobalVariables } from "@foxglove-studio/app/hooks/useGlobalVariables";
-// @ts-expect-error flow imports have any type
 import { memoizedGetLinkedGlobalVariablesKeyByName } from "@foxglove-studio/app/panels/ThreeDimensionalViz/Interactions/interactionUtils";
-// @ts-expect-error flow imports have any type
 import useLinkedGlobalVariables from "@foxglove-studio/app/panels/ThreeDimensionalViz/Interactions/useLinkedGlobalVariables";
 import { colors as sharedColors } from "@foxglove-studio/app/util/sharedStyleConstants";
 
@@ -119,7 +117,7 @@ const AnimationDuration = 3;
 const SAnimatedRow = styled.tr<{ animate: boolean; skipAnimation: any }>`
   background: transparent;
   animation: ${({ animate, skipAnimation }) =>
-      animate && !skipAnimation ? FlashRowAnimation : "none"}
+    animate && !skipAnimation ? FlashRowAnimation : "none"}
     ${AnimationDuration}s ease-in-out;
   animation-iteration-count: 1;
   animation-fill-mode: forwards;

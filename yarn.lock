@@ -2053,22 +2053,31 @@ __metadata:
     "@types/classnames": 2.2.11
     "@types/css-font-loading-module": 0.0.4
     "@types/enzyme": 3.10.8
+    "@types/gl-matrix": 3.2.0
     "@types/hammerjs": 2.0.38
     "@types/history": 4.7.8
     "@types/js-yaml": 4.0.0
     "@types/moment-duration-format": 2.2.2
     "@types/nearley": 2.11.1
+    "@types/prettier": 2.2.1
     "@types/promise-queue": 2.2.0
     "@types/promise.allsettled": 1.0.3
     "@types/react": 16.9.56
     "@types/react-autocomplete": 1.8.5
     "@types/react-dom": 16.9.9
+    "@types/react-highlight-words": 0.16.1
     "@types/react-input-autosize": 2.2.0
+    "@types/react-outside-click-handler": 1.3.0
     "@types/react-redux": 7.1.16
     "@types/react-router-dom": 5.1.7
+    "@types/react-select": 1.2.0
+    "@types/react-table": 7.0.28
     "@types/react-virtualized": 9.21.11
+    "@types/react-virtualized-select": 3.0.8
+    "@types/sanitize-html": 1.27.1
     "@types/seedrandom": 2.4.28
     "@types/shallowequal": 1.1.1
+    "@types/string-hash": 1.1.1
     "@types/styled-components": 5.1.7
     "@types/tinycolor2": 1.4.2
     "@types/uuid": 3.4.6
@@ -3146,6 +3155,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/gl-matrix@npm:3.2.0":
+  version: 3.2.0
+  resolution: "@types/gl-matrix@npm:3.2.0"
+  dependencies:
+    gl-matrix: "*"
+  checksum: 7992b3dcdb5ff3871b9335f5a10bd42679dc8398df39cd429d7cf0f2cf41edf0d911b3bbc3f478807717bcb53ec3e4aca17d84797d604ca823db368eb09b29f4
+  languageName: node
+  linkType: hard
+
 "@types/glob-base@npm:^0.3.0":
   version: 0.3.0
   resolution: "@types/glob-base@npm:0.3.0"
@@ -3392,10 +3410,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^12.0.12":
-  version: 12.19.16
-  resolution: "@types/node@npm:12.19.16"
-  checksum: 92a7e018059db994307fd52372437435be613ecd0f515569dd79e99aace61ec843ad7162bd533a660aef3ac767f9eea2e4c4352643c261e4d8eb87b4f8380c4d
+"@types/node@npm:^14.6.2":
+  version: 14.14.31
+  resolution: "@types/node@npm:14.14.31"
+  checksum: 635dc8a0898a923621e02ca179e17baa39fdfa44f0096fcc1b7046c9b32317e74a99956a7b45ca0e8069874f51f4e7873a418239a318a4b6e7936f6510ac5992
   languageName: node
   linkType: hard
 
@@ -3424,6 +3442,13 @@ __metadata:
   version: 5.0.3
   resolution: "@types/parse5@npm:5.0.3"
   checksum: 62b6ad696aeee22dc26bba2039bfb55773caf7cd705cb1b226a7107c187422782e6759ca6de54f9d1a299f335c2b99973774c9436a378f57927f36619570dc1d
+  languageName: node
+  linkType: hard
+
+"@types/prettier@npm:2.2.1":
+  version: 2.2.1
+  resolution: "@types/prettier@npm:2.2.1"
+  checksum: 9dc257dfc51eab6bc1e9ce58df94b309a206b2cdc6768709de3d20f70ae545c616bbc46add6d66f66cfa6cfbb0613dd09e6b6028ff6ff8ba9d3625f38d85cc66
   languageName: node
   linkType: hard
 
@@ -3506,12 +3531,30 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/react-highlight-words@npm:0.16.1":
+  version: 0.16.1
+  resolution: "@types/react-highlight-words@npm:0.16.1"
+  dependencies:
+    "@types/react": "*"
+  checksum: 50c3cdebc73c193afccac88bfbbc326d1cb13a796f51987b570e9b832d1a32cd499fd0c583daba1895f53fefba5e31816e71bcb0d43815ed570e667bf679a112
+  languageName: node
+  linkType: hard
+
 "@types/react-input-autosize@npm:2.2.0":
   version: 2.2.0
   resolution: "@types/react-input-autosize@npm:2.2.0"
   dependencies:
     "@types/react": "*"
   checksum: 7e6e0da2316f3df8bef4b7e439286508d12a8e32f8a0bcbf69263bdc73c697d9016b7f80f3e4d3b117a990ede58fd5cf3022cd82d5d0cc072a33d73f980c4485
+  languageName: node
+  linkType: hard
+
+"@types/react-outside-click-handler@npm:1.3.0":
+  version: 1.3.0
+  resolution: "@types/react-outside-click-handler@npm:1.3.0"
+  dependencies:
+    "@types/react": "*"
+  checksum: 0301893d55e3c5fa79b5ce50c3322c66df235425309f6b841178dba9d7582d212051e3e979714044e740e906a9009794ca2b799b651b26d7c073cd8e580f3f34
   languageName: node
   linkType: hard
 
@@ -3548,12 +3591,39 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/react-select@npm:1.2.0":
+  version: 1.2.0
+  resolution: "@types/react-select@npm:1.2.0"
+  dependencies:
+    "@types/react": "*"
+  checksum: 5e11fd8a0736f811ea995fa57b23832c242a09827ecdf131a85b13e303ff56ad482e4890cec61f0a03590472b964dd2951e948f79057490674bc857133946817
+  languageName: node
+  linkType: hard
+
+"@types/react-select@npm:^1":
+  version: 1.3.5
+  resolution: "@types/react-select@npm:1.3.5"
+  dependencies:
+    "@types/react": "*"
+  checksum: 64cc14fa8d11d1d118d1bd8f644b80d55d5d9342283316abc8d1c4b5e58e9e1cccd7ea0a124b753b002f065664147403fe6b62079a76d86c7f3b269adf786592
+  languageName: node
+  linkType: hard
+
 "@types/react-syntax-highlighter@npm:11.0.4":
   version: 11.0.4
   resolution: "@types/react-syntax-highlighter@npm:11.0.4"
   dependencies:
     "@types/react": "*"
   checksum: cbff39a7f480f19cbb497ad6eda8b829d016fe79300c241e0083d2ab2b5affd27c543457a34eeb505de797993aa995af0ee06e5b107c8c83cc73f048e0d54be5
+  languageName: node
+  linkType: hard
+
+"@types/react-table@npm:7.0.28":
+  version: 7.0.28
+  resolution: "@types/react-table@npm:7.0.28"
+  dependencies:
+    "@types/react": "*"
+  checksum: 4319b4fce98149a02488d16a4ae7cf1e86cda9a5142a2c19b2e64d004e838d13e3dd9cddb1908e9c5c4bbb5300216a044bf48f1a31fc15f28ff635e0768cddc2
   languageName: node
   linkType: hard
 
@@ -3566,7 +3636,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-virtualized@npm:9.21.11":
+"@types/react-virtualized-select@npm:3.0.8":
+  version: 3.0.8
+  resolution: "@types/react-virtualized-select@npm:3.0.8"
+  dependencies:
+    "@types/react": "*"
+    "@types/react-select": ^1
+    "@types/react-virtualized": "*"
+  checksum: 6ac396babba8f78723555c98a850a2b0d30fdd51a7bc8c83dbb867397e01ed5a1c4c1c0809f9f4b67728aba69bf7abea431869c3dbe44bcfec9d31bd5d5dd910
+  languageName: node
+  linkType: hard
+
+"@types/react-virtualized@npm:*, @types/react-virtualized@npm:9.21.11":
   version: 9.21.11
   resolution: "@types/react-virtualized@npm:9.21.11"
   dependencies:
@@ -3631,6 +3712,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/sanitize-html@npm:1.27.1":
+  version: 1.27.1
+  resolution: "@types/sanitize-html@npm:1.27.1"
+  dependencies:
+    htmlparser2: ^4.1.0
+  checksum: 0fa3615d774cb7b95be10b160d437abb7d1a64ccf2273928d35c5db74e9a18574c745db0af8b4457246f2a1f7f866b53e93eae3638524959a8263e1f02bf55a5
+  languageName: node
+  linkType: hard
+
 "@types/seedrandom@npm:2.4.28":
   version: 2.4.28
   resolution: "@types/seedrandom@npm:2.4.28"
@@ -3659,6 +3749,13 @@ __metadata:
   version: 0.1.2
   resolution: "@types/source-list-map@npm:0.1.2"
   checksum: 191f0e3b056b481e7a0bbb38f3d5b54b015556e38075726ca2637a35d3694df85cd16761b1b188729ac687a55aec3cbc2b07033ac090bcc13efe09ad10a3e935
+  languageName: node
+  linkType: hard
+
+"@types/string-hash@npm:1.1.1":
+  version: 1.1.1
+  resolution: "@types/string-hash@npm:1.1.1"
+  checksum: 3580b388b2cc2a899b189e8eb75e9491dfeafb6b1fefd6dad2fefd9d6d116a8934443874a467101dc7d7af43e74287b770d8b23569652dcb24ae28b3f991bfbc
   languageName: node
   linkType: hard
 
@@ -8054,7 +8151,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"domhandler@npm:^3.3.0":
+"domhandler@npm:^3.0.0, domhandler@npm:^3.3.0":
   version: 3.3.0
   resolution: "domhandler@npm:3.3.0"
   dependencies:
@@ -8082,7 +8179,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"domutils@npm:^2.4.2, domutils@npm:^2.4.3, domutils@npm:^2.4.4":
+"domutils@npm:^2.0.0, domutils@npm:^2.4.2, domutils@npm:^2.4.3, domutils@npm:^2.4.4":
   version: 2.4.4
   resolution: "domutils@npm:2.4.4"
   dependencies:
@@ -10251,17 +10348,17 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+"gl-matrix@npm:*, gl-matrix@npm:>=2.6.1":
+  version: 3.3.0
+  resolution: "gl-matrix@npm:3.3.0"
+  checksum: d75bac9b6b40d6a97c8fd507e76129dae91d84685d5eaf622600ddc811f31fe89d917bb5ddbf8575ce19cf7a993a10bcd5db138ba9bdf2630cf53ec43dc7afa0
+  languageName: node
+  linkType: hard
+
 "gl-matrix@npm:2.8.1":
   version: 2.8.1
   resolution: "gl-matrix@npm:2.8.1"
   checksum: 9fe971c396d54991a74bec0d4cf63da85485dfd24d1e98c149a57c949f3eb26bd32d64fca956857fe484cc73a24589d5ecb41a092026f72158d16a86cfe8ecab
-  languageName: node
-  linkType: hard
-
-"gl-matrix@npm:>=2.6.1":
-  version: 3.3.0
-  resolution: "gl-matrix@npm:3.3.0"
-  checksum: d75bac9b6b40d6a97c8fd507e76129dae91d84685d5eaf622600ddc811f31fe89d917bb5ddbf8575ce19cf7a993a10bcd5db138ba9bdf2630cf53ec43dc7afa0
   languageName: node
   linkType: hard
 
@@ -11084,6 +11181,18 @@ fsevents@~2.3.1:
     inherits: ^2.0.1
     readable-stream: ^3.1.1
   checksum: 94fa6312e6c378b1c0f1626d3f468f0b25c5dcf6689bfa61fa0002c044c4c77842b5122feb84b501b02539165917febba0ffe754046996c9e8ed77c1bb65e66c
+  languageName: node
+  linkType: hard
+
+"htmlparser2@npm:^4.1.0":
+  version: 4.1.0
+  resolution: "htmlparser2@npm:4.1.0"
+  dependencies:
+    domelementtype: ^2.0.1
+    domhandler: ^3.0.0
+    domutils: ^2.0.0
+    entities: ^2.0.0
+  checksum: 4a5d9ecbe339a500c23187740836c94a3b9edba6348995c5359bc832addcc8027633cb98bd5f715b96eb48caefeb5a38a1d6187522f45c1dc2b2be45a2f807ed
   languageName: node
   linkType: hard
 

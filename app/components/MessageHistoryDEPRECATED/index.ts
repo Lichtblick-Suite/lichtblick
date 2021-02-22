@@ -5,7 +5,7 @@
 //  found in the LICENSE file in the root directory of this source tree.
 //  You may not use this file except in compliance with the License.
 
-import React, { useMemo } from "react";
+import React, { ReactElement, useMemo } from "react";
 import { Time } from "rosbag";
 
 import { getTopicsFromPaths } from "@foxglove-studio/app/components/MessagePathSyntax/parseRosPath";
@@ -32,7 +32,7 @@ export type MessageHistoryData = {
 };
 
 type Props = {
-  children: (arg0: MessageHistoryData) => Node;
+  children: (arg0: MessageHistoryData) => ReactElement;
   paths: string[];
   historySize?: number;
 };
@@ -44,7 +44,6 @@ const ZERO_TIME = Object.freeze({ sec: 0, nsec: 0 });
 // Be sure to pass in a new render function when you want to force a rerender.
 // So you probably don't want to do `<MessageHistoryDEPRECATED>{this._renderSomething}</MessageHistoryDEPRECATED>`.
 // This might be a bit counterintuitive but we do this since performance matters here.
-// @ts-expect-error something about missing elements for Node .. blah .. just delete this component!
 export default React.memo<Props>(function MessageHistoryDEPRECATED({
   // eslint-disable-next-line react/prop-types
   children,

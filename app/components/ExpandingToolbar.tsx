@@ -24,11 +24,15 @@ export const SToolGroupFixedSizePane = styled.div`
   padding: 8px 0;
 `;
 
-export function ToolGroup<T>({ children }: { name: T; children: React.ReactNode }) {
+export function ToolGroup<T>({ children }: { name: T; children: React.ReactElement }) {
   return children;
 }
 
-export function ToolGroupFixedSizePane({ children }: { children: React.ReactNode }) {
+export function ToolGroupFixedSizePane({
+  children,
+}: {
+  children: React.ReactElement | React.ReactElement[];
+}) {
   return (
     <SToolGroupFixedSizePane style={{ width: PANE_WIDTH - 28, height: PANE_HEIGHT }}>
       {children}
@@ -38,7 +42,7 @@ export function ToolGroupFixedSizePane({ children }: { children: React.ReactNode
 
 type Props<T extends string> = {
   // $FlowFixMe typeof does not work with generics well, getting "`typeof` can only be used to get the type of variables"
-  children: React.ReactElement<typeof ToolGroup>[];
+  children: React.ReactElement<typeof ToolGroup>[] | React.ReactElement<typeof ToolGroup>;
   className?: string;
   icon: React.ReactNode;
   onSelectTab: (name: T | null | undefined) => void;

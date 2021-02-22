@@ -194,8 +194,8 @@ export function showNotificationModal(notification: NotificationMessage): void {
         {typeof details === "string" ? (
           <pre style={{ whiteSpace: "pre-wrap", lineHeight: 1.3 }}>{details}</pre>
         ) : (
-          details || "No details provided"
-        )}
+            details || "No details provided"
+          )}
       </ModalBody>
     </Modal>,
   );
@@ -282,7 +282,7 @@ export default class NotificationDisplay extends React.PureComponent<Props, Stat
     const { notifications, showMostRecent, showList } = this.state;
     const unreadCount = notifications.reduce((acc, err) => acc + ((err as any).read ? 0 : 1), 0);
 
-    const severity = (notifications[0] as any).severity ?? "error";
+    const severity = (notifications[0] as any)?.severity ?? "error";
     const { name, color, IconSvg } = (displayPropsBySeverity as any)[severity];
     const hasUnread = unreadCount > 0;
 

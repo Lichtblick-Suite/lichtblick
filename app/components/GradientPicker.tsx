@@ -13,7 +13,6 @@ import AutoSizingCanvas from "@foxglove-studio/app/components/AutoSizingCanvas";
 import ColorPickerForTopicSettings, {
   PICKER_SIZE,
   getHexFromColorSettingWithDefault,
-  // @ts-expect-error flow imports have any type
 } from "@foxglove-studio/app/panels/ThreeDimensionalViz/TopicSettingsEditor/ColorPickerForTopicSettings";
 import { colors } from "@foxglove-studio/app/util/sharedStyleConstants";
 

@@ -11,9 +11,10 @@ import BaseTooltip from "@foxglove-studio/app/components/TooltipBase";
 import styles from "./Tooltip.module.scss";
 
 type BaseProps = React.ComponentProps<typeof BaseTooltip>;
-type Props = Omit<BaseProps, "offset" | "fixed"> & {
+type Props = Omit<BaseProps, "offset" | "fixed" | "contents"> & {
   fixed?: BaseProps["fixed"];
   offset?: BaseProps["offset"];
+  contents?: BaseProps["contents"];
 };
 
 // Wrapper around BaseTooltip for consistent styling and behavior.
