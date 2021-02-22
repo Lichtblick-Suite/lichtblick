@@ -15,7 +15,7 @@ import sendNotification from "@foxglove-studio/app/util/sendNotification";
 const sendNotificationAny: any = sendNotification;
 
 jest.setTimeout(MAX_PROMISE_TIMEOUT_TIME_MS * 3);
-jest.mock("webviz-core/src/util/inAutomatedRunMode", () => jest.fn(() => false));
+jest.mock("@foxglove-studio/app/util/inAutomatedRunMode", () => jest.fn(() => false));
 
 describe("pauseFrameForPromise", () => {
   afterEach(() => {

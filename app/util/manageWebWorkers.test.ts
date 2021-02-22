@@ -7,7 +7,7 @@
 
 import WebWorkerManager from "./WebWorkerManager";
 
-jest.mock("webviz-core/src/util/Rpc", () => {
+jest.mock("@foxglove-studio/app/util/Rpc", () => {
   return class FakeRpc {
     receive() {
       // no-op

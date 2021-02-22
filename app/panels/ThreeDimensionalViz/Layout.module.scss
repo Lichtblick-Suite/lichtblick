@@ -1,6 +1,6 @@
 $spacing: 15px;
-@import "~webviz-core/src/styles/colors.module.scss";
-@import "~webviz-core/src/styles/mixins.module.scss";
+@import "@foxglove-studio/app/styles/colors.module.scss";
+@import "@foxglove-studio/app/styles/mixins.module.scss";
 
 // container for the entire panel
 .container {

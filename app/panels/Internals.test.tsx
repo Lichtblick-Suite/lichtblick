@@ -16,7 +16,7 @@ import { downloadTextFile, objectValues } from "@foxglove-studio/app/util";
 
 const mockDownloadTextFile: any = downloadTextFile;
 (objectValues as any).mockImplementation(Object.values); // broken by module mock
-jest.mock("webviz-core/src/util");
+jest.mock("@foxglove-studio/app/util");
 
 describe("<Internals>", () => {
   it("displays panel subscribers", () => {

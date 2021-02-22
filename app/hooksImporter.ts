@@ -15,29 +15,29 @@ We've split this code out seperately from the rest of the hooks so that we can l
 lazily importing this file at runtime.
 */
 export function panelsByCategory() {
-  const DiagnosticStatusPanel = require("webviz-core/src/panels/diagnostics/DiagnosticStatusPanel")
+  const DiagnosticStatusPanel = require("@foxglove-studio/app/panels/diagnostics/DiagnosticStatusPanel")
     .default;
-  const DiagnosticSummary = require("webviz-core/src/panels/diagnostics/DiagnosticSummary").default;
-  const GlobalVariables = require("webviz-core/src/panels/GlobalVariables").default;
-  const GlobalVariableSlider = require("webviz-core/src/panels/GlobalVariableSlider").default;
-  const ImageViewPanel = require("webviz-core/src/panels/ImageView").default;
-  const Internals = require("webviz-core/src/panels/Internals").default;
-  const NodePlayground = require("webviz-core/src/panels/NodePlayground").default;
-  const Note = require("webviz-core/src/panels/Note").default;
-  const NumberOfRenders = require("webviz-core/src/panels/NumberOfRenders").default;
-  const PlaybackPerformance = require("webviz-core/src/panels/PlaybackPerformance").default;
-  const Plot = require("webviz-core/src/panels/Plot").default;
-  const Publish = require("webviz-core/src/panels/Publish").default;
-  const RawMessages = require("webviz-core/src/panels/RawMessages").default;
-  const Rosout = require("webviz-core/src/panels/Rosout").default;
-  const SourceInfo = require("webviz-core/src/panels/SourceInfo").default;
-  const StateTransitions = require("webviz-core/src/panels/StateTransitions").default;
-  const SubscribeToList = require("webviz-core/src/panels/SubscribeToList").default;
-  const Tab = require("webviz-core/src/panels/Tab").default;
-  const TwoDimensionalPlot = require("webviz-core/src/panels/TwoDimensionalPlot").default;
-  const ThreeDimensionalViz = require("webviz-core/src/panels/ThreeDimensionalViz").default;
-  const { ndash } = require("webviz-core/src/util/entities");
-  const Table = require("webviz-core/src/panels/Table").default;
+  const DiagnosticSummary = require("@foxglove-studio/app/panels/diagnostics/DiagnosticSummary").default;
+  const GlobalVariables = require("@foxglove-studio/app/panels/GlobalVariables").default;
+  const GlobalVariableSlider = require("@foxglove-studio/app/panels/GlobalVariableSlider").default;
+  const ImageViewPanel = require("@foxglove-studio/app/panels/ImageView").default;
+  const Internals = require("@foxglove-studio/app/panels/Internals").default;
+  const NodePlayground = require("@foxglove-studio/app/panels/NodePlayground").default;
+  const Note = require("@foxglove-studio/app/panels/Note").default;
+  const NumberOfRenders = require("@foxglove-studio/app/panels/NumberOfRenders").default;
+  const PlaybackPerformance = require("@foxglove-studio/app/panels/PlaybackPerformance").default;
+  const Plot = require("@foxglove-studio/app/panels/Plot").default;
+  const Publish = require("@foxglove-studio/app/panels/Publish").default;
+  const RawMessages = require("@foxglove-studio/app/panels/RawMessages").default;
+  const Rosout = require("@foxglove-studio/app/panels/Rosout").default;
+  const SourceInfo = require("@foxglove-studio/app/panels/SourceInfo").default;
+  const StateTransitions = require("@foxglove-studio/app/panels/StateTransitions").default;
+  const SubscribeToList = require("@foxglove-studio/app/panels/SubscribeToList").default;
+  const Tab = require("@foxglove-studio/app/panels/Tab").default;
+  const TwoDimensionalPlot = require("@foxglove-studio/app/panels/TwoDimensionalPlot").default;
+  const ThreeDimensionalViz = require("@foxglove-studio/app/panels/ThreeDimensionalViz").default;
+  const { ndash } = require("@foxglove-studio/app/util/entities");
+  const Table = require("@foxglove-studio/app/panels/Table").default;
 
   const ros = [
     { title: "2D Plot", component: TwoDimensionalPlot },
@@ -81,10 +81,10 @@ export function perPanelHooks() {
   const RadarIcon = require("@mdi/svg/svg/radar.svg").default;
   const RobotIcon = require("@mdi/svg/svg/robot.svg").default;
   const CubeOutline = require("@mdi/svg/svg/cube-outline.svg").default;
-  const LaserScanVert = require("webviz-core/src/panels/ThreeDimensionalViz/LaserScanVert").default;
+  const LaserScanVert = require("@foxglove-studio/app/panels/ThreeDimensionalViz/LaserScanVert").default;
   const {
     defaultMapPalette,
-  } = require("webviz-core/src/panels/ThreeDimensionalViz/commands/utils");
+  } = require("@foxglove-studio/app/panels/ThreeDimensionalViz/commands/utils");
   const {
     GEOMETRY_MSGS_POLYGON_STAMPED_DATATYPE,
     NAV_MSGS_OCCUPANCY_GRID_DATATYPE,
@@ -97,7 +97,7 @@ export function perPanelHooks() {
     WEBVIZ_MARKER_DATATYPE,
     WEBVIZ_MARKER_ARRAY_DATATYPE,
     DIAGNOSTIC_TOPIC,
-  } = require("webviz-core/src/util/globalConstants");
+  } = require("@foxglove-studio/app/util/globalConstants");
 
   const SUPPORTED_MARKER_DATATYPES = {
     // generally supported datatypes
@@ -198,7 +198,7 @@ export function perPanelHooks() {
       icons: {},
       AdditionalToolbarItems: () => null,
       LaserScanVert,
-      sceneBuilderHooks: require("webviz-core/src/panels/ThreeDimensionalViz/SceneBuilder/defaultHooks")
+      sceneBuilderHooks: require("@foxglove-studio/app/panels/ThreeDimensionalViz/SceneBuilder/defaultHooks")
         .default,
       getMapPalette() {
         return defaultMapPalette;

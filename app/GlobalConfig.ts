@@ -15,7 +15,7 @@ let importedPerPanelHooks: any;
 const defaultHooks = {
   areHooksImported: () => importedPanelsByCategory && importedPerPanelHooks,
   getLayoutFromUrl: async (search: string) => {
-    const { LAYOUT_URL_QUERY_KEY } = require("webviz-core/src/util/globalConstants");
+    const { LAYOUT_URL_QUERY_KEY } = require("@foxglove-studio/app/util/globalConstants");
     const params = new URLSearchParams(search);
     const layoutUrl = params.get(LAYOUT_URL_QUERY_KEY);
     if (!layoutUrl) {
@@ -52,7 +52,7 @@ const defaultHooks = {
   },
   nodes: () => [],
   getDefaultPersistedState() {
-    const { defaultPlaybackConfig } = require("webviz-core/src/reducers/panels");
+    const { defaultPlaybackConfig } = require("@foxglove-studio/app/reducers/panels");
 
     // All panel fields have to be present.
     const state: PersistedState = {
@@ -122,7 +122,7 @@ const defaultHooks = {
     };
   },
   load: async () => {
-    const { initializeLogEvent } = require("webviz-core/src/util/logEvent");
+    const { initializeLogEvent } = require("@foxglove-studio/app/util/logEvent");
     initializeLogEvent(() => undefined, {}, {});
   },
   getAdditionalDataProviders: () => {
@@ -148,7 +148,7 @@ const defaultHooks = {
   },
   linkMessagePathSyntaxToHelpPage: () => true,
   getSecondSourceUrlParams() {
-    const { REMOTE_BAG_URL_2_QUERY_KEY } = require("webviz-core/src/util/globalConstants");
+    const { REMOTE_BAG_URL_2_QUERY_KEY } = require("@foxglove-studio/app/util/globalConstants");
     return [REMOTE_BAG_URL_2_QUERY_KEY];
   },
   updateUrlToTrackLayoutChanges: async (opt: { store: Store; skipPatch: boolean }) => {

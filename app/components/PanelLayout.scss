@@ -5,7 +5,7 @@
 //  You may not use this file except in compliance with the License.
 
 // this is based on https://github.com/palantir/react-mosaic/blob/master/styles/blueprint-theme.less
-@import "~webviz-core/src/styles/colors.module.scss";
+@import "@foxglove-studio/app/styles/colors.module.scss";
 $grey: #777;
 
 .mosaic {

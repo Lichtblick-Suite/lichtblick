@@ -49,8 +49,6 @@ export default (_: never, argv: { mode?: string }): Configuration => {
       alias: {
         "react-dnd": require.resolve("react-dnd"),
         "styled-components": require.resolve("styled-components"),
-        "webviz-core/src": path.resolve(`${__dirname}/app`),
-        "webviz-core/shared": path.resolve(`${__dirname}/app/shared`),
       },
       fallback: {
         path: require.resolve("path-browserify"),

@@ -4,7 +4,7 @@
 //  found in the LICENSE file in the root directory of this source tree.
 //  You may not use this file except in compliance with the License.
 
-@import "~webviz-core/src/styles/mixins.module.scss";
+@import "@foxglove-studio/app/styles/mixins.module.scss";
 
 $legend-highlight-color: rgba($dark3, 0.7);
 $legend-highlight-color-bright: lighten(rgba($legend-highlight-color, 1), 8%);
