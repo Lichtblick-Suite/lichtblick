@@ -10,7 +10,6 @@ import React from "react";
 
 import Internals from "@foxglove-studio/app/panels/Internals";
 import SubscribeToList from "@foxglove-studio/app/panels/SubscribeToList";
-// @ts-expect-error flow imports have any type
 import PanelSetup from "@foxglove-studio/app/stories/PanelSetup";
 
 storiesOf("<Internals>", module)

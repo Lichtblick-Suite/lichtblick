@@ -8,7 +8,6 @@ import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
 import TopicToRenderMenu from "@foxglove-studio/app/components/TopicToRenderMenu";
-// @ts-expect-error flow imports have any type
 import PanelSetup from "@foxglove-studio/app/stories/PanelSetup";
 
 const topics = [

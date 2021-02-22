@@ -11,7 +11,6 @@ import * as React from "react";
 import GlobalVariables from "./index";
 import delay from "@foxglove-studio/app/shared/delay";
 import { LinkedGlobalVariable } from "@foxglove-studio/app/panels/ThreeDimensionalViz/Interactions/useLinkedGlobalVariables";
-// @ts-expect-error flow imports have any type
 import PanelSetup, { triggerInputChange } from "@foxglove-studio/app/stories/PanelSetup";
 
 const exampleVariables = {
@@ -111,7 +110,9 @@ storiesOf("<GlobalVariables>", module)
           if (addBtn) {
             addBtn.click();
             await delay(DEFAULT_DELAY);
-            const firstKeyInput = document.querySelector("[data-test='global-variable-key'] input");
+            const firstKeyInput = document.querySelector(
+              "[data-test='global-variable-key'] input",
+            ) as HTMLInputElement;
             if (firstKeyInput) {
               triggerInputChange(firstKeyInput, "");
             }
@@ -129,7 +130,9 @@ storiesOf("<GlobalVariables>", module)
           if (addBtn) {
             addBtn.click();
             await delay(DEFAULT_DELAY);
-            const firstKeyInput = document.querySelector("[data-test='global-variable-key'] input");
+            const firstKeyInput = document.querySelector(
+              "[data-test='global-variable-key'] input",
+            ) as HTMLInputElement;
             if (firstKeyInput) {
               triggerInputChange(firstKeyInput, "$someText");
             }
@@ -144,7 +147,7 @@ storiesOf("<GlobalVariables>", module)
         linkedGlobalVariables={linkedGlobalVariables}
         onMount={async () => {
           await delay(DEFAULT_DELAY);
-          const allJsonInput = document.querySelectorAll("[data-test='json-input']");
+          const allJsonInput = document.querySelectorAll("[data-test='json-input']") as any;
           const linkedVarJsonInput = allJsonInput[2];
           if (linkedVarJsonInput) {
             triggerInputChange(linkedVarJsonInput, "value is not 100 any more");

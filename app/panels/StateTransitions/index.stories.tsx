@@ -10,7 +10,6 @@ import * as React from "react";
 import TestUtils from "react-dom/test-utils";
 
 import StateTransitions from "./index";
-// @ts-expect-error flow imports have any type
 import PanelSetup from "@foxglove-studio/app/stories/PanelSetup";
 
 const systemStateMessages = [

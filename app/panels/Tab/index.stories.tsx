@@ -16,11 +16,8 @@ import PanelLayout from "@foxglove-studio/app/components/PanelLayout";
 import nestedTabLayoutFixture from "@foxglove-studio/app/panels/Tab/nestedTabLayoutFixture.test";
 import createRootReducer from "@foxglove-studio/app/reducers";
 import configureStore from "@foxglove-studio/app/store/configureStore.testing";
-// @ts-expect-error flow imports have any type
 import PanelSetup from "@foxglove-studio/app/stories/PanelSetup";
-// @ts-expect-error flow imports have any type
 import { SExpectedResult } from "@foxglove-studio/app/stories/storyHelpers";
-// @ts-expect-error flow imports have any type
 import { dragAndDrop } from "@foxglove-studio/app/test/dragAndDropHelper";
 
 const rootReducer = createRootReducer(createBrowserHistory());

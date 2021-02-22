@@ -8,7 +8,6 @@
 import { fromPairs, difference } from "lodash";
 import { parseMessageDefinition, RosMsgDefinition } from "rosbag";
 
-// @ts-expect-error flow import has 'any' type
 import MemoryStorage from "@foxglove-studio/app/test/MemoryStorage";
 import sendNotification from "@foxglove-studio/app/util/sendNotification";
 import Storage, { BackingStore, BustStorageFn } from "@foxglove-studio/app/util/Storage";

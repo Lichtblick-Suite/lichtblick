@@ -21,7 +21,6 @@ import { MockMessagePipelineProvider } from "@foxglove-studio/app/components/Mes
 import { Message, Topic } from "@foxglove-studio/app/players/types";
 import createRootReducer from "@foxglove-studio/app/reducers";
 import configureStore from "@foxglove-studio/app/store/configureStore.testing";
-// @ts-expect-error flow imports have any type
 import { wrapMessages } from "@foxglove-studio/app/test/datatypes";
 import { RosDatatypes } from "@foxglove-studio/app/types/RosDatatypes";
 import { deepParse, isBobject } from "@foxglove-studio/app/util/binaryObjects";

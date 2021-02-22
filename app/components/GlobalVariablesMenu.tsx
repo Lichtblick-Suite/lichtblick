@@ -24,7 +24,6 @@ import HelpButton from "@foxglove-studio/app/components/PanelToolbar/HelpButton"
 import useGlobalVariables from "@foxglove-studio/app/hooks/useGlobalVariables";
 import GlobalVariables from "@foxglove-studio/app/panels/GlobalVariables";
 import helpContent from "@foxglove-studio/app/panels/GlobalVariables/index.help.md";
-// @ts-expect-error flow imports have any type
 import inScreenshotTests from "@foxglove-studio/app/stories/inScreenshotTests";
 import logEvent, { getEventTags, getEventNames } from "@foxglove-studio/app/util/logEvent";
 import { colors } from "@foxglove-studio/app/util/sharedStyleConstants";

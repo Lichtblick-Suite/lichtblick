@@ -178,7 +178,7 @@ export const fetchLayout = (
           isLoading: false,
           data: {
             ...layoutFetchResult,
-            content: getGlobalHooks().migratePanels(layoutFetchResult.content || layoutFetchResult),
+            content: layoutFetchResult.content || layoutFetchResult,
           },
           isFromLayoutUrlParam: !!hasLayoutUrl,
         },

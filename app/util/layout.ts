@@ -49,7 +49,6 @@ const PARAMS_TO_DECODE = new Set([LAYOUT_URL_QUERY_KEY]);
 // given a panel type, create a unique id for a panel
 // with the type embedded within the id
 // we need this because react-mosaic
-// DUPLICATED in webviz-core/migrations/ to be used for frozen migrations
 export function getPanelIdForType(type: string): string {
   const factor = 1e10;
   const rnd = Math.round(Math.random() * factor).toString(36);
@@ -59,12 +58,10 @@ export function getPanelIdForType(type: string): string {
   return `${type}!${rnd}`;
 }
 
-// DUPLICATED in webviz-core/migrations/ to be used for frozen migrations
 export function getPanelTypeFromId(id: string): string {
   return id.split("!")[0];
 }
 
-// DUPLICATED in webviz-core/migrations/ to be used for frozen migrations
 export function getPanelIdWithNewType(id: string, newPanelType: string): string {
   return id.replace(getPanelTypeFromId(id), newPanelType);
 }

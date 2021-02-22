@@ -6,7 +6,6 @@
 //  You may not use this file except in compliance with the License.
 
 import Storage, { clearBustStorageFnsMap } from "./Storage";
-// @ts-expect-error flow import has 'any' type
 import MemoryStorage from "@foxglove-studio/app/test/MemoryStorage";
 
 describe("Storage", () => {

@@ -15,11 +15,10 @@ import NodePlayground, {
 } from "@foxglove-studio/app/panels/NodePlayground";
 import testDocs from "@foxglove-studio/app/panels/NodePlayground/index.test.md";
 import Sidebar from "@foxglove-studio/app/panels/NodePlayground/Sidebar";
-// @ts-expect-error flow imports have any type
 import PanelSetup from "@foxglove-studio/app/stories/PanelSetup";
-// @ts-expect-error flow imports have any type
 import { SExpectedResult } from "@foxglove-studio/app/stories/storyHelpers";
 import { DEFAULT_WEBVIZ_NODE_PREFIX } from "@foxglove-studio/app/util/globalConstants";
+import { UserNodeLog } from "@foxglove-studio/app/players/UserNodePlayer/types";
 
 const userNodes = {
   nodeId1: { name: "/webviz_node/node", sourceCode: "const someVariableName = 1;" },
@@ -77,17 +76,15 @@ const sourceCodeWithLogs = `
   log(100, false, "abc", null, undefined);
   export default publisher;
 `;
-const logs = [
-  { source: "registerNode", value: 100, lineNum: 1, colNum: 0 },
-  { source: "registerNode", value: false, lineNum: 2, colNum: 0 },
-  { source: "registerNode", value: "abc", lineNum: 3, colNum: 0 },
-  { source: "registerNode", value: null, lineNum: 4, colNum: 0 },
-  { source: "registerNode", value: undefined, lineNum: 5, colNum: 0 },
+const logs: UserNodeLog[] = [
+  { source: "registerNode", value: 100 },
+  { source: "registerNode", value: false },
+  { source: "registerNode", value: "abc" },
+  { source: "registerNode", value: null },
+  { source: "registerNode", value: undefined },
   {
     source: "processMessage",
     value: { someKey: { nestedKey: "nestedValue" } },
-    lineNum: 6,
-    colNum: 0,
   },
 ];
 

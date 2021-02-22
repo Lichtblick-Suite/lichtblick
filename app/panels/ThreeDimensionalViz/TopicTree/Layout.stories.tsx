@@ -10,9 +10,7 @@ import React, { useState } from "react";
 import delay from "@foxglove-studio/app/shared/delay";
 import Flex from "@foxglove-studio/app/components/Flex";
 import ThreeDimensionalViz from "@foxglove-studio/app/panels/ThreeDimensionalViz";
-// @ts-expect-error flow imports have any type
 import PanelSetup from "@foxglove-studio/app/stories/PanelSetup";
-// @ts-expect-error flow imports have any type
 import { SExpectedResult } from "@foxglove-studio/app/stories/storyHelpers";
 
 const emptyFixture = { topics: [], datatypes: {}, frame: {}, layout: "NumberOfRenders!a" };

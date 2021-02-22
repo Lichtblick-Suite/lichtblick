@@ -22,12 +22,9 @@ import {
   POINT_CLOUD_WITH_ADDITIONAL_FIELDS,
 } from "@foxglove-studio/app/panels/ThreeDimensionalViz/commands/PointClouds/fixture/pointCloudData";
 import { MarkerStory } from "@foxglove-studio/app/panels/ThreeDimensionalViz/stories/MarkerStory";
-// @ts-expect-error flow imports have any type
 import PanelSetup, { triggerInputChange } from "@foxglove-studio/app/stories/PanelSetup";
-// @ts-expect-error flow imports have any type
 import { ScreenshotSizedContainer } from "@foxglove-studio/app/stories/storyHelpers";
 import colors from "@foxglove-studio/app/styles/colors.module.scss";
-// @ts-expect-error flow imports have any type
 import { simulateDragClick } from "@foxglove-studio/app/test/mouseEventsHelper";
 
 const SWrapper = styled.div`
@@ -345,7 +342,9 @@ storiesOf("<Interaction>", module)
             if (btn) {
               (btn as any).click();
               setImmediate(() => {
-                const linkNameInput = document.querySelector("[data-test='link-form'] input");
+                const linkNameInput = document.querySelector(
+                  "[data-test='link-form'] input",
+                ) as HTMLInputElement;
                 if (linkNameInput) {
                   triggerInputChange(linkNameInput, "id");
                   const linkFormBtn = document.querySelector(

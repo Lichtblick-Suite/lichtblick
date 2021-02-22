@@ -11,7 +11,6 @@ import React from "react";
 import { MessagePipelineConsumer } from "../components/MessagePipeline";
 import Internals from "./Internals";
 import MessageHistoryDEPRECATED from "@foxglove-studio/app/components/MessageHistoryDEPRECATED";
-// @ts-expect-error flow imports have any type
 import PanelSetup from "@foxglove-studio/app/stories/PanelSetup";
 import { downloadTextFile, objectValues } from "@foxglove-studio/app/util";
 

@@ -15,7 +15,6 @@ import { savePanelConfigs } from "@foxglove-studio/app/actions/panels";
 import Panel from "@foxglove-studio/app/components/Panel";
 import createRootReducer from "@foxglove-studio/app/reducers";
 import configureStore from "@foxglove-studio/app/store/configureStore.testing";
-// @ts-expect-error flow imports have any type
 import PanelSetup from "@foxglove-studio/app/stories/PanelSetup";
 
 type DummyConfig = { someString: string };

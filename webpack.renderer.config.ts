@@ -51,7 +51,6 @@ export default (_: never, argv: { mode?: string }): Configuration => {
         "styled-components": require.resolve("styled-components"),
         "webviz-core/src": path.resolve(`${__dirname}/app`),
         "webviz-core/shared": path.resolve(`${__dirname}/app/shared`),
-        "webviz-core/migrations": path.resolve(`${__dirname}/app/migrations`),
       },
       fallback: {
         path: require.resolve("path-browserify"),
@@ -90,22 +89,14 @@ export default (_: never, argv: { mode?: string }): Configuration => {
           },
         },
         {
-          test: /\.js$/,
-          exclude: /node_modules/,
-          use: { loader: "babel-loader?cacheDirectory" },
-        },
-        {
           test: /\.mdx$/,
-          use: [
-            "babel-loader?cacheDirectory",
-            {
-              loader: "@mdx-js/loader",
-              options: {
-                hastPlugins: [rehypePrism],
-                mdPlugins: [remarkSmartypants],
-              },
+          use: {
+            loader: "@mdx-js/loader",
+            options: {
+              hastPlugins: [rehypePrism],
+              mdPlugins: [remarkSmartypants],
             },
-          ],
+          },
         },
         {
           // We use stringified Typescript in Node Playground.

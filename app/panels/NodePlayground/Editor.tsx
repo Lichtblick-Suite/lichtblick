@@ -17,7 +17,6 @@ import getPrettifiedCode from "@foxglove-studio/app/panels/NodePlayground/pretti
 import { Script, EditorSelection } from "@foxglove-studio/app/panels/NodePlayground/script";
 import vsWebvizTheme from "@foxglove-studio/app/panels/NodePlayground/theme/vs-webviz.json";
 import { getNodeProjectConfig } from "@foxglove-studio/app/players/UserNodePlayer/nodeTransformerWorker/typescript/projectConfig";
-// @ts-expect-error flow imports have any type
 import inScreenshotTests from "@foxglove-studio/app/stories/inScreenshotTests";
 
 const VS_WEBVIZ_THEME = "vs-webviz";

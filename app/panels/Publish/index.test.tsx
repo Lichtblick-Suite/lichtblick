@@ -8,7 +8,6 @@ import { mount } from "enzyme";
 import React from "react";
 
 import Publish from "@foxglove-studio/app/panels/Publish";
-// @ts-expect-error flow imports have any type
 import PanelSetup from "@foxglove-studio/app/stories/PanelSetup";
 
 describe("Publish panel", () => {

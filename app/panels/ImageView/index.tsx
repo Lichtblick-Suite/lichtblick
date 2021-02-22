@@ -43,7 +43,6 @@ import filterMap from "@foxglove-studio/app/filterMap";
 import { getGlobalHooks } from "@foxglove-studio/app/loadWebviz";
 import * as PanelAPI from "@foxglove-studio/app/PanelAPI";
 import { Message, TypedMessage } from "@foxglove-studio/app/players/types";
-// @ts-expect-error flow imports have any type
 import inScreenshotTests from "@foxglove-studio/app/stories/inScreenshotTests";
 import colors from "@foxglove-studio/app/styles/colors.module.scss";
 import { CameraInfo } from "@foxglove-studio/app/types/Messages";
@@ -124,7 +123,7 @@ const BottomBar = ({
 }) => (
   <div
     className={cx(imageCanvasStyles["bottom-bar"], {
-      [imageCanvasStyles.containsOpen]: inScreenshotTests ? true : containsOpen,
+      [imageCanvasStyles.containsOpen]: inScreenshotTests() ? true : containsOpen,
     })}
   >
     {children}

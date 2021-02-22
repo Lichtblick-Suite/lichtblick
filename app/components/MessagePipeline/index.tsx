@@ -27,9 +27,7 @@ import {
   SubscribePayload,
   Topic,
 } from "@foxglove-studio/app/players/types";
-// @ts-expect-error flow imports have any type
 import StoreSetup from "@foxglove-studio/app/stories/StoreSetup";
-// @ts-expect-error flow imports have any type
 import { wrapMessages } from "@foxglove-studio/app/test/datatypes";
 import { RosDatatypes } from "@foxglove-studio/app/types/RosDatatypes";
 import { objectValues } from "@foxglove-studio/app/util";
@@ -42,8 +40,7 @@ import {
 } from "@foxglove-studio/app/util/hooks";
 import naturalSort from "@foxglove-studio/app/util/naturalSort";
 import sendNotification from "@foxglove-studio/app/util/sendNotification";
-import { ReactElement , ReactNode } from "react";
-
+import { ReactElement, ReactNode } from "react";
 
 export const WARN_ON_SUBSCRIPTIONS_WITHIN_TIME_MS = 1000;
 

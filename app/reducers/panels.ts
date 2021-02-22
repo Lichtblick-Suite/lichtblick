@@ -182,7 +182,6 @@ export function getInitialPersistedStateAndMaybeUpdateLocalStorageAndURL(
         ...oldFetchedLayoutState,
         data: {
           ...fetchedLayoutDataFromLocalStorage,
-          content: getGlobalHooks().migratePanels(fetchedLayoutDataFromLocalStorage.content),
         },
         isInitializedFromLocalStorage,
       };
@@ -201,11 +200,10 @@ export function getInitialPersistedStateAndMaybeUpdateLocalStorageAndURL(
       newPersistedState.panels,
     );
 
-    // Migrate panels and store in localStorage.
-    const migratedPanels = getGlobalHooks().migratePanels(newPersistedState.panels);
+    // Store in localStorage.
     initialPersistedState = {
       ...newPersistedState,
-      panels: { ...defaultPersistedState.panels, ...migratedPanels },
+      panels: { ...defaultPersistedState.panels, ...newPersistedState.panels },
     };
 
     setPersistedStateInLocalStorage(initialPersistedState);
@@ -462,16 +460,14 @@ export const createTabPanelWithMultipleTabs = (
 
 function importPanelLayout(state: PanelsState, payload: ImportPanelLayoutPayload): PanelsState {
   try {
-    const migratedPayload = getGlobalHooks().migratePanels(payload);
-
     const newPanelsState = {
-      ...migratedPayload,
-      layout: migratedPayload.layout || {},
-      savedProps: migratedPayload.savedProps || {},
-      globalVariables: migratedPayload.globalVariables || {},
-      userNodes: migratedPayload.userNodes || {},
-      linkedGlobalVariables: migratedPayload.linkedGlobalVariables || [],
-      playbackConfig: migratedPayload.playbackConfig || defaultPlaybackConfig,
+      ...payload,
+      layout: payload.layout || {},
+      savedProps: payload.savedProps || {},
+      globalVariables: payload.globalVariables || {},
+      userNodes: payload.userNodes || {},
+      linkedGlobalVariables: payload.linkedGlobalVariables || [],
+      playbackConfig: payload.playbackConfig || defaultPlaybackConfig,
     };
 
     return newPanelsState;

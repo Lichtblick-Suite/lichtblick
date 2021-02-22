@@ -81,7 +81,6 @@ import Transforms from "@foxglove-studio/app/panels/ThreeDimensionalViz/Transfor
 import TransformsBuilder from "@foxglove-studio/app/panels/ThreeDimensionalViz/TransformsBuilder";
 import World from "@foxglove-studio/app/panels/ThreeDimensionalViz/World";
 import { Frame, Topic } from "@foxglove-studio/app/players/types";
-// @ts-expect-error flow imports have any type
 import inScreenshotTests from "@foxglove-studio/app/stories/inScreenshotTests";
 import { Color } from "@foxglove-studio/app/types/Messages";
 import { getField } from "@foxglove-studio/app/util/binaryObjects";
@@ -199,9 +198,9 @@ export default function Layout({
   );
   const [editingNamespace, setEditingNamespace] = useState<
     | {
-      namespaceKey: string;
-      namespaceColor: string | null | undefined;
-    }
+        namespaceKey: string;
+        namespaceColor: string | null | undefined;
+      }
     | null
     | undefined
   >();
@@ -357,20 +356,20 @@ export default function Layout({
       const topic = getInteractionData(selectedObject)?.topic;
       return marker && topic
         ? [
-          {
-            topic,
-            checks: [
-              {
-                markerKeyPath: ["id"],
-                value: getField(marker, "id"),
-              },
-              {
-                markerKeyPath: ["ns"],
-                value: getField(marker, "ns"),
-              },
-            ],
-          },
-        ]
+            {
+              topic,
+              checks: [
+                {
+                  markerKeyPath: ["id"],
+                  value: getField(marker, "id"),
+                },
+                {
+                  markerKeyPath: ["ns"],
+                  value: getField(marker, "ns"),
+                },
+              ],
+            },
+          ]
         : [];
     }
     return [];
@@ -385,21 +384,21 @@ export default function Layout({
           (override: any, i: number) =>
             override?.active
               ? [
-                ..._activeColorOverrideMatchers,
-                ...(linkedGlobalVariablesByName[name] || []).map(({ topic, markerKeyPath }) => {
-                  const baseTopic = topic.replace(SECOND_SOURCE_PREFIX, "");
-                  return {
-                    topic: i === 0 ? baseTopic : joinTopics(SECOND_SOURCE_PREFIX, baseTopic),
-                    checks: [
-                      {
-                        markerKeyPath,
-                        value: globalVariables[name],
-                      },
-                    ],
-                    color: override.color,
-                  };
-                }),
-              ]
+                  ..._activeColorOverrideMatchers,
+                  ...(linkedGlobalVariablesByName[name] || []).map(({ topic, markerKeyPath }) => {
+                    const baseTopic = topic.replace(SECOND_SOURCE_PREFIX, "");
+                    return {
+                      topic: i === 0 ? baseTopic : joinTopics(SECOND_SOURCE_PREFIX, baseTopic),
+                      checks: [
+                        {
+                          markerKeyPath,
+                          value: globalVariables[name],
+                        },
+                      ],
+                      color: override.color,
+                    };
+                  }),
+                ]
               : _activeColorOverrideMatchers,
         );
       },

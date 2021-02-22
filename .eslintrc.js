@@ -29,6 +29,7 @@ module.exports = {
     "@typescript-eslint/ban-ts-comment": "off", // TODO: remove once we fix all TS issues
     // It's sometimes useful to explicitly name to guard against future changes
     "@typescript-eslint/no-inferrable-types": "off",
+    "@typescript-eslint/no-empty-function": "off",
     "react/react-in-jsx-scope": "off",
     "react/prop-types": "warn",
   },

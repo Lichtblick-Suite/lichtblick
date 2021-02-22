@@ -8,7 +8,6 @@ import { storiesOf } from "@storybook/react";
 import React, { useState } from "react";
 
 import TwoDimensionalPlot from "./index";
-// @ts-expect-error flow imports have any type
 import PanelSetup, { triggerWheel } from "@foxglove-studio/app/stories/PanelSetup";
 
 const example0 = {

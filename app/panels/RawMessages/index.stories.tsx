@@ -21,7 +21,6 @@ import RawMessages, {
   PREV_MSG_METHOD,
   OTHER_SOURCE_METHOD,
 } from "@foxglove-studio/app/panels/RawMessages";
-// @ts-expect-error flow imports have any type
 import PanelSetup from "@foxglove-studio/app/stories/PanelSetup";
 import { SECOND_SOURCE_PREFIX } from "@foxglove-studio/app/util/globalConstants";
 

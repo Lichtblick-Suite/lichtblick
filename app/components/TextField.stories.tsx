@@ -11,7 +11,6 @@ import * as React from "react";
 import TextField from "./TextField";
 import { createPrimitiveValidator, hasLen } from "@foxglove-studio/app/shared/validators";
 import Flex from "@foxglove-studio/app/components/Flex";
-// @ts-expect-error flow imports have any type
 import { triggerInputChange, triggerInputBlur } from "@foxglove-studio/app/stories/PanelSetup";
 
 const validator = createPrimitiveValidator([hasLen(4)]);
@@ -41,7 +40,7 @@ function ControlledExample() {
     <div
       ref={(el) => {
         if (el) {
-          const input = (el.querySelector("input") as any) as HTMLInputElement | null;
+          const input = (el.querySelector("input") as any) as HTMLInputElement;
           triggerInputChange(input, "another value");
         }
       }}
@@ -70,7 +69,7 @@ function ValidateOnBlurExample() {
     <div
       ref={(el) => {
         if (el) {
-          const input = (el.querySelector("input") as any) as HTMLInputElement | null;
+          const input = (el.querySelector("input") as any) as HTMLInputElement;
           // only see the validation error after input blur
           triggerInputChange(input, "invalid_val");
           setTimeout(() => {

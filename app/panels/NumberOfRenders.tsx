@@ -16,7 +16,6 @@ import {
 import Panel from "@foxglove-studio/app/components/Panel";
 import PanelToolbar from "@foxglove-studio/app/components/PanelToolbar";
 import * as PanelAPI from "@foxglove-studio/app/PanelAPI";
-// @ts-expect-error flow imports have any type
 import inScreenshotTests from "@foxglove-studio/app/stories/inScreenshotTests";
 
 const MAX_ALLOWABLE_RENDER_COUNT = 10;

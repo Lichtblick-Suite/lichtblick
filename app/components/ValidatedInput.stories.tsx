@@ -16,7 +16,6 @@ import {
   ValidationResult,
 } from "@foxglove-studio/app/shared/validators";
 import Flex from "@foxglove-studio/app/components/Flex";
-// @ts-expect-error flow imports have any type
 import { triggerInputChange, triggerInputBlur } from "@foxglove-studio/app/stories/PanelSetup";
 
 const INPUT_OBJ = { id: 1, name: "foo" };

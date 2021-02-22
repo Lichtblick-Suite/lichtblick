@@ -6,18 +6,17 @@
 //  You may not use this file except in compliance with the License.
 
 import { getValueActionForValue, getStructureItemForPath } from "./getValueActionForValue";
-// @ts-expect-error flow imports have any type
 import { wrapMessage } from "@foxglove-studio/app/test/datatypes";
 
 describe.each(["parsedMessages", "bobjects"])("getValueActionForValue %s", (format) => {
   const getAction = (data: any, structureItem: any, keyPath: any) => {
     const value =
       format === "bobjects"
-        ? wrapMessage({
+        ? (wrapMessage({
             topic: "/dummy",
             receiveTime: { sec: 0, nsec: 0 },
             message: { data },
-          }).message.data()
+          }).message as any).data()
         : data;
     return getValueActionForValue(value, structureItem, keyPath);
   };

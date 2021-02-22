@@ -11,7 +11,6 @@ import styled from "styled-components";
 
 import bagFile from "./fixtures/example.bag";
 import SourceInfo from "./index";
-// @ts-expect-error flow imports have any type
 import PanelSetupWithBag from "@foxglove-studio/app/stories/PanelSetupWithBag";
 
 const SNarrow = styled.div`

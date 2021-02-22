@@ -10,7 +10,6 @@ import React, { useState, useCallback } from "react";
 
 import TimeBasedChart from "./index";
 import { MockMessagePipelineProvider } from "@foxglove-studio/app/components/MessagePipeline";
-// @ts-expect-error flow imports have any type
 import { triggerWheel } from "@foxglove-studio/app/stories/PanelSetup";
 
 const dataX = 0.000057603000000000004;

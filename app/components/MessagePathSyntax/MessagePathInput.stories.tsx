@@ -11,7 +11,6 @@ import * as React from "react";
 import MessagePathInput from "./MessagePathInput";
 import Flex from "@foxglove-studio/app/components/Flex";
 import MockPanelContextProvider from "@foxglove-studio/app/components/MockPanelContextProvider";
-// @ts-expect-error flow imports have any type
 import PanelSetup from "@foxglove-studio/app/stories/PanelSetup";
 
 const fixture = {

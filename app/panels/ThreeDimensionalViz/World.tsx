@@ -19,7 +19,6 @@ import withHighlights from "@foxglove-studio/app/panels/ThreeDimensionalViz/with
 import WorldMarkers, {
   InteractiveMarkersByType,
 } from "@foxglove-studio/app/panels/ThreeDimensionalViz/WorldMarkers";
-// @ts-expect-error flow imports have any type
 import inScreenshotTests from "@foxglove-studio/app/stories/inScreenshotTests";
 import { MarkerCollector, MarkerProvider } from "@foxglove-studio/app/types/Scene";
 

@@ -32,7 +32,6 @@ import {
   ParsedMessageDefinitionsByTopic,
   NotifyPlayerManager,
 } from "@foxglove-studio/app/players/types";
-// @ts-expect-error flow imports have any type
 import inScreenshotTests from "@foxglove-studio/app/stories/inScreenshotTests";
 import { RosDatatypes } from "@foxglove-studio/app/types/RosDatatypes";
 import debouncePromise from "@foxglove-studio/app/util/debouncePromise";

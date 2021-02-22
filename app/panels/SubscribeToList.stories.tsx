@@ -8,7 +8,6 @@ import { storiesOf } from "@storybook/react";
 import React from "react";
 
 import SubscribeToList from "./SubscribeToList";
-// @ts-expect-error flow imports have any type
 import PanelSetup from "@foxglove-studio/app/stories/PanelSetup";
 
 storiesOf("<SubscribeToList>", module).add("shows a topic list", () => {

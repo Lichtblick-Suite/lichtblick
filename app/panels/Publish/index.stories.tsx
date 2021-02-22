@@ -9,7 +9,6 @@ import React from "react";
 
 import Publish from "@foxglove-studio/app/panels/Publish";
 import { PlayerCapabilities } from "@foxglove-studio/app/players/types";
-// @ts-expect-error flow imports have any type
 import PanelSetup from "@foxglove-studio/app/stories/PanelSetup";
 
 const getFixture = (allowPublish: any) => {

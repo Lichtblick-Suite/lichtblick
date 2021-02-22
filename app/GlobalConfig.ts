@@ -54,8 +54,6 @@ const defaultHooks = {
   getDefaultPersistedState() {
     const { defaultPlaybackConfig } = require("webviz-core/src/reducers/panels");
 
-    /* eslint-disable no-restricted-modules */
-    const { CURRENT_LAYOUT_VERSION } = require("webviz-core/migrations/constants");
     // All panel fields have to be present.
     const state: PersistedState = {
       fetchedLayout: { isLoading: false, data: undefined },
@@ -77,14 +75,9 @@ const defaultHooks = {
         userNodes: {},
         linkedGlobalVariables: [],
         playbackConfig: defaultPlaybackConfig,
-        version: CURRENT_LAYOUT_VERSION,
       },
     };
     return state;
-  },
-  migratePanels(panels: unknown) {
-    const migratePanels = require("webviz-core/migrations").default;
-    return migratePanels(panels);
   },
   panelCategories() {
     return [

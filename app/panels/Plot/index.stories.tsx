@@ -10,7 +10,6 @@ import * as React from "react";
 import { parseMessageDefinition } from "rosbag";
 
 import Plot from "@foxglove-studio/app/panels/Plot";
-// @ts-expect-error flow imports have any type
 import PanelSetup, { triggerWheel } from "@foxglove-studio/app/stories/PanelSetup";
 import { wrapJsObject } from "@foxglove-studio/app/util/binaryObjects";
 import { fromSec } from "@foxglove-studio/app/util/time";
