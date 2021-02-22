@@ -24,8 +24,6 @@ const params = new URLSearchParams(window.location.search);
 const secondSourceUrlParams = getGlobalHooks().getSecondSourceUrlParams();
 const hasSecondSource = secondSourceUrlParams.some((param) => params.has(param));
 
-console.log(WorkerDataProviderWorker);
-
 // We almost always use a WorkerDataProvider in Webviz. By initializing the first worker before we actually construct
 // the WorkerDataProvider we can potentially improve performance by loading while waiting for async requests.
 let preinitializedWorkers: any[] = [];
