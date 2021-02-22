@@ -40,7 +40,7 @@
     "case-sensitive-paths-webpack-plugin": "2.3.0",
     "crypto-browserify": "3.12.0",
     "css-loader": "5.0.2",
-    "electron": "11.2.3",
+    "electron": "12.0.0-beta.28",
     "electron-squirrel-startup": "1.0.0",
     "eslint": "7.20.0",
     "eslint-config-prettier": "7.2.0",

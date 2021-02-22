@@ -8346,16 +8346,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron@npm:11.2.3":
-  version: 11.2.3
-  resolution: "electron@npm:11.2.3"
+"electron@npm:12.0.0-beta.28":
+  version: 12.0.0-beta.28
+  resolution: "electron@npm:12.0.0-beta.28"
   dependencies:
     "@electron/get": ^1.0.1
-    "@types/node": ^12.0.12
+    "@types/node": ^14.6.2
     extract-zip: ^1.0.3
   bin:
     electron: cli.js
-  checksum: a80172bb463ca16916db7b3e5cf3d289bb0658e0279bddc5a3ae18c3985ba42578c9945fcd858986ba9275398709b4a211e8a4060deae6b124710d845809f007
+  checksum: f2a1f7e56cf71c074415a38cc45e490bc9fc3f70f6f9328309ea5bb8ed61a1491d6291947c0f701e36a58fb30dcd6e869d5a30a2335c25adffd81f9d9978d92c
   languageName: node
   linkType: hard
 
@@ -9818,7 +9818,7 @@ __metadata:
     case-sensitive-paths-webpack-plugin: 2.3.0
     crypto-browserify: 3.12.0
     css-loader: 5.0.2
-    electron: 11.2.3
+    electron: 12.0.0-beta.28
     electron-squirrel-startup: 1.0.0
     eslint: 7.20.0
     eslint-config-prettier: 7.2.0
