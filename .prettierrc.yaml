@@ -3,11 +3,3 @@ printWidth: 100
 trailingComma: "all"
 tabWidth: 2
 semi: true
-
-# Maintain the style of original webviz-core js files until they are ported to typescript
-overrides:
-  - files: "app/**/*.js"
-    options:
-      printWidth: 120
-      jsxBracketSameLine: true
-      trailingComma: es5
