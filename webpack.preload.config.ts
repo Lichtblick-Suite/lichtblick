@@ -4,8 +4,8 @@ import type { Configuration } from "webpack";
 
 export default (_: never, argv: { mode?: string }): Configuration => {
   return {
-    context: path.resolve("./app"),
-    entry: "./preload.ts",
+    context: path.resolve("./preload"),
+    entry: "./index.ts",
     target: "electron-preload",
 
     output: {
@@ -25,7 +25,6 @@ export default (_: never, argv: { mode?: string }): Configuration => {
             loader: "ts-loader",
             options: {
               transpileOnly: true,
-              configFile: "tsconfig.preload.json",
               // https://github.com/TypeStrong/ts-loader#onlycompilebundledfiles
               // avoid looking at files which are not part of the bundle
               onlyCompileBundledFiles: true,
@@ -35,13 +34,7 @@ export default (_: never, argv: { mode?: string }): Configuration => {
       ],
     },
 
-    plugins: [
-      new ForkTsCheckerWebpackPlugin({
-        typescript: {
-          configFile: "tsconfig.preload.json",
-        },
-      }),
-    ],
+    plugins: [new ForkTsCheckerWebpackPlugin()],
 
     resolve: {
       extensions: [".js", ".ts", ".tsx", ".json"],
