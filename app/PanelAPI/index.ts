@@ -11,11 +11,11 @@
 // More to come soon!
 
 export { default as useDataSourceInfo } from "./useDataSourceInfo";
-export { DataSourceInfo } from "./useDataSourceInfo";
+export type { DataSourceInfo } from "./useDataSourceInfo";
 
 export { useMessageReducer } from "./useMessageReducer";
-export { RequestedTopic } from "./useMessageReducer";
+export type { RequestedTopic } from "./useMessageReducer";
 
 export { useMessagesByTopic } from "./useMessagesByTopic";
-export { MessagesByTopic } from "./useMessagesByTopic";
+export type { MessagesByTopic } from "./useMessagesByTopic";
 export { useBlocksByTopic } from "./useBlocksByTopic";

@@ -35,7 +35,7 @@ const context = {
   parseJson,
 };
 
-export { ArrayView };
+export type { ArrayView };
 
 type BinaryBobjectData = Readonly<{
   buffer: ArrayBuffer;
