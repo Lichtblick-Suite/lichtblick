@@ -456,7 +456,6 @@ export default function Layout({
     selectedNamespacesByTopic,
     settingsByKey,
     globalVariables,
-    linkedGlobalVariables,
     highlightMarkerMatchers,
     colorOverrideMarkerMatchers,
     currentTime,

@@ -188,6 +188,7 @@ const FollowTFControl = memo<Props>((props: Props) => {
   );
 
   // slight delay to prevent the arrow from disappearing when you're trying to click it
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const onMouseLeaveDebounced = useCallback(
     debounce(() => {
       setHovering(false);

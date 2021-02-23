@@ -13,5 +13,8 @@ export default function useCleanup(teardown: () => void): void {
     return () => {
       teardown();
     };
+    // The passed-in teardown callback is expected to not need to change.
+    // For call site ergonomics we exclude it from deps.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 }

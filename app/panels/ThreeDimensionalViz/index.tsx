@@ -24,8 +24,8 @@ import {
   useTransformedCameraState,
   getNewCameraStateOnFollowChange,
 } from "@foxglove-studio/app/panels/ThreeDimensionalViz/threeDimensionalVizUtils";
-import Layout from "@foxglove-studio/app/panels/ThreeDimensionalViz/TopicTree/Layout";
-import { ColorOverrideBySourceIdxByVariable } from "@foxglove-studio/app/panels/ThreeDimensionalViz/TopicTree/Layout";
+import Layout, { ColorOverrideBySourceIdxByVariable } from "@foxglove-studio/app/panels/ThreeDimensionalViz/TopicTree/Layout";
+
 import { TopicDisplayMode } from "@foxglove-studio/app/panels/ThreeDimensionalViz/TopicTree/TopicViewModeSelector";
 import Transforms from "@foxglove-studio/app/panels/ThreeDimensionalViz/Transforms";
 import withTransforms from "@foxglove-studio/app/panels/ThreeDimensionalViz/withTransforms";

@@ -15,8 +15,8 @@ import {
   markerProps,
   generateMarkers,
 } from "@foxglove-studio/app/panels/ThreeDimensionalViz/stories/indexUtils.stories";
-import { FixtureExampleData } from "@foxglove-studio/app/panels/ThreeDimensionalViz/stories/storyComponents";
-import { FixtureExample } from "@foxglove-studio/app/panels/ThreeDimensionalViz/stories/storyComponents";
+import { FixtureExampleData , FixtureExample } from "@foxglove-studio/app/panels/ThreeDimensionalViz/stories/storyComponents";
+
 
 const fixtureData = {
   topics: {

@@ -42,6 +42,8 @@ function Tab({ config, saveConfig }: Props) {
   const panelId = usePanelContext()?.id;
   const dispatch = useDispatch();
   const mosaicId = useSelector(({ mosaic }: any) => mosaic.mosaicId);
+  // something sinister is going on here and needs to be fixed - FG-70
+  // eslint-disable-next-line
   const savePanelConfigsFn = useCallback(dispatch(savePanelConfigs), [dispatch]);
 
   const { tabs, activeTabIdx } = config;

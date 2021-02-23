@@ -98,6 +98,7 @@ export default React.memo<Props>(function SelectableTimestamp({
     if (timezone) {
       setTimeStr(currentTimeStr);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timezone]);
 
   const rawTime = formatTimeRaw(currentTime);

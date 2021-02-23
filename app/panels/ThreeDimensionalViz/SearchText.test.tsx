@@ -221,6 +221,7 @@ describe("<SearchText />", () => {
       const transforms = getTf();
       const [cameraState, updateCameraState] = React.useState(initialCameraState);
       const [currentMatch, updateCurrentMatch] = React.useState<GLTextMarker>(initialMatch);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       const onCameraStateChange = React.useCallback(jest.fn(updateCameraState), []);
 
       useSearchMatches({

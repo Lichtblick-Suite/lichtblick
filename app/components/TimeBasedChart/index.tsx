@@ -425,6 +425,7 @@ export default memo<Props>(function TimeBasedChart(props: Props) {
     };
   }, [removeTooltip]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const tooltips = props.tooltips || [];
   // We use a custom tooltip so we can style it more nicely, and so that it can break
   // out of the bounds of the canvas, in case the panel is small.

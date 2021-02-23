@@ -225,6 +225,7 @@ function Plot(props: Props) {
   const { startTime } = useDataSourceInfo();
 
   // If every streaming key is in the blocks, just use the blocks object for a stable identity.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const mergedItems = Object.keys(streamedItemsByPath).every(
     (path) => (blockItemsByPath as any)[path] != null,
   )

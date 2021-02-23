@@ -1,11 +1,9 @@
-import React, { useRef } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 
 import Modal from "@foxglove-studio/app/components/Modal";
 import Button from "@foxglove-studio/app/components/Button";
 import renderToBody from "@foxglove-studio/app/components/renderToBody";
-
-type PromptFunction = () => Promise<string | undefined>;
 
 const ModalContent = styled.div`
   overflow-y: auto;
@@ -19,55 +17,53 @@ const ModalActions = styled.div`
   text-align: right;
 `;
 
-function usePrompt(initialValue: string): PromptFunction {
-  const valueRef = useRef<string>(initialValue);
+function ModalPrompt({
+  initialValue,
+  onComplete,
+}: {
+  initialValue: string;
+  onComplete: (value: string | undefined) => void;
+}) {
+  const [value, setValue] = useState(initialValue);
 
-  const handleInputEvent: React.ChangeEventHandler<HTMLInputElement> = (ev) => {
-    valueRef.current = ev.target.value;
-  };
-
-  return async () => {
-    return new Promise((resolve) => {
-      const modal = renderToBody(
-        <Modal
-          onRequestClose={() => {
-            modal.remove();
-            resolve(undefined);
-          }}
-        >
-          <ModalContent>
-            <div>
-              <input
-                style={{ width: "100%" }}
-                type="text"
-                defaultValue={valueRef.current}
-                onChange={handleInputEvent}
-              />
-            </div>
-            <ModalActions>
-              <Button
-                onClick={() => {
-                  modal.remove();
-                  resolve(undefined);
-                }}
-              >
-                Cancel
-              </Button>
-              <Button
-                primary={true}
-                onClick={() => {
-                  modal.remove();
-                  resolve(valueRef.current);
-                }}
-              >
-                OK
-              </Button>
-            </ModalActions>
-          </ModalContent>
-        </Modal>,
-      );
-    });
-  };
+  return (
+    <Modal onRequestClose={() => onComplete(undefined)}>
+      <ModalContent>
+        <div>
+          <input
+            style={{ width: "100%" }}
+            type="text"
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+          />
+        </div>
+        <ModalActions>
+          <Button onClick={() => onComplete(undefined)}>Cancel</Button>
+          <Button primary={true} onClick={() => onComplete(value)}>
+            OK
+          </Button>
+        </ModalActions>
+      </ModalContent>
+    </Modal>
+  );
 }
 
-export { usePrompt };
+function runPrompt(initialValue: string): Promise<string | undefined> {
+  return new Promise((resolve) => {
+    const modal = renderToBody(
+      <ModalPrompt
+        initialValue={initialValue}
+        onComplete={(value) => {
+          modal.remove();
+          resolve(value);
+        }}
+      />,
+    );
+  });
+}
+
+// Returns a function that can be used similarly to the DOM prompt(), but
+// backed by a React element rather than a native modal, and asynchronous.
+export function usePrompt(): (initialValue: string) => Promise<string | undefined> {
+  return runPrompt;
+}

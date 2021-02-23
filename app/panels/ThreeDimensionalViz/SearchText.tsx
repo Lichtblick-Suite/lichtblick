@@ -103,6 +103,7 @@ export const useGLText = ({
     });
   }, [searchText, searchTextOpen, selectedMatchIndex, text]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const throttledSetSearchTextMatches = useCallback(
     throttle(setSearchTextMatches, 200, { trailing: true }),
     [setSearchTextMatches],

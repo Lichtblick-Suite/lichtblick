@@ -28,6 +28,7 @@ describe("useMessageReducer", () => {
     }) {
       try {
         Test.result(
+          // eslint-disable-next-line react-hooks/rules-of-hooks
           PanelAPI.useMessageReducer({
             topics,
             addMessage: useAddMessage ? Test.addMessage : undefined,

@@ -22,7 +22,7 @@ export default function useDocumentTitle(defaultTitle: string): string {
     });
     observer.observe(document.head, { childList: true });
     return () => observer.disconnect();
-  }, []);
+  }, [titleElement]);
 
   // Once we have a title element, observe it for changes.
   const [title, setTitle] = useState(document.title || defaultTitle);
@@ -34,7 +34,7 @@ export default function useDocumentTitle(defaultTitle: string): string {
       update();
       return () => observer.disconnect();
     }
-  }, [titleElement]);
+  }, [defaultTitle, titleElement]);
 
   return title;
 }
