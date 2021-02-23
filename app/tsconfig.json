@@ -4,10 +4,10 @@
     "baseUrl": ".",
     "module": "es2020",
     "jsx": "react",
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "paths": {
-      "@foxglove-studio/app/*": ["./*"]
-    }
+    "lib": ["DOM", "DOM.Iterable", "ESNext"]
+  },
+  "typeAcquisition": {
+    "exclude": ["node"]
   },
   "include": ["**/*", "../typings/*.d.ts"],
   "exclude": ["node_modules", "preload.ts"]
