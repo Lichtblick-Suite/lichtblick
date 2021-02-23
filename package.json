@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "yarn run dev:electron",
+    "prod:webpack": "yarn run webpack --mode production",
     "dev:webpack": "yarn run webpack serve --mode development",
     "dev:electron": "yarn run electron .webpack/main/main.js",
     "lint": "yarn run eslint .",

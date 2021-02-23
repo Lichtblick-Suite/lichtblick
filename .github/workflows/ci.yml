@@ -28,7 +28,7 @@ jobs:
           ${{ runner.os }}-yarn-
     - run: yarn install --immutable
     - run: yarn run lint
-    - run: yarn run webpack --mode production
+    - run: yarn run prod:webpack
       env:
         # Our build is so large that it requires more memory from v8
         NODE_OPTIONS: --max-old-space-size=4096

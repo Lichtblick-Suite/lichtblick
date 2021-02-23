@@ -98,8 +98,7 @@ export default (_: never, argv: { mode?: string }): Configuration => {
         },
         {
           // We use stringified Typescript in Node Playground.
-          // eslint-disable-next-line no-useless-escape
-          test: /players\/UserNodePlayer\/nodeTransformerWorker\/typescript\/.+template\.ts$/,
+          test: /players\/UserNodePlayer\/nodeTransformerWorker\/typescript\/.+\.template$/,
           exclude: /node_modules/,
           type: "asset/source",
         },

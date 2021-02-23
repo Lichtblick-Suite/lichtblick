@@ -10,9 +10,5 @@
     }
   },
   "include": ["**/*", "../typings/*.d.ts"],
-  "exclude": [
-    "node_modules",
-    "preload.ts",
-    "players/UserNodePlayer/nodeTransformerWorker/typescript/**/*.template*"
-  ]
+  "exclude": ["node_modules", "preload.ts"]
 }

@@ -4,10 +4,8 @@
 //  This source code is licensed under the Apache License, Version 2.0,
 //  found in the LICENSE file in the root directory of this source tree.
 //  You may not use this file except in compliance with the License.
-// @ts-expect-error change filenames - FG-57
-import markerArray from "./markerArray.template.ts";
-// @ts-expect-error change filenames - FG-57
-import twoDimensionalPlot from "./twoDimensionalPlot.template.ts";
+import markerArray from "./markerArray.ts.template";
+import twoDimensionalPlot from "./twoDimensionalPlot.ts.template";
 
 export default [
   { name: "2D Plot", description: "Quickly create 2D Plot topics", template: twoDimensionalPlot },
