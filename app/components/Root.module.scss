@@ -13,20 +13,19 @@
 
 $spacing: 14px;
 
-.block {
+.toolbarItem {
   color: white;
   flex: 0 0 auto;
   display: flex;
   height: 100%;
   min-width: 40px;
-}
 
-.left {
-  width: 100%;
-  display: flex;
+  // Allow interacting with buttons in the title bar without dragging the window
+  -webkit-app-region: no-drag;
 }
 
 .logoWrapper {
+  width: 100%;
   display: inline-block;
   margin-right: 0.5rem;
   top: 1px;
@@ -35,6 +34,10 @@ $spacing: 14px;
   svg {
     vertical-align: middle;
     margin-right: 0.5rem;
+  }
+
+  .standaloneWithTopLeftButtons:not(.fullScreen) & {
+    margin-left: 72px;
   }
 }
 

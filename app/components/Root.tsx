@@ -6,7 +6,7 @@
 //  You may not use this file except in compliance with the License.
 import cx from "classnames";
 import { ConnectedRouter } from "connected-react-router";
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { hot } from "react-hot-loader/root";
 import { setConfig } from "react-hot-loader";
 import { connect, Provider } from "react-redux";
@@ -32,6 +32,7 @@ import { State } from "@foxglove-studio/app/reducers";
 import getGlobalStore from "@foxglove-studio/app/store/getGlobalStore";
 import browserHistory from "@foxglove-studio/app/util/history";
 import inAutomatedRunMode from "@foxglove-studio/app/util/inAutomatedRunMode";
+import useDocumentTitle from "@foxglove-studio/app/hooks/useDocumentTitle";
 
 setConfig({
   // react-hot-loader re-writes hooks with a wrapper function that is designed
@@ -44,6 +45,11 @@ setConfig({
 const LOGO_SIZE = 24;
 
 type Props = {
+  windowStyle: "standaloneWithTopLeftButtons" | "normal";
+  isFullScreen: boolean;
+};
+
+type InternalProps = Props & {
   history: any;
   importPanelLayout: typeof importPanelLayout;
   redoStateCount: number;
@@ -52,7 +58,11 @@ type Props = {
   undoLayoutChange: () => void;
 };
 
-function App({ importPanelLayout: importPanelLayoutProp }: Props) {
+function App({
+  importPanelLayout: importPanelLayoutProp,
+  windowStyle,
+  isFullScreen,
+}: InternalProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     // Focus on page load to enable keyboard interaction.
@@ -63,35 +73,41 @@ function App({ importPanelLayout: importPanelLayoutProp }: Props) {
     (window as any).setPanelLayout = (payload: any) => importPanelLayoutProp(payload);
   }, [importPanelLayoutProp]);
 
+  const windowTitle = useDocumentTitle(APP_NAME);
   return (
-    <div ref={containerRef} className="app-container" tabIndex={0}>
+    <div
+      ref={containerRef}
+      className={cx("app-container", {
+        [styles.fullScreen]: isFullScreen,
+        [styles.standaloneWithTopLeftButtons]: windowStyle === "standaloneWithTopLeftButtons",
+      })}
+      tabIndex={0}
+    >
       <Route path="/shortcuts" component={ShortcutsModal} />
       <PlayerManager>
         {({ inputDescription }: any) => (
           <>
             <Toolbar>
-              <div className={styles.left}>
-                <div className={styles.logoWrapper}>
-                  <a href="/">
-                    <Logo width={LOGO_SIZE} height={LOGO_SIZE} />
-                  </a>
-                  webviz
-                </div>
+              <div className={styles.logoWrapper}>
+                <a href={windowStyle === "normal" ? "/" : "#"}>
+                  <Logo width={LOGO_SIZE} height={LOGO_SIZE} />
+                </a>
+                {windowTitle}
               </div>
 
-              <div className={styles.block} style={{ marginRight: 5 }}>
+              <div className={styles.toolbarItem} style={{ marginRight: 5 }}>
                 {!inAutomatedRunMode() && <NotificationDisplay />}
               </div>
-              <div className={styles.block}>
+              <div className={styles.toolbarItem}>
                 <LayoutMenu />
               </div>
-              <div className={styles.block}>
+              <div className={styles.toolbarItem}>
                 <AppMenu />
               </div>
-              <div className={styles.block}>
+              <div className={styles.toolbarItem}>
                 <TinyConnectionPicker inputDescription={inputDescription} />
               </div>
-              <div className={styles.block} style={{ marginRight: "10px" }}>
+              <div className={styles.toolbarItem} style={{ marginRight: "10px" }}>
                 <SettingsMenu />
               </div>
             </Toolbar>
@@ -109,7 +125,7 @@ function App({ importPanelLayout: importPanelLayoutProp }: Props) {
 }
 
 // @ts-ignore investigate this error with generic arg count
-const ConnectedApp = connect<Props, { history: any }, _, _, _, _>(
+const ConnectedApp = connect<InternalProps, { history: any }, _, _, _, _>(
   ({ layoutHistory: { redoStates, undoStates } }: State) => ({
     redoStateCount: redoStates.length,
     undoStateCount: undoStates.length,
@@ -117,18 +133,18 @@ const ConnectedApp = connect<Props, { history: any }, _, _, _, _>(
   { importPanelLayout, redoLayoutChange, undoLayoutChange },
 )(withDragDropContext(App));
 
-const Root = () => {
+const Root = (props: Props) => {
   return (
     <Provider store={getGlobalStore()}>
       <ConnectedRouter history={browserHistory}>
-        <div className="app-container" key="0">
-          <ErrorBoundary>
-            <Route
-              path="/"
-              render={({ history: routeHistory }) => <ConnectedApp history={routeHistory} />}
-            />
-          </ErrorBoundary>
-        </div>
+        <ErrorBoundary>
+          <Route
+            path="/"
+            render={({ history: routeHistory }) => (
+              <ConnectedApp history={routeHistory} {...props} />
+            )}
+          />
+        </ErrorBoundary>
       </ConnectedRouter>
     </Provider>
   );

@@ -16,4 +16,5 @@
   flex-direction: row;
   align-items: center;
   background-color: $dark2;
+  -webkit-app-region: drag; // make electron window draggable
 }

@@ -1,5 +1,14 @@
-import { app, shell, BrowserWindow, Menu, MenuItemConstructorOptions } from "electron";
+import {
+  app,
+  shell,
+  BrowserWindow,
+  Menu,
+  MenuItemConstructorOptions,
+  BrowserWindowConstructorOptions,
+} from "electron";
 import path from "path";
+
+import type { OsContextWindowEvent } from "@foxglove-studio/app/OsContext";
 
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
@@ -12,14 +21,29 @@ if (require("electron-squirrel-startup")) {
 const isMac: boolean = process.platform === "darwin";
 
 const createWindow = (): void => {
-  const mainWindow = new BrowserWindow({
+  const windowOptions: BrowserWindowConstructorOptions = {
     height: 800,
     width: 1200,
+    title: APP_NAME,
     webPreferences: {
       contextIsolation: true,
       preload: path.join(app.getAppPath(), "preload.js"), // MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
     },
-  });
+  };
+  if (isMac) {
+    windowOptions.titleBarStyle = "hiddenInset";
+  }
+  const mainWindow = new BrowserWindow(windowOptions);
+
+  // Forward full screen events to the renderer
+  const forwardWindowEvent = (name: OsContextWindowEvent) => {
+    // @ts-ignore https://github.com/microsoft/TypeScript/issues/14107
+    mainWindow.addListener(name, () => {
+      mainWindow.webContents.send(name);
+    });
+  };
+  forwardWindowEvent("enter-full-screen");
+  forwardWindowEvent("leave-full-screen");
 
   const appMenuTemplate: MenuItemConstructorOptions[] = [];
 

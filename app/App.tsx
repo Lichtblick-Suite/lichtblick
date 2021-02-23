@@ -9,7 +9,13 @@ import { OsContextSingleton } from "@foxglove-studio/app/OsContext";
 
 function App() {
   const [bagFile, setBagFile] = useState<File | undefined>();
+  const [isFullScreen, setFullScreen] = useState(false);
   const prompt = usePrompt("ws://localhost:9090");
+
+  useEffect(() => {
+    OsContextSingleton?.addWindowEventListener("enter-full-screen", () => setFullScreen(true));
+    OsContextSingleton?.addWindowEventListener("leave-full-screen", () => setFullScreen(false));
+  }, []);
 
   useEffect(() => {
     OsContextSingleton?.installMenuHandlers({
@@ -51,7 +57,12 @@ function App() {
   return (
     <>
       <FileContext.Provider value={bagFile}>
-        <Root />
+        <Root
+          windowStyle={
+            OsContextSingleton?.platform === "darwin" ? "standaloneWithTopLeftButtons" : "normal"
+          }
+          isFullScreen={isFullScreen}
+        />
       </FileContext.Provider>
     </>
   );

@@ -1,8 +1,17 @@
 import { OsMenuHandler } from "@foxglove-studio/app/OsMenuHandler";
 
+// Events that are forwarded from the main process and can be listened to using ctxbridge.addWindowEventListener
+export type OsContextWindowEvent = "enter-full-screen" | "leave-full-screen";
+
 /** OsContext is exposed over the electron Context Bridge */
-interface OsContext {
-  installMenuHandlers: (handlers: OsMenuHandler) => void;
+export interface OsContext {
+  // See Node.js process.platform
+  platform: string;
+
+  installMenuHandlers(handlers: OsMenuHandler): void;
+
+  // Events from the native window are available in the main process but not the renderer, so we forward them through the bridge.
+  addWindowEventListener(eventName: OsContextWindowEvent, handler: () => void): void;
 }
 
 type GlobalWithCtx = typeof global & {
@@ -10,7 +19,4 @@ type GlobalWithCtx = typeof global & {
 };
 
 /** Global singleton of the OsContext provided by the bridge */
-const OsContextSingleton = (global as GlobalWithCtx).ctxbridge;
-
-export { OsContextSingleton };
-export type { OsContext };
+export const OsContextSingleton = (global as GlobalWithCtx).ctxbridge;

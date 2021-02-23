@@ -178,12 +178,8 @@ export default (_: never, argv: { mode?: string }): Configuration => {
         process: "process/browser",
       }),
       new webpack.DefinePlugin({
-        RAVEN_URL: JSON.stringify(undefined),
-        GIT_INFO: JSON.stringify({ hash: "", dirty: false }),
-        CURRENT_VERSION: JSON.stringify(""),
-        MINIMUM_CHROME_VERSION: JSON.stringify(
-          parseInt(process.env.MINIMUM_CHROME_VERSION ?? "68"),
-        ),
+        // Should match webpack-defines.d.ts
+        APP_NAME: JSON.stringify("Foxglove Studio"),
       }),
       // https://webpack.js.org/plugins/ignore-plugin/#example-of-ignoring-moment-locales
       new webpack.IgnorePlugin({

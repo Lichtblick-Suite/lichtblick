@@ -1,10 +1,15 @@
 import path from "path";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
-import type { Configuration, WebpackPluginInstance } from "webpack";
+import webpack, { Configuration, WebpackPluginInstance } from "webpack";
 
 export default (_: never, argv: { mode?: string }): Configuration => {
   const isDev = argv.mode === "development";
-  const plugins: WebpackPluginInstance[] = [];
+  const plugins: WebpackPluginInstance[] = [
+    new webpack.DefinePlugin({
+      // Should match webpack-defines.d.ts
+      APP_NAME: JSON.stringify("Foxglove Studio"),
+    }),
+  ];
 
   if (isDev) {
     plugins.push(new ForkTsCheckerWebpackPlugin());

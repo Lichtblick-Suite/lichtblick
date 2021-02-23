@@ -594,16 +594,16 @@ export function updateDocumentTitle({
 
   // Update directly if title is present at URL.
   if (title) {
-    document.title = `${title} | webviz`;
+    document.title = `${title} | ${APP_NAME}`;
     return;
   }
   const fullLayoutName = layoutName || params.get(LAYOUT_QUERY_KEY);
   const { name } = getLayoutNameAndVersion(fullLayoutName);
   if (name) {
-    document.title = `${name.split("/").pop()} | webviz`;
+    document.title = `${name.split("/").pop()} | ${APP_NAME}`;
     return;
   }
-  document.title = `webviz`;
+  document.title = `${APP_NAME}`;
 }
 
 export function setDefaultFields(defaultLayout: PanelsState, layout: PanelsState): PanelsState {
