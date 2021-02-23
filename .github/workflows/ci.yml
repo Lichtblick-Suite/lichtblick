@@ -2,33 +2,40 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
-
     runs-on: ubuntu-20.04
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Configure Node.js
-      uses: actions/setup-node@v1
-      with:
-        node-version: 14.x
-    - name: Restore cache
-      uses: actions/cache@v2
-      with:
-        path: |
-          .yarn/cache
-          **/node_modules
-        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-yarn-
-    - run: yarn install --immutable
-    - run: yarn run lint
-    - run: yarn run prod:webpack
-      env:
-        # Our build is so large that it requires more memory from v8
-        NODE_OPTIONS: --max-old-space-size=4096
+      - uses: actions/checkout@v2
+      - name: Configure Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+      - name: Restore cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            .yarn/cache
+            **/node_modules
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - run: yarn install --immutable
+      - run: yarn run lint:nofix
+
+      - run: yarn run build:dev
+        if: ${{ github.event_name == 'pull_request' }}
+        env:
+          # Our build is so large that it requires more memory from v8
+          NODE_OPTIONS: --max-old-space-size=4096
+
+      - run: yarn run build:prod
+        if: ${{ github.event_name == 'push' }}
+        env:
+          # Our build is so large that it requires more memory from v8
+          NODE_OPTIONS: --max-old-space-size=4096

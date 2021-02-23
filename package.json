@@ -3,12 +3,12 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "yarn run dev:electron",
-    "prod:webpack": "yarn run webpack --mode production",
-    "dev:webpack": "yarn run webpack serve --mode development",
-    "dev:electron": "yarn run electron .webpack/main/main.js",
-    "lint": "yarn run eslint .",
-    "fix": "yarn run lint --fix"
+    "start": "yarn run electron .webpack/main/main.js",
+    "build:prod": "yarn run webpack --mode production",
+    "build:dev": "yarn run webpack --mode development",
+    "serve:dev": "yarn run webpack serve --mode development",
+    "lint": "yarn run eslint . --fix",
+    "lint:nofix": "yarn run eslint ."
   },
   "workspaces": {
     "packages": [

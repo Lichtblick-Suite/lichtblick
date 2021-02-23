@@ -21,5 +21,6 @@ const getDataProvider = createGetDataProvider({
 });
 
 if (typeof global.postMessage !== "undefined" && !global.onmessage) {
+  // @ts-expect-error not yet using TS Worker lib: FG-64
   new RpcDataProviderRemote(new Rpc(global), getDataProvider);
 }

@@ -10,5 +10,6 @@ import Rpc from "@foxglove-studio/app/util/Rpc";
 import { inWebWorker } from "@foxglove-studio/app/util/workers";
 
 if (inWebWorker()) {
+  // @ts-expect-error not yet using TS Worker lib: FG-64
   new ChartJSWorker(new Rpc(global));
 }

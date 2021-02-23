@@ -46,5 +46,6 @@ export default class ImageCanvasWorker {
 }
 
 if ((global as any).postMessage && !global.onmessage) {
+  // @ts-expect-error not yet using TS Worker lib: FG-64
   new ImageCanvasWorker(new Rpc(global));
 }
