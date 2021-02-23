@@ -30,7 +30,7 @@
     "moment": "2.24.0",
     "moment-duration-format": "2.2.2",
     "moment-timezone": "0.5.33",
-    "monaco-editor": "0.20.0",
+    "monaco-editor": "0.22.3",
     "monaco-vim": "0.1.11",
     "natsort": "2.0.2",
     "nearley": "2.15.1",

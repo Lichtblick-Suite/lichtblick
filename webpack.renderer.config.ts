@@ -3,9 +3,7 @@ import retext from "retext";
 import rehypePrism from "@mapbox/rehype-prism";
 import retextSmartypants from "retext-smartypants";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
-import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
-import MonacoWebpackPlugin from "monaco-editor-webpack-plugin";
 import webpack, { Configuration, WebpackPluginInstance } from "webpack";
 
 declare const visit: any;
@@ -38,6 +36,10 @@ export default (_: never, argv: { mode?: string }): Configuration => {
     context: path.resolve("./app"),
     entry: "./index.tsx",
     devtool: isDev ? "eval-cheap-source-map" : "source-map",
+
+    optimization: {
+      minimize: false,
+    },
 
     output: {
       publicPath: "",
@@ -183,15 +185,10 @@ export default (_: never, argv: { mode?: string }): Configuration => {
           parseInt(process.env.MINIMUM_CHROME_VERSION ?? "68"),
         ),
       }),
-      new CaseSensitivePathsPlugin(),
       // https://webpack.js.org/plugins/ignore-plugin/#example-of-ignoring-moment-locales
       new webpack.IgnorePlugin({
         resourceRegExp: /^\.\/locale$/,
         contextRegExp: /moment$/,
-      }),
-      new MonacoWebpackPlugin({
-        // available options: https://github.com/Microsoft/monaco-editor-webpack-plugin#options
-        languages: ["typescript", "javascript"],
       }),
       ...plugins,
     ],

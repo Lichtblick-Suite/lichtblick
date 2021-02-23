@@ -2099,7 +2099,7 @@ __metadata:
     moment: 2.24.0
     moment-duration-format: 2.2.2
     moment-timezone: 0.5.33
-    monaco-editor: 0.20.0
+    monaco-editor: 0.22.3
     monaco-vim: 0.1.11
     natsort: 2.0.2
     nearley: 2.15.1
@@ -6266,7 +6266,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"case-sensitive-paths-webpack-plugin@npm:2.3.0, case-sensitive-paths-webpack-plugin@npm:^2.2.0":
+"case-sensitive-paths-webpack-plugin@npm:^2.2.0":
   version: 2.3.0
   resolution: "case-sensitive-paths-webpack-plugin@npm:2.3.0"
   checksum: 45d85caef4dfc3cacb1461912dee18cfcae74f35cdbeaf564484ed3c82266a5d9305883b86d9537bd57d07ba2a64fb716c2ff98a88a4bf97619ab7b130cbb68e
@@ -9918,7 +9918,6 @@ __metadata:
     "@typescript-eslint/eslint-plugin": 4.15.0
     "@typescript-eslint/parser": 4.15.0
     browserify-zlib: 0.2.0
-    case-sensitive-paths-webpack-plugin: 2.3.0
     crypto-browserify: 3.12.0
     css-loader: 5.0.2
     electron: 12.0.0-beta.28
@@ -9930,8 +9929,6 @@ __metadata:
     eslint-plugin-react: 7.22.0
     fork-ts-checker-webpack-plugin: 6.1.0
     html-webpack-plugin: 5.0.0
-    monaco-editor: 0.22.3
-    monaco-editor-webpack-plugin: 3.0.0
     nearley: 2.20.1
     nearley-loader: 2.0.0
     node-sass: 5.0.0
@@ -13826,29 +13823,10 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"monaco-editor-webpack-plugin@npm:3.0.0":
-  version: 3.0.0
-  resolution: "monaco-editor-webpack-plugin@npm:3.0.0"
-  dependencies:
-    loader-utils: ^2.0.0
-  peerDependencies:
-    monaco-editor: 0.22.x
-    webpack: ^4.5.0 || 5.x
-  checksum: 8efe6f33b7ad2ab276c12e44428c75a1baa7e5cb0963a34a865586c87b825ca8c2cf5a4d46c7f7161e69f02d17ddad5090e94368a09a62beb4afa667c181bbeb
-  languageName: node
-  linkType: hard
-
 "monaco-editor@npm:*, monaco-editor@npm:0.22.3":
   version: 0.22.3
   resolution: "monaco-editor@npm:0.22.3"
   checksum: 1f5a65aee9cb2edb3aa8b82448e36d78e26a9aff2b76561b34f2dcd5d0077ff719d187bc6f439557c4059df8631eb73b7ba33ed90f0d6e1e606bc7cd04023909
-  languageName: node
-  linkType: hard
-
-"monaco-editor@npm:0.20.0":
-  version: 0.20.0
-  resolution: "monaco-editor@npm:0.20.0"
-  checksum: a202a1095043e67e1553f97e8122c0ea7bf83733b24caf41df5f2e059d1b686d45c7f449aba2efb4161e80b974abbb3e4541cb35bf7150dbdf2998ab1fb27f93
   languageName: node
   linkType: hard
 
