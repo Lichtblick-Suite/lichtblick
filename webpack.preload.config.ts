@@ -1,15 +1,8 @@
 import path from "path";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
-import type { Configuration, WebpackPluginInstance } from "webpack";
+import type { Configuration } from "webpack";
 
 export default (_: never, argv: { mode?: string }): Configuration => {
-  const isDev = argv.mode === "development";
-  const plugins: WebpackPluginInstance[] = [];
-
-  if (isDev) {
-    plugins.push(new ForkTsCheckerWebpackPlugin());
-  }
-
   return {
     context: path.resolve("./app"),
     entry: "./preload.ts",
@@ -31,7 +24,7 @@ export default (_: never, argv: { mode?: string }): Configuration => {
           use: {
             loader: "ts-loader",
             options: {
-              transpileOnly: isDev,
+              transpileOnly: true,
               configFile: "tsconfig.preload.json",
               // https://github.com/TypeStrong/ts-loader#onlycompilebundledfiles
               // avoid looking at files which are not part of the bundle
@@ -42,7 +35,13 @@ export default (_: never, argv: { mode?: string }): Configuration => {
       ],
     },
 
-    plugins,
+    plugins: [
+      new ForkTsCheckerWebpackPlugin({
+        typescript: {
+          configFile: "tsconfig.preload.json",
+        },
+      }),
+    ],
 
     resolve: {
       extensions: [".js", ".ts", ".tsx", ".json"],

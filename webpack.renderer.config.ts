@@ -22,11 +22,6 @@ function remarkSmartypants() {
 
 export default (_: never, argv: { mode?: string }): Configuration => {
   const isDev = argv.mode === "development";
-  const plugins: WebpackPluginInstance[] = [];
-
-  if (isDev) {
-    plugins.push(new ForkTsCheckerWebpackPlugin());
-  }
 
   return {
     // force web target instead of electron-render
@@ -81,7 +76,7 @@ export default (_: never, argv: { mode?: string }): Configuration => {
           use: {
             loader: "ts-loader",
             options: {
-              transpileOnly: isDev,
+              transpileOnly: true,
               // https://github.com/TypeStrong/ts-loader#onlycompilebundledfiles
               // avoid looking at files which are not part of the bundle
               onlyCompileBundledFiles: true,
@@ -186,7 +181,7 @@ export default (_: never, argv: { mode?: string }): Configuration => {
         resourceRegExp: /^\.\/locale$/,
         contextRegExp: /moment$/,
       }),
-      ...plugins,
+      new ForkTsCheckerWebpackPlugin(),
     ],
     node: {
       __dirname: true,

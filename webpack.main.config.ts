@@ -3,18 +3,6 @@ import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import webpack, { Configuration, WebpackPluginInstance } from "webpack";
 
 export default (_: never, argv: { mode?: string }): Configuration => {
-  const isDev = argv.mode === "development";
-  const plugins: WebpackPluginInstance[] = [
-    new webpack.DefinePlugin({
-      // Should match webpack-defines.d.ts
-      APP_NAME: JSON.stringify("Foxglove Studio"),
-    }),
-  ];
-
-  if (isDev) {
-    plugins.push(new ForkTsCheckerWebpackPlugin());
-  }
-
   return {
     context: path.resolve("./desktop"),
     entry: "./index.ts",
@@ -33,7 +21,7 @@ export default (_: never, argv: { mode?: string }): Configuration => {
           use: {
             loader: "ts-loader",
             options: {
-              transpileOnly: isDev,
+              transpileOnly: true,
               // https://github.com/TypeStrong/ts-loader#onlycompilebundledfiles
               // avoid looking at files which are not part of the bundle
               onlyCompileBundledFiles: true,
@@ -46,7 +34,13 @@ export default (_: never, argv: { mode?: string }): Configuration => {
       ],
     },
 
-    plugins,
+    plugins: [
+      new webpack.DefinePlugin({
+        // Should match webpack-defines.d.ts
+        APP_NAME: JSON.stringify("Foxglove Studio"),
+      }),
+      new ForkTsCheckerWebpackPlugin(),
+    ],
 
     resolve: {
       extensions: [".js", ".ts", ".tsx", ".json"],

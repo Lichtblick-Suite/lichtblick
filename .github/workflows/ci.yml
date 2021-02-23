@@ -15,7 +15,7 @@ jobs:
       - name: Configure Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: 14.x
+          node-version: 15.x
       - name: Restore cache
         uses: actions/cache@v2
         with:
@@ -27,15 +27,4 @@ jobs:
             ${{ runner.os }}-yarn-
       - run: yarn install --immutable
       - run: yarn run lint:nofix
-
-      - run: yarn run build:dev
-        if: ${{ github.event_name == 'pull_request' }}
-        env:
-          # Our build is so large that it requires more memory from v8
-          NODE_OPTIONS: --max-old-space-size=4096
-
       - run: yarn run build:prod
-        if: ${{ github.event_name == 'push' }}
-        env:
-          # Our build is so large that it requires more memory from v8
-          NODE_OPTIONS: --max-old-space-size=4096
