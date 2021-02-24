@@ -1,3 +1,4 @@
+import "colors";
 import {
   app,
   shell,
@@ -174,9 +175,18 @@ const createWindow = (): void => {
 app.on("ready", async () => {
   if (process.env.NODE_ENV !== "production") {
     console.group("Installing Chrome extensions for development...");
-    const results = await Promise.allSettled(
-      [REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS].map((ext) => installExtension(ext)),
-    );
+    // Extension installation sometimes gets stuck between the download step and the extension loading step, for unknown reasons. A retry usually fixes it.
+    const timeout = setTimeout(() => {
+      console.warn(
+        "If installation takes a long time, it may be stuck. Try relaunching electron or deleting its extensions directory."
+          .yellow,
+      );
+    }, 5000);
+    const results = await Promise.allSettled([
+      installExtension(REACT_DEVELOPER_TOOLS),
+      installExtension(REDUX_DEVTOOLS),
+    ]);
+    clearTimeout(timeout);
     console.log("Finished:", results);
     console.groupEnd();
   }
