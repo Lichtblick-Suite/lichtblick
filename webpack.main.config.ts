@@ -44,6 +44,12 @@ export default (_: never, argv: { mode?: string }): Configuration => {
             },
           },
         },
+        {
+          test: /\.s?css$/,
+          loader: "css-loader",
+          options: { modules: { exportOnlyLocals: true } },
+        },
+        { test: /\.scss$/, loader: "sass-loader" },
       ],
     },
 

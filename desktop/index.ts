@@ -12,6 +12,7 @@ import installExtension, {
   REACT_DEVELOPER_TOOLS,
   REDUX_DEVTOOLS,
 } from "electron-devtools-installer";
+import colors from "@foxglove-studio/app/styles/colors.module.scss";
 
 import type { OsContextWindowEvent } from "@foxglove-studio/app/OsContext";
 
@@ -34,6 +35,7 @@ const createWindow = (): void => {
       contextIsolation: true,
       preload: path.join(app.getAppPath(), "preload.js"), // MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
     },
+    backgroundColor: colors.background,
   };
   if (isMac) {
     windowOptions.titleBarStyle = "hiddenInset";
