@@ -107,6 +107,30 @@ const createWindow = (): void => {
   });
 
   appMenuTemplate.push({
+    role: "editMenu",
+    label: "Edit",
+    submenu: [
+      { role: "undo" },
+      { role: "redo" },
+      { type: "separator" },
+      { role: "cut" },
+      { role: "copy" },
+      { role: "paste" },
+      ...(isMac
+        ? [
+            { role: "pasteAndMatchStyle" } as const,
+            { role: "delete" } as const,
+            { role: "selectAll" } as const,
+          ]
+        : [
+            { role: "delete" } as const,
+            { type: "separator" } as const,
+            { role: "selectAll" } as const,
+          ]),
+    ],
+  });
+
+  appMenuTemplate.push({
     role: "viewMenu",
     label: "View",
     submenu: [
