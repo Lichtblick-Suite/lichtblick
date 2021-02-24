@@ -42,7 +42,7 @@ export default (_: never, argv: { mode?: string }): Configuration => {
     },
 
     resolve: {
-      extensions: [".js", ".ts", ".jsx", ".tsx", ".css"],
+      extensions: [".js", ".ts", ".jsx", ".tsx"],
       alias: {
         "react-dnd": require.resolve("react-dnd"),
         "styled-components": require.resolve("styled-components"),
@@ -122,6 +122,7 @@ export default (_: never, argv: { mode?: string }): Configuration => {
         {
           test: /\.s?css$/,
           loader: "style-loader",
+          sideEffects: true,
         },
         {
           test: /\.s?css$/,
