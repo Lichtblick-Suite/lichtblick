@@ -7,6 +7,10 @@ import {
   BrowserWindowConstructorOptions,
 } from "electron";
 import path from "path";
+import installExtension, {
+  REACT_DEVELOPER_TOOLS,
+  REDUX_DEVTOOLS,
+} from "electron-devtools-installer";
 
 import type { OsContextWindowEvent } from "@foxglove-studio/app/OsContext";
 
@@ -143,7 +147,18 @@ const createWindow = (): void => {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on("ready", createWindow);
+app.on("ready", async () => {
+  if (process.env.NODE_ENV !== "production") {
+    console.group("Installing Chrome extensions for development...");
+    const results = await Promise.allSettled(
+      [REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS].map((ext) => installExtension(ext)),
+    );
+    console.log("Finished:", results);
+    console.groupEnd();
+  }
+
+  createWindow();
+});
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits

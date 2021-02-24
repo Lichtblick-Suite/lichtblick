@@ -1,8 +1,21 @@
 import path from "path";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
-import webpack, { Configuration, WebpackPluginInstance } from "webpack";
+import webpack, { Configuration, ResolveOptions } from "webpack";
 
 export default (_: never, argv: { mode?: string }): Configuration => {
+  const isDev = argv.mode === "development";
+
+  const resolve: ResolveOptions = {
+    extensions: [".js", ".ts", ".tsx", ".json"],
+  };
+
+  if (!isDev) {
+    // Stub out devtools installation for non-dev builds
+    resolve.alias = {
+      "electron-devtools-installer": false,
+    };
+  }
+
   return {
     context: path.resolve("./desktop"),
     entry: "./index.ts",
@@ -42,8 +55,6 @@ export default (_: never, argv: { mode?: string }): Configuration => {
       new ForkTsCheckerWebpackPlugin(),
     ],
 
-    resolve: {
-      extensions: [".js", ".ts", ".tsx", ".json"],
-    },
+    resolve,
   };
 };
