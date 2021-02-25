@@ -12,7 +12,6 @@
 //   You may not use this file except in compliance with the License.
 
 import { storiesOf } from "@storybook/react";
-import React, { ReactInstance } from "react";
 import ReactDOM from "react-dom";
 
 import Menu, { Item, SubMenu } from "@foxglove-studio/app/components/Menu";

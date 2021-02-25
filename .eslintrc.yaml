@@ -3,17 +3,21 @@ env:
   es6: true
   node: true
 
-ignorePatterns:
-  - "app/**/*.js" # ignore flow files for now
+plugins:
+  - react
+  - react-hooks
+  - "@typescript-eslint"
+  - header
 
 extends:
-  - "eslint:recommended"
-  - "plugin:react/recommended"
-  - "plugin:@typescript-eslint/eslint-recommended"
-  - "plugin:@typescript-eslint/recommended"
-  - "plugin:import/errors"
-  - "plugin:import/warnings"
-  - "plugin:import/typescript"
+  - eslint:recommended
+  - plugin:react/recommended
+  - plugin:@typescript-eslint/eslint-recommended
+  - plugin:@typescript-eslint/recommended
+  - plugin:import/errors
+  - plugin:import/warnings
+  - plugin:import/typescript
+  - plugin:prettier/recommended
 
 parser: "@typescript-eslint/parser"
 parserOptions:
@@ -24,23 +28,23 @@ parserOptions:
   sourceType: module
   project: tsconfig.json
 
-plugins:
-  - "@typescript-eslint"
-  - "header"
-  - "react"
-  - "react-hooks"
+settings:
+  react:
+    version: detect
+  import/internal-regex: "^@foxglove-studio/"
 
 rules:
+  no-console: off # configured in no-restricted-syntax
   "@typescript-eslint/ban-ts-comment": off # TODO: remove once we fix all TS issues
   # It's sometimes useful to explicitly name to guard against future changes
   "@typescript-eslint/no-inferrable-types": off
   "@typescript-eslint/no-empty-function": off
   "@typescript-eslint/prefer-nullish-coalescing": warn
-  "react/react-in-jsx-scope": off
-  "react/prop-types": warn
-  "react-hooks/rules-of-hooks": error
-  "react-hooks/exhaustive-deps": error
-  "header/header":
+  react/react-in-jsx-scope: off
+  react/prop-types: warn
+  react-hooks/rules-of-hooks: error
+  react-hooks/exhaustive-deps: error
+  header/header:
     - error
     - line
     # We do not provide a default license header template, because eslint-plugin-header
@@ -48,7 +52,33 @@ rules:
     - pattern: "^ This Source Code Form"
       template: null
 
-settings:
-  "import/ignore": ["\\.js$"] # ignore flow files for now
-  react:
-    version: detect
+  curly: error
+  "@typescript-eslint/no-unused-vars":
+    [error, { vars: all, args: after-used, varsIgnorePattern: "^_", argsIgnorePattern: "^_" }]
+  no-underscore-dangle: [error, { allowAfterThis: true }]
+  # Some good ones that people really should be adding to import/recommended:
+  import/first: error
+  import/no-self-import: error
+  import/no-useless-path-segments: error
+  import/no-mutable-exports: error
+  import/newline-after-import: error
+  import/no-duplicates: error # https://github.com/benmosher/eslint-plugin-import/issues/242#issuecomment-230118951
+  # Group imports into two groups: packages and files. Sort alphabetically
+  # within those groups.
+  import/order:
+    - error
+    - alphabetize: { order: asc }
+      newlines-between: always
+      groups: [[builtin, external], [internal, parent, sibling, index]]
+
+  prefer-arrow-callback: [error, { allowNamedFunctions: true }]
+  "@typescript-eslint/no-shadow": error
+  no-restricted-syntax:
+    - error
+    - selector: "MethodDefinition[kind='get'], Property[kind='get']"
+      message: "Property getters are not allowed; prefer function syntax instead."
+    - selector: "MethodDefinition[kind='set'], Property[kind='set']"
+      message: "Property setters are not allowed; prefer function syntax instead."
+    # We disable console methods here rather than using no-console so that it doesn't prohibit overrides such as "console.info = ..."
+    - selector: "CallExpression[callee.object.name='console'][callee.property.name!=/^(warn|error|debug|assert)$/]"
+      message: "Unexpected property on console object was called"

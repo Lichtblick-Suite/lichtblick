@@ -1,2 +1,6 @@
 parserOptions:
   project: preload/tsconfig.json
+settings:
+  import/resolver:
+    webpack:
+      config: ./webpack.preload.config.ts

@@ -12,6 +12,7 @@
 //   You may not use this file except in compliance with the License.
 import * as Sentry from "@sentry/browser";
 import CBOR from "cbor-js";
+import { create as JsonDiffCreate } from "jsondiffpatch";
 import { compact, cloneDeep, flatMap, isEmpty, xor, uniq } from "lodash";
 import {
   createRemoveUpdate,
@@ -22,11 +23,10 @@ import {
   MosaicUpdate,
 } from "react-mosaic-component";
 import zlib from "zlib";
-import { create as JsonDiffCreate } from "jsondiffpatch";
 
 import { isInIFrame } from "./iframeUtils";
-import { getLayoutNameAndVersion } from "@foxglove-studio/app/shared/layout";
 import { PanelsState } from "@foxglove-studio/app/reducers/panels";
+import { getLayoutNameAndVersion } from "@foxglove-studio/app/shared/layout";
 import { TabLocation, TabPanelConfig } from "@foxglove-studio/app/types/layouts";
 import {
   ConfigsPayload,
@@ -36,7 +36,6 @@ import {
   MosaicPath,
   MosaicDropTargetPosition,
   SavedProps,
-  MosaicKey,
 } from "@foxglove-studio/app/types/panels";
 import {
   TAB_PANEL_TYPE,
@@ -252,13 +251,13 @@ export const validateTabPanelConfig = (config: PanelConfig | null | undefined) =
     const error = new Error(
       "A non-Tab panel config is being operated on as if it were a Tab panel.",
     );
-    console.log("Invalid Tab panel config:", config, error);
+    console.warn("Invalid Tab panel config:", config, error);
     Sentry.captureException(error);
     return false;
   }
   if (config && config.activeTabIdx >= config.tabs.length) {
     const error = new Error("A Tab panel has an activeTabIdx for a nonexistent tab.");
-    console.log("Invalid Tab panel config:", config, error);
+    console.warn("Invalid Tab panel config:", config, error);
     Sentry.captureException(error);
     return false;
   }

@@ -15,8 +15,8 @@ import { storiesOf } from "@storybook/react";
 import { noop } from "lodash";
 import React, { ReactNode } from "react";
 
-import tick from "@foxglove-studio/app/shared/tick";
 import { ToolbarTab } from "@foxglove-studio/app/panels/Tab/ToolbarTab";
+import tick from "@foxglove-studio/app/shared/tick";
 
 const baseProps = {
   hidden: false,

@@ -14,12 +14,12 @@
 import React, { ReactElement, useMemo } from "react";
 import { Time } from "rosbag";
 
+import * as PanelAPI from "@foxglove-studio/app/PanelAPI";
 import { getTopicsFromPaths } from "@foxglove-studio/app/components/MessagePathSyntax/parseRosPath";
 import {
   MessagePathDataItem,
   useDecodeMessagePathsForMessagesByTopic,
 } from "@foxglove-studio/app/components/MessagePathSyntax/useCachedGetMessagePathDataItems";
-import * as PanelAPI from "@foxglove-studio/app/PanelAPI";
 import { Message } from "@foxglove-studio/app/players/types";
 import { useShallowMemo } from "@foxglove-studio/app/util/hooks";
 

@@ -11,7 +11,6 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { $Shape } from "utility-types";
 import ArrowLeftIcon from "@mdi/svg/svg/arrow-left.svg";
 import CheckboxBlankOutlineIcon from "@mdi/svg/svg/checkbox-blank-outline.svg";
 import CheckboxMarkedIcon from "@mdi/svg/svg/checkbox-marked.svg";
@@ -20,6 +19,7 @@ import * as React from "react";
 import { hot } from "react-hot-loader/root";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
+import { $Shape } from "utility-types";
 import uuid from "uuid";
 
 import { Script } from "./script";
@@ -34,8 +34,8 @@ import PanelToolbar from "@foxglove-studio/app/components/PanelToolbar";
 import SpinningLoadingIcon from "@foxglove-studio/app/components/SpinningLoadingIcon";
 import TextContent from "@foxglove-studio/app/components/TextContent";
 import BottomBar from "@foxglove-studio/app/panels/NodePlayground/BottomBar";
-import Playground from "@foxglove-studio/app/panels/NodePlayground/playground-icon.svg";
 import Sidebar from "@foxglove-studio/app/panels/NodePlayground/Sidebar";
+import Playground from "@foxglove-studio/app/panels/NodePlayground/playground-icon.svg";
 import { UserNodes } from "@foxglove-studio/app/types/panels";
 import { DEFAULT_WEBVIZ_NODE_PREFIX } from "@foxglove-studio/app/util/globalConstants";
 import { colors } from "@foxglove-studio/app/util/sharedStyleConstants";

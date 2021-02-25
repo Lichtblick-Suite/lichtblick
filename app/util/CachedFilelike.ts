@@ -13,9 +13,10 @@
 import { round } from "lodash";
 import { Callback, Filelike } from "rosbag";
 
+import VirtualLRUBuffer from "./VirtualLRUBuffer";
 import { getNewConnection } from "./getNewConnection";
 import { Range } from "./ranges";
-import VirtualLRUBuffer from "./VirtualLRUBuffer";
+import Logger from "@foxglove-studio/app/util/Logger";
 
 // CachedFilelike is a `Filelike` that attempts to do as much caching of the file in memory as
 // possible. It takes in 3 named arguments to its constructor:
@@ -61,12 +62,14 @@ const CACHE_BLOCK_SIZE = 1024 * 1024 * 10; // 10MiB blocks.
 // account actual download speed.
 const CLOSE_ENOUGH_BYTES_TO_NOT_START_NEW_CONNECTION = 1024 * 1024 * 5;
 
+const logger = new Logger("CachedFilelike");
+
 export default class CachedFilelike implements Filelike {
   _fileReader: FileReader;
   _cacheSizeInBytes: number = Infinity;
   _fileSize: number;
   _virtualBuffer: VirtualLRUBuffer;
-  _logFn: (arg0: string) => void = (msg) => console.log(msg);
+  _logFn: (arg0: string) => void = (msg) => logger.info(msg);
   _closed: boolean = false;
   _keepReconnectingCallback?: (reconnecting: boolean) => void;
 

@@ -15,9 +15,9 @@ import { uniq } from "lodash";
 import React from "react";
 import styled from "styled-components";
 
+import TreeNodeRow from "./TreeNodeRow";
 import renderNamespaceNodes, { NamespaceNode } from "./renderNamespaceNodes";
 import { renderStyleExpressionNodes } from "./renderStyleExpressionNodes";
-import TreeNodeRow from "./TreeNodeRow";
 import {
   DerivedCustomSettingsByKey,
   GetIsNamespaceCheckedByDefault,

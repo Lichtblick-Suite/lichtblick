@@ -11,8 +11,9 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import signal from "@foxglove-studio/app/shared/signal";
 import { cast } from "@foxglove-studio/app/players/types";
+import signal from "@foxglove-studio/app/shared/signal";
+import Rpc, { createLinkedChannels } from "@foxglove-studio/app/util/Rpc";
 import { deepParse, getObject, wrapJsObject } from "@foxglove-studio/app/util/binaryObjects";
 import {
   BobjectRpcSender,
@@ -22,7 +23,6 @@ import {
   definitions,
   HasComplexAndArray,
 } from "@foxglove-studio/app/util/binaryObjects/messageDefinitionUtils.test";
-import Rpc, { createLinkedChannels } from "@foxglove-studio/app/util/Rpc";
 
 const datatype = "fake_msgs/HasComplexAndArray";
 

@@ -11,10 +11,10 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { $Shape } from "utility-types";
 import hoistNonReactStatics from "hoist-non-react-statics";
 import PropTypes from "prop-types";
 import * as React from "react";
+import { $Shape } from "utility-types";
 
 import { getGlobalHooks } from "../../loadWebviz";
 import Transforms from "@foxglove-studio/app/panels/ThreeDimensionalViz/Transforms";

@@ -13,6 +13,7 @@
 import React, { useMemo, useState } from "react";
 import styled, { css } from "styled-components";
 
+import { ScaleBounds } from "../ReactChartjs/zoomAndPanHelpers";
 import Dimensions from "@foxglove-studio/app/components/Dimensions";
 import {
   MessagePipelineContext,
@@ -20,7 +21,6 @@ import {
 } from "@foxglove-studio/app/components/MessagePipeline";
 import HoverBar from "@foxglove-studio/app/components/TimeBasedChart/HoverBar";
 import { toSec } from "@foxglove-studio/app/util/time";
-import { ScaleBounds } from "../ReactChartjs/zoomAndPanHelpers";
 
 const sharedTickStyles = css`
   position: absolute;

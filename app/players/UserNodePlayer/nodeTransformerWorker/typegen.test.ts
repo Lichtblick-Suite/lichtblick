@@ -12,6 +12,8 @@
 //   You may not use this file except in compliance with the License.
 
 // Pulled from our open source demo bag: https://open-source-webviz-ui.s3.amazonaws.com/demo.bag
+import ts from "typescript/lib/typescript";
+
 import stressTestDatatypes from "@foxglove-studio/app/players/UserNodePlayer/nodeTransformerWorker/fixtures/example-datatypes.json";
 import { compile } from "@foxglove-studio/app/players/UserNodePlayer/nodeTransformerWorker/transformer";
 import generateRosLib, {
@@ -20,8 +22,6 @@ import generateRosLib, {
   InterfaceDeclarations,
 } from "@foxglove-studio/app/players/UserNodePlayer/nodeTransformerWorker/typegen";
 import { NodeData } from "@foxglove-studio/app/players/UserNodePlayer/types";
-
-import ts from "typescript/lib/typescript";
 
 const baseNodeData: NodeData = {
   name: "/webviz_node/main",

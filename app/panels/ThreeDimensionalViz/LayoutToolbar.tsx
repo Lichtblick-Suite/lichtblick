@@ -75,7 +75,6 @@ function LayoutToolbar({
   onToggleDebug,
   polygonBuilder,
   rootTf,
-  saveConfig,
   searchInputRef,
   searchText,
   searchTextMatches,

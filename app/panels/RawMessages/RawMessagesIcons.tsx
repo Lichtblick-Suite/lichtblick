@@ -14,7 +14,7 @@ import ChartBubbleIcon from "@mdi/svg/svg/chart-bubble.svg";
 import ChartLineVariantIcon from "@mdi/svg/svg/chart-line-variant.svg";
 import DotsHorizontalIcon from "@mdi/svg/svg/dots-horizontal.svg";
 import TargetIcon from "@mdi/svg/svg/target.svg";
-import React, { ReactElement, ReactNode, useCallback } from "react";
+import { ReactElement, useCallback } from "react";
 
 import { ValueAction } from "./getValueActionForValue";
 import styles from "./index.module.scss";

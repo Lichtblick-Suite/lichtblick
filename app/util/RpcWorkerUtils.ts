@@ -11,8 +11,8 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import overwriteFetch from "./overwriteFetch";
 import Rpc from "./Rpc";
+import overwriteFetch from "./overwriteFetch";
 import { initializeLogEvent } from "@foxglove-studio/app/util/logEvent";
 import {
   setNotificationHandler,

@@ -11,14 +11,14 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { $Shape } from "utility-types";
 import { sortBy } from "lodash";
 import * as React from "react";
 import { hot } from "react-hot-loader/root";
+import { $Shape } from "utility-types";
 
-import DiagnosticsHistory, { DiagnosticAutocompleteEntry } from "./DiagnosticsHistory";
 import DiagnosticStatus from "./DiagnosticStatus";
 import helpContent from "./DiagnosticStatusPanel.help.md";
+import DiagnosticsHistory, { DiagnosticAutocompleteEntry } from "./DiagnosticsHistory";
 import { getDisplayName, trimHardwareId } from "./util";
 import Autocomplete from "@foxglove-studio/app/components/Autocomplete";
 import EmptyState from "@foxglove-studio/app/components/EmptyState";

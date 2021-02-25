@@ -14,7 +14,6 @@ import { isEqual, partition } from "lodash";
 import { TimeUtil, Time } from "rosbag";
 import uuid from "uuid";
 
-import delay from "@foxglove-studio/app/shared/delay";
 import { rootGetDataProvider } from "@foxglove-studio/app/dataProviders/rootGetDataProvider";
 import {
   DataProvider,
@@ -38,6 +37,7 @@ import {
   ParsedMessageDefinitionsByTopic,
   NotifyPlayerManager,
 } from "@foxglove-studio/app/players/types";
+import delay from "@foxglove-studio/app/shared/delay";
 import inScreenshotTests from "@foxglove-studio/app/stories/inScreenshotTests";
 import { RosDatatypes } from "@foxglove-studio/app/types/RosDatatypes";
 import debouncePromise from "@foxglove-studio/app/util/debouncePromise";

@@ -15,7 +15,6 @@ import * as React from "react";
 import { PolygonBuilder, Polygon } from "regl-worldview";
 import styled from "styled-components";
 
-import { polygonPointsValidator } from "@foxglove-studio/app/shared/validators";
 import Button from "@foxglove-studio/app/components/Button";
 import PanelContext from "@foxglove-studio/app/components/PanelContext";
 import ValidatedInput, { EditFormat } from "@foxglove-studio/app/components/ValidatedInput";
@@ -29,6 +28,7 @@ import {
   pointsToPolygons,
   getPolygonLineDistances,
 } from "@foxglove-studio/app/panels/ThreeDimensionalViz/utils/drawToolUtils";
+import { polygonPointsValidator } from "@foxglove-studio/app/shared/validators";
 import clipboard from "@foxglove-studio/app/util/clipboard";
 
 export type Point2D = { x: number; y: number };

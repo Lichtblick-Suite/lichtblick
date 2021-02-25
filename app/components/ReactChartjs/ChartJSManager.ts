@@ -281,11 +281,10 @@ export default class ChartJSManager {
         const nearestElements = chartInstance.getElementsAtEventForMode(event, "nearest", {
           intersect: false,
         });
-        const nearestXAxisElement = nearestElements.find((
-          item: any, // eslint-disable-next-line no-underscore-dangle
-        ) =>
+        const nearestXAxisElement = nearestElements.find((item: any) =>
           xAxisElements.some(
             (item2: any) =>
+              // eslint-disable-next-line no-underscore-dangle
               item._index === item2._index && item._datasetIndex === item2._datasetIndex,
           ),
         );

@@ -13,7 +13,6 @@
 import React, { ReactElement, useCallback } from "react";
 
 import { SliderWithTicks, SliderProps } from "@foxglove-studio/app/components/SliderWithTicks";
-
 import useGlobalVariables from "@foxglove-studio/app/hooks/useGlobalVariables";
 
 type Props = {

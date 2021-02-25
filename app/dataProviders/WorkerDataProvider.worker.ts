@@ -13,10 +13,10 @@
 
 import ApiCheckerDataProvider from "@foxglove-studio/app/dataProviders/ApiCheckerDataProvider";
 import BagDataProvider from "@foxglove-studio/app/dataProviders/BagDataProvider";
-import createGetDataProvider from "@foxglove-studio/app/dataProviders/createGetDataProvider";
 import IdbCacheWriterDataProvider from "@foxglove-studio/app/dataProviders/IdbCacheWriterDataProvider";
 import MeasureDataProvider from "@foxglove-studio/app/dataProviders/MeasureDataProvider";
 import RpcDataProviderRemote from "@foxglove-studio/app/dataProviders/RpcDataProviderRemote";
+import createGetDataProvider from "@foxglove-studio/app/dataProviders/createGetDataProvider";
 import Rpc from "@foxglove-studio/app/util/Rpc";
 
 const getDataProvider = createGetDataProvider({

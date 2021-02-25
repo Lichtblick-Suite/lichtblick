@@ -11,16 +11,15 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { $Shape } from "utility-types";
 import { useRef, useCallback, useMemo, useState, useEffect, useContext } from "react";
 import uuid from "uuid";
 
-import useCleanup from "@foxglove-studio/app/hooks/useCleanup";
 import {
   useMessagePipeline,
   MessagePipelineContext,
 } from "@foxglove-studio/app/components/MessagePipeline";
 import PanelContext from "@foxglove-studio/app/components/PanelContext";
+import useCleanup from "@foxglove-studio/app/hooks/useCleanup";
 import { Message, MessageFormat, SubscribePayload } from "@foxglove-studio/app/players/types";
 import {
   useChangeDetector,

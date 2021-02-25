@@ -14,6 +14,7 @@ import { throttle } from "lodash";
 
 const DELAY = 1000;
 
+/* eslint-disable no-restricted-syntax */
 const warn = throttle((...args: any[]) => console.warn(...args), DELAY);
 const error = throttle((...args: any[]) => console.error(...args), DELAY);
 const info = throttle((...args: any[]) => console.info(...args), DELAY);

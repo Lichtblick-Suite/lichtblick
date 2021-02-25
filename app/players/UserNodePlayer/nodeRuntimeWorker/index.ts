@@ -14,8 +14,8 @@ import {
   registerNode,
   processMessage,
 } from "@foxglove-studio/app/players/UserNodePlayer/nodeRuntimeWorker/registry";
-import { BobjectRpcReceiver } from "@foxglove-studio/app/util/binaryObjects/BobjectRpc";
 import Rpc from "@foxglove-studio/app/util/Rpc";
+import { BobjectRpcReceiver } from "@foxglove-studio/app/util/binaryObjects/BobjectRpc";
 import { enforceFetchIsBlocked, inSharedWorker } from "@foxglove-studio/app/util/workers";
 
 if (!inSharedWorker()) {

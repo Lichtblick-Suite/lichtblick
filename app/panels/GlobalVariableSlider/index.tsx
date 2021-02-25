@@ -11,9 +11,9 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { $Shape } from "utility-types";
 import React, { ReactNode, useCallback, useMemo } from "react";
 import { hot } from "react-hot-loader/root";
+import { $Shape } from "utility-types";
 
 import GlobalVariableSlider from "@foxglove-studio/app/components/GlobalVariableSlider";
 import Item from "@foxglove-studio/app/components/Menu/Item";

@@ -13,8 +13,8 @@
 
 import * as React from "react";
 
-import { TimeBasedChartTooltipData } from "./index";
 import styles from "./TimeBasedChartTooltip.module.scss";
+import { TimeBasedChartTooltipData } from "./index";
 import Tooltip from "@foxglove-studio/app/components/Tooltip";
 import { formatTime } from "@foxglove-studio/app/util/formatTime";
 import { subtractTimes, toSec, formatTimeRaw } from "@foxglove-studio/app/util/time";

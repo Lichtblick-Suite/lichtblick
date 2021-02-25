@@ -13,9 +13,9 @@
 import { storiesOf } from "@storybook/react";
 import React, { useState } from "react";
 
-import delay from "@foxglove-studio/app/shared/delay";
 import Flex from "@foxglove-studio/app/components/Flex";
 import ThreeDimensionalViz from "@foxglove-studio/app/panels/ThreeDimensionalViz";
+import delay from "@foxglove-studio/app/shared/delay";
 import PanelSetup from "@foxglove-studio/app/stories/PanelSetup";
 import { SExpectedResult } from "@foxglove-studio/app/stories/storyHelpers";
 

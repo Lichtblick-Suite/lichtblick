@@ -19,12 +19,12 @@ import NodePlayground, {
   Explorer,
   NodePlaygroundSettings,
 } from "@foxglove-studio/app/panels/NodePlayground";
-import testDocs from "@foxglove-studio/app/panels/NodePlayground/index.test.md";
 import Sidebar from "@foxglove-studio/app/panels/NodePlayground/Sidebar";
+import testDocs from "@foxglove-studio/app/panels/NodePlayground/index.test.md";
+import { UserNodeLog } from "@foxglove-studio/app/players/UserNodePlayer/types";
 import PanelSetup from "@foxglove-studio/app/stories/PanelSetup";
 import { SExpectedResult } from "@foxglove-studio/app/stories/storyHelpers";
 import { DEFAULT_WEBVIZ_NODE_PREFIX } from "@foxglove-studio/app/util/globalConstants";
-import { UserNodeLog } from "@foxglove-studio/app/players/UserNodePlayer/types";
 
 const userNodes = {
   nodeId1: { name: "/webviz_node/node", sourceCode: "const someVariableName = 1;" },

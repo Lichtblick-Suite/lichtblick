@@ -24,11 +24,11 @@ import styled from "styled-components";
 
 import { Save3DConfig } from "../index";
 import DiffModeSettings from "./DiffModeSettings";
-import NoMatchesSvg from "./noMatches.svg";
-import renderTreeNodes, { SWITCHER_WIDTH } from "./renderTreeNodes";
 import TopicTreeSwitcher, { SWITCHER_HEIGHT } from "./TopicTreeSwitcher";
 import TopicViewModeSelector from "./TopicViewModeSelector";
 import { ROW_HEIGHT } from "./TreeNodeRow";
+import NoMatchesSvg from "./noMatches.svg";
+import renderTreeNodes, { SWITCHER_WIDTH } from "./renderTreeNodes";
 import {
   DerivedCustomSettingsByKey,
   GetIsNamespaceCheckedByDefault,

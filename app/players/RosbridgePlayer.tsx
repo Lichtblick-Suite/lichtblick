@@ -13,10 +13,11 @@
 
 import { isEqual, sortBy, partition } from "lodash";
 import { MessageReader, Time, parseMessageDefinition } from "rosbag";
+import ROSLIB from "roslib/build/roslib";
 import uuid from "uuid";
 
-import renderToBody from "@foxglove-studio/app/components/renderToBody";
 import WssErrorModal from "@foxglove-studio/app/components/WssErrorModal";
+import renderToBody from "@foxglove-studio/app/components/renderToBody";
 import {
   AdvertisePayload,
   BobjectMessage,
@@ -38,8 +39,6 @@ import { FREEZE_MESSAGES } from "@foxglove-studio/app/util/globalConstants";
 import { getTopicsByTopicName } from "@foxglove-studio/app/util/selectors";
 import sendNotification from "@foxglove-studio/app/util/sendNotification";
 import { fromMillis, TimestampMethod } from "@foxglove-studio/app/util/time";
-
-import ROSLIB from "roslib/build/roslib";
 
 const capabilities = [PlayerCapabilities.advertise];
 const NO_WARNINGS = Object.freeze({});

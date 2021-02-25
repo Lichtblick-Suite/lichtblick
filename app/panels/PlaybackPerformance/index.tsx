@@ -11,10 +11,11 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { $ReadOnly } from "utility-types";
 import { last, sumBy } from "lodash";
 import * as React from "react";
+import { ReactElement } from "react";
 import { hot } from "react-hot-loader/root";
+import { $ReadOnly } from "utility-types";
 
 import helpContent from "./index.help.md";
 import Flex from "@foxglove-studio/app/components/Flex";
@@ -24,7 +25,6 @@ import PanelToolbar from "@foxglove-studio/app/components/PanelToolbar";
 import { Sparkline, SparklinePoint } from "@foxglove-studio/app/components/Sparkline";
 import { PlayerStateActiveData } from "@foxglove-studio/app/players/types";
 import { subtractTimes, toSec } from "@foxglove-studio/app/util/time";
-import { ReactElement } from "react";
 
 const TIME_RANGE = 5000;
 

@@ -11,14 +11,13 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 import { vec3 } from "gl-matrix";
-import React, { ReactElement, ReactNode } from "react";
+import { ReactElement } from "react";
 import {
   Arrows,
   FilledPolygons,
   pointToVec3,
   vec3ToPoint,
   orientationToVec4,
-  Arrow,
   CommonCommandProps,
 } from "regl-worldview";
 

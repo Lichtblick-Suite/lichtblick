@@ -11,13 +11,12 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { $ReadOnly } from "utility-types";
 import memoizeWeak from "memoize-weak";
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { MessageReader } from "rosbag";
+import { $ReadOnly } from "utility-types";
 import uuid from "uuid";
 
-import useCleanup from "@foxglove-studio/app/hooks/useCleanup";
 import {
   useMessagePipeline,
   MessagePipelineContext,
@@ -25,6 +24,7 @@ import {
 import PanelContext from "@foxglove-studio/app/components/PanelContext";
 import { MemoryCacheBlock } from "@foxglove-studio/app/dataProviders/MemoryCacheDataProvider";
 import ParsedMessageCache from "@foxglove-studio/app/dataProviders/ParsedMessageCache";
+import useCleanup from "@foxglove-studio/app/hooks/useCleanup";
 import {
   BobjectMessage,
   SubscribePayload,

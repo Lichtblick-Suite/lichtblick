@@ -11,13 +11,12 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { $Shape } from "utility-types";
 import { createMemoryHistory } from "history";
 import { uniq } from "lodash";
 import * as React from "react";
 import { Worldview } from "regl-worldview";
+import { $Shape } from "utility-types";
 
-import delay from "@foxglove-studio/app/shared/delay";
 import { selectAllPanelIds } from "@foxglove-studio/app/actions/mosaic";
 import Flex from "@foxglove-studio/app/components/Flex";
 import PanelLayout from "@foxglove-studio/app/components/PanelLayout";
@@ -26,15 +25,16 @@ import GlobalVariableSliderPanel from "@foxglove-studio/app/panels/GlobalVariabl
 import ThreeDimensionalViz, {
   ThreeDimensionalVizConfig,
 } from "@foxglove-studio/app/panels/ThreeDimensionalViz";
-import { Store } from "@foxglove-studio/app/types/Store";
 import { Frame, Topic } from "@foxglove-studio/app/players/types";
 import createRootReducer from "@foxglove-studio/app/reducers";
+import delay from "@foxglove-studio/app/shared/delay";
 import configureStore from "@foxglove-studio/app/store/configureStore";
-import inScreenshotTests from "@foxglove-studio/app/stories/inScreenshotTests";
 import PanelSetup, { Fixture } from "@foxglove-studio/app/stories/PanelSetup";
 import PanelSetupWithBag from "@foxglove-studio/app/stories/PanelSetupWithBag";
+import inScreenshotTests from "@foxglove-studio/app/stories/inScreenshotTests";
 import { ScreenshotSizedContainer } from "@foxglove-studio/app/stories/storyHelpers";
 import { createRosDatatypesFromFrame } from "@foxglove-studio/app/test/datatypes";
+import { Store } from "@foxglove-studio/app/types/Store";
 import { objectValues } from "@foxglove-studio/app/util";
 import { isBobject, wrapJsObject } from "@foxglove-studio/app/util/binaryObjects";
 

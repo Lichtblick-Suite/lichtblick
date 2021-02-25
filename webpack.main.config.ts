@@ -2,8 +2,8 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import path from "path";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
+import path from "path";
 import { Configuration, ResolveOptions, DefinePlugin } from "webpack";
 
 import { WebpackArgv } from "./WebpackArgv";

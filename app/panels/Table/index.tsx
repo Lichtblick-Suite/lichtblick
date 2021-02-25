@@ -20,16 +20,16 @@ import { useTable, usePagination, useExpanded, useSortBy } from "react-table";
 import styled from "styled-components";
 
 import helpContent from "./index.help.md";
+import { useMessagesByTopic } from "@foxglove-studio/app/PanelAPI";
 import EmptyState from "@foxglove-studio/app/components/EmptyState";
 import Flex from "@foxglove-studio/app/components/Flex";
 import Icon from "@foxglove-studio/app/components/Icon";
-import { RosPath } from "@foxglove-studio/app/components/MessagePathSyntax/constants";
 import MessagePathInput from "@foxglove-studio/app/components/MessagePathSyntax/MessagePathInput";
+import { RosPath } from "@foxglove-studio/app/components/MessagePathSyntax/constants";
 import parseRosPath from "@foxglove-studio/app/components/MessagePathSyntax/parseRosPath";
 import { useCachedGetMessagePathDataItems } from "@foxglove-studio/app/components/MessagePathSyntax/useCachedGetMessagePathDataItems";
 import Panel from "@foxglove-studio/app/components/Panel";
 import PanelToolbar from "@foxglove-studio/app/components/PanelToolbar";
-import { useMessagesByTopic } from "@foxglove-studio/app/PanelAPI";
 import {
   TableInstance,
   PaginationProps,

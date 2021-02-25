@@ -16,7 +16,6 @@ import ApiCheckerDataProvider, {
 } from "@foxglove-studio/app/dataProviders/ApiCheckerDataProvider";
 import BagDataProvider from "@foxglove-studio/app/dataProviders/BagDataProvider";
 import CombinedDataProvider from "@foxglove-studio/app/dataProviders/CombinedDataProvider";
-import createGetDataProvider from "@foxglove-studio/app/dataProviders/createGetDataProvider";
 import IdbCacheReaderDataProvider from "@foxglove-studio/app/dataProviders/IdbCacheReaderDataProvider";
 import MeasureDataProvider, {
   instrumentTreeWithMeasureDataProvider,
@@ -25,8 +24,9 @@ import MemoryCacheDataProvider from "@foxglove-studio/app/dataProviders/MemoryCa
 import ParseMessagesDataProvider from "@foxglove-studio/app/dataProviders/ParseMessagesDataProvider";
 import RenameDataProvider from "@foxglove-studio/app/dataProviders/RenameDataProvider";
 import RewriteBinaryDataProvider from "@foxglove-studio/app/dataProviders/RewriteBinaryDataProvider";
-import { DataProviderDescriptor, DataProvider } from "@foxglove-studio/app/dataProviders/types";
 import WorkerDataProvider from "@foxglove-studio/app/dataProviders/WorkerDataProvider";
+import createGetDataProvider from "@foxglove-studio/app/dataProviders/createGetDataProvider";
+import { DataProviderDescriptor, DataProvider } from "@foxglove-studio/app/dataProviders/types";
 import { MEASURE_DATA_PROVIDERS_QUERY_KEY } from "@foxglove-studio/app/util/globalConstants";
 
 const getDataProviderBase = createGetDataProvider({

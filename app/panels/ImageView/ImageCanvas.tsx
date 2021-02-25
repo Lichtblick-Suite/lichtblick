@@ -25,7 +25,6 @@ import uuid from "uuid";
 
 import styles from "./ImageCanvas.module.scss";
 // eslint-disable-next-line import/no-unresolved
-import ImageCanvasWorker from "worker-loader!./ImageCanvas.worker";
 import { ImageViewPanelHooks, Config, SaveImagePanelConfig } from "./index";
 import { renderImage } from "./renderImage";
 import { checkOutOfBounds, Dimensions } from "./util";
@@ -36,11 +35,12 @@ import { Message, Topic } from "@foxglove-studio/app/players/types";
 import colors from "@foxglove-studio/app/styles/colors.module.scss";
 import { CameraInfo } from "@foxglove-studio/app/types/Messages";
 import { downloadFiles } from "@foxglove-studio/app/util";
-import debouncePromise from "@foxglove-studio/app/util/debouncePromise";
 import Rpc from "@foxglove-studio/app/util/Rpc";
+import WebWorkerManager from "@foxglove-studio/app/util/WebWorkerManager";
+import debouncePromise from "@foxglove-studio/app/util/debouncePromise";
 import sendNotification from "@foxglove-studio/app/util/sendNotification";
 import supportsOffscreenCanvas from "@foxglove-studio/app/util/supportsOffscreenCanvas";
-import WebWorkerManager from "@foxglove-studio/app/util/WebWorkerManager";
+import ImageCanvasWorker from "worker-loader!./ImageCanvas.worker";
 
 type OnFinishRenderImage = () => void;
 type Props = {

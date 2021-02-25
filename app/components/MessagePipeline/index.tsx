@@ -11,14 +11,14 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { $Shape } from "utility-types";
 import { debounce, flatten, groupBy, isEqual } from "lodash";
 import * as React from "react";
+import { ReactElement } from "react";
 import { Time, TimeUtil } from "rosbag";
+import { $Shape } from "utility-types";
 
 import { pauseFrameForPromises, FramePromise } from "./pauseFrameForPromise";
 import warnOnOutOfSyncMessages from "./warnOnOutOfSyncMessages";
-import signal from "@foxglove-studio/app/shared/signal";
 import { GlobalVariables } from "@foxglove-studio/app/hooks/useGlobalVariables";
 import {
   AdvertisePayload,
@@ -32,6 +32,7 @@ import {
   SubscribePayload,
   Topic,
 } from "@foxglove-studio/app/players/types";
+import signal from "@foxglove-studio/app/shared/signal";
 import StoreSetup from "@foxglove-studio/app/stories/StoreSetup";
 import { wrapMessages } from "@foxglove-studio/app/test/datatypes";
 import { RosDatatypes } from "@foxglove-studio/app/types/RosDatatypes";
@@ -45,7 +46,6 @@ import {
 } from "@foxglove-studio/app/util/hooks";
 import naturalSort from "@foxglove-studio/app/util/naturalSort";
 import sendNotification from "@foxglove-studio/app/util/sendNotification";
-import { ReactElement, ReactNode } from "react";
 
 export const WARN_ON_SUBSCRIPTIONS_WITHIN_TIME_MS = 1000;
 

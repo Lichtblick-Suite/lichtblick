@@ -19,7 +19,6 @@ import React from "react";
 
 import Icon from "@foxglove-studio/app/components/Icon";
 import { Diagnostic, DiagnosticSeverity } from "@foxglove-studio/app/players/UserNodePlayer/types";
-
 import { colors } from "@foxglove-studio/app/util/sharedStyleConstants";
 
 const severityColors = {

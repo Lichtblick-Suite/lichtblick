@@ -13,8 +13,8 @@
 
 import * as React from "react";
 
-import Tooltip from "@foxglove-studio/app/components/TooltipBase";
 import Menu from "@foxglove-studio/app/components/Menu";
+import Tooltip from "@foxglove-studio/app/components/TooltipBase";
 
 type Props = {
   children: React.ReactNode;

@@ -13,10 +13,10 @@
 
 // @ts-nocheck
 
+import ts from "typescript/lib/typescript";
+
 import { Topic } from "@foxglove-studio/app/players/types";
 import { RosDatatypes, RosDatatype } from "@foxglove-studio/app/types/RosDatatypes";
-
-import ts from "typescript/lib/typescript";
 
 export type InterfaceDeclarations = {
   [datatype: string]: ts.InterfaceDeclaration;

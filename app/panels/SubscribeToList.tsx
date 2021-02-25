@@ -13,10 +13,10 @@
 import * as React from "react";
 import { hot } from "react-hot-loader/root";
 
+import * as PanelAPI from "@foxglove-studio/app/PanelAPI";
 import Flex from "@foxglove-studio/app/components/Flex";
 import Panel from "@foxglove-studio/app/components/Panel";
 import PanelToolbar from "@foxglove-studio/app/components/PanelToolbar";
-import * as PanelAPI from "@foxglove-studio/app/PanelAPI";
 import { SaveConfig } from "@foxglove-studio/app/types/panels";
 
 // Little dummy panel that just subscribes to a bunch of topics. Doesn't actually

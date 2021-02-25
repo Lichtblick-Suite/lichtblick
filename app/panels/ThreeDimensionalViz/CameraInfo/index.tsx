@@ -11,15 +11,14 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { $Shape } from "utility-types";
 import CameraControlIcon from "@mdi/svg/svg/camera-control.svg";
 import { vec3 } from "gl-matrix";
 import { isEqual } from "lodash";
 import * as React from "react";
 import { CameraState, cameraStateSelectors } from "regl-worldview";
 import styled from "styled-components";
+import { $Shape } from "utility-types";
 
-import { point2DValidator, cameraStateValidator } from "@foxglove-studio/app/shared/validators";
 import Button from "@foxglove-studio/app/components/Button";
 import ExpandingToolbar, { ToolGroup } from "@foxglove-studio/app/components/ExpandingToolbar";
 import Flex from "@foxglove-studio/app/components/Flex";
@@ -44,6 +43,7 @@ import {
   getNewCameraStateOnFollowChange,
   TargetPose,
 } from "@foxglove-studio/app/panels/ThreeDimensionalViz/threeDimensionalVizUtils";
+import { point2DValidator, cameraStateValidator } from "@foxglove-studio/app/shared/validators";
 import colors from "@foxglove-studio/app/styles/colors.module.scss";
 import clipboard from "@foxglove-studio/app/util/clipboard";
 

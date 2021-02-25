@@ -11,14 +11,19 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { $Shape } from "utility-types";
 import { compact, uniq } from "lodash";
 import memoizeWeak from "memoize-weak";
 import React, { useEffect, useCallback, useMemo, useRef } from "react";
 import { hot } from "react-hot-loader/root";
 import { Time, TimeUtil } from "rosbag";
+import { $Shape } from "utility-types";
 
 import helpContent from "./index.help.md";
+import {
+  useBlocksByTopic,
+  useDataSourceInfo,
+  useMessagesByTopic,
+} from "@foxglove-studio/app/PanelAPI";
 import Flex from "@foxglove-studio/app/components/Flex";
 import { MessageHistoryItemsByPath } from "@foxglove-studio/app/components/MessageHistoryDEPRECATED";
 import { getTopicsFromPaths } from "@foxglove-studio/app/components/MessagePathSyntax/parseRosPath";
@@ -30,18 +35,13 @@ import {
   getTooltipItemForMessageHistoryItem,
   TooltipItem,
 } from "@foxglove-studio/app/components/TimeBasedChart";
-import {
-  useBlocksByTopic,
-  useDataSourceInfo,
-  useMessagesByTopic,
-} from "@foxglove-studio/app/PanelAPI";
-import { BasePlotPath, PlotPath } from "@foxglove-studio/app/panels/Plot/internalTypes";
 import PlotChart, {
   getDatasetsAndTooltips,
   PlotDataByPath,
 } from "@foxglove-studio/app/panels/Plot/PlotChart";
 import PlotLegend from "@foxglove-studio/app/panels/Plot/PlotLegend";
 import PlotMenu from "@foxglove-studio/app/panels/Plot/PlotMenu";
+import { BasePlotPath, PlotPath } from "@foxglove-studio/app/panels/Plot/internalTypes";
 import { PanelConfig } from "@foxglove-studio/app/types/panels";
 import { useShallowMemo } from "@foxglove-studio/app/util/hooks";
 import { fromSec, subtractTimes, toSec } from "@foxglove-studio/app/util/time";

@@ -14,8 +14,8 @@ import { vec3 } from "gl-matrix";
 import React from "react";
 import { GLTFScene, parseGLB, Pose, Scale, CommonCommandProps } from "regl-worldview";
 
-import carModelURL from "@foxglove-studio/app/panels/ThreeDimensionalViz/commands/CarModel/carModel.glb";
 import { InteractionData } from "@foxglove-studio/app/panels/ThreeDimensionalViz/Interactions/types";
+import carModelURL from "@foxglove-studio/app/panels/ThreeDimensionalViz/commands/CarModel/carModel.glb";
 
 async function loadCarModel() {
   const response = await fetch(carModelURL);

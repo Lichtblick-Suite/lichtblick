@@ -1,6 +1,5 @@
-import { Point, Header, RGBA } from "./types";
-import { rotate } from "./vectors";
 import { FieldReader, getReader } from "./readers";
+import { Point, Header, RGBA } from "./types";
 
 interface sensor_msgs__PointField {
   name: string;
@@ -25,7 +24,7 @@ type Reader = { datatype: number; offset: number; reader: FieldReader };
 
 function getFieldOffsetsAndReaders(fields: sensor_msgs__PointField[]): Reader[] {
   const result: Reader[] = [];
-  for (const { name, datatype, offset = 0 } of fields) {
+  for (const { datatype, offset = 0 } of fields) {
     result.push({ datatype, offset, reader: getReader(datatype, offset) });
   }
   return result;

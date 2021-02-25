@@ -1,4 +1,7 @@
-import { POINT_CLOUD_MESSAGE, POINT_CLOUD_WITH_ADDITIONAL_FIELDS } from "./fixtures/pointCloudMessage";
+import {
+  POINT_CLOUD_MESSAGE,
+  POINT_CLOUD_WITH_ADDITIONAL_FIELDS,
+} from "./fixtures/pointCloudMessage";
 import { readPoints } from "./pointClouds";
 
 describe("pointClouds", () => {
@@ -9,7 +12,10 @@ describe("pointClouds", () => {
       ]);
     });
     it("reads points from a point cloud", () => {
-      expect(readPoints(POINT_CLOUD_WITH_ADDITIONAL_FIELDS)).toEqual([[0, 1, 2, 7, 6, 5, 265], [0, 1, 2, 9, 8, 7, 2]]);
+      expect(readPoints(POINT_CLOUD_WITH_ADDITIONAL_FIELDS)).toEqual([
+        [0, 1, 2, 7, 6, 5, 265],
+        [0, 1, 2, 9, 8, 7, 2],
+      ]);
     });
   });
 });

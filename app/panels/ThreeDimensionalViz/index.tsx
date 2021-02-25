@@ -11,30 +11,29 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { $Shape } from "utility-types";
 import hoistNonReactStatics from "hoist-non-react-statics";
 import { omit, debounce } from "lodash";
 import React, { useCallback, useMemo, useState, useRef, useEffect } from "react";
 import { hot } from "react-hot-loader/root";
 import { CameraState } from "regl-worldview";
+import { $Shape } from "utility-types";
 
 import { FrameCompatibilityDEPRECATED } from "./FrameCompatibility";
 import { useMessagePipeline } from "@foxglove-studio/app/components/MessagePipeline";
 import Panel from "@foxglove-studio/app/components/Panel";
 import PanelContext from "@foxglove-studio/app/components/PanelContext";
 import { getGlobalHooks } from "@foxglove-studio/app/loadWebviz";
-import helpContent from "@foxglove-studio/app/panels/ThreeDimensionalViz/index.help.md";
 import { TopicSettingsCollection } from "@foxglove-studio/app/panels/ThreeDimensionalViz/SceneBuilder";
+import Layout, {
+  ColorOverrideBySourceIdxByVariable,
+} from "@foxglove-studio/app/panels/ThreeDimensionalViz/TopicTree/Layout";
+import { TopicDisplayMode } from "@foxglove-studio/app/panels/ThreeDimensionalViz/TopicTree/TopicViewModeSelector";
+import Transforms from "@foxglove-studio/app/panels/ThreeDimensionalViz/Transforms";
+import helpContent from "@foxglove-studio/app/panels/ThreeDimensionalViz/index.help.md";
 import {
   useTransformedCameraState,
   getNewCameraStateOnFollowChange,
 } from "@foxglove-studio/app/panels/ThreeDimensionalViz/threeDimensionalVizUtils";
-import Layout, {
-  ColorOverrideBySourceIdxByVariable,
-} from "@foxglove-studio/app/panels/ThreeDimensionalViz/TopicTree/Layout";
-
-import { TopicDisplayMode } from "@foxglove-studio/app/panels/ThreeDimensionalViz/TopicTree/TopicViewModeSelector";
-import Transforms from "@foxglove-studio/app/panels/ThreeDimensionalViz/Transforms";
 import withTransforms from "@foxglove-studio/app/panels/ThreeDimensionalViz/withTransforms";
 import { Frame, Topic } from "@foxglove-studio/app/players/types";
 import { SaveConfig } from "@foxglove-studio/app/types/panels";

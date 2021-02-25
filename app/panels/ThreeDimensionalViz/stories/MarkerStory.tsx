@@ -11,10 +11,10 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { $Shape } from "utility-types";
 import { cloneDeep } from "lodash";
 import React from "react";
 import { Color } from "regl-worldview";
+import { $Shape } from "utility-types";
 
 import { ThreeDimensionalVizConfig } from "@foxglove-studio/app/panels/ThreeDimensionalViz";
 import {

@@ -11,12 +11,12 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { $Keys } from "utility-types";
 import ColorPicker, { Panel as ColorPickerPanel } from "rc-color-picker";
 import React from "react";
 import { Color } from "regl-worldview";
 import styled from "styled-components";
 import tinyColor from "tinycolor2";
+import { $Keys } from "utility-types";
 
 export const PICKER_SIZE = {
   NORMAL: { name: "NORMAL", size: 24 },

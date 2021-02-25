@@ -26,10 +26,10 @@ import ExpandingToolbar, {
 } from "@foxglove-studio/app/components/ExpandingToolbar";
 import Icon from "@foxglove-studio/app/components/Icon";
 import PanelContext from "@foxglove-studio/app/components/PanelContext";
-import { decodeAdditionalFields } from "@foxglove-studio/app/panels/ThreeDimensionalViz/commands/PointClouds/selection";
 import ObjectDetails from "@foxglove-studio/app/panels/ThreeDimensionalViz/Interactions/ObjectDetails";
 import TopicLink from "@foxglove-studio/app/panels/ThreeDimensionalViz/Interactions/TopicLink";
 import styles from "@foxglove-studio/app/panels/ThreeDimensionalViz/Layout.module.scss";
+import { decodeAdditionalFields } from "@foxglove-studio/app/panels/ThreeDimensionalViz/commands/PointClouds/selection";
 import { getInteractionData } from "@foxglove-studio/app/panels/ThreeDimensionalViz/threeDimensionalVizUtils";
 import { SaveConfig, PanelConfig } from "@foxglove-studio/app/types/panels";
 import { colors } from "@foxglove-studio/app/util/sharedStyleConstants";

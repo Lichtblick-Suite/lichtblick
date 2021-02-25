@@ -25,8 +25,8 @@
 //   You may not use this file except in compliance with the License.
 
 import MemoryDataProvider from "@foxglove-studio/app/dataProviders/MemoryDataProvider";
-import { mockExtensionPoint } from "@foxglove-studio/app/dataProviders/mockExtensionPoint";
 import RenameDataProvider from "@foxglove-studio/app/dataProviders/RenameDataProvider";
+import { mockExtensionPoint } from "@foxglove-studio/app/dataProviders/mockExtensionPoint";
 import { wrapJsObject } from "@foxglove-studio/app/util/binaryObjects";
 import { SECOND_SOURCE_PREFIX } from "@foxglove-studio/app/util/globalConstants";
 

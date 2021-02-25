@@ -28,6 +28,7 @@ export default class Logger {
 
   info(message: string, ...args: any[]) {
     if (showLogs) {
+      // eslint-disable-next-line no-restricted-syntax
       console.info(this.name, message, ...args);
     }
   }

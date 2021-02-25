@@ -13,32 +13,16 @@
 import { isEqual, groupBy, partition } from "lodash";
 import microMemoize from "micro-memoize";
 import { TimeUtil, Time } from "rosbag";
-import uuid from "uuid";
 
 // Filename of nodeTransformerWorker is recognized by the server, and given a special header to
 // ensure user-supplied code cannot make network requests.
-
 import NodeDataWorker from "sharedworker-loader?name=nodeTransformerWorker-[hash].[ext]!@foxglove-studio/app/players/UserNodePlayer/nodeTransformerWorker"; // eslint-disable-line
-import signal from "@foxglove-studio/app/shared/signal";
 import {
   SetUserNodeDiagnostics,
   AddUserNodeLogs,
   SetUserNodeRosLib,
 } from "@foxglove-studio/app/actions/userNodes";
-
-import UserNodePlayerWorker from "sharedworker-loader?name=nodeRuntimeWorker-[hash].[ext]!@foxglove-studio/app/players/UserNodePlayer/nodeRuntimeWorker"; // eslint-disable-line
 import { GlobalVariables } from "@foxglove-studio/app/hooks/useGlobalVariables";
-import {
-  AdvertisePayload,
-  Message,
-  Player,
-  PlayerState,
-  PlayerStateActiveData,
-  PublishPayload,
-  SubscribePayload,
-  Topic,
-  BobjectMessage,
-} from "@foxglove-studio/app/players/types";
 import {
   Diagnostic,
   DiagnosticSeverity,
@@ -51,14 +35,27 @@ import {
   UserNodeLog,
 } from "@foxglove-studio/app/players/UserNodePlayer/types";
 import { hasTransformerErrors } from "@foxglove-studio/app/players/UserNodePlayer/utils";
-import { UserNode, UserNodes } from "@foxglove-studio/app/types/panels";
+import {
+  AdvertisePayload,
+  Message,
+  Player,
+  PlayerState,
+  PlayerStateActiveData,
+  PublishPayload,
+  SubscribePayload,
+  Topic,
+  BobjectMessage,
+} from "@foxglove-studio/app/players/types";
+import signal from "@foxglove-studio/app/shared/signal";
+import UserNodePlayerWorker from "sharedworker-loader?name=nodeRuntimeWorker-[hash].[ext]!@foxglove-studio/app/players/UserNodePlayer/nodeRuntimeWorker"; // eslint-disable-line
 import { RosDatatypes } from "@foxglove-studio/app/types/RosDatatypes";
+import { UserNode, UserNodes } from "@foxglove-studio/app/types/panels";
+import Rpc from "@foxglove-studio/app/util/Rpc";
+import { setupReceiveReportErrorHandler } from "@foxglove-studio/app/util/RpcMainThreadUtils";
 import { wrapJsObject } from "@foxglove-studio/app/util/binaryObjects";
 import { BobjectRpcSender } from "@foxglove-studio/app/util/binaryObjects/BobjectRpc";
 import { basicDatatypes } from "@foxglove-studio/app/util/datatypes";
 import { DEFAULT_WEBVIZ_NODE_PREFIX } from "@foxglove-studio/app/util/globalConstants";
-import Rpc from "@foxglove-studio/app/util/Rpc";
-import { setupReceiveReportErrorHandler } from "@foxglove-studio/app/util/RpcMainThreadUtils";
 
 type UserNodeActions = {
   setUserNodeDiagnostics: SetUserNodeDiagnostics;

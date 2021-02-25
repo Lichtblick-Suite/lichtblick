@@ -19,14 +19,15 @@ import {
   getIdbCacheDataProviderDatabase,
   TIMESTAMP_INDEX,
 } from "./IdbCacheDataProviderDatabase";
-import { DataProvider, InitializationResult } from "./types";
 import {
+  DataProvider,
+  InitializationResult,
   DataProviderDescriptor,
   ExtensionPoint,
   GetDataProvider,
   GetMessagesResult,
   GetMessagesTopics,
-} from "@foxglove-studio/app/dataProviders/types";
+} from "./types";
 import { Progress } from "@foxglove-studio/app/players/types";
 import Database from "@foxglove-studio/app/util/indexeddb/Database";
 import { Range, deepIntersect, isRangeCoveredByRanges } from "@foxglove-studio/app/util/ranges";

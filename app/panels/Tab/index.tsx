@@ -21,11 +21,11 @@ import Panel from "@foxglove-studio/app/components/Panel";
 import { usePanelContext } from "@foxglove-studio/app/components/PanelContext";
 import { UnconnectedPanelLayout } from "@foxglove-studio/app/components/PanelLayout";
 import { EmptyDropTarget } from "@foxglove-studio/app/panels/Tab/EmptyDropTarget";
-import { TabbedToolbar } from "@foxglove-studio/app/panels/Tab/TabbedToolbar";
 import {
   DraggingTabPanelState,
   TabDndContext,
 } from "@foxglove-studio/app/panels/Tab/TabDndContext";
+import { TabbedToolbar } from "@foxglove-studio/app/panels/Tab/TabbedToolbar";
 import { TabPanelConfig as Config } from "@foxglove-studio/app/types/layouts";
 import { SaveConfig } from "@foxglove-studio/app/types/panels";
 import { TAB_PANEL_TYPE } from "@foxglove-studio/app/util/globalConstants";

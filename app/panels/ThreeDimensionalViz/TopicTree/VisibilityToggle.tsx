@@ -11,12 +11,12 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { $Keys } from "utility-types";
 import BlockHelperIcon from "@mdi/svg/svg/block-helper.svg";
 import React, { useCallback } from "react";
 import { Color } from "regl-worldview";
 import styled from "styled-components";
 import tinyColor from "tinycolor2";
+import { $Keys } from "utility-types";
 
 import { ROW_HEIGHT } from "./TreeNodeRow";
 import Icon from "@foxglove-studio/app/components/Icon";

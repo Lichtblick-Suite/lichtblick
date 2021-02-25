@@ -16,9 +16,9 @@ import AutomatedRunPlayer, {
   AutomatedRunClient,
   AUTOMATED_RUN_START_DELAY,
 } from "./AutomatedRunPlayer";
+import { Progress } from "@foxglove-studio/app/players/types";
 import delay from "@foxglove-studio/app/shared/delay";
 import signal from "@foxglove-studio/app/shared/signal";
-import { Progress } from "@foxglove-studio/app/players/types";
 
 class TestRunClient implements AutomatedRunClient {
   speed = 1;

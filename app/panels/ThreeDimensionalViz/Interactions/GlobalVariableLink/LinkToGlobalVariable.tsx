@@ -16,8 +16,8 @@ import classNames from "classnames";
 import React, { FormEvent } from "react";
 
 import useLinkedGlobalVariables from "../useLinkedGlobalVariables";
-import { SGlobalVariableForm, GlobalVariableName } from "./index";
 import UnlinkGlobalVariables from "./UnlinkGlobalVariables";
+import { SGlobalVariableForm, GlobalVariableName } from "./index";
 import Button from "@foxglove-studio/app/components/Button";
 import ChildToggle from "@foxglove-studio/app/components/ChildToggle";
 import Icon from "@foxglove-studio/app/components/Icon";

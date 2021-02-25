@@ -17,8 +17,8 @@ import styled from "styled-components";
 
 import { getPath, memoizedGetLinkedGlobalVariablesKeyByName } from "../interactionUtils";
 import useLinkedGlobalVariables, { LinkedGlobalVariable } from "../useLinkedGlobalVariables";
-import { SGlobalVariableLink, SPath, GlobalVariableName } from "./index";
 import UnlinkWrapper from "./UnlinkWrapper";
+import { SGlobalVariableLink, SPath, GlobalVariableName } from "./index";
 import Button from "@foxglove-studio/app/components/Button";
 import { colors } from "@foxglove-studio/app/util/sharedStyleConstants";
 

@@ -11,8 +11,8 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { $Values } from "utility-types";
 import { Time } from "rosbag";
+import { $Values } from "utility-types";
 
 import { PlayerState } from "@foxglove-studio/app/players/types";
 import { toMillis, fromMillis } from "@foxglove-studio/app/util/time";

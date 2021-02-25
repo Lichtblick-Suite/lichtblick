@@ -15,7 +15,7 @@ import {
   MessageDefinitionsByTopic,
   ParsedMessageDefinitionsByTopic,
 } from "@foxglove-studio/app/players/types";
-import { RosDatatype, RosDatatypes } from "@foxglove-studio/app/types/RosDatatypes";
+import { RosDatatypes } from "@foxglove-studio/app/types/RosDatatypes";
 import { isComplex } from "@foxglove-studio/app/util/binaryObjects/messageDefinitionUtils";
 import {
   FUTURE_VIZ_MSGS_DATATYPE,

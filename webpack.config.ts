@@ -2,16 +2,15 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import HtmlWebpackPlugin from "html-webpack-plugin";
 import path from "path";
 import type { Configuration } from "webpack";
 import type { Configuration as WebpackDevServerConfiguration } from "webpack-dev-server";
-import HtmlWebpackPlugin from "html-webpack-plugin";
-
-import main from "./webpack.main.config";
-import renderer from "./webpack.renderer.config";
-import preload from "./webpack.preload.config";
 
 import packageInfo from "./package.json";
+import main from "./webpack.main.config";
+import preload from "./webpack.preload.config";
+import renderer from "./webpack.renderer.config";
 
 interface WebpackConfiguration extends Configuration {
   devServer?: WebpackDevServerConfiguration;

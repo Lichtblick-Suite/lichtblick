@@ -17,8 +17,8 @@ import React, { useCallback } from "react";
 import { connect } from "react-redux";
 
 import { loadLayout } from "@foxglove-studio/app/actions/panels";
-import renderToBody from "@foxglove-studio/app/components/renderToBody";
 import ShareJsonModal from "@foxglove-studio/app/components/ShareJsonModal";
+import renderToBody from "@foxglove-studio/app/components/renderToBody";
 import { State } from "@foxglove-studio/app/reducers";
 import { PanelsState } from "@foxglove-studio/app/reducers/panels";
 

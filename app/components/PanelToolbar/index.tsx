@@ -23,13 +23,12 @@ import cx from "classnames";
 import * as React from "react"; // eslint-disable-line import/no-duplicates
 import { useContext, useState, useCallback, useMemo } from "react"; // eslint-disable-line import/no-duplicates
 import { MosaicContext, MosaicWindowContext } from "react-mosaic-component";
-
 import { useDispatch, useSelector, ReactReduxContext } from "react-redux";
 import { bindActionCreators } from "redux";
 
 import HelpButton from "./HelpButton";
-import styles from "./index.module.scss";
 import MosaicDragHandle from "./MosaicDragHandle";
+import styles from "./index.module.scss";
 import {
   savePanelConfigs,
   changePanelLayout,
@@ -44,13 +43,13 @@ import Icon from "@foxglove-studio/app/components/Icon";
 import { Item, SubMenu } from "@foxglove-studio/app/components/Menu";
 import PanelContext from "@foxglove-studio/app/components/PanelContext";
 import { getPanelTypeFromMosaic } from "@foxglove-studio/app/components/PanelToolbar/utils";
-import renderToBody from "@foxglove-studio/app/components/renderToBody";
 import ShareJsonModal from "@foxglove-studio/app/components/ShareJsonModal";
+import renderToBody from "@foxglove-studio/app/components/renderToBody";
 import PanelList, { PanelSelection } from "@foxglove-studio/app/panels/PanelList";
+import { State } from "@foxglove-studio/app/reducers";
 import frameless from "@foxglove-studio/app/util/frameless";
 import { TAB_PANEL_TYPE } from "@foxglove-studio/app/util/globalConstants";
 import logEvent, { getEventNames, getEventTags } from "@foxglove-studio/app/util/logEvent";
-import { State } from "@foxglove-studio/app/reducers";
 
 type Props = {
   children?: React.ReactNode;

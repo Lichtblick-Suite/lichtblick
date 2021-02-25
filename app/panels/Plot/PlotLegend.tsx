@@ -11,15 +11,15 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { $Shape } from "utility-types";
 import AlertCircleIcon from "@mdi/svg/svg/alert-circle.svg";
 import MenuIcon from "@mdi/svg/svg/menu.svg";
 import cx from "classnames";
 import { last } from "lodash";
 import React, { useCallback, useMemo } from "react";
+import { $Shape } from "utility-types";
 
-import { plotableRosTypes, PlotConfig, PlotXAxisVal } from "./index";
 import styles from "./PlotLegend.module.scss";
+import { plotableRosTypes, PlotConfig, PlotXAxisVal } from "./index";
 import Dropdown from "@foxglove-studio/app/components/Dropdown";
 import Icon from "@foxglove-studio/app/components/Icon";
 import MessagePathInput from "@foxglove-studio/app/components/MessagePathSyntax/MessagePathInput";

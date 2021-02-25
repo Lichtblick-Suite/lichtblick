@@ -17,11 +17,11 @@ import styled from "styled-components";
 
 import { SelectedObject } from "@foxglove-studio/app/panels/ThreeDimensionalViz/Interactions/types";
 import { ThreeDimensionalVizContext } from "@foxglove-studio/app/panels/ThreeDimensionalViz/ThreeDimensionalVizContext";
+import { ClickedPosition } from "@foxglove-studio/app/panels/ThreeDimensionalViz/TopicTree/Layout";
 import {
   getInteractionData,
   getObject,
 } from "@foxglove-studio/app/panels/ThreeDimensionalViz/threeDimensionalVizUtils";
-import { ClickedPosition } from "@foxglove-studio/app/panels/ThreeDimensionalViz/TopicTree/Layout";
 import { colors } from "@foxglove-studio/app/util/sharedStyleConstants";
 
 const SInteractionContextMenu = styled.div`

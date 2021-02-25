@@ -15,9 +15,9 @@ import Chart from "chart.js";
 
 import ChartJSManager from "./ChartJSManager";
 import { RpcLike } from "@foxglove-studio/app/util/FakeRpc";
-import installChartjs from "@foxglove-studio/app/util/installChartjs";
 import Rpc from "@foxglove-studio/app/util/Rpc";
 import { setupWorker } from "@foxglove-studio/app/util/RpcWorkerUtils";
+import installChartjs from "@foxglove-studio/app/util/installChartjs";
 import { inWebWorker } from "@foxglove-studio/app/util/workers";
 
 let hasInstalledChartjs = false;

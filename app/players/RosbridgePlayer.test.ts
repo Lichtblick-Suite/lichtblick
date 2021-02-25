@@ -11,6 +11,7 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
+import RosbridgePlayer from "@foxglove-studio/app/players/RosbridgePlayer";
 import { isBobject, deepParse } from "@foxglove-studio/app/util/binaryObjects";
 
 const headerMessage = ({ seq, stamp: { sec, nsec }, frame_id }: any) => {
@@ -108,8 +109,6 @@ const MockROSLIB = {
 // from RosbridgePlayer.
 jest.mock("roslib/build/roslib", () => MockROSLIB);
 (window as any).ROSLIB = MockROSLIB;
-
-import RosbridgePlayer from "@foxglove-studio/app/players/RosbridgePlayer";
 
 describe("RosbridgePlayer", () => {
   let player: RosbridgePlayer;

@@ -15,6 +15,7 @@
 
 import { without } from "lodash";
 import type { RosMsgField } from "rosbag";
+import ts from "typescript/lib/typescript";
 
 import baseDatatypes from "@foxglove-studio/app/players/UserNodePlayer/nodeTransformerWorker/typescript/baseDatatypes";
 import {
@@ -40,8 +41,6 @@ import {
   Diagnostic,
 } from "@foxglove-studio/app/players/UserNodePlayer/types";
 import type { RosDatatypes } from "@foxglove-studio/app/types/RosDatatypes";
-
-import ts from "typescript/lib/typescript";
 
 type TypeParam = {
   parent: TypeParam;

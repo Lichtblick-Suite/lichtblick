@@ -14,14 +14,14 @@
 import { TimeUtil } from "rosbag";
 
 import OrderedStampPlayer, { BUFFER_DURATION_SECS } from "./OrderedStampPlayer";
-import signal from "@foxglove-studio/app/shared/signal";
 import FakePlayer from "@foxglove-studio/app/components/MessagePipeline/FakePlayer";
+import UserNodePlayer from "@foxglove-studio/app/players/UserNodePlayer";
 import {
   PlayerCapabilities,
   PlayerState,
   PlayerStateActiveData,
 } from "@foxglove-studio/app/players/types";
-import UserNodePlayer from "@foxglove-studio/app/players/UserNodePlayer";
+import signal from "@foxglove-studio/app/shared/signal";
 import { deepParse, wrapJsObject } from "@foxglove-studio/app/util/binaryObjects";
 import { basicDatatypes } from "@foxglove-studio/app/util/datatypes";
 import { fromSec, TimestampMethod } from "@foxglove-studio/app/util/time";
@@ -293,8 +293,8 @@ describe("OrderedStampPlayer", () => {
     const { player, fakePlayer } = makePlayers("receiveTime");
 
     const state = await new Promise<PlayerState>((resolve) => {
-      player.setListener(async (state) => {
-        resolve(state);
+      player.setListener(async (playerState) => {
+        resolve(playerState);
       });
     });
     jest.spyOn(fakePlayer, "seekPlayback");

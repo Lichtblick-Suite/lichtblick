@@ -15,16 +15,16 @@ import React, { forwardRef } from "react";
 import { Worldview, CameraState, MouseHandler, DEFAULT_CAMERA_STATE } from "regl-worldview";
 
 import { getGlobalHooks } from "@foxglove-studio/app/loadWebviz";
-import { LAYER_INDEX_DEFAULT_BASE } from "@foxglove-studio/app/panels/ThreeDimensionalViz/constants";
 import {
   WorldSearchTextProps,
   useGLText,
 } from "@foxglove-studio/app/panels/ThreeDimensionalViz/SearchText";
-import { withDiffMode } from "@foxglove-studio/app/panels/ThreeDimensionalViz/utils/diffModeUtils";
-import withHighlights from "@foxglove-studio/app/panels/ThreeDimensionalViz/withWorldMarkerHighlights";
 import WorldMarkers, {
   InteractiveMarkersByType,
 } from "@foxglove-studio/app/panels/ThreeDimensionalViz/WorldMarkers";
+import { LAYER_INDEX_DEFAULT_BASE } from "@foxglove-studio/app/panels/ThreeDimensionalViz/constants";
+import { withDiffMode } from "@foxglove-studio/app/panels/ThreeDimensionalViz/utils/diffModeUtils";
+import withHighlights from "@foxglove-studio/app/panels/ThreeDimensionalViz/withWorldMarkerHighlights";
 import inScreenshotTests from "@foxglove-studio/app/stories/inScreenshotTests";
 import { MarkerCollector, MarkerProvider } from "@foxglove-studio/app/types/Scene";
 

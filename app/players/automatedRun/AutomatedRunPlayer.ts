@@ -33,6 +33,7 @@ import {
   SubscribePayload,
   Topic,
 } from "@foxglove-studio/app/players/types";
+import Logger from "@foxglove-studio/app/util/Logger";
 import { USER_ERROR_PREFIX } from "@foxglove-studio/app/util/globalConstants";
 import { getSanitizedTopics } from "@foxglove-studio/app/util/selectors";
 import sendNotification, {
@@ -43,6 +44,8 @@ import sendNotification, {
   setNotificationHandler,
 } from "@foxglove-studio/app/util/sendNotification";
 import { clampTime, subtractTimes, toMillis } from "@foxglove-studio/app/util/time";
+
+const logger = new Logger("AutomatedRunPlayer");
 
 export interface AutomatedRunClient {
   speed: number;
@@ -351,7 +354,7 @@ export default class AutomatedRunPlayer implements Player {
 
     this._isPlaying = true;
     this._client.markPreloadEnd();
-    console.log("AutomatedRunPlayer._run()");
+    logger.info("AutomatedRunPlayer._run()");
     await this._emitState([], [], this._providerResult.start);
 
     let currentTime = this._providerResult.start;
@@ -399,7 +402,7 @@ export default class AutomatedRunPlayer implements Player {
           /* 24 hours */
         ),
       );
-      console.log(
+      logger.info(
         `[${workerIndex}/${workerCount}] Recording ${(percentComplete * 100).toFixed(
           1,
         )}% done. ETA: ${eta}. Frame took ${frameRenderDurationMs}ms`,
@@ -413,7 +416,7 @@ export default class AutomatedRunPlayer implements Player {
 
     await this._client.finish();
     const totalDuration = (Date.now() - startEpoch) / 1000;
-    console.log(`AutomatedRunPlayer finished in ${formatSeconds(totalDuration)}`);
+    logger.info(`AutomatedRunPlayer finished in ${formatSeconds(totalDuration)}`);
   }
 
   /* Public API shared functions */

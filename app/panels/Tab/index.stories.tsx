@@ -17,10 +17,10 @@ import React from "react";
 import TestUtils from "react-dom/test-utils";
 
 import Tab from "./index";
-import tick from "@foxglove-studio/app/shared/tick";
 import PanelLayout from "@foxglove-studio/app/components/PanelLayout";
 import nestedTabLayoutFixture from "@foxglove-studio/app/panels/Tab/nestedTabLayoutFixture.test";
 import createRootReducer from "@foxglove-studio/app/reducers";
+import tick from "@foxglove-studio/app/shared/tick";
 import configureStore from "@foxglove-studio/app/store/configureStore.testing";
 import PanelSetup from "@foxglove-studio/app/stories/PanelSetup";
 import { SExpectedResult } from "@foxglove-studio/app/stories/storyHelpers";

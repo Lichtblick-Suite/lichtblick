@@ -11,14 +11,14 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { $Values } from "utility-types";
 import { isEqual } from "lodash";
 import * as React from "react";
 import styled from "styled-components";
+import { $Values } from "utility-types";
 
-import { validationErrorToString, ValidationResult } from "@foxglove-studio/app/shared/validators";
 import Dropdown from "@foxglove-studio/app/components/Dropdown";
 import Flex from "@foxglove-studio/app/components/Flex";
+import { validationErrorToString, ValidationResult } from "@foxglove-studio/app/shared/validators";
 import colors from "@foxglove-studio/app/styles/colors.module.scss";
 import YAML from "@foxglove-studio/app/util/yaml";
 

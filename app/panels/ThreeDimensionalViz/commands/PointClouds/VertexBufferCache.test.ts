@@ -11,8 +11,8 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { VertexBuffer, MemoizedVertexBuffer } from "./types";
 import VertexBufferCache from "./VertexBufferCache";
+import { VertexBuffer, MemoizedVertexBuffer } from "./types";
 
 function reglBuffer(data: Float32Array) {
   const buffer: {

@@ -39,7 +39,6 @@ const defaultHooks = {
         throw new Error(`Failed to fetch layout from URL: ${e.message}`);
       });
   },
-  getDemoModeComponent: () => null,
   async importHooksAsync() {
     return new Promise<void>((resolve, reject) => {
       if (importedPanelsByCategory && importedPerPanelHooks) {
@@ -157,7 +156,7 @@ const defaultHooks = {
     const { REMOTE_BAG_URL_2_QUERY_KEY } = require("@foxglove-studio/app/util/globalConstants");
     return [REMOTE_BAG_URL_2_QUERY_KEY];
   },
-  updateUrlToTrackLayoutChanges: async (opt: { store: Store; skipPatch: boolean }) => {
+  updateUrlToTrackLayoutChanges: async (_opt: { store: Store; skipPatch: boolean }) => {
     // Persist the layout state in URL or remote storage if needed.
     await Promise.resolve();
   },

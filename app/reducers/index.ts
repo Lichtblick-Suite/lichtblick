@@ -31,9 +31,9 @@ import recentLayouts, {
 import tests from "@foxglove-studio/app/reducers/tests";
 import userNodes, { UserNodeDiagnostics } from "@foxglove-studio/app/reducers/userNodes";
 import { Auth as AuthState } from "@foxglove-studio/app/types/Auth";
+import { Dispatch, GetState } from "@foxglove-studio/app/types/Store";
 import { HoverValue } from "@foxglove-studio/app/types/hoverValue";
 import { MosaicKey, SetFetchedLayoutPayload } from "@foxglove-studio/app/types/panels";
-import { Dispatch, GetState } from "@foxglove-studio/app/types/Store";
 
 const getReducers = (history: any) => [
   (state: State) => ({ ...state, router: connectRouter(history)() }),
@@ -84,6 +84,7 @@ export type Store = { dispatch: Dispatch<unknown>; getState: () => State };
 // Fix the type definitions for connected-react-router
 // The connectRouter function allows for omitting state and action
 declare module "connected-react-router" {
+  // eslint-disable-next-line @typescript-eslint/no-shadow
   export function connectRouter(
     history: History,
   ): (state?: RouterState, action?: LocationChangeAction) => RouterState;

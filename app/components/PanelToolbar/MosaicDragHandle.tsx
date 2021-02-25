@@ -13,7 +13,7 @@
 
 import _ from "lodash";
 import React, { useContext, ReactNode } from "react";
-import { DragObjectWithType, useDrag } from "react-dnd";
+import { useDrag } from "react-dnd";
 import { MosaicDragType, MosaicWindowContext } from "react-mosaic-component";
 import { useSelector, useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";

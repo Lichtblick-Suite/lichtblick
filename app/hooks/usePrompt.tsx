@@ -5,8 +5,8 @@
 import { useState } from "react";
 import styled from "styled-components";
 
-import Modal from "@foxglove-studio/app/components/Modal";
 import Button from "@foxglove-studio/app/components/Button";
+import Modal from "@foxglove-studio/app/components/Modal";
 import renderToBody from "@foxglove-studio/app/components/renderToBody";
 
 const ModalContent = styled.div`

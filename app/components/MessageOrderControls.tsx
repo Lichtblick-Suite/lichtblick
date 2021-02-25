@@ -16,8 +16,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { setPlaybackConfig } from "@foxglove-studio/app/actions/panels";
 import Dropdown from "@foxglove-studio/app/components/Dropdown";
 import NoHeaderTopicsButton from "@foxglove-studio/app/components/NoHeaderTopicsButton";
-import { defaultPlaybackConfig } from "@foxglove-studio/app/reducers/panels";
 import { State } from "@foxglove-studio/app/reducers";
+import { defaultPlaybackConfig } from "@foxglove-studio/app/reducers/panels";
 
 const messageOrderLabel = {
   receiveTime: "Receive time",

@@ -23,8 +23,8 @@ import TextContent from "@foxglove-studio/app/components/TextContent";
 import Tooltip from "@foxglove-studio/app/components/Tooltip";
 import { getGlobalHooks } from "@foxglove-studio/app/loadWebviz";
 import colors from "@foxglove-studio/app/styles/colors.module.scss";
-import logEvent, { getEventNames } from "@foxglove-studio/app/util/logEvent";
 import Storage from "@foxglove-studio/app/util/Storage";
+import logEvent, { getEventNames } from "@foxglove-studio/app/util/logEvent";
 
 // All these are exported for tests; please don't use them directly in your code.
 export type FeatureDescriptions = {

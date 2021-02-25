@@ -12,7 +12,7 @@
 //   You may not use this file except in compliance with the License.
 
 import { isEqual } from "lodash";
-import React, {
+import {
   useCallback,
   useRef,
   useLayoutEffect,
@@ -22,8 +22,6 @@ import React, {
   ComponentType,
   Context,
   ReactNode,
-  ReactChildren,
-  PropsWithChildren,
 } from "react";
 import shallowequal from "shallowequal";
 
@@ -147,10 +145,10 @@ export function createSelectableContext<T>(): SelectableContext<T> {
   const ctx = createContext<SelectableContextHandle<T> | undefined>(undefined);
 
   function Provider({ value, children }: { value: T; children?: ReactNode }) {
-    const [handle] = useState(() => {
+    const [handle] = useState<SelectableContextHandle<T>>(() => {
       let currentValue = value;
       const subscribers = new Set<SubscriberFn<T>>();
-      const handle: SelectableContextHandle<T> = {
+      return {
         publish(val) {
           currentValue = val;
           for (const sub of subscribers) {
@@ -167,7 +165,6 @@ export function createSelectableContext<T>(): SelectableContext<T> {
           subscribers.delete(sub);
         },
       };
-      return handle;
     });
 
     const valueChanged = useChangeDetector([value], false);

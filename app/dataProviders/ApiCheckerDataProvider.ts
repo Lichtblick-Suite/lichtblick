@@ -23,7 +23,6 @@ import {
   GetMessagesTopics,
   InitializationResult,
 } from "@foxglove-studio/app/dataProviders/types";
-import { Message } from "@foxglove-studio/app/players/types";
 import sendNotification from "@foxglove-studio/app/util/sendNotification";
 import { formatTimeRaw } from "@foxglove-studio/app/util/time";
 

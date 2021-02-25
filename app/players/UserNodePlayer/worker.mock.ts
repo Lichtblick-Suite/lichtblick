@@ -19,8 +19,8 @@ import {
 } from "@foxglove-studio/app/players/UserNodePlayer/nodeRuntimeWorker/registry";
 import transform from "@foxglove-studio/app/players/UserNodePlayer/nodeTransformerWorker/transformer";
 import generateRosLib from "@foxglove-studio/app/players/UserNodePlayer/nodeTransformerWorker/typegen";
-import { BobjectRpcReceiver } from "@foxglove-studio/app/util/binaryObjects/BobjectRpc";
 import Rpc, { Channel, createLinkedChannels } from "@foxglove-studio/app/util/Rpc";
+import { BobjectRpcReceiver } from "@foxglove-studio/app/util/binaryObjects/BobjectRpc";
 
 const validateWorkerArgs = (arg: any) => {
   expect(arg).not.toBeInstanceOf(Function);

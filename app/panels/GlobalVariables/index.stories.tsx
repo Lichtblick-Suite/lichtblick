@@ -15,8 +15,8 @@ import { storiesOf } from "@storybook/react";
 import * as React from "react";
 
 import GlobalVariables from "./index";
-import delay from "@foxglove-studio/app/shared/delay";
 import { LinkedGlobalVariable } from "@foxglove-studio/app/panels/ThreeDimensionalViz/Interactions/useLinkedGlobalVariables";
+import delay from "@foxglove-studio/app/shared/delay";
 import PanelSetup, { triggerInputChange } from "@foxglove-studio/app/stories/PanelSetup";
 
 const exampleVariables = {

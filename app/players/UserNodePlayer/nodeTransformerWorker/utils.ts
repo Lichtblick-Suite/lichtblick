@@ -11,10 +11,10 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { $Values } from "utility-types";
-import { DiagnosticSeverity, Diagnostic } from "@foxglove-studio/app/players/UserNodePlayer/types";
-
 import ts from "typescript/lib/typescript";
+import { $Values } from "utility-types";
+
+import { DiagnosticSeverity, Diagnostic } from "@foxglove-studio/app/players/UserNodePlayer/types";
 
 const mapCategoryToDiagnosticSeverity = (
   category: ts.DiagnosticCategory,

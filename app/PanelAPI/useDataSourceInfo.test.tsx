@@ -15,7 +15,6 @@ import { mount } from "enzyme";
 import * as React from "react";
 
 import * as PanelAPI from ".";
-
 import { MockMessagePipelineProvider } from "@foxglove-studio/app/components/MessagePipeline";
 
 describe("useDataSourceInfo", () => {

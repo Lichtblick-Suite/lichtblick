@@ -12,8 +12,8 @@
 //   You may not use this file except in compliance with the License.
 import RadioButtonUncheckedIcon from "@mdi/svg/svg/radiobox-blank.svg";
 import RadioButtonCheckedIcon from "@mdi/svg/svg/radiobox-marked.svg";
-import styled from "styled-components";
 import { ReactElement } from "react";
+import styled from "styled-components";
 
 import Icon from "./Icon";
 import { colorToAlpha } from "./SegmentedControl";

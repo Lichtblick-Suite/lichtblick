@@ -33,9 +33,9 @@ import {
   GetMessagesTopics,
   InitializationResult,
 } from "@foxglove-studio/app/dataProviders/types";
+import Logger from "@foxglove-studio/app/util/Logger";
 import { getNewConnection } from "@foxglove-studio/app/util/getNewConnection";
 import Database from "@foxglove-studio/app/util/indexeddb/Database";
-import Logger from "@foxglove-studio/app/util/Logger";
 import {
   Range,
   deepIntersect,

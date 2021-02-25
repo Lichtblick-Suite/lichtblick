@@ -11,7 +11,6 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { $Shape } from "utility-types";
 import ChartLineVariantIcon from "@mdi/svg/svg/chart-line-variant.svg";
 import DotsHorizontalIcon from "@mdi/svg/svg/dots-horizontal.svg";
 import ChevronDownIcon from "@mdi/svg/svg/unfold-less-horizontal.svg";
@@ -22,15 +21,16 @@ import * as React from "react";
 import { createSelector } from "reselect";
 import sanitizeHtml from "sanitize-html";
 import styled from "styled-components";
+import { $Shape } from "utility-types";
 
 import style from "./DiagnosticStatus.module.scss";
 import { LEVEL_NAMES, DiagnosticInfo, KeyValue, DiagnosticStatusMessage } from "./util";
 import Flex from "@foxglove-studio/app/components/Flex";
 import Icon from "@foxglove-studio/app/components/Icon";
 import Tooltip from "@foxglove-studio/app/components/Tooltip";
-import { Config } from "@foxglove-studio/app/panels/diagnostics/DiagnosticStatusPanel";
 import { openSiblingPlotPanel } from "@foxglove-studio/app/panels/Plot";
 import { openSiblingStateTransitionsPanel } from "@foxglove-studio/app/panels/StateTransitions";
+import { Config } from "@foxglove-studio/app/panels/diagnostics/DiagnosticStatusPanel";
 import colors from "@foxglove-studio/app/styles/colors.module.scss";
 import { PanelConfig } from "@foxglove-studio/app/types/panels";
 

@@ -19,8 +19,8 @@ import util from "util";
 import ws from "ws";
 
 import { testSetup } from "../hooksImporter";
-import { resetLogEventForTests } from "@foxglove-studio/app/util/logEvent";
 import MemoryStorage from "./MemoryStorage";
+import { resetLogEventForTests } from "@foxglove-studio/app/util/logEvent";
 
 process.env.WASM_LZ4_ENVIRONMENT = "NODE";
 

@@ -13,6 +13,7 @@
 import * as React from "react";
 import { hot } from "react-hot-loader/root";
 
+import * as PanelAPI from "@foxglove-studio/app/PanelAPI";
 import Flex from "@foxglove-studio/app/components/Flex";
 import MessageHistoryDEPRECATED from "@foxglove-studio/app/components/MessageHistoryDEPRECATED";
 import {
@@ -21,7 +22,6 @@ import {
 } from "@foxglove-studio/app/components/MessagePipeline";
 import Panel from "@foxglove-studio/app/components/Panel";
 import PanelToolbar from "@foxglove-studio/app/components/PanelToolbar";
-import * as PanelAPI from "@foxglove-studio/app/PanelAPI";
 import inScreenshotTests from "@foxglove-studio/app/stories/inScreenshotTests";
 
 const MAX_ALLOWABLE_RENDER_COUNT = 10;

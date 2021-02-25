@@ -13,10 +13,10 @@
 import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
+import { useDataSourceInfo } from "@foxglove-studio/app/PanelAPI";
 import { setPlaybackConfig } from "@foxglove-studio/app/actions/panels";
 import Dropdown from "@foxglove-studio/app/components/Dropdown";
 import { useMessagePipeline } from "@foxglove-studio/app/components/MessagePipeline";
-import { useDataSourceInfo } from "@foxglove-studio/app/PanelAPI";
 import { PlayerCapabilities } from "@foxglove-studio/app/players/types";
 import { ndash } from "@foxglove-studio/app/util/entities";
 

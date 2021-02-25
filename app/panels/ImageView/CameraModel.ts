@@ -12,6 +12,7 @@
 //   You may not use this file except in compliance with the License.
 
 import { $Values } from "utility-types";
+
 import { Point, CameraInfo } from "@foxglove-studio/app/types/Messages";
 
 const DISTORTION_STATE = {

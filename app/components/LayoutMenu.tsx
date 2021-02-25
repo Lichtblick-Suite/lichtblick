@@ -15,11 +15,11 @@ import React, { useState } from "react";
 
 import LayoutIcon from "@foxglove-studio/app/assets/layout.svg";
 import ChildToggle from "@foxglove-studio/app/components/ChildToggle";
+import ClearBagCacheMenuItem from "@foxglove-studio/app/components/ClearBagCacheMenuItem";
 import Flex from "@foxglove-studio/app/components/Flex";
 import { WrappedIcon } from "@foxglove-studio/app/components/Icon";
 import { openLayoutModal } from "@foxglove-studio/app/components/LayoutModal";
 import Menu, { Item } from "@foxglove-studio/app/components/Menu";
-import ClearBagCacheMenuItem from "@foxglove-studio/app/components/ClearBagCacheMenuItem";
 
 export default function LayoutMenu() {
   const [isOpen, setIsOpen] = useState(false);

@@ -30,6 +30,9 @@ const fixTime = (t: Time): Time => {
   return { sec, nsec };
 };
 
-export const subtractTimes = ({ sec: sec1, nsec: nsec1 }: Time, { sec: sec2, nsec: nsec2 }: Time): Time => {
+export const subtractTimes = (
+  { sec: sec1, nsec: nsec1 }: Time,
+  { sec: sec2, nsec: nsec2 }: Time,
+): Time => {
   return fixTime({ sec: sec1 - sec2, nsec: nsec1 - nsec2 });
 };

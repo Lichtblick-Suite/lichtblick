@@ -35,7 +35,7 @@ const tooltipData: any = {
   startTime: { sec: 1396293889, nsec: 156763 },
 };
 
-const props: any = {
+const commonProps: any = {
   isSynced: true,
   zoom: true,
   width: 867.272705078125,
@@ -110,7 +110,7 @@ function CleansUpTooltipExample() {
   return (
     <div style={{ width: "100%", height: "100%", background: "black" }} ref={refFn}>
       <MockMessagePipelineProvider>
-        {!hasRenderedOnce && <TimeBasedChart {...props} />}
+        {!hasRenderedOnce && <TimeBasedChart {...commonProps} />}
       </MockMessagePipelineProvider>
     </div>
   );
@@ -118,7 +118,7 @@ function CleansUpTooltipExample() {
 
 function ZoomExample() {
   const [, forceUpdate] = useState(0);
-  const newProps = cloneDeep(props);
+  const newProps = cloneDeep(commonProps);
   const newDataPoint = cloneDeep(newProps.data.datasets[0].data[0]);
   newDataPoint.x = 20;
   newProps.data.datasets[0].data[1] = newDataPoint;
@@ -228,7 +228,7 @@ storiesOf("<TimeBasedChart>", module)
     return (
       <div style={{ width: "100%", height: "100%", background: "black" }}>
         <MockMessagePipelineProvider>
-          <TimeBasedChart {...props} />
+          <TimeBasedChart {...commonProps} />
         </MockMessagePipelineProvider>
       </div>
     );
@@ -250,7 +250,7 @@ storiesOf("<TimeBasedChart>", module)
         }}
       >
         <MockMessagePipelineProvider>
-          <TimeBasedChart {...props} />
+          <TimeBasedChart {...commonProps} />
         </MockMessagePipelineProvider>
       </div>
     );
@@ -270,7 +270,7 @@ storiesOf("<TimeBasedChart>", module)
         }}
       >
         <MockMessagePipelineProvider>
-          <TimeBasedChart {...props} />
+          <TimeBasedChart {...commonProps} />
         </MockMessagePipelineProvider>
       </div>
     );

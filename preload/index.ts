@@ -4,8 +4,8 @@
 
 import { contextBridge, ipcRenderer } from "electron";
 
-import { OsMenuHandler } from "@foxglove-studio/app/OsMenuHandler";
 import { OsContext, OsContextWindowEvent } from "@foxglove-studio/app/OsContext";
+import { OsMenuHandler } from "@foxglove-studio/app/OsMenuHandler";
 
 const ctx: OsContext = {
   platform: process.platform,

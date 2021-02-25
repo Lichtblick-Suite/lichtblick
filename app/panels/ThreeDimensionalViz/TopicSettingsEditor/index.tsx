@@ -15,12 +15,12 @@ import { upperFirst } from "lodash";
 import React, { useCallback, ComponentType } from "react";
 import { hot } from "react-hot-loader/root";
 
-import { SLabel, SDescription, SInput } from "./common";
 import LaserScanSettingsEditor from "./LaserScanSettingsEditor";
 import MarkerSettingsEditor from "./MarkerSettingsEditor";
 import PointCloudSettingsEditor from "./PointCloudSettingsEditor";
 import PoseSettingsEditor from "./PoseSettingsEditor";
 import styles from "./TopicSettingsEditor.module.scss";
+import { SLabel, SDescription, SInput } from "./common";
 import ErrorBoundary from "@foxglove-studio/app/components/ErrorBoundary";
 import Flex from "@foxglove-studio/app/components/Flex";
 import { Select, Option } from "@foxglove-studio/app/components/Select";

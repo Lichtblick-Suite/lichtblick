@@ -11,17 +11,17 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { $Shape } from "utility-types";
 import cx from "classnames";
 import React, { useMemo, useRef } from "react";
 import styled from "styled-components";
+import { $Shape } from "utility-types";
 
 import styles from "./PlotMenu.module.scss";
-import { PanelToolbarInput } from "@foxglove-studio/app/shared/panelToolbarStyles";
 import Item from "@foxglove-studio/app/components/Menu/Item";
 import { TimeBasedChartTooltipData } from "@foxglove-studio/app/components/TimeBasedChart";
 import { PlotConfig, PlotXAxisVal } from "@foxglove-studio/app/panels/Plot";
 import { DataSet, PlotChartPoint } from "@foxglove-studio/app/panels/Plot/PlotChart";
+import { PanelToolbarInput } from "@foxglove-studio/app/shared/panelToolbarStyles";
 import { downloadFiles } from "@foxglove-studio/app/util";
 import { formatTimeRaw } from "@foxglove-studio/app/util/time";
 

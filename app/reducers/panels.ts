@@ -56,6 +56,7 @@ import {
   MosaicKey,
   MosaicDropTargetPosition,
 } from "@foxglove-studio/app/types/panels";
+import Storage from "@foxglove-studio/app/util/Storage";
 import {
   TAB_PANEL_TYPE,
   LAYOUT_QUERY_KEY,
@@ -82,7 +83,6 @@ import {
   stringifyParams,
   updateDocumentTitle,
 } from "@foxglove-studio/app/util/layout";
-import Storage from "@foxglove-studio/app/util/Storage";
 
 const storage = new Storage();
 

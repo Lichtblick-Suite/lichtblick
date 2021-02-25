@@ -11,7 +11,6 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { $Keys } from "utility-types";
 import ArrowLeftIcon from "@mdi/svg/svg/arrow-left.svg";
 import ArrowRightIcon from "@mdi/svg/svg/arrow-right.svg";
 import CheckboxBlankOutlineIcon from "@mdi/svg/svg/checkbox-blank-outline.svg";
@@ -19,6 +18,7 @@ import CheckboxMarkedIcon from "@mdi/svg/svg/checkbox-marked.svg";
 import SwapHorizontalIcon from "@mdi/svg/svg/swap-horizontal.svg";
 import SyncIcon from "@mdi/svg/svg/sync.svg";
 import React from "react";
+import { $Keys } from "utility-types";
 
 import { Item, SubMenu } from "@foxglove-studio/app/components/Menu";
 import PanelToolbar from "@foxglove-studio/app/components/PanelToolbar";

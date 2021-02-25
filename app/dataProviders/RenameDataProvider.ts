@@ -14,11 +14,11 @@
 import memoizeWeak from "memoize-weak";
 import { Time } from "rosbag";
 
-import { MESSAGE_FORMATS } from "@foxglove-studio/app/dataProviders/constants";
 import {
   BlockCache,
   MemoryCacheBlock,
 } from "@foxglove-studio/app/dataProviders/MemoryCacheDataProvider";
+import { MESSAGE_FORMATS } from "@foxglove-studio/app/dataProviders/constants";
 import {
   DataProviderDescriptor,
   ExtensionPoint,

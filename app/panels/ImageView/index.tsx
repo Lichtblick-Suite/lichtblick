@@ -33,6 +33,7 @@ import {
   getMarkerOptions,
   groupTopics,
 } from "./util";
+import * as PanelAPI from "@foxglove-studio/app/PanelAPI";
 import Autocomplete from "@foxglove-studio/app/components/Autocomplete";
 import ChildToggle from "@foxglove-studio/app/components/ChildToggle";
 import Dropdown from "@foxglove-studio/app/components/Dropdown";
@@ -47,7 +48,6 @@ import Panel from "@foxglove-studio/app/components/Panel";
 import PanelToolbar from "@foxglove-studio/app/components/PanelToolbar";
 import filterMap from "@foxglove-studio/app/filterMap";
 import { getGlobalHooks } from "@foxglove-studio/app/loadWebviz";
-import * as PanelAPI from "@foxglove-studio/app/PanelAPI";
 import { Message, TypedMessage } from "@foxglove-studio/app/players/types";
 import inScreenshotTests from "@foxglove-studio/app/stories/inScreenshotTests";
 import colors from "@foxglove-studio/app/styles/colors.module.scss";

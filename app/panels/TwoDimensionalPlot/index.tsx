@@ -11,19 +11,15 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { $Shape } from "utility-types";
 import { flatten, pick, round, uniq } from "lodash";
 import * as React from "react";
 import DocumentEvents from "react-document-events";
 import ReactDOM from "react-dom";
 import { hot } from "react-hot-loader/root";
 import styled from "styled-components";
+import { $Shape } from "utility-types";
 
 import helpContent from "./index.help.md";
-import {
-  PanelToolbarLabel,
-  PanelToolbarInput,
-} from "@foxglove-studio/app/shared/panelToolbarStyles";
 import Button from "@foxglove-studio/app/components/Button";
 import Dimensions from "@foxglove-studio/app/components/Dimensions";
 import EmptyState from "@foxglove-studio/app/components/EmptyState";
@@ -38,6 +34,10 @@ import ChartComponent, { HoveredElement } from "@foxglove-studio/app/components/
 import { ScaleBounds } from "@foxglove-studio/app/components/ReactChartjs/zoomAndPanHelpers";
 import Tooltip from "@foxglove-studio/app/components/Tooltip";
 import { cast } from "@foxglove-studio/app/players/types";
+import {
+  PanelToolbarLabel,
+  PanelToolbarInput,
+} from "@foxglove-studio/app/shared/panelToolbarStyles";
 import { deepParse, isBobject } from "@foxglove-studio/app/util/binaryObjects";
 import { useDeepChangeDetector } from "@foxglove-studio/app/util/hooks";
 import { colors, ROBOTO_MONO } from "@foxglove-studio/app/util/sharedStyleConstants";

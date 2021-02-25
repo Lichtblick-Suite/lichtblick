@@ -85,7 +85,7 @@ export default class Tooltip extends React.Component<Props, State> {
   // show the tooltip at absolute position with given contents
   static show(x: number, y: number, contents: Contents, props?: Omit<Props, "contents">) {
     // extract defaultShown and defaultMousePosition from props since we specify those explicitly
-    const { defaultShown, defaultMousePosition, ...rest } = props ?? {};
+    const { defaultShown: _, defaultMousePosition: __, ...rest } = props ?? {};
     const container = getPortal();
     // satisfy flow
     if (!container) {
@@ -142,7 +142,7 @@ export default class Tooltip extends React.Component<Props, State> {
     }
   };
 
-  onMouseLeave = (e: React.MouseEvent<Element>): void => {
+  onMouseLeave = (_e: React.MouseEvent<Element>): void => {
     if (this.timeout) {
       clearTimeout(this.timeout);
     }
@@ -171,7 +171,7 @@ export default class Tooltip extends React.Component<Props, State> {
         }}
         {...referenceProps}
       >
-        {({ ref, style, scheduleUpdate, placement, arrowProps }) => {
+        {({ ref, style, scheduleUpdate, placement: renderedPlacement, arrowProps }) => {
           const { body } = document;
           if (!body) {
             return null;
@@ -182,7 +182,7 @@ export default class Tooltip extends React.Component<Props, State> {
             <div
               ref={ref}
               style={{ ...style, zIndex: 99999, pointerEvents: "none" }}
-              data-placement={placement}
+              data-placement={renderedPlacement}
             >
               {arrow &&
                 React.cloneElement(arrow, {

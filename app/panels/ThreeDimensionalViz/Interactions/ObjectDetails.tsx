@@ -11,12 +11,12 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { $ReadOnly } from "utility-types";
 import { first, omit, sortBy } from "lodash";
 import * as React from "react";
 import Tree from "react-json-tree";
 import { MouseEventObject } from "regl-worldview";
 import styled from "styled-components";
+import { $ReadOnly } from "utility-types";
 
 import GlobalVariableLink from "./GlobalVariableLink/index";
 import { InteractionData } from "./types";

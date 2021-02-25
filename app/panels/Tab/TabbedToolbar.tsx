@@ -21,13 +21,13 @@ import { moveTab, MoveTabPayload } from "@foxglove-studio/app/actions/panels";
 import Icon from "@foxglove-studio/app/components/Icon";
 import PanelToolbar from "@foxglove-studio/app/components/PanelToolbar";
 import { DraggableToolbarTab } from "@foxglove-studio/app/panels/Tab/DraggableToolbarTab";
-import helpContent from "@foxglove-studio/app/panels/Tab/index.help.md";
 import {
   DraggingTabItem,
   TAB_DRAG_TYPE,
   TabActions,
   TabDndContext,
 } from "@foxglove-studio/app/panels/Tab/TabDndContext";
+import helpContent from "@foxglove-studio/app/panels/Tab/index.help.md";
 import { TabConfig } from "@foxglove-studio/app/types/layouts";
 import { colors } from "@foxglove-studio/app/util/sharedStyleConstants";
 

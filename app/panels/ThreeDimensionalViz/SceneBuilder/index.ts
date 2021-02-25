@@ -37,8 +37,9 @@ import {
 } from "@foxglove-studio/app/types/Messages";
 import { MarkerProvider, MarkerCollector, Scene } from "@foxglove-studio/app/types/Scene";
 import { objectValues } from "@foxglove-studio/app/util";
-import { getField, getIndex, deepParse } from "@foxglove-studio/app/util/binaryObjects";
 import Bounds from "@foxglove-studio/app/util/Bounds";
+import { emptyPose } from "@foxglove-studio/app/util/Pose";
+import { getField, getIndex, deepParse } from "@foxglove-studio/app/util/binaryObjects";
 import {
   POSE_MARKER_SCALE,
   LINED_CONVEX_HULL_RENDERING_SETTING,
@@ -56,7 +57,6 @@ import {
   GEOMETRY_MSGS_POLYGON_STAMPED_DATATYPE,
 } from "@foxglove-studio/app/util/globalConstants";
 import naturalSort from "@foxglove-studio/app/util/naturalSort";
-import { emptyPose } from "@foxglove-studio/app/util/Pose";
 import sendNotification from "@foxglove-studio/app/util/sendNotification";
 import { fromSec } from "@foxglove-studio/app/util/time";
 

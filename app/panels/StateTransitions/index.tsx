@@ -11,13 +11,13 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { $Shape } from "utility-types";
 import { uniq } from "lodash";
 import * as React from "react";
 import { hot } from "react-hot-loader/root";
 import stringHash from "string-hash";
 import styled, { css } from "styled-components";
 import tinycolor from "tinycolor2";
+import { $Shape } from "utility-types";
 
 import helpContent from "./index.help.md";
 import Button from "@foxglove-studio/app/components/Button";
@@ -40,7 +40,6 @@ import { positiveModulo } from "@foxglove-studio/app/util";
 import { darkColor, lineColors } from "@foxglove-studio/app/util/plotColors";
 import { colors } from "@foxglove-studio/app/util/sharedStyleConstants";
 import { TimestampMethod, subtractTimes, toSec } from "@foxglove-studio/app/util/time";
-
 import { grey } from "@foxglove-studio/app/util/toolsColorScheme";
 
 export const transitionableRosTypes = [

@@ -11,7 +11,6 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { $Shape } from "utility-types";
 import BorderAllIcon from "@mdi/svg/svg/border-all.svg";
 import CloseIcon from "@mdi/svg/svg/close.svg";
 import ExpandAllOutlineIcon from "@mdi/svg/svg/expand-all-outline.svg";
@@ -35,8 +34,10 @@ import {
 } from "react-mosaic-component";
 import { useSelector, useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
+import { $Shape } from "utility-types";
 
 import styles from "./Panel.module.scss";
+import * as PanelAPI from "@foxglove-studio/app/PanelAPI";
 import {
   addSelectedPanelId,
   removeSelectedPanelId,
@@ -57,9 +58,9 @@ import Icon from "@foxglove-studio/app/components/Icon";
 import KeyListener from "@foxglove-studio/app/components/KeyListener";
 import PanelContext from "@foxglove-studio/app/components/PanelContext";
 import MosaicDragHandle from "@foxglove-studio/app/components/PanelToolbar/MosaicDragHandle";
-import * as PanelAPI from "@foxglove-studio/app/PanelAPI";
 import PanelList, { getPanelsByType } from "@foxglove-studio/app/panels/PanelList";
 import { Topic } from "@foxglove-studio/app/players/types";
+import { RosDatatypes } from "@foxglove-studio/app/types/RosDatatypes";
 import { TabPanelConfig } from "@foxglove-studio/app/types/layouts";
 import {
   CreateTabPanelPayload,
@@ -69,7 +70,6 @@ import {
   PanelConfig,
   SaveConfig,
 } from "@foxglove-studio/app/types/panels";
-import { RosDatatypes } from "@foxglove-studio/app/types/RosDatatypes";
 import { TAB_PANEL_TYPE } from "@foxglove-studio/app/util/globalConstants";
 import {
   getAllPanelIds,

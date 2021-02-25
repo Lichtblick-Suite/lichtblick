@@ -2,14 +2,12 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-namespace Bzip2 {
-  declare function decompressFile(buff: Buffer): Buffer;
-}
-
 declare module "compressjs" {
-  export const Bzip2: Bzip2;
+  export const Bzip2: {
+    decompressFile(buff: Buffer): Buffer;
+  };
 }
 
 declare module "compressjs/lib/Bzip2" {
-  export default Bzip2;
+  export function decompressFile(_buff: Buffer): Buffer;
 }

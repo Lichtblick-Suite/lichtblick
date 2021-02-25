@@ -11,7 +11,6 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { $Shape } from "utility-types";
 import { groupBy } from "lodash";
 import React, {
   useCallback,
@@ -33,8 +32,10 @@ import {
 } from "regl-worldview";
 import { Time } from "rosbag";
 import { useDebouncedCallback } from "use-debounce";
+import { $Shape } from "utility-types";
 
 import useTopicTree, { TopicTreeContext } from "./useTopicTree";
+import useDataSourceInfo from "@foxglove-studio/app/PanelAPI/useDataSourceInfo";
 import Dimensions from "@foxglove-studio/app/components/Dimensions";
 import { useExperimentalFeature } from "@foxglove-studio/app/components/ExperimentalFeatures";
 import KeyListener from "@foxglove-studio/app/components/KeyListener";
@@ -44,7 +45,6 @@ import { RenderToBodyComponent } from "@foxglove-studio/app/components/renderToB
 import filterMap from "@foxglove-studio/app/filterMap";
 import useGlobalVariables from "@foxglove-studio/app/hooks/useGlobalVariables";
 import { getGlobalHooks } from "@foxglove-studio/app/loadWebviz";
-import useDataSourceInfo from "@foxglove-studio/app/PanelAPI/useDataSourceInfo";
 import {
   Save3DConfig,
   ThreeDimensionalVizConfig,
@@ -71,12 +71,6 @@ import {
   MarkerMatcher,
   ThreeDimensionalVizContext,
 } from "@foxglove-studio/app/panels/ThreeDimensionalViz/ThreeDimensionalVizContext";
-import {
-  TargetPose,
-  getInteractionData,
-  getObject,
-  getUpdatedGlobalVariablesBySelectedObject,
-} from "@foxglove-studio/app/panels/ThreeDimensionalViz/threeDimensionalVizUtils";
 import { ColorPickerSettingsPanel } from "@foxglove-studio/app/panels/ThreeDimensionalViz/TopicSettingsEditor/ColorPickerForTopicSettings";
 import TopicSettingsModal from "@foxglove-studio/app/panels/ThreeDimensionalViz/TopicTree/TopicSettingsModal";
 import TopicTree from "@foxglove-studio/app/panels/ThreeDimensionalViz/TopicTree/TopicTree";
@@ -85,6 +79,12 @@ import useSceneBuilderAndTransformsData from "@foxglove-studio/app/panels/ThreeD
 import Transforms from "@foxglove-studio/app/panels/ThreeDimensionalViz/Transforms";
 import TransformsBuilder from "@foxglove-studio/app/panels/ThreeDimensionalViz/TransformsBuilder";
 import World from "@foxglove-studio/app/panels/ThreeDimensionalViz/World";
+import {
+  TargetPose,
+  getInteractionData,
+  getObject,
+  getUpdatedGlobalVariablesBySelectedObject,
+} from "@foxglove-studio/app/panels/ThreeDimensionalViz/threeDimensionalVizUtils";
 import { Frame, Topic } from "@foxglove-studio/app/players/types";
 import inScreenshotTests from "@foxglove-studio/app/stories/inScreenshotTests";
 import { Color } from "@foxglove-studio/app/types/Messages";
@@ -704,7 +704,6 @@ export default function Layout({
   const { isHovered } = useContext(PanelContext) || {};
   const isDemoMode = useExperimentalFeature("demoMode");
   const isHidden = isDemoMode && !isHovered;
-  const DemoModeComponent = getGlobalHooks().getDemoModeComponent();
 
   const { MapComponent, videoRecordingStyle } = useMemo(
     () => ({

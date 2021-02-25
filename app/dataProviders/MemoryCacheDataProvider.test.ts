@@ -20,11 +20,11 @@ import MemoryCacheDataProvider, {
   MAX_BLOCK_SIZE_BYTES,
   MAX_BLOCKS,
 } from "./MemoryCacheDataProvider";
-import delay from "@foxglove-studio/app/shared/delay";
-import { CoreDataProviders } from "@foxglove-studio/app/dataProviders/constants";
 import MemoryDataProvider from "@foxglove-studio/app/dataProviders/MemoryDataProvider";
+import { CoreDataProviders } from "@foxglove-studio/app/dataProviders/constants";
 import { mockExtensionPoint } from "@foxglove-studio/app/dataProviders/mockExtensionPoint";
 import { Bobject, BobjectMessage, Message } from "@foxglove-studio/app/players/types";
+import delay from "@foxglove-studio/app/shared/delay";
 import { getObject } from "@foxglove-studio/app/util/binaryObjects";
 import naturalSort from "@foxglove-studio/app/util/naturalSort";
 import sendNotification from "@foxglove-studio/app/util/sendNotification";

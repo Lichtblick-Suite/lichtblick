@@ -11,9 +11,9 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { $ReadOnly } from "utility-types";
 import { groupBy } from "lodash";
 import { useCallback } from "react";
+import { $ReadOnly } from "utility-types";
 
 import { useMessageReducer } from "./useMessageReducer";
 import { Message, TypedMessage, MessageFormat } from "@foxglove-studio/app/players/types";

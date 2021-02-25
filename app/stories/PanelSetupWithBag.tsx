@@ -18,8 +18,8 @@ import { useEffect, useState } from "react"; // eslint-disable-line import/no-du
 import NodePlayer from "@foxglove-studio/app/players/NodePlayer";
 import StoryPlayer from "@foxglove-studio/app/players/StoryPlayer";
 import { PlayerState, SubscribePayload } from "@foxglove-studio/app/players/types";
-import { Store } from "@foxglove-studio/app/types/Store";
 import PanelSetup, { Fixture } from "@foxglove-studio/app/stories/PanelSetup";
+import { Store } from "@foxglove-studio/app/types/Store";
 
 const defaultGetMergedFixture = (bagFixture: Fixture) => bagFixture;
 

@@ -53,7 +53,6 @@ describe("<PointClouds />", () => {
     });
 
     it("extracts both positions from data since stride is not multiple of sizeof(float)", () => {
-      // $FlowFixMe - Flow doesn't like that we're overwriting this.
       console.info = () => {
         // memoizedMarker() will log warnings in console whenever a buffer cannot be sent to GPU
       };
@@ -150,7 +149,6 @@ describe("<PointClouds />", () => {
     });
 
     it("builds point cloud with rainbow colors. Extract both positions and colors", () => {
-      // $FlowFixMe - Flow doesn't like that we're overwriting this.
       console.info = () => {
         // memoizedMarker() will log warnings in console whenever a buffer cannot be sent to GPU
       };
@@ -202,7 +200,6 @@ describe("<PointClouds />", () => {
     });
 
     it("builds point cloud with gradient colors. Extract both positions and colors", () => {
-      // $FlowFixMe - Flow doesn't like that we're overwriting this.
       console.info = () => {
         // memoizedMarker() will log warnings in console whenever a buffer cannot be sent to GPU
       };
@@ -236,7 +233,6 @@ describe("<PointClouds />", () => {
   describe("color field of different types", () => {
     // Colors are always extracted because of stride size
     const extractMarkerColors = (colorField: any) => {
-      // $FlowFixMe - Flow doesn't like that we're overwriting this.
       console.info = () => {
         // memoizedMarker() will log warnings in console whenever a buffer cannot be sent to GPU
       };

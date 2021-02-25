@@ -12,6 +12,7 @@
 //   You may not use this file except in compliance with the License.
 
 import { $Shape } from "utility-types";
+
 import {
   validateNodeDefinitions,
   makeNodeMessage,

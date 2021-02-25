@@ -15,8 +15,8 @@ import { fromPairs, difference } from "lodash";
 import { parseMessageDefinition, RosMsgDefinition } from "rosbag";
 
 import MemoryStorage from "@foxglove-studio/app/test/MemoryStorage";
-import sendNotification from "@foxglove-studio/app/util/sendNotification";
 import Storage, { BackingStore, BustStorageFn } from "@foxglove-studio/app/util/Storage";
+import sendNotification from "@foxglove-studio/app/util/sendNotification";
 import { inWebWorker } from "@foxglove-studio/app/util/workers";
 
 export const STORAGE_ITEM_KEY_PREFIX = "msgdefn/";

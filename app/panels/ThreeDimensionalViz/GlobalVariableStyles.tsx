@@ -23,8 +23,8 @@ import ExpandingToolbar, {
   ToolGroupFixedSizePane,
 } from "@foxglove-studio/app/components/ExpandingToolbar";
 import Icon from "@foxglove-studio/app/components/Icon";
-import { JSONInput } from "@foxglove-studio/app/components/input/JSONInput";
 import Tooltip from "@foxglove-studio/app/components/Tooltip";
+import { JSONInput } from "@foxglove-studio/app/components/input/JSONInput";
 import useGlobalVariables from "@foxglove-studio/app/hooks/useGlobalVariables";
 import useLinkedGlobalVariables from "@foxglove-studio/app/panels/ThreeDimensionalViz/Interactions/useLinkedGlobalVariables";
 import styles from "@foxglove-studio/app/panels/ThreeDimensionalViz/Layout.module.scss";

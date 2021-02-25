@@ -15,6 +15,7 @@ import { Time } from "rosbag";
 
 import { Message } from "@foxglove-studio/app/players/types";
 import { RosDatatypes } from "@foxglove-studio/app/types/RosDatatypes";
+import Rpc from "@foxglove-studio/app/util/Rpc";
 import {
   deepParse,
   getBinaryData,
@@ -22,7 +23,6 @@ import {
   wrapJsObject,
 } from "@foxglove-studio/app/util/binaryObjects";
 import { getDatatypes } from "@foxglove-studio/app/util/binaryObjects/messageDefinitionUtils";
-import Rpc from "@foxglove-studio/app/util/Rpc";
 
 type CommonTransferData = Readonly<{
   action: string;

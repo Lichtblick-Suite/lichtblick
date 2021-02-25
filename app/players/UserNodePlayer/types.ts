@@ -10,6 +10,7 @@
 //   This source code is licensed under the Apache License, Version 2.0,
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
+import type { SourceFile, TypeChecker } from "typescript";
 import { $Values } from "utility-types";
 
 import { GlobalVariables } from "@foxglove-studio/app/hooks/useGlobalVariables";
@@ -17,7 +18,6 @@ import { Topic, Message } from "@foxglove-studio/app/players/types";
 import { RosDatatypes } from "@foxglove-studio/app/types/RosDatatypes";
 
 // make sure to use import type to avoid bringing in the actual implementations to the bundle
-import type { SourceFile, TypeChecker } from "typescript";
 
 export const DiagnosticSeverity = {
   Hint: 1,

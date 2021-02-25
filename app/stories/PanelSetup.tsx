@@ -11,13 +11,13 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { $Shape } from "utility-types";
 import { createMemoryHistory } from "history";
 import { flatten, partition } from "lodash";
 import * as React from "react";
 import { DndProvider } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
 import { Mosaic, MosaicWindow } from "react-mosaic-component";
+import { $Shape } from "utility-types";
 
 import {
   changePanelLayout,
@@ -34,16 +34,16 @@ import {
 import { MockMessagePipelineProvider } from "@foxglove-studio/app/components/MessagePipeline";
 import { GlobalVariables } from "@foxglove-studio/app/hooks/useGlobalVariables";
 import { LinkedGlobalVariables } from "@foxglove-studio/app/panels/ThreeDimensionalViz/Interactions/useLinkedGlobalVariables";
-import { Frame, Topic, PlayerStateActiveData, Progress } from "@foxglove-studio/app/players/types";
 import {
   UserNodeDiagnostics,
   UserNodeLogs,
 } from "@foxglove-studio/app/players/UserNodePlayer/types";
+import { Frame, Topic, PlayerStateActiveData, Progress } from "@foxglove-studio/app/players/types";
 import createRootReducer from "@foxglove-studio/app/reducers";
-import { Store } from "@foxglove-studio/app/types/Store";
 import configureStore from "@foxglove-studio/app/store/configureStore.testing";
-import { MosaicNode, SavedProps, UserNodes } from "@foxglove-studio/app/types/panels";
 import { RosDatatypes } from "@foxglove-studio/app/types/RosDatatypes";
+import { Store } from "@foxglove-studio/app/types/Store";
+import { MosaicNode, SavedProps, UserNodes } from "@foxglove-studio/app/types/panels";
 import { objectValues } from "@foxglove-studio/app/util";
 import { isBobject } from "@foxglove-studio/app/util/binaryObjects";
 

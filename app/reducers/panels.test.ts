@@ -16,7 +16,6 @@
 import fetchMock from "fetch-mock";
 import { getLeaves } from "react-mosaic-component";
 
-import delay from "@foxglove-studio/app/shared/delay";
 import {
   changePanelLayout,
   savePanelConfigs,
@@ -34,16 +33,17 @@ import {
   fetchLayout,
 } from "@foxglove-studio/app/actions/panels";
 import { getGlobalHooks } from "@foxglove-studio/app/loadWebviz";
+import { State } from "@foxglove-studio/app/reducers";
 import {
   GLOBAL_STATE_STORAGE_KEY,
   resetInitialPersistedState,
   defaultPlaybackConfig,
 } from "@foxglove-studio/app/reducers/panels";
+import delay from "@foxglove-studio/app/shared/delay";
 import { getGlobalStoreForTest } from "@foxglove-studio/app/store/getGlobalStore";
+import Storage from "@foxglove-studio/app/util/Storage";
 import { TAB_PANEL_TYPE } from "@foxglove-studio/app/util/globalConstants";
 import { getPanelTypeFromId } from "@foxglove-studio/app/util/layout";
-import Storage from "@foxglove-studio/app/util/Storage";
-import { State } from "@foxglove-studio/app/reducers";
 
 const CURRENT_LAYOUT_VERSION = 16;
 const defaultPersistedState = Object.freeze(getGlobalHooks().getDefaultPersistedState());
@@ -65,7 +65,7 @@ describe("state.persistedState", () => {
   });
 
   it("stores initial panel layout in local storage", () => {
-    const { store, checkState } = getStore();
+    const { checkState } = getStore();
     checkState(({ persistedState }) => {
       const globalState = storage.getItem(GLOBAL_STATE_STORAGE_KEY) || {};
       expect(globalState).toEqual(persistedState);
@@ -73,7 +73,7 @@ describe("state.persistedState", () => {
   });
 
   it("stores default settings in local storage", () => {
-    const { store, checkState } = getStore();
+    const { checkState } = getStore();
     checkState(({ persistedState: { panels } }) => {
       expect(panels.layout).toEqual(defaultPersistedState.panels.layout);
       expect(panels.savedProps).toEqual({});

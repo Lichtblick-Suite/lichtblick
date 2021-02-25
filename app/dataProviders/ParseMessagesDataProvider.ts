@@ -14,14 +14,16 @@
 import { uniq } from "lodash";
 import { Time, MessageReader } from "rosbag";
 
-import { DataProvider, InitializationResult, ExtensionPoint } from "./types";
-import ParsedMessageCache from "@foxglove-studio/app/dataProviders/ParsedMessageCache";
 import {
+  DataProvider,
+  InitializationResult,
+  ExtensionPoint,
   DataProviderDescriptor,
   GetDataProvider,
   GetMessagesResult,
   GetMessagesTopics,
-} from "@foxglove-studio/app/dataProviders/types";
+} from "./types";
+import ParsedMessageCache from "@foxglove-studio/app/dataProviders/ParsedMessageCache";
 import { ParsedMessageDefinitionsByTopic } from "@foxglove-studio/app/players/types";
 import { RosDatatypes } from "@foxglove-studio/app/types/RosDatatypes";
 import { FREEZE_MESSAGES } from "@foxglove-studio/app/util/globalConstants";

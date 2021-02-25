@@ -16,7 +16,6 @@ import * as React from "react";
 
 import { UseTreeInput } from "./types";
 import useTopicTree, { generateNodeKey, getBaseKey } from "./useTopicTree";
-import { TOPIC_DISPLAY_MODES } from "@foxglove-studio/app/panels/ThreeDimensionalViz/TopicTree/TopicViewModeSelector";
 import { Topic } from "@foxglove-studio/app/players/types";
 
 const TREE_CONFIG = {

@@ -14,9 +14,9 @@ import { useCallback, useMemo, useContext } from "react";
 import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import useEventListener from "@foxglove-studio/app/hooks/useEventListener";
 import { redoLayoutChange, undoLayoutChange } from "@foxglove-studio/app/actions/layoutHistory";
 import { ScreenshotsContext } from "@foxglove-studio/app/components/Screenshots/ScreenshotsProvider";
+import useEventListener from "@foxglove-studio/app/hooks/useEventListener";
 import { downloadFiles } from "@foxglove-studio/app/util";
 
 const inNativeUndoRedoElement = (eventTarget: EventTarget) => {

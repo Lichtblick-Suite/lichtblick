@@ -11,10 +11,10 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 import CBOR from "cbor-js";
+import { create as JsonDiffCreate } from "jsondiffpatch";
 import { cloneDeep } from "lodash";
 import { MosaicPath } from "react-mosaic-component";
 import zlib from "zlib";
-import { create as JsonDiffCreate } from "jsondiffpatch";
 
 import { getGlobalHooks } from "@foxglove-studio/app/loadWebviz";
 import { LinkedGlobalVariables } from "@foxglove-studio/app/panels/ThreeDimensionalViz/Interactions/useLinkedGlobalVariables";

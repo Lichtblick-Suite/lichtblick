@@ -16,6 +16,7 @@ import * as React from "react";
 import { hot } from "react-hot-loader/root";
 import styled from "styled-components";
 
+import * as PanelAPI from "@foxglove-studio/app/PanelAPI";
 import Button from "@foxglove-studio/app/components/Button";
 import Dropdown from "@foxglove-studio/app/components/Dropdown";
 import Flex from "@foxglove-studio/app/components/Flex";
@@ -26,7 +27,6 @@ import Panel from "@foxglove-studio/app/components/Panel";
 import PanelToolbar from "@foxglove-studio/app/components/PanelToolbar";
 import TextContent from "@foxglove-studio/app/components/TextContent";
 import filterMap from "@foxglove-studio/app/filterMap";
-import * as PanelAPI from "@foxglove-studio/app/PanelAPI";
 import {
   Topic,
   Message,

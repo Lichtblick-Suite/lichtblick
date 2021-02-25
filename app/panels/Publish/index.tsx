@@ -11,18 +11,14 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { $Shape } from "utility-types";
 import CheckboxBlankOutlineIcon from "@mdi/svg/svg/checkbox-blank-outline.svg";
 import CheckboxMarkedIcon from "@mdi/svg/svg/checkbox-marked.svg";
 import * as React from "react";
 import { hot } from "react-hot-loader/root";
 import styled from "styled-components";
+import { $Shape } from "utility-types";
 
 import buildSampleMessage from "./buildSampleMessage";
-import {
-  PanelToolbarInput,
-  PanelToolbarLabel,
-} from "@foxglove-studio/app/shared/panelToolbarStyles";
 import Autocomplete from "@foxglove-studio/app/components/Autocomplete";
 import Button from "@foxglove-studio/app/components/Button";
 import Flex from "@foxglove-studio/app/components/Flex";
@@ -31,6 +27,10 @@ import Panel from "@foxglove-studio/app/components/Panel";
 import PanelToolbar from "@foxglove-studio/app/components/PanelToolbar";
 import Publisher from "@foxglove-studio/app/components/Publisher";
 import { PlayerCapabilities, Topic } from "@foxglove-studio/app/players/types";
+import {
+  PanelToolbarInput,
+  PanelToolbarLabel,
+} from "@foxglove-studio/app/shared/panelToolbarStyles";
 import colors from "@foxglove-studio/app/styles/colors.module.scss";
 import { RosDatatypes } from "@foxglove-studio/app/types/RosDatatypes";
 

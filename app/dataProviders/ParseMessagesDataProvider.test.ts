@@ -12,11 +12,11 @@
 //   You may not use this file except in compliance with the License.
 
 import BagDataProvider from "@foxglove-studio/app/dataProviders/BagDataProvider";
-import { CoreDataProviders } from "@foxglove-studio/app/dataProviders/constants";
-import createGetDataProvider from "@foxglove-studio/app/dataProviders/createGetDataProvider";
 import MemoryCacheDataProvider from "@foxglove-studio/app/dataProviders/MemoryCacheDataProvider";
 import ParseMessagesDataProvider from "@foxglove-studio/app/dataProviders/ParseMessagesDataProvider";
 import RewriteBinaryDataProvider from "@foxglove-studio/app/dataProviders/RewriteBinaryDataProvider";
+import { CoreDataProviders } from "@foxglove-studio/app/dataProviders/constants";
+import createGetDataProvider from "@foxglove-studio/app/dataProviders/createGetDataProvider";
 import { NotifyPlayerManagerReplyData } from "@foxglove-studio/app/players/types";
 
 function getProvider() {

@@ -13,7 +13,8 @@
 
 // @ts-nocheck
 
-import { Topic } from "@foxglove-studio/app/players/types";
+import ts from "typescript/lib/typescript";
+
 import { formatInterfaceName } from "@foxglove-studio/app/players/UserNodePlayer/nodeTransformerWorker/typegen";
 import {
   constructDatatypes,
@@ -34,11 +35,10 @@ import {
   Diagnostic,
   NodeDataTransformer,
 } from "@foxglove-studio/app/players/UserNodePlayer/types";
+import { Topic } from "@foxglove-studio/app/players/types";
 import { RosDatatypes } from "@foxglove-studio/app/types/RosDatatypes";
 import { DEFAULT_WEBVIZ_NODE_PREFIX } from "@foxglove-studio/app/util/globalConstants";
 import sendNotification from "@foxglove-studio/app/util/sendNotification";
-
-import ts from "typescript/lib/typescript";
 
 export const hasTransformerErrors = (nodeData: NodeData): boolean =>
   nodeData.diagnostics.some(({ severity }) => severity === DiagnosticSeverity.Error);

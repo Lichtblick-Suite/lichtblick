@@ -18,9 +18,9 @@ import React, { useContext } from "react";
 import { act } from "react-dom/test-utils";
 
 import { ScreenshotsProvider, ScreenshotsContext } from "./ScreenshotsProvider";
+import { MockMessagePipelineProvider } from "@foxglove-studio/app/components/MessagePipeline";
 import delay from "@foxglove-studio/app/shared/delay";
 import signal from "@foxglove-studio/app/shared/signal";
-import { MockMessagePipelineProvider } from "@foxglove-studio/app/components/MessagePipeline";
 import sendNotification from "@foxglove-studio/app/util/sendNotification";
 
 const defaultContext = {

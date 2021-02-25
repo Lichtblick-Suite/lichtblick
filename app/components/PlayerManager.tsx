@@ -29,6 +29,7 @@ import {
 import DocumentDropListener from "@foxglove-studio/app/components/DocumentDropListener";
 import DropOverlay from "@foxglove-studio/app/components/DropOverlay";
 import { getExperimentalFeature } from "@foxglove-studio/app/components/ExperimentalFeatures";
+import { useFileContext } from "@foxglove-studio/app/components/FileContext";
 import { MessagePipelineProvider } from "@foxglove-studio/app/components/MessagePipeline";
 import { CoreDataProviders } from "@foxglove-studio/app/dataProviders/constants";
 import { getRemoteBagGuid } from "@foxglove-studio/app/dataProviders/getRemoteBagGuid";
@@ -40,15 +41,14 @@ import {
 import { DataProviderDescriptor } from "@foxglove-studio/app/dataProviders/types";
 import { GlobalVariables } from "@foxglove-studio/app/hooks/useGlobalVariables";
 import useUserNodes from "@foxglove-studio/app/hooks/useUserNodes";
-import AutomatedRunPlayer from "@foxglove-studio/app/players/automatedRun/AutomatedRunPlayer";
-import PerformanceMeasuringClient from "@foxglove-studio/app/players/automatedRun/performanceMeasuringClient";
-import videoRecordingClient from "@foxglove-studio/app/players/automatedRun/videoRecordingClient";
 import OrderedStampPlayer from "@foxglove-studio/app/players/OrderedStampPlayer";
 import RandomAccessPlayer from "@foxglove-studio/app/players/RandomAccessPlayer";
 import RosbridgePlayer from "@foxglove-studio/app/players/RosbridgePlayer";
-import { useFileContext } from "@foxglove-studio/app/components/FileContext";
-import { NotifyPlayerManagerReplyData, Player } from "@foxglove-studio/app/players/types";
 import UserNodePlayer from "@foxglove-studio/app/players/UserNodePlayer";
+import AutomatedRunPlayer from "@foxglove-studio/app/players/automatedRun/AutomatedRunPlayer";
+import PerformanceMeasuringClient from "@foxglove-studio/app/players/automatedRun/performanceMeasuringClient";
+import videoRecordingClient from "@foxglove-studio/app/players/automatedRun/videoRecordingClient";
+import { NotifyPlayerManagerReplyData, Player } from "@foxglove-studio/app/players/types";
 import { UserNodes } from "@foxglove-studio/app/types/panels";
 import { corsError } from "@foxglove-studio/app/util/corsError";
 import demoLayoutJson from "@foxglove-studio/app/util/demoLayout.json";

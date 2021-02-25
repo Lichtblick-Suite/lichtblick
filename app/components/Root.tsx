@@ -13,8 +13,8 @@
 import cx from "classnames";
 import { ConnectedRouter } from "connected-react-router";
 import { useEffect, useRef } from "react";
-import { hot } from "react-hot-loader/root";
 import { setConfig } from "react-hot-loader";
+import { hot } from "react-hot-loader/root";
 import { connect, Provider } from "react-redux";
 import { Route } from "react-router";
 
@@ -34,11 +34,11 @@ import ShortcutsModal from "@foxglove-studio/app/components/ShortcutsModal";
 import { TinyConnectionPicker } from "@foxglove-studio/app/components/TinyConnectionPicker";
 import Toolbar from "@foxglove-studio/app/components/Toolbar";
 import withDragDropContext from "@foxglove-studio/app/components/withDragDropContext";
+import useDocumentTitle from "@foxglove-studio/app/hooks/useDocumentTitle";
 import { State } from "@foxglove-studio/app/reducers";
 import getGlobalStore from "@foxglove-studio/app/store/getGlobalStore";
 import browserHistory from "@foxglove-studio/app/util/history";
 import inAutomatedRunMode from "@foxglove-studio/app/util/inAutomatedRunMode";
-import useDocumentTitle from "@foxglove-studio/app/hooks/useDocumentTitle";
 
 setConfig({
   // react-hot-loader re-writes hooks with a wrapper function that is designed

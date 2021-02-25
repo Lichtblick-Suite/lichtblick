@@ -31,6 +31,8 @@ import styled from "styled-components";
 import glTextAtlasLoader, { TextAtlas } from "./utils/glTextAtlasLoader";
 import { groupLinesIntoInstancedLineLists } from "./utils/groupingUtils";
 import { getGlobalHooks } from "@foxglove-studio/app/loadWebviz";
+import { Interactive } from "@foxglove-studio/app/panels/ThreeDimensionalViz/Interactions/types";
+import { GLTextMarker } from "@foxglove-studio/app/panels/ThreeDimensionalViz/SearchText";
 import {
   OccupancyGrids,
   LaserScans,
@@ -42,8 +44,6 @@ import {
   LAYER_INDEX_TEXT,
   LAYER_INDEX_OCCUPANCY_GRIDS,
 } from "@foxglove-studio/app/panels/ThreeDimensionalViz/constants";
-import { Interactive } from "@foxglove-studio/app/panels/ThreeDimensionalViz/Interactions/types";
-import { GLTextMarker } from "@foxglove-studio/app/panels/ThreeDimensionalViz/SearchText";
 import {
   BaseMarker,
   CubeListMarker,

@@ -13,8 +13,8 @@
 
 import IdbCacheReaderDataProvider from "./IdbCacheReaderDataProvider";
 import IdbCacheWriterDataProvider from "./IdbCacheWriterDataProvider";
-import { CoreDataProviders } from "@foxglove-studio/app/dataProviders/constants";
 import MemoryDataProvider from "@foxglove-studio/app/dataProviders/MemoryDataProvider";
+import { CoreDataProviders } from "@foxglove-studio/app/dataProviders/constants";
 import { mockExtensionPoint } from "@foxglove-studio/app/dataProviders/mockExtensionPoint";
 import { TypedMessage } from "@foxglove-studio/app/players/types";
 import { getDatabasesInTests } from "@foxglove-studio/app/util/indexeddb/getDatabasesInTests";

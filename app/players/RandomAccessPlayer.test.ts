@@ -20,8 +20,6 @@ import RandomAccessPlayer, {
   SEEK_START_DELAY_MS,
 } from "./RandomAccessPlayer";
 import TestProvider from "./TestProvider";
-import delay from "@foxglove-studio/app/shared/delay";
-import signal from "@foxglove-studio/app/shared/signal";
 import { GetMessagesResult, GetMessagesTopics } from "@foxglove-studio/app/dataProviders/types";
 import {
   BobjectMessage,
@@ -31,6 +29,8 @@ import {
   PlayerMetricsCollectorInterface,
   PlayerState,
 } from "@foxglove-studio/app/players/types";
+import delay from "@foxglove-studio/app/shared/delay";
+import signal from "@foxglove-studio/app/shared/signal";
 import sendNotification from "@foxglove-studio/app/util/sendNotification";
 import { fromNanoSec, getSeekToTime, SEEK_ON_START_NS } from "@foxglove-studio/app/util/time";
 

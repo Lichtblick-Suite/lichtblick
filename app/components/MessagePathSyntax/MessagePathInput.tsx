@@ -16,8 +16,8 @@ import cx from "classnames";
 import { flatten, flatMap, partition } from "lodash";
 import * as React from "react";
 
-import { RosPath, RosPrimitive } from "./constants";
 import styles from "./MessagePathInput.module.scss";
+import { RosPath, RosPrimitive } from "./constants";
 import {
   StructureTraversalResult,
   traverseStructure,
@@ -26,13 +26,13 @@ import {
   validTerminatingStructureItem,
 } from "./messagePathsForDatatype";
 import parseRosPath from "./parseRosPath";
+import * as PanelAPI from "@foxglove-studio/app/PanelAPI";
 import Autocomplete from "@foxglove-studio/app/components/Autocomplete";
 import Dropdown from "@foxglove-studio/app/components/Dropdown";
 import Icon from "@foxglove-studio/app/components/Icon";
 import Tooltip from "@foxglove-studio/app/components/Tooltip";
 import useGlobalVariables, { GlobalVariables } from "@foxglove-studio/app/hooks/useGlobalVariables";
 import { getGlobalHooks } from "@foxglove-studio/app/loadWebviz";
-import * as PanelAPI from "@foxglove-studio/app/PanelAPI";
 import { Topic } from "@foxglove-studio/app/players/types";
 import { RosDatatypes } from "@foxglove-studio/app/types/RosDatatypes";
 import { getTopicNames, getTopicsByTopicName } from "@foxglove-studio/app/util/selectors";

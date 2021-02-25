@@ -12,6 +12,7 @@
 //   You may not use this file except in compliance with the License.
 
 import { $ReadOnly } from "utility-types";
+
 import CameraModel from "./CameraModel";
 import {
   decodeYUV,

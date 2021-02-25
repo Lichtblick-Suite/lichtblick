@@ -54,8 +54,6 @@ const HeaderItem = ({ isOpen, numItems, text }: HeaderItemProps) => (
   </SHeaderItem>
 );
 
-type BottomBarDisplayState = "closed" | "diagnostics" | "logs";
-
 const BottomBar = ({ nodeId, isSaved, save, diagnostics, logs }: Props) => {
   const [bottomBarDisplay, setBottomBarDisplay] = useState("closed");
   const [autoScroll, setAutoScroll] = useState(true);

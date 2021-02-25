@@ -19,7 +19,7 @@ import { importPanelLayout } from "@foxglove-studio/app/actions/panels";
 import ShareJsonModal from "@foxglove-studio/app/components/ShareJsonModal";
 import { ImportPanelLayoutPayload } from "@foxglove-studio/app/types/panels";
 
-const onLayoutChange = (layout: ImportPanelLayoutPayload, isFromUrl: boolean = false) => {
+const onLayoutChange = (layout: ImportPanelLayoutPayload, _isFromUrl: boolean = false) => {
   importPanelLayout(layout);
 };
 

@@ -16,12 +16,12 @@ import * as React from "react";
 import { DEFAULT_CAMERA_STATE } from "regl-worldview";
 
 import ValidatedInput, { EDIT_FORMAT, EditFormat } from "./ValidatedInput";
+import Flex from "@foxglove-studio/app/components/Flex";
 import {
   createValidator,
   isNumber,
   ValidationResult,
 } from "@foxglove-studio/app/shared/validators";
-import Flex from "@foxglove-studio/app/components/Flex";
 import { triggerInputChange, triggerInputBlur } from "@foxglove-studio/app/stories/PanelSetup";
 
 const INPUT_OBJ = { id: 1, name: "foo" };

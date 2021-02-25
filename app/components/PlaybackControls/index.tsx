@@ -22,10 +22,9 @@ import { Time } from "rosbag";
 import styled from "styled-components";
 import uuid from "uuid";
 
-import styles from "./index.module.scss";
 import PlaybackBarHoverTicks from "./PlaybackBarHoverTicks";
 import { ProgressPlot } from "./ProgressPlot";
-import Tooltip from "@foxglove-studio/app/components/TooltipBase";
+import styles from "./index.module.scss";
 import { clearHoverValue, setHoverValue } from "@foxglove-studio/app/actions/hoverValue";
 import Button from "@foxglove-studio/app/components/Button";
 import Flex from "@foxglove-studio/app/components/Flex";
@@ -45,6 +44,7 @@ import {
 import PlaybackSpeedControls from "@foxglove-studio/app/components/PlaybackSpeedControls";
 import Slider from "@foxglove-studio/app/components/Slider";
 import tooltipStyles from "@foxglove-studio/app/components/Tooltip.module.scss";
+import Tooltip from "@foxglove-studio/app/components/TooltipBase";
 import { PlayerState, PlayerStateActiveData } from "@foxglove-studio/app/players/types";
 import colors from "@foxglove-studio/app/styles/colors.module.scss";
 import { formatTime } from "@foxglove-studio/app/util/formatTime";

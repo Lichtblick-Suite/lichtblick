@@ -14,9 +14,9 @@
 import { mount } from "enzyme";
 import React from "react";
 
+import createSyncingComponent from "@foxglove-studio/app/components/createSyncingComponent";
 import delay from "@foxglove-studio/app/shared/delay";
 import tick from "@foxglove-studio/app/shared/tick";
-import createSyncingComponent from "@foxglove-studio/app/components/createSyncingComponent";
 
 describe("createSyncingComponent", () => {
   const IdentitySyncingComponent = createSyncingComponent(

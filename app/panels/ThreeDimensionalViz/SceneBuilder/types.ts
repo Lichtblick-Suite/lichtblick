@@ -12,6 +12,7 @@
 //   You may not use this file except in compliance with the License.
 
 import { $ReadOnly } from "utility-types";
+
 import { Frame } from "@foxglove-studio/app/players/types";
 import { Color, Pose } from "@foxglove-studio/app/types/Messages";
 

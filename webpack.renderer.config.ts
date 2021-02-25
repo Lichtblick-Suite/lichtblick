@@ -2,12 +2,12 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import path from "path";
-import retext from "retext";
 import rehypePrism from "@mapbox/rehype-prism";
-import retextSmartypants from "retext-smartypants";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
+import path from "path";
+import retext from "retext";
+import retextSmartypants from "retext-smartypants";
 import webpack, { Configuration } from "webpack";
 
 import { WebpackArgv } from "./WebpackArgv";

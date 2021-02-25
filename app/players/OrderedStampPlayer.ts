@@ -15,6 +15,7 @@ import microMemoize from "micro-memoize";
 import { Time, TimeUtil } from "rosbag";
 
 import { GlobalVariables } from "@foxglove-studio/app/hooks/useGlobalVariables";
+import UserNodePlayer from "@foxglove-studio/app/players/UserNodePlayer";
 import {
   cast,
   AdvertisePayload,
@@ -27,8 +28,8 @@ import {
   PlayerWarnings,
   Topic,
 } from "@foxglove-studio/app/players/types";
-import UserNodePlayer from "@foxglove-studio/app/players/UserNodePlayer";
 import { BinaryStampedMessage } from "@foxglove-studio/app/types/BinaryMessages";
+import { RosDatatypes } from "@foxglove-studio/app/types/RosDatatypes";
 import { UserNodes } from "@foxglove-studio/app/types/panels";
 import { deepParse } from "@foxglove-studio/app/util/binaryObjects";
 import {
@@ -38,7 +39,6 @@ import {
   maybeGetBobjectHeaderStamp,
   TimestampMethod,
 } from "@foxglove-studio/app/util/time";
-import { RosDatatypes } from "@foxglove-studio/app/types/RosDatatypes";
 
 // As a compromise between playback buffering required and correctness (as well as our ability to
 // play near the ends of bags), we assume messages' headers are always between 0s and 1s earlier

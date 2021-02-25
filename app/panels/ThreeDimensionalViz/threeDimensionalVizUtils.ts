@@ -11,7 +11,6 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { $Shape } from "utility-types";
 import { vec3 } from "gl-matrix";
 // eslint-disable-next-line no-restricted-imports
 import { mergeWith, get } from "lodash";
@@ -24,13 +23,14 @@ import {
   cameraStateSelectors,
   DEFAULT_CAMERA_STATE,
 } from "regl-worldview";
+import { $Shape } from "utility-types";
 
 import { GlobalVariables } from "@foxglove-studio/app/hooks/useGlobalVariables";
 import { InteractionData } from "@foxglove-studio/app/panels/ThreeDimensionalViz/Interactions/types";
 import { LinkedGlobalVariables } from "@foxglove-studio/app/panels/ThreeDimensionalViz/Interactions/useLinkedGlobalVariables";
 import Transforms from "@foxglove-studio/app/panels/ThreeDimensionalViz/Transforms";
-import { isBobject, deepParse } from "@foxglove-studio/app/util/binaryObjects";
 import { emptyPose } from "@foxglove-studio/app/util/Pose";
+import { isBobject, deepParse } from "@foxglove-studio/app/util/binaryObjects";
 
 export type TargetPose = { target: Vec3; targetOrientation: Vec4 };
 

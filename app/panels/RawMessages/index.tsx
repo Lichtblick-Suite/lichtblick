@@ -11,7 +11,6 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { $Shape } from "utility-types";
 import CheckboxBlankOutlineIcon from "@mdi/svg/svg/checkbox-blank-outline.svg";
 import CheckboxMarkedIcon from "@mdi/svg/svg/checkbox-marked.svg";
 import ConsoleLineIcon from "@mdi/svg/svg/console-line.svg";
@@ -24,8 +23,11 @@ import React, { useState, useCallback, useMemo } from "react";
 import { hot } from "react-hot-loader/root";
 import ReactHoverObserver from "react-hover-observer";
 import Tree from "react-json-tree";
+import { $Shape } from "utility-types";
 
 import { HighlightedValue, SDiffSpan, MaybeCollapsedValue } from "./Diff";
+import Metadata from "./Metadata";
+import RawMessagesIcons from "./RawMessagesIcons";
 import {
   ValueAction,
   getValueActionForValue,
@@ -33,18 +35,17 @@ import {
 } from "./getValueActionForValue";
 import helpContent from "./index.help.md";
 import styles from "./index.module.scss";
-import Metadata from "./Metadata";
-import RawMessagesIcons from "./RawMessagesIcons";
 import { DATA_ARRAY_PREVIEW_LIMIT, getItemString, getItemStringForDiff } from "./utils";
+import { useDataSourceInfo, useMessagesByTopic } from "@foxglove-studio/app/PanelAPI";
 import Dropdown from "@foxglove-studio/app/components/Dropdown";
 import EmptyState from "@foxglove-studio/app/components/EmptyState";
 import Flex from "@foxglove-studio/app/components/Flex";
 import Icon from "@foxglove-studio/app/components/Icon";
+import MessagePathInput from "@foxglove-studio/app/components/MessagePathSyntax/MessagePathInput";
 import {
   RosPath,
   MessagePathStructureItem,
 } from "@foxglove-studio/app/components/MessagePathSyntax/constants";
-import MessagePathInput from "@foxglove-studio/app/components/MessagePathSyntax/MessagePathInput";
 import {
   messagePathStructures,
   traverseStructure,
@@ -58,7 +59,6 @@ import { useLatestMessageDataItem } from "@foxglove-studio/app/components/Messag
 import Panel from "@foxglove-studio/app/components/Panel";
 import PanelToolbar from "@foxglove-studio/app/components/PanelToolbar";
 import Tooltip from "@foxglove-studio/app/components/Tooltip";
-import { useDataSourceInfo, useMessagesByTopic } from "@foxglove-studio/app/PanelAPI";
 import getDiff, {
   diffLabels,
   diffLabelsByLabelText,
@@ -297,6 +297,7 @@ function RawMessages(props: Props) {
                   <Icon
                     fade
                     className={styles.icon}
+                    // eslint-disable-next-line no-restricted-syntax
                     onClick={() => console.log(itemValue)}
                     tooltip="Log data to browser console"
                   >

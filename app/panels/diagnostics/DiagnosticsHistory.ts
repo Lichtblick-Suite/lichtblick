@@ -12,7 +12,6 @@
 //   You may not use this file except in compliance with the License.
 
 import { sortedIndexBy } from "lodash";
-import { ReactElement, ReactNode } from "react";
 
 import {
   DiagnosticStatusArrayMsg,

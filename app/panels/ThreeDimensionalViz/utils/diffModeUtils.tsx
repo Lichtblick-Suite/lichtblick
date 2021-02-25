@@ -15,11 +15,11 @@ import { partition } from "lodash";
 import React, { ComponentType } from "react";
 import { vec4ToRGBA } from "regl-worldview";
 
-import { LAYER_INDEX_DIFF_MODE_BASE_PER_PASS } from "@foxglove-studio/app/panels/ThreeDimensionalViz/constants";
 import {
   InteractiveMarkersByType,
   WorldMarkerProps,
 } from "@foxglove-studio/app/panels/ThreeDimensionalViz/WorldMarkers";
+import { LAYER_INDEX_DIFF_MODE_BASE_PER_PASS } from "@foxglove-studio/app/panels/ThreeDimensionalViz/constants";
 import { SECOND_SOURCE_PREFIX } from "@foxglove-studio/app/util/globalConstants";
 
 export const BASE_COLOR = [0.5, 0.5, 0.5, 1.0];

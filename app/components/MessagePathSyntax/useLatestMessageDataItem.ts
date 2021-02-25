@@ -18,8 +18,8 @@ import {
   useCachedGetMessagePathDataItems,
   MessagePathDataItem,
 } from "./useCachedGetMessagePathDataItems";
-import { useMessagePipeline } from "@foxglove-studio/app/components/MessagePipeline";
 import * as PanelAPI from "@foxglove-studio/app/PanelAPI";
+import { useMessagePipeline } from "@foxglove-studio/app/components/MessagePipeline";
 import { Message, MessageFormat } from "@foxglove-studio/app/players/types";
 import { useChangeDetector } from "@foxglove-studio/app/util/hooks";
 

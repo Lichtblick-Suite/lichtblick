@@ -17,7 +17,6 @@ import * as React from "react";
 import { MessageReader, parseMessageDefinition } from "rosbag";
 
 import * as PanelAPI from ".";
-
 import { MockMessagePipelineProvider } from "@foxglove-studio/app/components/MessagePipeline";
 
 describe("useBlocksByTopic", () => {

@@ -17,8 +17,8 @@ import { createSelector } from "reselect";
 import { Time } from "rosbag";
 import uuid from "uuid";
 
-import { PlotXAxisVal } from "./index";
 import styles from "./PlotChart.module.scss";
+import { PlotXAxisVal } from "./index";
 import Dimensions from "@foxglove-studio/app/components/Dimensions";
 import TimeBasedChart, {
   ChartDefaultView,

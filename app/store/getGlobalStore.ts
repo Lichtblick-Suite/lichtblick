@@ -17,8 +17,8 @@ import updateUrlAndLocalStorageMiddleware from "@foxglove-studio/app/middleware/
 import createRootReducer from "@foxglove-studio/app/reducers";
 import configureStore from "@foxglove-studio/app/store";
 import configureTestingStore from "@foxglove-studio/app/store/configureStore.testing";
-import history from "@foxglove-studio/app/util/history";
 import { Store } from "@foxglove-studio/app/types/Store";
+import history from "@foxglove-studio/app/util/history";
 
 let store: Store | undefined = undefined;
 // We have to wrap the actual creation of the global store in a function so that we only run it

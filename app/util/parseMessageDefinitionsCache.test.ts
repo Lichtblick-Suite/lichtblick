@@ -17,8 +17,8 @@ import {
   getStorageForTest,
   restoreStorageForTest,
 } from "./parseMessageDefinitionsCache";
-import sendNotification from "@foxglove-studio/app/util/sendNotification";
 import Storage, { clearBustStorageFnsMap } from "@foxglove-studio/app/util/Storage";
+import sendNotification from "@foxglove-studio/app/util/sendNotification";
 
 const storage = new Storage();
 

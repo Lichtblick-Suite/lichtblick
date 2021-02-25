@@ -26,20 +26,20 @@
 
 import { parseMessageDefinition } from "rosbag";
 
-import delay from "@foxglove-studio/app/shared/delay";
 import BagDataProvider from "@foxglove-studio/app/dataProviders/BagDataProvider";
 import CombinedDataProvider, {
   mergedBlocks,
 } from "@foxglove-studio/app/dataProviders/CombinedDataProvider";
 import MemoryDataProvider from "@foxglove-studio/app/dataProviders/MemoryDataProvider";
-import { mockExtensionPoint } from "@foxglove-studio/app/dataProviders/mockExtensionPoint";
 import RenameDataProvider from "@foxglove-studio/app/dataProviders/RenameDataProvider";
+import { mockExtensionPoint } from "@foxglove-studio/app/dataProviders/mockExtensionPoint";
+import { InitializationResult } from "@foxglove-studio/app/dataProviders/types";
 import { Bobject, BobjectMessage } from "@foxglove-studio/app/players/types";
+import delay from "@foxglove-studio/app/shared/delay";
 import { wrapJsObject } from "@foxglove-studio/app/util/binaryObjects";
 import { SECOND_SOURCE_PREFIX } from "@foxglove-studio/app/util/globalConstants";
 import sendNotification from "@foxglove-studio/app/util/sendNotification";
 import { fromMillis } from "@foxglove-studio/app/util/time";
-import { InitializationResult } from "@foxglove-studio/app/dataProviders/types";
 
 // reusable providers
 function provider1(initiallyLoaded = false) {

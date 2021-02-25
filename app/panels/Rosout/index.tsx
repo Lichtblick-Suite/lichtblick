@@ -11,7 +11,6 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { $ReadOnly } from "utility-types";
 import ClipboardOutlineIcon from "@mdi/svg/svg/clipboard-outline.svg";
 import cx from "classnames";
 import React, { PureComponent } from "react";
@@ -19,12 +18,13 @@ import { hot } from "react-hot-loader/root";
 import { Creatable as ReactSelectCreatable } from "react-select";
 import VirtualizedSelect from "react-virtualized-select";
 import { createSelector } from "reselect";
+import { $ReadOnly } from "utility-types";
 
-import helpContent from "./index.help.md";
-import styles from "./index.module.scss";
 import LevelToString, { KNOWN_LOG_LEVELS } from "./LevelToString";
 import LogMessage from "./LogMessage";
 import logStyle from "./LogMessage.module.scss";
+import helpContent from "./index.help.md";
+import styles from "./index.module.scss";
 import Flex from "@foxglove-studio/app/components/Flex";
 import Icon from "@foxglove-studio/app/components/Icon";
 import LogList from "@foxglove-studio/app/components/LogList";

@@ -23,7 +23,6 @@ import HoverBar from "./HoverBar";
 import TimeBasedChartTooltip from "./TimeBasedChartTooltip";
 import { clearHoverValue, setHoverValue } from "@foxglove-studio/app/actions/hoverValue";
 import Button from "@foxglove-studio/app/components/Button";
-import createSyncingComponent from "@foxglove-studio/app/components/createSyncingComponent";
 import KeyListener from "@foxglove-studio/app/components/KeyListener";
 import { MessageHistoryItem } from "@foxglove-studio/app/components/MessageHistoryDEPRECATED";
 import { MessagePathDataItem } from "@foxglove-studio/app/components/MessagePathSyntax/useCachedGetMessagePathDataItems";
@@ -39,6 +38,7 @@ import {
 } from "@foxglove-studio/app/components/ReactChartjs/zoomAndPanHelpers";
 import TimeBasedChartLegend from "@foxglove-studio/app/components/TimeBasedChart/TimeBasedChartLegend";
 import Tooltip from "@foxglove-studio/app/components/Tooltip";
+import createSyncingComponent from "@foxglove-studio/app/components/createSyncingComponent";
 import mixins from "@foxglove-studio/app/styles/mixins.module.scss";
 import { isBobject } from "@foxglove-studio/app/util/binaryObjects";
 import { useDeepChangeDetector } from "@foxglove-studio/app/util/hooks";

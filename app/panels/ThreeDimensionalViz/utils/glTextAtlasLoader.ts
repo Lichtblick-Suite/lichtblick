@@ -20,7 +20,6 @@ import { memoize } from "lodash";
 // hardcoded alphabet that Webviz uses.
 
 import textAtlas from "./textAtlas.json";
-
 import glTextAtlasUrl from "./textureAtlasData.bin";
 
 const errorMessage = "Error fetching /textureAtlasData for GLText, generating it client-side";

@@ -15,8 +15,8 @@ import RpcDataProvider from "./RpcDataProvider";
 import RpcDataProviderRemote from "./RpcDataProviderRemote";
 import MemoryDataProvider from "@foxglove-studio/app/dataProviders/MemoryDataProvider";
 import { mockExtensionPoint } from "@foxglove-studio/app/dataProviders/mockExtensionPoint";
-import Rpc, { createLinkedChannels } from "@foxglove-studio/app/util/Rpc";
 import { DataProviderMetadata } from "@foxglove-studio/app/dataProviders/types";
+import Rpc, { createLinkedChannels } from "@foxglove-studio/app/util/Rpc";
 
 const data = {
   messages: {

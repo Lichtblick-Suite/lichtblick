@@ -2,25 +2,27 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+// Allow console logs in this file
+/* eslint-disable no-restricted-syntax */
+
 import "colors";
 import {
   app,
   shell,
-  ipcMain,
   BrowserWindow,
   Menu,
   MenuItemConstructorOptions,
   BrowserWindowConstructorOptions,
   systemPreferences,
 } from "electron";
-import path from "path";
 import installExtension, {
   REACT_DEVELOPER_TOOLS,
   REDUX_DEVTOOLS,
 } from "electron-devtools-installer";
-import colors from "@foxglove-studio/app/styles/colors.module.scss";
+import path from "path";
 
 import type { OsContextWindowEvent } from "@foxglove-studio/app/OsContext";
+import colors from "@foxglove-studio/app/styles/colors.module.scss";
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 

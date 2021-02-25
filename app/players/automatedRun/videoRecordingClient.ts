@@ -13,6 +13,9 @@
 
 import delay from "@foxglove-studio/app/shared/delay";
 import signal, { Signal } from "@foxglove-studio/app/shared/signal";
+import Logger from "@foxglove-studio/app/util/Logger";
+
+const logger = new Logger("videoRecordingClient");
 
 // This is the interface between the video recording server (recordVideo.js) and
 // the client (whomever uses `videoRecordingClient`). The idea is that the server opens a webpage
@@ -93,7 +96,7 @@ class VideoRecordingClient {
   preloadStart = 0;
 
   start({ bagLengthMs }: { bagLengthMs: number }) {
-    console.log("videoRecordingClient.start()", bagLengthMs);
+    logger.info("videoRecordingClient.start()", bagLengthMs);
   }
 
   markFrameRenderStart() {
@@ -111,7 +114,7 @@ class VideoRecordingClient {
   markPreloadEnd() {
     const preloadDurationMs = performance.now() - this.preloadStart;
     const preloadTimeSec = (preloadDurationMs / 1000).toFixed(1);
-    console.log(`[VideoRecordingClient] Preload duration: ${preloadTimeSec}s`);
+    logger.info(`[VideoRecordingClient] Preload duration: ${preloadTimeSec}s`);
     return preloadDurationMs;
   }
 
@@ -148,7 +151,7 @@ class VideoRecordingClient {
   }
 
   finish() {
-    console.log("videoRecordingClient.finish()");
+    logger.info("videoRecordingClient.finish()");
     finishedMsPerFrame = msPerFrame;
   }
 }

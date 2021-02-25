@@ -11,9 +11,9 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { $Values } from "utility-types";
 import { sortBy, truncate } from "lodash";
 import { Time } from "rosbag";
+import { $Values } from "utility-types";
 
 import { DiagnosticsBuffer } from "@foxglove-studio/app/panels/diagnostics/DiagnosticsHistory";
 import { Header } from "@foxglove-studio/app/types/Messages";

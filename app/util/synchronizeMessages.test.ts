@@ -12,6 +12,7 @@
 //   You may not use this file except in compliance with the License.
 
 import { Time } from "rosbag";
+
 import synchronizeMessages, { getSynchronizingReducers } from "./synchronizeMessages";
 
 function message(topic: string, stamp?: Time) {

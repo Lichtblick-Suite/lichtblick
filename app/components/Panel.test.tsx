@@ -11,10 +11,10 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { $Shape } from "utility-types";
 import { mount } from "enzyme";
 import { createMemoryHistory } from "history";
 import * as React from "react";
+import { $Shape } from "utility-types";
 
 import { savePanelConfigs } from "@foxglove-studio/app/actions/panels";
 import Panel from "@foxglove-studio/app/components/Panel";

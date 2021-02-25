@@ -15,7 +15,6 @@ import React, { useState, useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled, { css } from "styled-components";
 
-import { SLinkUnderline } from "@foxglove-studio/app/shared/styledComponents";
 import { AddPanelPayload, addPanel } from "@foxglove-studio/app/actions/panels";
 import ChildToggle from "@foxglove-studio/app/components/ChildToggle";
 import Flex from "@foxglove-studio/app/components/Flex";
@@ -30,6 +29,7 @@ import HelpButton from "@foxglove-studio/app/components/PanelToolbar/HelpButton"
 import useGlobalVariables from "@foxglove-studio/app/hooks/useGlobalVariables";
 import GlobalVariables from "@foxglove-studio/app/panels/GlobalVariables";
 import helpContent from "@foxglove-studio/app/panels/GlobalVariables/index.help.md";
+import { SLinkUnderline } from "@foxglove-studio/app/shared/styledComponents";
 import inScreenshotTests from "@foxglove-studio/app/stories/inScreenshotTests";
 import logEvent, { getEventTags, getEventNames } from "@foxglove-studio/app/util/logEvent";
 import { colors } from "@foxglove-studio/app/util/sharedStyleConstants";

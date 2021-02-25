@@ -13,12 +13,11 @@
 
 import fetchMock from "fetch-mock";
 
-import delay from "@foxglove-studio/app/shared/delay";
+import { maybeStoreNewRecentLayout, getRecentLayouts } from "./recentLayouts";
 import { fetchLayout } from "@foxglove-studio/app/actions/panels";
+import delay from "@foxglove-studio/app/shared/delay";
 import { getGlobalStoreForTest } from "@foxglove-studio/app/store/getGlobalStore";
 import Storage from "@foxglove-studio/app/util/Storage";
-
-import { maybeStoreNewRecentLayout, getRecentLayouts } from "./recentLayouts";
 
 const storage = new Storage();
 

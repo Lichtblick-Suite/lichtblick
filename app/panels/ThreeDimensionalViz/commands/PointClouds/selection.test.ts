@@ -17,7 +17,6 @@ import { getClickedInfo, getAllPoints, decodeAdditionalFields } from "./selectio
 import { PointCloud2 } from "@foxglove-studio/app/types/Messages";
 
 describe("<PointClouds />", () => {
-  // $FlowFixMe - Flow doesn't like that we're overwriting this.
   console.info = () => {
     // decodeMarker() will log warnings in console whenever a buffer cannot be sent to GPU
   };

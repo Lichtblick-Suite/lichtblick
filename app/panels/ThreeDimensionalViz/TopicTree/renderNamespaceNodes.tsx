@@ -15,16 +15,16 @@ import React, { useCallback, useContext, useMemo } from "react";
 
 import NamespaceMenu from "./NamespaceMenu";
 import NodeName from "./NodeName";
-import { TooltipRow, TooltipTable, TreeUINode } from "./renderTreeNodes";
 import { TREE_SPACING } from "./TopicTree";
 import { SToggles, STreeNodeRow, SLeft, SRightActions, ICON_SIZE } from "./TreeNodeRow";
+import VisibilityToggle, { TOGGLE_WRAPPER_SIZE } from "./VisibilityToggle";
+import { TooltipRow, TooltipTable, TreeUINode } from "./renderTreeNodes";
 import {
   GetIsTreeNodeVisibleInTree,
   OnNamespaceOverrideColorChange,
   SetEditingNamespace,
   TreeTopicNode,
 } from "./types";
-import VisibilityToggle, { TOGGLE_WRAPPER_SIZE } from "./VisibilityToggle";
 import { ThreeDimensionalVizContext } from "@foxglove-studio/app/panels/ThreeDimensionalViz/ThreeDimensionalVizContext";
 import { TopicTreeContext } from "@foxglove-studio/app/panels/ThreeDimensionalViz/TopicTree/useTopicTree";
 import { SECOND_SOURCE_PREFIX, TRANSFORM_TOPIC } from "@foxglove-studio/app/util/globalConstants";

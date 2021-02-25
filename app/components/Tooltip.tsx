@@ -13,8 +13,8 @@
 
 import * as React from "react";
 
-import BaseTooltip from "@foxglove-studio/app/components/TooltipBase";
 import styles from "./Tooltip.module.scss";
+import BaseTooltip from "@foxglove-studio/app/components/TooltipBase";
 
 type BaseProps = React.ComponentProps<typeof BaseTooltip>;
 type Props = Omit<BaseProps, "offset" | "fixed" | "contents"> & {
