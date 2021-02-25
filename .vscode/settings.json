@@ -1,6 +1,7 @@
 {
   "prettier.prettierPath": "./node_modules/prettier",
   "typescript.tsdk": "node_modules/typescript/lib",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "search.exclude": {
     "**/node_modules": true,
     "**/bower_components": true,
