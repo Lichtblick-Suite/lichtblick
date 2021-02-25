@@ -16,6 +16,9 @@ const ctx: OsContext = {
       handlers["file.open-websocket-url"]();
     });
   },
+  handleToolbarDoubleClick() {
+    ipcRenderer.send("window.toolbar-double-clicked");
+  },
 };
 
 // NOTE: Context Bridge imposes a number of limitations around how objects move between the context

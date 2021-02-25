@@ -30,6 +30,7 @@ $spacing: 14px;
   margin-right: 0.5rem;
   top: 1px;
   position: relative;
+  pointer-events: none; // ensure double-clicking title bar is not blocked by the logo
 
   svg {
     vertical-align: middle;

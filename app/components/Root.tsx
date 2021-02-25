@@ -47,6 +47,7 @@ const LOGO_SIZE = 24;
 type Props = {
   windowStyle: "standaloneWithTopLeftButtons" | "normal";
   isFullScreen: boolean;
+  onToolbarDoubleClick?: () => void;
 };
 
 type InternalProps = Props & {
@@ -62,6 +63,7 @@ function App({
   importPanelLayout: importPanelLayoutProp,
   windowStyle,
   isFullScreen,
+  onToolbarDoubleClick,
 }: InternalProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -87,7 +89,7 @@ function App({
       <PlayerManager>
         {({ inputDescription }: any) => (
           <>
-            <Toolbar>
+            <Toolbar onDoubleClick={onToolbarDoubleClick}>
               <div className={styles.logoWrapper}>
                 <a href={windowStyle === "normal" ? "/" : "#"}>
                   <Logo width={LOGO_SIZE} height={LOGO_SIZE} />

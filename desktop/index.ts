@@ -2,10 +2,12 @@ import "colors";
 import {
   app,
   shell,
+  ipcMain,
   BrowserWindow,
   Menu,
   MenuItemConstructorOptions,
   BrowserWindowConstructorOptions,
+  systemPreferences,
 } from "electron";
 import path from "path";
 import installExtension, {
@@ -169,6 +171,18 @@ const createWindow = (): void => {
   if (process.env.NODE_ENV !== "production") {
     mainWindow.webContents.openDevTools();
   }
+
+  mainWindow.webContents.on("ipc-message", (event: Event, channel: string) => {
+    if (channel === "window.toolbar-double-clicked") {
+      const action: string =
+        systemPreferences.getUserDefault("AppleActionOnDoubleClick", "string") || "Maximize";
+      if (action === "Minimize") {
+        mainWindow.minimize();
+      } else {
+        mainWindow.isMaximized() ? mainWindow.unmaximize() : mainWindow.maximize();
+      }
+    }
+  });
 };
 
 // This method will be called when Electron has finished

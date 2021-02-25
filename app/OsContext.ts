@@ -12,6 +12,8 @@ export interface OsContext {
 
   // Events from the native window are available in the main process but not the renderer, so we forward them through the bridge.
   addWindowEventListener(eventName: OsContextWindowEvent, handler: () => void): void;
+
+  handleToolbarDoubleClick(): void;
 }
 
 type GlobalWithCtx = typeof global & {
