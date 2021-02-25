@@ -17,7 +17,7 @@
     "build:dev": "yarn run webpack --mode development",
     "serve:dev": "yarn run webpack serve --mode development",
     "lint": "TIMING=1 yarn run eslint --fix .",
-    "lint:nofix": "TIMING=1 yarn run eslint --quiet .",
+    "lint:nofix": "TIMING=1 yarn run eslint .",
     "test": "yarn run jest",
     "package:darwin": "electron-forge package --platform darwin",
     "package:linux": "electron-forge package --platform linux",
