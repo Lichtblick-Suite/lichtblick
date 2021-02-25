@@ -84,7 +84,7 @@ function defaultGetText(name: string) {
 }
 
 export default class Autocomplete extends PureComponent<AutocompleteProps, AutocompleteState> {
-  _autocomplete: RefObject<ReactAutocomplete> | undefined;
+  _autocomplete: RefObject<ReactAutocomplete>;
   _ignoreFocus: boolean = false;
   _ignoreBlur: boolean = false;
 
@@ -107,8 +107,8 @@ export default class Autocomplete extends PureComponent<AutocompleteProps, Autoc
   // reference to the highlighted element, which can cause an error if we hide it.
   componentDidUpdate() {
     if (
-      (this._autocomplete?.current?.refs.menu as any).scrollHeight <=
-        (this._autocomplete?.current?.refs.menu as any).clientHeight &&
+      (this._autocomplete.current?.refs.menu as any)?.scrollHeight <=
+        (this._autocomplete.current?.refs.menu as any)?.clientHeight &&
       this.state.showAllItems
     ) {
       this.setState({ showAllItems: false });
@@ -116,8 +116,8 @@ export default class Autocomplete extends PureComponent<AutocompleteProps, Autoc
   }
 
   setSelectionRange(selectionStart: number, selectionEnd: number) {
-    if (this._autocomplete?.current?.refs.input) {
-      (this._autocomplete?.current.refs.input as any).setSelectionRange(
+    if (this._autocomplete.current?.refs.input) {
+      (this._autocomplete.current.refs.input as any).setSelectionRange(
         selectionStart,
         selectionEnd,
       );
@@ -126,13 +126,13 @@ export default class Autocomplete extends PureComponent<AutocompleteProps, Autoc
   }
 
   focus() {
-    if (this._autocomplete?.current?.refs.input) {
+    if (this._autocomplete.current?.refs.input) {
       (this._autocomplete.current.refs.input as any).focus();
     }
   }
 
   blur() {
-    if (this._autocomplete?.current?.refs.input) {
+    if (this._autocomplete.current?.refs.input) {
       (this._autocomplete.current.refs.input as any).blur();
     }
     this._ignoreBlur = false;
@@ -148,7 +148,7 @@ export default class Autocomplete extends PureComponent<AutocompleteProps, Autoc
     }
     const { clearOnFocus } = this.props;
     if (
-      this._autocomplete?.current?.refs.input &&
+      this._autocomplete.current?.refs.input &&
       document.activeElement === this._autocomplete.current.refs.input
     ) {
       this.setState({ focused: true });
@@ -172,7 +172,7 @@ export default class Autocomplete extends PureComponent<AutocompleteProps, Autoc
       document.removeEventListener("mouseup", onMouseUp, true);
 
       if (
-        this._autocomplete?.current?.refs.input && // Make sure that the element is actually still focused.
+        this._autocomplete.current?.refs.input && // Make sure that the element is actually still focused.
         document.activeElement === this._autocomplete.current.refs.input
       ) {
         if (
@@ -195,7 +195,7 @@ export default class Autocomplete extends PureComponent<AutocompleteProps, Autoc
       return;
     }
     if (
-      this._autocomplete?.current?.refs.input &&
+      this._autocomplete.current?.refs.input &&
       document.activeElement === this._autocomplete.current.refs.input
     ) {
       // Bail if we actually still are focused.
@@ -219,7 +219,7 @@ export default class Autocomplete extends PureComponent<AutocompleteProps, Autoc
   // autocompletes. We pass in `this` to `onSelect` in case the user of this component wants to call
   // `blur()`.
   _onSelect = (value: string, item: any) => {
-    if (this._autocomplete?.current?.refs.input) {
+    if (this._autocomplete.current?.refs.input) {
       (this._autocomplete.current.refs.input as any).focus();
       this.setState({ focused: true, value: undefined }, () => {
         this.props.onSelect(value, item, this);
