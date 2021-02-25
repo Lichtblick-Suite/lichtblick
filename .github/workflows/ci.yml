@@ -12,6 +12,7 @@ jobs:
 
     # Run each command in parallel with the same setup steps.
     strategy:
+      fail-fast: false
       matrix:
         command:
           - lint:nofix
