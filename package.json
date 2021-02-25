@@ -2,8 +2,14 @@
   "name": "foxglove-studio",
   "version": "0.0.0",
   "description": "Integrated robotics visualization and debugging.",
+  "productDescription": "Foxglove Studio is an highly customizable and extensible visualization and display tool for robotics.",
   "private": true,
   "main": "./main/main.js",
+  "author": {
+    "name": "Foxglove Industries",
+    "email": "support@foxglove.dev",
+    "url": "https://foxglove.dev/studio"
+  },
   "scripts": {
     "start": "yarn run electron .webpack",
     "start:forge": "yarn electron-forge start --app-path .webpack",

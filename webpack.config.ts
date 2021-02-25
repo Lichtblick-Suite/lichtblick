@@ -48,6 +48,8 @@ const devServerConfig: WebpackConfiguration = {
         name: packageInfo.name,
         version: packageInfo.version,
         description: packageInfo.description,
+        productDescription: packageInfo.productDescription,
+        author: packageInfo.author,
       }),
     }),
   ],
