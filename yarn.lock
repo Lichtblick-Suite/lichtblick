@@ -9444,6 +9444,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"eslint-plugin-header@github:amacneil/eslint-plugin-header#notemplate":
+  version: 3.1.1
+  resolution: "eslint-plugin-header@https://github.com/amacneil/eslint-plugin-header.git#commit=073d5559b1d83e4e6d3a390d37eb6ad392b21ba0"
+  peerDependencies:
+    eslint: ">=7.7.0"
+  checksum: fae4b7b87ee1b9ea82f53418ab2a7462b5b4e64dc32223b546fd833b2b247c20bd4a84fb8dc240a81e5a968d7a62cac63931e384873d09a7f96a86d5ec4579b5
+  languageName: node
+  linkType: hard
+
 "eslint-plugin-import@npm:2.22.1":
   version: 2.22.1
   resolution: "eslint-plugin-import@npm:2.22.1"
@@ -10490,6 +10499,7 @@ __metadata:
     electron-squirrel-startup: 1.0.0
     eslint: 7.20.0
     eslint-config-prettier: 7.2.0
+    eslint-plugin-header: "github:amacneil/eslint-plugin-header#notemplate"
     eslint-plugin-import: 2.22.1
     eslint-plugin-prettier: 3.3.1
     eslint-plugin-react: 7.22.0

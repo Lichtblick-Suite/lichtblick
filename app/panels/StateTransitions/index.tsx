@@ -1,12 +1,17 @@
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at http://mozilla.org/MPL/2.0/
+//
+// This file incorporates work covered by the following copyright and
+// permission notice:
+//
+//   Copyright 2018-2021 Cruise LLC
+//
+//   This source code is licensed under the Apache License, Version 2.0,
+//   found at http://www.apache.org/licenses/LICENSE-2.0
+//   You may not use this file except in compliance with the License.
+
 import { $Shape } from "utility-types";
-
-//
-//  Copyright (c) 2018-present, Cruise LLC
-//
-//  This source code is licensed under the Apache License, Version 2.0,
-//  found in the LICENSE file in the root directory of this source tree.
-//  You may not use this file except in compliance with the License.
-
 import { uniq } from "lodash";
 import * as React from "react";
 import { hot } from "react-hot-loader/root";
@@ -34,7 +39,7 @@ import { PanelConfig } from "@foxglove-studio/app/types/panels";
 import { positiveModulo } from "@foxglove-studio/app/util";
 import { darkColor, lineColors } from "@foxglove-studio/app/util/plotColors";
 import { colors } from "@foxglove-studio/app/util/sharedStyleConstants";
-import { TimestampMethod , subtractTimes, toSec } from "@foxglove-studio/app/util/time";
+import { TimestampMethod, subtractTimes, toSec } from "@foxglove-studio/app/util/time";
 
 import { grey } from "@foxglove-studio/app/util/toolsColorScheme";
 

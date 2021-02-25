@@ -71,6 +71,7 @@
     "electron-squirrel-startup": "1.0.0",
     "eslint": "7.20.0",
     "eslint-config-prettier": "7.2.0",
+    "eslint-plugin-header": "github:amacneil/eslint-plugin-header#notemplate",
     "eslint-plugin-import": "2.22.1",
     "eslint-plugin-prettier": "3.3.1",
     "eslint-plugin-react": "7.22.0",

@@ -1,9 +1,15 @@
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at http://mozilla.org/MPL/2.0/
 //
-//  Copyright (c) 2019-present, Cruise LLC
+// This file incorporates work covered by the following copyright and
+// permission notice:
 //
-//  This source code is licensed under the Apache License, Version 2.0,
-//  found in the LICENSE file in the root directory of this source tree.
-//  You may not use this file except in compliance with the License.
+//   Copyright 2019-2021 Cruise LLC
+//
+//   This source code is licensed under the Apache License, Version 2.0,
+//   found at http://www.apache.org/licenses/LICENSE-2.0
+//   You may not use this file except in compliance with the License.
 
 // Pulled from our open source demo bag: https://open-source-webviz-ui.s3.amazonaws.com/demo.bag
 import stressTestDatatypes from "@foxglove-studio/app/players/UserNodePlayer/nodeTransformerWorker/fixtures/example-datatypes.json";

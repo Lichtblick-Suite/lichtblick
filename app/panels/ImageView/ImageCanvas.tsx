@@ -1,9 +1,15 @@
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at http://mozilla.org/MPL/2.0/
 //
-//  Copyright (c) 2018-present, Cruise LLC
+// This file incorporates work covered by the following copyright and
+// permission notice:
 //
-//  This source code is licensed under the Apache License, Version 2.0,
-//  found in the LICENSE file in the root directory of this source tree.
-//  You may not use this file except in compliance with the License.
+//   Copyright 2018-2021 Cruise LLC
+//
+//   This source code is licensed under the Apache License, Version 2.0,
+//   found at http://www.apache.org/licenses/LICENSE-2.0
+//   You may not use this file except in compliance with the License.
 
 import MagnifyIcon from "@mdi/svg/svg/magnify.svg";
 import cx from "classnames";
@@ -77,13 +83,13 @@ const webWorkerManager = new WebWorkerManager(ImageCanvasWorker, 1);
 
 type CanvasRenderer =
   | {
-    type: "rpc";
-    // This is nullable because we destroy the worker whenever we unmount and recreate it if we remount.
-    worker: Rpc | null | undefined;
-  }
+      type: "rpc";
+      // This is nullable because we destroy the worker whenever we unmount and recreate it if we remount.
+      worker: Rpc | null | undefined;
+    }
   | {
-    type: "mainThread";
-  };
+      type: "mainThread";
+    };
 
 export default class ImageCanvas extends React.Component<Props, State> {
   _canvasRef = React.createRef<HTMLCanvasElement>();

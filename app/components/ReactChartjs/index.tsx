@@ -1,3 +1,4 @@
+/* eslint-disable header/header */
 // This file is forked from https://github.com/jerairrest/react-chartjs-2/tree/111f3590a008b8211217e613b5531fb00c3a431b.
 // We are upgrading this wrapper of Chart.js to handle rendering Chart.js within a worker.
 

@@ -1,3 +1,4 @@
+/* eslint-disable header/header */
 // @ts-nocheck Consider enhancing with typescript
 //
 // This code is mostly forked from chartjs-plugin-zoom, with the goal of splitting the DOM access and the chart access

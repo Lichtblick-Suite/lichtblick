@@ -1,8 +1,15 @@
-//  Copyright (c) 2018-present, Cruise LLC
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at http://mozilla.org/MPL/2.0/
 //
-//  This source code is licensed under the Apache License, Version 2.0,
-//  found in the LICENSE file in the root directory of this source tree.
-//  You may not use this file except in compliance with the License.
+// This file incorporates work covered by the following copyright and
+// permission notice:
+//
+//   Copyright 2018-2021 Cruise LLC
+//
+//   This source code is licensed under the Apache License, Version 2.0,
+//   found at http://www.apache.org/licenses/LICENSE-2.0
+//   You may not use this file except in compliance with the License.
 
 import memoize from "lodash/memoize";
 
@@ -17,7 +24,8 @@ lazily importing this file at runtime.
 export function panelsByCategory() {
   const DiagnosticStatusPanel = require("@foxglove-studio/app/panels/diagnostics/DiagnosticStatusPanel")
     .default;
-  const DiagnosticSummary = require("@foxglove-studio/app/panels/diagnostics/DiagnosticSummary").default;
+  const DiagnosticSummary = require("@foxglove-studio/app/panels/diagnostics/DiagnosticSummary")
+    .default;
   const GlobalVariables = require("@foxglove-studio/app/panels/GlobalVariables").default;
   const GlobalVariableSlider = require("@foxglove-studio/app/panels/GlobalVariableSlider").default;
   const ImageViewPanel = require("@foxglove-studio/app/panels/ImageView").default;
@@ -81,7 +89,8 @@ export function perPanelHooks() {
   const RadarIcon = require("@mdi/svg/svg/radar.svg").default;
   const RobotIcon = require("@mdi/svg/svg/robot.svg").default;
   const CubeOutline = require("@mdi/svg/svg/cube-outline.svg").default;
-  const LaserScanVert = require("@foxglove-studio/app/panels/ThreeDimensionalViz/LaserScanVert").default;
+  const LaserScanVert = require("@foxglove-studio/app/panels/ThreeDimensionalViz/LaserScanVert")
+    .default;
   const {
     defaultMapPalette,
   } = require("@foxglove-studio/app/panels/ThreeDimensionalViz/commands/utils");

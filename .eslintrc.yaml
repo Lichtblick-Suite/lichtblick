@@ -24,7 +24,12 @@ parserOptions:
   sourceType: module
   project: tsconfig.json
 
-plugins: ["react", "react-hooks", "@typescript-eslint"]
+plugins:
+  - "@typescript-eslint"
+  - "header"
+  - "react"
+  - "react-hooks"
+
 rules:
   "@typescript-eslint/ban-ts-comment": off # TODO: remove once we fix all TS issues
   # It's sometimes useful to explicitly name to guard against future changes
@@ -35,6 +40,13 @@ rules:
   "react/prop-types": warn
   "react-hooks/rules-of-hooks": error
   "react-hooks/exhaustive-deps": error
+  "header/header":
+    - error
+    - line
+    # We do not provide a default license header template, because eslint-plugin-header
+    # is too eager to delete existing license blocks (which must be handled carefully)
+    - pattern: "^ This Source Code Form"
+      template: null
 
 settings:
   "import/ignore": ["\\.js$"] # ignore flow files for now

@@ -1,12 +1,17 @@
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at http://mozilla.org/MPL/2.0/
+//
+// This file incorporates work covered by the following copyright and
+// permission notice:
+//
+//   Copyright 2018-2021 Cruise LLC
+//
+//   This source code is licensed under the Apache License, Version 2.0,
+//   found at http://www.apache.org/licenses/LICENSE-2.0
+//   You may not use this file except in compliance with the License.
+
 import { $Shape } from "utility-types";
-
-//
-//  Copyright (c) 2018-present, Cruise LLC
-//
-//  This source code is licensed under the Apache License, Version 2.0,
-//  found in the LICENSE file in the root directory of this source tree.
-//  You may not use this file except in compliance with the License.
-
 import BorderAllIcon from "@mdi/svg/svg/border-all.svg";
 import CloseIcon from "@mdi/svg/svg/close.svg";
 import ExpandAllOutlineIcon from "@mdi/svg/svg/expand-all-outline.svg";
@@ -110,16 +115,16 @@ export default function Panel<Config extends PanelConfig>(
   PanelComponent: (
     | ComponentType
     | ComponentType<
-      $Shape<{
-        config: Config;
-        saveConfig: SaveConfig<Config>;
-        openSiblingPanel: (arg0: string, cb: (arg0: PanelConfig) => PanelConfig) => void;
-        topics: Topic[];
-        capabilities: string[];
-        datatypes: RosDatatypes;
-        isHovered: boolean;
-      }>
-    >
+        $Shape<{
+          config: Config;
+          saveConfig: SaveConfig<Config>;
+          openSiblingPanel: (arg0: string, cb: (arg0: PanelConfig) => PanelConfig) => void;
+          topics: Topic[];
+          capabilities: string[];
+          datatypes: RosDatatypes;
+          isHovered: boolean;
+        }>
+      >
   ) &
     PanelStatics<Config>, // TODO(JP): Add `& PanelStatics<Config>` to the return type when we have figured out
   // https://stackoverflow.com/questions/52508434/adding-static-variable-to-union-of-class-types
