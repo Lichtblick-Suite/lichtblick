@@ -1,8 +1,12 @@
 import path from "path";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
-import webpack, { Configuration, ResolveOptions } from "webpack";
+import { Configuration, ResolveOptions, DefinePlugin } from "webpack";
 
-export default (_: never, argv: { mode?: string }): Configuration => {
+import { WebpackArgv } from "./WebpackArgv";
+
+export default (_: never, argv: WebpackArgv): Configuration => {
+  const isServe = argv.env?.WEBPACK_SERVE ?? false;
+
   const isDev = argv.mode === "development";
 
   const resolve: ResolveOptions = {
@@ -15,6 +19,13 @@ export default (_: never, argv: { mode?: string }): Configuration => {
       "electron-devtools-installer": false,
     };
   }
+
+  // When running under a development server the renderer entry comes from the server.
+  // When making static builds (for packaging), the renderer entry is a file on disk.
+  // This switches between the two and is injected below via DefinePlugin as MAIN_WINDOW_WEBPACK_ENTRY
+  const rendererEntry = isServe
+    ? "'http://localhost:8080/renderer/index.html'"
+    : "`file://${require('path').join(__dirname, '..', 'renderer', 'index.html')}`";
 
   return {
     context: path.resolve("./desktop"),
@@ -54,7 +65,8 @@ export default (_: never, argv: { mode?: string }): Configuration => {
     },
 
     plugins: [
-      new webpack.DefinePlugin({
+      new DefinePlugin({
+        MAIN_WINDOW_WEBPACK_ENTRY: rendererEntry,
         // Should match webpack-defines.d.ts
         APP_NAME: JSON.stringify("Foxglove Studio"),
       }),

@@ -2,7 +2,9 @@ import path from "path";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import type { Configuration } from "webpack";
 
-export default (_: never, argv: { mode?: string }): Configuration => {
+import { WebpackArgv } from "./WebpackArgv";
+
+export default (_: never, argv: WebpackArgv): Configuration => {
   return {
     context: path.resolve("./preload"),
     entry: "./index.ts",

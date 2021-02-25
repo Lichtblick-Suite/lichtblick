@@ -1,0 +1,37 @@
+name: Package
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Configure Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 15.x
+      - name: Restore cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            .yarn/cache
+            **/node_modules
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - run: yarn install --immutable
+      - run: yarn run build:prod
+
+      - name: Install deb building deps
+        run: sudo apt install -y dpkg fakeroot
+
+      - name: Build deb
+        run: yarn make:linux
+
+      - name: Upload deb artifact
+        uses: actions/upload-artifact@v2
+        with:
+          path: out/make/deb/x64/*.deb

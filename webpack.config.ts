@@ -1,10 +1,13 @@
 import path from "path";
 import type { Configuration } from "webpack";
 import type { Configuration as WebpackDevServerConfiguration } from "webpack-dev-server";
+import HtmlWebpackPlugin from "html-webpack-plugin";
 
 import main from "./webpack.main.config";
 import renderer from "./webpack.renderer.config";
 import preload from "./webpack.preload.config";
+
+import packageInfo from "./package.json";
 
 interface WebpackConfiguration extends Configuration {
   devServer?: WebpackDevServerConfiguration;
@@ -26,11 +29,24 @@ const devServerConfig: WebpackConfiguration = {
     writeToDisk: (filePath) => {
       // Electron needs to open the main thread source and preload source from disk
       // avoid writing the hot-update js and json files
-      return /\.webpack\/main\/(?!.*hot-update)/.test(filePath);
+      // allow writing package.json at root -> needed for electron to find entrypoint
+      return /\.webpack\/(main\/(?!.*hot-update)|package\.json)/.test(filePath);
     },
     hot: true,
   },
-  plugins: [],
+  plugins: [
+    // electron-packager needs a package.json file to indicate the entry script
+    // We purpose the htmlwebpackplugin to write the json rather than an html file
+    new HtmlWebpackPlugin({
+      filename: "package.json",
+      templateContent: JSON.stringify({
+        main: "main/main.js",
+        name: packageInfo.name,
+        version: packageInfo.version,
+        description: packageInfo.description,
+      }),
+    }),
+  ],
 };
 
 export default [devServerConfig, main, preload, renderer];

@@ -4,7 +4,9 @@ import rehypePrism from "@mapbox/rehype-prism";
 import retextSmartypants from "retext-smartypants";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
-import webpack, { Configuration, WebpackPluginInstance } from "webpack";
+import webpack, { Configuration } from "webpack";
+
+import { WebpackArgv } from "./WebpackArgv";
 
 declare const visit: any;
 
@@ -20,8 +22,9 @@ function remarkSmartypants() {
   return transformer;
 }
 
-export default (_: never, argv: { mode?: string }): Configuration => {
+export default (_: never, argv: WebpackArgv): Configuration => {
   const isDev = argv.mode === "development";
+  const isServe = argv.env?.WEBPACK_SERVE ?? false;
 
   return {
     // force web target instead of electron-render
@@ -37,7 +40,7 @@ export default (_: never, argv: { mode?: string }): Configuration => {
     },
 
     output: {
-      publicPath: "",
+      publicPath: isServe ? "/renderer" : "",
       path: path.resolve(__dirname, ".webpack", "renderer"),
     },
 

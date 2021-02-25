@@ -1,25 +1,58 @@
 {
   "name": "foxglove-studio",
   "version": "0.0.0",
+  "description": "Integrated robotics visualization and debugging.",
   "private": true,
+  "main": "./main/main.js",
   "scripts": {
-    "start": "yarn run electron .webpack/main/main.js",
+    "start": "yarn run electron .webpack",
+    "start:forge": "yarn electron-forge start --app-path .webpack",
     "build:prod": "yarn run webpack --mode production",
     "build:dev": "yarn run webpack --mode development",
     "serve:dev": "yarn run webpack serve --mode development",
     "lint": "TIMING=1 yarn run eslint . --fix",
-    "lint:nofix": "TIMING=1 yarn run eslint ."
+    "lint:nofix": "TIMING=1 yarn run eslint .",
+    "package:darwin": "electron-forge package --platform darwin",
+    "package:linux": "electron-forge package --platform linux",
+    "package": "electron-forge package",
+    "make:darwin": "electron-forge make --platform darwin",
+    "make:linux": "electron-forge make --platform linux",
+    "make": "electron-forge make"
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {
+        "dir": ".webpack",
+        "asar": true
+      },
+      "makers": [
+        {
+          "name": "@electron-forge/maker-deb",
+          "platforms": [
+            "linux"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-dmg",
+          "platforms": [
+            "darwin"
+          ]
+        }
+      ]
+    }
   },
   "workspaces": {
     "packages": [
       "app"
     ]
   },
+  "resolutions": {
+    "@electron-forge/cli/@electron-forge/core": "github:foxglove/electron-forge#workspace=@electron-forge/core&commit=f2fbb4ad230977facf09c939d761d555dfe208ff"
+  },
   "devDependencies": {
     "@electron-forge/cli": "6.0.0-beta.54",
+    "@electron-forge/maker-deb": "6.0.0-beta.54",
     "@electron-forge/maker-dmg": "6.0.0-beta.54",
-    "@electron-forge/maker-zip": "6.0.0-beta.54",
-    "@electron-forge/plugin-webpack": "6.0.0-beta.54",
     "@mapbox/rehype-prism": "0.5.0",
     "@mdx-js/loader": "1.6.22",
     "@types/case-sensitive-paths-webpack-plugin": "2.1.4",
