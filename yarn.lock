@@ -10557,7 +10557,6 @@ __metadata:
     retext: 7.0.1
     retext-smartypants: 4.0.0
     sass-loader: 11.0.1
-    setimmediate: 1.0.5
     sharedworker-loader: 2.1.1
     stream-browserify: 3.0.0
     string-replace-loader: 3.0.1
@@ -19861,7 +19860,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"setimmediate@npm:1.0.5, setimmediate@npm:^1.0.4, setimmediate@npm:^1.0.5":
+"setimmediate@npm:^1.0.4, setimmediate@npm:^1.0.5":
   version: 1.0.5
   resolution: "setimmediate@npm:1.0.5"
   checksum: 87884d8add4779fe47ccf763396a5bf875640ae34d80a10802da4de5c25d87647c12f6e7748fd5b8c143b57201caf2a5a781631456c228825f166ca305c12f20

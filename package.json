@@ -96,7 +96,6 @@
     "retext": "7.0.1",
     "retext-smartypants": "4.0.0",
     "sass-loader": "11.0.1",
-    "setimmediate": "1.0.5",
     "sharedworker-loader": "2.1.1",
     "stream-browserify": "3.0.0",
     "string-replace-loader": "3.0.1",

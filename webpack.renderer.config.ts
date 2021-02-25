@@ -179,6 +179,7 @@ export default (_: never, argv: WebpackArgv): Configuration => {
         // the buffer module exposes the Buffer class as a property
         Buffer: ["buffer", "Buffer"],
         process: "process/browser",
+        setImmediate: ["@foxglove-studio/app/shared/setImmediate", "default"],
       }),
       new webpack.DefinePlugin({
         // Should match webpack-defines.d.ts
