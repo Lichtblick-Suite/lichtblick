@@ -3,6 +3,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import ReactDOM from "react-dom";
+import "setimmediate";
 
 import "@foxglove-studio/app/styles/global.scss";
 
