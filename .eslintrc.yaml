@@ -47,10 +47,9 @@ rules:
   header/header:
     - error
     - line
-    # We do not provide a default license header template, because eslint-plugin-header
-    # is too eager to delete existing license blocks (which must be handled carefully)
-    - pattern: "^ This Source Code Form"
-      template: null
+    - - " This Source Code Form is subject to the terms of the Mozilla Public"
+      - " License, v2.0. If a copy of the MPL was not distributed with this"
+      - " file, You can obtain one at http://mozilla.org/MPL/2.0/"
 
   curly: error
   "@typescript-eslint/no-unused-vars":
