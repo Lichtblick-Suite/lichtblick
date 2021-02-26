@@ -71,6 +71,12 @@ rules:
       newlines-between: always
       groups: [[builtin, external], [internal, parent, sibling, index]]
 
+  # we let typescript and webpack handle whether imports exist or not
+  import/namespace: off
+  import/default: off
+  import/no-named-as-default: off
+  import/no-named-as-default-member: off
+
   prefer-arrow-callback: [error, { allowNamedFunctions: true }]
   "@typescript-eslint/no-shadow": error
   no-restricted-syntax:
