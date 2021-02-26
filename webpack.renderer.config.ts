@@ -102,7 +102,7 @@ export default (_: never, argv: WebpackArgv): Configuration => {
         },
         {
           // We use stringified Typescript in Node Playground.
-          test: /players\/UserNodePlayer\/nodeTransformerWorker\/typescript\/.+\.template$/,
+          test: /players[\\/]UserNodePlayer[\\/]nodeTransformerWorker[\\/]typescript[\\/].+\.template$/,
           exclude: /node_modules/,
           type: "asset/source",
         },
@@ -151,7 +151,7 @@ export default (_: never, argv: WebpackArgv): Configuration => {
         { test: /\.woff2?$/, type: "asset/inline" },
         { test: /\.(glb|bag|ttf|bin)$/, type: "asset/resource" },
         {
-          test: /node_modules\/compressjs\/.*\.js/,
+          test: /node_modules[\\/]compressjs[\\/].*\.js/,
           loader: "string-replace-loader",
           options: {
             search:
@@ -187,7 +187,7 @@ export default (_: never, argv: WebpackArgv): Configuration => {
       }),
       // https://webpack.js.org/plugins/ignore-plugin/#example-of-ignoring-moment-locales
       new webpack.IgnorePlugin({
-        resourceRegExp: /^\.\/locale$/,
+        resourceRegExp: /^\.[\\/]locale$/,
         contextRegExp: /moment$/,
       }),
       new ForkTsCheckerWebpackPlugin(),
