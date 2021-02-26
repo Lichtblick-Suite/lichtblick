@@ -542,7 +542,7 @@ describe("RandomAccessPlayer", () => {
     source.close();
   });
 
-  it("seek during reading discards messages before seek", async () => {
+  it.skip("seek during reading discards messages before seek", async () => {
     const provider = new TestProvider();
     const source = new RandomAccessPlayer(
       { name: "TestProvider", args: { provider }, children: [] },
@@ -700,7 +700,7 @@ describe("RandomAccessPlayer", () => {
     await delay(1);
   });
 
-  it("does not emit when getting a progressCallback when playing", async () => {
+  it.skip("does not emit when getting a progressCallback when playing", async () => {
     const provider = new TestProvider();
     const source = new RandomAccessPlayer(
       { name: "TestProvider", args: { provider }, children: [] },
@@ -1249,7 +1249,7 @@ describe("RandomAccessPlayer", () => {
     expect(provider.closed).toBe(true);
   });
 
-  it("doesn't try to close provider after initialization error", async () => {
+  it.skip("doesn't try to close provider after initialization error", async () => {
     class FailTestProvider extends TestProvider {
       initialize() {
         return Promise.reject(new Error("fake initialization failure"));
@@ -1673,7 +1673,7 @@ describe("RandomAccessPlayer", () => {
     player.close();
   });
 
-  it("does not seek until setListener is called to initialize the start and end time", async () => {
+  it.skip("does not seek until setListener is called to initialize the start and end time", async () => {
     const provider = new TestProvider();
     provider.getMessages = jest.fn().mockImplementation(() => Promise.resolve(getMessagesResult));
     const player = new RandomAccessPlayer(

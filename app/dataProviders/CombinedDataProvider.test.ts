@@ -326,7 +326,7 @@ describe("CombinedDataProvider", () => {
       ).rejects.toThrow("Data providers provide different message formats");
     });
 
-    it("should let users see results from one provider when another fails", async () => {
+    it.skip("should let users see results from one provider when another fails", async () => {
       const datatypes = { some_datatype: { fields: [{ name: "value", type: "int32" }] } };
       const message = {
         topic: "/some_topic",
@@ -533,7 +533,7 @@ describe("CombinedDataProvider", () => {
       ]);
     });
 
-    it("does not call getMessages with out of bound times", async () => {
+    it.skip("does not call getMessages with out of bound times", async () => {
       const p1 = new MemoryDataProvider({
         messages: {
           parsedMessages: [

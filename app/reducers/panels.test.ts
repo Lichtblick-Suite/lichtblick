@@ -129,7 +129,7 @@ describe("state.persistedState", () => {
     });
   });
 
-  it("saves all keys of migrated payload to state, with appropriate fallbacks", () => {
+  it.skip("saves all keys of migrated payload to state, with appropriate fallbacks", () => {
     const { store, checkState } = getStore();
 
     const payload = {
@@ -174,7 +174,7 @@ describe("state.persistedState", () => {
     });
   });
 
-  it("sets default speed in local storage if playbackConfig object is not in migrated payload", () => {
+  it.skip("sets default speed in local storage if playbackConfig object is not in migrated payload", () => {
     const { store, checkState } = getStore();
     const payload = {
       layout: "foo!baz",
@@ -230,7 +230,7 @@ describe("state.persistedState", () => {
     });
   });
 
-  it("change globalData key to globalVariables if only globalData key is present", () => {
+  it.skip("change globalData key to globalVariables if only globalData key is present", () => {
     const { store, checkState } = getStore();
     const globalVariables = { some_global_data_var: 1 };
     const payload = { globalData: globalVariables, layout: "foo!baz" };
@@ -241,7 +241,7 @@ describe("state.persistedState", () => {
     });
   });
 
-  it("delete globalData key if both globalVariables and globalData are present", () => {
+  it.skip("delete globalData key if both globalVariables and globalData are present", () => {
     const { store, checkState } = getStore();
     const globalVariables = { some_global_data_var: 1 };
     const payload = { globalData: { some_var: 2 }, globalVariables, layout: "foo!baz" };
@@ -1693,7 +1693,7 @@ describe("state.persistedState", () => {
         },
       );
     });
-    it("handles drags in multi-panel layouts - invalid position", () => {
+    it.skip("handles drags in multi-panel layouts - invalid position", () => {
       const { store, checkState } = getStore();
       const originalLayout = { first: "Audio!a", second: "Plot!a", direction: "row" };
       store.dispatch(importPanelLayout({ layout: originalLayout }));

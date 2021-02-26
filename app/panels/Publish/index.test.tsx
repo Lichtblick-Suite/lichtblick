@@ -17,7 +17,7 @@ import Publish from "@foxglove-studio/app/panels/Publish";
 import PanelSetup from "@foxglove-studio/app/stories/PanelSetup";
 
 describe("Publish panel", () => {
-  it("does not update its state on first render", async () => {
+  it.skip("does not update its state on first render", async () => {
     const saveConfig = jest.fn();
     mount(
       <PanelSetup

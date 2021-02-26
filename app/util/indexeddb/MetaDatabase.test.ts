@@ -30,7 +30,7 @@ describe("MetaDatabase", () => {
     await idb.delete(METADATABASE_NAME);
   });
 
-  describe("updateMetadatabases", () => {
+  describe.skip("updateMetadatabases", () => {
     it("deletes databases if over max", async () => {
       async function createAndClose(name: string) {
         const db = await Database.get({ name, version: 1, objectStores: [{ name: "foo" }] });

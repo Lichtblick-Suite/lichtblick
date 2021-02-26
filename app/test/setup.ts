@@ -49,20 +49,20 @@ if (typeof window !== "undefined") {
 // Disallow console.error and console.warn in tests. This should only be called
 // from libraries anyway, since for user-code we should be using `Logger`, which
 // automatically gets silenced on tests.
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 console.error = function (message: any) {
-  // $FlowFixMe
-  fail(message); // eslint-disable-line
+  fail(`console.error: ${message}`);
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 console.warn = function (message: any) {
   // We'll have to update these methods, but for now we just ignore their
   // warning messages.
   if (message.includes("https://fb.me/react-unsafe-component-lifecycles")) {
     return;
   }
-  // $FlowFixMe
-  fail(message); // eslint-disable-line
+
+  fail(`console.warn: ${message}`);
 };
 
 // you can import fakes from fake-indexeddb and attach them to the jsdom global
@@ -79,6 +79,9 @@ global.IDBKeyRange = require("fake-indexeddb/lib/FDBKeyRange");
 global.WebSocket = global.WebSocket || ws;
 
 global.TextEncoder = util.TextEncoder;
+
+// React available everywhere (matches webpack config)
+window.React = require("react");
 
 // Override lazy load components
 testSetup();

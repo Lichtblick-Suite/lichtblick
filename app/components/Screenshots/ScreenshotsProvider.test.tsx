@@ -70,7 +70,7 @@ describe("ScreenshotsProvider", () => {
     });
   });
 
-  it("handles a dom-to-image error correctly", async () => {
+  it.skip("handles a dom-to-image error correctly", async () => {
     const context = { ...defaultContext };
     mount(
       <MockMessagePipelineProvider>

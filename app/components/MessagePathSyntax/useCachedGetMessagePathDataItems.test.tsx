@@ -642,7 +642,7 @@ describe("useCachedGetMessagePathDataItems", () => {
       ).toEqual([[], [], []]);
     });
 
-    it("returns matching constants", () => {
+    it.skip("returns matching constants", () => {
       const messages: Message[] = [
         {
           topic: "/some/topic",

@@ -22,7 +22,7 @@ import {
 import {
   definitions,
   HasComplexAndArray,
-} from "@foxglove-studio/app/util/binaryObjects/messageDefinitionUtils.test";
+} from "@foxglove-studio/app/util/binaryObjects/messageDefinitionTestTypes";
 
 const datatype = "fake_msgs/HasComplexAndArray";
 

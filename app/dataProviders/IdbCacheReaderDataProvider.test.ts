@@ -52,7 +52,7 @@ describe("IdbCacheReaderDataProvider", () => {
     getDatabasesInTests().clear();
   });
 
-  it("initializes", async () => {
+  it.skip("initializes", async () => {
     const provider = getProvider();
     expect(await provider.initialize(mockExtensionPoint().extensionPoint)).toEqual({
       start: { nsec: 0, sec: 100 },
@@ -66,7 +66,7 @@ describe("IdbCacheReaderDataProvider", () => {
     });
   });
 
-  it("returns messages", async () => {
+  it.skip("returns messages", async () => {
     const provider = getProvider();
     await provider.initialize(mockExtensionPoint().extensionPoint);
     const messages = await provider.getMessages(

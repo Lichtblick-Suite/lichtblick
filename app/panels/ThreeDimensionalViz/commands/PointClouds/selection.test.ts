@@ -22,7 +22,7 @@ describe("<PointClouds />", () => {
   };
 
   describe("getClickedInfo", () => {
-    it("returns undefined when points field is empty", () => {
+    it.skip("returns undefined when points field is empty", () => {
       const partiallyDecodedMarker = (decodeMarker(
         POINT_CLOUD_WITH_ADDITIONAL_FIELDS as any,
       ) as any) as PointCloud2;
@@ -31,7 +31,7 @@ describe("<PointClouds />", () => {
       expect(getClickedInfo(fullyDecodedMarker, 1000)).toEqual(undefined);
     });
 
-    it("returns undefined when instanceIndex does not match any point", () => {
+    it.skip("returns undefined when instanceIndex does not match any point", () => {
       const partiallyDecodedMarker = (decodeMarker(
         POINT_CLOUD_WITH_ADDITIONAL_FIELDS as any,
       ) as any) as PointCloud2;
@@ -40,7 +40,7 @@ describe("<PointClouds />", () => {
       expect(getClickedInfo(fullyDecodedMarker, 1000)).toEqual(undefined);
     });
 
-    it("returns selected point positions and colors", () => {
+    it.skip("returns selected point positions and colors", () => {
       const marker = decodeMarker(POINT_CLOUD_MESSAGE as any);
       const clickInfo = getClickedInfo(marker, 1);
       expect(clickInfo).not.toBeNull();
@@ -58,7 +58,7 @@ describe("<PointClouds />", () => {
       expect(clickInfo?.additionalFieldValues).toBeUndefined();
     });
 
-    it("returns selected point positions and colors when instanceIndex is zero", () => {
+    it.skip("returns selected point positions and colors when instanceIndex is zero", () => {
       const marker = decodeMarker(POINT_CLOUD_MESSAGE as any);
       const clickInfo = getClickedInfo(marker, 0);
       expect(clickInfo).not.toBeNull();
@@ -76,7 +76,7 @@ describe("<PointClouds />", () => {
       expect(clickInfo?.additionalFieldValues).toBeUndefined();
     });
 
-    it("handles endianness", () => {
+    it.skip("handles endianness", () => {
       const marker = decodeMarker({
         ...POINT_CLOUD_MESSAGE,
         settings: { colorMode: { mode: "rgb" } },
@@ -98,7 +98,7 @@ describe("<PointClouds />", () => {
       expect(clickInfo?.additionalFieldValues).toBeUndefined();
     });
 
-    it("handles rainbow colors", () => {
+    it.skip("handles rainbow colors", () => {
       const input = {
         ...POINT_CLOUD_MESSAGE,
         settings: { colorMode: { mode: "rainbow", colorField: "y" } },
@@ -120,7 +120,7 @@ describe("<PointClouds />", () => {
       expect(clickInfo?.additionalFieldValues).toBeUndefined();
     });
 
-    it("handles gradient colors", () => {
+    it.skip("handles gradient colors", () => {
       const input = {
         ...POINT_CLOUD_WITH_ADDITIONAL_FIELDS,
         settings: {
@@ -145,7 +145,7 @@ describe("<PointClouds />", () => {
       expect(clickInfo?.additionalFieldValues).toStrictEqual({});
     });
 
-    it("handles additional fields", () => {
+    it.skip("handles additional fields", () => {
       const input = {
         ...POINT_CLOUD_WITH_ADDITIONAL_FIELDS,
         settings: { colorMode: { mode: "rainbow", colorField: "bar" } },

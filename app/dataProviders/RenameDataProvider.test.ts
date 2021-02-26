@@ -186,7 +186,7 @@ describe("RenameDataProvider", () => {
         ]);
       });
 
-      it("preserves block identity across successive calls", async () => {
+      it.skip("preserves block identity across successive calls", async () => {
         const provider = getProvider();
         const combinedProvider = getRenameDataProvider(provider, "/generic_topic");
         const extensionPoint = mockExtensionPoint().extensionPoint;

@@ -12,7 +12,7 @@
 //   You may not use this file except in compliance with the License.
 
 import BinaryMessageWriter from "@foxglove-studio/app/util/binaryObjects/binaryTranslation";
-import { definitions } from "@foxglove-studio/app/util/binaryObjects/messageDefinitionUtils.test";
+import { definitions } from "@foxglove-studio/app/util/binaryObjects/messageDefinitionTestTypes";
 
 // C++ module will output missing fields and types to the console
 // but the tests will fail in that case (and we don't always want that);

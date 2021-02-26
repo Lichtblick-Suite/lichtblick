@@ -17,9 +17,12 @@ jobs:
         command:
           - lint:nofix
           - build:prod
+          - test
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          lfs: true
       - name: Configure Node.js
         uses: actions/setup-node@v1
         with:

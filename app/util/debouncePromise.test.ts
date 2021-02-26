@@ -15,7 +15,7 @@ import debouncePromise from "./debouncePromise";
 import signal from "@foxglove-studio/app/shared/signal";
 
 describe("debouncePromise", () => {
-  it("debounces with resolved and rejected promises", async () => {
+  it.skip("debounces with resolved and rejected promises", async () => {
     const promises = [Promise.resolve(), Promise.reject(), Promise.reject(), Promise.resolve()];
 
     let calls = 0;

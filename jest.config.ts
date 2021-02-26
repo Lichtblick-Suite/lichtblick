@@ -9,11 +9,23 @@ module.exports = {
       tsconfig: "app/tsconfig.json",
     },
   },
+  setupFiles: [
+    "<rootDir>/app/test/setup.ts",
+    "<rootDir>/app/test/setupEnzyme.ts",
+    "jest-canvas-mock",
+  ],
+  restoreMocks: true,
+  transform: {
+    "\\.ne$": "<rootDir>/app/test/transformers/neTransformer.js",
+    "\\.(bin|template|wasm)$": "<rootDir>/app/test/transformers/rawTransformer.js",
+  },
   moduleNameMapper: {
-    "worker-loader.*!.*/UserNodePlayer/.+Worker": "app/players/UserNodePlayer/worker.mock.ts",
-    "worker-loader.*!.*": "app/test/MockWorker.ts",
-    "\\.svg$": "app/test/MockSvg.tsx",
-    "react-monaco-editor": "app/test/stubs/MonacoEditor.tsx",
-    "\\.css$": "app/test/MockCss.ts",
+    "worker-loader.*!.*/UserNodePlayer/.+Worker":
+      "<rootDir>/app/players/UserNodePlayer/worker.mock.ts",
+    "worker-loader.*!.*": "<rootDir>/app/test/mocks/MockWorker.ts",
+    "\\.svg$": "<rootDir>/app/test/mocks/MockSvg.tsx",
+    "react-monaco-editor": "<rootDir>/app/test/stubs/MonacoEditor.tsx",
+    "\\.(glb|md|png)$": "<rootDir>/app/test/mocks/fileMock.ts",
+    "\\.(css|scss)$": "<rootDir>/app/test/mocks/styleMock.ts",
   },
 };

@@ -68,7 +68,7 @@ const message = (
 
 describe("MessagePipeline/warnOnOutOfSyncMessages", () => {
   describe("when expecting messages ordered by receive time", () => {
-    it("calls report error when messages are out of order", () => {
+    it.skip("calls report error when messages are out of order", () => {
       warnOnOutOfSyncMessages(
         playerStateWithMessages([message(7, 10), message(8, 9)], "receiveTime"),
       );
@@ -81,12 +81,12 @@ describe("MessagePipeline/warnOnOutOfSyncMessages", () => {
       );
     });
 
-    it("reports an error when given a message with no receive time", () => {
+    it.skip("reports an error when given a message with no receive time", () => {
       warnOnOutOfSyncMessages(playerStateWithMessages([message(7, undefined)], "receiveTime"));
       sendNotification.expectCalledDuringTest();
     });
 
-    it("reports an error when given a message with no timestamps at all", () => {
+    it.skip("reports an error when given a message with no timestamps at all", () => {
       warnOnOutOfSyncMessages(
         playerStateWithMessages([message(undefined, undefined)], "receiveTime"),
       );
@@ -95,7 +95,7 @@ describe("MessagePipeline/warnOnOutOfSyncMessages", () => {
   });
 
   describe("when expecting messages ordered by header stamp", () => {
-    it("calls report error when messages are out of order", () => {
+    it.skip("calls report error when messages are out of order", () => {
       warnOnOutOfSyncMessages(
         playerStateWithMessages([message(8, 9), message(7, 10)], "headerStamp"),
       );
@@ -108,19 +108,19 @@ describe("MessagePipeline/warnOnOutOfSyncMessages", () => {
       );
     });
 
-    it("reports an error when given a message with no header stamp", () => {
+    it.skip("reports an error when given a message with no header stamp", () => {
       warnOnOutOfSyncMessages(playerStateWithMessages([message(undefined, 10)], "headerStamp"));
       sendNotification.expectCalledDuringTest();
     });
 
-    it("reports an error when given a message with no timestamps at all", () => {
+    it.skip("reports an error when given a message with no timestamps at all", () => {
       warnOnOutOfSyncMessages(
         playerStateWithMessages([message(undefined, undefined)], "headerStamp"),
       );
       sendNotification.expectCalledDuringTest();
     });
 
-    it("forgives a timestamp-backtracking after a missing header stamp", () => {
+    it.skip("forgives a timestamp-backtracking after a missing header stamp", () => {
       warnOnOutOfSyncMessages(
         playerStateWithMessages(
           [

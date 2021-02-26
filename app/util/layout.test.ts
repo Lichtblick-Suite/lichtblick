@@ -360,7 +360,7 @@ describe("layout", () => {
         ],
       });
     });
-    it("no tab layout", () => {
+    it.skip("no tab layout", () => {
       expect(
         addPanelToTab("DiagnosticSummary!48lhb5y", undefined, undefined, {}, "Tab!1pyr7sm"),
       ).toEqual({
@@ -606,7 +606,7 @@ describe("layout", () => {
   });
 
   describe("validateTabPanelConfig", () => {
-    it("verifies whether a tab panel config is valid", () => {
+    it.skip("verifies whether a tab panel config is valid", () => {
       const tabs = [{ title: "First Tab", layout: "RawMessages!a" }];
       expect(validateTabPanelConfig({ tabs })).toEqual(false);
       expect(validateTabPanelConfig({ tabs, activeTabIdx: 1 })).toEqual(false);

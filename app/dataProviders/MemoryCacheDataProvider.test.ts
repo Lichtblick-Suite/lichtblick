@@ -253,7 +253,7 @@ describe("MemoryCacheDataProvider", () => {
     ]);
   });
 
-  it("prefetches after the last request", async () => {
+  it.skip("prefetches after the last request", async () => {
     const { provider } = getProvider(generateLargeMessages());
     // Fit four 600 byte messages into our memory budget. (getBlocksToKeep leaves the cache over-full
     // and will evict blocks until five messages are present.)
@@ -316,7 +316,7 @@ describe("MemoryCacheDataProvider", () => {
     expect(messages).toEqual(inputMessages);
   });
 
-  it("shows an error when having a block that is very large", async () => {
+  it.skip("shows an error when having a block that is very large", async () => {
     const { provider } = getProvider([
       {
         topic: "/foo",

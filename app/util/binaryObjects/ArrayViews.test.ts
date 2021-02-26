@@ -141,7 +141,7 @@ describe("ArrayViews", () => {
           const reverseWrapperArrayView = new ReverseWrapperArrayView(arr);
           expect([...reverseWrapperArrayView]).toEqual(arr.map((val) => new DummyClass(val)));
         });
-        it("find", () => {
+        it.skip("find", () => {
           const ReverseWrapperArrayView = getReverseWrapperArrayView<number>(DummyClass);
           const reverseArrayWrapperView = new ReverseWrapperArrayView(arr);
           expect(

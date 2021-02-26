@@ -25,7 +25,6 @@ import {
   merge,
   wrapJsObject,
 } from ".";
-import { typeSize } from "./messageDefinitionUtils";
 import {
   definitions,
   HasArrayOfEmpties,
@@ -35,7 +34,8 @@ import {
   HasConstant,
   HasJson,
   HasInt64s,
-} from "./messageDefinitionUtils.test";
+} from "./messageDefinitionTestTypes";
+import { typeSize } from "./messageDefinitionUtils";
 import { cast } from "@foxglove-studio/app/players/types";
 import { BinaryHeader, BinaryTime } from "@foxglove-studio/app/types/BinaryMessages";
 

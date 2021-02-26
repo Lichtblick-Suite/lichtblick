@@ -13,7 +13,6 @@
 
 import { assign, flatten, isEqual } from "lodash";
 import memoizeWeak from "memoize-weak";
-import allSettled from "promise.allsettled";
 import { TimeUtil, Time, RosMsgField } from "rosbag";
 
 import rawMessageDefinitionsToParsed from "./rawMessageDefinitionsToParsed";
@@ -259,7 +258,7 @@ export default class CombinedDataProvider implements DataProvider {
         },
       });
     });
-    const initializeOutcomes = await allSettled(providerInitializePromises);
+    const initializeOutcomes = await Promise.allSettled(providerInitializePromises);
     const results = initializeOutcomes
       .filter(({ status }) => status === "fulfilled")
       .map(({ value }: any) => value);

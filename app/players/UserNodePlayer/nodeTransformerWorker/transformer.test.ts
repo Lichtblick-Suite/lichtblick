@@ -348,7 +348,7 @@ describe("pipeline", () => {
       expect(typeof transpiledCode).toEqual("string");
       expect(diagnostics.length).toEqual(0);
     });
-    it.each([
+    it.skip.each([
       "const x: string = 'hello webviz'",
       `
       import {norm} from "./pointClouds";
