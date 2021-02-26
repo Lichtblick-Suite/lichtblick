@@ -26,8 +26,7 @@ import { inWebWorker } from "@foxglove-studio/app/util/workers";
 export type NotificationType = "app" | "user";
 export type DetailsType = string | Error | ReactNode;
 export type NotificationSeverity = "error" | "warn" | "info";
-
-type NotificationHandler = (
+export type NotificationHandler = (
   message: string,
   details: DetailsType,
   type: NotificationType,
@@ -104,5 +103,5 @@ export default function sendNotification(
 }
 
 sendNotification.expectCalledDuringTest = () => {
-  // no-op
-}; // Overridden in tests; added here so Flow doesn't complain.
+  throw new Error("Should be overriden in setupTestFramework.ts");
+};

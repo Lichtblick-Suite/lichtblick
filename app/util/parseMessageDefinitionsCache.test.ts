@@ -130,7 +130,7 @@ describe("parseMessageDefinitionsCache", () => {
       spyInstance.mockRestore();
     });
 
-    it.skip("on localStorage failure when reloading definitions, no longer uses localStorage", () => {
+    it("on localStorage failure when reloading definitions, no longer uses localStorage", () => {
       const cache = new ParseMessageDefinitionsCache();
       cache.parseMessageDefinition("string value2", "dummy md5 1");
 

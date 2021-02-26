@@ -35,7 +35,7 @@ const dummyExtensionPoint = {
 };
 
 describe("BagDataProvider", () => {
-  it.skip("initializes", async () => {
+  it("initializes", async () => {
     const provider = new BagDataProvider(
       { bagPath: { type: "file", file: `${__dirname}/../test/fixtures/example.bag` } },
       [],
@@ -71,7 +71,7 @@ describe("BagDataProvider", () => {
     ]);
   });
 
-  it.skip("initializes with bz2 bag", async () => {
+  it("initializes with bz2 bag", async () => {
     const provider = new BagDataProvider(
       { bagPath: { type: "file", file: `${__dirname}/../test/fixtures/example-bz2.bag` } },
       [],
@@ -132,7 +132,7 @@ describe("BagDataProvider", () => {
     ]);
   });
 
-  it.skip("sorts shuffled messages (and reports an error)", async () => {
+  it("sorts shuffled messages (and reports an error)", async () => {
     const provider = new BagDataProvider(
       { bagPath: { type: "file", file: `${__dirname}/../test/fixtures/demo-shuffled.bag` } },
       [],

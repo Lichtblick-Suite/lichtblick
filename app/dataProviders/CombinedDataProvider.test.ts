@@ -326,7 +326,7 @@ describe("CombinedDataProvider", () => {
       ).rejects.toThrow("Data providers provide different message formats");
     });
 
-    it.skip("should let users see results from one provider when another fails", async () => {
+    it("should let users see results from one provider when another fails", async () => {
       const datatypes = { some_datatype: { fields: [{ name: "value", type: "int32" }] } };
       const message = {
         topic: "/some_topic",

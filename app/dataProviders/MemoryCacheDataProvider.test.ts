@@ -316,7 +316,7 @@ describe("MemoryCacheDataProvider", () => {
     expect(messages).toEqual(inputMessages);
   });
 
-  it.skip("shows an error when having a block that is very large", async () => {
+  it("shows an error when having a block that is very large", async () => {
     const { provider } = getProvider([
       {
         topic: "/foo",

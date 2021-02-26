@@ -52,8 +52,7 @@ describe("pauseFrameForPromise", () => {
     resetLogEventForTests();
   });
 
-  it.skip("always reports an error in automated run mode", async () => {
-    // $FlowFixMe
+  it("always reports an error in automated run mode", async () => {
     (inAutomatedRunMode as any).mockImplementation(() => true);
     const promise = signal();
     pauseFrameForPromises([{ promise, name: "dummy" }]);

@@ -14,60 +14,59 @@
 import diff from "jest-diff";
 import { isEqual } from "lodash";
 
-// Always mock sendNotification and fail if it was called during the test without resetting it. Note that
-// we have to do this here instead of in setup.js since here we have access to jest methods.
+import {
+  mockSendNotification,
+  setNotificationHandler,
+} from "@foxglove-studio/app/test/MockSendNotification";
+
+// Mock out sendNotification for all tests
 jest.mock("@foxglove-studio/app/util/sendNotification", () => {
-  // Duplicate the report error functionality here with passing errors to handlers, if they exist.
-  const fn: any = jest.fn((...args) => {
-    if (fn.handler) {
-      fn.handler(...args);
-    }
-  });
-  fn.setNotificationHandler = (handler: any) => {
-    fn.handler = handler;
-  };
-  // Ensure that there is no handler by default.
-  fn.setNotificationHandler(null);
-  return fn;
-});
-
-beforeEach(async () => {
-  const sendNotification = await import("@foxglove-studio/app/util/sendNotification");
-  (sendNotification as any).expectCalledDuringTest = () => {
-    if ((sendNotification as any).mock.calls.length === 0) {
-      // $FlowFixMe
-      fail(
-        "Expected sendNotification to have been called during the test, but it was never called!",
-      ); // eslint-disable-line
-    }
-    (sendNotification as any).mockClear();
-    // Reset the error handler to the default (no error handler).
-    sendNotification.setNotificationHandler(null as any);
+  return {
+    __esModule: true,
+    default: mockSendNotification,
+    setNotificationHandler,
   };
 });
 
+// If sendNotification was called during a test the test must also call expectCalledDuringTest()
+// to indicate they expected notifications
 afterEach(async () => {
-  const sendNotification = await import("@foxglove-studio/app/util/sendNotification");
-
-  if ((sendNotification as any).mock.calls.length > 0) {
-    const calls = (sendNotification as any).mock.calls;
-    (sendNotification as any).mockClear();
+  if (mockSendNotification.mock.calls.length > 0) {
+    const calls = mockSendNotification.mock.calls;
+    mockSendNotification.mockClear();
     // Reset the error handler to the default (no error handler).
-    sendNotification.setNotificationHandler(null as any);
-    // $FlowFixMe
+    setNotificationHandler();
     fail(
       `sendNotification has been called during this test (call sendNotification.expectCalledDuringTest(); at the end of your test if you expect this): ${JSON.stringify(
         calls,
       )}`,
-    ); // eslint-disable-line
+    );
   }
 });
 
+// We extend the expect global with our matcher.
+// This adds the appropriate declaration to the global jest
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace jest {
+    interface Matchers<R> {
+      toContainOnly(expected: unknown[]): R;
+    }
+  }
+}
+
 // this file runs once jest has injected globals so you can modify the expect matchers
-(global as any).expect.extend({
+expect.extend({
   // expects an array to contain exactly the other elements
   // in otherArray using isEqual
-  toContainOnly(received: any, expectedArray: any) {
+  toContainOnly(received: unknown, expectedArray: unknown[]) {
+    if (!Array.isArray(received)) {
+      return {
+        pass: false,
+        message: () => `Received non-array: ${this.utils.printReceived(received)}`,
+      };
+    }
+
     const receivedArray = Array.from(received);
     let pass = true;
     if (receivedArray.length !== expectedArray.length) {
@@ -80,7 +79,7 @@ afterEach(async () => {
         }
       }
       for (const receivedItem of receivedArray) {
-        if (!expectedArray.some((expectedItem: any) => isEqual(receivedItem, expectedItem))) {
+        if (!expectedArray.some((expectedItem) => isEqual(receivedItem, expectedItem))) {
           pass = false;
           break;
         }
@@ -101,39 +100,4 @@ afterEach(async () => {
       },
     };
   },
-});
-
-describe("custom expectations", () => {
-  describe("toContainOnly", () => {
-    it("passes when arrays match", () => {
-      expect([1]).toContainOnly([1]);
-      // $FlowFixMe
-      expect([1, 2]).not.toContainOnly([1]);
-      // $FlowFixMe
-      expect([2]).not.toContainOnly([1]);
-      expect([{ foo: "bar" }]).toContainOnly([{ foo: "bar" }]);
-      expect([{ foo: "bar" }, 2, { foo: "baz" }]).toContainOnly([
-        2,
-        { foo: "baz" },
-        { foo: "bar" },
-      ]);
-    });
-
-    it("throws when arrays do not match", () => {
-      expect(() => {
-        expect([{ foo: "bar" }]).toContainOnly([{ foo: "bar2" }]);
-      }).toThrow();
-      expect(() => {
-        expect([{ foo: "bar" }]).toContainOnly([{ foo: "bar" }, { foo: "baz" }]);
-      }).toThrow();
-    });
-
-    it("handles same-length arrays", () => {
-      expect([1, 1]).toContainOnly([1, 1]);
-      // $FlowFixMe
-      expect([1, 1]).not.toContainOnly([1, 2]);
-      // $FlowFixMe
-      expect([1, 2]).not.toContainOnly([1, 1]);
-    });
-  });
 });

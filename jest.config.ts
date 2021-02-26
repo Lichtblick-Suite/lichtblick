@@ -14,6 +14,7 @@ module.exports = {
     "<rootDir>/app/test/setupEnzyme.ts",
     "jest-canvas-mock",
   ],
+  setupFilesAfterEnv: ["<rootDir>/app/test/setupTestFramework.ts"],
   restoreMocks: true,
   transform: {
     "\\.ne$": "<rootDir>/app/test/transformers/neTransformer.js",

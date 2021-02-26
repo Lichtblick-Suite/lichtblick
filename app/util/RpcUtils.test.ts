@@ -49,7 +49,7 @@ describe("RpcWorkerUtils and RpcMainThreadUtils", () => {
       sendNotification.expectCalledDuringTest();
     });
 
-    it.skip("propagates receiving errors correctly", async () => {
+    it("propagates receiving errors correctly", async () => {
       const { local: mainChannel, remote: workerChannel } = createLinkedChannels();
       const main = new Rpc(mainChannel);
       setupReceiveReportErrorHandler(main);

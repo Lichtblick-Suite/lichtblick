@@ -250,7 +250,7 @@ describe("nodes", () => {
       });
     });
 
-    it.skip("continues processing if a node throws an error", () => {
+    it("continues processing if a node throws an error", () => {
       const NodeA: NodeDefinition<number> = {
         inputs: ["/external"],
         output: { name: "/webviz/a/counter", datatype: "a/counter" },
