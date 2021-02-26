@@ -2,6 +2,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { CleanWebpackPlugin } from "clean-webpack-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import path from "path";
 import type { Configuration } from "webpack";
@@ -38,6 +39,7 @@ const devServerConfig: WebpackConfiguration = {
     hot: true,
   },
   plugins: [
+    new CleanWebpackPlugin(),
     // electron-packager needs a package.json file to indicate the entry script
     // We purpose the htmlwebpackplugin to write the json rather than an html file
     new HtmlWebpackPlugin({
