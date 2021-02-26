@@ -37,7 +37,12 @@
           "name": "@electron-forge/maker-deb",
           "platforms": [
             "linux"
-          ]
+          ],
+          "config": {
+            "scripts": {
+              "postinst": "resources/linux/deb/postinst"
+            }
+          }
         },
         {
           "name": "@electron-forge/maker-dmg",
