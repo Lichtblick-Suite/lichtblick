@@ -46,6 +46,8 @@ const createWindow = (): void => {
       preload: preloadPath,
     },
     backgroundColor: colors.background,
+    // use a frameless window (frame -> false) on windows and linux
+    frame: isMac,
   };
   if (isMac) {
     windowOptions.titleBarStyle = "hiddenInset";
