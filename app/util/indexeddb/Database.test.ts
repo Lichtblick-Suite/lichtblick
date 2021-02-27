@@ -161,7 +161,7 @@ describe("Database", () => {
     });
   });
 
-  it.skip("can get all the keys in a store", async () => {
+  it("can get all the keys in a store", async () => {
     const db = await Database.open("keys", 1, (openedDb) => {
       openedDb.createObjectStore("bar", { keyPath: "key" });
     });
