@@ -57,7 +57,6 @@ const message = (
   receiveTimeSeconds: number | null | undefined,
 ): Message => ({
   topic: "/foo",
-  // $FlowFixMe: Flow type asserts that receiveTime is present but we check it works without anyway.
   receiveTime:
     receiveTimeSeconds == null ? undefined : ({ sec: receiveTimeSeconds, nsec: 1 } as any),
   message: {
@@ -131,7 +130,6 @@ describe("MessagePipeline/warnOnOutOfSyncMessages", () => {
           "headerStamp",
         ),
       );
-      // $FlowFixMe: Flow doesn't know that Jest has mocked sendNotification.
       expect((sendNotification as any).mock.calls.length).toBe(1);
       sendNotification.expectCalledDuringTest();
     });

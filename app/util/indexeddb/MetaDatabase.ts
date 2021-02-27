@@ -90,7 +90,6 @@ async function validateStorageQuota(): Promise<void> {
     return;
   }
 
-  // $FlowFixMe - doesn't understand navigator.storage
   if (!navigator || !navigator.storage || !navigator.storage.estimate) {
     throw new Error(
       "navigator.storage.estimate not supported; we only support the latest version of Google Chrome",

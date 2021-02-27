@@ -169,7 +169,6 @@ export function groupLinesIntoInstancedLineLists(
       depth,
       metadataByIndex,
       id,
-      // $FlowFixMe - doesn't understand how to handle the type field in markers
       type: isLineStrip ? MARKER_MSG_TYPES.LINE_STRIP : MARKER_MSG_TYPES.INSTANCED_LINE_LIST,
       primitive: isLineStrip ? "line strip" : "lines",
     } as LineStripMarker | InstancedLineListMarker);

@@ -116,7 +116,6 @@ const maybeShallowParse = (obj: unknown): unknown => {
     return cast<ArrayView<any>>(obj).toArray();
   }
   const ret: any = {};
-  // $FlowFixMe: We've checked obj is a bobject above.
   fieldNames(obj).forEach((field) => {
     ret[field] = getField(obj, field);
   });
@@ -236,7 +235,6 @@ function RawMessages(props: Props) {
     ) => (
       <ReactHoverObserver className={styles.iconWrapper}>
         {({ isHovering }: any) => {
-          // $FlowFixMe: We make sure to always pass in a number at the end, but that's hard to express in Flow.
           const lastKeyPath: number = last(keyPath) as any;
           let valueAction: ValueAction | null | undefined;
           if (isHovering && structureItem) {
@@ -274,7 +272,6 @@ function RawMessages(props: Props) {
           // sample output: Int8Array(331776) [-4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, ...]
           let smallNumberArrayStr = "";
           if (ArrayBuffer.isView(itemValue)) {
-            // $FlowFixMe flow doesn't know itemValue is an array
             // @ts-expect-error whatever log is here is not correct for ArrayBufferView
             const itemPart = itemValue.slice(0, DATA_ARRAY_PREVIEW_LIMIT).join(", ");
             // @ts-expect-error whatever log is here is not correct for ArrayBufferView
@@ -282,7 +279,6 @@ function RawMessages(props: Props) {
             smallNumberArrayStr = `(${length}) [${itemPart}${
               length >= DATA_ARRAY_PREVIEW_LIMIT ? ", ..." : ""
             }] `;
-            // $FlowFixMe
             itemLabel = itemValue.constructor.name;
           }
           if (constantName) {

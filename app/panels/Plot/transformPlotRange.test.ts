@@ -141,7 +141,6 @@ describe("transformPlotRange", () => {
   // This is a good example of math functions, if this one works then the rest of them should work.
   describe("absoluteValue", () => {
     it("takes the absolute value of tooltips", () => {
-      // $FlowFixMe
       const tooltips: TimeBasedChartTooltipData[] = [
         { x: 0, y: NaN, datasetKey: "0" } as any,
         { x: 1, y: -1, datasetKey: "0" },

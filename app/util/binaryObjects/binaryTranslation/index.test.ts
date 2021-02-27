@@ -24,12 +24,10 @@ export const disableConsoleWarnings = () => {
     "Invalid definition with type",
     "Failed to finalize field",
   ];
-  // $FlowFixMe - Flow doesn't like that we're overwriting this.
   console.warn = (message: string) => {
     if (expected.findIndex((msg) => message.startsWith(msg)) >= 0) {
       return;
     }
-    // $FlowFixMe
     fail(message); // eslint-disable-line
   };
 };

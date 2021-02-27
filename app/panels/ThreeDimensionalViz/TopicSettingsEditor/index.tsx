@@ -145,7 +145,6 @@ export function canEditDatatype(datatype: string): boolean {
 
 export function canEditNamespaceOverrideColorDatatype(datatype: string): boolean {
   const editor = topicSettingsEditorForDatatype(datatype);
-  // $FlowFixMe added static field `canEditNamespaceOverrideColor` to the React component
   return !!(editor && (editor as any).canEditNamespaceOverrideColor);
 }
 

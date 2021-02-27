@@ -123,7 +123,6 @@ export function getPanelsByType(): {
         (panel) => panel && !panel.presetSettings,
       );
       for (const item of nonPresetPanels) {
-        // $FlowFixMe - bug prevents requiring panelType: https://stackoverflow.com/q/52508434/23649
         const panelType = (item.component as any).panelType;
         console.assert(panelType && !(panelType in gPanelsByType));
         gPanelsByType[panelType] = item;
@@ -242,7 +241,6 @@ function verifyPanels() {
   const panelsByCategory = getPanelsByCategory();
   for (const category in panelsByCategory) {
     for (const { component, presetSettings } of panelsByCategory[category]) {
-      // $FlowFixMe - bug prevents requiring panelType: https://stackoverflow.com/q/52508434/23649
       const { name, displayName, panelType } = component as any;
       if (!panelType) {
         throw new Error(
@@ -446,7 +444,6 @@ function PanelList(props: Props) {
 PanelList.getComponentForType = (type: string): any | void => {
   const panelsByCategory = getPanelsByCategory();
   const allPanels = flatten(objectValues(panelsByCategory));
-  // $FlowFixMe - bug prevents requiring panelType: https://stackoverflow.com/q/52508434/23649
   const panel = allPanels.find((item) => (item.component as any).panelType === type);
   return panel?.component;
 };

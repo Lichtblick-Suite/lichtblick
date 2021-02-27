@@ -75,7 +75,6 @@ function withTransforms<Props extends any>(ChildComponent: React.ComponentType<P
     }
 
     render() {
-      // $FlowFixMe - can't seem to figure out how to properly type this.
       return (
         <ChildComponent
           {...(this.props as any)}

@@ -35,10 +35,10 @@ export default function TopicLink({ topic }: Props) {
     if (!openSiblingPanel) {
       return;
     }
-    openSiblingPanel(
-      RawMessages.panelType, // $FlowFixMe
-      (config: PanelConfig) => ({ ...config, topicPath: topic }),
-    );
+    openSiblingPanel(RawMessages.panelType, (config: PanelConfig) => ({
+      ...config,
+      topicPath: topic,
+    }));
   }, [openSiblingPanel, topic]);
 
   return (

@@ -42,7 +42,6 @@ describe("<ShareJsonModal />", () => {
 
   it("fires no change callback and shows error if bad input is used", (done) => {
     const fail = () => {
-      // $FlowFixMe - flow doesn't seem to understand error callback for `done`.
       done("Change callback was fired unexpectedly");
     };
     const wrapper = mount(

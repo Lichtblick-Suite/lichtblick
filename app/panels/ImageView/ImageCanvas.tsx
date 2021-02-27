@@ -131,7 +131,6 @@ export default class ImageCanvas extends React.Component<Props, State> {
       this.loadZoomFromConfig();
       if (this._canvasRenderer.type === "rpc") {
         const worker = this._getRpcWorker();
-        // $FlowFixMe This is a function that is not yet in Flow.
         const transferableCanvas = canvas.transferControlToOffscreen();
         worker.send<void>("initialize", { id: this._id, canvas: transferableCanvas }, [
           transferableCanvas,

@@ -47,7 +47,6 @@ export function ToolGroupFixedSizePane({
 }
 
 type Props<T extends string> = {
-  // $FlowFixMe typeof does not work with generics well, getting "`typeof` can only be used to get the type of variables"
   children: React.ReactElement<typeof ToolGroup>[] | React.ReactElement<typeof ToolGroup>;
   className?: string;
   icon: React.ReactNode;

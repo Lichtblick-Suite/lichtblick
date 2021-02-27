@@ -66,7 +66,6 @@ export const mathFunctions = {
 // Apply a function to the y-value of the data or tooltips passed in.
 export function applyToDataOrTooltips<T>(dataOrTooltips: T[], func: (arg0: number) => number): T[] {
   return dataOrTooltips.map((item) => {
-    // $FlowFixMe
     let y: number | string = (item as any).y;
     const numericYValue: number = Number(y);
     // Only apply the function if the Y value is a valid number.

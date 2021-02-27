@@ -461,7 +461,6 @@ export default function Panel<Config extends PanelConfig>(
 
     const isDemoMode = useExperimentalFeature("demoMode");
     return (
-      // $FlowFixMe - bug prevents requiring panelType on PanelComponent: https://stackoverflow.com/q/52508434/23649
       <PanelContext.Provider
         value={{
           type,
@@ -550,7 +549,6 @@ export default function Panel<Config extends PanelConfig>(
   }
   ConnectedPanel.displayName = `Panel(${PanelComponent.displayName || PanelComponent.name || ""})`;
 
-  // $FlowFixMe - doesn't know underlying memoized PanelComponent's interface
   return Object.assign(React.memo(ConnectedPanel), {
     defaultConfig: PanelComponent.defaultConfig,
     panelType: PanelComponent.panelType,

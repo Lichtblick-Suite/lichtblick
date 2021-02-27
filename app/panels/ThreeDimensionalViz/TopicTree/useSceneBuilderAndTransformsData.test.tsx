@@ -79,7 +79,6 @@ function getMockProps({
   }
 
   return {
-    // $FlowFixMe mocked implementation
     sceneBuilder: new MockSceneBuilder({
       namespaces: showNamespaces
         ? [
@@ -89,7 +88,6 @@ function getMockProps({
         : [],
       errors: showErrors ? DEFAULT_ERRORS : undefined,
     } as any) as any,
-    // $FlowFixMe mocked implementation
     transforms: new MockTransform({ tfs: tfIds.map((id: any) => ({ id })) }) as any,
   };
 }
@@ -120,7 +118,6 @@ describe("useSceneBuilderAndTransformsData", () => {
       const Test = createTest();
       const staticallyAvailableNamespacesByTopic = { "/bar": ["ns3", "ns4"] };
       const root = mount(
-        // $FlowFixMe mocked implementation
         <Test
           {...getMockProps({})}
           staticallyAvailableNamespacesByTopic={staticallyAvailableNamespacesByTopic}
@@ -140,10 +137,7 @@ describe("useSceneBuilderAndTransformsData", () => {
 
     it("shows all transform namespaces collected over time", () => {
       const Test = createTest();
-      const root = mount(
-        // $FlowFixMe mocked implementation
-        <Test {...getMockProps({ showTransforms: true })} />,
-      );
+      const root = mount(<Test {...getMockProps({ showTransforms: true })} />);
       expect(Test.result.mock.calls[0][0].availableNamespacesByTopic).toEqual({
         [TRANSFORM_TOPIC]: ["some_tf1", "some_tf2"],
       });
@@ -162,10 +156,7 @@ describe("useSceneBuilderAndTransformsData", () => {
 
     it("resets transforms collected when the player changes", () => {
       const Test = createTest();
-      const root = mount(
-        // $FlowFixMe mocked implementation
-        <Test {...getMockProps({ showTransforms: true })} />,
-      );
+      const root = mount(<Test {...getMockProps({ showTransforms: true })} />);
       expect(Test.result.mock.calls[0][0].availableNamespacesByTopic).toEqual({
         [TRANSFORM_TOPIC]: ["some_tf1", "some_tf2"],
       });
@@ -185,10 +176,7 @@ describe("useSceneBuilderAndTransformsData", () => {
           "/webviz_bag_2/topic_a": ["error msg bar", "missing frame id"],
         },
       });
-      const root = mount(
-        // $FlowFixMe mocked implementation
-        <Test {...getMockProps({})} sceneBuilder={mockSceneBuilder} />,
-      );
+      const root = mount(<Test {...getMockProps({})} sceneBuilder={mockSceneBuilder} />);
 
       expect(Test.result.mock.calls[0][0].sceneErrorsByKey).toEqual({
         "t:/topic_a": ["error msg foo", "missing transforms to root transform: some_root_tf"],

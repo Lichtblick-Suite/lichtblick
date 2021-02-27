@@ -135,7 +135,6 @@ export function MessagePipelineProvider({ children, player, globalVariables = {}
       // replace the new playerTickState. We want to use one playerTickState throughout the entire tick, since it's
       // implicitly tied to the player.
       const currentPlayerTickState = playerTickState.current;
-      // $FlowFixMe it doesn't matter if this function returns a promise.
       requestAnimationFrame(async () => {
         if (currentPlayerTickState.resolveFn && !currentPlayerTickState.waitingForPromises) {
           if (currentPlayerTickState.promisesToWaitFor.length) {

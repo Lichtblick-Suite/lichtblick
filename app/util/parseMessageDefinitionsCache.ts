@@ -81,7 +81,6 @@ class ParseMessageDefinitionCache {
       .keys()
       .filter((key) => key.startsWith(STORAGE_ITEM_KEY_PREFIX))
       .map((key) => [key.substring(STORAGE_ITEM_KEY_PREFIX.length), storage.getItem(key)]);
-    // $FlowFixMe getItem returns RosMsgDefinition[] type.
     this._md5SumsToParsedDefinitions = fromPairs(hashesToParsedDefinitionsEntries);
   }
 

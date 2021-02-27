@@ -293,7 +293,6 @@ return ${friendlyTypeName(topLevelTypeName)};`;
 // instantiation so we can share definitions between topics and blocks.
 const getGetClassForView = memoize((typesByName: RosDatatypes, typeName: string) => {
   /* eslint-disable no-new-func */
-  // $FlowFixMe
   return Function(
     "$context",
     "$view",

@@ -280,7 +280,7 @@ describe("traverseStructure", () => {
       traverseStructure(structure, [
         { type: "name", name: "some_pose" },
         { type: "name", name: "x" },
-      ]), // $FlowFixMe
+      ]),
     ).toEqual({
       valid: true,
       msgPathPart: undefined,
@@ -295,7 +295,6 @@ describe("traverseStructure", () => {
     ).toEqual({
       valid: true,
       msgPathPart: undefined,
-      // $FlowFixMe
       structureItem: (structure.nextByName.some_pose as any).nextByName.dummy_array.next,
     });
     expect(
@@ -308,7 +307,6 @@ describe("traverseStructure", () => {
     ).toEqual({
       valid: true,
       msgPathPart: undefined,
-      // $FlowFixMe
       structureItem: (structure.nextByName.some_pose as any).nextByName.dummy_array.next,
     });
     expect(

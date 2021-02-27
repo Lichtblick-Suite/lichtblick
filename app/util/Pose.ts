@@ -36,7 +36,6 @@ class OrientationClass {
   w: number = 0;
 
   static empty() {
-    // $FlowFixMe: Classes are inexact in flow.
     const orientation = new OrientationClass();
     orientation.x = 0;
     orientation.y = 0;
@@ -53,7 +52,6 @@ class PoseClass {
 
 // create a new empty pose object
 export function emptyPose(): MutablePose {
-  // $FlowFixMe: Classes are inexact in flow.
   const pose = new PoseClass();
   pose.position = PointClass.empty();
   pose.orientation = OrientationClass.empty();

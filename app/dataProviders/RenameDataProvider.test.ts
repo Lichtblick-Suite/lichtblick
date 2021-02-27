@@ -49,7 +49,6 @@ function getProvider() {
 }
 
 function getRenameDataProvider(provider: any, prefix: any) {
-  // $FlowFixMe: This is not how the getProvider callback is meant to work.
   return new RenameDataProvider({ prefix }, [provider], (child: any) => child);
 }
 

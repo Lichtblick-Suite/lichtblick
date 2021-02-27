@@ -23,7 +23,6 @@ function ControlsStory() {
       ref={(el) => {
         setImmediate(() => {
           if (el) {
-            // $FlowFixMe - just crash when we can't find this dropdown.
             (el as any).querySelector("[data-test=PlaybackSpeedControls-Dropdown]").click();
           }
         });

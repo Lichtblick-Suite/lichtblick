@@ -145,7 +145,6 @@ function getCombinedDataProvider(data: any[]) {
   for (const item of data) {
     const { provider, prefix } = item;
     providerInfos.push({});
-    // $FlowFixMe: This is not how getProvider is meant to work.
     const childProvider =
       prefix == null
         ? provider
@@ -928,12 +927,10 @@ describe("mergedBlocks", () => {
   it("memoizes merges", () => {
     const lhs = { sizeInBytes: 1, messagesByTopic: {} };
     const lhsMessagesByTopic = jest.fn().mockReturnValue({ foo: [] });
-    // $FlowFixMe: Flow wants a "value", and we can't specify both "value" and "get".
     Object.defineProperty(lhs, "messagesByTopic", { get: lhsMessagesByTopic });
 
     const rhs = { sizeInBytes: 2, messagesByTopic: {} };
     const rhsMessagesByTopic = jest.fn().mockReturnValue({ bar: [] });
-    // $FlowFixMe: Flow wants a "value", and we can't specify both "value" and "get".
     Object.defineProperty(rhs, "messagesByTopic", { get: rhsMessagesByTopic });
 
     const mergedValue = mergedBlocks(

@@ -106,7 +106,6 @@ export class PrimitiveArrayView<T> implements ArrayView<T> {
     }
   }
   // Use deepParse(arr)
-  // $FlowFixMe
   [deepParseSymbol](): T[] {
     return this.value;
   }
@@ -140,7 +139,6 @@ export const getReverseWrapperArrayView = <T>(Class: any) =>
       }
     }
     // Use deepParse(arr)
-    // $FlowFixMe
     [deepParseSymbol](): T[] {
       return this.value.map((o) => (isBobject(o) ? deepParse(o) : deepParse(new Class(o))));
     }

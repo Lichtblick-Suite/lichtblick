@@ -50,7 +50,6 @@ function Example({
           ctx.font = "24px Arial";
           ctx.strokeRect(0, 0, drawWidth, drawHeight);
 
-          // $FlowFixMe
           const text = `hello ${ctx.getTransform().a}`;
           const size = ctx.measureText(text);
           ctx.fillStyle = "black";

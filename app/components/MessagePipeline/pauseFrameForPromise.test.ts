@@ -25,7 +25,6 @@ jest.mock("@foxglove-studio/app/util/inAutomatedRunMode", () => jest.fn(() => fa
 
 describe("pauseFrameForPromise", () => {
   afterEach(() => {
-    // $FlowFixMe
     (inAutomatedRunMode as any).mockImplementation(() => false);
   });
 

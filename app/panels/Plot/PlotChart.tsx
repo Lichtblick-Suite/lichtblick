@@ -142,7 +142,6 @@ function getPointsAndTooltipsForMessagePathItem(
         tooltips.push(tooltip);
       }
     } else if (isTime(value)) {
-      // $FlowFixMe - %checks on isTime can't convince Flow that the object is actually a Time. Related: https://github.com/facebook/flow/issues/3614
       const timeValue = value as Time;
       const x = getXForPoint(xAxisVal, elapsedTime, innerIdx, xAxisRanges, xItem, xAxisPath);
       const y = toSec(timeValue);

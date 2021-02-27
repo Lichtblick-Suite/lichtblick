@@ -60,7 +60,6 @@ export default function getDiff(
       }
       for (const idKey in candidateIdsToCompareWith) {
         for (const beforeItem of before) {
-          // $FlowFixMe - we know beforeItem is an object at this point
           if (beforeItem[idKey] != null) {
             candidateIdsToCompareWith[idKey].before.push(beforeItem[idKey]);
           }
@@ -68,7 +67,6 @@ export default function getDiff(
       }
       for (const idKey in candidateIdsToCompareWith) {
         for (const afterItem of after) {
-          // $FlowFixMe - we know afterItem is an object at this point
           if (afterItem[idKey] != null) {
             candidateIdsToCompareWith[idKey].after.push(afterItem[idKey]);
           }

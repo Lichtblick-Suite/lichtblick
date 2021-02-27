@@ -564,13 +564,11 @@ describe("MessagePipelineProvider/MessagePipelineConsumer", () => {
 
     // Calling setSubscriptions right after activeData is ok if the set of topics doesn't change
     act(() => fn.mock.calls[0][0].setSubscriptions("id", [{ topic: "/test", format: "bobjects" }]));
-    // $FlowFixMe - Flow doesn't understand `console.warn.mock`
     expect((console.warn as any).mock.calls).toEqual([]);
     // But changing the set of topics results in a warning
     act(() =>
       fn.mock.calls[0][0].setSubscriptions("id", [{ topic: "/test2", format: "parsedMessages" }]),
     );
-    // $FlowFixMe - Flow doesn't understand `console.warn.mock`
     expect((console.warn as any).mock.calls).toEqual([
       [
         "Panel subscribed right after Player loaded, which causes unnecessary requests. Please let the Webviz team know about this. Topics: /test2",
@@ -582,7 +580,6 @@ describe("MessagePipelineProvider/MessagePipelineConsumer", () => {
     act(() =>
       fn.mock.calls[0][0].setSubscriptions("id", [{ topic: "/test", format: "parsedMessages" }]),
     );
-    // $FlowFixMe - Flow doesn't understand `console.warn.mock`
     expect((console.warn as any).mock.calls.length).toEqual(1);
   });
 

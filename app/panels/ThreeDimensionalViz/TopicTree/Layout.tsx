@@ -519,7 +519,6 @@ export default function Layout({
         drawingTabType: currentDrawingTabType,
         handleDrawPolygons: currentHandleDrawPolygons,
       } = callbackInputsRef.current;
-      // $FlowFixMe get around index signature error
       const measuringHandler = measuringElRef.current && (measuringElRef.current as any)[eventName];
       const measureActive = measuringElRef.current && measuringElRef.current.measureActive;
       if (measuringHandler && measureActive) {

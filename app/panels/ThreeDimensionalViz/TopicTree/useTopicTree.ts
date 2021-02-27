@@ -411,7 +411,6 @@ export default function useTree({
         continue;
       }
 
-      // $FlowFixMe some settings have overideColor field
       if (settings.overrideColor) {
         if (!result[key].overrideColorByColumn) {
           result[key].overrideColorByColumn = [undefined, undefined];

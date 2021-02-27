@@ -154,7 +154,6 @@ describe("useTopicTree", () => {
         />,
       );
 
-      // $FlowFixMe TreeTopicNode don't have children
       expect(Test.result.mock.calls[0][0].rootTreeNode.children).toEqual([
         {
           availableByColumn: [false, true],
@@ -189,7 +188,6 @@ describe("useTopicTree", () => {
 
       // Uncategorized node will get updated when the provider topics change.
       root.setProps({ providerTopics: makeTopics(["/bar1"]) });
-      // $FlowFixMe TreeTopicNode don't have children
       expect(Test.result.mock.calls[1][0].rootTreeNode.children).toEqual([
         {
           availableByColumn: [false],

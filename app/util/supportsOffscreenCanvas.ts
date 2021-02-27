@@ -17,7 +17,6 @@ import sendNotification from "@foxglove-studio/app/util/sendNotification";
 
 const supportsOffscreenCanvas: () => boolean = memoize((): boolean => {
   try {
-    // $FlowFixMe This is a function that is not yet in Flow.
     document.createElement("canvas").transferControlToOffscreen();
   } catch (error) {
     sendNotification(

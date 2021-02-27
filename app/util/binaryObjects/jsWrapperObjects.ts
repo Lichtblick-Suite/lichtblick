@@ -137,7 +137,6 @@ const getJsWrapperClasses = memoize((typesByName: RosDatatypes): {
   const context = { deepParse: deepParseSymbol, PrimitiveArrayView, getReverseWrapperArrayView };
 
   /* eslint-disable no-new-func */
-  // $FlowFixMe
   const classes = Function("$context", printClasses(typesByName))(context);
 
   /* eslint-enable no-new-func */

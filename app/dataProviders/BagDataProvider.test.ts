@@ -168,7 +168,6 @@ describe("BagDataProvider", () => {
     );
     provider.initialize(dummyExtensionPoint);
     await delay(100); // Call above returns promise that never resolves.
-    // $FlowFixMe - doesn't understand this mock
     expect((sendNotification as any).mock.calls).toEqual([
       [
         "Empty connections found",

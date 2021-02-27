@@ -1616,7 +1616,6 @@ describe("RandomAccessPlayer", () => {
       ],
     ]);
 
-    // $FlowFixMe defineProperty's flow type does not accept using `get` instead of `value`
     Object.defineProperty(document, "visibilityState", {
       configurable: true,
       get: () => "hidden",
@@ -1634,7 +1633,6 @@ describe("RandomAccessPlayer", () => {
 
     store.reset(1);
 
-    // $FlowFixMe defineProperty's flow type does not accept using `get` instead of `value`
     Object.defineProperty(document, "visibilityState", {
       configurable: true,
       get: () => "visible",
@@ -1726,7 +1724,6 @@ describe("RandomAccessPlayer", () => {
     player.startPlayback();
     await store.done;
 
-    // $FlowFixMe - doesn't understand getMessages.mock
     expect((provider.getMessages as any).mock.calls).toEqual([
       [
         { sec: 100, nsec: 0 },

@@ -330,8 +330,8 @@ export default memo<Props>(function TimeBasedChart(props: Props) {
       const values: any = {};
       (scaleBounds.current || []).forEach((bounds) => {
         const chartPx =
-          bounds.axes === "xAxes" // $FlowFixMe: getBoundingClientRect, ClientRect.x
-            ? ev.clientX - (ev.target as any).getBoundingClientRect().x // $FlowFixMe: getBoundingClientRect, ClientRect.y
+          bounds.axes === "xAxes"
+            ? ev.clientX - (ev.target as any).getBoundingClientRect().x
             : ev.clientY - (ev.target as any).getBoundingClientRect().y;
         const value = getChartValue(bounds, chartPx);
         if (value == null) {
@@ -648,15 +648,11 @@ export default memo<Props>(function TimeBasedChart(props: Props) {
           // @ts-ignore while valid js we should fix this arithmatic operation on dates
           new Date() - lastPanTime.current > FOLLOW_PLAYBACK_PAN_THRESHOLD_MS)
       ) {
-        // $FlowFixMe
         options.scales.xAxes[0].ticks.min = currentTime + followPlaybackState.xOffsetMin;
-        // $FlowFixMe
         options.scales.xAxes[0].ticks.max = currentTime + followPlaybackState.xOffsetMax;
       }
     } else if (!hasUserPannedOrZoomed) {
-      // $FlowFixMe
       options.scales.xAxes[0].ticks.min = minX;
-      // $FlowFixMe
       options.scales.xAxes[0].ticks.max = maxX;
     }
     return options;

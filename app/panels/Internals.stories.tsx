@@ -45,7 +45,6 @@ storiesOf("<Internals>", module)
           frame: {},
         }}
         onMount={(el: any) => {
-          // $FlowFixMe - just crash if it's not there
           el.querySelector("button").click();
         }}
       >

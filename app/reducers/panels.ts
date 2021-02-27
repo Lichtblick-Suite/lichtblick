@@ -1007,7 +1007,6 @@ const panelsReducer = function (state: State, action: ActionTypes): State {
     case "LOAD_LAYOUT":
       // Dispatched when loading the page with a layout query param, or when manually selecting a different layout.
       // Do not update URL based on ensuing migration changes.
-      // $FlowFixMe - TODO: Refactor ImportPanelLayoutPayload to be superset of PanelsState
       newState.persistedState.panels = importPanelLayout(
         newState.persistedState.panels,
         action.payload,

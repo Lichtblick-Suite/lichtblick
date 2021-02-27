@@ -45,13 +45,11 @@ export default class MemoryStorage {
       throw new Error("Exceeded storage limit");
     }
     this._internal_items[key] = value;
-    // $FlowFixMe add this so we can call Object.keys() on the class instances.
     (this as any)[key] = value;
   }
 
   removeItem(key: string) {
     delete this._internal_items[key];
-    // $FlowFixMe add this so we can call Object.keys() on the class instances.
     delete (this as any)[key];
   }
 }
