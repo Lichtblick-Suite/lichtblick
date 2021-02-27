@@ -30,7 +30,7 @@ describe("MetaDatabase", () => {
     await idb.delete(METADATABASE_NAME);
   });
 
-  describe.skip("updateMetadatabases", () => {
+  describe("updateMetadatabases", () => {
     it("deletes databases if over max", async () => {
       async function createAndClose(name: string) {
         const db = await Database.get({ name, version: 1, objectStores: [{ name: "foo" }] });
@@ -68,7 +68,18 @@ describe("MetaDatabase", () => {
 
     it("does not throw when database deletion throws an error", async () => {
       const spy = jest.spyOn(global.indexedDB, "deleteDatabase").mockImplementation(() => {
-        throw new Error("failed to delete");
+        const result = <IDBOpenDBRequest>(<unknown>{
+          // This gets overridden by caller
+          onerror: (_: Event) => {
+            throw new Error("failed to delete");
+          },
+        });
+        setTimeout(() => {
+          if (result.onerror) {
+            result.onerror(new Event(""));
+          }
+        }, 10);
+        return result;
       });
       await updateMetaDatabases("foo", 1, METADATABASE_NAME);
       await updateMetaDatabases("bar", 1, METADATABASE_NAME);
@@ -77,7 +88,7 @@ describe("MetaDatabase", () => {
 
     it("does not delete databases which never fire onblocked calls", async () => {
       const spy = jest.spyOn(global.indexedDB, "deleteDatabase").mockImplementation(() => {
-        return new IDBOpenDBRequest();
+        return {} as IDBOpenDBRequest;
       });
       await updateMetaDatabases("foo", 1, METADATABASE_NAME);
       await updateMetaDatabases("bar", 1, METADATABASE_NAME);
