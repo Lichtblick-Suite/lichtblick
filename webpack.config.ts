@@ -47,6 +47,7 @@ const devServerConfig: WebpackConfiguration = {
       templateContent: JSON.stringify({
         main: "main/main.js",
         name: packageInfo.name,
+        productName: packageInfo.productName,
         version: packageInfo.version,
         description: packageInfo.description,
         productDescription: packageInfo.productDescription,
