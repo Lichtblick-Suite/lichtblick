@@ -34,7 +34,7 @@ const devServerConfig: WebpackConfiguration = {
       // Electron needs to open the main thread source and preload source from disk
       // avoid writing the hot-update js and json files
       // allow writing package.json at root -> needed for electron to find entrypoint
-      return /\.webpack\/(main\/(?!.*hot-update)|package\.json)/.test(filePath);
+      return /\.webpack[\\/](main[\\/](?!.*hot-update)|package\.json)/.test(filePath);
     },
     hot: true,
   },
