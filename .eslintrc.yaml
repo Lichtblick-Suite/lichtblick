@@ -53,8 +53,15 @@ rules:
 
   curly: error
   "@typescript-eslint/no-unused-vars":
-    [error, { vars: all, args: after-used, varsIgnorePattern: "^_", argsIgnorePattern: "^_" }]
-  no-underscore-dangle: [error, { allowAfterThis: true }]
+    - error
+    - { vars: all, args: after-used, varsIgnorePattern: "^_", argsIgnorePattern: "^_" }
+  no-underscore-dangle:
+    - error
+    - allowAfterThis: true
+  no-warning-comments:
+    - error
+    - terms: ["fixme", "xxx"]
+      location: anywhere
   # Some good ones that people really should be adding to import/recommended:
   import/first: error
   import/no-self-import: error
@@ -76,7 +83,9 @@ rules:
   import/no-named-as-default: off
   import/no-named-as-default-member: off
 
-  prefer-arrow-callback: [error, { allowNamedFunctions: true }]
+  prefer-arrow-callback:
+    - error
+    - allowNamedFunctions: true
   "@typescript-eslint/no-shadow": error
   no-restricted-syntax:
     - error
