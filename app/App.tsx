@@ -2,7 +2,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import { useEffect, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 
 import { OsContextSingleton } from "@foxglove-studio/app/OsContext";
 import { FileContext } from "@foxglove-studio/app/components/FileContext";
@@ -10,7 +10,7 @@ import Root from "@foxglove-studio/app/components/Root";
 import { usePrompt } from "@foxglove-studio/app/hooks/usePrompt";
 import { ROSBRIDGE_WEBSOCKET_URL_QUERY_KEY } from "@foxglove-studio/app/util/globalConstants";
 
-function App() {
+export function App(): ReactElement {
   const [bagFile, setBagFile] = useState<File | undefined>();
   const [isFullScreen, setFullScreen] = useState(false);
   const prompt = usePrompt();
@@ -71,5 +71,3 @@ function App() {
     </>
   );
 }
-
-export { App };
