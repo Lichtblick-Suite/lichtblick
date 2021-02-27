@@ -29,4 +29,5 @@ module.exports = {
     "\\.(glb|md|png)$": "<rootDir>/app/test/mocks/fileMock.ts",
     "\\.(css|scss)$": "<rootDir>/app/test/mocks/styleMock.ts",
   },
+  modulePathIgnorePatterns: ["<rootDir>/.webpack"],
 };
