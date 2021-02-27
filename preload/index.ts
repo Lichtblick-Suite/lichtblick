@@ -4,14 +4,11 @@
 
 import { contextBridge, ipcRenderer } from "electron";
 
-import { OsContext, OsContextWindowEvent } from "@foxglove-studio/app/OsContext";
+import { OsContext } from "@foxglove-studio/app/OsContext";
 import { OsMenuHandler } from "@foxglove-studio/app/OsMenuHandler";
 
 const ctx: OsContext = {
   platform: process.platform,
-  addWindowEventListener(eventName: OsContextWindowEvent, handler: () => void) {
-    ipcRenderer.on(eventName, handler);
-  },
   installMenuHandlers(handlers: OsMenuHandler) {
     ipcRenderer.on("menu.file.open-bag", async () => {
       handlers["file.open-bag"]();

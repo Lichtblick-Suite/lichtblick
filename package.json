@@ -2,6 +2,7 @@
   "name": "foxglove-studio",
   "version": "0.0.0",
   "description": "Integrated robotics visualization and debugging.",
+  "productName": "Foxglove Studio",
   "productDescription": "Foxglove Studio is an highly customizable and extensible visualization and display tool for robotics.",
   "private": true,
   "main": "./main/main.js",
@@ -28,31 +29,7 @@
     "make": "electron-forge make"
   },
   "config": {
-    "forge": {
-      "packagerConfig": {
-        "dir": ".webpack",
-        "asar": true
-      },
-      "makers": [
-        {
-          "name": "@electron-forge/maker-deb",
-          "platforms": [
-            "linux"
-          ],
-          "config": {
-            "scripts": {
-              "postinst": "resources/linux/deb/postinst"
-            }
-          }
-        },
-        {
-          "name": "@electron-forge/maker-dmg",
-          "platforms": [
-            "darwin"
-          ]
-        }
-      ]
-    }
+    "forge": "electron-forge.config.js"
   },
   "workspaces": {
     "packages": [

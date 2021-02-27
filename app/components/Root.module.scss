@@ -31,24 +31,6 @@ $spacing: 14px;
   -webkit-app-region: no-drag;
 }
 
-.logoWrapper {
-  width: 100%;
-  display: inline-block;
-  margin-right: 0.5rem;
-  top: 1px;
-  position: relative;
-  pointer-events: none; // ensure double-clicking title bar is not blocked by the logo
-
-  svg {
-    vertical-align: middle;
-    margin-right: 0.5rem;
-  }
-
-  .standaloneWithTopLeftButtons:not(.fullScreen) & {
-    margin-left: 72px;
-  }
-}
-
 .playback-controls {
   background-color: $dark2;
 }

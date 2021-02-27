@@ -12,6 +12,6 @@
     "strict": true,
     "typeRoots": ["node_modules/@types", "./typings"]
   },
-  "include": ["*.ts"],
+  "include": ["*.ts", "*.js"],
   "exclude": ["node_modules"]
 }

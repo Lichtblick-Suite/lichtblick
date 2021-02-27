@@ -21,7 +21,6 @@ import installExtension, {
 } from "electron-devtools-installer";
 import path from "path";
 
-import type { OsContextWindowEvent } from "@foxglove-studio/app/OsContext";
 import colors from "@foxglove-studio/app/styles/colors.module.scss";
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
@@ -33,7 +32,7 @@ if (require("electron-squirrel-startup")) {
 
 const isMac: boolean = process.platform === "darwin";
 
-const createWindow = (): void => {
+async function createWindow(): Promise<void> {
   const preloadPath = path.join(app.getAppPath(), "main", "preload.js");
   const rendererPath = MAIN_WINDOW_WEBPACK_ENTRY;
 
@@ -51,16 +50,6 @@ const createWindow = (): void => {
     windowOptions.titleBarStyle = "hiddenInset";
   }
   const mainWindow = new BrowserWindow(windowOptions);
-
-  // Forward full screen events to the renderer
-  const forwardWindowEvent = (name: OsContextWindowEvent) => {
-    // @ts-ignore https://github.com/microsoft/TypeScript/issues/14107
-    mainWindow.addListener(name, () => {
-      mainWindow.webContents.send(name);
-    });
-  };
-  forwardWindowEvent("enter-full-screen");
-  forwardWindowEvent("leave-full-screen");
 
   const appMenuTemplate: MenuItemConstructorOptions[] = [];
 
@@ -192,7 +181,7 @@ const createWindow = (): void => {
       }
     }
   });
-};
+}
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -224,6 +213,14 @@ app.on("ready", async () => {
       }),
     ]);
     console.groupEnd();
+
+    // In development, we run with the pre-packaged Electron binary, so we need to manually set the Dock icon.
+    try {
+      // This fails when opening the app from a packaged DMG.
+      app.dock.setIcon("resources/icon/icon.png");
+    } catch (error) {
+      console.error("Unable to set icon", error);
+    }
   }
 
   createWindow();

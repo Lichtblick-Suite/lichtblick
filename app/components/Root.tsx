@@ -22,7 +22,6 @@ import styles from "./Root.module.scss";
 import SettingsMenu from "./SettingsMenu";
 import { redoLayoutChange, undoLayoutChange } from "@foxglove-studio/app/actions/layoutHistory";
 import { importPanelLayout } from "@foxglove-studio/app/actions/panels";
-import Logo from "@foxglove-studio/app/assets/logo.svg";
 import AppMenu from "@foxglove-studio/app/components/AppMenu";
 import ErrorBoundary from "@foxglove-studio/app/components/ErrorBoundary";
 import LayoutMenu from "@foxglove-studio/app/components/LayoutMenu";
@@ -34,7 +33,6 @@ import ShortcutsModal from "@foxglove-studio/app/components/ShortcutsModal";
 import { TinyConnectionPicker } from "@foxglove-studio/app/components/TinyConnectionPicker";
 import Toolbar from "@foxglove-studio/app/components/Toolbar";
 import withDragDropContext from "@foxglove-studio/app/components/withDragDropContext";
-import useDocumentTitle from "@foxglove-studio/app/hooks/useDocumentTitle";
 import { State } from "@foxglove-studio/app/reducers";
 import getGlobalStore from "@foxglove-studio/app/store/getGlobalStore";
 import browserHistory from "@foxglove-studio/app/util/history";
@@ -48,11 +46,7 @@ setConfig({
   reloadHooks: false,
 });
 
-const LOGO_SIZE = 24;
-
 type Props = {
-  windowStyle: "standaloneWithTopLeftButtons" | "normal";
-  isFullScreen: boolean;
   onToolbarDoubleClick?: () => void;
 };
 
@@ -65,12 +59,7 @@ type InternalProps = Props & {
   undoLayoutChange: () => void;
 };
 
-function App({
-  importPanelLayout: importPanelLayoutProp,
-  windowStyle,
-  isFullScreen,
-  onToolbarDoubleClick,
-}: InternalProps) {
+function App({ importPanelLayout: importPanelLayoutProp, onToolbarDoubleClick }: InternalProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     // Focus on page load to enable keyboard interaction.
@@ -81,28 +70,13 @@ function App({
     (window as any).setPanelLayout = (payload: any) => importPanelLayoutProp(payload);
   }, [importPanelLayoutProp]);
 
-  const windowTitle = useDocumentTitle(APP_NAME);
   return (
-    <div
-      ref={containerRef}
-      className={cx("app-container", {
-        [styles.fullScreen]: isFullScreen,
-        [styles.standaloneWithTopLeftButtons]: windowStyle === "standaloneWithTopLeftButtons",
-      })}
-      tabIndex={0}
-    >
+    <div ref={containerRef} className="app-container" tabIndex={0}>
       <Route path="/shortcuts" component={ShortcutsModal} />
       <PlayerManager>
         {({ inputDescription }: any) => (
           <>
             <Toolbar onDoubleClick={onToolbarDoubleClick}>
-              <div className={styles.logoWrapper}>
-                <a href={windowStyle === "normal" ? "/" : "#"}>
-                  <Logo width={LOGO_SIZE} height={LOGO_SIZE} />
-                </a>
-                {windowTitle}
-              </div>
-
               <div className={styles.toolbarItem} style={{ marginRight: 5 }}>
                 {!inAutomatedRunMode() && <NotificationDisplay />}
               </div>
