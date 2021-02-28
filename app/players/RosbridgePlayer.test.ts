@@ -31,7 +31,7 @@ const textMessage = ({ text }: any) => {
   return { bytes };
 };
 
-let workerInstance: MockRosClient; // eslint-disable-line no-use-before-define
+let workerInstance: MockRosClient;
 class MockRosClient {
   constructor() {
     workerInstance = this;
@@ -40,7 +40,7 @@ class MockRosClient {
   _topics: string[] = [];
   _types: string[] = [];
   _typedefs_full_text: string[] = [];
-  _connectCallback: any | null | undefined;
+  _connectCallback?: any;
   _messages: any[] = [];
 
   setup({
@@ -74,7 +74,7 @@ class MockRosClient {
     // no-op
   }
 
-  getTopicsAndRawTypes(callback: any) {
+  getTopicsAndRawTypes(callback: (...args: unknown[]) => void) {
     callback({
       topics: this._topics,
       types: this._types,
@@ -82,39 +82,34 @@ class MockRosClient {
     });
   }
 
-  getMessagesByTopicName(topicName: string): any[] {
+  getMessagesByTopicName(topicName: string): { message: unknown }[] {
     return this._messages.filter(({ topic }) => topic === topicName);
   }
 }
 
 class MockRosTopic {
-  _name = "";
+  #name: string = "";
 
-  constructor({ name }: any) {
-    this._name = name;
+  constructor({ name }: { name: string }) {
+    this.#name = name;
   }
 
-  subscribe(callback: any) {
-    workerInstance.getMessagesByTopicName(this._name).forEach(({ message }) => callback(message));
+  subscribe(callback: (arg: unknown) => void) {
+    workerInstance.getMessagesByTopicName(this.#name).forEach(({ message }) => callback(message));
   }
 }
 
-const MockROSLIB = {
-  Ros: MockRosClient,
-  Topic: MockRosTopic,
-};
-
-// Mock ROSLIB with a custom implementation for tests.
-// Also, assign it to the window object so it can be used correctly
-// from RosbridgePlayer.
-jest.mock("roslib/build/roslib", () => {
-  return function () {
-    return MockROSLIB;
+jest.mock("roslib/src/RosLib", () => {
+  return {
+    __esModule: true,
+    default: {
+      Ros: jest.fn(() => new MockRosClient()),
+      Topic: jest.fn((arg) => new MockRosTopic(arg)),
+    },
   };
 });
-(window as any).ROSLIB = MockROSLIB;
 
-describe.skip("RosbridgePlayer", () => {
+describe("RosbridgePlayer", () => {
   let player: RosbridgePlayer;
 
   beforeEach(() => {
@@ -142,7 +137,7 @@ describe.skip("RosbridgePlayer", () => {
 
     player.setSubscriptions([{ topic: "/topic/A", format: "parsedMessages" }]);
     player.setListener(async ({ activeData }) => {
-      const { topics } = activeData || {};
+      const { topics } = activeData ?? {};
       if (!topics) {
         return Promise.resolve();
       }
@@ -191,7 +186,7 @@ describe.skip("RosbridgePlayer", () => {
       player.setSubscriptions([{ topic: "/topic/A", format: "bobjects" }]);
 
       player.setListener(async ({ activeData }) => {
-        const { messages, bobjects } = activeData || {};
+        const { messages, bobjects } = activeData ?? {};
         if (!messages || !bobjects) {
           return Promise.resolve();
         }
@@ -217,7 +212,7 @@ describe.skip("RosbridgePlayer", () => {
       player.setSubscriptions([{ topic: "/topic/B", format: "bobjects" }]);
 
       player.setListener(async ({ activeData }) => {
-        const { messages, bobjects } = activeData || {};
+        const { messages, bobjects } = activeData ?? {};
         if (!messages || !bobjects) {
           return Promise.resolve();
         }
@@ -239,7 +234,7 @@ describe.skip("RosbridgePlayer", () => {
       player.setSubscriptions([{ topic: "/topic/A", format: "parsedMessages" }]);
 
       player.setListener(async ({ activeData }) => {
-        const { messages, bobjects } = activeData || {};
+        const { messages, bobjects } = activeData ?? {};
         if (!messages || !bobjects) {
           return Promise.resolve();
         }
@@ -265,7 +260,7 @@ describe.skip("RosbridgePlayer", () => {
       player.setSubscriptions([{ topic: "/topic/B", format: "parsedMessages" }]);
 
       player.setListener(async ({ activeData }) => {
-        const { messages, bobjects } = activeData || {};
+        const { messages, bobjects } = activeData ?? {};
         if (!messages || !bobjects) {
           return Promise.resolve();
         }
@@ -290,7 +285,7 @@ describe.skip("RosbridgePlayer", () => {
       ]);
 
       player.setListener(async ({ activeData }) => {
-        const { messages, bobjects } = activeData || {};
+        const { messages, bobjects } = activeData ?? {};
         if (!messages || !bobjects) {
           return Promise.resolve();
         }
@@ -323,7 +318,7 @@ describe.skip("RosbridgePlayer", () => {
       ]);
 
       player.setListener(async ({ activeData }) => {
-        const { messages, bobjects } = activeData || {};
+        const { messages, bobjects } = activeData ?? {};
         if (!messages || !bobjects) {
           return Promise.resolve();
         }
