@@ -11,8 +11,7 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import * as Sentry from "@sentry/browser";
-import * as React from "react";
+import { captureException } from "@sentry/electron";
 import styled from "styled-components";
 
 import Button from "@foxglove-studio/app/components/Button";
@@ -48,7 +47,7 @@ export default class ErrorBoundary extends React.Component<{ children: React.Rea
   };
 
   componentDidCatch(error: Error, errorInfo: any) {
-    Sentry.captureException(new AppError(error, errorInfo));
+    captureException(new AppError(error, errorInfo));
     this.setState({ error, errorInfo });
   }
 

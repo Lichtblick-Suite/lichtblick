@@ -3,8 +3,6 @@
   "private": true,
   "dependencies": {
     "@mdi/svg": "5.7.55",
-    "@sentry/browser": "6.1.0",
-    "@sentry/types": "6.1.0",
     "cbor-js": "0.1.0",
     "chart.js": "davidswinegar/Chart.js#0785c29a4c57b3e1b4243f8163df7950a00b2a80",
     "chartjs-plugin-annotation": "0.5.7",

@@ -4,7 +4,7 @@
 
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import path from "path";
-import type { Configuration } from "webpack";
+import { Configuration, EnvironmentPlugin } from "webpack";
 
 import { WebpackArgv } from "./WebpackArgv";
 
@@ -40,7 +40,12 @@ export default (_: never, _argv: WebpackArgv): Configuration => {
       ],
     },
 
-    plugins: [new ForkTsCheckerWebpackPlugin()],
+    plugins: [
+      new EnvironmentPlugin({
+        SENTRY_DSN: process.env.SENTRY_DSN ?? null,
+      }),
+      new ForkTsCheckerWebpackPlugin(),
+    ],
 
     resolve: {
       extensions: [".js", ".ts", ".tsx", ".json"],

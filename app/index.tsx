@@ -2,6 +2,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { init as initSentry } from "@sentry/electron";
 import ReactDOM from "react-dom";
 
 import "@foxglove-studio/app/styles/global.scss";
@@ -11,6 +12,10 @@ import { getGlobalConfig } from "@foxglove-studio/app/GlobalConfig";
 import installDevtoolsFormatters from "@foxglove-studio/app/util/installDevtoolsFormatters";
 import overwriteFetch from "@foxglove-studio/app/util/overwriteFetch";
 import waitForFonts from "@foxglove-studio/app/util/waitForFonts";
+
+if (process.env.SENTRY_DSN) {
+  initSentry({ dsn: process.env.SENTRY_DSN });
+}
 
 installDevtoolsFormatters();
 overwriteFetch();

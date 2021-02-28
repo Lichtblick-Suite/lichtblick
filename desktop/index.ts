@@ -6,6 +6,7 @@
 /* eslint-disable no-restricted-syntax */
 
 import "colors";
+import { init as initSentry } from "@sentry/electron";
 import {
   app,
   shell,
@@ -22,6 +23,10 @@ import installExtension, {
 import path from "path";
 
 import colors from "@foxglove-studio/app/styles/colors.module.scss";
+
+if (process.env.SENTRY_DSN) {
+  initSentry({ dsn: process.env.SENTRY_DSN });
+}
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 

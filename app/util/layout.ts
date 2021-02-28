@@ -10,7 +10,7 @@
 //   This source code is licensed under the Apache License, Version 2.0,
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
-import * as Sentry from "@sentry/browser";
+import { captureException } from "@sentry/electron";
 import CBOR from "cbor-js";
 import { create as JsonDiffCreate } from "jsondiffpatch";
 import { compact, cloneDeep, flatMap, isEmpty, xor, uniq } from "lodash";
@@ -252,13 +252,13 @@ export const validateTabPanelConfig = (config: PanelConfig | null | undefined) =
       "A non-Tab panel config is being operated on as if it were a Tab panel.",
     );
     console.warn("Invalid Tab panel config:", config, error);
-    Sentry.captureException(error);
+    captureException(error);
     return false;
   }
   if (config && config.activeTabIdx >= config.tabs.length) {
     const error = new Error("A Tab panel has an activeTabIdx for a nonexistent tab.");
     console.warn("Invalid Tab panel config:", config, error);
-    Sentry.captureException(error);
+    captureException(error);
     return false;
   }
   return true;

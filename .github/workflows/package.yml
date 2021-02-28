@@ -13,6 +13,10 @@ jobs:
       matrix:
         node-version: [15.x]
         os: [macos-latest, ubuntu-latest]
+    env:
+      # We use a secret to avoid forks accidentally injecting our production sentry endpoint
+      # This DSN isn't actually a "secret" since it is available in the generated client source
+      SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
 
     steps:
       - uses: actions/checkout@v2

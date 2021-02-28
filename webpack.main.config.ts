@@ -4,7 +4,7 @@
 
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import path from "path";
-import { Configuration, ResolveOptions, DefinePlugin } from "webpack";
+import { Configuration, ResolveOptions, DefinePlugin, EnvironmentPlugin } from "webpack";
 
 import { WebpackArgv } from "./WebpackArgv";
 
@@ -73,6 +73,9 @@ export default (_: never, argv: WebpackArgv): Configuration => {
         MAIN_WINDOW_WEBPACK_ENTRY: rendererEntry,
         // Should match webpack-defines.d.ts
         APP_NAME: JSON.stringify("Foxglove Studio"),
+      }),
+      new EnvironmentPlugin({
+        SENTRY_DSN: process.env.SENTRY_DSN ?? null,
       }),
       new ForkTsCheckerWebpackPlugin(),
     ],

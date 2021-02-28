@@ -8,7 +8,7 @@ import HtmlWebpackPlugin from "html-webpack-plugin";
 import path from "path";
 import retext from "retext";
 import retextSmartypants from "retext-smartypants";
-import webpack, { Configuration } from "webpack";
+import webpack, { Configuration, EnvironmentPlugin } from "webpack";
 
 import { WebpackArgv } from "./WebpackArgv";
 
@@ -181,9 +181,13 @@ export default (_: never, argv: WebpackArgv): Configuration => {
         process: "process/browser",
         setImmediate: ["@foxglove-studio/app/shared/setImmediate", "default"],
       }),
+      new EnvironmentPlugin({
+        SENTRY_DSN: process.env.SENTRY_DSN ?? null,
+      }),
       new webpack.DefinePlugin({
         // Should match webpack-defines.d.ts
         APP_NAME: JSON.stringify("Foxglove Studio"),
+        SENTRY_DSN: process.env.SENTRY_DSN,
       }),
       // https://webpack.js.org/plugins/ignore-plugin/#example-of-ignoring-moment-locales
       new webpack.IgnorePlugin({

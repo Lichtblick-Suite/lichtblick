@@ -16,8 +16,7 @@
 // etc). We should generally prevent users from making mistakes in the first place, but sometimes
 // its unavoidable to bail out with a generic error message (e.g. when dragging in a malformed
 // ROS bag).
-import * as Sentry from "@sentry/browser";
-import { Severity } from "@sentry/types";
+import { captureException, Severity } from "@sentry/electron";
 import { ReactNode } from "react";
 
 import { AppError } from "@foxglove-studio/app/util/errors";
@@ -95,7 +94,7 @@ export default function sendNotification(
     const sentrySeverity =
       severity === "error" ? Severity.Error : severity === "warn" ? Severity.Warning : null;
     if (sentrySeverity) {
-      Sentry.captureException(new AppError(details, message), { level: sentrySeverity });
+      captureException(new AppError(details, message), { level: sentrySeverity });
     }
   }
 
