@@ -1661,9 +1661,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eslint/eslintrc@npm:^0.3.0":
-  version: 0.3.0
-  resolution: "@eslint/eslintrc@npm:0.3.0"
+"@eslint/eslintrc@npm:^0.4.0":
+  version: 0.4.0
+  resolution: "@eslint/eslintrc@npm:0.4.0"
   dependencies:
     ajv: ^6.12.4
     debug: ^4.1.1
@@ -1672,10 +1672,9 @@ __metadata:
     ignore: ^4.0.6
     import-fresh: ^3.2.1
     js-yaml: ^3.13.1
-    lodash: ^4.17.20
     minimatch: ^3.0.4
     strip-json-comments: ^3.1.1
-  checksum: 00e87c194672eb85dcea22ba749fb3cabdd9768e952e748b2c727940f06691c873369d75cf3bddb239301eca8c38de6e098b0de4839fa7c16a2062e536e8ff5a
+  checksum: d3f51b741997cbf36662d8b5a52985bfa5d2873e48cadccd95c67fcce1706327ec98ebb6f0be79c6ecbc31bdeca32c2b1c4f66fd1cf3934c434d1ac269cbceac
   languageName: node
   linkType: hard
 
@@ -7636,15 +7635,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"css-loader@npm:5.0.2":
-  version: 5.0.2
-  resolution: "css-loader@npm:5.0.2"
+"css-loader@npm:5.1.0":
+  version: 5.1.0
+  resolution: "css-loader@npm:5.1.0"
   dependencies:
     camelcase: ^6.2.0
     cssesc: ^3.0.0
     icss-utils: ^5.1.0
     loader-utils: ^2.0.0
-    postcss: ^8.2.4
+    postcss: ^8.2.6
     postcss-modules-extract-imports: ^3.0.0
     postcss-modules-local-by-default: ^4.0.0
     postcss-modules-scope: ^3.0.0
@@ -7654,7 +7653,7 @@ __metadata:
     semver: ^7.3.4
   peerDependencies:
     webpack: ^4.27.0 || ^5.0.0
-  checksum: 522ec665a9f32e749b9014562bbbce5291fbc6f21c0ce630570fed809638d848a9f640ff90dbb90cbdb9f9d442b93b9fc90266f5edf485480fd33258706ccaa3
+  checksum: af700ed732a4c032522390421d6092ee86b20488e2fe91f794ad78a368dbf46bb09454f48c61a24e0bbe5825bff4066ba1c607f8c4c296f7f163be6abcd9c001
   languageName: node
   linkType: hard
 
@@ -8751,16 +8750,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron@npm:12.0.0-beta.28":
-  version: 12.0.0-beta.28
-  resolution: "electron@npm:12.0.0-beta.28"
+"electron@npm:12.0.0-beta.30":
+  version: 12.0.0-beta.30
+  resolution: "electron@npm:12.0.0-beta.30"
   dependencies:
     "@electron/get": ^1.0.1
     "@types/node": ^14.6.2
     extract-zip: ^1.0.3
   bin:
     electron: cli.js
-  checksum: f2a1f7e56cf71c074415a38cc45e490bc9fc3f70f6f9328309ea5bb8ed61a1491d6291947c0f701e36a58fb30dcd6e869d5a30a2335c25adffd81f9d9978d92c
+  checksum: 1bbe1eec79090a5e275c66ccd717593945d99e719ec0c6e5694087707f141e2fdad28864fdef753fc00c2aa49bf68d8713951a8e067912611fe319dcae20f8b8
   languageName: node
   linkType: hard
 
@@ -9175,10 +9174,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"es-module-lexer@npm:^0.3.26":
-  version: 0.3.26
-  resolution: "es-module-lexer@npm:0.3.26"
-  checksum: f6a6bfb5f38e7ecdb3fb5e530a9998dcf988356757460cb5f3b86240f6150bf5084aa651984a295d820c0532d097ab5296dad73f408f70e846ad566b733910fa
+"es-module-lexer@npm:^0.4.0":
+  version: 0.4.0
+  resolution: "es-module-lexer@npm:0.4.0"
+  checksum: 41d29cc3eb7e648c535bba09e6511834cbb9d06ed4747972ad102e605e1134567a39a3b3f482b9148693a5a95caf7ffe828db9d8f1ede833b836a5d9593f1933
   languageName: node
   linkType: hard
 
@@ -9447,12 +9446,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:7.20.0":
-  version: 7.20.0
-  resolution: "eslint@npm:7.20.0"
+"eslint@npm:7.21.0":
+  version: 7.21.0
+  resolution: "eslint@npm:7.21.0"
   dependencies:
     "@babel/code-frame": 7.12.11
-    "@eslint/eslintrc": ^0.3.0
+    "@eslint/eslintrc": ^0.4.0
     ajv: ^6.10.0
     chalk: ^4.0.0
     cross-spawn: ^7.0.2
@@ -9465,7 +9464,7 @@ __metadata:
     espree: ^7.3.1
     esquery: ^1.4.0
     esutils: ^2.0.2
-    file-entry-cache: ^6.0.0
+    file-entry-cache: ^6.0.1
     functional-red-black-tree: ^1.0.1
     glob-parent: ^5.0.0
     globals: ^12.1.0
@@ -9490,7 +9489,7 @@ __metadata:
     v8-compile-cache: ^2.0.3
   bin:
     eslint: bin/eslint.js
-  checksum: 1d56cabc7e21f43b8bb6a1934f2488b27d86b018ce2246bc9b89e52931e26b306c5883f5e4ff5c6e0228e0e8673553a460e98eacc4890f9e5984002df0292123
+  checksum: aa8fd50cddc4ab259e2d0ff8f43f0601060543c12e335d76ee074bf25ad02a885bea9d48a367de736d3bdb871de7eb62e6d67930c0173cc46280ddd0f236e740
   languageName: node
   linkType: hard
 
@@ -9999,7 +9998,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"file-entry-cache@npm:^6.0.0":
+"file-entry-cache@npm:^6.0.1":
   version: 6.0.1
   resolution: "file-entry-cache@npm:6.0.1"
   dependencies:
@@ -10320,12 +10319,12 @@ __metadata:
     clean-webpack-plugin: 3.0.0
     colors: 1.4.0
     crypto-browserify: 3.12.0
-    css-loader: 5.0.2
-    electron: 12.0.0-beta.28
+    css-loader: 5.1.0
+    electron: 12.0.0-beta.30
     electron-builder: 22.10.5
     electron-devtools-installer: 3.1.1
     electron-squirrel-startup: 1.0.0
-    eslint: 7.20.0
+    eslint: 7.21.0
     eslint-config-prettier: 8.1.0
     eslint-import-resolver-webpack: 0.13.0
     eslint-plugin-header: "github:amacneil/eslint-plugin-header#notemplate"
@@ -10335,7 +10334,7 @@ __metadata:
     eslint-plugin-react-hooks: 4.2.0
     fake-indexeddb: 3.1.2
     fork-ts-checker-webpack-plugin: 6.1.0
-    html-webpack-plugin: 5.0.0
+    html-webpack-plugin: 5.2.0
     jest: 26.6.3
     jest-canvas-mock: 2.3.1
     nearley: 2.20.1
@@ -10357,7 +10356,7 @@ __metadata:
     ts-node: 9.1.1
     typescript: 4.1.5
     typescript-plugin-css-modules: 3.2.0
-    webpack: 5.21.2
+    webpack: 5.24.2
     webpack-cli: 4.5.0
     webpack-dev-server: 3.11.2
     webpack-hot-middleware: 2.25.0
@@ -11434,9 +11433,9 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"html-webpack-plugin@npm:5.0.0":
-  version: 5.0.0
-  resolution: "html-webpack-plugin@npm:5.0.0"
+"html-webpack-plugin@npm:5.2.0":
+  version: 5.2.0
+  resolution: "html-webpack-plugin@npm:5.2.0"
   dependencies:
     "@types/html-minifier-terser": ^5.0.0
     html-minifier-terser: ^5.0.1
@@ -11446,7 +11445,7 @@ fsevents@^1.2.7:
     tapable: ^2.0.0
   peerDependencies:
     webpack: ^5.20.0
-  checksum: 2b72c3639d220d0ca3b858b355905dc0df2410722c568fb8fb1814ad157f4a3726e35440783d19bc5353c130a0607afad199580fe85257883bf5e110f943a745
+  checksum: a7476f0fb75c6728754bd963f1f09abaebacf6a238bf75a852ec2b07afaa3c0c1872d74ea81175598dccd0b9375093034035a505454919a708be7c7453ca6df6
   languageName: node
   linkType: hard
 
@@ -16358,7 +16357,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"postcss@npm:^8.2.4":
+"postcss@npm:^8.2.6":
   version: 8.2.6
   resolution: "postcss@npm:8.2.6"
   dependencies:
@@ -22119,9 +22118,9 @@ typescript@4.1.5:
   languageName: node
   linkType: hard
 
-"webpack@npm:5.21.2":
-  version: 5.21.2
-  resolution: "webpack@npm:5.21.2"
+"webpack@npm:5.24.2":
+  version: 5.24.2
+  resolution: "webpack@npm:5.24.2"
   dependencies:
     "@types/eslint-scope": ^3.7.0
     "@types/estree": ^0.0.46
@@ -22132,7 +22131,7 @@ typescript@4.1.5:
     browserslist: ^4.14.5
     chrome-trace-event: ^1.0.2
     enhanced-resolve: ^5.7.0
-    es-module-lexer: ^0.3.26
+    es-module-lexer: ^0.4.0
     eslint-scope: ^5.1.1
     events: ^3.2.0
     glob-to-regexp: ^0.4.1
@@ -22151,7 +22150,7 @@ typescript@4.1.5:
       optional: true
   bin:
     webpack: bin/webpack.js
-  checksum: 0f8ec63a22a9c6a347e97e6a511f87d00f0f20abf7b62b8147de84325396f5192202e3c83f8fbad95fa7f9c35604e5a3cb5264f7ae58009ba5d9520dce04a76b
+  checksum: 18408ddd3e5d5849179d6f5ebb44bad28783315da22a19a7f5ad9901e0ef96157a1747db52745fbdb25081f1f73162313088e4895b42f725e2b1221bdcec8a6f
   languageName: node
   linkType: hard
 
