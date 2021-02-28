@@ -23,12 +23,16 @@ import delay from "@foxglove-studio/app/shared/delay";
 import signal from "@foxglove-studio/app/shared/signal";
 import sendNotification from "@foxglove-studio/app/util/sendNotification";
 
+jest.mock("dom-to-image-more-scroll-fix", () => {
+  return {
+    toBlob: jest.fn(),
+  };
+});
+
 const defaultContext = {
   takeScreenshot: noop,
   isTakingScreenshot: false,
 };
-
-jest.mock("dom-to-image-more-scroll-fix", () => ({ toBlob: jest.fn() }));
 
 function ScreenshotConsumer({ context }: { context: any }) {
   const screenshotContext = useContext(ScreenshotsContext);
@@ -70,7 +74,7 @@ describe("ScreenshotsProvider", () => {
     });
   });
 
-  it.skip("handles a dom-to-image error correctly", async () => {
+  it("handles a dom-to-image error correctly", async () => {
     const context = { ...defaultContext };
     mount(
       <MockMessagePipelineProvider>

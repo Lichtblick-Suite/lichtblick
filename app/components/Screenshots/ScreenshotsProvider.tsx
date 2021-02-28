@@ -12,7 +12,14 @@
 //   You may not use this file except in compliance with the License.
 
 import domToImage from "dom-to-image-more-scroll-fix";
-import React, { createContext, useCallback, useState, useRef, ReactNode } from "react";
+import React, {
+  createContext,
+  useCallback,
+  useState,
+  useRef,
+  ReactNode,
+  ReactElement,
+} from "react";
 
 import { useMessagePipeline } from "@foxglove-studio/app/components/MessagePipeline";
 import Logger from "@foxglove-studio/app/util/Logger";
@@ -31,7 +38,7 @@ export const ScreenshotsContext = createContext<{
 });
 
 // Must be nested in the <PlayerManager>.
-export function ScreenshotsProvider({ children }: { children: ReactNode }) {
+export function ScreenshotsProvider({ children }: { children: ReactNode }): ReactElement {
   const [isTakingScreenshot, setIsTakingScreenshot] = useState(false);
 
   const pausePlayback = useMessagePipeline(
