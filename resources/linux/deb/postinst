@@ -4,7 +4,14 @@
 ## Instead we add our apt repo as a post-install step. The user can then get app updates
 ## via their typical apt update workflow.
 
-set -e
+# Link the binary into global /usr/bin
+ln -sf '/opt/${productFilename}/${executable}' '/usr/bin/${executable}'
+
+# SUID chrome-sandbox for Electron 5+
+chmod 4755 '/opt/${productFilename}/chrome-sandbox' || true
+
+update-mime-database /usr/share/mime || true
+update-desktop-database /usr/share/applications || true
 
 # APT_SOURCE_PARTS is where apt looks for source.list files (i.e. /etc/apt/sources.list.d/)
 eval $(apt-config shell APT_SOURCE_PARTS Dir::Etc::sourceparts/d)

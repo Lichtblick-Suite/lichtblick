@@ -1,14 +1,23 @@
 name: Package
 
 on:
-  workflow_dispatch:
+  push:
+    tags:
+      - v[0-9]+.[0-9]+.[0-9]+*
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [15.x]
+        os: [macos-latest, ubuntu-latest]
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          lfs: true
       - name: Configure Node.js
         uses: actions/setup-node@v1
         with:
@@ -22,16 +31,22 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
+
       - run: yarn install --immutable
       - run: yarn run build:prod
 
-      - name: Install deb building deps
-        run: sudo apt install -y dpkg fakeroot
+      - name: Build Package
+        run: yarn package
 
-      - name: Build deb
-        run: yarn make:linux
-
-      - name: Upload deb artifact
+      - name: Upload package artifact
         uses: actions/upload-artifact@v2
         with:
-          path: out/make/deb/x64/*.deb
+          name: ${{ runner.os }}
+          if-no-files-found: error
+          path: |
+            dist/*.dmg
+            dist/*.snap
+            dist/*.AppImage
+            dist/*.deb
+            dist/*.rpm
+            dist/*.exe

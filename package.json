@@ -1,19 +1,22 @@
 {
   "name": "foxglove-studio",
-  "version": "0.0.0",
+  "version": "0.0.0-dev",
   "description": "Integrated robotics visualization and debugging.",
   "productName": "Foxglove Studio",
+  "license": "MPL-2.0",
   "productDescription": "Foxglove Studio is an highly customizable and extensible visualization and display tool for robotics.",
   "private": true,
-  "main": "./main/main.js",
+  "homepage": "https://foxglove.dev/studio",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/foxglove/studio.git"
+  },
   "author": {
     "name": "Foxglove Technologies",
-    "email": "support@foxglove.dev",
-    "url": "https://foxglove.dev/studio"
+    "email": "support@foxglove.dev"
   },
   "scripts": {
     "start": "yarn run electron .webpack",
-    "start:forge": "yarn electron-forge start --app-path .webpack",
     "build:prod": "yarn run webpack --mode production --progress",
     "build:dev": "yarn run webpack --mode development --progress",
     "serve:dev": "yarn run webpack serve --mode development --progress",
@@ -21,28 +24,17 @@
     "lint:nofix": "TIMING=1 yarn run eslint .",
     "test": "yarn run jest",
     "test:watch": "yarn run jest --watch",
-    "package:darwin": "electron-forge package --platform darwin",
-    "package:linux": "electron-forge package --platform linux",
-    "package": "electron-forge package",
-    "make:darwin": "electron-forge make --platform darwin",
-    "make:linux": "electron-forge make --platform linux",
-    "make": "electron-forge make"
-  },
-  "config": {
-    "forge": "electron-forge.config.js"
+    "package:win": "yarn package --win",
+    "package:darwin": "yarn package --mac",
+    "package:linux": "yarn package --linux",
+    "package": "electron-builder"
   },
   "workspaces": {
     "packages": [
       "app"
     ]
   },
-  "resolutions": {
-    "@electron-forge/cli/@electron-forge/core": "github:foxglove/electron-forge#workspace=@electron-forge/core&commit=f2fbb4ad230977facf09c939d761d555dfe208ff"
-  },
   "devDependencies": {
-    "@electron-forge/cli": "6.0.0-beta.54",
-    "@electron-forge/maker-deb": "6.0.0-beta.54",
-    "@electron-forge/maker-dmg": "6.0.0-beta.54",
     "@jest/types": "26.6.2",
     "@mapbox/rehype-prism": "0.5.0",
     "@mdx-js/loader": "1.6.22",
@@ -58,6 +50,7 @@
     "crypto-browserify": "3.12.0",
     "css-loader": "5.0.2",
     "electron": "12.0.0-beta.28",
+    "electron-builder": "22.10.5",
     "electron-devtools-installer": "3.1.1",
     "electron-squirrel-startup": "1.0.0",
     "eslint": "7.20.0",

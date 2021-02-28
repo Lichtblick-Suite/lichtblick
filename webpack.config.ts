@@ -51,6 +51,7 @@ const devServerConfig: WebpackConfiguration = {
         version: packageInfo.version,
         description: packageInfo.description,
         productDescription: packageInfo.productDescription,
+        license: packageInfo.license,
         author: packageInfo.author,
       }),
     }),

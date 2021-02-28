@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json.schemastore.org/electron-builder",
+  "appId": "dev.foxglove.studio",
+  "npmRebuild": false,
+  "asar": true,
+  "icon": "resources/icon/icon.icns",
+  "directories": {
+    "app": ".webpack",
+    "buildResources": "resources"
+  },
+  "linux": {
+    "target": [
+      {
+        "target": "deb",
+        "arch": ["x64", "arm64"]
+      }
+    ]
+  },
+  "win": {
+    "target": ["nsis"],
+    "rfc3161TimeStampServer": "http://timestamp.comodoca.com"
+  },
+  "mac": {
+    "target": {
+      "target": "default",
+      "arch": ["x64", "arm64"]
+    },
+    "artifactName": "${productName}-${version}-${os}-${arch}.${ext}",
+    "category": "public.app-category.developer-tools"
+  },
+  "dmg": {
+    "background": "resources/dmg-background/background.png",
+    "contents": [
+      { "x": 144, "y": 170, "type": "file" },
+      { "x": 390, "y": 170, "type": "link", "path": "/Applications" }
+    ]
+  },
+  "deb": {
+    "depends": [
+      "libgtk-3-0",
+      "libnotify4",
+      "libnss3",
+      "libxtst6",
+      "xdg-utils",
+      "libatspi2.0-0",
+      "libdrm2",
+      "libgbm1",
+      "libxcb-dri3-0"
+    ],
+    "afterInstall": "./resources/linux/deb/postinst"
+  },
+  "snap": {
+    "confinement": "classic"
+  },
+  "protocols": {
+    "name": "ssh URL",
+    "schemes": ["ssh"]
+  },
+  "publish": null
+}
