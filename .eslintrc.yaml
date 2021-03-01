@@ -34,6 +34,12 @@ settings:
   import/internal-regex: "^@foxglove-studio/"
 
 rules:
+  # https://eslint.org/docs/rules/eqeqeq
+  # Use smart mode until we change "T | null | undefined" to "T | undefined"
+  # For user input, we could make an isNullish function or leverage schema validation
+  eqeqeq:
+    - error
+    - smart
   no-console: off # configured in no-restricted-syntax
   "@typescript-eslint/ban-ts-comment": off # TODO: remove once we fix all TS issues
   # It's sometimes useful to explicitly name to guard against future changes
