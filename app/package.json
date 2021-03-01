@@ -118,7 +118,6 @@
     "@types/shallowequal": "1.1.1",
     "@types/string-hash": "1.1.1",
     "@types/styled-components": "5.1.7",
-    "@types/text-encoding": "0.0.35",
     "@types/tinycolor2": "1.4.2",
     "@types/url-search-params": "1.1.0",
     "@types/uuid": "3.4.9",
@@ -127,7 +126,6 @@
     "enzyme": "3.11.0",
     "enzyme-adapter-react-16": "1.15.6",
     "fetch-mock": "9.11.0",
-    "text-encoding": "0.7.0",
     "url-search-params": "1.1.0",
     "ws": "7.4.3"
   }
