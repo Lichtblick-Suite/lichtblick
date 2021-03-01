@@ -117,7 +117,6 @@ export default class IdbCacheWriterDataProvider implements DataProvider {
     this._extensionPoint = extensionPoint;
     this._db = await getIdbCacheDataProviderDatabase(this._id);
     this._rangesByTopic = (await this._db.get(TOPIC_RANGES_STORE_NAME, TOPIC_RANGES_KEY)) || {};
-    this._updateProgress();
 
     const result = await this._provider.initialize({
       ...extensionPoint,
@@ -130,6 +129,7 @@ export default class IdbCacheWriterDataProvider implements DataProvider {
     if (this._totalNs > Number.MAX_SAFE_INTEGER * 0.9) {
       throw new Error("Time range is too long to be supported");
     }
+    this._updateProgress();
 
     return result;
   }
@@ -257,8 +257,7 @@ export default class IdbCacheWriterDataProvider implements DataProvider {
     }
 
     // Just loop infinitely, but break if the connection is not current any more.
-    // eslint-disable-next-line no-constant-condition
-    while (true) {
+    for (;;) {
       const currentConnection = this._currentConnection;
       if (!currentConnection || !isCurrent()) {
         return;
@@ -377,11 +376,12 @@ export default class IdbCacheWriterDataProvider implements DataProvider {
   }
 
   _updateProgress() {
-    if (!this._extensionPoint || this._totalNs === undefined) {
+    if (this._totalNs === undefined) {
       throw new Error("IdbCacheWriterDataProvider not initialized");
     }
+
     const totalNs = this._totalNs;
-    this._extensionPoint.progressCallback({
+    this._extensionPoint?.progressCallback({
       fullyLoadedFractionRanges: this._getDownloadedRanges(this._getCurrentTopics()).map(
         (range) => ({
           start: range.start / totalNs,

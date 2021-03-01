@@ -185,7 +185,7 @@ describe("RenameDataProvider", () => {
         ]);
       });
 
-      it.skip("preserves block identity across successive calls", async () => {
+      it("preserves block identity across successive calls", async () => {
         const provider = getProvider();
         const combinedProvider = getRenameDataProvider(provider, "/generic_topic");
         const extensionPoint = mockExtensionPoint().extensionPoint;
@@ -211,8 +211,8 @@ describe("RenameDataProvider", () => {
         expect(cache1).not.toBe(cache2);
         expect(cache1).toEqual(cache2);
         expect(blocks1).not.toBe(blocks2);
-        expect(blocks.length).toBe(1);
-        expect(blocks1).toBe(blocks2);
+        expect(blocks1?.length).toBe(1);
+        expect(blocks1![0]).toBe(blocks2![0]);
       });
 
       it("can preserve cache identity across successive calls", async () => {

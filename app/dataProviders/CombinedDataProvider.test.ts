@@ -532,7 +532,7 @@ describe("CombinedDataProvider", () => {
       ]);
     });
 
-    it.skip("does not call getMessages with out of bound times", async () => {
+    it("does not call getMessages with out of bound times", async () => {
       const p1 = new MemoryDataProvider({
         messages: {
           parsedMessages: [
@@ -546,7 +546,7 @@ describe("CombinedDataProvider", () => {
         datatypes: {},
         providesParsedMessages: true,
       });
-      jest.spyOn(p1, "getMessages");
+      const getMessagesP1Spy = jest.spyOn(p1, "getMessages");
       const p2 = new MemoryDataProvider({
         messages: {
           parsedMessages: [
@@ -568,7 +568,7 @@ describe("CombinedDataProvider", () => {
         datatypes: {},
         providesParsedMessages: true,
       });
-      const getMessagesSpy = jest.spyOn(p2, "getMessages");
+      const getMessagesP2Spy = jest.spyOn(p2, "getMessages");
       const combinedProvider = getCombinedDataProvider([{ provider: p1 }, { provider: p2 }]);
       const result = await combinedProvider.initialize(mockExtensionPoint().extensionPoint);
 
@@ -582,12 +582,12 @@ describe("CombinedDataProvider", () => {
         { parsedMessages: ["/some_topic", "/some_topic2"] },
       );
       expect(messages.parsedMessages?.length).toEqual(2);
-      expect(getMessagesSpy.mock.calls[0]).toEqual([
+      expect(getMessagesP1Spy.mock.calls[0]).toEqual([
         { sec: 100, nsec: 0 },
         { sec: 130, nsec: 0 },
         { parsedMessages: ["/some_topic"] },
       ]);
-      expect(getMessagesSpy.mock.calls.length).toEqual(0);
+      expect(getMessagesP2Spy.mock.calls.length).toEqual(0);
     });
 
     it("merges messages of various types", async () => {

@@ -11,9 +11,6 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-// Node has a TextDecoder in util, but it doesn't support the ascii encoding used in binary message
-// rewriting.
-import { TextDecoder } from "text-encoding";
 import UrlSearchParams from "url-search-params";
 import util from "util";
 import ws from "ws";
@@ -41,7 +38,7 @@ if (typeof window !== "undefined") {
 
   global.cancelAnimationFrame = window.cancelAnimationFrame =
     global.cancelAnimationFrame || ((id) => clearTimeout(id));
-  global.TextDecoder = TextDecoder;
+  global.TextDecoder = util.TextDecoder as typeof TextDecoder;
   // polyfill URLSearchParams in jsdom
   window.URLSearchParams = UrlSearchParams;
 }

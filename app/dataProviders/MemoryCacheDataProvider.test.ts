@@ -72,7 +72,7 @@ function generateMessagesForLongInput(): BobjectMessage[] {
   ]);
 }
 
-function getProvider(bobjects: BobjectMessage[]) {
+function getProvider(bobjects: BobjectMessage[], unlimitedCache: boolean = false) {
   const messages = { parsedMessages: undefined, bobjects, rosBinaryMessages: undefined };
   const memoryDataProvider = new MemoryDataProvider({
     messages,
@@ -80,7 +80,7 @@ function getProvider(bobjects: BobjectMessage[]) {
   });
   return {
     provider: new MemoryCacheDataProvider(
-      { id: "some-id" },
+      { id: "some-id", unlimitedCache },
       [{ name: CoreDataProviders.MemoryCacheDataProvider, args: {}, children: [] }],
       () => memoryDataProvider,
     ),
@@ -235,7 +235,7 @@ describe("MemoryCacheDataProvider", () => {
   });
 
   it("does not stop prefetching with unlimitedCache", async () => {
-    const { provider } = getProvider(generateLargeMessages());
+    const { provider } = getProvider(generateLargeMessages(), true);
     const { extensionPoint } = mockExtensionPoint();
     const mockProgressCallback = jest.spyOn(extensionPoint, "progressCallback");
 
@@ -253,7 +253,7 @@ describe("MemoryCacheDataProvider", () => {
     ]);
   });
 
-  it.skip("prefetches after the last request", async () => {
+  it("prefetches after the last request", async () => {
     const { provider } = getProvider(generateLargeMessages());
     // Fit four 600 byte messages into our memory budget. (getBlocksToKeep leaves the cache over-full
     // and will evict blocks until five messages are present.)
@@ -273,18 +273,17 @@ describe("MemoryCacheDataProvider", () => {
     // The initial read request loads from 0s to 1s, containing one message at 0s.
     // The second read prefetches the four messages at 10s, 12s, 14s and 16s, holding the blocks
     // from 10s to 16.1s.
-    expect(last(mockProgressCallback.mock.calls)).toEqual([
-      {
-        fullyLoadedFractionRanges: [
-          { start: 0, end: 10 / 201 },
-          { start: 100 / 201, end: 161 / 201 },
-        ],
-        messageCache: {
-          startTime: { sec: 0, nsec: 0 },
-          blocks: expect.arrayContaining([]),
-        },
-      },
-    ]);
+    const progress = last(mockProgressCallback.mock.calls)?.[0] ?? {};
+    const loadedRanges = progress.fullyLoadedFractionRanges ?? [];
+    expect(loadedRanges).toHaveLength(2);
+    expect(loadedRanges[0].start).toBe(0);
+    expect(loadedRanges[0].end).toBeGreaterThanOrEqual(10 / 201);
+    expect(loadedRanges[1].start).toBe(100 / 201);
+    expect(loadedRanges[1].end).toBeGreaterThanOrEqual(161 / 201);
+    expect(progress.messageCache).toEqual({
+      startTime: { sec: 0, nsec: 0 },
+      blocks: expect.arrayContaining([]),
+    });
   });
 
   it("returns messages", async () => {

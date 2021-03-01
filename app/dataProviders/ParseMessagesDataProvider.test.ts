@@ -61,7 +61,7 @@ const dummyExtensionPoint = {
 };
 
 describe("ParseMessagesDataProvider", () => {
-  it.skip("initializes", async () => {
+  it("initializes", async () => {
     const provider = getProvider();
     const result = await provider.initialize(dummyExtensionPoint);
     expect(result.start).toEqual({ sec: 1396293887, nsec: 844783943 });
@@ -96,7 +96,7 @@ describe("ParseMessagesDataProvider", () => {
     ]);
   });
 
-  it.skip("gets messages", async () => {
+  it("gets messages", async () => {
     const provider = getProvider();
     await provider.initialize(dummyExtensionPoint);
     const start = { sec: 1396293887, nsec: 844783943 };

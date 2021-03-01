@@ -65,7 +65,7 @@ describe("IdbCacheWriterDataProvider", () => {
     getDatabasesInTests().clear();
   });
 
-  it.skip("initializes", async () => {
+  it("initializes", async () => {
     const { provider } = getProvider();
     const { extensionPoint } = mockExtensionPoint();
     expect(await provider.initialize(extensionPoint)).toEqual({
@@ -80,7 +80,7 @@ describe("IdbCacheWriterDataProvider", () => {
     });
   });
 
-  it.skip("suppresses the underlying progress updates, and only publishes its own", async () => {
+  it("suppresses the underlying progress updates, and only publishes its own", async () => {
     const { provider, memoryDataProvider } = getProvider();
     const { extensionPoint } = mockExtensionPoint();
     const mockProgressCallback = jest.spyOn(extensionPoint, "progressCallback");
@@ -92,7 +92,7 @@ describe("IdbCacheWriterDataProvider", () => {
     ]);
   });
 
-  it.skip("loads when calling getMessages", async () => {
+  it("loads when calling getMessages", async () => {
     const { provider } = getProvider();
     const { extensionPoint } = mockExtensionPoint();
     const mockProgressCallback = jest.spyOn(extensionPoint, "progressCallback");
@@ -117,7 +117,7 @@ describe("IdbCacheWriterDataProvider", () => {
     expect(messages.map(({ value }) => value.message)).toEqual(generateMessages(["/foo"]));
   });
 
-  it.skip("doesn't load the same messages twice", async () => {
+  it("doesn't load the same messages twice", async () => {
     const { provider } = getProvider();
 
     await provider.initialize(mockExtensionPoint().extensionPoint);
@@ -152,7 +152,7 @@ describe("IdbCacheWriterDataProvider", () => {
   // When this happens, we still have a promise to resolve, and we can't keep it unresolved because
   // then the part of the application that is waiting for that promise might lock up, and we cannot
   // resolve it with the newer topics because that would violate the API.
-  it.skip("still loads old topics when there is a getMessages call pending while getMessages gets called", async () => {
+  it("still loads old topics when there is a getMessages call pending while getMessages gets called", async () => {
     const { provider } = getProvider();
     const { extensionPoint } = mockExtensionPoint();
     jest.spyOn(extensionPoint, "progressCallback");
