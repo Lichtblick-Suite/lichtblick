@@ -19,7 +19,7 @@
     "start": "yarn run electron .webpack",
     "build:prod": "yarn run webpack --mode production --progress",
     "build:dev": "yarn run webpack --mode development --progress",
-    "serve:dev": "yarn run webpack serve --mode development --progress",
+    "serve": "yarn run webpack serve --mode development --progress",
     "lint": "TIMING=1 yarn run eslint --fix .",
     "lint:nofix": "TIMING=1 yarn run eslint .",
     "test": "yarn run jest",
