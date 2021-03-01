@@ -11,9 +11,10 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-// @ts-nocheck Worker APIs are not present in the regular TS libs
+declare const SharedWorkerGlobalScope: any;
+declare const WorkerGlobalScope: any;
 
-export const inWebWorker = () => {
+export const inWebWorker = (): boolean => {
   return (
     typeof global.postMessage === "undefined" &&
     typeof WorkerGlobalScope !== "undefined" &&
@@ -22,10 +23,8 @@ export const inWebWorker = () => {
 };
 
 // To debug shared workers, enter 'chrome://inspect/#workers' into the url bar.
-export const inSharedWorker = () =>
+export const inSharedWorker = (): boolean =>
   typeof SharedWorkerGlobalScope !== "undefined" && self instanceof SharedWorkerGlobalScope;
-
-/* eslint-enable no-undef */
 
 export const enforceFetchIsBlocked = <R, Args extends ReadonlyArray<unknown>>(
   fn: (...args: Args) => R,

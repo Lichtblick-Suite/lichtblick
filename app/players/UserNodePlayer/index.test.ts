@@ -11,9 +11,6 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-// @ts-nocheck
-
-// @ts-expect-error flow imports have any type
 import FakePlayer from "@foxglove-studio/app/components/MessagePipeline/FakePlayer";
 import NodePlayer from "@foxglove-studio/app/players/NodePlayer";
 import UserNodePlayer from "@foxglove-studio/app/players/UserNodePlayer";
@@ -24,9 +21,14 @@ import {
   ErrorCodes,
 } from "@foxglove-studio/app/players/UserNodePlayer/types";
 import MockUserNodePlayerWorker from "@foxglove-studio/app/players/UserNodePlayer/worker.mock";
-import { SubscribePayload, Message, BobjectMessage } from "@foxglove-studio/app/players/types";
+import { NodeDefinition } from "@foxglove-studio/app/players/nodes";
+import {
+  SubscribePayload,
+  Message,
+  BobjectMessage,
+  PlayerStateActiveData,
+} from "@foxglove-studio/app/players/types";
 import signal from "@foxglove-studio/app/shared/signal";
-// @ts-expect-error flow imports have any type
 import { wrapMessages } from "@foxglove-studio/app/test/datatypes";
 import Storage from "@foxglove-studio/app/util/Storage";
 import { deepParse } from "@foxglove-studio/app/util/binaryObjects";
@@ -36,7 +38,7 @@ import { DEFAULT_WEBVIZ_NODE_PREFIX } from "@foxglove-studio/app/util/globalCons
 const storage = new Storage();
 const nodeId = "nodeId";
 
-const hardcodedNode = {
+const hardcodedNode: NodeDefinition<any> = {
   inputs: ["/input/foo", "/input/bar"],
   output: { name: "/webviz/test", datatype: "test" },
   datatypes: { test: { fields: [{ type: "string", name: "foo" }] } },
@@ -103,7 +105,7 @@ const defaultUserNodeActions = {
   setUserNodeRosLib: jest.fn(),
 };
 
-const basicPlayerState = {
+const basicPlayerState: PlayerStateActiveData = {
   startTime: { sec: 0, nsec: 0 },
   endTime: { sec: 1, nsec: 0 },
   isPlaying: true,
@@ -265,7 +267,7 @@ describe("UserNodePlayer", () => {
 
     it("subscribes to Webviz node topic when subscribed to, if it exists as an active Webviz node topic", () => {
       const fakePlayer = new FakePlayer();
-      jest.spyOn(fakePlayer, "setSubscriptions");
+      const setSubscriptionMock = jest.spyOn(fakePlayer, "setSubscriptions");
       const nodePlayer = new NodePlayer(fakePlayer, [hardcodedNode]);
       const userNodePlayer = new UserNodePlayer(nodePlayer, defaultUserNodeActions);
       const messages = [];
@@ -276,7 +278,7 @@ describe("UserNodePlayer", () => {
         { topic: "/webviz/test", format: "parsedMessages" },
         { topic: "/input/baz", format: "parsedMessages" },
       ]);
-      expect(fakePlayer.setSubscriptions.mock.calls).toEqual([
+      expect(setSubscriptionMock.mock.calls).toEqual([
         [
           [
             { topic: "/input/baz", format: "parsedMessages" },
@@ -334,7 +336,7 @@ describe("UserNodePlayer", () => {
         datatypes: { foo: { fields: [] } },
       });
 
-      const { topicNames, messages } = await done;
+      const { topicNames, messages }: any = await done;
 
       expect(mockSetNodeDiagnostics).toHaveBeenCalledWith({ nodeId: { diagnostics: [] } });
       expect(messages.length).toEqual(0);
@@ -355,7 +357,7 @@ describe("UserNodePlayer", () => {
 
       const [done1, done2, done3] = setListenerHelper(userNodePlayer, 3);
 
-      const playerState = {
+      const playerState: PlayerStateActiveData = {
         ...basicPlayerState,
         messages: [],
         messageOrder: "receiveTime",
@@ -365,7 +367,7 @@ describe("UserNodePlayer", () => {
       };
 
       fakePlayer.emit(playerState);
-      const { topics: firstTopics, datatypes: firstDatatypes } = await done1;
+      const { topics: firstTopics, datatypes: firstDatatypes }: any = await done1;
       expect(firstTopics).toEqual([
         { name: "/np_input", datatype: "/np_input_datatype" },
         { name: "/webviz_node/1", datatype: `${DEFAULT_WEBVIZ_NODE_PREFIX}1` },
@@ -383,13 +385,13 @@ describe("UserNodePlayer", () => {
 
       // Seek should keep topics memoized.
       fakePlayer.emit({ ...playerState, lastSeekTime: 123 });
-      const { topics: secondTopics, datatypes: secondDatatypes } = await done2;
+      const { topics: secondTopics, datatypes: secondDatatypes }: any = await done2;
       expect(secondTopics).toBe(firstTopics);
       expect(secondDatatypes).toBe(firstDatatypes);
 
       // Changing topics/datatypes should not memoize.
       fakePlayer.emit({ ...playerState, topics: [], datatypes: {} });
-      const { topics: thirdTopics, datatypes: thirdDatatypes } = await done3;
+      const { topics: thirdTopics, datatypes: thirdDatatypes }: any = await done3;
       expect(thirdTopics).not.toBe(firstTopics);
       expect(thirdDatatypes).not.toBe(firstDatatypes);
     });
@@ -426,7 +428,7 @@ describe("UserNodePlayer", () => {
         datatypes: { foo: { fields: [] } },
       });
 
-      const { messages } = await done;
+      const { messages }: any = await done;
 
       fakePlayer.emit({
         ...basicPlayerState,
@@ -437,7 +439,7 @@ describe("UserNodePlayer", () => {
         datatypes: { foo: { fields: [] } },
       });
 
-      const { messages: newMessages } = await nextDone;
+      const { messages: newMessages }: any = await nextDone;
 
       expect(mockAddUserNodeLogs).toHaveBeenCalledTimes(1);
       expect(messages).toBe(newMessages);
@@ -458,10 +460,10 @@ describe("UserNodePlayer", () => {
         datatypes: { foo: { fields: [] } },
       });
 
-      const { topicNames } = await done;
+      const { topicNames }: any = await done;
       userNodePlayer.setUserNodes({ nodeId: { name: "someNodeName", sourceCode: nodeUserCode } });
       userNodePlayer.setSubscriptions(
-        topicNames.map((topic) => ({ topic, format: "parsedMessages" })),
+        topicNames.map((topic: any) => ({ topic, format: "parsedMessages" })),
       );
       expect(fakePlayer.subscriptions).toEqual([{ topic: "/np_input", format: "parsedMessages" }]);
     });
@@ -485,7 +487,7 @@ describe("UserNodePlayer", () => {
         datatypes: { foo: { fields: [] } },
       });
 
-      const { messages, topicNames } = await done;
+      const { messages, topicNames }: any = await done;
       expect(topicNames).toEqual(["/np_input", `${DEFAULT_WEBVIZ_NODE_PREFIX}1`]);
       expect(messages).toEqual([]);
     });
@@ -512,7 +514,7 @@ describe("UserNodePlayer", () => {
         datatypes: { foo: { fields: [] } },
       });
 
-      const { messages } = await done;
+      const { messages }: any = await done;
 
       expect(messages).toEqual([
         {
@@ -641,7 +643,7 @@ describe("UserNodePlayer", () => {
         datatypes: { foo: { fields: [] } },
       });
 
-      const { messages } = await done;
+      const { messages }: any = await done;
 
       expect(messages).toEqual([
         {
@@ -687,7 +689,7 @@ describe("UserNodePlayer", () => {
         datatypes: { foo: { fields: [] } },
       });
 
-      const result = await done;
+      const result: any = await done;
       expect(result.messages).toEqual([]);
 
       fakePlayer.emit({
@@ -699,7 +701,7 @@ describe("UserNodePlayer", () => {
         datatypes: { foo: { fields: [] } },
       });
 
-      const nextResult = await nextDone;
+      const nextResult: any = await nextDone;
       expect(nextResult.messages).toEqual([
         {
           topic: `${DEFAULT_WEBVIZ_NODE_PREFIX}1`,
@@ -741,7 +743,7 @@ describe("UserNodePlayer", () => {
         datatypes: { foo: { fields: [] }, "std_msgs/Header": { fields: [] } },
       });
 
-      const { messages, topics } = await done;
+      const { messages, topics }: any = await done;
 
       expect(messages).toHaveLength(1);
       expect(topics).toEqual([
@@ -804,7 +806,7 @@ describe("UserNodePlayer", () => {
         datatypes: { foo: { fields: [] }, "std_msgs/Header": { fields: [] } },
       });
 
-      const { messages } = await done;
+      const { messages }: any = await done;
 
       expect(messages).toHaveLength(2);
       expect(messages).toEqual([
@@ -866,7 +868,7 @@ describe("UserNodePlayer", () => {
         datatypes: { foo: { fields: [] }, "std_msgs/Header": { fields: [] } },
       });
 
-      const { messages } = await secondDone;
+      const { messages }: any = await secondDone;
 
       expect(messages[messages.length - 1].message).toEqual({
         innerState: 1,
@@ -978,7 +980,7 @@ describe("UserNodePlayer", () => {
         datatypes: { foo: { fields: [] }, "std_msgs/Header": { fields: [] } },
       });
 
-      const { topicNames, messages } = await done;
+      const { topicNames, messages }: any = await done;
       expect(mockSetNodeDiagnostics).toHaveBeenLastCalledWith({
         nodeId: {
           diagnostics: [
@@ -992,7 +994,9 @@ describe("UserNodePlayer", () => {
         },
       });
       // Sanity check to ensure none of the user node messages made it through if there was an error.
-      expect(messages.map(({ topic }) => topic)).not.toContain(`${DEFAULT_WEBVIZ_NODE_PREFIX}1`);
+      expect(messages.map(({ topic }: any) => topic)).not.toContain(
+        `${DEFAULT_WEBVIZ_NODE_PREFIX}1`,
+      );
       expect(topicNames).toEqual(["/np_input", `${DEFAULT_WEBVIZ_NODE_PREFIX}1`]);
     });
 
@@ -1015,7 +1019,7 @@ describe("UserNodePlayer", () => {
         datatypes: { foo: { fields: [] }, "std_msgs/Header": { fields: [] } },
       });
 
-      const { topicNames: firstTopicNames } = await firstDone;
+      const { topicNames: firstTopicNames }: any = await firstDone;
       expect(firstTopicNames).toEqual(["/np_input", `${DEFAULT_WEBVIZ_NODE_PREFIX}1`]);
 
       userNodePlayer.setUserNodes({});
@@ -1027,7 +1031,7 @@ describe("UserNodePlayer", () => {
         topics: [{ name: "/np_input", datatype: "std_msgs/Header" }],
         datatypes: { foo: { fields: [] }, "std_msgs/Header": { fields: [] } },
       });
-      const { topicNames: secondTopicNames } = await secondDone;
+      const { topicNames: secondTopicNames }: any = await secondDone;
       expect(secondTopicNames).toEqual(["/np_input"]);
     });
     it("properly sets diagnostics when there is an error", async () => {
@@ -1127,7 +1131,7 @@ describe("UserNodePlayer", () => {
           datatypes: { foo: { fields: [] }, "std_msgs/Header": { fields: [] } },
         });
 
-        const { topicNames } = await done;
+        const { topicNames }: any = await done;
         expect(mockAddNodeLogs).toHaveBeenCalled();
         expect(mockAddNodeLogs.mock.calls).toEqual(logs.map((log) => [{ nodeId: { logs: log } }]));
         expect(topicNames).toEqual(["/np_input", `${DEFAULT_WEBVIZ_NODE_PREFIX}1`]);
@@ -1174,7 +1178,7 @@ describe("UserNodePlayer", () => {
         ]);
         userNodePlayer.setUserNodes({ nodeId: { name: "nodeName", sourceCode: code } });
 
-        const { topicNames } = await done;
+        const { topicNames }: any = await done;
         expect(mockAddNodeLogs.mock.calls).toEqual([]);
         expect(topicNames).toEqual(["/np_input"]);
       });
@@ -1224,7 +1228,7 @@ describe("UserNodePlayer", () => {
           datatypes: { foo: { fields: [] }, "std_msgs/Header": { fields: [] } },
         });
 
-        const { topics } = await done;
+        const { topics }: any = await done;
         expect(topics).toEqual([
           { name: "/np_input", datatype: "std_msgs/Header" },
           {
@@ -1264,7 +1268,7 @@ describe("UserNodePlayer", () => {
           datatypes: exampleDatatypes,
         });
 
-        const { topics } = await done;
+        const { topics }: any = await done;
         expect(topics).toEqual([
           { name: "/np_input", datatype: "std_msgs/Header" },
           { name: `${DEFAULT_WEBVIZ_NODE_PREFIX}state`, datatype: "std_msgs/Header" },
@@ -1289,7 +1293,7 @@ describe("UserNodePlayer", () => {
           },
         });
 
-        const playerState = {
+        const playerState: PlayerStateActiveData = {
           ...basicPlayerState,
           bobjects: [upstreamMessages[0]],
           messageOrder: "receiveTime",
@@ -1299,7 +1303,7 @@ describe("UserNodePlayer", () => {
         };
         fakePlayer.emit(playerState);
 
-        const { messages } = await done;
+        const { messages }: any = await done;
         expect(messages).toEqual([
           {
             topic: `${DEFAULT_WEBVIZ_NODE_PREFIX}1`,
@@ -1311,7 +1315,7 @@ describe("UserNodePlayer", () => {
         userNodePlayer.setGlobalVariables({ globalValue: "bbb" });
         fakePlayer.emit(playerState);
 
-        const { messages: messages2 } = await done2;
+        const { messages: messages2 }: any = await done2;
         expect(messages2).toEqual([
           {
             topic: `${DEFAULT_WEBVIZ_NODE_PREFIX}1`,
@@ -1349,7 +1353,7 @@ describe("UserNodePlayer", () => {
         datatypes,
       });
 
-      const { messages, bobjects } = await done;
+      const { messages, bobjects }: any = await done;
 
       return { messages, bobjects };
     };
@@ -1452,8 +1456,8 @@ describe("UserNodePlayer", () => {
         datatypes: { foo: { fields: [] } },
       });
 
-      const { bobjects } = await done;
-      const nodeBobjects = bobjects.filter(({ topic }) => topic !== "/np_input");
+      const { bobjects }: any = await done;
+      const nodeBobjects = bobjects.filter(({ topic }: any) => topic !== "/np_input");
       expect(nodeBobjects).toHaveLength(1);
       expect(deepParse(nodeBobjects[0].message)).toEqual({});
     });
@@ -1482,12 +1486,13 @@ describe("UserNodePlayer", () => {
     let userNodePlayer: any;
     let emit: any;
     let expectFromSource: any;
-    const callCount = (action: any) => {
-      return MockUserNodePlayerWorker.prototype.messageSpy.mock.calls.filter(([a]) => a === action)
-        .length;
-    };
+    let callCount: any;
+
     beforeEach(() => {
-      jest.spyOn(MockUserNodePlayerWorker.prototype, "messageSpy");
+      const messageSpy = jest.spyOn(MockUserNodePlayerWorker.prototype, "messageSpy");
+      callCount = (action: any) => {
+        return messageSpy.mock.calls.filter(([a]) => a === action).length;
+      };
 
       fakePlayer = new FakePlayer();
       userNodePlayer = new UserNodePlayer(fakePlayer, defaultUserNodeActions);
@@ -1517,7 +1522,7 @@ describe("UserNodePlayer", () => {
       jest.restoreAllMocks();
     });
 
-    const [userNode0, userNode1, userNode2] = new Array(3).fill().map((_, i) => {
+    const [userNode0, userNode1, userNode2] = new Array(3).fill(0).map((_, i) => {
       return {
         name: `${DEFAULT_WEBVIZ_NODE_PREFIX}0`,
         sourceCode: `
@@ -1539,34 +1544,34 @@ describe("UserNodePlayer", () => {
       // New node 0, needs registration
       await userNodePlayer.setUserNodes({ nodeId0: userNode0 });
       emit();
-      const { messages: messages0 } = await donePromises[0];
+      const { messages: messages0 }: any = await donePromises[0];
       expectFromSource(messages0, 0);
       expect(callCount("transform")).toBe(1);
 
       // New node 1, needs registration
       await userNodePlayer.setUserNodes({ nodeId1: userNode1 });
       emit();
-      const { messages: messages1 } = await donePromises[1];
+      const { messages: messages1 }: any = await donePromises[1];
       expectFromSource(messages1, 1);
       expect(callCount("transform")).toBe(2);
 
       // Should use cached registration from 0
       await userNodePlayer.setUserNodes({ nodeId0: userNode0 });
       emit();
-      const { messages: messages2 } = await donePromises[2];
+      const { messages: messages2 }: any = await donePromises[2];
       expectFromSource(messages2, 0);
       expect(callCount("transform")).toBe(2); // Still 2
 
       // Should use cached registration from 1
       await userNodePlayer.setUserNodes({ nodeId0: userNode0 });
       emit();
-      const { messages: messages3 } = await donePromises[3];
+      const { messages: messages3 }: any = await donePromises[3];
       expectFromSource(messages3, 0);
       expect(callCount("transform")).toBe(2); // Still 2
 
       await userNodePlayer.setUserNodes({ nodeId2: userNode2 });
       emit();
-      const { messages: messages4 } = await donePromises[4];
+      const { messages: messages4 }: any = await donePromises[4];
       expectFromSource(messages4, 2);
       expect(callCount("transform")).toBe(3);
 

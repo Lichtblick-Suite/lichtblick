@@ -11,8 +11,6 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-// @ts-nocheck deprecated component
-
 import { mount } from "enzyme";
 import { createMemoryHistory } from "history";
 import { last } from "lodash";
@@ -48,14 +46,14 @@ describe("<MessageHistoryDEPRECATED />", () => {
         setSubscriptions={setSubscriptions}
       >
         <MessageHistoryDEPRECATED paths={["/some/topic", "/some/other/topic"]}>
-          {() => null}
+          {() => <></>}
         </MessageHistoryDEPRECATED>
       </MockMessagePipelineProvider>,
     );
 
     provider.setProps({
       children: (
-        <MessageHistoryDEPRECATED paths={["/some/topic"]}>{() => null}</MessageHistoryDEPRECATED>
+        <MessageHistoryDEPRECATED paths={["/some/topic"]}>{() => <></>}</MessageHistoryDEPRECATED>
       ),
     });
 
@@ -82,7 +80,7 @@ describe("<MessageHistoryDEPRECATED />", () => {
     const setSubscriptions = jest.fn();
     const provider = mount(
       <MockMessagePipelineProvider setSubscriptions={setSubscriptions}>
-        <MessageHistoryDEPRECATED paths={["/some/topic"]}>{() => null}</MessageHistoryDEPRECATED>
+        <MessageHistoryDEPRECATED paths={["/some/topic"]}>{() => <></>}</MessageHistoryDEPRECATED>
       </MockMessagePipelineProvider>,
     );
 
@@ -90,7 +88,7 @@ describe("<MessageHistoryDEPRECATED />", () => {
     provider.setProps({
       children: (
         <MessageHistoryDEPRECATED paths={["/some/topic", "/some/other/topic"]}>
-          {() => null}
+          {() => <></>}
         </MessageHistoryDEPRECATED>
       ),
     });
@@ -581,7 +579,7 @@ describe("<MessageHistoryDEPRECATED />", () => {
         <MessageHistoryDEPRECATED paths={paths}>
           {({ itemsByPath }) => {
             itemsByPath1 = itemsByPath;
-            return null;
+            return <></>;
           }}
         </MessageHistoryDEPRECATED>
       </MockMessagePipelineProvider>,
@@ -591,7 +589,7 @@ describe("<MessageHistoryDEPRECATED />", () => {
         <MessageHistoryDEPRECATED paths={paths}>
           {({ itemsByPath }) => {
             itemsByPath2 = itemsByPath;
-            return null;
+            return <></>;
           }}
         </MessageHistoryDEPRECATED>
       ),
