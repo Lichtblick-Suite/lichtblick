@@ -15,37 +15,75 @@ import debouncePromise from "./debouncePromise";
 import signal from "@foxglove-studio/app/shared/signal";
 
 describe("debouncePromise", () => {
-  it.skip("debounces with resolved and rejected promises", async () => {
-    const promises = [Promise.resolve(), Promise.reject(), Promise.reject(), Promise.resolve()];
+  it("debounces with resolved and rejected signals", async () => {
+    // These signals allow us to precisely control and wait for when calls to the debounced function start/finish.
+    const callsStarted = [signal(), signal(), signal(), signal()]; // indicate when the debounced function is called
+    const callReturns = [signal(), signal(), signal(), signal()]; // allows test code to "release" pending calls by letting them finish
+    const callsFinished = [signal(), signal(), signal(), signal()]; // indicate when the .currentPromise completes
 
-    let calls = 0;
+    let numCallsStarted = 0;
     const debouncedFn = debouncePromise(() => {
-      ++calls;
-      return promises.shift()!;
+      callsStarted[numCallsStarted].resolve();
+      const promise = callReturns[numCallsStarted];
+      ++numCallsStarted;
+      return promise;
     });
 
-    expect(calls).toBe(0);
+    let prevExpectedCallsStarted = 0;
+    function expectCallsStarted(expectedNum: number) {
+      expect(numCallsStarted).toBe(expectedNum);
+      // Whenever a new call is started, attach handlers to the currentPromise.
+      // We need to take care to do this only once per actual call started.
+      if (expectedNum !== prevExpectedCallsStarted) {
+        const finishedSignal = callsFinished[prevExpectedCallsStarted];
+        debouncedFn.currentPromise?.then(
+          () => finishedSignal.resolve(),
+          (err) => finishedSignal.reject(err),
+        );
+      }
+      prevExpectedCallsStarted = expectedNum;
+    }
 
+    // The first call is allowed to start immediately.
     debouncedFn();
-    debouncedFn();
-    debouncedFn();
-    debouncedFn();
-    expect(calls).toBe(1);
+    expectCallsStarted(1);
 
-    await Promise.resolve();
-    expect(calls).toBe(2);
+    // Subsequent calls are queued up and a single queued call starts after the first one finishes.
+    // After the second finishes, no more calls should be pending.
+    debouncedFn();
+    debouncedFn();
+    debouncedFn();
+    expectCallsStarted(1);
+    callReturns[0].resolve();
+    await callsStarted[0];
+    await callsStarted[1];
+    expectCallsStarted(2);
+    callReturns[1].reject(new Error("1"));
+    expect(debouncedFn.currentPromise).toBeDefined();
+    await callsFinished[0];
+    await expect(callsFinished[1]).rejects.toThrow("1");
+    expectCallsStarted(2);
     expect(debouncedFn.currentPromise).toBeUndefined();
 
+    // Now we can immediately start a third call.
     debouncedFn();
-    expect(calls).toBe(3);
+    expectCallsStarted(3);
+    await callsStarted[2];
     expect(debouncedFn.currentPromise).toBeDefined();
 
+    // The previous call is still running, so we don't start a new call yet.
     debouncedFn();
-    expect(calls).toBe(3);
-    await Promise.resolve();
-    expect(calls).toBe(4);
+    expectCallsStarted(3);
+    callReturns[2].reject(new Error("2"));
+    await expect(callsFinished[2]).rejects.toThrow("2");
+    // After the 3rd call finishes, the 4th can begin.
+    await callsStarted[3];
+    expectCallsStarted(4);
+    expect(debouncedFn.currentPromise).toBeDefined();
+    callReturns[3].resolve();
+    await callsFinished[3];
     expect(debouncedFn.currentPromise).toBeUndefined();
-    expect(promises).toHaveLength(0);
+    expectCallsStarted(4);
   });
 
   it("provides currentPromise to wait on the current call", async () => {
