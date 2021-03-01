@@ -54,8 +54,8 @@ export default class VirtualLRUBuffer {
 
   constructor(options: { size: number; blockSize?: number; numberOfBlocks?: number }) {
     this.byteLength = options.size;
-    this._blockSize = options.blockSize || this._blockSize;
-    this._numberOfBlocks = options.numberOfBlocks || this._numberOfBlocks;
+    this._blockSize = options.blockSize ?? this._blockSize;
+    this._numberOfBlocks = options.numberOfBlocks ?? this._numberOfBlocks;
   }
 
   // Check if the range between `start` (inclusive) and `end` (exclusive) fully contains data
@@ -152,7 +152,7 @@ export default class VirtualLRUBuffer {
       // copy to a new buffer in `VirtualLRUBuffer#slice` (less garbage collection), or if the current method
       // is better (faster slicing).
       const deleteIndex = this._lastAccessedBlockIndices.shift();
-      if (deleteIndex) {
+      if (deleteIndex !== undefined) {
         delete this._blocks[deleteIndex];
         // Remove the range that we evicted from `_rangesWithData`, since the range doesn't have data now.
         this._rangesWithData = simplify(

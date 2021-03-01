@@ -67,7 +67,7 @@ const logger = new Logger("CachedFilelike");
 export default class CachedFilelike implements Filelike {
   _fileReader: FileReader;
   _cacheSizeInBytes: number = Infinity;
-  _fileSize: number;
+  _fileSize?: number;
   _virtualBuffer: VirtualLRUBuffer;
   _logFn: (arg0: string) => void = (msg) => logger.info(msg);
   _closed: boolean = false;
@@ -95,13 +95,12 @@ export default class CachedFilelike implements Filelike {
     this._fileReader = options.fileReader;
     this._cacheSizeInBytes = options.cacheSizeInBytes || this._cacheSizeInBytes;
     this._logFn = options.logFn || this._logFn;
-    this._fileSize = 0;
     this._keepReconnectingCallback = options.keepReconnectingCallback;
     this._virtualBuffer = new VirtualLRUBuffer({ size: 0 });
   }
 
   async open() {
-    if (this._fileSize != null) {
+    if (this._fileSize !== undefined) {
       return;
     }
     const { size } = await this._fileReader.open();
@@ -125,7 +124,7 @@ export default class CachedFilelike implements Filelike {
 
   // Get the file size. Requires a call to `open()` or `read()` first.
   size() {
-    if (this._fileSize == null) {
+    if (this._fileSize === undefined) {
       throw new Error("CachedFilelike has not been opened");
     }
     return this._fileSize;
@@ -141,7 +140,7 @@ export default class CachedFilelike implements Filelike {
     const range = { start: offset, end: offset + length };
     this._logFn(`Requested ${rangeToString(range)}`);
 
-    if (offset < 0 || range.end > this._fileSize || length < 0) {
+    if (offset < 0 || length < 0) {
       throw new Error("CachedFilelike#read invalid input");
     }
     if (length > this._cacheSizeInBytes) {
@@ -149,6 +148,12 @@ export default class CachedFilelike implements Filelike {
     }
 
     this.open().then(() => {
+      const size = this.size();
+      if (range.end > size) {
+        callback(new Error(`CachedFilelike#read past size`));
+        return;
+      }
+
       this._readRequests.push({ range, callback, requestTime: Date.now() });
       this._updateState();
     });
@@ -184,6 +189,8 @@ export default class CachedFilelike implements Filelike {
       return false;
     });
 
+    const size = this.size();
+
     // Then see if we need to set a new connection based on the new connection and read requests state.
     const newConnection = getNewConnection({
       currentRemainingRange: this._currentConnection
@@ -193,7 +200,7 @@ export default class CachedFilelike implements Filelike {
       downloadedRanges: this._virtualBuffer.getRangesWithData(),
       lastResolvedCallbackEnd: this._lastResolvedCallbackEnd,
       cacheSize: this._cacheSizeInBytes,
-      fileSize: this._fileSize,
+      fileSize: size,
       continueDownloadingThreshold: CLOSE_ENOUGH_BYTES_TO_NOT_START_NEW_CONNECTION,
     });
     if (newConnection) {

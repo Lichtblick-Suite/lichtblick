@@ -47,7 +47,7 @@ describe("selectors", () => {
   });
 
   describe("constantsByDatatype", () => {
-    it.skip("indexes constant names by value for each datatype", () => {
+    it("indexes constant names by value for each datatype", () => {
       expect(
         constantsByDatatype({
           "some/datatype": {
@@ -60,7 +60,7 @@ describe("selectors", () => {
       ).toEqual({ "some/datatype": { "0": "OFF", "1": "ON" } });
     });
 
-    it.skip("marks duplicate constant names", () => {
+    it("marks duplicate constant names", () => {
       expect(
         constantsByDatatype({
           "some/datatype": {
@@ -75,7 +75,7 @@ describe("selectors", () => {
   });
 
   describe("enumValuesByDatatypeAndField", () => {
-    it.skip("handles multiple blocks of constants", () => {
+    it("handles multiple blocks of constants", () => {
       expect(
         enumValuesByDatatypeAndField({
           "some/datatype": {
@@ -115,7 +115,7 @@ describe("selectors", () => {
       });
     });
 
-    it.skip("handles enum annotation", () => {
+    it("handles enum annotation", () => {
       expect(
         enumValuesByDatatypeAndField({
           "some/datatype": {

@@ -71,7 +71,7 @@ export const constantsByDatatype = createSelector<any, any, any, any>(
     for (const datatype of Object.keys(datatypes)) {
       results[datatype] = {};
       for (const field of datatypes[datatype].fields) {
-        if (field.isConstant && field.value && typeof field.value !== "boolean") {
+        if (field.isConstant && field.value !== undefined && typeof field.value !== "boolean") {
           if (results[datatype][field.value]) {
             results[datatype][field.value] = "<multiple constants match>";
           } else {
@@ -122,7 +122,7 @@ export const enumValuesByDatatypeAndField = createSelector<any, any, any, any>(
           lastType = undefined;
         }
 
-        if (field.isConstant && field.value && typeof field.value !== "boolean") {
+        if (field.isConstant && field.value !== undefined && typeof field.value !== "boolean") {
           lastType = field.type;
           if (constants[field.value]) {
             constants[field.value] = "<multiple constants match>";

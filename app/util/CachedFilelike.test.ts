@@ -43,7 +43,7 @@ class InMemoryFileReader implements FileReader {
 
 describe("CachedFilelike", () => {
   describe("#size", () => {
-    it.skip("returns the size from the underlying FileReader", async () => {
+    it("returns the size from the underlying FileReader", async () => {
       const fileReader = new InMemoryFileReader(buffer.Buffer.from([0, 1, 2, 3]));
       const cachedFileReader = new CachedFilelike({
         fileReader,
@@ -69,7 +69,7 @@ describe("CachedFilelike", () => {
   });
 
   describe("#read", () => {
-    it.skip("returns data from the underlying FileReader", (done) => {
+    it("returns data from the underlying FileReader", (done) => {
       const fileReader = new InMemoryFileReader(buffer.Buffer.from([0, 1, 2, 3]));
       const cachedFileReader = new CachedFilelike({
         fileReader,
@@ -86,7 +86,7 @@ describe("CachedFilelike", () => {
       });
     });
 
-    it.skip("returns an error in the callback if the FileReader keeps returning errors", (done) => {
+    it("returns an error in the callback if the FileReader keeps returning errors", (done) => {
       const fileReader = new InMemoryFileReader(buffer.Buffer.from([0, 1, 2, 3]));
       let interval: any;
       let destroyed: any;
@@ -116,7 +116,7 @@ describe("CachedFilelike", () => {
       });
     });
 
-    it.skip("keeps reconnecting when keepReconnectingCallback is set", async () => {
+    it("keeps reconnecting when keepReconnectingCallback is set", async () => {
       const fileReader = new InMemoryFileReader(buffer.Buffer.from([0, 1, 2, 3]));
       let interval: any;
       let dataCallback: any;

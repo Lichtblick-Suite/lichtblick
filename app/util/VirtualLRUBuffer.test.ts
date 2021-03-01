@@ -60,7 +60,7 @@ describe("VirtualLRUBuffer", () => {
       expect(vb.hasData(2, 6)).toEqual(true);
     });
 
-    it.skip("evicts old blocks if numberOfBlocks is set", () => {
+    it("evicts old blocks if numberOfBlocks is set", () => {
       const vb = new VirtualLRUBuffer({ size: 25, blockSize: 10, numberOfBlocks: 1 });
       vb.copyFrom(Buffer.from([1, 2, 3, 4]), 2);
       expect(vb.hasData(2, 6)).toEqual(true);

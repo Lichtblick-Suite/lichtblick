@@ -130,34 +130,26 @@ describe("useShallowMemo", () => {
 });
 
 describe("useDeepMemo", () => {
-  it.skip("returns original object when deep equal", () => {
-    {
-      const obj = { x: 1 };
-      const { result, rerender } = renderHook((val) => useDeepMemo(val), { initialProps: obj });
-      expect(result.current).toBe(obj);
-      rerender({ x: 1 });
-      expect(result.current).toBe(obj);
-    }
+  it("returns original object when deep equal", () => {
+    let obj: any = { x: 1 };
+    const { result, rerender } = renderHook((val) => useDeepMemo(val), { initialProps: obj });
+    expect(result.current).toBe(obj);
+    rerender({ x: 1 });
+    expect(result.current).toBe(obj);
 
-    {
-      const obj = ["abc", 123];
-      const { result, rerender } = renderHook((val) => useShallowMemo(val), { initialProps: obj });
-      rerender(obj);
-      expect(result.current).toBe(obj);
-      rerender(["abc", 123]);
-      expect(result.current).toBe(obj);
-    }
+    obj = ["abc", 123];
+    rerender(obj);
+    expect(result.current).toBe(obj);
+    rerender(["abc", 123]);
+    expect(result.current).toBe(obj);
 
-    {
-      const obj = ["abc", { x: 1 }];
-      const { result, rerender } = renderHook((val) => useShallowMemo(val), { initialProps: obj });
-      rerender(obj);
-      expect(result.current).toBe(obj);
-      rerender(["abc", { x: 1 }]);
-      expect(result.current).toBe(obj);
-      rerender(["abc", { x: 2 }]);
-      expect(result.current).not.toBe(obj);
-    }
+    obj = ["abc", { x: 1 }];
+    rerender(obj);
+    expect(result.current).toBe(obj);
+    rerender(["abc", { x: 1 }]);
+    expect(result.current).toBe(obj);
+    rerender(["abc", { x: 2 }]);
+    expect(result.current).not.toBe(obj);
   });
 });
 

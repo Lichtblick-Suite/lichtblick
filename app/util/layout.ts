@@ -24,6 +24,7 @@ import {
 } from "react-mosaic-component";
 import zlib from "zlib";
 
+import Logger from "./Logger";
 import { isInIFrame } from "./iframeUtils";
 import { PanelsState } from "@foxglove-studio/app/reducers/panels";
 import { getLayoutNameAndVersion } from "@foxglove-studio/app/shared/layout";
@@ -243,21 +244,22 @@ export function getAllPanelIds(layout: MosaicNode, savedProps: SavedProps): stri
   return [...layoutPanelIds, ...tabPanelIds];
 }
 
-export const validateTabPanelConfig = (config: PanelConfig | null | undefined) => {
+export const validateTabPanelConfig = (config?: PanelConfig | null) => {
   if (!config) {
     return false;
   }
+
   if (!Array.isArray(config?.tabs) || typeof config?.activeTabIdx !== "number") {
     const error = new Error(
       "A non-Tab panel config is being operated on as if it were a Tab panel.",
     );
-    console.warn("Invalid Tab panel config:", config, error);
+    new Logger("layout").info(`Invalid Tab panel config: ${error.message}`, config);
     captureException(error);
     return false;
   }
   if (config && config.activeTabIdx >= config.tabs.length) {
     const error = new Error("A Tab panel has an activeTabIdx for a nonexistent tab.");
-    console.warn("Invalid Tab panel config:", config, error);
+    new Logger("layout").info(`Invalid Tab panel config: ${error.message}`, config);
     captureException(error);
     return false;
   }

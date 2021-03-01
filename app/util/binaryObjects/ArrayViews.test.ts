@@ -137,16 +137,17 @@ describe("ArrayViews", () => {
         }
 
         it("array spreads", () => {
-          const ReverseWrapperArrayView = getReverseWrapperArrayView<number>(DummyClass);
+          const ReverseWrapperArrayView = getReverseWrapperArrayView(DummyClass);
           const reverseWrapperArrayView = new ReverseWrapperArrayView(arr);
           expect([...reverseWrapperArrayView]).toEqual(arr.map((val) => new DummyClass(val)));
         });
-        it.skip("find", () => {
-          const ReverseWrapperArrayView = getReverseWrapperArrayView<number>(DummyClass);
+
+        it("find", () => {
+          const ReverseWrapperArrayView = getReverseWrapperArrayView<any>(DummyClass);
           const reverseArrayWrapperView = new ReverseWrapperArrayView(arr);
           expect(
             reverseArrayWrapperView.find((val) => {
-              return val === 1;
+              return val.val === 1;
             }),
           ).toEqual(new DummyClass(1));
         });
