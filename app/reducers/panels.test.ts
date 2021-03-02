@@ -11,11 +11,10 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-// @ts-nocheck
-
 import fetchMock from "fetch-mock";
-import { getLeaves } from "react-mosaic-component";
+import { getLeaves, MosaicParent } from "react-mosaic-component";
 
+import { ActionTypes } from "@foxglove-studio/app/actions";
 import {
   changePanelLayout,
   savePanelConfigs,
@@ -33,14 +32,16 @@ import {
   fetchLayout,
 } from "@foxglove-studio/app/actions/panels";
 import { getGlobalHooks } from "@foxglove-studio/app/loadWebviz";
-import { State } from "@foxglove-studio/app/reducers";
+import { Dispatcher, State, PersistedState } from "@foxglove-studio/app/reducers";
 import {
+  PanelsState,
   GLOBAL_STATE_STORAGE_KEY,
   resetInitialPersistedState,
   defaultPlaybackConfig,
 } from "@foxglove-studio/app/reducers/panels";
 import delay from "@foxglove-studio/app/shared/delay";
 import { getGlobalStoreForTest } from "@foxglove-studio/app/store/getGlobalStore";
+import { CreateTabPanelPayload, ImportPanelLayoutPayload } from "@foxglove-studio/app/types/panels";
 import Storage from "@foxglove-studio/app/util/Storage";
 import { TAB_PANEL_TYPE } from "@foxglove-studio/app/util/globalConstants";
 import { getPanelTypeFromId } from "@foxglove-studio/app/util/layout";
@@ -48,6 +49,10 @@ import { getPanelTypeFromId } from "@foxglove-studio/app/util/layout";
 const CURRENT_LAYOUT_VERSION = 16;
 const defaultPersistedState = Object.freeze(getGlobalHooks().getDefaultPersistedState());
 const storage = new Storage();
+
+function GetGlobalState() {
+  return storage.getItem(GLOBAL_STATE_STORAGE_KEY) as PersistedState;
+}
 
 const getStore = () => {
   const store = getGlobalStoreForTest();
@@ -67,7 +72,7 @@ describe("state.persistedState", () => {
   it("stores initial panel layout in local storage", () => {
     const { checkState } = getStore();
     checkState(({ persistedState }) => {
-      const globalState = storage.getItem(GLOBAL_STATE_STORAGE_KEY) || {};
+      const globalState = GetGlobalState();
       expect(globalState).toEqual(persistedState);
     });
   });
@@ -99,7 +104,7 @@ describe("state.persistedState", () => {
       expect(panels.layout).toEqual("foo!bar");
       expect(panels.savedProps).toEqual({ "foo!bar": { test: true } });
 
-      const globalState = storage.getItem(GLOBAL_STATE_STORAGE_KEY) || {};
+      const globalState = GetGlobalState();
       expect(globalState.panels.layout).toEqual(panels.layout);
       expect(globalState.panels.savedProps).toEqual(panels.savedProps);
     });
@@ -109,7 +114,7 @@ describe("state.persistedState", () => {
       expect(panels.layout).toEqual("foo!bar");
       expect(panels.savedProps).toEqual({ "foo!bar": { test: true } });
 
-      const globalState = storage.getItem(GLOBAL_STATE_STORAGE_KEY) || {};
+      const globalState = GetGlobalState();
       expect(globalState.panels.layout).toEqual(panels.layout);
       expect(globalState.panels.savedProps).toEqual(panels.savedProps);
     });
@@ -123,7 +128,7 @@ describe("state.persistedState", () => {
       expect(panels.layout).toEqual("foo!bar");
       expect(panels.savedProps).toEqual({ "foo!bar": { test: true, testing: true } });
 
-      const globalState = storage.getItem(GLOBAL_STATE_STORAGE_KEY) || {};
+      const globalState = GetGlobalState();
       expect(globalState.panels.layout).toEqual(panels.layout);
       expect(globalState.panels.savedProps).toEqual(panels.savedProps);
     });
@@ -153,7 +158,7 @@ describe("state.persistedState", () => {
       };
       expect(panels).toEqual(result);
 
-      const globalState = storage.getItem(GLOBAL_STATE_STORAGE_KEY) || {};
+      const globalState = GetGlobalState();
       expect(globalState.panels).toEqual(result);
     });
   });
@@ -167,7 +172,7 @@ describe("state.persistedState", () => {
 
     store.dispatch(importPanelLayout(payload));
     checkState(() => {
-      const globalState = storage.getItem(GLOBAL_STATE_STORAGE_KEY) || {};
+      const globalState = GetGlobalState();
       expect(globalState.panels.globalVariables).toEqual({});
       expect(globalState.panels.userNodes).toEqual({});
       expect(globalState.panels.linkedGlobalVariables).toEqual([]);
@@ -183,7 +188,7 @@ describe("state.persistedState", () => {
 
     store.dispatch(importPanelLayout(payload));
     checkState(() => {
-      const globalState = storage.getItem(GLOBAL_STATE_STORAGE_KEY) || {};
+      const globalState = GetGlobalState();
       expect(globalState.panels.playbackConfig).toEqual({
         messageOrder: "receiveTime",
         speed: 0.2,
@@ -208,7 +213,7 @@ describe("state.persistedState", () => {
 
     store.dispatch(importPanelLayout(payload));
     checkState(() => {
-      const globalState = storage.getItem(GLOBAL_STATE_STORAGE_KEY) || {};
+      const globalState = GetGlobalState();
       expect(globalState.panels.globalVariables).toEqual(globalVariables);
       expect(globalState.panels.userNodes).toEqual(userNodes);
       expect(globalState.panels.linkedGlobalVariables).toEqual(linkedGlobalVariables);
@@ -225,7 +230,7 @@ describe("state.persistedState", () => {
 
     store.dispatch(importPanelLayout(payload));
     checkState(() => {
-      const globalState = storage.getItem(GLOBAL_STATE_STORAGE_KEY) || {};
+      const globalState = GetGlobalState();
       expect(globalState.panels.restrictedTopics).toEqual(payload.restrictedTopics);
     });
   });
@@ -234,9 +239,9 @@ describe("state.persistedState", () => {
     const { store, checkState } = getStore();
     const globalVariables = { some_global_data_var: 1 };
     const payload = { globalData: globalVariables, layout: "foo!baz" };
-    store.dispatch(importPanelLayout(payload, { isFromUrl: true }));
+    store.dispatch(importPanelLayout(payload, {}));
     checkState(() => {
-      const globalState = storage.getItem(GLOBAL_STATE_STORAGE_KEY) || {};
+      const globalState = GetGlobalState();
       expect(globalState.panels.globalVariables).toEqual(globalVariables);
     });
   });
@@ -245,17 +250,17 @@ describe("state.persistedState", () => {
     const { store, checkState } = getStore();
     const globalVariables = { some_global_data_var: 1 };
     const payload = { globalData: { some_var: 2 }, globalVariables, layout: "foo!baz" };
-    store.dispatch(importPanelLayout(payload, { isFromUrl: true }));
+    store.dispatch(importPanelLayout(payload, {}));
     checkState(() => {
-      const globalState = storage.getItem(GLOBAL_STATE_STORAGE_KEY) || {};
+      const globalState = GetGlobalState();
       expect(globalState.panels.globalData).toBe(undefined);
     });
   });
 
-  const testLayoutKeptInUrl = (desc, actionCreator) => {
+  const testLayoutKeptInUrl = (desc: string, actionCreator: () => Dispatcher<ActionTypes>) => {
     it(desc, () => {
       const { store, checkState } = getStore();
-      store.push("/?layout=foo");
+      store.push?.("/?layout=foo");
       checkState(({ router }) => {
         expect(router.location.search).toEqual("?layout=foo");
       });
@@ -264,13 +269,13 @@ describe("state.persistedState", () => {
         expect(router.location.search).toEqual("?layout=foo");
       });
 
-      store.push("/?layout=foo&name=bar");
+      store.push?.("/?layout=foo&name=bar");
       store.dispatch(actionCreator());
       checkState(({ router }) => {
         expect(router.location.search).toEqual("?layout=foo&name=bar");
       });
 
-      store.push("/?laYOut=zug&layout=foo&name=bar");
+      store.push?.("/?laYOut=zug&layout=foo&name=bar");
       store.dispatch(actionCreator());
       checkState(({ router }) => {
         expect(router.location.search).toEqual("?laYOut=zug&layout=foo&name=bar");
@@ -309,12 +314,15 @@ describe("state.persistedState", () => {
         }),
       );
       checkState(({ persistedState: { panels } }) => {
-        expect(panels.layout.direction).toEqual("row");
-        expect(getPanelTypeFromId(panels.layout.first)).toEqual("Audio");
-        expect(panels.layout.second).toEqual("Tab!a");
+        const layout = panels.layout as MosaicParent<string>;
+        const firstStr = layout.first as string;
+        const secondStr = layout.second as string;
+        expect(layout.direction).toEqual("row");
+        expect(getPanelTypeFromId(firstStr)).toEqual("Audio");
+        expect(layout.second).toEqual("Tab!a");
 
-        expect(panels.savedProps[panels.layout.first]).toEqual({ foo: "bar" });
-        expect(panels.savedProps[panels.layout.second]).toEqual(panelLayout.savedProps["Tab!a"]);
+        expect(panels.savedProps[firstStr]).toEqual({ foo: "bar" });
+        expect(panels.savedProps[secondStr]).toEqual(panelLayout.savedProps["Tab!a"]);
       });
     });
     it("adds panel to empty Tab layout", () => {
@@ -344,7 +352,7 @@ describe("state.persistedState", () => {
           expect(tabs.length).toEqual(3);
 
           expect(savedProps[newAudioId]).toEqual({ foo: "bar" });
-          expect(savedProps[layout]).toEqual({
+          expect(savedProps[layout as string]).toEqual({
             activeTabIdx: 0,
             tabs: [{ title: "A", layout: newAudioId }, { title: "B" }, { title: "C" }],
           });
@@ -375,12 +383,13 @@ describe("state.persistedState", () => {
       checkState(
         ({
           persistedState: {
-            panels: { layout },
+            panels: { layout: maybeLayout },
           },
         }) => {
+          const layout = maybeLayout as MosaicParent<string>;
           expect(layout.direction).toEqual("row");
           expect(layout.first).toEqual("Tab!a");
-          expect(getPanelTypeFromId(layout.second)).toEqual("Audio");
+          expect(getPanelTypeFromId(layout.second as string)).toEqual("Audio");
         },
       );
     });
@@ -400,15 +409,16 @@ describe("state.persistedState", () => {
       checkState(
         ({
           persistedState: {
-            panels: { layout, savedProps },
+            panels: { layout: maybeLayout, savedProps },
           },
         }) => {
+          const layout = maybeLayout as MosaicParent<string>;
           expect(layout.direction).toEqual("row");
           expect(layout.first).toEqual("Audio!a");
-          expect(getPanelTypeFromId(layout.second)).toEqual("Tab");
+          expect(getPanelTypeFromId(layout.second as string)).toEqual("Tab");
 
           expect(savedProps["Audio!a"]).toEqual({ foo: "bar" });
-          const { activeTabIdx, tabs } = savedProps[layout.second];
+          const { activeTabIdx, tabs } = savedProps[layout.second as string];
           expect(activeTabIdx).toEqual(0);
           expect(tabs.length).toEqual(1);
           expect(tabs[0].title).toEqual("A");
@@ -506,13 +516,14 @@ describe("state.persistedState", () => {
       checkState(
         ({
           persistedState: {
-            panels: { layout, savedProps },
+            panels: { layout: maybeLayout, savedProps },
           },
         }) => {
+          const layout = maybeLayout as MosaicParent<string>;
           expect(layout.first).toEqual("Audio!a");
-          expect(getPanelTypeFromId(layout.second)).toEqual("Tab");
+          expect(getPanelTypeFromId(layout.second as string)).toEqual("Tab");
 
-          const parentTabConfig = savedProps[layout.second];
+          const parentTabConfig = savedProps[layout.second as string];
           expect(parentTabConfig.tabs.length).toEqual(1);
           expect(parentTabConfig.tabs[0].title).toEqual("A");
 
@@ -553,8 +564,9 @@ describe("state.persistedState", () => {
 
     it("moves tabs between Tab panels", () => {
       const { store, checkState } = getStore();
+      const layout: MosaicParent<string> = { first: "Tab!a", second: "Tab!b", direction: "row" };
       const panelLayout = {
-        layout: { first: "Tab!a", second: "Tab!b", direction: "row" },
+        layout,
         savedProps: {
           "Tab!a": {
             activeTabIdx: 0,
@@ -587,11 +599,11 @@ describe("state.persistedState", () => {
 
   it("does not remove layout if layout is imported from url", () => {
     const { store, checkState } = getStore();
-    store.push("/?layout=foo&name=bar");
+    store.push?.("/?layout=foo&name=bar");
     checkState(({ router }) => {
       expect(router.location.search).toEqual("?layout=foo&name=bar");
     });
-    store.dispatch(importPanelLayout({ layout: null, savedProps: {} }, { isFromUrl: true }));
+    store.dispatch(importPanelLayout({ layout: null, savedProps: {} }, {}));
     checkState(({ router }) => {
       expect(router.location.search).toEqual("?layout=foo&name=bar");
     });
@@ -617,8 +629,9 @@ describe("state.persistedState", () => {
 
   it("closes a panel in multi-panel layout", () => {
     const { store, checkState } = getStore();
+    const layout: MosaicParent<string> = { first: "Audio!a", second: "Audio!b", direction: "row" };
     const panelLayout = {
-      layout: { first: "Audio!a", second: "Audio!b", direction: "row" },
+      layout,
       savedProps: { "Audio!a": { foo: "bar" }, "Audio!b": { foo: "baz" } },
     };
     store.dispatch(importPanelLayout(panelLayout));
@@ -659,7 +672,8 @@ describe("state.persistedState", () => {
     await delay(500);
     checkState(({ persistedState: { panels, fetchedLayout } }) => {
       expect(panels.layout).toEqual({ foo: "bar" });
-      expect(fetchedLayout.data.layout).toEqual({ foo: "bar" });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      expect((fetchedLayout.data as any).layout).toEqual({ foo: "bar" });
       expect(fetchedLayout.isLoading).toEqual(false);
     });
     store.dispatch(fetchLayout("?layout-url=https://www.foo.com"));
@@ -686,13 +700,14 @@ describe("state.persistedState", () => {
       expect(panels.layout).toEqual(defaultPersistedState.panels.layout);
       // fetchedLayout should be down loading, but have no data.
       expect(fetchedLayout.isLoading).toBe(false);
-      expect(fetchedLayout.error.message).toMatch("Failed to fetch layout from URL");
+      expect(fetchedLayout.error?.message).toMatch("Failed to fetch layout from URL");
     });
   });
 
   it("loads a layout", () => {
     const { store, checkState } = getStore();
-    store.dispatch({ type: "LOAD_LAYOUT", payload: { layout: { foo: "baz" } } });
+    const panelsState = (<unknown>{ layout: { foo: "baz" } }) as PanelsState;
+    store.dispatch({ type: "LOAD_LAYOUT", payload: panelsState });
     checkState(({ persistedState: { panels } }) => {
       expect(panels.layout).toEqual({ foo: "baz" });
     });
@@ -716,11 +731,10 @@ describe("state.persistedState", () => {
   it("will set local storage when importing a panel layout, if reducer is not told to skipSettingLocalStorage", () => {
     const { store, checkState } = getStore();
 
-    store.dispatch(
-      importPanelLayout({ layout: "myNewLayout", savedProps: {} }, { isFromUrl: true }),
-    );
+    const x = importPanelLayout({ layout: "myNewLayout", savedProps: {} }, {});
+    store.dispatch(x);
     checkState(() => {
-      const globalState = storage.getItem(GLOBAL_STATE_STORAGE_KEY) || {};
+      const globalState = GetGlobalState();
       expect(globalState.panels.layout).toEqual("myNewLayout");
     });
   });
@@ -729,13 +743,10 @@ describe("state.persistedState", () => {
     const { store, checkState } = getStore();
 
     store.dispatch(
-      importPanelLayout(
-        { layout: null, savedProps: {} },
-        { isFromUrl: true, skipSettingLocalStorage: true },
-      ),
+      importPanelLayout({ layout: null, savedProps: {} }, { skipSettingLocalStorage: true }),
     );
     checkState(({ persistedState: { panels } }) => {
-      const globalState = storage.getItem(GLOBAL_STATE_STORAGE_KEY) || {};
+      const globalState = GetGlobalState();
       expect(globalState.panels.layout).not.toEqual(panels.layout);
     });
   });
@@ -749,11 +760,12 @@ describe("state.persistedState", () => {
         direction: "row",
       },
       savedProps: { "Audio!a": { foo: "bar" }, "RawMessages!a": { foo: "baz" } },
-    };
+    } as ImportPanelLayoutPayload;
     const basePayload = {
       idToReplace: "Audio!a",
       newId: "Tab!a",
       idsToRemove: ["Audio!a", "RawMessages!a"],
+      singleTab: false,
     };
     const nestedLayoutPayload = {
       layout: {
@@ -775,31 +787,30 @@ describe("state.persistedState", () => {
         "Audio!b": { foo: "baz" },
         "RawMessages!a": { raw: "messages" },
       },
-    };
+    } as ImportPanelLayoutPayload;
     const createTabPanelPayload = {
       ...basePayload,
       layout: regularLayoutPayload.layout,
-    };
+    } as CreateTabPanelPayload;
     const nestedCreateTabPanelPayload = {
       ...basePayload,
       layout: nestedLayoutPayload.layout,
-    };
+    } as CreateTabPanelPayload;
 
     it("will group selected panels into a Tab panel", () => {
-      store.dispatch(
-        importPanelLayout(regularLayoutPayload, { isFromUrl: true, skipSettingLocalStorage: true }),
-      );
+      store.dispatch(importPanelLayout(regularLayoutPayload, { skipSettingLocalStorage: true }));
       store.dispatch(createTabPanel({ ...createTabPanelPayload, singleTab: true }));
 
       checkState(
         ({
           persistedState: {
-            panels: { savedProps, layout },
+            panels: { savedProps, layout: maybeLayout },
           },
         }) => {
-          expect(getPanelTypeFromId(layout.first)).toEqual(TAB_PANEL_TYPE);
-          expect(getPanelTypeFromId(layout.second)).toEqual("Audio");
-          expect(savedProps[layout.first]).toEqual({
+          const layout = maybeLayout as MosaicParent<string>;
+          expect(getPanelTypeFromId(layout.first as string)).toEqual(TAB_PANEL_TYPE);
+          expect(getPanelTypeFromId(layout.second as string)).toEqual("Audio");
+          expect(savedProps[layout.first as string]).toEqual({
             activeTabIdx: 0,
             tabs: [
               {
@@ -808,26 +819,27 @@ describe("state.persistedState", () => {
               },
             ],
           });
-          expect(savedProps[layout.second]).toEqual(regularLayoutPayload.savedProps[layout.second]);
+          expect(savedProps[layout.second as string]).toEqual(
+            regularLayoutPayload.savedProps?.[layout.second as string],
+          );
         },
       );
     });
 
     it("will group selected panels into a Tab panel, even when a selected panel is nested", () => {
-      store.dispatch(
-        importPanelLayout(nestedLayoutPayload, { isFromUrl: true, skipSettingLocalStorage: true }),
-      );
+      store.dispatch(importPanelLayout(nestedLayoutPayload, { skipSettingLocalStorage: true }));
       store.dispatch(createTabPanel({ ...nestedCreateTabPanelPayload, singleTab: true }));
 
       checkState(
         ({
           persistedState: {
-            panels: { savedProps, layout },
+            panels: { savedProps, layout: maybeLayout },
           },
         }) => {
-          expect(getPanelTypeFromId(layout.first)).toEqual(TAB_PANEL_TYPE);
-          expect(getPanelTypeFromId(layout.second)).toEqual(TAB_PANEL_TYPE);
-          expect(savedProps[layout.first]).toEqual({
+          const layout = maybeLayout as MosaicParent<string>;
+          expect(getPanelTypeFromId(layout.first as string)).toEqual(TAB_PANEL_TYPE);
+          expect(getPanelTypeFromId(layout.second as string)).toEqual(TAB_PANEL_TYPE);
+          expect(savedProps[layout.first as string]).toEqual({
             activeTabIdx: 0,
             tabs: [
               {
@@ -836,7 +848,7 @@ describe("state.persistedState", () => {
               },
             ],
           });
-          expect(savedProps[layout.second]).toEqual({
+          expect(savedProps[layout.second as string]).toEqual({
             activeTabIdx: 0,
             tabs: [{ title: "First tab", layout: "Audio!b" }],
           });
@@ -845,53 +857,53 @@ describe("state.persistedState", () => {
     });
 
     it("will create individual tabs for selected panels in a new Tab panel", () => {
-      store.dispatch(
-        importPanelLayout(regularLayoutPayload, { isFromUrl: true, skipSettingLocalStorage: true }),
-      );
+      store.dispatch(importPanelLayout(regularLayoutPayload, { skipSettingLocalStorage: true }));
       store.dispatch(createTabPanel({ ...createTabPanelPayload, singleTab: false }));
 
       checkState(
         ({
           persistedState: {
-            panels: { savedProps, layout },
+            panels: { savedProps, layout: maybeLayout },
           },
         }) => {
-          expect(getPanelTypeFromId(layout.first)).toEqual(TAB_PANEL_TYPE);
-          expect(getPanelTypeFromId(layout.second)).toEqual("Audio");
-          expect(savedProps[layout.first]).toEqual({
+          const layout = maybeLayout as MosaicParent<string>;
+          expect(getPanelTypeFromId(layout.first as string)).toEqual(TAB_PANEL_TYPE);
+          expect(getPanelTypeFromId(layout.second as string)).toEqual("Audio");
+          expect(savedProps[layout.first as string]).toEqual({
             activeTabIdx: 0,
             tabs: [
               { title: "Audio", layout: "Audio!a" },
               { title: "RawMessages", layout: "RawMessages!a" },
             ],
           });
-          expect(savedProps[layout.second]).toEqual(regularLayoutPayload.savedProps[layout.second]);
+          expect(savedProps[layout.second as string]).toEqual(
+            regularLayoutPayload.savedProps?.[layout.second as string],
+          );
         },
       );
     });
 
     it("will create individual tabs for selected panels in a new Tab panel, even when a selected panel is nested", () => {
-      store.dispatch(
-        importPanelLayout(nestedLayoutPayload, { isFromUrl: true, skipSettingLocalStorage: true }),
-      );
+      store.dispatch(importPanelLayout(nestedLayoutPayload, { skipSettingLocalStorage: true }));
       store.dispatch(createTabPanel({ ...nestedCreateTabPanelPayload, singleTab: false }));
 
       checkState(
         ({
           persistedState: {
-            panels: { layout, savedProps },
+            panels: { layout: maybeLayout, savedProps },
           },
         }) => {
-          expect(getPanelTypeFromId(layout.first)).toEqual(TAB_PANEL_TYPE);
-          expect(getPanelTypeFromId(layout.second)).toEqual(TAB_PANEL_TYPE);
-          expect(savedProps[layout.first]).toEqual({
+          const layout = maybeLayout as MosaicParent<string>;
+          expect(getPanelTypeFromId(layout.first as string)).toEqual(TAB_PANEL_TYPE);
+          expect(getPanelTypeFromId(layout.second as string)).toEqual(TAB_PANEL_TYPE);
+          expect(savedProps[layout.first as string]).toEqual({
             activeTabIdx: 0,
             tabs: [
               { title: "Audio", layout: "Audio!a" },
               { title: "RawMessages", layout: "RawMessages!a" },
             ],
           });
-          expect(savedProps[layout.second]).toEqual({
+          expect(savedProps[layout.second as string]).toEqual({
             activeTabIdx: 0,
             tabs: [{ title: "First tab", layout: "Audio!b" }],
           });
@@ -903,7 +915,7 @@ describe("state.persistedState", () => {
   it("does not remove layout if config are saved silently", () => {
     const { store, checkState } = getStore();
     store.dispatch(changePanelLayout({ layout: "foo" }));
-    store.push("/?layout=foo&name=bar");
+    store.push?.("/?layout=foo&name=bar");
     checkState(({ router }) => {
       expect(router.location.search).toEqual("?layout=foo&name=bar");
     });
@@ -953,14 +965,15 @@ describe("state.persistedState", () => {
       checkState(
         ({
           persistedState: {
-            panels: { layout, savedProps },
+            panels: { layout: maybeLayout, savedProps },
           },
         }) => {
+          const layout = maybeLayout as MosaicParent<string>;
           expect(layout.first).toEqual("Audio!a");
-          expect(getPanelTypeFromId(layout.second)).toEqual("Audio");
+          expect(getPanelTypeFromId(layout.second as string)).toEqual("Audio");
           expect(layout.direction).toEqual("row");
           expect(savedProps["Audio!a"]).toEqual(audioConfig);
-          expect(savedProps[layout.second]).toEqual(audioConfig);
+          expect(savedProps[layout.second as string]).toEqual(audioConfig);
         },
       );
     });
@@ -986,14 +999,17 @@ describe("state.persistedState", () => {
       checkState(
         ({
           persistedState: {
-            panels: { layout, savedProps },
+            panels: { layout: maybeLayout, savedProps },
           },
         }) => {
+          const layout = maybeLayout as MosaicParent<string>;
           expect(layout.first).toEqual("Tab!a");
-          expect(getPanelTypeFromId(layout.second)).toEqual("Tab");
+          expect(getPanelTypeFromId(layout.second as string)).toEqual("Tab");
           expect(layout.direction).toEqual("row");
           expect(savedProps["Tab!a"]).toEqual(tabConfig);
-          expect(getPanelTypeFromId(savedProps[layout.second].tabs[0].layout)).toEqual("Audio");
+          expect(getPanelTypeFromId(savedProps[layout.second as string].tabs[0].layout)).toEqual(
+            "Audio",
+          );
           expect(savedProps["Audio!a"]).toEqual(audioConfig);
         },
       );
@@ -1061,9 +1077,10 @@ describe("state.persistedState", () => {
       checkState(
         ({
           persistedState: {
-            panels: { layout, savedProps },
+            panels: { layout: maybeLayout, savedProps },
           },
         }) => {
+          const layout = maybeLayout as string;
           expect(getPanelTypeFromId(layout)).toEqual("RawMessages");
           expect(savedProps["Audio!a"]).toEqual(undefined);
           expect(savedProps[layout]).toEqual(rawMessagesConfig);
@@ -1093,9 +1110,10 @@ describe("state.persistedState", () => {
       checkState(
         ({
           persistedState: {
-            panels: { layout, savedProps },
+            panels: { layout: maybeLayout, savedProps },
           },
         }) => {
+          const layout = maybeLayout as string;
           expect(getPanelTypeFromId(layout)).toEqual("Tab");
           const tabLayout = savedProps[layout].tabs[0].layout;
           expect(getPanelTypeFromId(tabLayout)).toEqual("RawMessages");
@@ -1153,7 +1171,7 @@ describe("state.persistedState", () => {
         },
       },
       savedProps: {},
-    };
+    } as PanelsState;
     const tabPanelState = {
       layout: {
         direction: "row",
@@ -1165,7 +1183,7 @@ describe("state.persistedState", () => {
         },
       },
       savedProps: {},
-    };
+    } as PanelsState;
 
     it("removes a panel's savedProps when it is removed from the layout", () => {
       const { store, checkState } = getStore();
@@ -1440,7 +1458,11 @@ describe("state.persistedState", () => {
     });
     it("handles drags to main layout from Tab panel", () => {
       const { store, checkState } = getStore();
-      const originalLayout = { first: "Tab!a", second: "RawMessages!a", direction: "column" };
+      const originalLayout = {
+        first: "Tab!a",
+        second: "RawMessages!a",
+        direction: "column",
+      } as MosaicParent<string>;
       const originalSavedProps = {
         "Tab!a": {
           activeTabIdx: 0,
@@ -1481,7 +1503,11 @@ describe("state.persistedState", () => {
     });
     it("handles drags to Tab panel from main layout", () => {
       const { store, checkState } = getStore();
-      const originalLayout = { first: "Tab!a", second: "RawMessages!a", direction: "column" };
+      const originalLayout = {
+        first: "Tab!a",
+        second: "RawMessages!a",
+        direction: "column",
+      } as MosaicParent<string>;
       const originalSavedProps = {
         "Tab!a": {
           activeTabIdx: 0,
@@ -1532,7 +1558,11 @@ describe("state.persistedState", () => {
     });
     it("handles dragging non-Tab panels between Tab panels", () => {
       const { store, checkState } = getStore();
-      const originalLayout = { first: "Tab!a", second: "Tab!b", direction: "column" };
+      const originalLayout = {
+        first: "Tab!a",
+        second: "Tab!b",
+        direction: "column",
+      } as MosaicParent<string>;
       const originalSavedProps = {
         "Tab!a": {
           activeTabIdx: 0,
@@ -1591,7 +1621,11 @@ describe("state.persistedState", () => {
     });
     it("handles dragging Tab panels between Tab panels", () => {
       const { store, checkState } = getStore();
-      const originalLayout = { first: "Tab!a", second: "Tab!b", direction: "column" };
+      const originalLayout = {
+        first: "Tab!a",
+        second: "Tab!b",
+        direction: "column",
+      } as MosaicParent<string>;
       const tabCConfig = {
         activeTabIdx: 0,
         tabs: [
@@ -1616,7 +1650,7 @@ describe("state.persistedState", () => {
           panelId: "Tab!c",
           sourceTabId: "Tab!a",
           targetTabId: "Tab!b",
-          position: null,
+          position: "right",
           destinationPath: [],
           ownPath: ["first"],
         }),
@@ -1668,7 +1702,11 @@ describe("state.persistedState", () => {
     });
     it("handles drags in multi-panel layouts", () => {
       const { store, checkState } = getStore();
-      const originalLayout = { first: "Audio!a", second: "Plot!a", direction: "row" };
+      const originalLayout = {
+        first: "Audio!a",
+        second: "Plot!a",
+        direction: "row",
+      } as MosaicParent<string>;
       store.dispatch(importPanelLayout({ layout: originalLayout }));
       store.dispatch(startDrag({ sourceTabId: null, path: ["first"] }));
       store.dispatch(
@@ -1695,7 +1733,11 @@ describe("state.persistedState", () => {
     });
     it.skip("handles drags in multi-panel layouts - invalid position", () => {
       const { store, checkState } = getStore();
-      const originalLayout = { first: "Audio!a", second: "Plot!a", direction: "row" };
+      const originalLayout = {
+        first: "Audio!a",
+        second: "Plot!a",
+        direction: "row",
+      } as MosaicParent<string>;
       store.dispatch(importPanelLayout({ layout: originalLayout }));
       store.dispatch(startDrag({ sourceTabId: null, path: ["first"] }));
       store.dispatch(
@@ -1705,8 +1747,8 @@ describe("state.persistedState", () => {
           panelId: "Audio!a",
           sourceTabId: undefined,
           targetTabId: undefined,
-          position: null,
-          destinationPath: null,
+          position: "right",
+          destinationPath: ["second"],
           ownPath: ["first"],
         }),
       );

@@ -109,7 +109,7 @@ export type PanelsState = {
   version?: number;
 };
 
-export const setPersistedStateInLocalStorage = (persistedState: PersistedState) => {
+export const setPersistedStateInLocalStorage = (persistedState: PersistedState): void => {
   storage.setItem(GLOBAL_STATE_STORAGE_KEY, persistedState);
 };
 
@@ -221,7 +221,7 @@ export function getInitialPersistedStateAndMaybeUpdateLocalStorageAndURL(
 }
 
 // Export for testing.
-export function resetInitialPersistedState() {
+export function resetInitialPersistedState(): void {
   initialPersistedState = undefined;
 }
 

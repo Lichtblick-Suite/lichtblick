@@ -53,7 +53,7 @@ export type PersistedState = {
   search?: string;
 };
 
-export type Dispatcher<T> = (dispatch: Dispatch<T>, getState: GetState) => void;
+export type Dispatcher<T extends ActionTypes> = (dispatch: Dispatch<T>, getState: GetState) => void;
 
 export type Comment = {
   id: string;
