@@ -11,8 +11,6 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-// @ts-nocheck
-
 import { simplify } from "intervals-fn";
 import { isEqual, sum, uniq } from "lodash";
 import { TimeUtil, Time } from "rosbag";
@@ -88,7 +86,7 @@ export function getBlocksToKeep({
   // For each block, its size, if it exists. Note that it's allowed for a `recentBlockRange` to
   // not have all blocks actually available (i.e. a seek happened before the whole range was
   // downloaded).
-  blockSizesInBytes: (number | null | undefined)[];
+  blockSizesInBytes: (number | undefined)[];
   // The maximum cache size in bytes.
   maxCacheSizeInBytes: number;
   // A block index to avoid evicting blocks from near.
@@ -222,51 +220,58 @@ export function getPrefetchStartPoint(uncachedRanges: Range[], cursorPosition: n
 export default class MemoryCacheDataProvider implements DataProvider {
   _id: string;
   _provider: DataProvider;
-  _extensionPoint: ExtensionPoint; // The actual blocks that contain the messages. Blocks have a set "width" in terms of nanoseconds
+  _extensionPoint?: ExtensionPoint;
+
+  // The actual blocks that contain the messages. Blocks have a set "width" in terms of nanoseconds
   // since the start time of the bag. If a block has some messages for a topic, then by definition
   // it has *all* messages for that topic and timespan.
+  _blocks: ReadonlyArray<MemoryCacheBlock | null | undefined> = [];
 
-  _blocks: ReadonlyArray<MemoryCacheBlock | null | undefined>; // The start time of the bag. Used for computing from and to nanoseconds since the start.
+  // The start time of the bag. Used for computing from and to nanoseconds since the start.
+  _startTime: Time = { sec: 0, nsec: 0 };
 
-  _startTime: Time; // The topics that we were most recently asked to load.
+  // The topics that we were most recently asked to load.
   // This is always set by the last `getMessages` call.
+  _preloadTopics: string[] = [];
 
-  _preloadTopics: string[] = []; // Total length of the data in nanoseconds. Used to compute progress with.
+  // Total length of the data in nanoseconds. Used to compute progress with.
+  _totalNs: number = 0;
 
-  _totalNs: number; // The current "connection", which represents the range that we're downloading.
+  // The current "connection", which represents the range that we're downloading.
+  _currentConnection?: {
+    id: string;
+    topics: string[];
+    remainingBlockRange: Range;
+  };
 
-  _currentConnection:
-    | {
-        id: string;
-        topics: string[];
-        remainingBlockRange: Range;
-      }
-    | null
-    | undefined; // The read requests we've received via `getMessages`.
-
+  // The read requests we've received via `getMessages`.
   _readRequests: {
-    timeRange: Range;
     // Actual range of messages, in nanoseconds since `this._startTime`.
-    blockRange: Range;
+    timeRange: Range;
     // The range of blocks.
+    blockRange: Range;
     topics: string[];
     resolve: (arg0: GetMessagesResult) => void;
-  }[] = []; // Recently requested ranges of blocks, sorted by most recent to least recent. There should never
+  }[] = [];
+
+  // Recently requested ranges of blocks, sorted by most recent to least recent. There should never
   // be any overlapping ranges. Ranges *are* allowed to cover blocks that haven't been downloaded
   // (yet).
+  _recentBlockRanges: Range[] = [];
 
-  _recentBlockRanges: Range[] = []; // The end time of the last callback that we've resolved. This is useful for preloading new data
+  // The end time of the last callback that we've resolved. This is useful for preloading new data
   // around this time.
+  _lastResolvedCallbackEnd: number | null | undefined;
 
-  _lastResolvedCallbackEnd: number | null | undefined; // When we log a "block too large" error, we only want to do that once, to prevent
+  // When we log a "block too large" error, we only want to do that once, to prevent
   // spamming errors.
+  _loggedTooLargeError: boolean = false;
 
-  _loggedTooLargeError: boolean = false; // If we're configured to use an unlimited cache, we try to just load as much as possible and
+  // If we're configured to use an unlimited cache, we try to just load as much as possible and
   // never evict anything.
-
   _cacheSizeBytes: number;
-  _readAheadBlocks: number;
-  _memCacheBlockSizeNs: number;
+  _readAheadBlocks: number = 0;
+  _memCacheBlockSizeNs: number = 0;
 
   constructor(
     {
@@ -545,18 +550,15 @@ export default class MemoryCacheDataProvider implements DataProvider {
 
     for (;;) {
       const currentConnection = this._currentConnection;
-
       if (!currentConnection || !isCurrent()) {
         return false;
       }
 
-      const currentBlockIndex = currentConnection.remainingBlockRange.start;
+      const currentBlockIndex: number = currentConnection.remainingBlockRange.start;
       // Only request topics that we don't already have.
       const topics = this._blocks[currentBlockIndex]
         ? currentConnection.topics.filter(
-            (topic) =>
-              !this._blocks[currentBlockIndex] ||
-              !this._blocks[currentBlockIndex].messagesByTopic[topic],
+            (topic) => !this._blocks[currentBlockIndex]?.messagesByTopic[topic],
           )
         : currentConnection.topics;
       // Get messages from the underlying provider.
@@ -582,7 +584,7 @@ export default class MemoryCacheDataProvider implements DataProvider {
       const { bobjects, rosBinaryMessages, parsedMessages } = messages;
 
       if (rosBinaryMessages != null || parsedMessages != null) {
-        const types = Object.keys(messages)
+        const types = (Object.keys(messages) as (keyof typeof messages)[])
           .filter((type) => messages[type] != null)
           .join("\n");
         sendNotification("MemoryCacheDataProvider got bad message types", types, "app", "error"); // Do not retry.
@@ -596,14 +598,14 @@ export default class MemoryCacheDataProvider implements DataProvider {
 
       const existingBlock = this._blocks[currentBlockIndex] || EMPTY_BLOCK;
       const messagesByTopic = { ...existingBlock.messagesByTopic };
-      let sizeInBytes = existingBlock.sizeInBytes; // Fill up the block with messages.
-
+      let sizeInBytes = existingBlock.sizeInBytes;
+      // Fill up the block with messages.
       for (const topic of topics) {
         messagesByTopic[topic] = [];
       }
 
       for (const bobjectMessage of bobjects || []) {
-        messagesByTopic[bobjectMessage.topic].push(bobjectMessage);
+        (messagesByTopic[bobjectMessage.topic] as BobjectMessage[]).push(bobjectMessage);
         const { message } = bobjectMessage;
         sizeInBytes +=
           message instanceof ArrayBuffer ? message.byteLength : inaccurateByteSize(message);
@@ -743,7 +745,7 @@ export default class MemoryCacheDataProvider implements DataProvider {
   }
 
   _updateProgress() {
-    this._extensionPoint.progressCallback({
+    this._extensionPoint?.progressCallback({
       fullyLoadedFractionRanges: this._getDownloadedBlockRanges().map((range) => ({
         // Convert block ranges into fractions.
         start: range.start / this._blocks.length,
