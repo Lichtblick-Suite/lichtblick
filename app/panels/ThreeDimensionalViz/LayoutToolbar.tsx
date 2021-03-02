@@ -12,10 +12,8 @@
 //   You may not use this file except in compliance with the License.
 
 import cx from "classnames";
-import React, { useMemo } from "react";
 import { PolygonBuilder, MouseEventObject, Polygon } from "regl-worldview";
 
-import { getGlobalHooks } from "@foxglove-studio/app/loadWebviz";
 import CameraInfo from "@foxglove-studio/app/panels/ThreeDimensionalViz/CameraInfo";
 import Crosshair from "@foxglove-studio/app/panels/ThreeDimensionalViz/Crosshair";
 import DrawingTools, {
@@ -93,16 +91,6 @@ function LayoutToolbar({
   toggleSearchTextOpen,
   transforms,
 }: Props) {
-  const additionalToolbarItemsElem = useMemo(() => {
-    const AdditionalToolbarItems = getGlobalHooks().perPanelHooks().ThreeDimensionalViz
-      .AdditionalToolbarItems;
-    return (
-      <div className={cx(styles.buttons, styles.cartographer)}>
-        <AdditionalToolbarItems transforms={transforms} />
-      </div>
-    );
-  }, [transforms]);
-
   return isHidden ? null : (
     <>
       <MeasuringTool
@@ -169,7 +157,6 @@ function LayoutToolbar({
           showCrosshair={!!showCrosshair}
           autoSyncCameraState={autoSyncCameraState}
         />
-        {additionalToolbarItemsElem}
       </div>
       {!cameraState.perspective && showCrosshair && <Crosshair cameraState={cameraState} />}
       <MeasureMarker measurePoints={measureInfo.measurePoints} />

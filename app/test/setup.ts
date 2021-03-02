@@ -15,7 +15,6 @@ import UrlSearchParams from "url-search-params";
 import util from "util";
 import ws from "ws";
 
-import { testSetup } from "../hooksImporter";
 import MemoryStorage from "./MemoryStorage";
 import { resetLogEventForTests } from "@foxglove-studio/app/util/logEvent";
 
@@ -78,10 +77,7 @@ global.WebSocket = global.WebSocket || ws;
 global.TextEncoder = util.TextEncoder;
 
 // React available everywhere (matches webpack config)
-window.React = require("react");
-
-// Override lazy load components
-testSetup();
+global.React = require("react");
 
 // Set logEvent up with a default implementation
 resetLogEventForTests();

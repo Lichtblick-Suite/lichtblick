@@ -704,28 +704,11 @@ export default function Layout({
   const isDemoMode = useExperimentalFeature("demoMode");
   const isHidden = isDemoMode && !isHovered;
 
-  const { MapComponent, videoRecordingStyle } = useMemo(
+  const { videoRecordingStyle } = useMemo(
     () => ({
-      MapComponent: getGlobalHooks().perPanelHooks().ThreeDimensionalViz.MapComponent,
       videoRecordingStyle: { visibility: inVideoRecordingMode() ? "hidden" : "visible" },
     }),
     [],
-  );
-
-  const memoizedScene = useShallowMemo(sceneBuilder.getScene());
-  const mapNamespaces = useShallowMemo(selectedNamespacesByTopic["/metadata"] || []);
-  const mapElement = useMemo(
-    () =>
-      MapComponent && (
-        <MapComponent
-          extensions={mapNamespaces}
-          scene={memoizedScene}
-          debug={debug}
-          perspective={!!cameraState.perspective}
-          isDemoMode={isDemoMode}
-        />
-      ),
-    [MapComponent, cameraState.perspective, debug, isDemoMode, mapNamespaces, memoizedScene],
   );
 
   // Memoize the threeDimensionalVizContextValue to avoid returning a new object every time
@@ -865,7 +848,6 @@ export default function Layout({
               searchTextMatches={searchTextMatches}
               selectedMatchIndex={selectedMatchIndex}
             >
-              {mapElement}
               {children}
               <DrawPolygons>{polygonBuilder.polygons}</DrawPolygons>
               <div style={videoRecordingStyle as any}>

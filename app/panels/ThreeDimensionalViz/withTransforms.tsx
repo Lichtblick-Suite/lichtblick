@@ -46,8 +46,6 @@ function withTransforms<Props extends any>(ChildComponent: React.ComponentType<P
         transforms = new Transforms();
       }
 
-      getGlobalHooks().perPanelHooks().ThreeDimensionalViz.consumePose(frame, transforms);
-
       const tfs = frame[TRANSFORM_TOPIC];
       if (tfs) {
         const skipFrameId = getGlobalHooks().perPanelHooks().ThreeDimensionalViz.sceneBuilderHooks

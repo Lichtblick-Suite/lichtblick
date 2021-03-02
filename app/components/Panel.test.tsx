@@ -13,7 +13,6 @@
 
 import { mount } from "enzyme";
 import { createMemoryHistory } from "history";
-import * as React from "react";
 import { $Shape } from "utility-types";
 
 import { savePanelConfigs } from "@foxglove-studio/app/actions/panels";
@@ -59,7 +58,7 @@ function Context(props: { children: React.ReactNode; store?: any }) {
 }
 
 describe("Panel", () => {
-  it.skip("renders properly with defaultConfig", () => {
+  it("renders properly with defaultConfig", () => {
     const renderFn = jest.fn();
     const DummyPanel = getDummyPanel(renderFn);
 
@@ -83,7 +82,7 @@ describe("Panel", () => {
     ]);
   });
 
-  it.skip("gets the config from the store", () => {
+  it("gets the config from the store", () => {
     const renderFn = jest.fn();
     const DummyPanel = getDummyPanel(renderFn);
 
@@ -112,7 +111,7 @@ describe("Panel", () => {
     ]);
   });
 
-  it.skip("does not rerender when another panel changes", () => {
+  it("does not rerender when another panel changes", () => {
     const renderFn = jest.fn();
     const DummyPanel = getDummyPanel(renderFn);
 

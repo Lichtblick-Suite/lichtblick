@@ -187,11 +187,7 @@ export default function WorldMarkers({
     sphere,
     sphereList,
     triangleList,
-    ...rest
   } = markersByType;
-  const additionalMarkers = getGlobalHooks()
-    .perPanelHooks()
-    .ThreeDimensionalViz.renderAdditionalMarkers(rest);
 
   // GLTextAtlas download is shared among all instances of World, but we should only load the GLText command once we
   // have the pregenerated atlas available.
@@ -229,7 +225,6 @@ export default function WorldMarkers({
       <OccupancyGrids layerIndex={(layerIndex as any) + LAYER_INDEX_OCCUPANCY_GRIDS}>
         {grid as any}
       </OccupancyGrids>
-      {additionalMarkers}
       {/* Render PointClouds first so other markers with the same zIndex can show on top of PointClouds. */}
       <PointClouds layerIndex={layerIndex} clearCachedMarkers={clearCachedMarkers}>
         {pointcloud as any}
@@ -276,10 +271,10 @@ export default function WorldMarkers({
           if (!metadata) {
             return;
           }
-          const { name, markerStyle = {}, iconOffset: { x = 0, y = 0 } = {} } = metadata;
+          const { markerStyle = {}, iconOffset: { x = 0, y = 0 } = {} } = metadata;
           const iconsByClassification = getGlobalHooks().perPanelHooks().ThreeDimensionalViz
             .iconsByClassification;
-          const SvgIcon = iconsByClassification[name] || iconsByClassification.DEFAULT;
+          const SvgIcon = iconsByClassification.DEFAULT;
 
           return (
             <SIconWrapper

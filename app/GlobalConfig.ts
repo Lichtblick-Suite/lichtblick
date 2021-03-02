@@ -11,17 +11,19 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
+import { perPanelHooks } from "@foxglove-studio/app/BuiltinPanelHooks";
 import { PersistedState, Store } from "@foxglove-studio/app/reducers";
+import {
+  LAYOUT_URL_QUERY_KEY,
+  REMOTE_BAG_URL_2_QUERY_KEY,
+} from "@foxglove-studio/app/util/globalConstants";
+import { initializeLogEvent } from "@foxglove-studio/app/util/logEvent";
 
-// We put all the internal requires inside functions, so that when they load the hooks have been properly set.
-/* eslint-disable @typescript-eslint/no-var-requires */
-
-let importedPanelsByCategory: unknown;
-let importedPerPanelHooks: any;
+let importedPanelsByCategory: any;
+const importedPerPanelHooks = perPanelHooks();
 const defaultHooks = {
   areHooksImported: () => importedPanelsByCategory && importedPerPanelHooks,
   getLayoutFromUrl: async (search: string) => {
-    const { LAYOUT_URL_QUERY_KEY } = require("@foxglove-studio/app/util/globalConstants");
     const params = new URLSearchParams(search);
     const layoutUrl = params.get(LAYOUT_URL_QUERY_KEY);
     if (!layoutUrl) {
@@ -39,26 +41,9 @@ const defaultHooks = {
         throw new Error(`Failed to fetch layout from URL: ${e.message}`);
       });
   },
-  async importHooksAsync() {
-    return new Promise<void>((resolve, reject) => {
-      if (importedPanelsByCategory && importedPerPanelHooks) {
-        resolve();
-      }
-      import("./hooksImporter")
-        .then((hooksImporter) => {
-          importedPerPanelHooks = hooksImporter.perPanelHooks();
-          importedPanelsByCategory = hooksImporter.panelsByCategory();
-          resolve();
-        })
-        .catch((reason) => {
-          reject(`Failed to import hooks bundle: ${reason}`);
-        });
-    });
-  },
+  async importHooksAsync() {},
   nodes: () => [],
   getDefaultPersistedState() {
-    const { defaultPlaybackConfig } = require("@foxglove-studio/app/reducers/panels");
-
     // All panel fields have to be present.
     const state: PersistedState = {
       fetchedLayout: { isLoading: false, data: undefined },
@@ -79,7 +64,11 @@ const defaultHooks = {
         globalVariables: {},
         userNodes: {},
         linkedGlobalVariables: [],
-        playbackConfig: defaultPlaybackConfig,
+        playbackConfig: {
+          speed: 0.2,
+          messageOrder: "receiveTime",
+          timeDisplayMethod: "ROS",
+        },
       },
     };
     return state;
@@ -93,15 +82,16 @@ const defaultHooks = {
   },
   panelsByCategory: () => {
     if (!importedPanelsByCategory) {
-      throw new Error("panelsByCategory requested before hooks have been imported");
+      return {
+        ros: [],
+        utilities: [],
+        debugging: [],
+      };
     }
     return importedPanelsByCategory;
   },
   helpPageFootnote: () => null,
   perPanelHooks: () => {
-    if (!importedPerPanelHooks) {
-      throw new Error("perPanelHooks requested before hooks have been imported");
-    }
     return importedPerPanelHooks;
   },
   startupPerPanelHooks: () => {
@@ -127,7 +117,12 @@ const defaultHooks = {
     };
   },
   load: async () => {
-    const { initializeLogEvent } = require("@foxglove-studio/app/util/logEvent");
+    // Due to some top level uses of getGlobalConfig() inside panels sources
+    // We need to set the panelCategories after we set perPanelHooks
+    // So we move this import here and set perPanelHooks above via top level imports
+    const { panelsByCategory } = await import("@foxglove-studio/app/BuiltinPanels");
+    importedPanelsByCategory = panelsByCategory();
+
     initializeLogEvent(() => undefined, {}, {});
   },
   getAdditionalDataProviders: () => {
@@ -153,7 +148,6 @@ const defaultHooks = {
   },
   linkMessagePathSyntaxToHelpPage: () => true,
   getSecondSourceUrlParams() {
-    const { REMOTE_BAG_URL_2_QUERY_KEY } = require("@foxglove-studio/app/util/globalConstants");
     return [REMOTE_BAG_URL_2_QUERY_KEY];
   },
   updateUrlToTrackLayoutChanges: async (_opt: { store: Store; skipPatch: boolean }) => {
