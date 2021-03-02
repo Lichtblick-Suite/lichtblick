@@ -160,7 +160,8 @@ export function createPositionBuffer({
   }
 
   // We cannot use positions as is from data buffer. Extract them.
-  console.warn(
+  // eslint-disable-next-line no-restricted-syntax
+  console.info(
     `Vertex buffer stride will be too big (${stride}). Extracting positions from data in CPU`,
   );
   return extractValues({
@@ -208,7 +209,8 @@ export function createColorBuffer({
       };
     }
     // stride is too big. Extract colors from data
-    console.warn(
+    // eslint-disable-next-line no-restricted-syntax
+    console.info(
       `Vertex buffer stride will be too big (${
         4 * stride
       }). Extracting RGB colors from data in CPU`,
@@ -249,7 +251,8 @@ export function createColorBuffer({
 
   // Color datatype is not float or stride is too big
   // Just extract color data from buffer using CPU
-  console.warn("Cannot reinterpret data. Extracting color buffer using CPU");
+  // eslint-disable-next-line no-restricted-syntax
+  console.info("Cannot reinterpret data. Extracting color buffer using CPU");
   return extractValues({
     data,
     readers: [colorField.reader],
