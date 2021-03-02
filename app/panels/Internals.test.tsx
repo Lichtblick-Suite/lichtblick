@@ -25,7 +25,7 @@ const mockDownloadTextFile: any = downloadTextFile;
 jest.mock("@foxglove-studio/app/util");
 
 describe("<Internals>", () => {
-  it.skip("displays panel subscribers", () => {
+  it("displays panel subscribers", () => {
     const contextFn = jest.fn().mockReturnValue(null);
     const wrapper = mount(
       <PanelSetup
@@ -65,7 +65,7 @@ describe("<Internals>", () => {
     wrapperWithDeprecatedMessageHistory.unmount();
   });
 
-  it.skip("records data and exports JSON fixture", async () => {
+  it("records data and exports JSON fixture", async () => {
     const wrapper = mount(
       <PanelSetup
         fixture={{

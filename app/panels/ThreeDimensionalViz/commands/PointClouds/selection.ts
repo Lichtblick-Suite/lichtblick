@@ -103,9 +103,7 @@ export function getClickedInfo(
     }
   }
 
-  let additionalFieldValues: {
-    [name: string]: number | null | undefined;
-  } = {};
+  let additionalFieldValues: { [name: string]: number | null | undefined } | undefined;
   const additionalField = getAdditionalFieldNames(fields);
   if (additionalField.length) {
     additionalFieldValues = additionalField.reduce((memo: any, fieldName) => {
