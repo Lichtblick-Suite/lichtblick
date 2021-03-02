@@ -20,10 +20,14 @@ import configureTestingStore from "@foxglove-studio/app/store/configureStore.tes
 import { Store } from "@foxglove-studio/app/types/Store";
 import history from "@foxglove-studio/app/util/history";
 
+interface TestStore extends Store {
+  push?: (path: string) => void;
+}
+
 let store: Store | undefined = undefined;
 // We have to wrap the actual creation of the global store in a function so that we only run it
 // after Cruise/open-source specific "hooks" have been initialized.
-function getGlobalStore() {
+function getGlobalStore(): Store {
   if (!store) {
     store = configureStore(createRootReducer(history), [
       routerMiddleware(history),
@@ -33,7 +37,7 @@ function getGlobalStore() {
   return store;
 }
 
-export function getGlobalStoreForTest(args?: { search?: string; testAuth?: any }) {
+export function getGlobalStoreForTest(args?: { search?: string; testAuth?: unknown }): TestStore {
   const memoryHistory = createMemoryHistory();
   const testStore = configureTestingStore(
     createRootReducer(memoryHistory, { testAuth: args?.testAuth }),
@@ -42,7 +46,7 @@ export function getGlobalStoreForTest(args?: { search?: string; testAuth?: any }
   );
 
   // Attach a helper method to the test store.
-  (testStore as any).push = (path: string) => memoryHistory.push(path);
+  (testStore as TestStore).push = (path: string) => memoryHistory.push(path);
 
   const search = args?.search;
   if (search) {

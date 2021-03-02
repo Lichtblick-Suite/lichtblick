@@ -11,11 +11,16 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import type { Action, Store as ReduxStore } from "redux";
+import type { Store as ReduxStore } from "redux";
+import type { ThunkDispatch } from "redux-thunk";
 
+import { ActionTypes } from "@foxglove-studio/app/actions";
 import { State } from "@foxglove-studio/app/reducers";
 
-export type Store = ReduxStore<State, Action<void>>;
+export type Store = ReduxStore<State, ActionTypes> & {
+  dispatch: ThunkDispatch<State, undefined, ActionTypes>;
+};
+
 export type GetState = () => State;
 
 export type Dispatch<T> = (arg0: T | ((arg0: Dispatch<T>, arg1: GetState) => State)) => void;

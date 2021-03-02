@@ -13,11 +13,13 @@
 
 import { createStore, applyMiddleware, Reducer } from "redux";
 import thunk from "redux-thunk";
+import type { ThunkMiddleware } from "redux-thunk";
 
+import { ActionTypes } from "@foxglove-studio/app/actions";
 import { Store } from "@foxglove-studio/app/types/Store";
 
-const configureStore = (reducer: Reducer<any, any>, middleware: Array<any> = []): Store => {
-  let enhancer = applyMiddleware(thunk, ...middleware);
+const configureStore = (reducer: Reducer<any, ActionTypes>, middleware: Array<any> = []) => {
+  let enhancer = applyMiddleware(thunk as ThunkMiddleware<Store, ActionTypes>, ...middleware);
   if (process.env.NODE_ENV !== "production") {
     // Unclear whether this require can be safely moved to an import
     // eslint-disable-next-line @typescript-eslint/no-var-requires

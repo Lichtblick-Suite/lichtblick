@@ -14,8 +14,11 @@
 import { routerMiddleware, onLocationChanged, LOCATION_CHANGE } from "connected-react-router";
 import { createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
+import type { ThunkMiddleware } from "redux-thunk";
 
+import { ActionTypes } from "@foxglove-studio/app/actions";
 import { State } from "@foxglove-studio/app/reducers";
+import { Store } from "@foxglove-studio/app/types/Store";
 
 const configureStore = (
   reducer: (arg0: any, arg1: any) => any,
@@ -26,7 +29,11 @@ const configureStore = (
   const store = createStore(
     reducer,
     preloadedState,
-    applyMiddleware(thunk, routerMiddleware(history), ...middleware),
+    applyMiddleware(
+      thunk as ThunkMiddleware<Store, ActionTypes>,
+      routerMiddleware(history),
+      ...middleware,
+    ),
   );
 
   // if there is no history, initialize the router state
