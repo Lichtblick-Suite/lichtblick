@@ -101,12 +101,12 @@ export default (_: never, argv: WebpackArgv): Configuration => {
           },
         },
         {
-          // We use stringified Typescript in Node Playground.
-          test: /players[\\/]UserNodePlayer[\\/]nodeTransformerWorker[\\/]typescript[\\/].+\.template$/,
-          exclude: /node_modules/,
+          // "?raw" imports are used to load stringified typescript in Node Playground
+          // https://webpack.js.org/guides/asset-modules/#replacing-inline-loader-syntax
+          resourceQuery: /raw/,
           type: "asset/source",
         },
-        { test: /\.md$/, type: "asset/source" },
+        { test: /\.(md|template)$/, type: "asset/source" },
         {
           test: /\.svg$/,
           loader: "react-svg-loader",

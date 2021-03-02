@@ -618,7 +618,7 @@ describe("UserNodePlayer", () => {
       });
     });
 
-    it.skip("provides access to './pointClouds' library for user input node code", async () => {
+    it("provides access to './pointClouds' library for user input node code", async () => {
       const fakePlayer = new FakePlayer();
       const userNodePlayer = new UserNodePlayer(fakePlayer, defaultUserNodeActions);
 

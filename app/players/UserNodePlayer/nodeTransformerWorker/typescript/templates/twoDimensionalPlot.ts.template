@@ -1,4 +1,5 @@
 import { Input, Messages } from "ros";
+
 import { TwoDimensionalPlot, TwoDimensionalPlotLine } from "./types";
 
 type GlobalVariables = { id: number };

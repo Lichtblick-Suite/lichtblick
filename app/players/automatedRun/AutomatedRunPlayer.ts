@@ -79,7 +79,7 @@ export default class AutomatedRunPlayer implements Player {
   _isPlaying: boolean = false;
   _provider: DataProvider;
   _providerResult?: InitializationResult;
-  _progress?: Progress;
+  _progress: Progress = {};
   _bobjectTopics: Set<string> = new Set();
   _parsedTopics: Set<string> = new Set();
   _listener?: (arg0: PlayerState) => Promise<void>;
@@ -196,7 +196,7 @@ export default class AutomatedRunPlayer implements Player {
         return;
       }
       const initializationResult = this._providerResult;
-      if (!initializationResult || !this._progress) {
+      if (!initializationResult) {
         throw new Error("AutomatedRunPlayer not initialized");
       }
 
@@ -336,7 +336,6 @@ export default class AutomatedRunPlayer implements Player {
     }
     // If the client has shouldLoadDataBeforePlaying set to true, only start playback once all data has loaded.
     return (
-      this._progress &&
       this._progress.fullyLoadedFractionRanges &&
       this._progress.fullyLoadedFractionRanges.length &&
       this._progress.fullyLoadedFractionRanges.every(({ start, end }) => start === 0 && end === 1)

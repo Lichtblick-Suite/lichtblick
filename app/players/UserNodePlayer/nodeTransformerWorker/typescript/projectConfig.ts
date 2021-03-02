@@ -18,11 +18,11 @@ import {
   DEPRECATED__ros_lib_dts,
   DEPRECATED__ros_lib_filename,
 } from "@foxglove-studio/app/players/UserNodePlayer/nodeTransformerWorker/typescript/DEPRECATED_ros";
+import rawUserUtils from "@foxglove-studio/app/players/UserNodePlayer/nodeTransformerWorker/typescript/rawUserUtils";
 import {
   ros_lib_filename,
   ros_lib_dts,
 } from "@foxglove-studio/app/players/UserNodePlayer/nodeTransformerWorker/typescript/ros";
-import userUtilities from "@foxglove-studio/app/players/UserNodePlayer/nodeTransformerWorker/typescript/userUtils";
 import { DEFAULT_WEBVIZ_NODE_PREFIX } from "@foxglove-studio/app/util/globalConstants";
 
 export type NodeProjectFile = {
@@ -37,7 +37,7 @@ export type NodeProjectConfig = {
   utilityFiles: NodeProjectFile[];
 };
 
-const utilityFiles: NodeProjectFile[] = userUtilities.map((utility) => ({
+const utilityFiles: NodeProjectFile[] = rawUserUtils.map((utility) => ({
   ...utility,
   filePath: `${DEFAULT_WEBVIZ_NODE_PREFIX}${utility.fileName}`,
 }));

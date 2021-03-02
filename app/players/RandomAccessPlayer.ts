@@ -295,7 +295,7 @@ export default class RandomAccessPlayer implements Player {
     }
 
     // If we are paused at a certain time, update seek-to query param
-    if (this._currentTime && !this._isPlaying) {
+    if (this._initialized && !this._isPlaying) {
       const dataStart = clampTime(
         TimeUtil.add(this._start, fromNanoSec(SEEK_ON_START_NS)),
         this._start,
@@ -609,7 +609,7 @@ export default class RandomAccessPlayer implements Player {
 
   seekPlayback(time: Time, backfillDuration?: Time | null): void {
     // Only seek when the provider initialization is done.
-    if (!this._start || !this._end) {
+    if (!this._initialized) {
       return;
     }
     this._metricsCollector.seek(time);

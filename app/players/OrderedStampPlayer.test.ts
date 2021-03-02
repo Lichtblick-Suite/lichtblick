@@ -289,13 +289,12 @@ describe("OrderedStampPlayer", () => {
     expect(setPlaybackSpeedSpy.mock.calls).toEqual([[12345]]);
   });
 
-  it.skip("seeks appropriately with dynamic order switching", async () => {
+  it("seeks appropriately with dynamic order switching", async () => {
     const { player, fakePlayer } = makePlayers("receiveTime");
 
-    const state = await new Promise<PlayerState>((resolve) => {
-      player.setListener(async (playerState) => {
-        resolve(playerState);
-      });
+    let state: PlayerState | undefined;
+    player.setListener(async (playerState) => {
+      state = playerState;
     });
     jest.spyOn(fakePlayer, "seekPlayback");
 

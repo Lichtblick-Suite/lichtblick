@@ -542,7 +542,7 @@ describe("RandomAccessPlayer", () => {
     source.close();
   });
 
-  it.skip("seek during reading discards messages before seek", async () => {
+  it("seek during reading discards messages before seek", async () => {
     const provider = new TestProvider();
     const source = new RandomAccessPlayer(
       { name: "TestProvider", args: { provider }, children: [] },
@@ -624,7 +624,7 @@ describe("RandomAccessPlayer", () => {
       { sec: 10, nsec: 0 },
     ]);
     expect(activeDatas.map((d) => ({ messages: d.messages, bobjects: d.bobjects }))).toEqual([
-      { messages: undefined, bobjects: undefined },
+      { messages: [], bobjects: [] },
       { messages: [], bobjects: [] },
       { messages: [], bobjects: [] },
       { messages: [], bobjects: [] },
@@ -700,7 +700,7 @@ describe("RandomAccessPlayer", () => {
     await delay(1);
   });
 
-  it.skip("does not emit when getting a progressCallback when playing", async () => {
+  it("does not emit when getting a progressCallback when playing", async () => {
     const provider = new TestProvider();
     const source = new RandomAccessPlayer(
       { name: "TestProvider", args: { provider }, children: [] },
@@ -745,10 +745,10 @@ describe("RandomAccessPlayer", () => {
 
     store.reset(4);
 
+    // Wait for player messages to settle so we can assert on exact message contents later
+    await delay(1);
+
     source.startPlayback();
-    await delay(1);
-    await delay(1);
-    await delay(1);
 
     const messages = await store.done;
     const messagesAndIsPlaying = messages.map(({ activeData, progress }) => ({
@@ -1249,7 +1249,7 @@ describe("RandomAccessPlayer", () => {
     expect(provider.closed).toBe(true);
   });
 
-  it.skip("doesn't try to close provider after initialization error", async () => {
+  it("doesn't try to close provider after initialization error", async () => {
     class FailTestProvider extends TestProvider {
       initialize() {
         return Promise.reject(new Error("fake initialization failure"));
@@ -1671,7 +1671,7 @@ describe("RandomAccessPlayer", () => {
     player.close();
   });
 
-  it.skip("does not seek until setListener is called to initialize the start and end time", async () => {
+  it("does not seek until setListener is called to initialize the start and end time", async () => {
     const provider = new TestProvider();
     provider.getMessages = jest.fn().mockImplementation(() => Promise.resolve(getMessagesResult));
     const player = new RandomAccessPlayer(

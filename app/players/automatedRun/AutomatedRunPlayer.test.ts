@@ -82,7 +82,7 @@ describe("AutomatedRunPlayer", () => {
     expect(player._isPlaying).toEqual(true);
   });
 
-  it.skip("measures preloading performance", async () => {
+  it("measures preloading performance", async () => {
     const provider = new TestProvider({ getMessages: async () => getMessagesResult });
     const client = new TestRunClient({ shouldLoadDataBeforePlaying: true });
     const player = new AutomatedRunPlayer(provider, client);
@@ -131,7 +131,7 @@ describe("AutomatedRunPlayer", () => {
     expect(player._isPlaying).toEqual(true);
   });
 
-  it.skip("makes calls to getMessages with the correct frames", async () => {
+  it("makes calls to getMessages with the correct frames", async () => {
     const frames: any = [];
     const provider = new TestProvider({
       getMessages: async (startTime, endTime) => {
@@ -220,7 +220,7 @@ describe("AutomatedRunPlayer", () => {
     };
   }
 
-  it.skip("awaits the previous emit promise before calling getMessages", async () => {
+  it("awaits the previous emit promise before calling getMessages", async () => {
     const {
       resolveNextGetMessages,
       resolveNextEmitState,

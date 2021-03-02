@@ -9,6 +9,5 @@
   "typeAcquisition": {
     "exclude": ["node"]
   },
-  "include": ["**/*", "../typings/*.d.ts"],
-  "exclude": ["node_modules", "preload.ts"]
+  "include": ["**/*", "../typings/*.d.ts"]
 }
