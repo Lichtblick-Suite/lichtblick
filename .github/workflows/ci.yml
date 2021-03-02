@@ -14,10 +14,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        command:
-          - lint:nofix
-          - build:prod
-          - test
+        config:
+          # Specify names so that the GitHub branch protection settings for
+          # required checks don't need to change if we ever change the commands used.
+          - name: lint
+            command: lint:nofix
+          - name: build
+            command: build:prod
+          - name: test
+            command: test --maxWorkers=100%
+
+    name: ${{ matrix.config.name }}
 
     steps:
       - uses: actions/checkout@v2
@@ -37,4 +44,4 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
       - run: yarn install --immutable
-      - run: yarn run ${{ matrix.command }}
+      - run: yarn run ${{ matrix.config.command }}
