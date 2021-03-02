@@ -7,7 +7,7 @@ const sharedConfig = {
   preset: "ts-jest",
   globals: {
     "ts-jest": {
-      tsconfig: "<rootDir>/app/tsconfig.json",
+      tsconfig: "<rootDir>/app/tsconfig.jest.json",
     },
   },
   setupFiles: [

@@ -281,6 +281,7 @@ overrides:
       - "app/panels/ThreeDimensionalViz/TopicTree/TreeNodeRow.tsx"
       - "app/panels/ThreeDimensionalViz/TopicTree/VisibilityToggle.stories.tsx"
       - "app/panels/ThreeDimensionalViz/TopicTree/VisibilityToggle.tsx"
+      - "app/panels/ThreeDimensionalViz/TopicTree/renderNamespaceNodes.tsx"
       - "app/panels/ThreeDimensionalViz/TopicTree/renderStyleExpressionNodes.tsx"
       - "app/panels/ThreeDimensionalViz/TopicTree/renderTreeNodes.tsx"
       - "app/panels/ThreeDimensionalViz/TopicTree/useSceneBuilderAndTransformsData.test.tsx"

@@ -10,6 +10,7 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "strict": true,
+    "noUncheckedIndexedAccess": true,
     "typeRoots": ["node_modules/@types", "./typings"]
   },
   "include": ["*.ts", "*.js"],
