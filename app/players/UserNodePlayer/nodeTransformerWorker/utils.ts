@@ -50,21 +50,8 @@ export const transformDiagnosticToMarkerData = (diagnostic: ts.Diagnostic): Diag
     character: endColumn,
   } = diagnostic.file.getLineAndCharacterOfPosition(diagnostic.start + diagnostic.length);
 
-  let messageText = "";
-  // Typescript sometimes builds a linked list of formatted diagnostic messages
-  // to be used as part of a multiline message.
-  if (typeof diagnostic.messageText === "string") {
-    messageText = diagnostic.messageText;
-  } else {
-    let message = diagnostic.messageText;
-    while (message.next) {
-      messageText += `\n${message.messageText}`;
-      message = message.next;
-    }
-  }
-
   return {
-    message: messageText,
+    message: flattenDiagnosticMessageText(diagnostic.messageText, "\n"),
     severity: mapCategoryToDiagnosticSeverity(diagnostic.category),
     source: "Typescript",
     startLineNumber,
@@ -75,6 +62,36 @@ export const transformDiagnosticToMarkerData = (diagnostic: ts.Diagnostic): Diag
     code: diagnostic.code,
   };
 };
+
+// Flatten list of formatted diagnostic messages
+// https://github.com/microsoft/monaco-typescript/blob/126dbe1f6f4b235bac436d580b83696070271f71/src/languageFeatures.ts#L36
+function flattenDiagnosticMessageText(
+  diag: string | ts.DiagnosticMessageChain | undefined,
+  newLine: string,
+  indent = 0,
+): string {
+  if (typeof diag === "string") {
+    return diag;
+  } else if (diag === undefined) {
+    return "";
+  }
+  let result = "";
+  if (indent > 0) {
+    result += newLine;
+
+    for (let i = 0; i < indent; i++) {
+      result += "  ";
+    }
+  }
+  result += diag.messageText;
+  indent++;
+  if (diag.next) {
+    for (const kid of diag.next) {
+      result += flattenDiagnosticMessageText(kid, newLine, indent);
+    }
+  }
+  return result;
+}
 
 // https://www.typescriptlang.org/docs/handbook/compiler-options.html
 export const baseCompilerOptions = {

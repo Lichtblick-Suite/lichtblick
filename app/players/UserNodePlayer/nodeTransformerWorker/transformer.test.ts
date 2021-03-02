@@ -1524,7 +1524,7 @@ describe("pipeline", () => {
             const nodeData = extract(inputNodeData, []);
             if (!error) {
               expect(nodeData.diagnostics).toEqual([]);
-              expect(nodeData.outputDatatype).toEqual(outputDatatype || nodeData.name);
+              expect(nodeData.outputDatatype).toEqual(outputDatatype ?? nodeData.name);
               expect(nodeData.datatypes).toEqual(datatypes);
             } else {
               expect(nodeData.diagnostics.map(({ code }) => code)).toEqual([error]);
