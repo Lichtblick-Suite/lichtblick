@@ -13,7 +13,7 @@
 
 import { isEqual, sortBy, partition } from "lodash";
 import { MessageReader, Time, parseMessageDefinition } from "rosbag";
-import roslib from "roslib/src/RosLib";
+import roslib from "roslib";
 import uuid from "uuid";
 
 import WssErrorModal from "@foxglove-studio/app/components/WssErrorModal";

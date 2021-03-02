@@ -1790,7 +1790,7 @@ __metadata:
     regl-worldview: 0.16.0
     reselect: 4.0.0
     rosbag: "github:foxglove/rosbag.js#06f41a828659b16340e9c19ca68b2acf950b1b83"
-    roslib: 1.1.0
+    roslib: "github:foxglove/roslibjs#57c9a4712d61691f132367fd8ef8af950b010872"
     sanitize-html: 1.20.0
     seedrandom: 2.4.4
     shallowequal: 1.1.0
@@ -9510,10 +9510,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eventemitter2@npm:^4.1.0":
-  version: 4.1.2
-  resolution: "eventemitter2@npm:4.1.2"
-  checksum: a7b747a20a55a89036875e92116a0af9302da3a0b75db196c150fa44b1e7054483392421a2121a9c06d3f5c531e2398fd8d100759c75fb8fb0ded49afa61a8e6
+"eventemitter2@npm:^6.4.0":
+  version: 6.4.4
+  resolution: "eventemitter2@npm:6.4.4"
+  checksum: 632e4e96be6d34c55855980dfe051d684ed9555d9ce800b824369a7f3a9ba9d792775bba45182f0280c5635eab96e8d7cbbcdd6a8f2f4c0d703304632391b9be
   languageName: node
   linkType: hard
 
@@ -18525,19 +18525,19 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"roslib@npm:1.1.0":
+"roslib@github:foxglove/roslibjs#57c9a4712d61691f132367fd8ef8af950b010872":
   version: 1.1.0
-  resolution: "roslib@npm:1.1.0"
+  resolution: "roslib@https://github.com/foxglove/roslibjs.git#commit=57c9a4712d61691f132367fd8ef8af950b010872"
   dependencies:
     cbor-js: ^0.1.0
-    eventemitter2: ^4.1.0
+    eventemitter2: ^6.4.0
     object-assign: ^4.0.1
     pngparse: ^2.0.1
     socket.io: 2.2.0
     webworkify: ^1.5.0
     ws: ^7.2.1
     xmldom: ^0.1.19
-  checksum: fe411b5950b40600b538f0137dcfabd6a3684ca108ad09bccb92747f11d93a340707a5956be3ff001144d21ecc6208b8365a7b20abd02911d031d5024eb335c6
+  checksum: 048bc5b0e96e43c8daf498709b377b3704a476679a7de3c4f7df7f848f1060847a9a6bab9e5d4d69604e52f26b4c9794ed7e147cd6ee6577390ea91365a668a8
   languageName: node
   linkType: hard
 

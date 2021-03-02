@@ -99,7 +99,7 @@ class MockRosTopic {
   }
 }
 
-jest.mock("roslib/src/RosLib", () => {
+jest.mock("roslib", () => {
   return {
     __esModule: true,
     default: {
