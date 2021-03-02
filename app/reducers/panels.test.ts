@@ -13,6 +13,7 @@
 
 import fetchMock from "fetch-mock";
 import { getLeaves, MosaicParent } from "react-mosaic-component";
+import { MosaicDropTargetPosition } from "react-mosaic-component/lib/internalTypes";
 
 import { ActionTypes } from "@foxglove-studio/app/actions";
 import {
@@ -46,7 +47,6 @@ import Storage from "@foxglove-studio/app/util/Storage";
 import { TAB_PANEL_TYPE } from "@foxglove-studio/app/util/globalConstants";
 import { getPanelTypeFromId } from "@foxglove-studio/app/util/layout";
 
-const CURRENT_LAYOUT_VERSION = 16;
 const defaultPersistedState = Object.freeze(getGlobalHooks().getDefaultPersistedState());
 const storage = new Storage();
 
@@ -134,13 +134,12 @@ describe("state.persistedState", () => {
     });
   });
 
-  it.skip("saves all keys of migrated payload to state, with appropriate fallbacks", () => {
+  it("saves all keys of migrated payload to state, with appropriate fallbacks", () => {
     const { store, checkState } = getStore();
 
     const payload = {
       layout: "foo!bar",
       savedProps: { "foo!bar": { test: true } },
-      version: 0,
       futureFieldName: "foo",
     };
 
@@ -152,8 +151,7 @@ describe("state.persistedState", () => {
         globalVariables: {},
         userNodes: {},
         linkedGlobalVariables: [],
-        playbackConfig: { speed: 0.2, messageOrder: "receiveTime" },
-        version: CURRENT_LAYOUT_VERSION,
+        playbackConfig: { speed: 0.2, messageOrder: "receiveTime", timeDisplayMethod: "ROS" },
         futureFieldName: "foo",
       };
       expect(panels).toEqual(result);
@@ -179,7 +177,7 @@ describe("state.persistedState", () => {
     });
   });
 
-  it.skip("sets default speed in local storage if playbackConfig object is not in migrated payload", () => {
+  it("sets default speed in local storage if playbackConfig object is not in migrated payload", () => {
     const { store, checkState } = getStore();
     const payload = {
       layout: "foo!baz",
@@ -192,6 +190,7 @@ describe("state.persistedState", () => {
       expect(globalState.panels.playbackConfig).toEqual({
         messageOrder: "receiveTime",
         speed: 0.2,
+        timeDisplayMethod: "ROS",
       });
     });
   });
@@ -232,28 +231,6 @@ describe("state.persistedState", () => {
     checkState(() => {
       const globalState = GetGlobalState();
       expect(globalState.panels.restrictedTopics).toEqual(payload.restrictedTopics);
-    });
-  });
-
-  it.skip("change globalData key to globalVariables if only globalData key is present", () => {
-    const { store, checkState } = getStore();
-    const globalVariables = { some_global_data_var: 1 };
-    const payload = { globalData: globalVariables, layout: "foo!baz" };
-    store.dispatch(importPanelLayout(payload, {}));
-    checkState(() => {
-      const globalState = GetGlobalState();
-      expect(globalState.panels.globalVariables).toEqual(globalVariables);
-    });
-  });
-
-  it.skip("delete globalData key if both globalVariables and globalData are present", () => {
-    const { store, checkState } = getStore();
-    const globalVariables = { some_global_data_var: 1 };
-    const payload = { globalData: { some_var: 2 }, globalVariables, layout: "foo!baz" };
-    store.dispatch(importPanelLayout(payload, {}));
-    checkState(() => {
-      const globalState = GetGlobalState();
-      expect(globalState.panels.globalData).toBe(undefined);
     });
   });
 
@@ -719,7 +696,7 @@ describe("state.persistedState", () => {
     checkState(({ persistedState: { panels } }) => {
       expect(panels).toEqual({
         globalVariables: {},
-        layout: {},
+        layout: null,
         linkedGlobalVariables: [],
         playbackConfig: defaultPlaybackConfig,
         savedProps: {},
@@ -1731,7 +1708,7 @@ describe("state.persistedState", () => {
         },
       );
     });
-    it.skip("handles drags in multi-panel layouts - invalid position", () => {
+    it("handles drags in multi-panel layouts - invalid position", () => {
       const { store, checkState } = getStore();
       const originalLayout = {
         first: "Audio!a",
@@ -1747,7 +1724,7 @@ describe("state.persistedState", () => {
           panelId: "Audio!a",
           sourceTabId: undefined,
           targetTabId: undefined,
-          position: "right",
+          position: (<unknown>null) as MosaicDropTargetPosition,
           destinationPath: ["second"],
           ownPath: ["first"],
         }),
@@ -1762,7 +1739,7 @@ describe("state.persistedState", () => {
             first: "Audio!a",
             second: "Plot!a",
             direction: "row",
-            splitPercentage: null,
+            splitPercentage: undefined,
           });
         },
       );
