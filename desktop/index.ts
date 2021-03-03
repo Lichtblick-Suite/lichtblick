@@ -9,11 +9,12 @@ import "colors";
 import { init as initSentry } from "@sentry/electron";
 import {
   app,
-  shell,
   BrowserWindow,
+  BrowserWindowConstructorOptions,
   Menu,
   MenuItemConstructorOptions,
-  BrowserWindowConstructorOptions,
+  session,
+  shell,
   systemPreferences,
 } from "electron";
 import installExtension, {
@@ -35,7 +36,8 @@ if (require("electron-squirrel-startup")) {
   app.quit();
 }
 
-const isMac: boolean = process.platform === "darwin";
+const isMac = process.platform === "darwin";
+const isProduction = process.env.NODE_ENV === "production";
 
 async function createWindow(): Promise<void> {
   const preloadPath = path.join(app.getAppPath(), "main", "preload.js");
@@ -169,7 +171,7 @@ async function createWindow(): Promise<void> {
 
   mainWindow.loadURL(rendererPath);
 
-  if (process.env.NODE_ENV !== "production") {
+  if (!isProduction) {
     mainWindow.webContents.openDevTools();
   }
 
@@ -192,7 +194,7 @@ async function createWindow(): Promise<void> {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on("ready", async () => {
-  if (process.env.NODE_ENV !== "production") {
+  if (!isProduction) {
     console.group("Installing Chrome extensions for development...");
     // Extension installation sometimes gets stuck between the download step and the extension loading step, for unknown reasons.
     // So don't wait indefinitely for installation to complete.
@@ -228,7 +230,46 @@ app.on("ready", async () => {
     }
   }
 
+  // Content Security Policy
+  // See: https://www.electronjs.org/docs/tutorial/security
+  const contentSecurtiyPolicy: Record<string, string> = {
+    "default-src": "'self'",
+    "script-src": `'self' 'unsafe-inline'`,
+    "style-src": "'self' 'unsafe-inline'",
+    "connect-src": "'self' data: ws: wss:", // Required for rosbridge connections
+    "font-src": "'self' data:",
+  };
+  if (!isProduction) {
+    // 'unsafe-eval' appears to be required for Chrome developer tools
+    contentSecurtiyPolicy["script-src"] += " 'unsafe-eval'";
+  }
+
+  // Set default http headers
+  session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
+    callback({
+      responseHeaders: {
+        ...details.responseHeaders,
+        "Content-Security-Policy": [
+          Object.entries(contentSecurtiyPolicy)
+            .map(([key, val]) => `${key} ${val}`)
+            .join("; "),
+        ],
+      },
+    });
+  });
+
+  // Create the main window
   createWindow();
+
+  // This event handler must be added after the "ready" event fires
+  // (see https://github.com/electron/electron-quick-start/pull/382)
+  app.on("activate", () => {
+    // On macOS it's common to re-create a window in the app when the
+    // dock icon is clicked and there are no other windows open.
+    if (BrowserWindow.getAllWindows().length === 0) {
+      createWindow();
+    }
+  });
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common
@@ -237,13 +278,5 @@ app.on("ready", async () => {
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
     app.quit();
-  }
-});
-
-app.on("activate", () => {
-  // On OS X it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
-  if (BrowserWindow.getAllWindows().length === 0) {
-    createWindow();
   }
 });
