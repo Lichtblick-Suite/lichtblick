@@ -19,6 +19,7 @@ import {
 import { NotifyPlayerManagerData } from "@foxglove-studio/app/players/types";
 import Rpc from "@foxglove-studio/app/util/Rpc";
 import { setupWorker } from "@foxglove-studio/app/util/RpcWorkerUtils";
+
 // The "other side" of `RpcDataProvider`. Instantiates a `DataProviderDescriptor` tree underneath,
 // in the context of wherever this is instantiated (e.g. a Web Worker, or the server side of a
 // WebSocket).

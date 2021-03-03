@@ -390,7 +390,8 @@ function TopicTree({
               diffModeEnabled: hasFeatureColumn && diffModeEnabled,
             })}
             height={treeHeight}
-            itemHeight={ROW_HEIGHT} // Disable motion because it seems to cause a bug in the `rc-tree` (used under the hood by `antd` for
+            itemHeight={ROW_HEIGHT}
+            // Disable motion because it seems to cause a bug in the `rc-tree` (used under the hood by `antd` for
             // the tree). This bug would result in nodes no longer being rendered after a search.
             motion={null}
             selectable={false}

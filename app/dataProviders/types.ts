@@ -114,10 +114,12 @@ export interface DataProvider {
 export interface DataProviderConstructor {
   new (
     // The arguments to this particular DataProvider; typically an object.
-    args: any, // The children we should instantiate below. Many DataProviders cannot have any children (leaf
+    args: any,
+    // The children we should instantiate below. Many DataProviders cannot have any children (leaf
     // nodes in the tree), many require exactly one child, and the `CombinedDataProvider` can take
     // an arbitrary number of children.
-    children: DataProviderDescriptor[], // The function to instantiate the children (different in e.g. Web Workers).
+    children: DataProviderDescriptor[],
+    // The function to instantiate the children (different in e.g. Web Workers).
     getDataProvider: GetDataProvider,
   ): DataProvider;
 }

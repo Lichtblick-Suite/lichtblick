@@ -126,8 +126,7 @@ export type BinaryOccupancyGrid = Readonly<{
 
 export type BinaryWebvizMarker = Readonly<
   BinaryMarker & {
-    id(): string;
-    // overridden type,
+    id(): string; // overridden type
     metadata(): any; // JSON
   }
 >;

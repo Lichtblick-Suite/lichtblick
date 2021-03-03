@@ -63,12 +63,12 @@ export type MessagePathStructureItemMessage = {
   structureType: "message";
   nextByName: {
     [key: string]: MessagePathStructureItem;
-  }; // eslint-disable-line no-use-before-define
+  };
   datatype: string;
 };
 type MessagePathStructureItemArray = {
   structureType: "array";
-  next: MessagePathStructureItem; // eslint-disable-line no-use-before-define
+  next: MessagePathStructureItem;
   datatype: string;
 };
 type MessagePathStructureItemPrimitive = {

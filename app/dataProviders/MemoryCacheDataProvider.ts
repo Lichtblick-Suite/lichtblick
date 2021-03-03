@@ -36,23 +36,22 @@ import {
   missingRanges,
 } from "@foxglove-studio/app/util/ranges";
 import sendNotification from "@foxglove-studio/app/util/sendNotification";
-import { fromNanoSec, subtractTimes, toNanoSec } from "@foxglove-studio/app/util/time"; // I (JP) mostly just made these numbers up. It might be worth experimenting with different values
-// for these, but it seems to work reasonably well in my tests.
+import { fromNanoSec, subtractTimes, toNanoSec } from "@foxglove-studio/app/util/time";
 
+// I (JP) mostly just made these numbers up. It might be worth experimenting with different values
+// for these, but it seems to work reasonably well in my tests.
 export const MIN_MEM_CACHE_BLOCK_SIZE_NS = 0.1e9; // Messages are laid out in blocks with a fixed number of milliseconds.
+
 // Preloading algorithms get too slow when there are too many blocks. For very long bags, use longer
 // blocks. Adaptive block sizing is simpler than using a tree structure for immutable updates but
 // less flexible, so we may want to move away from a single-level block structure in the future.
-
 export const MAX_BLOCKS = 400;
-const READ_AHEAD_NS = 3e9;
-// Number of nanoseconds to read ahead from the last `getMessages` call.
+const READ_AHEAD_NS = 3e9; // Number of nanoseconds to read ahead from the last `getMessages` call.
 const DEFAULT_CACHE_SIZE_BYTES = 2.5e9; // Number of bytes that we aim to keep in the cache.
-
 export const MAX_BLOCK_SIZE_BYTES = 50e6; // Number of bytes in a block before we show an error.
+
 // For each memory block we store the actual messages (grouped by topic), and a total byte size of
 // the underlying ArrayBuffers.
-
 export type MemoryCacheBlock = $ReadOnly<{
   messagesByTopic: $ReadOnly<{
     [topic: string]: ReadonlyArray<BobjectMessage>;
@@ -70,11 +69,12 @@ const EMPTY_BLOCK: MemoryCacheBlock = {
 
 function getNormalizedTopics(topics: ReadonlyArray<string>): string[] {
   return uniq(topics).sort();
-} // Get the blocks to keep for the current cache purge, given the most recently accessed ranges, the
+}
+
+// Get the blocks to keep for the current cache purge, given the most recently accessed ranges, the
 // blocks byte sizes, the minimum number of blocks to always keep, and the maximum cache size.
 //
 // Exported for tests.
-
 export function getBlocksToKeep({
   recentBlockRanges,
   blockSizesInBytes,
@@ -96,8 +96,9 @@ export function getBlocksToKeep({
   newRecentRanges: Range[];
 } {
   let cacheSizeInBytes = 0;
-  const blockIndexesToKeep = new Set<number>(); // Always keep the badEvictionRange
+  const blockIndexesToKeep = new Set<number>();
 
+  // Always keep the badEvictionRange
   if (badEvictionRange) {
     for (let blockIndex = badEvictionRange.start; blockIndex < badEvictionRange.end; ++blockIndex) {
       const sizeInBytes = blockSizesInBytes[blockIndex];
@@ -107,8 +108,9 @@ export function getBlocksToKeep({
         cacheSizeInBytes += sizeInBytes;
       }
     }
-  } // Go through all the ranges, from most to least recent.
+  }
 
+  // Go through all the ranges, from most to least recent.
   for (let blockRangeIndex = 0; blockRangeIndex < recentBlockRanges.length; blockRangeIndex++) {
     const blockRange = recentBlockRanges[blockRangeIndex];
     // Work through blocks from highest priority to lowest. Break and discard low-priority blocks if
@@ -124,13 +126,15 @@ export function getBlocksToKeep({
 
       if (sizeInBytes === undefined) {
         continue;
-      } // Then always add the block. But only add to `cacheSizeInBytes` if we didn't already count it.
+      }
 
+      // Then always add the block. But only add to `cacheSizeInBytes` if we didn't already count it.
       if (!blockIndexesToKeep.has(blockIndex)) {
         blockIndexesToKeep.add(blockIndex);
         cacheSizeInBytes += sizeInBytes;
-      } // Terminate if we have exceeded `maxCacheSizeInBytes`.
+      }
 
+      // Terminate if we have exceeded `maxCacheSizeInBytes`.
       if (cacheSizeInBytes > maxCacheSizeInBytes) {
         const newRecentRangesExcludingBadEvictionRange = [
           ...recentBlockRanges.slice(0, blockRangeIndex),
@@ -164,7 +168,9 @@ export function getBlocksToKeep({
     blockIndexesToKeep,
     newRecentRanges: recentBlockRanges,
   };
-} // Helper to identify which end of a block range is most appropriate to evict when there is an open
+}
+
+// Helper to identify which end of a block range is most appropriate to evict when there is an open
 // read request.
 // Note: This function would work slightly better if it took a `badEvictionRange` instead of a
 // `badEvictionLocation`, but it's more complex and only manifests in quite uncommon use-cases.
@@ -189,20 +195,22 @@ function getBlocksToKeepDirection(
       endIndex: blockRange.end,
       increment: 1,
     };
-  } // In most cases, keep blocks from the end with highest priority.
+  }
 
+  // In most cases, keep blocks from the end with highest priority.
   return {
     startIndex: blockRange.end - 1,
     endIndex: blockRange.start - 1,
     increment: -1,
   };
-} // Get the best place to start prefetching a block, given the uncached ranges and the cursor position.
+}
+
+// Get the best place to start prefetching a block, given the uncached ranges and the cursor position.
 // In order of preference, we would like to prefetch:
 // - The leftmost uncached block to the right of the cursor, or
 // - The leftmost uncached block to the left of the cursor, if one does not exist to the right.
 //
 // Exported for tests.
-
 export function getPrefetchStartPoint(uncachedRanges: Range[], cursorPosition: number): number {
   uncachedRanges.sort((a, b) => {
     if (a.start < cursorPosition !== b.start < cursorPosition) {
@@ -213,10 +221,11 @@ export function getPrefetchStartPoint(uncachedRanges: Range[], cursorPosition: n
     return a.start - b.start;
   });
   return uncachedRanges[0].start;
-} // This fills up the memory with messages from an underlying DataProvider. The messages have to be
+}
+
+// This fills up the memory with messages from an underlying DataProvider. The messages have to be
 // unparsed ROS messages. The messages are evicted from this in-memory cache based on some constants
 // defined at the top of this file.
-
 export default class MemoryCacheDataProvider implements DataProvider {
   _id: string;
   _provider: DataProvider;
@@ -354,9 +363,10 @@ export default class MemoryCacheDataProvider implements DataProvider {
     delete this._currentConnection; // Make sure that the current "connection" loop stops executing.
 
     return this._provider.close();
-  } // We're primarily interested in the topics for the first outstanding read request, and after that
-  // we're interested in preloading topics (based on the *last* read request).
+  }
 
+  // We're primarily interested in the topics for the first outstanding read request, and after that
+  // we're interested in preloading topics (based on the *last* read request).
   _getCurrentTopics(): string[] {
     if (this._readRequests[0]) {
       return this._readRequests[0].topics;
@@ -374,8 +384,9 @@ export default class MemoryCacheDataProvider implements DataProvider {
           rosBinaryMessages: undefined,
         });
         return false;
-      } // If any of the requested blocks are not fully downloaded yet, bail out.
+      }
 
+      // If any of the requested blocks are not fully downloaded yet, bail out.
       for (let blockIndex = blockRange.start; blockIndex < blockRange.end; blockIndex++) {
         const block = this._blocks[blockIndex];
 
@@ -388,9 +399,10 @@ export default class MemoryCacheDataProvider implements DataProvider {
             return true;
           }
         }
-      } // Now that we know we have the blocks and messages, read them, and filter out just the
-      // messages for the requested time range and topics.
+      }
 
+      // Now that we know we have the blocks and messages, read them, and filter out just the
+      // messages for the requested time range and topics.
       const messages = [];
 
       for (let blockIndex = blockRange.start; blockIndex < blockRange.end; blockIndex++) {
@@ -431,8 +443,9 @@ export default class MemoryCacheDataProvider implements DataProvider {
       this._lastResolvedCallbackEnd = blockRange.end;
       return false;
     });
-  } // Gets called any time our "connection", read requests, or topics change.
+  }
 
+  // Gets called any time our "connection", read requests, or topics change.
   _updateState() {
     // First, see if there are any read requests that we can resolve now.
     this._resolveFinishedReadRequests();
@@ -443,8 +456,9 @@ export default class MemoryCacheDataProvider implements DataProvider {
     ) {
       // If we have a different set of topics, stop the current "connection", and refresh everything.
       delete this._currentConnection;
-    } // Then see if we need to set a new connection based on the new connection and read requests state.
+    }
 
+    // Then see if we need to set a new connection based on the new connection and read requests state.
     this._maybeRunNewConnections();
   }
 
@@ -471,7 +485,8 @@ export default class MemoryCacheDataProvider implements DataProvider {
       // All read requests have been served, but we have free cache space available. Cache something
       // useful if possible.
       return this._getPrefetchRange();
-    } // Either a good connection is already in progress, or we've served all connections and have
+    }
+    // Either a good connection is already in progress, or we've served all connections and have
     // nothing useful to prefetch.
   }
 
@@ -486,10 +501,10 @@ export default class MemoryCacheDataProvider implements DataProvider {
       return; // We have loaded the whole file.
     }
 
-    const prefetchStart = getPrefetchStartPoint(uncachedRanges, this._lastResolvedCallbackEnd || 0); // Just request a single block. We know there's at least one there, and we don't want to cause
+    const prefetchStart = getPrefetchStartPoint(uncachedRanges, this._lastResolvedCallbackEnd || 0);
+    // Just request a single block. We know there's at least one there, and we don't want to cause
     // blocks that are actually useful to be evicted because of our prefetching. We could consider
     // a "low priority" connection that aborts as soon as there's memory pressure.
-
     return {
       start: prefetchStart,
       end: prefetchStart + 1,
@@ -520,11 +535,13 @@ export default class MemoryCacheDataProvider implements DataProvider {
       if (!connectionSuccess) {
         // Connection interrupted, or otherwise unsuccessful.
         break;
-      } // See if there are any more read requests we should field.
+      }
+      // See if there are any more read requests we should field.
     }
-  } // Replace the current connection with a new one, spanning a certain range of blocks. Return whether we
-  // completed successfully, or whether we were interrupted by another connection.
+  }
 
+  // Replace the current connection with a new one, spanning a certain range of blocks. Return whether we
+  // completed successfully, or whether we were interrupted by another connection.
   async _setConnection(blockRange: Range): Promise<boolean> {
     if (!this._getCurrentTopics().length) {
       delete this._currentConnection;
@@ -546,8 +563,9 @@ export default class MemoryCacheDataProvider implements DataProvider {
 
     const isCurrent = () => {
       return this._currentConnection && this._currentConnection.id === id;
-    }; // Just loop infinitely, but break if the connection is not current any more.
+    };
 
+    // Just loop infinitely, but break if the connection is not current any more.
     for (;;) {
       const currentConnection = this._currentConnection;
       if (!currentConnection || !isCurrent()) {
@@ -587,11 +605,12 @@ export default class MemoryCacheDataProvider implements DataProvider {
         const types = (Object.keys(messages) as (keyof typeof messages)[])
           .filter((type) => messages[type] != null)
           .join("\n");
-        sendNotification("MemoryCacheDataProvider got bad message types", types, "app", "error"); // Do not retry.
-
+        sendNotification("MemoryCacheDataProvider got bad message types", types, "app", "error");
+        // Do not retry.
         return false;
-      } // If we're not current any more, discard the messages, because otherwise we might write duplicate messages.
+      }
 
+      // If we're not current any more, discard the messages, because otherwise we might write duplicate messages.
       if (!isCurrent()) {
         return false;
       }
@@ -653,16 +672,15 @@ export default class MemoryCacheDataProvider implements DataProvider {
           },
         ],
         this._blocks.slice(currentBlockIndex + 1),
-      ); // Now `this._recentBlockRanges` and `this._blocks` have been updated, so we can resolve
+      );
+      // Now `this._recentBlockRanges` and `this._blocks` have been updated, so we can resolve
       // requests, purge the cache and report progress.
-
       this._resolveFinishedReadRequests();
-
       this._purgeOldBlocks();
+      this._updateProgress();
 
-      this._updateProgress(); // Check *again* if we're not current any more, because now we're going to update connection
+      // Check *again* if we're not current any more, because now we're going to update connection
       // information.
-
       if (!isCurrent()) {
         return false;
       }
@@ -670,8 +688,9 @@ export default class MemoryCacheDataProvider implements DataProvider {
       if (currentBlockIndex >= blockRange.end - 1) {
         // If we're at the end of the range, we're done.
         break;
-      } // Otherwise, update the `remainingBlockRange`.
+      }
 
+      // Otherwise, update the `remainingBlockRange`.
       this._currentConnection = {
         ...this._currentConnection,
         remainingBlockRange: {
@@ -679,12 +698,14 @@ export default class MemoryCacheDataProvider implements DataProvider {
           end: blockRange.end,
         },
       };
-    } // Connection successfully completed.
+    }
 
+    // Connection successfully completed.
     delete this._currentConnection;
     return true;
-  } // For the relevant downloaded ranges, we look at `this._blocks` and the most relevant topics.
+  }
 
+  // For the relevant downloaded ranges, we look at `this._blocks` and the most relevant topics.
   _getDownloadedBlockRanges(): Range[] {
     const topics: string[] = this._getCurrentTopics();
 
@@ -711,11 +732,12 @@ export default class MemoryCacheDataProvider implements DataProvider {
   _purgeOldBlocks() {
     if (this._cacheSizeBytes === Infinity) {
       return;
-    } // If we have open read requests, we really don't want to evict blocks in the first one because
+    }
+
+    // If we have open read requests, we really don't want to evict blocks in the first one because
     // we're actively trying to fill it.
     // If we don't have open read requests, don't evict blocks in the read-ahead range (ahead of the
     // playback cursor) because we'll automatically try to refetch that data immediately after.
-
     let badEvictionRange = this._readRequests[0]?.blockRange;
 
     if (!badEvictionRange && this._lastResolvedCallbackEnd != null) {
@@ -723,15 +745,17 @@ export default class MemoryCacheDataProvider implements DataProvider {
         start: this._lastResolvedCallbackEnd,
         end: this._lastResolvedCallbackEnd + this._readAheadBlocks,
       };
-    } // Call the getBlocksToKeep helper.
+    }
 
+    // Call the getBlocksToKeep helper.
     const { blockIndexesToKeep, newRecentRanges } = getBlocksToKeep({
       recentBlockRanges: this._recentBlockRanges,
       blockSizesInBytes: this._blocks.map((block) => (block ? block.sizeInBytes : undefined)),
       maxCacheSizeInBytes: this._cacheSizeBytes,
       badEvictionRange,
-    }); // Update our state.
+    });
 
+    // Update our state.
     this._recentBlockRanges = newRecentRanges;
     const newBlocks = new Array(this._blocks.length);
 
