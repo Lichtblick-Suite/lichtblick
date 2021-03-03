@@ -1,16 +1,17 @@
 {
-  "prettier.prettierPath": "./node_modules/prettier",
-  "typescript.tsdk": "node_modules/typescript/lib",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
   "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "files.eol": "\n",
+  "prettier.prettierPath": "./node_modules/prettier",
   "search.exclude": {
-    "**/node_modules": true,
-    "**/bower_components": true,
     "**/*.code-search": true,
+    "**/bower_components": true,
+    "**/node_modules": true,
     ".yarn/**": true,
     "yarn.lock": true
   },
-  "editor.formatOnSave": true,
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
-  }
+  "typescript.tsdk": "node_modules/typescript/lib"
 }
