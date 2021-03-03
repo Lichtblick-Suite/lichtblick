@@ -142,11 +142,10 @@ export default React.memo<Props>(function PoseMarkers({ children, layerIndex }):
       <FilledPolygons layerIndex={layerIndex} key={`cruise-pose`}>
         {filledPolygons}
       </FilledPolygons>
-      , ...models,
+      {...models}
       <Arrows layerIndex={layerIndex} key="arrows">
         {arrowMarkers}
       </Arrows>
-      ,
     </>
   );
 });
