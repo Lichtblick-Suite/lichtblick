@@ -16,7 +16,7 @@ declare const WorkerGlobalScope: any;
 
 export const inWebWorker = (): boolean => {
   return (
-    typeof global.postMessage === "undefined" &&
+    typeof global.postMessage !== "undefined" &&
     typeof WorkerGlobalScope !== "undefined" &&
     self instanceof WorkerGlobalScope
   );
