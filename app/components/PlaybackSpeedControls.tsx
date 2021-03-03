@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useDataSourceInfo } from "@foxglove-studio/app/PanelAPI";
 import { setPlaybackConfig } from "@foxglove-studio/app/actions/panels";
 import Dropdown from "@foxglove-studio/app/components/Dropdown";
+import DropdownItem from "@foxglove-studio/app/components/Dropdown/DropdownItem";
 import { useMessagePipeline } from "@foxglove-studio/app/components/MessagePipeline";
 import { PlayerCapabilities } from "@foxglove-studio/app/players/types";
 import { ndash } from "@foxglove-studio/app/util/entities";
@@ -67,10 +68,9 @@ export default function PlaybackSpeedControls() {
       dataTest="PlaybackSpeedControls-Dropdown"
     >
       {SPEEDS.map((eachSpeed: string) => (
-        // @ts-expect-error change <span> to DropdownItem since value is not a property of <span>
-        <span key={eachSpeed} value={parseFloat(eachSpeed)}>
-          {eachSpeed}x
-        </span>
+        <DropdownItem key={eachSpeed} value={parseFloat(eachSpeed)}>
+          <span>{eachSpeed}x</span>
+        </DropdownItem>
       ))}
     </Dropdown>
   );

@@ -38,6 +38,7 @@ import styles from "./index.module.scss";
 import { DATA_ARRAY_PREVIEW_LIMIT, getItemString, getItemStringForDiff } from "./utils";
 import { useDataSourceInfo, useMessagesByTopic } from "@foxglove-studio/app/PanelAPI";
 import Dropdown from "@foxglove-studio/app/components/Dropdown";
+import DropdownItem from "@foxglove-studio/app/components/Dropdown/DropdownItem";
 import EmptyState from "@foxglove-studio/app/components/EmptyState";
 import Flex from "@foxglove-studio/app/components/Flex";
 import Icon from "@foxglove-studio/app/components/Icon";
@@ -550,12 +551,15 @@ function RawMessages(props: Props) {
                     onChange={(newDiffMethod) => saveConfig({ diffMethod: newDiffMethod })}
                     noPortal
                   >
-                    {/* @ts-ignore-error span does not have value prop but Dropdown needs it */}
-                    <span value={PREV_MSG_METHOD}>{PREV_MSG_METHOD}</span>
-                    {/* @ts-ignore-error span does not have value prop but Dropdown needs it */}
-                    <span value={OTHER_SOURCE_METHOD}>{OTHER_SOURCE_METHOD}</span>
-                    {/* @ts-ignore-error span does not have value prop but Dropdown needs it */}
-                    <span value={CUSTOM_METHOD}>custom</span>
+                    <DropdownItem value={PREV_MSG_METHOD}>
+                      <span>{PREV_MSG_METHOD}</span>
+                    </DropdownItem>
+                    <DropdownItem value={OTHER_SOURCE_METHOD}>
+                      <span>{OTHER_SOURCE_METHOD}</span>
+                    </DropdownItem>
+                    <DropdownItem value={CUSTOM_METHOD}>
+                      <span>custom</span>
+                    </DropdownItem>
                   </Dropdown>
                 </>
               </Tooltip>

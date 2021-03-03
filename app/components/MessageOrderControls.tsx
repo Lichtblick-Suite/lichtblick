@@ -15,6 +15,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { setPlaybackConfig } from "@foxglove-studio/app/actions/panels";
 import Dropdown from "@foxglove-studio/app/components/Dropdown";
+import DropdownItem from "@foxglove-studio/app/components/Dropdown/DropdownItem";
 import NoHeaderTopicsButton from "@foxglove-studio/app/components/NoHeaderTopicsButton";
 import { State } from "@foxglove-studio/app/reducers";
 import { defaultPlaybackConfig } from "@foxglove-studio/app/reducers/panels";
@@ -50,10 +51,12 @@ export default function MessageOrderControls() {
         menuStyle={{ width: "125px" }}
         btnStyle={{ marginRight: "8px", height: "28px" }}
       >
-        {/* @ts-expect-error change <span> to DropdownItem since value is not a property of <span> */}
-        <span value={"receiveTime"}>{messageOrderLabel.receiveTime}</span>
-        {/* @ts-expect-error change <span> to DropdownItem since value is not a property of <span> */}
-        <span value={"headerStamp"}>{messageOrderLabel.headerStamp}</span>
+        <DropdownItem value="receiveTime">
+          <span>{messageOrderLabel.receiveTime}</span>
+        </DropdownItem>
+        <DropdownItem value="headerStamp">
+          <span>{messageOrderLabel.headerStamp}</span>
+        </DropdownItem>
       </Dropdown>
       {noHeaderTopicsButton}
     </>

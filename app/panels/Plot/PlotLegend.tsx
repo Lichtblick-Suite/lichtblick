@@ -21,6 +21,7 @@ import { $Shape } from "utility-types";
 import styles from "./PlotLegend.module.scss";
 import { plotableRosTypes, PlotConfig, PlotXAxisVal } from "./index";
 import Dropdown from "@foxglove-studio/app/components/Dropdown";
+import DropdownItem from "@foxglove-studio/app/components/Dropdown/DropdownItem";
 import Icon from "@foxglove-studio/app/components/Icon";
 import MessagePathInput from "@foxglove-studio/app/components/MessagePathSyntax/MessagePathInput";
 import {
@@ -130,14 +131,18 @@ export default function PlotLegend(props: PlotLegendProps) {
             onChange={(newXAxisVal) => saveConfig({ xAxisVal: newXAxisVal })}
             noPortal
           >
-            {/* @ts-expect-error change <span> to DropdownItem since value is not a property of <span> */}
-            <span value="timestamp">timestamp</span>
-            {/* @ts-expect-error change <span> to DropdownItem since value is not a property of <span> */}
-            <span value="index">index</span>
-            {/* @ts-expect-error change <span> to DropdownItem since value is not a property of <span> */}
-            <span value="currentCustom">msg path (current)</span>
-            {/* @ts-expect-error change <span> to DropdownItem since value is not a property of <span> */}
-            <span value="custom">msg path (accumulated)</span>
+            <DropdownItem value="timestamp">
+              <span>timestamp</span>
+            </DropdownItem>
+            <DropdownItem value="index">
+              <span>index</span>
+            </DropdownItem>
+            <DropdownItem value="currentCustom">
+              <span>msg path (current)</span>
+            </DropdownItem>
+            <DropdownItem value="custom">
+              <span>msg path (accumulated)</span>
+            </DropdownItem>
           </Dropdown>
         </div>
         <div

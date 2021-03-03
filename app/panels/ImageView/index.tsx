@@ -37,6 +37,7 @@ import * as PanelAPI from "@foxglove-studio/app/PanelAPI";
 import Autocomplete from "@foxglove-studio/app/components/Autocomplete";
 import ChildToggle from "@foxglove-studio/app/components/ChildToggle";
 import Dropdown from "@foxglove-studio/app/components/Dropdown";
+import DropdownItem from "@foxglove-studio/app/components/Dropdown/DropdownItem";
 import dropDownStyles from "@foxglove-studio/app/components/Dropdown/index.module.scss";
 import EmptyState from "@foxglove-studio/app/components/EmptyState";
 import { useExperimentalFeature } from "@foxglove-studio/app/components/ExperimentalFeatures";
@@ -387,16 +388,15 @@ function ImageView(props: Props) {
           dataTest={group.substr(1)}
         >
           {imageTopics.map((topic) => {
-            const valueProp = { value: topic.name };
             return (
-              <Item
-                {...valueProp}
-                key={topic.name}
-                checked={topic.name === cameraTopic}
-                onClick={() => onChangeCameraTopic(topic.name)}
-              >
-                {topic.name}
-              </Item>
+              <DropdownItem key={topic.name} value={topic.name}>
+                <Item
+                  checked={topic.name === cameraTopic}
+                  onClick={() => onChangeCameraTopic(topic.name)}
+                >
+                  {topic.name}
+                </Item>
+              </DropdownItem>
             );
           })}
         </SubMenu>

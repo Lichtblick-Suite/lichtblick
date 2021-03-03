@@ -16,6 +16,7 @@ import { storiesOf } from "@storybook/react";
 import React, { useState } from "react";
 
 import Dropdown from "@foxglove-studio/app/components/Dropdown";
+import DropdownItem from "@foxglove-studio/app/components/Dropdown/DropdownItem";
 import Icon from "@foxglove-studio/app/components/Icon";
 
 function Example({
@@ -25,8 +26,8 @@ function Example({
   position?: "left" | "right" | "below";
   showCustomBtn?: boolean;
 }) {
-  const [value, setValue] = useState("foo");
-  const text = value === "foo" ? "one" : "";
+  const [value, setValue] = useState("one");
+  const text = value === "one" ? "one" : "";
   const additionalProps = showCustomBtn
     ? {
         toggleComponent: (
@@ -45,10 +46,10 @@ function Example({
         onChange={setValue}
         {...additionalProps}
       >
-        <span>one</span>
-        <span>two</span>
+        <DropdownItem value="one" />
+        <DropdownItem value="two" />
         <hr />
-        <span>three</span>
+        <DropdownItem value="three" />
       </Dropdown>
     </div>
   );

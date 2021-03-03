@@ -18,6 +18,7 @@ import styled from "styled-components";
 import styles from "./index.module.scss";
 import { setPlaybackConfig } from "@foxglove-studio/app/actions/panels";
 import Dropdown from "@foxglove-studio/app/components/Dropdown";
+import DropdownItem from "@foxglove-studio/app/components/Dropdown/DropdownItem";
 import Flex from "@foxglove-studio/app/components/Flex";
 import { ndash } from "@foxglove-studio/app/util/entities";
 import { formatDate, formatTime } from "@foxglove-studio/app/util/formatTime";
@@ -181,14 +182,12 @@ const PlaybackTimeDisplayMethod = ({
         onChange={(val) => setTimeDisplayMethod(val)}
         btnClassname={styles.timeDisplayMethodButton}
       >
-        {/* @ts-expect-error change <span> to DropdownItem since value is not a property of <span> */}
-        <span key="day" value="TOD">
-          Time of day (TOD)
-        </span>
-        {/* @ts-expect-error change <span> to DropdownItem since value is not a property of <span> */}
-        <span key="ros" value="ROS">
-          ROS time
-        </span>
+        <DropdownItem value="TOD">
+          <span key="day">Time of day (TOD)</span>
+        </DropdownItem>
+        <DropdownItem value="ROS">
+          <span key="ros">ROS time</span>
+        </DropdownItem>
       </Dropdown>
     </Flex>
   );

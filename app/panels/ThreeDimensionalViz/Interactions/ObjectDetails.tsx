@@ -21,6 +21,7 @@ import { $ReadOnly } from "utility-types";
 import GlobalVariableLink from "./GlobalVariableLink/index";
 import { InteractionData } from "./types";
 import Dropdown from "@foxglove-studio/app/components/Dropdown";
+import DropdownItem from "@foxglove-studio/app/components/Dropdown/DropdownItem";
 import { Renderer } from "@foxglove-studio/app/panels/ThreeDimensionalViz/index";
 import { getInstanceObj } from "@foxglove-studio/app/panels/ThreeDimensionalViz/threeDimensionalVizUtils";
 import { deepParse, isBobject } from "@foxglove-studio/app/util/binaryObjects";
@@ -94,10 +95,12 @@ function ObjectDetailsWrapper({
           text={showInstance ? dropdownText.instance : dropdownText.full}
           onChange={updateShowInstance}
         >
-          {/* @ts-expect-error value is not a property on span but required for Dropdown */}
-          <span value={true}>{dropdownText.instance}</span>
-          {/* @ts-expect-error value is not a property on span but required for Dropdown */}
-          <span value={false}>{dropdownText.full}</span>
+          <DropdownItem value={true}>
+            <span>{dropdownText.instance}</span>
+          </DropdownItem>
+          <DropdownItem value={false}>
+            <span>{dropdownText.full}</span>
+          </DropdownItem>
         </Dropdown>
       )}
       <ObjectDetails interactionData={interactionData} objectToDisplay={parsedObject} />

@@ -16,6 +16,7 @@ import { storiesOf } from "@storybook/react";
 import React from "react";
 
 import ChildToggle from "@foxglove-studio/app/components/ChildToggle";
+import DropdownItem from "@foxglove-studio/app/components/Dropdown/DropdownItem";
 import Dropdown from "@foxglove-studio/app/components/Dropdown/index";
 import Modal from "@foxglove-studio/app/components/Modal";
 import TextContent from "@foxglove-studio/app/components/TextContent";
@@ -60,13 +61,10 @@ function ContentStory({ showChildToggle }: { showChildToggle?: boolean }) {
               // no-op
             }}
           >
-            {/* @ts-expect-error change <span> to DropdownItem since value is not a property of <span> */}
-            <span value="foo">one</span>
-            {/* @ts-expect-error change <span> to DropdownItem since value is not a property of <span> */}
-            <span value="two">two</span>
+            <DropdownItem value="one" />
+            <DropdownItem value="two" />
             <hr />
-            {/* @ts-expect-error change <span> to DropdownItem since value is not a property of <span> */}
-            <span value="three">three</span>
+            <DropdownItem value="three" />
           </Dropdown>
         )}
       </div>
