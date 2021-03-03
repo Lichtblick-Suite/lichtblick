@@ -312,7 +312,7 @@ function Mono16Story({ bigEndian }: { bigEndian: boolean }) {
   for (let r = 0; r < height; r++) {
     for (let c = 0; c < width; c++) {
       const val = Math.round(Math.min(1, Math.hypot(c / width, r / height)) * 10000);
-      view.setUint16(2 * (r * width + c), val, true);
+      view.setUint16(2 * (r * width + c), val, !bigEndian);
     }
   }
   return (
