@@ -23,6 +23,8 @@ jobs:
             command: build:prod
           - name: test
             command: test --maxWorkers=100%
+          - name: build storybook
+            command: build:storybook
 
     name: ${{ matrix.config.name }}
 

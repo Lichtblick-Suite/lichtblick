@@ -2,12 +2,11 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "module": "es2020",
     "jsx": "react",
     "lib": ["DOM", "DOM.Iterable", "ESNext"]
   },
   "typeAcquisition": {
     "exclude": ["node"]
   },
-  "include": ["**/*", "../typings/*.d.ts"]
+  "include": ["**/*", "../typings/*.d.ts", ".storybook/*"]
 }

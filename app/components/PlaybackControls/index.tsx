@@ -169,7 +169,7 @@ export const UnconnectedPlaybackControls = memo<PlaybackControlProps>(
 
     const min = (startTime && toSec(startTime)) ?? 0;
     const max = (endTime && toSec(endTime)) ?? 0;
-    const value = currentTime == null ? null : toSec(currentTime);
+    const value = currentTime == null ? undefined : toSec(currentTime);
     const step = (max - min) / 500;
 
     const seekControls = useMemo(

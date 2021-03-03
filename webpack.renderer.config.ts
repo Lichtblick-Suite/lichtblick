@@ -27,7 +27,8 @@ function remarkSmartypants() {
   return transformer;
 }
 
-export default (_: never, argv: WebpackArgv): Configuration => {
+// Common configuration shared by Storybook and the main Webpack build
+export function makeConfig(_: unknown, argv: WebpackArgv): Configuration {
   const isDev = argv.mode === "development";
   const isServe = argv.env?.WEBPACK_SERVE ?? false;
 
@@ -65,6 +66,7 @@ export default (_: never, argv: WebpackArgv): Configuration => {
         // These are optional for react-mosaic-component
         "@blueprintjs/core": false,
         "@blueprintjs/icons": false,
+        domain: false,
       },
     },
     module: {
@@ -164,16 +166,6 @@ export default (_: never, argv: WebpackArgv): Configuration => {
       ],
     },
     plugins: [
-      new HtmlWebpackPlugin({
-        templateContent: `
-          <html>
-            <script>global = globalThis;</script>
-            <body>
-              <div id="root"></div>
-            </body>
-          </html>
-        `,
-      }),
       new webpack.ProvidePlugin({
         // since we avoid "import React from 'react'" we shim here when used globally
         React: "react",
@@ -236,4 +228,21 @@ export default (_: never, argv: WebpackArgv): Configuration => {
       __filename: true,
     },
   };
+}
+
+export default (env: unknown, argv: WebpackArgv): Configuration => {
+  const config = makeConfig(env, argv);
+  config.plugins?.push(
+    new HtmlWebpackPlugin({
+      templateContent: `
+        <html>
+          <script>global = globalThis;</script>
+          <body>
+            <div id="root"></div>
+          </body>
+        </html>
+      `,
+    }),
+  );
+  return config;
 };

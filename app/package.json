@@ -85,8 +85,10 @@
     "wasm-lz4": "1.0.0"
   },
   "devDependencies": {
-    "@storybook/addon-actions": "6.1.20",
-    "@storybook/react": "6.1.20",
+    "@storybook/addon-actions": "6.2.0-beta.5",
+    "@storybook/addon-essentials": "6.2.0-beta.5",
+    "@storybook/builder-webpack5": "6.2.0-beta.5",
+    "@storybook/react": "6.2.0-beta.5",
     "@testing-library/react-hooks": "5.1.0",
     "@types/chart.js": "2.9.31",
     "@types/chartjs-plugin-annotation": "0.5.1",

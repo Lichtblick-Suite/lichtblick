@@ -27,7 +27,9 @@
     "package:win": "yarn package --win",
     "package:darwin": "yarn package --mac",
     "package:linux": "yarn package --linux",
-    "package": "electron-builder"
+    "package": "electron-builder",
+    "storybook": "yarn workspace @foxglove-studio/app run start-storybook",
+    "build:storybook": "yarn workspace @foxglove-studio/app run build-storybook"
   },
   "workspaces": {
     "packages": [

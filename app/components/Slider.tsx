@@ -31,14 +31,14 @@ import sendNotification from "@foxglove-studio/app/util/sendNotification";
 // | renderSlider? | (value:?number) => void | custom renderer to render the slider                                           |
 
 type Props = {
-  value: number | null | undefined;
+  value: number | undefined;
   min: number;
   max: number;
   disabled?: boolean; // Disable the mouse interactions.
   step?: number;
   draggable?: boolean;
   onChange: (arg0: number) => void;
-  renderSlider: (value: number | null | undefined) => React.ReactNode;
+  renderSlider: (value?: number) => React.ReactNode;
 };
 
 const StyledSlider = styled.div<{ disabled?: boolean }>`
@@ -57,7 +57,7 @@ export const StyledRange = styled.div<{ width: number }>`
   width: ${({ width }) => `${(width || 0) * 100}%`};
 `;
 
-function defaultRenderSlider(value: number | null | undefined): React.ReactNode {
+function defaultRenderSlider(value: number | undefined): React.ReactNode {
   if (value == null || isNaN(value)) {
     return null;
   }
