@@ -2,6 +2,15 @@
 
 Foxglove Studio is an integrated visualization and diagnosis tool for robotics.
 
+## Installation
+
+Check [Releases](https://github.com/foxglove/studio/releases) for the latest version.
+
+## Support
+
+- [GitHub Discussions](https://github.com/foxglove/studio/discussions)
+- [Slack Community](https://foxglove.dev/join-slack)
+
 ## Development
 
 **Supported development environments:** Linux, Windows, macOS
