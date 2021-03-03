@@ -1822,7 +1822,7 @@ __metadata:
     regl-worldview: 0.16.0
     reselect: 4.0.0
     rosbag: "github:foxglove/rosbag.js#13d921b946fa355df32a07f245594102a622ccb7"
-    roslib: "github:foxglove/roslibjs#57c9a4712d61691f132367fd8ef8af950b010872"
+    roslib: "github:foxglove/roslibjs#364a19d5f3ada7543fac9194a50b96087c7556ba"
     sanitize-html: 1.20.0
     seedrandom: 2.4.4
     shallowequal: 1.1.0
@@ -18943,9 +18943,9 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"roslib@github:foxglove/roslibjs#57c9a4712d61691f132367fd8ef8af950b010872":
+"roslib@github:foxglove/roslibjs#364a19d5f3ada7543fac9194a50b96087c7556ba":
   version: 1.1.0
-  resolution: "roslib@https://github.com/foxglove/roslibjs.git#commit=57c9a4712d61691f132367fd8ef8af950b010872"
+  resolution: "roslib@https://github.com/foxglove/roslibjs.git#commit=364a19d5f3ada7543fac9194a50b96087c7556ba"
   dependencies:
     cbor-js: ^0.1.0
     eventemitter2: ^6.4.0
@@ -18955,7 +18955,7 @@ fsevents@^1.2.7:
     webworkify: ^1.5.0
     ws: ^7.2.1
     xmldom: ^0.1.19
-  checksum: 048bc5b0e96e43c8daf498709b377b3704a476679a7de3c4f7df7f848f1060847a9a6bab9e5d4d69604e52f26b4c9794ed7e147cd6ee6577390ea91365a668a8
+  checksum: 441f2573d40f9188cd4a151fc1790a2b4d43ad77add14ace52a4ffae62b91fab8b7eccdf455560067e4a431c72f55e2e49a8cfd37701230692bbf6bce08450a5
   languageName: node
   linkType: hard
 

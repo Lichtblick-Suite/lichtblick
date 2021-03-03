@@ -69,7 +69,7 @@
     "regl-worldview": "0.16.0",
     "reselect": "4.0.0",
     "rosbag": "github:foxglove/rosbag.js#13d921b946fa355df32a07f245594102a622ccb7",
-    "roslib": "github:foxglove/roslibjs#57c9a4712d61691f132367fd8ef8af950b010872",
+    "roslib": "github:foxglove/roslibjs#364a19d5f3ada7543fac9194a50b96087c7556ba",
     "sanitize-html": "1.20.0",
     "seedrandom": "2.4.4",
     "shallowequal": "1.1.0",
