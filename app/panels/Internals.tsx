@@ -26,7 +26,6 @@ import { useMessagePipeline } from "@foxglove-studio/app/components/MessagePipel
 import Panel from "@foxglove-studio/app/components/Panel";
 import PanelToolbar from "@foxglove-studio/app/components/PanelToolbar";
 import TextContent from "@foxglove-studio/app/components/TextContent";
-import filterMap from "@foxglove-studio/app/filterMap";
 import {
   Topic,
   Message,
@@ -34,6 +33,7 @@ import {
   AdvertisePayload,
 } from "@foxglove-studio/app/players/types";
 import { downloadTextFile } from "@foxglove-studio/app/util";
+import filterMap from "@foxglove-studio/app/util/filterMap";
 import { getTopicsByTopicName } from "@foxglove-studio/app/util/selectors";
 
 const { useCallback } = React;

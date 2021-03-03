@@ -25,7 +25,6 @@ import TimeBasedChart, {
   TimeBasedChartTooltipData,
   TooltipItem,
 } from "@foxglove-studio/app/components/TimeBasedChart";
-import filterMap from "@foxglove-studio/app/filterMap";
 import {
   PlotPath,
   BasePlotPath,
@@ -37,6 +36,7 @@ import {
   mathFunctions,
 } from "@foxglove-studio/app/panels/Plot/transformPlotRange";
 import { deepParse, isBobject } from "@foxglove-studio/app/util/binaryObjects";
+import filterMap from "@foxglove-studio/app/util/filterMap";
 import { format } from "@foxglove-studio/app/util/formatTime";
 import { lightColor, lineColors } from "@foxglove-studio/app/util/plotColors";
 import { isTime, subtractTimes, toSec, formatTimeRaw } from "@foxglove-studio/app/util/time";

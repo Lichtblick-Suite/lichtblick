@@ -42,7 +42,6 @@ import KeyListener from "@foxglove-studio/app/components/KeyListener";
 import Modal from "@foxglove-studio/app/components/Modal";
 import PanelContext from "@foxglove-studio/app/components/PanelContext";
 import { RenderToBodyComponent } from "@foxglove-studio/app/components/renderToBody";
-import filterMap from "@foxglove-studio/app/filterMap";
 import useGlobalVariables from "@foxglove-studio/app/hooks/useGlobalVariables";
 import { getGlobalHooks } from "@foxglove-studio/app/loadWebviz";
 import {
@@ -89,6 +88,7 @@ import { Frame, Topic } from "@foxglove-studio/app/players/types";
 import inScreenshotTests from "@foxglove-studio/app/stories/inScreenshotTests";
 import { Color } from "@foxglove-studio/app/types/Messages";
 import { getField } from "@foxglove-studio/app/util/binaryObjects";
+import filterMap from "@foxglove-studio/app/util/filterMap";
 import { SECOND_SOURCE_PREFIX, TRANSFORM_TOPIC } from "@foxglove-studio/app/util/globalConstants";
 import { useShallowMemo } from "@foxglove-studio/app/util/hooks";
 import { inVideoRecordingMode } from "@foxglove-studio/app/util/inAutomatedRunMode";

@@ -14,9 +14,9 @@
 import { sortBy } from "lodash";
 import { MessageReader } from "rosbag";
 
-import filterMap from "@foxglove-studio/app/filterMap";
 import { Message } from "@foxglove-studio/app/players/types";
 import { deepParse, inaccurateByteSize, isBobject } from "@foxglove-studio/app/util/binaryObjects";
+import filterMap from "@foxglove-studio/app/util/filterMap";
 import sendNotification from "@foxglove-studio/app/util/sendNotification";
 import { toSec } from "@foxglove-studio/app/util/time";
 

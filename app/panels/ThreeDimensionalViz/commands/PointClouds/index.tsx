@@ -27,7 +27,6 @@ import { FLOAT_SIZE } from "./buffers";
 import { decodeMarker } from "./decodeMarker";
 import { updateMarkerCache } from "./memoization";
 import { MemoizedMarker, MemoizedVertexBuffer, VertexBuffer } from "./types";
-import filterMap from "@foxglove-studio/app/filterMap";
 import {
   DEFAULT_FLAT_COLOR,
   DEFAULT_MIN_COLOR,
@@ -35,6 +34,7 @@ import {
 } from "@foxglove-studio/app/panels/ThreeDimensionalViz/TopicSettingsEditor/PointCloudSettingsEditor";
 import { toRgba } from "@foxglove-studio/app/panels/ThreeDimensionalViz/commands/PointClouds/selection";
 import { PointCloud } from "@foxglove-studio/app/types/Messages";
+import filterMap from "@foxglove-studio/app/util/filterMap";
 
 const COLOR_MODE_FLAT = 0;
 const COLOR_MODE_RGB = 1;

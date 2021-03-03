@@ -14,7 +14,6 @@ import { partition, cloneDeep, uniqBy } from "lodash";
 import microMemoize from "micro-memoize";
 import { Time } from "rosbag";
 
-import filterMap from "@foxglove-studio/app/filterMap";
 import { GlobalVariables } from "@foxglove-studio/app/hooks/useGlobalVariables";
 import { getGlobalHooks } from "@foxglove-studio/app/loadWebviz";
 import {
@@ -36,6 +35,7 @@ import {
   Topic,
 } from "@foxglove-studio/app/players/types";
 import { RosDatatypes } from "@foxglove-studio/app/types/RosDatatypes";
+import filterMap from "@foxglove-studio/app/util/filterMap";
 
 export default class NodePlayer implements Player {
   _player: Player;

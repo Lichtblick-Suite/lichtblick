@@ -31,9 +31,9 @@ import {
   MessageDefinitions,
   ParsedMessageDefinitions,
 } from "@foxglove-studio/app/dataProviders/types";
-import filterMap from "@foxglove-studio/app/filterMap";
 import { Message, Progress, Topic } from "@foxglove-studio/app/players/types";
 import { objectValues } from "@foxglove-studio/app/util";
+import filterMap from "@foxglove-studio/app/util/filterMap";
 import { deepIntersect } from "@foxglove-studio/app/util/ranges";
 import sendNotification from "@foxglove-studio/app/util/sendNotification";
 import { clampTime } from "@foxglove-studio/app/util/time";

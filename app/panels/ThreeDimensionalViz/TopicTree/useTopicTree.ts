@@ -22,8 +22,8 @@ import {
   UseTreeOutput,
   DerivedCustomSettingsByKey,
 } from "./types";
-import filterMap from "@foxglove-studio/app/filterMap";
 import { TOPIC_DISPLAY_MODES } from "@foxglove-studio/app/panels/ThreeDimensionalViz/TopicTree/TopicViewModeSelector";
+import filterMap from "@foxglove-studio/app/util/filterMap";
 import { SECOND_SOURCE_PREFIX } from "@foxglove-studio/app/util/globalConstants";
 import { useShallowMemo } from "@foxglove-studio/app/util/hooks";
 

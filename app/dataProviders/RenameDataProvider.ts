@@ -29,8 +29,8 @@ import {
   DataProvider,
   MessageDefinitions,
 } from "@foxglove-studio/app/dataProviders/types";
-import filterMap from "@foxglove-studio/app/filterMap";
 import { Message, Progress, Topic } from "@foxglove-studio/app/players/types";
+import filterMap from "@foxglove-studio/app/util/filterMap";
 
 export default class RenameDataProvider implements DataProvider {
   _provider: DataProvider;

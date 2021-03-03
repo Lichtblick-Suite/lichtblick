@@ -38,11 +38,11 @@ import { Item } from "@foxglove-studio/app/components/Menu";
 import Panel from "@foxglove-studio/app/components/Panel";
 import PanelToolbar from "@foxglove-studio/app/components/PanelToolbar";
 import TopicToRenderMenu from "@foxglove-studio/app/components/TopicToRenderMenu";
-import filterMap from "@foxglove-studio/app/filterMap";
 import { getGlobalHooks } from "@foxglove-studio/app/loadWebviz";
 import DiagnosticsHistory from "@foxglove-studio/app/panels/diagnostics/DiagnosticsHistory";
 import { Topic } from "@foxglove-studio/app/players/types";
 import { PanelConfig } from "@foxglove-studio/app/types/panels";
+import filterMap from "@foxglove-studio/app/util/filterMap";
 import { DIAGNOSTIC_TOPIC } from "@foxglove-studio/app/util/globalConstants";
 import toggle from "@foxglove-studio/app/util/toggle";
 

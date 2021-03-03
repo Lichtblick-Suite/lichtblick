@@ -20,7 +20,6 @@ import {
   DataProviderDescriptor,
   DataProviderMetadata,
 } from "@foxglove-studio/app/dataProviders/types";
-import filterMap from "@foxglove-studio/app/filterMap";
 import NoopMetricsCollector from "@foxglove-studio/app/players/NoopMetricsCollector";
 import {
   AdvertisePayload,
@@ -41,6 +40,7 @@ import delay from "@foxglove-studio/app/shared/delay";
 import inScreenshotTests from "@foxglove-studio/app/stories/inScreenshotTests";
 import { RosDatatypes } from "@foxglove-studio/app/types/RosDatatypes";
 import debouncePromise from "@foxglove-studio/app/util/debouncePromise";
+import filterMap from "@foxglove-studio/app/util/filterMap";
 import { SEEK_TO_UNIX_MS_QUERY_KEY } from "@foxglove-studio/app/util/globalConstants";
 import { stringifyParams } from "@foxglove-studio/app/util/layout";
 import { isRangeCoveredByRanges } from "@foxglove-studio/app/util/ranges";

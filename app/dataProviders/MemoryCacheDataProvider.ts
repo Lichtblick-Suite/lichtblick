@@ -26,9 +26,9 @@ import {
   GetMessagesTopics,
   InitializationResult,
 } from "@foxglove-studio/app/dataProviders/types";
-import filterMap from "@foxglove-studio/app/filterMap";
 import { BobjectMessage } from "@foxglove-studio/app/players/types";
 import { inaccurateByteSize } from "@foxglove-studio/app/util/binaryObjects";
+import filterMap from "@foxglove-studio/app/util/filterMap";
 import { getNewConnection } from "@foxglove-studio/app/util/getNewConnection";
 import {
   Range,

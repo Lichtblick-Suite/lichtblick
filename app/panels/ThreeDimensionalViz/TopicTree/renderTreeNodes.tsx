@@ -34,10 +34,10 @@ import {
   VisibleTopicsCountByKey,
 } from "./types";
 import { generateNodeKey } from "./useTopicTree";
-import filterMap from "@foxglove-studio/app/filterMap";
 import { LinkedGlobalVariable } from "@foxglove-studio/app/panels/ThreeDimensionalViz/Interactions/useLinkedGlobalVariables";
 import { canEditNamespaceOverrideColorDatatype } from "@foxglove-studio/app/panels/ThreeDimensionalViz/TopicSettingsEditor/index";
 import { TOPIC_DISPLAY_MODES } from "@foxglove-studio/app/panels/ThreeDimensionalViz/TopicTree/TopicViewModeSelector";
+import filterMap from "@foxglove-studio/app/util/filterMap";
 import { SECOND_SOURCE_PREFIX } from "@foxglove-studio/app/util/globalConstants";
 import naturalSort from "@foxglove-studio/app/util/naturalSort";
 import { colors } from "@foxglove-studio/app/util/sharedStyleConstants";
