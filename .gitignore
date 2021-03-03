@@ -1,6 +1,9 @@
-node_modules
-yarn-error.log
+*.log
 .DS_Store
+.webpack/
+dist/
+node_modules/
+storybook-static/
 
 # Yarn
 .yarn/*
@@ -9,9 +12,3 @@ yarn-error.log
 !.yarn/sdks
 !.yarn/versions
 .pnp.*
-
-# webpack output
-.webpack
-
-# electron-builder output
-dist
