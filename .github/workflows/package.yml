@@ -12,7 +12,7 @@ jobs:
       fail-fast: false
       matrix:
         node-version: [15.x]
-        os: [macos-latest, ubuntu-latest]
+        os: [macos-latest, ubuntu-latest, windows-latest]
     env:
       # We use a secret to avoid forks accidentally injecting our production sentry endpoint
       # This DSN isn't actually a "secret" since it is available in the generated client source
@@ -36,7 +36,16 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
 
+      # Work around yarn checksum mismatches for git repo dependencies on Windows
+      - name: YARN_CHECKSUM_BEHAVIOR=ignore yarn install --immutable
+        run: yarn install --immutable
+        if: matrix.os == 'windows-latest'
+        env:
+          YARN_CHECKSUM_BEHAVIOR: ignore
+
       - run: yarn install --immutable
+        if: matrix.os != 'windows-latest'
+
       - run: yarn run build:prod
 
       - name: Build Package
@@ -48,9 +57,10 @@ jobs:
           name: ${{ runner.os }}
           if-no-files-found: error
           path: |
-            dist/*.dmg
-            dist/*.snap
             dist/*.AppImage
+            dist/*.appx
             dist/*.deb
-            dist/*.rpm
+            dist/*.dmg
             dist/*.exe
+            dist/*.rpm
+            dist/*.snap

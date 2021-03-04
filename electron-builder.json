@@ -17,7 +17,7 @@
     ]
   },
   "win": {
-    "target": ["nsis"],
+    "target": ["nsis", "appx"],
     "rfc3161TimeStampServer": "http://timestamp.comodoca.com"
   },
   "mac": {
@@ -27,6 +27,18 @@
     },
     "artifactName": "${productName}-${version}-${os}-${arch}.${ext}",
     "category": "public.app-category.developer-tools"
+  },
+  "appx": {
+    "applicationId": "FoxgloveStudio",
+    "backgroundColor": "#f7def6",
+    "displayName": "Foxglove Studio",
+    "identityName": "Foxglove.Studio",
+    "publisher": "CN=Foxglove Technologies, O=Foxglove Technologies, L=San Francisco, S=California, C=US",
+    "publisherDisplayName": "Foxglove Technologies",
+    "languages": ["en-US"],
+    "addAutoLaunchExtension": false,
+    "showNameOnTiles": false,
+    "setBuildNumber": false
   },
   "dmg": {
     "background": "resources/dmg-background/background.png",

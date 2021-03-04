@@ -217,7 +217,7 @@ export function makeConfig(_: unknown, argv: WebpackArgv): Configuration {
               return false;
             }
 
-            const repoPath = path.relative(__dirname, issue.file);
+            const repoPath = path.relative(__dirname, issue.file).replace(/\\/g, "/");
             return uncheckedIndexAccessFiles.includes(repoPath);
           },
         },
