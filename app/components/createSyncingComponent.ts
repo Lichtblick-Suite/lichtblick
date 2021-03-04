@@ -14,7 +14,7 @@
 import { throttle } from "lodash";
 import * as React from "react";
 import shallowequal from "shallowequal";
-import uuid from "uuid";
+import { v4 as uuidv4 } from "uuid";
 
 import { objectValues } from "@foxglove-studio/app/util";
 
@@ -72,7 +72,7 @@ export default function createSyncingComponent<ComponentData, ReducerOutput>(
 
     constructor(props: Props) {
       super(props);
-      this._id = uuid.v4();
+      this._id = uuidv4();
       componentsById[this._id] = this;
       dataById[this._id] = props.data;
       this._recompute();

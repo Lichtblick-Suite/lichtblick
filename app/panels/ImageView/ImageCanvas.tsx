@@ -21,7 +21,7 @@ import OutsideClickHandler from "react-outside-click-handler";
 import ReactResizeDetector from "react-resize-detector";
 import shallowequal from "shallowequal";
 import styled from "styled-components";
-import uuid from "uuid";
+import { v4 as uuidv4 } from "uuid";
 
 import styles from "./ImageCanvas.module.scss";
 // eslint-disable-next-line import/no-unresolved
@@ -103,7 +103,7 @@ export default class ImageCanvas extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
-    this._id = uuid.v4();
+    this._id = uuidv4();
     // If we support offscreen canvas, use the ImageCanvasWorker because it improves performance by moving canvas
     // operations off of the main thread. Allow an override for testing / stories.
     this._canvasRenderer =

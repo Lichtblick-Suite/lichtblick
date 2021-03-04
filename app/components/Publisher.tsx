@@ -11,7 +11,7 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 import * as React from "react";
-import uuid from "uuid";
+import { v4 as uuidv4 } from "uuid";
 
 import {
   MessagePipelineConsumer,
@@ -26,7 +26,7 @@ type Props = {
 
 // Component that registers a publisher with the player and provides a publish() function to publish data.
 export default class Publisher extends React.PureComponent<Props> {
-  _id: string = uuid.v4();
+  _id: string = uuidv4();
   _context: MessagePipelineContext | null | undefined;
 
   _getContext(): MessagePipelineContext {

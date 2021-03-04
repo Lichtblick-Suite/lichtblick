@@ -15,7 +15,7 @@ import memoizeWeak from "memoize-weak";
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { MessageReader } from "rosbag";
 import { $ReadOnly } from "utility-types";
-import uuid from "uuid";
+import { v4 as uuidv4 } from "uuid";
 
 import {
   useMessagePipeline,
@@ -82,7 +82,7 @@ const filterBlockByTopics = memoizeWeak(
 );
 
 const useSubscribeToTopicsForBlocks = (topics: ReadonlyArray<string>) => {
-  const [id] = useState(() => uuid.v4());
+  const [id] = useState(() => uuidv4());
   const { type: panelType = undefined } = useContext(PanelContext) || {};
 
   const setSubscriptions = useMessagePipeline(

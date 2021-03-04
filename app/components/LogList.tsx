@@ -13,7 +13,7 @@
 
 import * as React from "react";
 import { List, AutoSizer, CellMeasurer, CellMeasurerCache } from "react-virtualized";
-import uuid from "uuid";
+import { v4 as uuidv4 } from "uuid";
 
 import Button from "@foxglove-studio/app/components/Button";
 
@@ -54,7 +54,7 @@ function LogList<Item>({
 
   // For keeping a reference to the container <div>. Unfortunately there don't seem to be other
   // convenient ways to do this; e.g. `ref` doesn't work.
-  const listId = React.useRef<string>(uuid.v4());
+  const listId = React.useRef<string>(uuidv4());
 
   // Cache for item heights.
   const cache = React.useRef<CellMeasurerCache>(new CellMeasurerCache({ fixedWidth: true }));

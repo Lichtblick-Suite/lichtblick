@@ -12,7 +12,7 @@
 //   You may not use this file except in compliance with the License.
 import { isEqual, partition } from "lodash";
 import { TimeUtil, Time } from "rosbag";
-import uuid from "uuid";
+import { v4 as uuidv4 } from "uuid";
 
 import { rootGetDataProvider } from "@foxglove-studio/app/dataProviders/rootGetDataProvider";
 import {
@@ -131,7 +131,7 @@ export default class RandomAccessPlayer implements Player {
   _initialized: boolean = false;
   _reconnecting: boolean = false;
   _progress: Progress = Object.freeze({});
-  _id: string = uuid.v4();
+  _id: string = uuidv4();
   _messages: Message[] = [];
   _bobjects: ReadonlyArray<BobjectMessage> = [];
   _receivedBytes: number = 0;

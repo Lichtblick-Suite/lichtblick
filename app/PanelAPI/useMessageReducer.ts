@@ -12,7 +12,7 @@
 //   You may not use this file except in compliance with the License.
 
 import { useRef, useCallback, useMemo, useState, useEffect, useContext } from "react";
-import uuid from "uuid";
+import { v4 as uuidv4 } from "uuid";
 
 import {
   useMessagePipeline,
@@ -139,7 +139,7 @@ type Props<T> = {
 };
 
 export function useMessageReducer<T>(props: Props<T>): T {
-  const [id] = useState(() => uuid.v4());
+  const [id] = useState(() => uuidv4());
   const { type: panelType = undefined } = useContext(PanelContext) || {};
 
   // only one of the add message callbacks should be provided

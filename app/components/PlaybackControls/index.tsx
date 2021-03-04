@@ -20,7 +20,7 @@ import React, { memo, useCallback, useMemo, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Time } from "rosbag";
 import styled from "styled-components";
-import uuid from "uuid";
+import { v4 as uuidv4 } from "uuid";
 
 import PlaybackBarHoverTicks from "./PlaybackBarHoverTicks";
 import { ProgressPlot } from "./ProgressPlot";
@@ -111,7 +111,7 @@ export const UnconnectedPlaybackControls = memo<PlaybackControlProps>(
       [pause, play, seek],
     );
 
-    const [hoverComponentId] = useState<string>(uuid.v4());
+    const [hoverComponentId] = useState<string>(uuidv4());
     const dispatch = useDispatch();
     const onMouseMove = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {

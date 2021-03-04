@@ -15,7 +15,7 @@ import flatten from "lodash/flatten";
 import React, { memo } from "react";
 import { createSelector } from "reselect";
 import { Time } from "rosbag";
-import uuid from "uuid";
+import { v4 as uuidv4 } from "uuid";
 
 import styles from "./PlotChart.module.scss";
 import { PlotXAxisVal } from "./index";
@@ -266,7 +266,7 @@ function getDatasetAndTooltipsFromMessagePlotPath(
 
   const dataset = {
     borderColor: lineColors[index % lineColors.length],
-    label: path.value || uuid.v4(),
+    label: path.value || uuidv4(),
     key: datasetKey,
     showLine,
     fill: false,

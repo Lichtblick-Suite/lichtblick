@@ -20,7 +20,7 @@ import { hot } from "react-hot-loader/root";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import { $Shape } from "utility-types";
-import uuid from "uuid";
+import { v4 as uuidv4 } from "uuid";
 
 import { Script } from "./script";
 import { setUserNodes as setUserNodesAction } from "@foxglove-studio/app/actions/panels";
@@ -207,7 +207,7 @@ function NodePlayground(props: Props) {
 
   const addNewNode = React.useCallback(
     (_, code?: string) => {
-      const newNodeId = uuid.v4();
+      const newNodeId = uuidv4();
       const sourceCode = code || skeletonBody;
       // TODO: Add integration test for this flow.
       setUserNodes({

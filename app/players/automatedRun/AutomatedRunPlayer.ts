@@ -14,7 +14,7 @@
 import { partition } from "lodash";
 import Queue from "promise-queue";
 import { Time, TimeUtil } from "rosbag";
-import uuid from "uuid";
+import { v4 as uuidv4 } from "uuid";
 
 import {
   DataProvider,
@@ -85,7 +85,7 @@ export default class AutomatedRunPlayer implements Player {
   _listener?: (arg0: PlayerState) => Promise<void>;
   _initializeTimeout?: ReturnType<typeof setTimeout>;
   _initialized: boolean = false;
-  _id: string = uuid.v4();
+  _id: string = uuidv4();
   _speed: number;
   _msPerFrame: number;
   _client: AutomatedRunClient;

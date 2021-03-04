@@ -15,7 +15,7 @@ import { simplify } from "intervals-fn";
 import { isEqual, sum, uniq } from "lodash";
 import { TimeUtil, Time } from "rosbag";
 import { $ReadOnly } from "utility-types";
-import uuid from "uuid";
+import { v4 as uuidv4 } from "uuid";
 
 import {
   DataProvider,
@@ -548,7 +548,7 @@ export default class MemoryCacheDataProvider implements DataProvider {
       return true;
     }
 
-    const id = uuid.v4();
+    const id = uuidv4();
     this._currentConnection = {
       id,
       topics: this._getCurrentTopics(),

@@ -14,7 +14,7 @@
 import { simplify, unify } from "intervals-fn";
 import { isEqual, uniq } from "lodash";
 import { TimeUtil, Time } from "rosbag";
-import uuid from "uuid";
+import { v4 as uuidv4 } from "uuid";
 
 import {
   MESSAGES_STORE_NAME,
@@ -235,7 +235,7 @@ export default class IdbCacheWriterDataProvider implements DataProvider {
       return;
     }
 
-    const id = uuid.v4();
+    const id = uuidv4();
     this._currentConnection = { id, topics: this._getCurrentTopics(), remainingRange: range };
 
     const reportTransactionError = (err?: Error) => {

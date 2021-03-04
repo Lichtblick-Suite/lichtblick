@@ -18,7 +18,7 @@ import moment from "moment";
 import * as React from "react";
 import styled from "styled-components";
 import tinyColor from "tinycolor2";
-import uuid from "uuid";
+import { v4 as uuidv4 } from "uuid";
 
 import ChildToggle from "@foxglove-studio/app/components/ChildToggle";
 import Icon from "@foxglove-studio/app/components/Icon";
@@ -236,7 +236,7 @@ export default class NotificationDisplay extends React.PureComponent<Props, Stat
       ): void => {
         this.setState((state: State) => {
           const newNotifications = [
-            { id: uuid(), created: new Date(), read: false, message, details, severity },
+            { id: uuidv4(), created: new Date(), read: false, message, details, severity },
           ];
           // shift notifications in to the front of the array and keep a max of 100
           const notifications = newNotifications.concat(state.notifications).slice(0, 100);

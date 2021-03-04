@@ -11,7 +11,7 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 import { TimeUtil, Time } from "rosbag";
-import uuid from "uuid";
+import { v4 as uuidv4 } from "uuid";
 
 import { Interactive } from "@foxglove-studio/app/panels/ThreeDimensionalViz/Interactions/types";
 import { BaseMarker } from "@foxglove-studio/app/types/Messages";
@@ -148,7 +148,7 @@ export default class MessageCollector {
       this.markers.delete(topic);
 
       // Create a unique key for each new message.
-      const key = `${topic}/${uuid.v4()}`;
+      const key = `${topic}/${uuidv4()}`;
       this._addItem(key, message, lifetime);
     } else {
       // if future messages will not have a decay time set,

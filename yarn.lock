@@ -1712,7 +1712,7 @@ __metadata:
     "@types/styled-components": 5.1.7
     "@types/tinycolor2": 1.4.2
     "@types/url-search-params": 1.1.0
-    "@types/uuid": 3.4.9
+    "@types/uuid": 8.3.0
     "@types/ws": 7.4.0
     cbor-js: 0.1.0
     chart.js: "davidswinegar/Chart.js#0785c29a4c57b3e1b4243f8163df7950a00b2a80"
@@ -1797,7 +1797,7 @@ __metadata:
     url-search-params: 1.1.0
     use-debounce: 3.4.3
     utility-types: 3.10.0
-    uuid: 3.4.0
+    uuid: 8.3.2
     wasm-lz4: 1.0.0
     ws: 7.4.3
   languageName: unknown
@@ -4264,10 +4264,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/uuid@npm:3.4.9":
-  version: 3.4.9
-  resolution: "@types/uuid@npm:3.4.9"
-  checksum: bc70640658b90c6ed88636f6b181e9cb74d7b13f27d924ac3c52ac73eaeb2e693653ab66a0d7d18e8b1c4022cd369c9cae28694fd586bce8b3b15dd68bea98ad
+"@types/uuid@npm:8.3.0":
+  version: 8.3.0
+  resolution: "@types/uuid@npm:8.3.0"
+  checksum: 620985aed8fdb4aed153daca5235f4303457a67a4d181efac0021712eabd9edd7e88895f79730c0e651effde7633b1b61e49a81519ac8d4e75019d2ac9b6412f
   languageName: node
   linkType: hard
 
@@ -21800,21 +21800,21 @@ typescript@4.2.2:
   languageName: node
   linkType: hard
 
-"uuid@npm:3.4.0, uuid@npm:^3.3.2, uuid@npm:^3.4.0":
-  version: 3.4.0
-  resolution: "uuid@npm:3.4.0"
-  bin:
-    uuid: ./bin/uuid
-  checksum: 1ce3f37e214d6d0dc94a6a9663a0365013ace66bc3fd5b203e6f5d2eeb978aaee1192367222386345d30b4c6a447928c501121aa84c637724bf105ef57284949
-  languageName: node
-  linkType: hard
-
-"uuid@npm:^8.3.0":
+"uuid@npm:8.3.2, uuid@npm:^8.3.0":
   version: 8.3.2
   resolution: "uuid@npm:8.3.2"
   bin:
     uuid: dist/bin/uuid
   checksum: aed2bcef341f95635f308fea8831fb9038b18c485fe7e71feb89d2e05602dfecad0cb6f2246fae096d4da425cca6e8a71056f28abd97ad98cf770a2018853248
+  languageName: node
+  linkType: hard
+
+"uuid@npm:^3.3.2, uuid@npm:^3.4.0":
+  version: 3.4.0
+  resolution: "uuid@npm:3.4.0"
+  bin:
+    uuid: ./bin/uuid
+  checksum: 1ce3f37e214d6d0dc94a6a9663a0365013ace66bc3fd5b203e6f5d2eeb978aaee1192367222386345d30b4c6a447928c501121aa84c637724bf105ef57284949
   languageName: node
   linkType: hard
 

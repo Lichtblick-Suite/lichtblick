@@ -23,7 +23,7 @@
 
 import Hammer from "hammerjs";
 import React from "react";
-import uuid from "uuid";
+import { v4 as uuidv4 } from "uuid";
 
 import { ScaleOptions as ManagerScaleOptions } from "./ChartJSManager";
 // eslint-disable-next-line import/no-unresolved
@@ -71,7 +71,7 @@ class ChartComponent extends React.PureComponent<Props> {
   canvas: HTMLCanvasElement | null | undefined;
   _chartRpc: RpcLike | null | undefined;
   _node?: OffscreenCanvas;
-  _id = uuid.v4();
+  _id = uuidv4();
   _scaleBoundsByScaleId = {};
   _usingWebWorker = false;
   _onEndChartUpdateCallbacks: Record<string, () => void> = {};
@@ -157,7 +157,7 @@ class ChartComponent extends React.PureComponent<Props> {
     let chartUpdateId: string;
     if (onChartUpdate) {
       const onEndChartUpdate = onChartUpdate();
-      chartUpdateId = uuid.v4();
+      chartUpdateId = uuidv4();
       this._onEndChartUpdateCallbacks[chartUpdateId] = onEndChartUpdate;
     }
     this._sendToRpc("update", {

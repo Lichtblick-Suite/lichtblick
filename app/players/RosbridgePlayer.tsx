@@ -14,7 +14,7 @@
 import { isEqual, sortBy, partition } from "lodash";
 import { MessageReader, Time, parseMessageDefinition } from "rosbag";
 import roslib from "roslib";
-import uuid from "uuid";
+import { v4 as uuidv4 } from "uuid";
 
 import WssErrorModal from "@foxglove-studio/app/components/WssErrorModal";
 import renderToBody from "@foxglove-studio/app/components/renderToBody";
@@ -50,7 +50,7 @@ const NO_WARNINGS = Object.freeze({});
 export default class RosbridgePlayer implements Player {
   _url: string; // WebSocket URL.
   _rosClient: roslib.Ros | null | undefined; // The roslibjs client when we're connected.
-  _id: string = uuid.v4(); // Unique ID for this player.
+  _id: string = uuidv4(); // Unique ID for this player.
   _listener?: (arg0: PlayerState) => Promise<void>; // Listener for _emitState().
   _closed: boolean = false; // Whether the player has been completely closed using close().
   _providerTopics: Topic[] | null | undefined; // Topics as published by the WebSocket.

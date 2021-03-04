@@ -17,7 +17,7 @@ import ReactDOM from "react-dom";
 import { useDispatch } from "react-redux";
 import { Time } from "rosbag";
 import styled from "styled-components";
-import uuid from "uuid";
+import { v4 as uuidv4 } from "uuid";
 
 import HoverBar from "./HoverBar";
 import TimeBasedChartTooltip from "./TimeBasedChartTooltip";
@@ -484,7 +484,7 @@ export default memo<Props>(function TimeBasedChart(props: Props) {
     [removeTooltip, tooltips],
   );
 
-  const [hoverComponentId] = useState(() => uuid.v4());
+  const [hoverComponentId] = useState(() => uuidv4());
   const { xAxisIsPlaybackTime } = props;
   const dispatch = useDispatch();
   const clearGlobalHoverTime = useCallback(
