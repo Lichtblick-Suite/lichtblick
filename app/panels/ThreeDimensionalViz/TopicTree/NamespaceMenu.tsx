@@ -13,7 +13,7 @@
 
 import DotsVerticalIcon from "@mdi/svg/svg/dots-vertical.svg";
 import UndoVariantIcon from "@mdi/svg/svg/undo-variant.svg";
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 import { ROW_HEIGHT, SDotMenuPlaceholder } from "./TreeNodeRow";
@@ -97,10 +97,6 @@ export default function NamespaceMenu({
 }: Props) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const onToggle = useCallback(() => {
-    setIsOpen((prevIsOpen) => !prevIsOpen);
-  }, []);
-
   // Render with extra space for the reset icon if any column has the override color.
   const showResetOverrideColor =
     hasNamespaceOverrideColorChangedByColumn[0] || hasNamespaceOverrideColorChangedByColumn[1];
@@ -121,13 +117,12 @@ export default function NamespaceMenu({
     <ChildToggle
       position="below"
       isOpen={isOpen}
-      onToggle={onToggle}
+      onToggle={setIsOpen}
       dataTest={`namespace-row-menu~${topicName}~${namespace}`}
     >
       <Icon
         small
         fade
-        onClick={onToggle}
         style={{
           padding: "4px 0px",
           height: ROW_HEIGHT,

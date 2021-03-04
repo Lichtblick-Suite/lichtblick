@@ -25,7 +25,7 @@ export default function LayoutMenu() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <ChildToggle position="below" onToggle={() => setIsOpen(!isOpen)} isOpen={isOpen}>
+    <ChildToggle position="below" onToggle={setIsOpen} isOpen={isOpen}>
       <Flex>
         <WrappedIcon medium fade active={isOpen} tooltip="Config">
           <LayoutIcon />

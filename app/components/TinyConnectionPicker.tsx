@@ -41,13 +41,11 @@ export function TinyConnectionPicker({
   );
   const [isOpen, setIsOpen] = React.useState<boolean>(defaultIsOpen);
 
-  const onToggle = React.useCallback(() => setIsOpen((open) => !open), []);
-
   return (
     <ChildToggle
       position="below"
       isOpen={isOpen}
-      onToggle={onToggle}
+      onToggle={setIsOpen}
       dataTest="open-connection-picker"
       style={{ height: 18 }}
     >

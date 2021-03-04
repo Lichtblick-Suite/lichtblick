@@ -210,7 +210,6 @@ export function showNotificationModal(notification: NotificationMessage): void {
 type State = {
   notifications: NotificationMessage[];
   showMostRecent: boolean;
-  showList: boolean;
 };
 
 type Props = {
@@ -221,7 +220,6 @@ export default class NotificationDisplay extends React.PureComponent<Props, Stat
   state = {
     notifications: [],
     showMostRecent: false,
-    showList: false,
   };
 
   hideTimeout?: ReturnType<typeof setTimeout>;
@@ -270,22 +268,19 @@ export default class NotificationDisplay extends React.PureComponent<Props, Stat
     unsetNotificationHandler();
   }
 
-  toggleNotificationList = () => {
-    this.setState((state): any => {
-      const { showList } = state;
-      if (!showList) {
-        return { showList: true };
-      }
-      // mark items read on closed
-      return {
-        showList: false,
-        notifications: state.notifications.map((err) => ({ ...err, read: true })),
-      };
-    });
+  toggleNotificationList = (isOpen: boolean) => {
+    if (!isOpen) {
+      this.setState((state): any => {
+        // mark items read on closed
+        return {
+          notifications: state.notifications.map((err) => ({ ...err, read: true })),
+        };
+      });
+    }
   };
 
   render() {
-    const { notifications, showMostRecent, showList } = this.state;
+    const { notifications, showMostRecent } = this.state;
     const unreadCount = notifications.reduce((acc, err) => acc + ((err as any).read ? 0 : 1), 0);
 
     const severity = (notifications[0] as any)?.severity ?? "error";
@@ -295,7 +290,7 @@ export default class NotificationDisplay extends React.PureComponent<Props, Stat
     return (
       <Container flash={showMostRecent} unread={hasUnread} color={color}>
         {!!notifications.length && (
-          <ChildToggle position="below" isOpen={showList} onToggle={this.toggleNotificationList}>
+          <ChildToggle position="below" onToggle={this.toggleNotificationList}>
             <div style={{ display: "flex", flex: "1 1 auto", alignItems: "center" }}>
               <div
                 style={{

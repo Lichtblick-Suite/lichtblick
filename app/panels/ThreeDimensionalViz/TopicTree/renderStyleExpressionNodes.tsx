@@ -107,7 +107,6 @@ const SColorTrigger = styled.span<any>`
 
 function StyleExpressionNode(props: any) {
   const { topic, rowWidth, rowIndex, hasFeatureColumn, linkedGlobalVariables } = props;
-  const [isOpen, setIsOpen] = useState(false);
   const [editingColorForSourceIdx, setEditingColorForSourceIdx] = useState(false);
 
   const {
@@ -128,7 +127,6 @@ function StyleExpressionNode(props: any) {
   const activeRowActive = colorOverridesByColumnIdx.some((colorOverride) => colorOverride?.active);
 
   // Callbacks
-  const onToggleMenu = useCallback(() => setIsOpen((prevIsOpen) => !prevIsOpen), []);
   const updateSettingsForGlobalVariable = useCallback(
     (globalVariableName, settings: { active: boolean; color: Color }, sourceIdx = 0) => {
       const updatedSettings = new Array(2)
@@ -227,16 +225,10 @@ function StyleExpressionNode(props: any) {
             })}
           </SToggles>
         )}
-        <ChildToggle
-          position="below"
-          isOpen={isOpen}
-          onToggle={onToggleMenu}
-          dataTest={`topic-row-menu-${topic}`}
-        >
+        <ChildToggle position="below" dataTest={`topic-row-menu-${topic}`}>
           <Icon
             small
             fade
-            onClick={onToggleMenu}
             style={{
               padding: "4px 0px",
               height: ROW_HEIGHT,

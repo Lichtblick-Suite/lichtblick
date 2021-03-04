@@ -77,7 +77,7 @@ export default function LinkToGlobalVariable({
     <ChildToggle
       dataTest={`link-${name}`}
       position="above"
-      onToggle={() => setIsOpen(!isOpen)}
+      onToggle={setIsOpen}
       isOpen={isOpen}
       style={style}
     >

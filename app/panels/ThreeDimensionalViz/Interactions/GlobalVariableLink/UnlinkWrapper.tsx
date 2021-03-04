@@ -13,7 +13,7 @@
 
 import LinkVariantOffIcon from "@mdi/svg/svg/link-variant-off.svg";
 import LinkVariantIcon from "@mdi/svg/svg/link-variant.svg";
-import React, { useState, useCallback, ReactNode } from "react";
+import React, { useState, ReactNode } from "react";
 import styled from "styled-components";
 
 import { LinkedGlobalVariable } from "../useLinkedGlobalVariables";
@@ -60,13 +60,12 @@ type Props = {
 
 export default function UnlinkWrapper({ children, linkedGlobalVariable, tooltip }: Props) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const onToggle = useCallback(() => setIsOpen((open) => !open), []);
   return (
     <>
       <ChildToggle
         dataTest={`unlink-${linkedGlobalVariable.name}`}
         position="above"
-        onToggle={onToggle}
+        onToggle={setIsOpen}
         isOpen={isOpen}
       >
         <SIconWrapper>

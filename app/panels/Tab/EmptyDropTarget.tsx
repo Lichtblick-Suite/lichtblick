@@ -11,7 +11,7 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import React, { useCallback, useState } from "react";
+import React, { useCallback } from "react";
 import { useDrop } from "react-dnd";
 import { MosaicDragType } from "react-mosaic-component";
 import { useDispatch } from "react-redux";
@@ -62,8 +62,6 @@ type Props = {
 
 export const EmptyDropTarget = ({ mosaicId, tabId }: Props) => {
   const dispatch = useDispatch();
-  const [showPanelList, setShowPanelList] = useState(false);
-  const toggleShowPanelList = useCallback(() => setShowPanelList((show) => !show), []);
 
   const [{ isOver }, drop] = useDrop({
     accept: MosaicDragType.WINDOW,
@@ -91,12 +89,7 @@ export const EmptyDropTarget = ({ mosaicId, tabId }: Props) => {
       <SEmptyStateText>
         Nothing here yet.
         <br />
-        <ChildToggle
-          position="below"
-          onToggle={toggleShowPanelList}
-          isOpen={showPanelList}
-          style={{ display: "inline-flex" }}
-        >
+        <ChildToggle position="below" style={{ display: "inline-flex" }}>
           <SPickAPanelText data-test="pick-a-panel">Pick a panel</SPickAPanelText>
           <Menu>
             <PanelList onPanelSelect={onPanelSelect} />

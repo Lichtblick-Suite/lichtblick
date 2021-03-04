@@ -302,48 +302,44 @@ export default React.memo<Props>(function PanelToolbar(props: Props) {
     showHiddenControlsOnHover,
     isUnknownPanel,
   } = props;
-  const { isHovered } = useContext(PanelContext) || {};
+  const { isHovered = false } = useContext(PanelContext) || {};
   const [isDragging, setIsDragging] = useState(false);
   const onDragStart = useCallback(() => setIsDragging(true), []);
   const onDragEnd = useCallback(() => setIsDragging(false), []);
+  const [containsOpen, setContainsOpen] = useState(false);
 
   if (frameless() || hideToolbars) {
     return null;
   }
 
+  const isRendered = isHovered || containsOpen || isDragging || !!isUnknownPanel;
   return (
     <Dimensions>
       {({ width }) => (
-        <ChildToggle.ContainsOpen>
-          {(containsOpen) => {
-            const isRendered = isHovered || containsOpen || isDragging || !!isUnknownPanel;
-            return (
-              <div
-                className={cx(styles.panelToolbarContainer, {
-                  [styles.floating]: floating,
-                  [styles.floatingShow]: floating && isRendered,
-                  [styles.containsOpen]: containsOpen,
-                  [styles.hasChildren]: !!children,
-                })}
-              >
-                {(isRendered || !floating) && children}
-                {(isRendered || showHiddenControlsOnHover) && (
-                  <PanelToolbarControls
-                    isRendered={isRendered}
-                    showHiddenControlsOnHover={showHiddenControlsOnHover}
-                    floating={floating}
-                    helpContent={helpContent}
-                    menuContent={menuContent}
-                    showPanelName={width > 360}
-                    additionalIcons={additionalIcons}
-                    onDragStart={onDragStart}
-                    onDragEnd={onDragEnd}
-                    isUnknownPanel={!!isUnknownPanel}
-                  />
-                )}
-              </div>
-            );
-          }}
+        <ChildToggle.ContainsOpen onChange={setContainsOpen}>
+          <div
+            className={cx(styles.panelToolbarContainer, {
+              [styles.floating]: floating,
+              [styles.floatingShow]: floating && isRendered,
+              [styles.hasChildren]: !!children,
+            })}
+          >
+            {(isRendered || !floating) && children}
+            {(isRendered || showHiddenControlsOnHover) && (
+              <PanelToolbarControls
+                isRendered={isRendered}
+                showHiddenControlsOnHover={showHiddenControlsOnHover}
+                floating={floating}
+                helpContent={helpContent}
+                menuContent={menuContent}
+                showPanelName={width > 360}
+                additionalIcons={additionalIcons}
+                onDragStart={onDragStart}
+                onDragEnd={onDragEnd}
+                isUnknownPanel={!!isUnknownPanel}
+              />
+            )}
+          </div>
         </ChildToggle.ContainsOpen>
       )}
     </Dimensions>

@@ -86,15 +86,15 @@ function GlobalVariablesMenu(props: Props) {
   const { defaultIsOpen, skipAnimation = inScreenshotTests() } = props;
   const [hasChangedVariable, setHasChangedVariable] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(defaultIsOpen || false);
-  const onToggle = useCallback(() => {
+  const onToggle = useCallback((newValue: boolean) => {
     setHasChangedVariable(false);
-    setIsOpen((open) => !open);
+    setIsOpen(newValue);
   }, []);
 
   const dispatch = useDispatch();
   const layout = useSelector((state: any) => state.persistedState.panels.layout);
   const addPanelToLayout = useCallback(() => {
-    setIsOpen((open) => !open);
+    setIsOpen(false);
     dispatch(addPanel({ type: GlobalVariables.panelType, layout, tabId: null } as AddPanelPayload));
 
     logEvent({
@@ -113,8 +113,8 @@ function GlobalVariablesMenu(props: Props) {
   return (
     <ChildToggle
       position="below"
-      onToggle={onToggle}
       isOpen={isOpen}
+      onToggle={onToggle}
       dataTest="open-global-variables"
     >
       <Flex center>

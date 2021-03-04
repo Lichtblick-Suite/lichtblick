@@ -12,46 +12,53 @@
 //   You may not use this file except in compliance with the License.
 
 import cx from "classnames";
-import { ReactNode } from "react";
+import {
+  ReactElement,
+  ReactNode,
+  useCallback,
+  useContext,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { createPortal } from "react-dom";
 
 import styles from "./index.module.scss";
 import Flex from "@foxglove-studio/app/components/Flex";
 import KeyListener from "@foxglove-studio/app/components/KeyListener";
+import useEventListener from "@foxglove-studio/app/hooks/useEventListener";
 
 type ContainsOpenProps = {
-  children: (containsOpen: boolean) => React.ReactNode;
+  onChange: (containsOpen: boolean) => void;
+  children: React.ReactNode;
 };
 
-const { Provider, Consumer } = React.createContext<(arg0: number) => void>((_: number) => {
-  // no-op
-});
+const Context = React.createContext((_opening: boolean) => {});
 
 // Component for detecting if any child component is opened or not. Handy for
 // not hiding things when there is a dropdown open or so.
 // Use as <ChildToggle.ContainsOpen>
-class ChildToggleContainsOpen extends React.Component<ContainsOpenProps, { open: number }> {
-  constructor(props: ContainsOpenProps) {
-    super(props);
-    this.state = { open: 0 };
-  }
-
-  _setContainsOpen = (changeOpenNumber: number): void => {
-    this.setState(({ open }) => ({ open: open + changeOpenNumber }));
-  };
-
-  render() {
-    return (
-      <Provider value={this._setContainsOpen}>{this.props.children(this.state.open > 0)}</Provider>
-    );
-  }
+function ChildToggleContainsOpen({ onChange, children }: ContainsOpenProps): ReactElement {
+  const openNumber = useRef(0);
+  const tellAncestorAboutToggledChild = useCallback(
+    (opening: boolean) => {
+      const newValue = openNumber.current + (opening ? 1 : -1);
+      console.assert(newValue >= 0);
+      if (openNumber.current > 0 !== newValue > 0) {
+        onChange(newValue > 0);
+      }
+      openNumber.current = newValue;
+    },
+    [onChange],
+  );
+  return <Context.Provider value={tellAncestorAboutToggledChild}>{children}</Context.Provider>;
 }
 
 type Props = {
-  // set to true to display the content component
-  isOpen: boolean;
+  isOpen?: boolean;
+  defaultIsOpen?: boolean;
   // fired when the trigger component is clicked
-  onToggle: () => void;
+  onToggle?: (isOpen: boolean) => void;
   // requires exactly 2 components: a toggle trigger & a content component
   children: [ReactNode, ReactNode];
   style?: {
@@ -67,78 +74,106 @@ type Props = {
 // a component which takes 2 child components: toggle trigger and content
 // when the toggle trigger component is clicked the onToggle callback will fire
 // setting isOpen to true will show the content component, floating below the trigger component
-export default class ChildToggle extends React.Component<Props> {
-  static ContainsOpen = ChildToggleContainsOpen;
+export default function ChildToggle(props: Props): ReactElement {
+  const {
+    isOpen: controlledIsOpen,
+    defaultIsOpen,
+    onToggle,
+    dataTest,
+    children,
+    position,
+    noPortal,
+    style,
+  } = props;
 
-  el: HTMLDivElement | null | undefined;
-  floatingEl: HTMLDivElement | null | undefined;
-  _lastOpen: boolean = false;
-  _setContainsOpen: (arg0: boolean) => void = () => {
-    // no-op
-  };
+  if (controlledIsOpen !== undefined && defaultIsOpen !== undefined) {
+    throw new Error(
+      "ChildToggle was provided both isOpen (controlled mode) and defaultIsOpen (uncontrolled). Pass only one.",
+    );
+  }
 
-  componentDidMount() {
-    const { isOpen } = this.props;
-    if (isOpen) {
-      this.addDocListener();
-      this.forceUpdate(); // Because this.el is not set during the first render.
+  const [uncontrolledIsOpen, uncontrolledSetIsOpen] = useState(defaultIsOpen ?? false);
+
+  // Whether we are actually open, regardless of controlled or uncontrolled mode.
+  const isOpen = controlledIsOpen ?? uncontrolledIsOpen;
+
+  // Track the latest passed-in props to avoid needing to re-create the setIsOpen callback when values change.
+  const latestProps = useRef({ onToggle, controlledIsOpen });
+  useLayoutEffect(() => {
+    latestProps.current.onToggle = props.onToggle;
+    latestProps.current.controlledIsOpen = props.isOpen;
+  });
+
+  // Used by the internal click handler and escape key handler to change state.
+  const setIsOpen = useCallback((value: boolean) => {
+    // Only trigger a state update in uncontrolled mode. Otherwise, the client will do it from onToggle.
+    if (latestProps.current.controlledIsOpen === undefined) {
+      uncontrolledSetIsOpen(value);
     }
-  }
+    latestProps.current.onToggle?.(value);
+  }, []);
 
-  addDocListener() {
-    // add a document listener to hide the dropdown body if
-    // it is expanded and the document is clicked on
-    document.addEventListener("click", this.onDocumentClick, true);
-  }
+  const el = useRef<HTMLDivElement>(null);
+  const floatingEl = useRef<HTMLDivElement>(null);
 
-  removeDocListener() {
-    // cleanup the document listener
-    document.removeEventListener("click", this.onDocumentClick, true);
-  }
-
-  componentDidUpdate(prevProps: Props) {
-    if (this.props.isOpen !== prevProps.isOpen) {
-      if (this.props.isOpen) {
-        this.addDocListener();
-      } else {
-        this.removeDocListener();
+  // Inform the ancestor when we open/close. This enables ChildToggle.ContainsOpen to work.
+  const previousIsOpen = useRef(false);
+  const tellAncestorAboutToggledChild = useContext(Context);
+  useLayoutEffect(() => {
+    if (isOpen !== previousIsOpen.current) {
+      tellAncestorAboutToggledChild(isOpen);
+      previousIsOpen.current = isOpen;
+    }
+    // If we are being unmounted, tell the ancestor we are no longer open.
+    // If we are being moved to a new ancestor, this cleanup handler runs before the new effect,
+    // so we will automatically also tell the new ancestor that we are open (if applicable).
+    return () => {
+      if (previousIsOpen.current) {
+        tellAncestorAboutToggledChild(false);
+        previousIsOpen.current = false;
       }
-    }
-  }
+    };
+  }, [isOpen, tellAncestorAboutToggledChild]);
 
-  componentWillUnmount() {
-    this.removeDocListener();
-    this._setContainsOpen(false);
-  }
+  // add a document listener to hide the dropdown body if
+  // it is expanded and the document is clicked on
+  useEventListener(
+    document,
+    "click",
+    isOpen,
+    (event: MouseEvent) => {
+      if (!floatingEl.current) {
+        return;
+      }
+      const node = (event.target as any) as HTMLElement;
+      // if there was a click outside this container and outside children[0]
+      // fire the toggle callback to close expanded section
+      if (floatingEl.current.contains(node) || el.current?.contains(node)) {
+        // the click was inside our bounds and shouldn't auto-close the menu
+      } else {
+        // allow any nested child toggle click events to reach their dom node before removing
+        // the expanded toggle portion from the dom
+        setImmediate(() => setIsOpen(false));
+      }
+    },
+    [],
+  );
 
-  onDocumentClick = (e: MouseEvent) => {
-    const { floatingEl } = this;
-    const { onToggle } = this.props;
-    if (!floatingEl) {
-      return;
+  const [rendered, setRendered] = useState(false);
+  useLayoutEffect(() => {
+    // Force an update because el.current is not set during the first render.
+    // This is only important if isOpen was true on the first render.
+    if (!rendered) {
+      setRendered(true);
     }
-    const node = (e.target as any) as HTMLElement;
-    // if there was a click outside this container and outside children[0]
-    // fire the toggle callback to close expanded section
-    if (floatingEl.contains(node) || (this.el && this.el.contains(node))) {
-      // the click was inside our bounds and shouldn't auto-close the menu
-    } else {
-      // allow any nested child toggle click events to reach their dom node before removing
-      // the expanded toggle portion from the dom
-      setImmediate(onToggle);
-    }
-  };
+  }, [rendered]);
 
-  renderFloating() {
-    const { isOpen, children, position, noPortal, style } = this.props;
-    if (!isOpen) {
-      return;
-    }
-    if (!this.el || !this.el.firstElementChild || !this.el.firstElementChild.firstElementChild) {
+  function renderFloating() {
+    const childEl = el.current?.firstElementChild?.firstElementChild;
+    if (!childEl) {
       return;
     }
     // position menu relative to our children[0]
-    const childEl = this.el.firstElementChild.firstElementChild;
     const childRect = childEl.getBoundingClientRect();
     const padding = 10;
     const styleObj = {
@@ -171,13 +206,8 @@ export default class ChildToggle extends React.Component<Props> {
       spacerSize = childRect.left + childRect.width - padding;
     }
 
-    // satisfy flow
-    if (!document.body) {
-      return null;
-    }
-
     const tree = (
-      <div ref={(el) => (this.floatingEl = el)}>
+      <div ref={floatingEl}>
         <Flex
           row
           reverse={position === "left" || position === "bottom-left"}
@@ -196,51 +226,33 @@ export default class ChildToggle extends React.Component<Props> {
     return noPortal ? tree : createPortal(tree, document.body);
   }
 
-  render() {
-    const { style, children, onToggle, isOpen, dataTest } = this.props;
-    const keyDownHandlers = {
-      Escape: () => {
-        if (isOpen) {
-          onToggle();
-        }
-      },
-    };
-    return (
-      <>
-        <Consumer>
-          {(updateOpenNumber: (arg0: number) => void) => {
-            this._setContainsOpen = (open: boolean) => {
-              if (open !== this._lastOpen) {
-                updateOpenNumber(open ? 1 : -1);
-                this._lastOpen = open;
-              }
-            };
-            this._setContainsOpen(isOpen);
+  const keyDownHandlers = {
+    Escape: () => {
+      setIsOpen(false);
+    },
+  };
 
-            return (
-              <div
-                ref={(el) => (this.el = el)}
-                className={cx({ ["open"]: isOpen })}
-                style={style}
-                onClick={(event) => event.stopPropagation()}
-              >
-                <div
-                  onClick={(event) => {
-                    event.stopPropagation();
-                    event.preventDefault();
-                    onToggle();
-                  }}
-                  data-test={dataTest}
-                >
-                  {children[0]}
-                </div>
-                {this.renderFloating()}
-              </div>
-            );
-          }}
-        </Consumer>
-        <KeyListener global keyDownHandlers={keyDownHandlers} />
-      </>
-    );
-  }
+  return (
+    <div
+      ref={el}
+      className={cx({ ["open"]: isOpen })}
+      style={style}
+      onClick={(event) => event.stopPropagation()}
+    >
+      <div
+        onClick={(event) => {
+          event.stopPropagation();
+          event.preventDefault();
+          setIsOpen(!isOpen);
+        }}
+        data-test={dataTest}
+      >
+        {children[0]}
+      </div>
+      {isOpen && renderFloating()}
+      {isOpen && <KeyListener global keyDownHandlers={keyDownHandlers} />}
+    </div>
+  );
 }
+
+ChildToggle.ContainsOpen = ChildToggleContainsOpen;

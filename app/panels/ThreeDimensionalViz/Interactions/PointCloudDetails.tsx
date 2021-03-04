@@ -71,7 +71,6 @@ export default function PointCloudDetails({ selectedObject: { object, instanceIn
     downloadFiles([{ blob, fileName: "PointCloud.csv" }]);
     setIsOpen(false);
   }, [additionalFieldNames, hasAdditionalFieldNames, object]);
-  const onToggle = useCallback(() => setIsOpen((open) => !open), []);
 
   if (!clickedPoint) {
     return null;
@@ -82,7 +81,7 @@ export default function PointCloudDetails({ selectedObject: { object, instanceIn
   return (
     <>
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <ChildToggle position="below" onToggle={onToggle} isOpen={isOpen}>
+        <ChildToggle position="below" onToggle={setIsOpen} isOpen={isOpen}>
           <Icon
             small
             fade

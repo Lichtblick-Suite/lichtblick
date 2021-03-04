@@ -22,8 +22,6 @@ import Modal from "@foxglove-studio/app/components/Modal";
 import TextContent from "@foxglove-studio/app/components/TextContent";
 
 function ContentStory({ showChildToggle }: { showChildToggle?: boolean }) {
-  const [isOpen, setIsOpen] = React.useState(false);
-  const onToggle = React.useCallback(() => setIsOpen(!isOpen), [isOpen]);
   const renderedRef = React.useRef(false);
   return (
     <Modal
@@ -49,8 +47,8 @@ function ContentStory({ showChildToggle }: { showChildToggle?: boolean }) {
         }}
       >
         {showChildToggle ? (
-          <ChildToggle position="below" onToggle={onToggle} isOpen={isOpen}>
-            <button onClick={onToggle}>Toggle</button>
+          <ChildToggle position="below">
+            <button>Toggle</button>
             <p>ChildToggle component inside a Modal</p>
           </ChildToggle>
         ) : (

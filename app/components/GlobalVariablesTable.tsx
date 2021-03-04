@@ -223,7 +223,7 @@ function LinkedGlobalVariableRow({ name }: { name: string }): ReactElement {
               </SLinkedTopicsSpan>
             </Tooltip>
           </Flex>
-          <ChildToggle isOpen={isOpen} onToggle={() => setIsOpen(!isOpen)} position="below">
+          <ChildToggle position="below" isOpen={isOpen} onToggle={setIsOpen}>
             <SIconWrapper isOpen={isOpen}>
               <Icon small dataTest={`unlink-${name}`}>
                 <DotsVerticalIcon />

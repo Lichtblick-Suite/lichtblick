@@ -18,7 +18,6 @@ import MenuDownIcon from "@mdi/svg/svg/menu-down.svg";
 import WavesIcon from "@mdi/svg/svg/waves.svg";
 import cx from "classnames";
 import { last, uniq } from "lodash";
-import * as React from "react";
 import { hot } from "react-hot-loader/root";
 import styled from "styled-components";
 
@@ -35,7 +34,6 @@ import {
 } from "./util";
 import * as PanelAPI from "@foxglove-studio/app/PanelAPI";
 import Autocomplete from "@foxglove-studio/app/components/Autocomplete";
-import ChildToggle from "@foxglove-studio/app/components/ChildToggle";
 import Dropdown from "@foxglove-studio/app/components/Dropdown";
 import DropdownItem from "@foxglove-studio/app/components/Dropdown/DropdownItem";
 import dropDownStyles from "@foxglove-studio/app/components/Dropdown/index.module.scss";
@@ -121,16 +119,10 @@ const TopicTimestamp = ({
   };
 }) => (text === "" ? null : <TopicTimestampSpan style={styleObj}>{text}</TopicTimestampSpan>);
 
-const BottomBar = ({
-  children,
-  containsOpen,
-}: {
-  children?: React.ReactNode;
-  containsOpen: boolean;
-}) => (
+const BottomBar = ({ children }: { children?: React.ReactNode }) => (
   <div
     className={cx(imageCanvasStyles["bottom-bar"], {
-      [imageCanvasStyles.containsOpen]: inScreenshotTests() ? true : containsOpen,
+      [imageCanvasStyles.inScreenshotTests]: inScreenshotTests(),
     })}
   >
     {children}
@@ -607,45 +599,37 @@ function ImageView(props: Props) {
   }, [imageTopicDropdown, markerDropdown, menuContent]);
 
   const renderBottomBar = () => {
+    const canTransformMarkers = (getGlobalHooks() as any)
+      .perPanelHooks()
+      .ImageView.canTransformMarkersByTopic(cameraTopic);
+
+    const topicTimestamp = (
+      <TopicTimestamp
+        style={{ padding: "8px 8px 0px 0px" }}
+        text={imageMessage ? formatTimeRaw(imageMessage.message.header.stamp) : ""}
+      />
+    );
+
+    if (!canTransformMarkers) {
+      return <BottomBar>{topicTimestamp}</BottomBar>;
+    }
+
     return (
-      <ChildToggle.ContainsOpen>
-        {(containsOpen) => {
-          const canTransformMarkers = (getGlobalHooks() as any)
-            .perPanelHooks()
-            .ImageView.canTransformMarkersByTopic(cameraTopic);
-
-          const topicTimestamp = (
-            <TopicTimestamp
-              style={{ padding: "8px 8px 0px 0px" }}
-              text={imageMessage ? formatTimeRaw(imageMessage.message.header.stamp) : ""}
-            />
-          );
-
-          if (!canTransformMarkers) {
-            return <BottomBar containsOpen={containsOpen}>{topicTimestamp}</BottomBar>;
+      <BottomBar>
+        {topicTimestamp}
+        <Icon
+          onClick={() => saveConfig({ transformMarkers: !transformMarkers })}
+          tooltip={
+            transformMarkers
+              ? "Markers are being transformed by webviz based on the camera model. Click to turn it off."
+              : `Markers can be transformed by webviz based on the camera model. Click to turn it on.`
           }
-
-          return (
-            <BottomBar containsOpen={containsOpen}>
-              {topicTimestamp}
-              <Icon
-                onClick={() => saveConfig({ transformMarkers: !transformMarkers })}
-                tooltip={
-                  transformMarkers
-                    ? "Markers are being transformed by webviz based on the camera model. Click to turn it off."
-                    : `Markers can be transformed by webviz based on the camera model. Click to turn it on.`
-                }
-                fade
-                medium
-              >
-                <WavesIcon
-                  style={{ color: transformMarkers ? colors.orange : colors.textBright }}
-                />
-              </Icon>
-            </BottomBar>
-          );
-        }}
-      </ChildToggle.ContainsOpen>
+          fade
+          medium
+        >
+          <WavesIcon style={{ color: transformMarkers ? colors.orange : colors.textBright }} />
+        </Icon>
+      </BottomBar>
     );
   };
 

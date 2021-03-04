@@ -27,10 +27,9 @@ const MARGIN = 50;
 
 function ChildToggleStory() {
   const [isOpen, setIsOpen] = useState(true);
-  const onToggle = () => {
-    setIsOpen((value) => !value);
-  };
   const icon = isOpen ? <MinusCircleIcon /> : <PlusCircleIcon />;
+  const [containsOpen1, setContainsOpen1] = useState(false);
+  const [containsOpen2, setContainsOpen2] = useState(false);
   return (
     <Flex
       col
@@ -41,73 +40,79 @@ function ChildToggleStory() {
       }}
     >
       <div style={{ margin: MARGIN, border: "1px solid gray" }}>
-        <ChildToggle position="right" onToggle={onToggle} isOpen={isOpen}>
+        <ChildToggle position="right" onToggle={setIsOpen} isOpen={isOpen}>
           <Icon>{icon}</Icon>
           <Block>this opens right-aligned of the icon</Block>
         </ChildToggle>
       </div>
       <div style={{ marginTop: 60, marginBottom: 10, border: "1px solid gray" }}>
-        <ChildToggle position="above" onToggle={onToggle} isOpen={isOpen}>
+        <ChildToggle position="above" onToggle={setIsOpen} isOpen={isOpen}>
           <Icon>{icon}</Icon>
           <Block>this opens above the icon</Block>
         </ChildToggle>
       </div>
       <div style={{ margin: MARGIN, border: "1px solid gray" }}>
-        <ChildToggle position="below" onToggle={onToggle} isOpen={isOpen}>
+        <ChildToggle position="below" onToggle={setIsOpen} isOpen={isOpen}>
           <Icon>{icon}</Icon>
           <Block>this opens below the icon</Block>
         </ChildToggle>
       </div>
       <div style={{ margin: MARGIN, border: "1px solid gray" }}>
-        <ChildToggle position="bottom-left" onToggle={onToggle} isOpen={isOpen}>
+        <ChildToggle position="bottom-left" onToggle={setIsOpen} isOpen={isOpen}>
           <Icon>{icon}</Icon>
           <Block>this opens below and to the left of the icon</Block>
         </ChildToggle>
       </div>
       <div style={{ margin: MARGIN, border: "1px solid gray" }}>
-        <ChildToggle position="left" onToggle={onToggle} isOpen={isOpen}>
+        <ChildToggle position="left" onToggle={setIsOpen} isOpen={isOpen}>
           <Icon>{icon}</Icon>
           <Block>this opens left-aligned of the icon</Block>
         </ChildToggle>
       </div>
       <div style={{ margin: MARGIN, border: "1px solid gray" }}>
-        <ChildToggle.ContainsOpen>
-          {(containsOpen) => (
-            <div>
-              Contains an open child toggle: {JSON.stringify(containsOpen)}
-              <ChildToggle position="below" onToggle={onToggle} isOpen={isOpen}>
-                <Icon>{icon}</Icon>
-                <Block>this opens below</Block>
-              </ChildToggle>
-            </div>
-          )}
+        <ChildToggle.ContainsOpen onChange={setContainsOpen1}>
+          <div>
+            Contains an open child toggle: {JSON.stringify(containsOpen1)}
+            <ChildToggle position="below" onToggle={setIsOpen} isOpen={isOpen}>
+              <Icon>{icon}</Icon>
+              <Block>this opens below</Block>
+            </ChildToggle>
+          </div>
         </ChildToggle.ContainsOpen>
       </div>
       <div style={{ margin: MARGIN, border: "1px solid gray" }}>
-        <ChildToggle.ContainsOpen>
-          {(containsOpen) => (
-            <div>
-              Contains an open child toggle: {JSON.stringify(containsOpen)}
-              <ChildToggle
-                position="below"
-                isOpen={false}
-                onToggle={() => {
-                  // no-op
-                }}
-              >
-                <Icon>{icon}</Icon>
-                <Block>this should never be visible</Block>
-              </ChildToggle>
-            </div>
-          )}
+        <ChildToggle.ContainsOpen onChange={setContainsOpen2}>
+          <div>
+            Contains an open child toggle: {JSON.stringify(containsOpen2)}
+            <ChildToggle position="below">
+              <Icon>{icon}</Icon>
+              <Block>this should never be visible</Block>
+            </ChildToggle>
+          </div>
         </ChildToggle.ContainsOpen>
       </div>
     </Flex>
   );
 }
 
+function UncontrolledChildToggleStory({ defaultIsOpen }: { defaultIsOpen?: boolean }) {
+  const [isOpen, setIsOpen] = useState(defaultIsOpen ?? false);
+  const icon = isOpen ? <MinusCircleIcon /> : <PlusCircleIcon />;
+  return (
+    <div style={{ margin: MARGIN, border: "1px solid gray" }}>
+      <ChildToggle position="right" onToggle={setIsOpen} defaultIsOpen={defaultIsOpen}>
+        <Icon>{icon}</Icon>
+        <Block>this opens right-aligned of the icon</Block>
+      </ChildToggle>
+    </div>
+  );
+}
 storiesOf("<ChildToggle>", module)
   .add("controlled", () => <ChildToggleStory />)
+  .add("uncontrolled", () => <UncontrolledChildToggleStory />)
+  .add("uncontrolled with defaultIsOpen", () => (
+    <UncontrolledChildToggleStory defaultIsOpen={true} />
+  ))
   .add("closes when Escape key pressed", () => {
     useEffect(() => {
       setImmediate(() =>
