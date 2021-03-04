@@ -21,7 +21,7 @@ import ValidatedInput, { EditFormat } from "@foxglove-studio/app/components/Vali
 import {
   SValue,
   SLabel,
-} from "@foxglove-studio/app/panels/ThreeDimensionalViz/Interactions/Interactions";
+} from "@foxglove-studio/app/panels/ThreeDimensionalViz/Interactions/styling";
 import {
   polygonsToPoints,
   getFormattedString,

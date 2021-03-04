@@ -14,10 +14,10 @@
 import CursorDefault from "@mdi/svg/svg/cursor-default.svg";
 import * as React from "react";
 import { MouseEventObject } from "regl-worldview";
-import styled from "styled-components";
 
 import LinkedGlobalVariableList from "./LinkedGlobalVariableList";
 import PointCloudDetails from "./PointCloudDetails";
+import { SEmptyState, SRow, SValue } from "./styling";
 import useLinkedGlobalVariables from "./useLinkedGlobalVariables";
 import Checkbox from "@foxglove-studio/app/components/Checkbox";
 import ExpandingToolbar, {
@@ -32,28 +32,6 @@ import styles from "@foxglove-studio/app/panels/ThreeDimensionalViz/Layout.modul
 import { decodeAdditionalFields } from "@foxglove-studio/app/panels/ThreeDimensionalViz/commands/PointClouds/selection";
 import { getInteractionData } from "@foxglove-studio/app/panels/ThreeDimensionalViz/threeDimensionalVizUtils";
 import { SaveConfig, PanelConfig } from "@foxglove-studio/app/types/panels";
-import { colors } from "@foxglove-studio/app/util/sharedStyleConstants";
-
-export const SRow = styled.div`
-  display: flex;
-  align-items: center;
-  padding: 0;
-  margin: 4px 0;
-`;
-export const SLabel = styled.label<{ width?: number }>`
-  width: ${(props) => (props.width ? `${props.width}px` : "80px")};
-  margin: 4px 0;
-  font-size: 10px;
-`;
-export const SValue = styled.div`
-  color: ${colors.HIGHLIGHT};
-  word-break: break-word;
-`;
-export const SEmptyState = styled.div`
-  color: ${colors.TEXT_MUTED};
-  line-height: 1.4;
-  margin-bottom: 8px;
-`;
 
 export const OBJECT_TAB_TYPE = "Selected object";
 export const LINKED_VARIABLES_TAB_TYPE = "Linked variables";

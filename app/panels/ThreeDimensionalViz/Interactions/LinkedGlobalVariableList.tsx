@@ -16,8 +16,8 @@ import * as React from "react";
 import styled from "styled-components";
 
 import GlobalVariableLink, { SPath, GlobalVariableName } from "./GlobalVariableLink/index";
-import { SEmptyState } from "./index";
 import { getPath } from "./interactionUtils";
+import { SEmptyState } from "./styling";
 import { LinkedGlobalVariables } from "./useLinkedGlobalVariables";
 import Icon from "@foxglove-studio/app/components/Icon";
 

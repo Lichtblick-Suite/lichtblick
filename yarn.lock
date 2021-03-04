@@ -3462,6 +3462,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/circular-dependency-plugin@npm:^5":
+  version: 5.0.1
+  resolution: "@types/circular-dependency-plugin@npm:5.0.1"
+  dependencies:
+    "@types/webpack": "*"
+  checksum: cccbdffa9d1f8ca879c08338c777c9aaf51652c4e1ca5a3a422cf1ad90139d15cdac36ee960f6d7416dcaa312ff81898f5255230b88147efe900d2fb39c7e8e6
+  languageName: node
+  linkType: hard
+
 "@types/classnames@npm:2.2.11":
   version: 2.2.11
   resolution: "@types/classnames@npm:2.2.11"
@@ -6877,6 +6886,15 @@ __metadata:
     inherits: ^2.0.1
     safe-buffer: ^5.0.1
   checksum: ec80001ec91dbb7c5c08facc00ffc9c75fed7abd6d720c7a9c62c260aa2e5cb2655c183e011b50b8b711f755b1753c7fdd2ca44c091ee78d81c377ca74ed83c9
+  languageName: node
+  linkType: hard
+
+"circular-dependency-plugin@npm:5.2.2":
+  version: 5.2.2
+  resolution: "circular-dependency-plugin@npm:5.2.2"
+  peerDependencies:
+    webpack: ">=4.0.1"
+  checksum: 1f6063947017b6b4e4c2111cd097a5bd33e46a20beab07717b2a378641f49c9a5627f89c3e1afee01b032d9758865f61e1c0c11cfc3acaa81068ce900c1cdb81
   languageName: node
   linkType: hard
 
@@ -10457,6 +10475,7 @@ __metadata:
     "@mdx-js/loader": 1.6.22
     "@sentry/electron": 2.4.0
     "@types/case-sensitive-paths-webpack-plugin": 2.1.4
+    "@types/circular-dependency-plugin": ^5
     "@types/electron-devtools-installer": 2.2.0
     "@types/nearley": 2.11.1
     "@types/sass": ^1
@@ -10464,6 +10483,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": 4.16.1
     "@typescript-eslint/parser": 4.16.1
     browserify-zlib: 0.2.0
+    circular-dependency-plugin: 5.2.2
     clean-webpack-plugin: 3.0.0
     colors: 1.4.0
     crypto-browserify: 3.12.0

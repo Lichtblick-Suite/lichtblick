@@ -453,6 +453,7 @@ storiesOf("<Interaction> / open-close behavior", module)
         <MarkerStory
           onMount={(_) =>
             setImmediate(async () => {
+              await delay(100);
               (document.querySelectorAll(
                 '[data-test="ExpandingToolbar-Drawing tools"]',
               )[0] as any).click(); // Start drawing

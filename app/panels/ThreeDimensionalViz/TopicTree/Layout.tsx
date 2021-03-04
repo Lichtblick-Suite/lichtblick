@@ -341,7 +341,6 @@ export default function Layout({
     selectedTopicNames,
     shouldExpandAllKeys,
     visibleTopicsCountByKey,
-    toggleNamespaceChecked,
   } = topicTreeData;
 
   useEffect(() => setSubscriptions(selectedTopicNames), [selectedTopicNames, setSubscriptions]);
@@ -629,23 +628,15 @@ export default function Layout({
           cameraState: currentCameraState,
           saveConfig: currentSaveConfig,
         } = callbackInputsRef.current;
-        const newPerspective = !currentCameraState.perspective;
-        currentSaveConfig({ cameraState: { ...currentCameraState, perspective: newPerspective } });
+        currentSaveConfig({
+          cameraState: { ...currentCameraState, perspective: !currentCameraState.perspective },
+        });
         if (measuringElRef.current && currentCameraState.perspective) {
           measuringElRef.current.reset();
         }
-        // Automatically enable/disable map height based on 3D/2D mode
-        const mapHeightEnabled = (selectedNamespacesByTopic["/metadata"] || []).includes("height");
-        if (mapHeightEnabled !== newPerspective) {
-          toggleNamespaceChecked({
-            topicName: "/metadata",
-            namespace: "height",
-            columnIndex: 0,
-          });
-        }
       },
     };
-  }, [handleEvent, selectObject, selectedNamespacesByTopic, toggleNamespaceChecked]);
+  }, [handleEvent, selectObject]);
 
   // When the TopicTree is hidden, focus the <World> again so keyboard controls continue to work
   const worldRef = useRef<typeof Worldview | null | undefined>(null);

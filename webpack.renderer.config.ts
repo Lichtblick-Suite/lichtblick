@@ -3,12 +3,13 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import rehypePrism from "@mapbox/rehype-prism";
+import CircularDependencyPlugin from "circular-dependency-plugin";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import path from "path";
 import retext from "retext";
 import retextSmartypants from "retext-smartypants";
-import webpack, { Configuration, EnvironmentPlugin } from "webpack";
+import webpack, { Configuration, EnvironmentPlugin, WebpackPluginInstance } from "webpack";
 
 import uncheckedIndexAccessFiles from "./UncheckedIndexAccess.json";
 import { WebpackArgv } from "./WebpackArgv";
@@ -166,6 +167,15 @@ export function makeConfig(_: unknown, argv: WebpackArgv): Configuration {
       ],
     },
     plugins: [
+      new CircularDependencyPlugin({
+        exclude: /node_modules/,
+        onDetected({ paths, compilation }) {
+          if (paths.includes("app/GlobalConfig.ts")) {
+            return;
+          }
+          compilation.warnings.push(new Error(paths.join(" -> ")));
+        },
+      }) as WebpackPluginInstance,
       new webpack.ProvidePlugin({
         // since we avoid "import React from 'react'" we shim here when used globally
         React: "react",

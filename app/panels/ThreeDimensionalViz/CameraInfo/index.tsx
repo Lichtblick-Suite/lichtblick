@@ -37,7 +37,7 @@ import {
 import {
   SValue,
   SLabel,
-} from "@foxglove-studio/app/panels/ThreeDimensionalViz/Interactions/Interactions";
+} from "@foxglove-studio/app/panels/ThreeDimensionalViz/Interactions/styling";
 import styles from "@foxglove-studio/app/panels/ThreeDimensionalViz/Layout.module.scss";
 import {
   getNewCameraStateOnFollowChange,

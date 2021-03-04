@@ -16,7 +16,7 @@ import React, { useMemo, useState, useCallback } from "react";
 import { MouseEventObject } from "regl-worldview";
 import styled from "styled-components";
 
-import { SValue, SLabel } from "./index";
+import { SValue, SLabel } from "./styling";
 import ChildToggle from "@foxglove-studio/app/components/ChildToggle";
 import Icon from "@foxglove-studio/app/components/Icon";
 import Menu from "@foxglove-studio/app/components/Menu";
