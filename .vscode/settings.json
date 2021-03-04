@@ -1,4 +1,5 @@
 {
+  "debug.javascript.autoAttachFilter": "onlyWithFlag",
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
