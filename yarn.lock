@@ -2273,9 +2273,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry/electron@npm:2.3.0":
-  version: 2.3.0
-  resolution: "@sentry/electron@npm:2.3.0"
+"@sentry/electron@npm:2.4.0":
+  version: 2.4.0
+  resolution: "@sentry/electron@npm:2.4.0"
   dependencies:
     "@sentry/browser": 5.27.6
     "@sentry/core": 5.27.6
@@ -2284,7 +2284,7 @@ __metadata:
     "@sentry/types": 5.27.6
     "@sentry/utils": 5.27.6
     tslib: ^1.9.3
-  checksum: ff8be4a518ebd2f708cadc53b2007d03c600f2d848d838e64a227f90a24f8fa93cfa49681362421067802e11a81be9828b603ff5dc975f7fc6622d9222e1830a
+  checksum: c80ad63d5929b98623a52724e3552f2f28d1236d14f5f3eac73ce63d1244ba780b43b77f65573b009e604ee6fd30b22e2d8fb14213887ca5c09f3085e9e9dc7c
   languageName: node
   linkType: hard
 
@@ -10516,7 +10516,7 @@ __metadata:
     "@jest/types": 26.6.2
     "@mapbox/rehype-prism": 0.5.0
     "@mdx-js/loader": 1.6.22
-    "@sentry/electron": 2.3.0
+    "@sentry/electron": 2.4.0
     "@types/case-sensitive-paths-webpack-plugin": 2.1.4
     "@types/electron-devtools-installer": 2.2.0
     "@types/nearley": 2.11.1
