@@ -246,26 +246,29 @@ app.on("ready", async () => {
     "default-src": "'self'",
     "script-src": `'self' 'unsafe-inline'`,
     "style-src": "'self' 'unsafe-inline'",
-    "connect-src": "'self' data: ws: wss:", // Required for rosbridge connections
+    "connect-src": "'self' ws: wss:", // Required for rosbridge connections
     "font-src": "'self' data:",
   };
   if (!isProduction) {
-    // 'unsafe-eval' appears to be required for Chrome developer tools
+    // 'unsafe-eval' is required to support webpack's eval-cheap-source-map
     contentSecurtiyPolicy["script-src"] += " 'unsafe-eval'";
   }
 
   // Set default http headers
   session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
-    callback({
-      responseHeaders: {
-        ...details.responseHeaders,
-        "Content-Security-Policy": [
-          Object.entries(contentSecurtiyPolicy)
-            .map(([key, val]) => `${key} ${val}`)
-            .join("; "),
-        ],
-      },
-    });
+    const url = new URL(details.url);
+    const responseHeaders = { ...details.responseHeaders };
+
+    // don't set CSP for internal URLs
+    if (!["chrome-extension:", "devtools:"].includes(url.protocol)) {
+      responseHeaders["Content-Security-Policy"] = [
+        Object.entries(contentSecurtiyPolicy)
+          .map(([key, val]) => `${key} ${val}`)
+          .join("; "),
+      ];
+    }
+
+    callback({ responseHeaders });
   });
 
   // Create the main window
