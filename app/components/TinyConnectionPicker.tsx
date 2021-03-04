@@ -20,7 +20,6 @@ import { WrappedIcon } from "@foxglove-studio/app/components/Icon";
 import { useMessagePipeline } from "@foxglove-studio/app/components/MessagePipeline";
 import SpinningLoadingIcon from "@foxglove-studio/app/components/SpinningLoadingIcon";
 import { colors } from "@foxglove-studio/app/util/sharedStyleConstants";
-import { showHelpModalOpenSource } from "@foxglove-studio/app/util/showHelpModalOpenSource";
 
 const SConnectionPicker = styled.div`
   padding: 1em;
@@ -55,16 +54,7 @@ export function TinyConnectionPicker({
       <WrappedIcon tooltip="Sources" medium fade active={isOpen}>
         {showSpinner ? <SpinningLoadingIcon /> : <DatabaseIcon />}
       </WrappedIcon>
-      <SConnectionPicker>
-        {inputDescription}
-        <div style={{ marginTop: "1em", whiteSpace: "nowrap" }}>
-          To connect different sources, see the{" "}
-          <a href="#" onClick={showHelpModalOpenSource}>
-            help page
-          </a>
-          .
-        </div>
-      </SConnectionPicker>
+      <SConnectionPicker>{inputDescription}</SConnectionPicker>
     </ChildToggle>
   );
 }

@@ -19,7 +19,6 @@ import { connect, Provider } from "react-redux";
 import { Route } from "react-router";
 
 import styles from "./Root.module.scss";
-import SettingsMenu from "./SettingsMenu";
 import { redoLayoutChange, undoLayoutChange } from "@foxglove-studio/app/actions/layoutHistory";
 import { importPanelLayout } from "@foxglove-studio/app/actions/panels";
 import AppMenu from "@foxglove-studio/app/components/AppMenu";
@@ -88,9 +87,6 @@ function App({ importPanelLayout: importPanelLayoutProp, onToolbarDoubleClick }:
               </div>
               <div className={styles.toolbarItem}>
                 <TinyConnectionPicker inputDescription={inputDescription} />
-              </div>
-              <div className={styles.toolbarItem} style={{ marginRight: "10px" }}>
-                <SettingsMenu />
               </div>
             </Toolbar>
             <div className={cx(styles.layout, "PanelLayout-root")}>
