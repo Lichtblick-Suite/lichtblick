@@ -23,6 +23,7 @@ import installExtension, {
 } from "electron-devtools-installer";
 import path from "path";
 
+import packageJson from "../package.json";
 import colors from "@foxglove-studio/app/styles/colors.module.scss";
 
 if (process.env.SENTRY_DSN) {
@@ -57,6 +58,15 @@ async function createWindow(): Promise<void> {
     windowOptions.titleBarStyle = "hiddenInset";
   }
   const mainWindow = new BrowserWindow(windowOptions);
+
+  app.setAboutPanelOptions({
+    applicationName: packageJson.productName,
+    applicationVersion: packageJson.version,
+    version: process.platform,
+    copyright: undefined,
+    website: packageJson.homepage,
+    iconPath: undefined,
+  });
 
   const appMenuTemplate: MenuItemConstructorOptions[] = [];
 

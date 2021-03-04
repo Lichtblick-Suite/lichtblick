@@ -3,7 +3,6 @@
   "appId": "dev.foxglove.studio",
   "npmRebuild": false,
   "asar": true,
-  "icon": "resources/icon/icon.icns",
   "directories": {
     "app": ".webpack",
     "buildResources": "resources"
@@ -14,11 +13,13 @@
         "target": "deb",
         "arch": ["x64", "arm64"]
       }
-    ]
+    ],
+    "icon": "resources/icon/icon.png"
   },
   "win": {
     "target": ["nsis", "appx"],
-    "rfc3161TimeStampServer": "http://timestamp.comodoca.com"
+    "rfc3161TimeStampServer": "http://timestamp.comodoca.com",
+    "icon": "resources/icon/icon.png"
   },
   "mac": {
     "target": {
@@ -26,7 +27,8 @@
       "arch": ["x64", "arm64"]
     },
     "artifactName": "${productName}-${version}-${os}-${arch}.${ext}",
-    "category": "public.app-category.developer-tools"
+    "category": "public.app-category.developer-tools",
+    "icon": "resources/icon/icon.icns"
   },
   "appx": {
     "applicationId": "FoxgloveStudio",
