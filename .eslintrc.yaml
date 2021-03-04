@@ -120,7 +120,6 @@ overrides:
       - "app/PanelAPI/useMessageReducer.ts"
       - "app/PanelAPI/useMessagesByTopic.ts"
       - "app/actions/panels.ts"
-      - "app/components/AppMenu/index.tsx"
       - "app/components/AutoSizingCanvas/index.stories.tsx"
       - "app/components/AutoSizingCanvas/index.tsx"
       - "app/components/Autocomplete.tsx"

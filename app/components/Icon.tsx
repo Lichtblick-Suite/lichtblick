@@ -102,7 +102,7 @@ export const WrappedIcon = (props: Props) => {
         minWidth: "40px",
         ...props.style,
       }}
-      className={styles.wrappedIcon}
+      className={cx(styles.wrappedIcon, props.className)}
     />
   );
 };

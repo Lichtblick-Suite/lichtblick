@@ -2,7 +2,7 @@
   "app/PanelAPI/useBlocksByTopic.ts",
   "app/PanelAPI/useDataSourceInfo.test.tsx",
   "app/PanelAPI/useMessagesByTopic.ts",
-  "app/components/AppMenu/index.tsx",
+  "app/components/AddPanelMenu/index.tsx",
   "app/components/Autocomplete.tsx",
   "app/components/ExpandingToolbar.tsx",
   "app/components/ExperimentalFeatures.tsx",

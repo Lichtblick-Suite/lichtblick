@@ -18,11 +18,11 @@ import { DndProvider } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
 import { Provider } from "react-redux";
 
-import AppMenu from "@foxglove-studio/app/components/AppMenu";
+import AddPanelMenu from "@foxglove-studio/app/components/AddPanelMenu";
 import createRootReducer from "@foxglove-studio/app/reducers";
 import configureStore from "@foxglove-studio/app/store/configureStore.testing";
 
-storiesOf("<AppMenu>", module)
+storiesOf("<AddPanelMenu>", module)
   .addParameters({
     screenshot: {
       delay: 500,
@@ -33,7 +33,7 @@ storiesOf("<AppMenu>", module)
       <div style={{ margin: 30, paddingLeft: 300 }}>
         <DndProvider backend={HTML5Backend}>
           <Provider store={configureStore(createRootReducer(createMemoryHistory()))}>
-            <AppMenu defaultIsOpen />
+            <AddPanelMenu defaultIsOpen />
           </Provider>
         </DndProvider>
       </div>
