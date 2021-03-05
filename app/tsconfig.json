@@ -3,7 +3,10 @@
   "compilerOptions": {
     "baseUrl": ".",
     "jsx": "react",
-    "lib": ["DOM", "DOM.Iterable", "ESNext"]
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "paths": {
+      "@foxglove-studio/app/*": ["*"]
+    }
   },
   "typeAcquisition": {
     "exclude": ["node"]
