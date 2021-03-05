@@ -20,6 +20,7 @@ import styles from "./Root.module.scss";
 import { redoLayoutChange, undoLayoutChange } from "@foxglove-studio/app/actions/layoutHistory";
 import { importPanelLayout } from "@foxglove-studio/app/actions/panels";
 import AddPanelMenu from "@foxglove-studio/app/components/AddPanelMenu";
+import { ExperimentalFeaturesMenu } from "@foxglove-studio/app/components/ExperimentalFeatures";
 import GlobalVariablesMenu from "@foxglove-studio/app/components/GlobalVariablesMenu";
 import LayoutMenu from "@foxglove-studio/app/components/LayoutMenu";
 import NotificationDisplay from "@foxglove-studio/app/components/NotificationDisplay";
@@ -92,6 +93,9 @@ function App({
         </div>
         <div className={styles.toolbarItem}>
           <GlobalVariablesMenu />
+        </div>
+        <div className={styles.toolbarItem}>
+          <ExperimentalFeaturesMenu />
         </div>
       </Toolbar>
       <div className={cx(styles.layout, "PanelLayout-root")}>

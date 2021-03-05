@@ -11,19 +11,24 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { storiesOf } from "@storybook/react";
-import React from "react";
+import { action } from "@storybook/addon-actions";
+import { useLayoutEffect } from "react";
 
-import Confirm from "@foxglove-studio/app/components/Confirm";
+import useConfirm from "@foxglove-studio/app/components/useConfirm";
 
-storiesOf("Confirm", module).add("Update your browser", () => {
-  Confirm({
+export default {
+  title: "useConfirm",
+};
+
+export const UpdateYourBrowser = (): unknown => {
+  const { modal, open } = useConfirm({
     title: "Update your browser",
     prompt: "Chrome 1.2.3 is not supported. Please use Chrome 68 or later to continue.",
     confirmStyle: "primary",
     ok: "Update Chrome",
     cancel: "Continue anyway",
+    action: action("action"),
   });
-
-  return <div />;
-});
+  useLayoutEffect(() => open(), [open]);
+  return modal;
+};

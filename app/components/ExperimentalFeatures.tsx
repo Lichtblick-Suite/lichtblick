@@ -14,13 +14,18 @@
 import AccountIcon from "@mdi/svg/svg/account.svg";
 import CheckIcon from "@mdi/svg/svg/check.svg";
 import CloseIcon from "@mdi/svg/svg/close.svg";
+import CogIcon from "@mdi/svg/svg/cog.svg";
 import { noop } from "lodash";
 import * as React from "react";
+import { useState } from "react";
 
+import Flex from "@foxglove-studio/app/components/Flex";
+import { WrappedIcon } from "@foxglove-studio/app/components/Icon";
 import Modal, { Title } from "@foxglove-studio/app/components/Modal";
 import Radio from "@foxglove-studio/app/components/Radio";
 import TextContent from "@foxglove-studio/app/components/TextContent";
 import Tooltip from "@foxglove-studio/app/components/Tooltip";
+import { RenderToBodyComponent } from "@foxglove-studio/app/components/renderToBody";
 import { getGlobalHooks } from "@foxglove-studio/app/loadWebviz";
 import colors from "@foxglove-studio/app/styles/colors.module.scss";
 import Storage from "@foxglove-studio/app/util/Storage";
@@ -150,6 +155,22 @@ function IconManuallySet() {
         <AccountIcon style={{ fill: colors.orange, verticalAlign: "-6px" }} />
       </span>
     </Tooltip>
+  );
+}
+
+export function ExperimentalFeaturesMenu(): React.ReactElement {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <Flex center>
+      <WrappedIcon medium fade style={{ marginRight: "10px" }} onClick={() => setIsOpen(true)}>
+        <CogIcon />
+      </WrappedIcon>
+      {isOpen && (
+        <RenderToBodyComponent>
+          <ExperimentalFeaturesModal onRequestClose={() => setIsOpen(false)} />
+        </RenderToBodyComponent>
+      )}
+    </Flex>
   );
 }
 
