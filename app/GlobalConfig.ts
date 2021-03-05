@@ -22,7 +22,6 @@ import { initializeLogEvent } from "@foxglove-studio/app/util/logEvent";
 let importedPanelsByCategory: any;
 const importedPerPanelHooks = perPanelHooks();
 const defaultHooks = {
-  areHooksImported: () => importedPanelsByCategory && importedPerPanelHooks,
   getLayoutFromUrl: async (search: string) => {
     const params = new URLSearchParams(search);
     const layoutUrl = params.get(LAYOUT_URL_QUERY_KEY);

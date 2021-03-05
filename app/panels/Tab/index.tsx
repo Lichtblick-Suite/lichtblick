@@ -131,7 +131,6 @@ function Tab({ config, saveConfig }: Props) {
         {activeLayout ? (
           <TabDndContext.Provider value={{ preventTabDrop }}>
             <UnconnectedPanelLayout
-              importHooks={false}
               layout={activeLayout}
               savePanelConfigs={savePanelConfigsFn}
               onChange={onChangeLayout}
