@@ -25,7 +25,7 @@ import ChildToggle from "@foxglove-studio/app/components/ChildToggle";
 import Icon from "@foxglove-studio/app/components/Icon";
 import Menu from "@foxglove-studio/app/components/Menu";
 import Modal, { Title } from "@foxglove-studio/app/components/Modal";
-import renderToBody from "@foxglove-studio/app/components/renderToBody";
+import { RenderToBodyComponent } from "@foxglove-studio/app/components/renderToBody";
 import { getGlobalHooks } from "@foxglove-studio/app/loadWebviz";
 import { nbsp } from "@foxglove-studio/app/util/entities";
 import minivizAPI from "@foxglove-studio/app/util/minivizAPI";
@@ -183,26 +183,23 @@ const ModalBody = styled.div`
 `;
 
 // Exporting for tests.
-export function NotificationModal({ notification }: { notification: NotificationMessage }): null {
-  useLayoutEffect(() => {
-    const { renderNotificationDetails } = getGlobalHooks() as any;
-    let details = renderNotificationDetails
-      ? renderNotificationDetails(notification.details)
-      : notification.details;
-    if (details instanceof Error) {
-      details = details.stack;
-    }
-
-    let removed = false;
-    function remove() {
-      if (!removed) {
-        modal.remove();
-        removed = true;
-      }
-    }
-
-    const modal = renderToBody(
-      <Modal onRequestClose={remove}>
+export function NotificationModal({
+  notification,
+  onRequestClose,
+}: {
+  notification: NotificationMessage;
+  onRequestClose: () => void;
+}): React.ReactElement {
+  const { renderNotificationDetails } = getGlobalHooks() as any;
+  let details = renderNotificationDetails
+    ? renderNotificationDetails(notification.details)
+    : notification.details;
+  if (details instanceof Error) {
+    details = details.stack;
+  }
+  return (
+    <RenderToBodyComponent>
+      <Modal onRequestClose={onRequestClose}>
         <Title style={{ color: getColorForSeverity(notification.severity) }}>
           {notification.message}
         </Title>
@@ -214,12 +211,9 @@ export function NotificationModal({ notification }: { notification: Notification
             details || "No details provided"
           )}
         </ModalBody>
-      </Modal>,
-    );
-    return remove;
-  }, [notification]);
-
-  return null;
+      </Modal>
+    </RenderToBodyComponent>
+  );
 }
 
 export default function NotificationDisplay(): React.ReactElement {
@@ -279,7 +273,12 @@ export default function NotificationDisplay(): React.ReactElement {
 
   return (
     <Container flash={showMostRecent} unread={hasUnread} color={color}>
-      {clickedNotification && <NotificationModal notification={clickedNotification} />}
+      {clickedNotification && (
+        <NotificationModal
+          notification={clickedNotification}
+          onRequestClose={() => setClickedNotification(undefined)}
+        />
+      )}
       {firstNotification && (
         <ChildToggle position="below" onToggle={toggleNotificationList}>
           <div style={{ display: "flex", flex: "1 1 auto", alignItems: "center" }}>

@@ -12,14 +12,14 @@
 //   You may not use this file except in compliance with the License.
 import InformationIcon from "@mdi/svg/svg/information.svg";
 import { groupBy } from "lodash";
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import styled from "styled-components";
 
 import Icon from "@foxglove-studio/app/components/Icon";
 import { useMessagePipeline } from "@foxglove-studio/app/components/MessagePipeline";
 import Modal, { Title } from "@foxglove-studio/app/components/Modal";
 import TextContent from "@foxglove-studio/app/components/TextContent";
-import renderToBody from "@foxglove-studio/app/components/renderToBody";
+import { RenderToBodyComponent } from "@foxglove-studio/app/components/renderToBody";
 
 const SRoot = styled.div`
   max-width: calc(100vw - 30px);
@@ -54,6 +54,7 @@ function useTopicsWithoutHeaders() {
 
 export default function NoHeaderTopicsButton() {
   const topicsWithoutHeaders = useTopicsWithoutHeaders();
+  const [showingModal, setShowingModal] = useState(false);
   return useMemo(() => {
     if (!topicsWithoutHeaders.length) {
       return null;
@@ -72,9 +73,13 @@ export default function NoHeaderTopicsButton() {
     return (
       <Icon
         tooltip={tooltip}
-        onClick={() => {
-          const modal = renderToBody(
-            <Modal onRequestClose={() => modal.remove()}>
+        onClick={() => setShowingModal(true)}
+        style={{ color, paddingRight: "6px" }}
+        dataTest="missing-headers-icon"
+      >
+        {showingModal && (
+          <RenderToBodyComponent>
+            <Modal onRequestClose={() => setShowingModal(false)}>
               <SRoot>
                 <Title>Topics without headers</Title>
                 <TextContent>
@@ -92,14 +97,11 @@ export default function NoHeaderTopicsButton() {
                   </table>
                 </TextContent>
               </SRoot>
-            </Modal>,
-          );
-        }}
-        style={{ color, paddingRight: "6px" }}
-        dataTest="missing-headers-icon"
-      >
+            </Modal>
+          </RenderToBodyComponent>
+        )}
         <InformationIcon />
       </Icon>
     );
-  }, [topicsWithoutHeaders]);
+  }, [topicsWithoutHeaders, showingModal]);
 }

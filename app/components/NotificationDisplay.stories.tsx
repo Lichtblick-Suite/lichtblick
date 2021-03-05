@@ -206,6 +206,7 @@ storiesOf("<NotificationDisplay>", module)
   .add("Error Modal", () => {
     return (
       <NotificationModal
+        onRequestClose={() => {}}
         notification={{
           id: "1",
           message: "Error 1",
@@ -220,6 +221,7 @@ storiesOf("<NotificationDisplay>", module)
   .add("Warning Modal", () => {
     return (
       <NotificationModal
+        onRequestClose={() => {}}
         notification={{
           id: "1",
           message: "Warning 1",
@@ -234,6 +236,7 @@ storiesOf("<NotificationDisplay>", module)
   .add("Error Modal without details", () => {
     return (
       <NotificationModal
+        onRequestClose={() => {}}
         notification={{
           id: "1",
           message: "Error 1",
@@ -253,6 +256,7 @@ storiesOf("<NotificationDisplay>", module)
     });
     return (
       <NotificationModal
+        onRequestClose={() => {}}
         notification={{
           id: "1",
           message: "Error Modal without details",
@@ -267,6 +271,7 @@ storiesOf("<NotificationDisplay>", module)
   .add("Error Modal with details in React.Node type", () => {
     return (
       <NotificationModal
+        onRequestClose={() => {}}
         notification={{
           id: "1",
           message: "Error 1",

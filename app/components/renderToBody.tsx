@@ -11,11 +11,12 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import * as React from "react";
+import { useLayoutEffect, useRef } from "react";
 import { render, unmountComponentAtNode } from "react-dom";
 import { Provider } from "react-redux";
 import { Router } from "react-router-dom";
 
+import useCleanup from "@foxglove-studio/app/hooks/useCleanup";
 import getGlobalStore from "@foxglove-studio/app/store/getGlobalStore";
 import history from "@foxglove-studio/app/util/history";
 
@@ -55,26 +56,18 @@ export default function renderToBody(element: any): RenderedToBodyHandle {
   };
 }
 
-export class RenderToBodyComponent extends React.Component<{ children: React.ReactElement<any> }> {
-  _renderedToBodyHandle: RenderedToBodyHandle | null | undefined;
+export function RenderToBodyComponent({ children }: { children: React.ReactElement }): null {
+  const handle = useRef<RenderedToBodyHandle | null>(null);
 
-  componentDidMount() {
-    this._renderedToBodyHandle = renderToBody(this.props.children);
-  }
-
-  componentDidUpdate() {
-    if (this._renderedToBodyHandle) {
-      this._renderedToBodyHandle.update(this.props.children);
+  useLayoutEffect(() => {
+    if (handle.current) {
+      handle.current.update(children);
+    } else {
+      handle.current = renderToBody(children);
     }
-  }
+  }, [children]);
 
-  componentWillUnmount() {
-    if (this._renderedToBodyHandle) {
-      this._renderedToBodyHandle.remove();
-    }
-  }
+  useCleanup(() => handle.current?.remove());
 
-  render() {
-    return null;
-  }
+  return null;
 }

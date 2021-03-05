@@ -170,7 +170,7 @@ export function makeConfig(_: unknown, argv: WebpackArgv): Configuration {
       new CircularDependencyPlugin({
         exclude: /node_modules/,
         onDetected({ paths, compilation }) {
-          if (paths.includes("app/GlobalConfig.ts")) {
+          if (paths.some((filePath) => filePath.match(/(^|[\\/])GlobalConfig.ts/))) {
             return;
           }
           compilation.warnings.push(new Error(paths.join(" -> ")));
