@@ -34,7 +34,7 @@ export function getLocalBagDescriptor(file: File): DataProviderDescriptor {
   });
 }
 
-export function getRemoteBagDescriptor(url: string, guid: string | null | undefined) {
+export function getRemoteBagDescriptor(url: string, guid?: string) {
   const unlimitedCache = getExperimentalFeature("unlimitedMemoryCache");
 
   const bagDataProvider = {

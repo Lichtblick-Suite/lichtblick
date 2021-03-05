@@ -2,60 +2,71 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import { ReactElement, useEffect, useState } from "react";
+import { ConnectedRouter } from "connected-react-router";
+import { ReactElement, useEffect, useMemo, useState } from "react";
+import { setConfig } from "react-hot-loader";
+import { Provider } from "react-redux";
 
 import { OsContextSingleton } from "@foxglove-studio/app/OsContext";
-import { FileContext } from "@foxglove-studio/app/components/FileContext";
+import ErrorBoundary from "@foxglove-studio/app/components/ErrorBoundary";
+import { NativeFileMenuPlayerSelection } from "@foxglove-studio/app/components/NativeFileMenuPlayerSelection";
+import PlayerManager from "@foxglove-studio/app/components/PlayerManager";
 import Root from "@foxglove-studio/app/components/Root";
-import { usePrompt } from "@foxglove-studio/app/hooks/usePrompt";
-import { ROSBRIDGE_WEBSOCKET_URL_QUERY_KEY } from "@foxglove-studio/app/util/globalConstants";
+import { PlayerSourceDefinition } from "@foxglove-studio/app/context/PlayerSelectionContext";
+import getGlobalStore from "@foxglove-studio/app/store/getGlobalStore";
+import browserHistory from "@foxglove-studio/app/util/history";
+
+setConfig({
+  // react-hot-loader re-writes hooks with a wrapper function that is designed
+  // to be re-invoked on module updates. While good in some cases, reloading
+  // hooks in webviz causes havoc on our internal state since we depend on a
+  // hooks to initilialize playback.
+  reloadHooks: false,
+});
 
 export function App(): ReactElement {
-  const [bagFile, setBagFile] = useState<File | undefined>();
-  const prompt = usePrompt();
+  const [isFullScreen, setFullScreen] = useState(false);
 
+  // On MacOS we use inset window controls, when the window is full-screen these controls are not present
+  // We detect the full screen state and adjust our rendering accordingly
+  // Note: this does not removed the handlers so should be done at the highest component level
   useEffect(() => {
-    OsContextSingleton?.installMenuHandlers({
-      "file.open-bag": () => {
-        // The main thread simulated a mouse click for us which allows us to invoke input.click();
-        // The idea is to move handling of opening the file to the renderer thread
-        const input = document.createElement("input");
-        input.setAttribute("type", "file");
-        input.setAttribute("accept", ".bag");
+    OsContextSingleton?.addWindowEventListener("enter-full-screen", () => setFullScreen(true));
+    OsContextSingleton?.addWindowEventListener("leave-full-screen", () => setFullScreen(false));
+  }, []);
 
-        input.addEventListener(
-          "input",
-          () => {
-            if (input.files?.length && input.files.length > 0) {
-              setBagFile(input.files[0]);
-            }
-          },
-          { once: true },
-        );
+  const insetWindowControls = useMemo(() => {
+    return OsContextSingleton?.platform === "darwin" && !isFullScreen;
+  }, [isFullScreen]);
 
-        input.click();
-      },
-      "file.open-websocket-url": async () => {
-        const result = await prompt("ws://localhost:9090");
-
-        // Note(roman): Architecturally we should move the param handling out of nested components
-        // like PlayerManager and feed in the data providers via context or up-tree components
-        // This would simplify PlayerManager and add flexibility to the app at a more appropriate level
-        // of abstraction.
-        if (result) {
-          const params = new URLSearchParams(window.location.search);
-          params.set(ROSBRIDGE_WEBSOCKET_URL_QUERY_KEY, result);
-          window.location.search = params.toString();
-        }
-      },
-    });
-  }, [prompt]);
+  const playerSources: PlayerSourceDefinition[] = [
+    {
+      name: "Bag File",
+      type: "file",
+    },
+    {
+      name: "WebSocket",
+      type: "ws",
+    },
+    {
+      name: "HTTP",
+      type: "http",
+    },
+  ];
 
   return (
-    <>
-      <FileContext.Provider value={bagFile}>
-        <Root onToolbarDoubleClick={OsContextSingleton?.handleToolbarDoubleClick} />
-      </FileContext.Provider>
-    </>
+    <Provider store={getGlobalStore()}>
+      <ConnectedRouter history={browserHistory}>
+        <ErrorBoundary>
+          <PlayerManager playerSources={playerSources}>
+            <NativeFileMenuPlayerSelection />
+            <Root
+              insetWindowControls={insetWindowControls}
+              onToolbarDoubleClick={OsContextSingleton?.handleToolbarDoubleClick}
+            />
+          </PlayerManager>
+        </ErrorBoundary>
+      </ConnectedRouter>
+    </Provider>
   );
 }

@@ -7,25 +7,46 @@
 import { init as initSentry } from "@sentry/electron/esm/renderer";
 import { contextBridge, ipcRenderer } from "electron";
 
-import { OsContext } from "@foxglove-studio/app/OsContext";
-import { OsMenuHandler } from "@foxglove-studio/app/OsMenuHandler";
+import { OsContext, OsContextWindowEvent } from "@foxglove-studio/app/OsContext";
 
-if (process.env.SENTRY_DSN) {
+if (process.env.SENTRY_DSN !== undefined) {
   initSentry({ dsn: process.env.SENTRY_DSN });
 }
 
+type IpcListener = (ev: unknown, ...args: unknown[]) => void;
+const menuClickListeners = new Map<string, IpcListener>();
+
 const ctx: OsContext = {
   platform: process.platform,
-  installMenuHandlers(handlers: OsMenuHandler) {
-    ipcRenderer.on("menu.file.open-bag", async () => {
-      handlers["file.open-bag"]();
-    });
-    ipcRenderer.on("menu.file.open-websocket-url", async () => {
-      handlers["file.open-websocket-url"]();
-    });
-  },
   handleToolbarDoubleClick() {
     ipcRenderer.send("window.toolbar-double-clicked");
+  },
+  addWindowEventListener(eventName: OsContextWindowEvent, handler: () => void) {
+    ipcRenderer.on(eventName, () => handler());
+  },
+  async menuAddInputSource(name: string, handler: () => void) {
+    if (menuClickListeners.has(name)) {
+      throw new Error(`Menu input source ${name} already exists`);
+    }
+
+    const listener: IpcListener = (_ev, ...args) => {
+      if (args[0] === name) {
+        handler();
+      }
+    };
+
+    await ipcRenderer.invoke("menu.add-input-source", name);
+    menuClickListeners.set(name, listener);
+    ipcRenderer.on("menu.click-input-source", listener);
+  },
+  async menuRemoveInputSource(name: string) {
+    const listener = menuClickListeners.get(name);
+    if (listener === undefined) {
+      return;
+    }
+    menuClickListeners.delete(name);
+    ipcRenderer.off("menu.click-input-source", listener);
+    ipcRenderer.invoke("menu.remove-input-source", name);
   },
 };
 

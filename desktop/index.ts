@@ -24,9 +24,11 @@ import installExtension, {
 import path from "path";
 
 import packageJson from "../package.json";
+import { installMenuInterface } from "./menu";
+import type { OsContextWindowEvent } from "@foxglove-studio/app/OsContext";
 import colors from "@foxglove-studio/app/styles/colors.module.scss";
 
-if (process.env.SENTRY_DSN) {
+if (process.env.SENTRY_DSN !== undefined) {
   initSentry({ dsn: process.env.SENTRY_DSN });
 }
 
@@ -68,6 +70,16 @@ async function createWindow(): Promise<void> {
     iconPath: undefined,
   });
 
+  // Forward full screen events to the renderer
+  const forwardWindowEvent = (name: OsContextWindowEvent) => {
+    // @ts-ignore https://github.com/microsoft/TypeScript/issues/14107
+    mainWindow.addListener(name, () => {
+      mainWindow.webContents.send(name);
+    });
+  };
+  forwardWindowEvent("enter-full-screen");
+  forwardWindowEvent("leave-full-screen");
+
   const appMenuTemplate: MenuItemConstructorOptions[] = [];
 
   if (isMac) {
@@ -91,38 +103,8 @@ async function createWindow(): Promise<void> {
   appMenuTemplate.push({
     role: "fileMenu",
     label: "File",
-    submenu: [
-      {
-        label: "Open Bag",
-        click: async () => {
-          // <input> elements can only be opened on user interaction
-          // We fake a uesr interaction which allows us to invoke input.click() in renderer thread
-          // This is a trick which allows us to then handle file opening completely in the browser
-          // logic rather than via IPC interfaces.
-          mainWindow.focus();
-          mainWindow.webContents.sendInputEvent({
-            type: "mouseDown",
-            x: -1,
-            y: -1,
-          });
-          mainWindow.webContents.sendInputEvent({
-            type: "mouseUp",
-            x: -1,
-            y: -1,
-          });
-          setTimeout(() => {
-            mainWindow.webContents.send("menu.file.open-bag");
-          }, 10);
-        },
-      },
-      {
-        label: "Open Websocket Url",
-        click: async () => {
-          mainWindow.webContents.send("menu.file.open-websocket-url");
-        },
-      },
-      isMac ? { role: "close" } : { role: "quit" },
-    ],
+    id: "fileMenu",
+    submenu: [isMac ? { role: "close" } : { role: "quit" }],
   });
 
   appMenuTemplate.push({
@@ -178,6 +160,7 @@ async function createWindow(): Promise<void> {
   });
 
   Menu.setApplicationMenu(Menu.buildFromTemplate(appMenuTemplate));
+  installMenuInterface();
 
   mainWindow.loadURL(rendererPath);
 
@@ -185,7 +168,7 @@ async function createWindow(): Promise<void> {
     mainWindow.webContents.openDevTools();
   }
 
-  mainWindow.webContents.on("ipc-message", (event: Event, channel: string) => {
+  mainWindow.webContents.on("ipc-message", (_event: unknown, channel: string) => {
     if (channel === "window.toolbar-double-clicked") {
       const action: string =
         systemPreferences.getUserDefault("AppleActionOnDoubleClick", "string") || "Maximize";
@@ -246,7 +229,7 @@ app.on("ready", async () => {
     "default-src": "'self'",
     "script-src": `'self' 'unsafe-inline'`,
     "style-src": "'self' 'unsafe-inline'",
-    "connect-src": "'self' ws: wss:", // Required for rosbridge connections
+    "connect-src": "'self' ws: wss: http: https:", // Required for rosbridge connections
     "font-src": "'self' data:",
   };
   if (!isProduction) {

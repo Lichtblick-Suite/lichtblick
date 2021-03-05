@@ -15,7 +15,7 @@ import BrowserHttpReader from "@foxglove-studio/app/dataProviders/BrowserHttpRea
 
 // Get a globally unique ID for caching purposes for a remote URL, or `undefined`
 // when none can be found.
-export async function getRemoteBagGuid(url: string): Promise<string | null | undefined> {
+export async function getRemoteBagGuid(url: string): Promise<string | undefined> {
   try {
     const identifier = (await new BrowserHttpReader(url).open()).identifier;
     // Combine the identifier (ETag or Last-Modified) with the actual URL to form a globally unique ID.

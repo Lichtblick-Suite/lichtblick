@@ -21,11 +21,15 @@
 $spacing: 14px;
 
 .toolbarItem {
-  color: white;
   flex: 0 0 auto;
   display: flex;
+  align-items: center;
   height: 100%;
   min-width: 40px;
+
+  :global(.icon) {
+    color: white;
+  }
 
   // Allow interacting with buttons in the title bar without dragging the window
   -webkit-app-region: no-drag;

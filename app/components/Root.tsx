@@ -11,55 +11,48 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 import cx from "classnames";
-import { ConnectedRouter } from "connected-react-router";
-import { useEffect, useRef } from "react";
-import { setConfig } from "react-hot-loader";
+import { CSSProperties, useEffect, useMemo, useRef } from "react";
 import { hot } from "react-hot-loader/root";
-import { connect, Provider } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
 import { Route } from "react-router";
 
 import styles from "./Root.module.scss";
 import { redoLayoutChange, undoLayoutChange } from "@foxglove-studio/app/actions/layoutHistory";
 import { importPanelLayout } from "@foxglove-studio/app/actions/panels";
 import AddPanelMenu from "@foxglove-studio/app/components/AddPanelMenu";
-import ErrorBoundary from "@foxglove-studio/app/components/ErrorBoundary";
 import GlobalVariablesMenu from "@foxglove-studio/app/components/GlobalVariablesMenu";
 import LayoutMenu from "@foxglove-studio/app/components/LayoutMenu";
 import NotificationDisplay from "@foxglove-studio/app/components/NotificationDisplay";
 import PanelLayout from "@foxglove-studio/app/components/PanelLayout";
 import PlaybackControls from "@foxglove-studio/app/components/PlaybackControls";
-import PlayerManager from "@foxglove-studio/app/components/PlayerManager";
 import ShortcutsModal from "@foxglove-studio/app/components/ShortcutsModal";
-import { TinyConnectionPicker } from "@foxglove-studio/app/components/TinyConnectionPicker";
+import TinyConnectionPicker from "@foxglove-studio/app/components/TinyConnectionPicker";
 import Toolbar from "@foxglove-studio/app/components/Toolbar";
 import withDragDropContext from "@foxglove-studio/app/components/withDragDropContext";
+import { usePlayerSelection } from "@foxglove-studio/app/context/PlayerSelectionContext";
 import { State } from "@foxglove-studio/app/reducers";
-import getGlobalStore from "@foxglove-studio/app/store/getGlobalStore";
-import browserHistory from "@foxglove-studio/app/util/history";
 import inAutomatedRunMode from "@foxglove-studio/app/util/inAutomatedRunMode";
 
-setConfig({
-  // react-hot-loader re-writes hooks with a wrapper function that is designed
-  // to be re-invoked on module updates. While good in some cases, reloading
-  // hooks in webviz causes havoc on our internal state since we depend on a
-  // hooks to initilialize playback.
-  reloadHooks: false,
-});
+const connector = connect(
+  ({ layoutHistory: { redoStates, undoStates } }: State) => ({
+    redoStateCount: redoStates.length,
+    undoStateCount: undoStates.length,
+  }),
+  { importPanelLayout, redoLayoutChange, undoLayoutChange },
+);
 
 type Props = {
+  insetWindowControls?: boolean;
   onToolbarDoubleClick?: () => void;
 };
 
-type InternalProps = Props & {
-  history: any;
-  importPanelLayout: typeof importPanelLayout;
-  redoStateCount: number;
-  undoStateCount: number;
-  redoLayoutChange: () => void;
-  undoLayoutChange: () => void;
-};
+type ReduxProps = ConnectedProps<typeof connector>;
 
-function App({ importPanelLayout: importPanelLayoutProp, onToolbarDoubleClick }: InternalProps) {
+function App({
+  importPanelLayout: importPanelLayoutProp,
+  onToolbarDoubleClick,
+  insetWindowControls = false,
+}: ReduxProps & Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     // Focus on page load to enable keyboard interaction.
@@ -70,66 +63,51 @@ function App({ importPanelLayout: importPanelLayoutProp, onToolbarDoubleClick }:
     (window as any).setPanelLayout = (payload: any) => importPanelLayoutProp(payload);
   }, [importPanelLayoutProp]);
 
+  const { currentSourceName } = usePlayerSelection();
+
+  const toolbarStyle = useMemo<CSSProperties | undefined>(() => {
+    if (insetWindowControls) {
+      return { marginLeft: "78px", borderLeft: "2px groove #29292f" };
+    }
+  }, [insetWindowControls]);
+
   return (
     <div ref={containerRef} className="app-container" tabIndex={0}>
       <Route path="/shortcuts" component={ShortcutsModal} />
-      <PlayerManager>
-        {({ inputDescription }: any) => (
-          <>
-            <Toolbar onDoubleClick={onToolbarDoubleClick}>
-              <div className={styles.toolbarItem} style={{ marginRight: 5 }}>
-                {!inAutomatedRunMode() && <NotificationDisplay />}
-              </div>
-              <div className={styles.toolbarItem}>
-                <LayoutMenu />
-              </div>
-              <div className={styles.toolbarItem}>
-                <AddPanelMenu />
-              </div>
-              <div className={styles.toolbarItem}>
-                <GlobalVariablesMenu />
-              </div>
-              <div className={styles.toolbarItem}>
-                <TinyConnectionPicker inputDescription={inputDescription} />
-              </div>
-            </Toolbar>
-            <div className={cx(styles.layout, "PanelLayout-root")}>
-              <PanelLayout />
-            </div>
-            <div className={styles["playback-controls"]}>
-              <PlaybackControls />
-            </div>
-          </>
-        )}
-      </PlayerManager>
+
+      <Toolbar style={toolbarStyle} onDoubleClick={onToolbarDoubleClick}>
+        <div className={styles.toolbarItem}>
+          <TinyConnectionPicker />
+        </div>
+        <div className={styles.toolbarItem}>{currentSourceName ?? "Select a data source"}</div>
+        <div style={{ flexGrow: 1 }}></div>
+        <div className={styles.toolbarItem} style={{ marginRight: 5 }}>
+          {!inAutomatedRunMode() && <NotificationDisplay />}
+        </div>
+        <div className={styles.toolbarItem}>
+          <LayoutMenu />
+        </div>
+        <div className={styles.toolbarItem}>
+          <AddPanelMenu />
+        </div>
+        <div className={styles.toolbarItem}>
+          <GlobalVariablesMenu />
+        </div>
+      </Toolbar>
+      <div className={cx(styles.layout, "PanelLayout-root")}>
+        <PanelLayout />
+      </div>
+      <div className={styles["playback-controls"]}>
+        <PlaybackControls />
+      </div>
     </div>
   );
 }
 
-// @ts-ignore investigate this error with generic arg count
-const ConnectedApp = connect<InternalProps, { history: any }, _, _, _, _>(
-  ({ layoutHistory: { redoStates, undoStates } }: State) => ({
-    redoStateCount: redoStates.length,
-    undoStateCount: undoStates.length,
-  }),
-  { importPanelLayout, redoLayoutChange, undoLayoutChange },
-)(withDragDropContext(App));
+const ConnectedApp = connector(withDragDropContext(App));
 
 const Root = (props: Props) => {
-  return (
-    <Provider store={getGlobalStore()}>
-      <ConnectedRouter history={browserHistory}>
-        <ErrorBoundary>
-          <Route
-            path="/"
-            render={({ history: routeHistory }) => (
-              <ConnectedApp history={routeHistory} {...props} />
-            )}
-          />
-        </ErrorBoundary>
-      </ConnectedRouter>
-    </Provider>
-  );
+  return <Route path="/" render={() => <ConnectedApp {...props} />} />;
 };
 
 export default hot(Root);

@@ -2,7 +2,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import styled from "styled-components";
 
 import Button from "@foxglove-studio/app/components/Button";
@@ -21,22 +21,28 @@ const ModalActions = styled.div`
   text-align: right;
 `;
 
-function ModalPrompt({
-  initialValue,
-  onComplete,
-}: {
-  initialValue: string;
+type PromptOptions = {
+  placeholder?: string;
+};
+
+type ModalPromptProps = {
   onComplete: (value: string | undefined) => void;
-}) {
-  const [value, setValue] = useState(initialValue);
+  placeholder?: string;
+};
+
+function ModalPrompt({ onComplete, placeholder }: ModalPromptProps) {
+  const [value, setValue] = useState<string>("");
+  const inputRef = useRef<HTMLInputElement>(null);
 
   return (
     <Modal onRequestClose={() => onComplete(undefined)}>
       <ModalContent>
         <div>
           <input
+            ref={inputRef}
             style={{ width: "100%" }}
             type="text"
+            placeholder={placeholder}
             value={value}
             onChange={(e) => setValue(e.target.value)}
           />
@@ -52,11 +58,11 @@ function ModalPrompt({
   );
 }
 
-function runPrompt(initialValue: string): Promise<string | undefined> {
+function runPrompt(options?: PromptOptions): Promise<string | undefined> {
   return new Promise((resolve) => {
     const modal = renderToBody(
       <ModalPrompt
-        initialValue={initialValue}
+        placeholder={options?.placeholder}
         onComplete={(value) => {
           modal.remove();
           resolve(value);
@@ -68,6 +74,6 @@ function runPrompt(initialValue: string): Promise<string | undefined> {
 
 // Returns a function that can be used similarly to the DOM prompt(), but
 // backed by a React element rather than a native modal, and asynchronous.
-export function usePrompt(): (initialValue: string) => Promise<string | undefined> {
+export function usePrompt(): typeof runPrompt {
   return runPrompt;
 }
