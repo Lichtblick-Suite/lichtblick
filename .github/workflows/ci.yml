@@ -55,5 +55,5 @@ jobs:
       - run: yarn run ${{ matrix.config.command }}
         env:
           REG_SUIT_GITHUB_CLIENT_ID: ${{ secrets.REG_SUIT_GITHUB_CLIENT_ID }}
-          REG_SUIT_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
-          REG_SUIT_BASE_SHA: ${{ github.event.pull_request.base.sha || github.sha }}
+          REG_SUIT_HEAD_SHA: ${{ github.sha }}
+          REG_SUIT_BASE_SHA: ${{ github.event.pull_request.base.sha }}

@@ -15,17 +15,23 @@ set -euo pipefail
 
 # If this is a PR, then by default github actions has us on a merge commit.
 # Checkout the feature branch and commit to make reg-suit happy.
-branch=${GITHUB_HEAD_REF:-}
-if [ "$branch" != "" ]; then
+pr_branch=${GITHUB_HEAD_REF:-}
+publish_args=
+if [ "$pr_branch" != "" ]; then
     (
         set -x
-        git fetch origin "$branch"
-        git checkout "$branch" || git checkout -b "$branch"
-        git reset --hard "origin/$branch"
+        git fetch origin "$pr_branch"
+        git checkout "$pr_branch" || git checkout -b "$pr_branch"
+        git reset --hard "origin/$pr_branch"
     )
+
+    # Don't set github status checks on main branch
+    publish_args="-n"
 fi
 
 (
     set -x
-    yarn run storybook:reg-suit
+    yarn workspace @foxglove-studio/app run reg-suit sync-expected
+    yarn workspace @foxglove-studio/app run reg-suit compare
+    yarn workspace @foxglove-studio/app run reg-suit publish "$publish_args"
 )
