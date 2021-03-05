@@ -149,7 +149,7 @@ const yAxes = [
   },
 ];
 
-const plugins = {
+const plugins: Chart.ChartPluginsOptions = {
   datalabels: {
     anchor: "center",
     align: -45,

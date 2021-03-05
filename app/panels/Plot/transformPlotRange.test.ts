@@ -11,7 +11,12 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { derivative, applyToDataOrTooltips, mathFunctions } from "./transformPlotRange";
+import {
+  derivative,
+  applyToDataOrTooltips,
+  mathFunctions,
+  MathFunction,
+} from "./transformPlotRange";
 import { TimeBasedChartTooltipData } from "@foxglove-studio/app/components/TimeBasedChart";
 
 describe("transformPlotRange", () => {
@@ -147,7 +152,7 @@ describe("transformPlotRange", () => {
         { x: 2, y: 1.5, datasetKey: "0" },
         { x: 2, y: "-1.5", datasetKey: "0" },
       ];
-      expect(applyToDataOrTooltips(tooltips, mathFunctions.abs)).toEqual([
+      expect(applyToDataOrTooltips(tooltips, mathFunctions.abs as MathFunction)).toEqual([
         { x: 0, y: NaN, datasetKey: "0" },
         { x: 1, y: 1, datasetKey: "0" },
         { x: 2, y: 1.5, datasetKey: "0" },
@@ -158,11 +163,15 @@ describe("transformPlotRange", () => {
 
   it("rad2deg converts radians to degrees", () => {
     const items = [{ x: 1, y: Math.PI }];
-    expect(applyToDataOrTooltips(items, mathFunctions.rad2deg)).toEqual([{ x: 1, y: 180 }]);
+    expect(applyToDataOrTooltips(items, mathFunctions.rad2deg as MathFunction)).toEqual([
+      { x: 1, y: 180 },
+    ]);
   });
 
   it("deg2rad converts degrees to radians", () => {
     const items = [{ x: 1, y: 180 }];
-    expect(applyToDataOrTooltips(items, mathFunctions.deg2rad)).toEqual([{ x: 1, y: Math.PI }]);
+    expect(applyToDataOrTooltips(items, mathFunctions.deg2rad as MathFunction)).toEqual([
+      { x: 1, y: Math.PI },
+    ]);
   });
 });

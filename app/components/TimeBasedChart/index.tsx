@@ -10,6 +10,7 @@
 //   This source code is licensed under the Apache License, Version 2.0,
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
+import { AnnotationOptions } from "chartjs-plugin-annotation";
 import { max, min, flatten, sortedUniqBy, uniqBy } from "lodash";
 import React, { memo, useEffect, useCallback, useState, useRef } from "react";
 import DocumentEvents from "react-document-events";
@@ -140,10 +141,10 @@ const MemoizedTooltips = memo(function Tooltips() {
 });
 
 const STEP_SIZES = [0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10, 15, 30, 60];
-const stepSize = ({ min: minValue, max: maxValue, minAlongAxis, maxAlongAxis }: any) => {
+const stepSize = ({ min: minValue, max: maxValue, minAlongAxis, maxAlongAxis }: ScaleBounds) => {
   // Pick the smallest step size that gives lines greater than 50px apart
   const secondsPer50Pixels = 50 * ((maxValue - minValue) / (maxAlongAxis - minAlongAxis));
-  return STEP_SIZES.find((step) => step > secondsPer50Pixels) || 60;
+  return STEP_SIZES.find((step) => step > secondsPer50Pixels) ?? 60;
 };
 
 type FollowPlaybackState = Readonly<{
@@ -163,8 +164,8 @@ type DataSet = Readonly<{
 
 const scalePerPixel = (bounds: ScaleBounds | null | undefined): number | null | undefined =>
   bounds && Math.abs(bounds.max - bounds.min) / Math.abs(bounds.maxAlongAxis - bounds.minAlongAxis);
-const screenCoord = (value: any, valuePerPixel: any) =>
-  valuePerPixel == null ? value : Math.trunc(value / valuePerPixel);
+const screenCoord = (value: number, valuePerPixel: number | null | undefined) =>
+  !valuePerPixel ? value : Math.trunc(value / valuePerPixel);
 const datumStringPixel = (
   { x, y }: Point,
   xScale: number | null | undefined,
@@ -207,9 +208,9 @@ export type Props = {
   zoom: boolean;
   data: { datasets: ReadonlyArray<DataSet>; yLabels?: ReadonlyArray<string>; minIsZero?: boolean };
   tooltips?: TimeBasedChartTooltipData[];
-  xAxes?: any;
-  yAxes: any;
-  annotations?: any[];
+  xAxes?: Chart.ChartXAxe[];
+  yAxes: Chart.ChartYAxe[];
+  annotations?: AnnotationOptions[];
   drawLegend?: boolean;
   isSynced?: boolean;
   canToggleLines?: boolean;
@@ -220,7 +221,7 @@ export type Props = {
   datasetId?: string;
   onClick?: (
     arg0: React.MouseEvent<HTMLCanvasElement>,
-    datalabel: any | null | undefined,
+    datalabel: ScaleBounds[] | null | undefined,
     values: {
       [axis: string]: number;
     },
@@ -229,7 +230,7 @@ export type Props = {
   // If the x axis represents playback time ("timestamp"), the hover cursor will be synced.
   // Note, this setting should not be used for other time values.
   xAxisIsPlaybackTime: boolean;
-  plugins?: any;
+  plugins?: Chart.ChartPluginsOptions;
   scaleOptions?: ScaleOptions | null | undefined;
   currentTime?: number | null | undefined;
   defaultView?: ChartDefaultView;
@@ -286,10 +287,10 @@ export default memo<Props>(function TimeBasedChart(props: Props) {
   const scaleBounds = useRef<ReadonlyArray<ScaleBounds> | null | undefined>();
   const hoverBar = useRef<HTMLDivElement | null>(null);
   const onScaleBoundsUpdate = useCallback(
-    (scales) => {
+    (scales: ScaleBounds[]) => {
       scaleBounds.current = scales;
-      const firstYScale = scales.find(({ axes }: any) => axes === "yAxes");
-      const firstXScale = scales.find(({ axes }: any) => axes === "xAxes");
+      const firstYScale = scales.find(({ axes }) => axes === "yAxes");
+      const firstXScale = scales.find(({ axes }) => axes === "xAxes");
       const width = firstXScale && firstXScale.max - firstXScale.min;
       if (
         firstYScale &&
@@ -314,7 +315,7 @@ export default memo<Props>(function TimeBasedChart(props: Props) {
   const lastPanTime = useRef<Date | null | undefined>();
 
   const onClickAddingValues = useCallback(
-    (ev: React.MouseEvent<HTMLCanvasElement>, datalabel: any | null | undefined) => {
+    (ev: React.MouseEvent<HTMLCanvasElement>, datalabel: ScaleBounds[] | null | undefined) => {
       if (!onClick) {
         return;
       }
@@ -327,12 +328,12 @@ export default memo<Props>(function TimeBasedChart(props: Props) {
         // drags on touchpads.
         return;
       }
-      const values: any = {};
-      (scaleBounds.current || []).forEach((bounds) => {
+      const values: { [id: string]: number } = {};
+      (scaleBounds.current ?? []).forEach((bounds) => {
         const chartPx =
           bounds.axes === "xAxes"
-            ? ev.clientX - (ev.target as any).getBoundingClientRect().x
-            : ev.clientY - (ev.target as any).getBoundingClientRect().y;
+            ? ev.clientX - (ev.target as Element).getBoundingClientRect().x
+            : ev.clientY - (ev.target as Element).getBoundingClientRect().y;
         const value = getChartValue(bounds, chartPx);
         if (value == null) {
           return;
@@ -432,7 +433,7 @@ export default memo<Props>(function TimeBasedChart(props: Props) {
   }, [removeTooltip]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const tooltips = props.tooltips || [];
+  const tooltips = props.tooltips ?? [];
   // We use a custom tooltip so we can style it more nicely, and so that it can break
   // out of the bounds of the canvas, in case the panel is small.
   const updateTooltip = useCallback(
@@ -553,12 +554,12 @@ export default memo<Props>(function TimeBasedChart(props: Props) {
   const xBounds = scaleBounds.current && scaleBounds.current.find(({ axes }) => axes === "xAxes");
   const yBounds = scaleBounds.current && scaleBounds.current.find(({ axes }) => axes === "yAxes");
 
-  const xScaleOptions = followPlaybackState && xBounds && stepSize(xBounds);
+  const xScaleOptions = followPlaybackState && xBounds ? stepSize(xBounds) : undefined;
 
   const getChartjsOptions = (minX: number | null | undefined, maxX: number | null | undefined) => {
     const { currentTime } = props;
-    const plugins = props.plugins || {};
-    const annotations = [...(props.annotations || [])];
+    const plugins = props.plugins ?? {};
+    const annotations = [...(props.annotations ?? [])];
 
     // We create these objects every time so that they can be modified.
     const defaultXTicksSettings = {
@@ -579,8 +580,8 @@ export default memo<Props>(function TimeBasedChart(props: Props) {
       ticks: defaultXTicksSettings,
       gridLines: { color: "rgba(255, 255, 255, 0.2)", zeroLineColor: "rgba(255, 255, 255, 0.2)" },
     };
-    const xAxes = props.xAxes
-      ? props.xAxes.map((xAxis: any) => ({
+    const xAxes: Chart.ChartXAxe[] = props.xAxes
+      ? props.xAxes.map((xAxis) => ({
           ...defaultXAxis,
           ...xAxis,
           ticks: {
@@ -593,7 +594,7 @@ export default memo<Props>(function TimeBasedChart(props: Props) {
       annotations.push({
         type: "line",
         drawTime: "beforeDatasetsDraw",
-        scaleID: xAxes[0].id,
+        scaleID: "X_AXIS_ID",
         borderColor: "#aaa",
         borderWidth: 1,
         mode: "vertical",
@@ -601,7 +602,7 @@ export default memo<Props>(function TimeBasedChart(props: Props) {
       });
     }
 
-    const options = {
+    const options: Chart.ChartOptions = {
       maintainAspectRatio: false,
       animation: { duration: 0 },
       responsiveAnimationDuration: 0,
@@ -619,7 +620,7 @@ export default memo<Props>(function TimeBasedChart(props: Props) {
       },
       scales: {
         xAxes,
-        yAxes: yAxes.map((yAxis: any) => {
+        yAxes: yAxes.map((yAxis) => {
           const ticks = {
             ...defaultYTicksSettings,
             ...yAxis.ticks,
@@ -639,21 +640,24 @@ export default memo<Props>(function TimeBasedChart(props: Props) {
       plugins,
       annotation: { annotations },
     };
-    if (followPlaybackState != null) {
-      // Follow playback, but don't force it if the user has recently panned or zoomed -- playback
-      // will fight with the user's action.
-      if (
-        currentTime != null &&
-        (lastPanTime.current == null ||
-          // @ts-ignore while valid js we should fix this arithmatic operation on dates
-          new Date() - lastPanTime.current > FOLLOW_PLAYBACK_PAN_THRESHOLD_MS)
-      ) {
-        options.scales.xAxes[0].ticks.min = currentTime + followPlaybackState.xOffsetMin;
-        options.scales.xAxes[0].ticks.max = currentTime + followPlaybackState.xOffsetMax;
+    const firstXAxisTicks = options.scales?.xAxes?.[0]?.ticks;
+    if (firstXAxisTicks) {
+      if (followPlaybackState != null) {
+        // Follow playback, but don't force it if the user has recently panned or zoomed -- playback
+        // will fight with the user's action.
+        if (
+          currentTime != null &&
+          (lastPanTime.current == null ||
+            // @ts-ignore while valid js we should fix this arithmatic operation on dates
+            new Date() - lastPanTime.current > FOLLOW_PLAYBACK_PAN_THRESHOLD_MS)
+        ) {
+          firstXAxisTicks.min = currentTime + followPlaybackState.xOffsetMin;
+          firstXAxisTicks.max = currentTime + followPlaybackState.xOffsetMax;
+        }
+      } else if (!hasUserPannedOrZoomed) {
+        firstXAxisTicks.min = minX;
+        firstXAxisTicks.max = maxX;
       }
-    } else if (!hasUserPannedOrZoomed) {
-      options.scales.xAxes[0].ticks.min = minX;
-      options.scales.xAxes[0].ticks.max = maxX;
     }
     return options;
   };
@@ -675,12 +679,12 @@ export default memo<Props>(function TimeBasedChart(props: Props) {
   const xVals = flatten(
     data.datasets.map(({ data: pts }) => (pts.length > 1 ? pts.map(({ x }) => x) : undefined)),
   );
-  let minX: any;
-  let maxX: any;
+  let minX: number;
+  let maxX: number;
   if (defaultView == null || (defaultView.type === "following" && currentTime == null)) {
     // Zoom to fit if the view is "following" but there's no playback cursor. Unlikely.
-    minX = min(xVals);
-    maxX = max(xVals);
+    minX = min(xVals) ?? 0;
+    maxX = max(xVals) ?? 0;
   } else if (defaultView.type === "fixed") {
     minX = defaultView.minXValue;
     maxX = defaultView.maxXValue;
@@ -787,7 +791,7 @@ export default memo<Props>(function TimeBasedChart(props: Props) {
             datasets={data.datasets}
             linesToHide={linesToHide}
             toggleLine={
-              toggleLine ||
+              toggleLine ??
               (() => {
                 // no-op
               })

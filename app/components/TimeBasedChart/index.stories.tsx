@@ -15,6 +15,7 @@ import cloneDeep from "lodash/cloneDeep";
 import React, { useState, useCallback } from "react";
 
 import TimeBasedChart from "./index";
+import type { Props } from "./index";
 import { MockMessagePipelineProvider } from "@foxglove-studio/app/components/MessagePipeline";
 import { triggerWheel } from "@foxglove-studio/app/stories/PanelSetup";
 
@@ -147,7 +148,7 @@ function ZoomExample() {
   );
 }
 
-function PauseFrameExample(props: any) {
+function PauseFrameExample(props: Props) {
   const [, forceUpdate] = useState(0);
   const [unpauseFrameCount, setUnpauseFrameCount] = useState(0);
   const pauseFrame = useCallback(() => {
@@ -185,7 +186,7 @@ function PauseFrameExample(props: any) {
 // - in `pauseFrame`, trigger an update that removes the chart. This happens before the returned function
 // (`resumeFrame`) fires.
 // - `resumeFrame` should then fire exactly once.
-function RemoveChartExample(props: any) {
+function RemoveChartExample(props: Props) {
   const [, forceUpdate] = useState(0);
   const [showChart, setShowChart] = useState(true);
   const [statusMessage, setStatusMessage] = useState("FAILURE - START");
@@ -277,8 +278,8 @@ storiesOf("<TimeBasedChart>", module)
   })
   .add("can zoom and then update with new data without resetting the zoom", () => <ZoomExample />)
   .add("cleans up the tooltip when removing the panel", () => <CleansUpTooltipExample />)
-  .add("should call pauseFrame twice", () => <PauseFrameExample />)
+  .add("should call pauseFrame twice", () => <PauseFrameExample {...commonProps} />)
   .add(
     "should still call resumeFrame when removed in the middle of an update (shows `SUCCESS` message with no chart visible)",
-    () => <RemoveChartExample />,
+    () => <RemoveChartExample {...commonProps} />,
   );

@@ -24,9 +24,34 @@ import {
   resetZoomDelta,
   resetZoom,
   getScaleBounds,
+  ScaleBounds,
 } from "./zoomAndPanHelpers";
 
 type XAxisTicks = "follow" | "displayXAxesTicksInSeconds";
+
+type Unpack<A> = A extends Array<infer E> ? E : A;
+type Meta = ReturnType<Chart["getDatasetMeta"]>;
+type MetaData = Unpack<Meta["data"]>;
+
+type EventElement = {
+  data: Unpack<Chart.ChartDataSets["data"]>;
+  view: MetaData["_view"];
+};
+
+type ChartInstance = Chart & {
+  // Define a method we use but doesn't have TypeScript documentation until a newer version of chart.js
+  getElementsAtEventForMode(
+    e: Event,
+    mode: string,
+    options?: {
+      axis?: string;
+      intersect?: boolean;
+    },
+  ): MetaData[];
+};
+
+// chart.js cannot accept a OffscreenCanvas from @types/offscreencanvas, so use this alias
+type OffscreenCanvas = HTMLCanvasElement;
 
 // These are options that we pass our worker. We have to pass this as a separate object instead of as part of the
 // config because they can only be set using a callback function, which we can't pass across worker boundaries.
@@ -58,22 +83,18 @@ function displayTicksInSecondsCallback(value: number) {
   return `${Math.round(value * 1000) / 1000} s`;
 }
 
-function mapChartElementToEventElement(chartInstance: any, item: any) {
+function mapChartElementToEventElement(chartInstance: Chart, item: MetaData): EventElement {
   return {
     // It's annoying to have to rely on internal APIs like this, but there's literally no other way and the help
     // documents themselves say to do this: https://www.chartjs.org/docs/latest/developers/api.html#getelementatevente
     // eslint-disable-next-line no-underscore-dangle
-    data: chartInstance.data.datasets[item._datasetIndex]?.data[item._index],
+    data: chartInstance.data.datasets?.[item._datasetIndex]?.data?.[item._index],
     // eslint-disable-next-line no-underscore-dangle
     view: item._view,
   };
 }
 
-const datasetKeyProvider = (d: any) => d.label;
-
-type ChartInstance = any;
-// This type is not yet in Flow, so temporarily type it this way.
-type OffscreenCanvas = HTMLCanvasElement;
+const datasetKeyProvider = (d: Chart.ChartDataSets) => d.label ?? "";
 
 export default class ChartJSManager {
   id: string;
@@ -91,9 +112,9 @@ export default class ChartJSManager {
   }: {
     id: string;
     node: OffscreenCanvas;
-    type: any;
-    data: any;
-    options: any;
+    type?: Chart.ChartType | string;
+    data?: Chart.ChartData;
+    options: Chart.ChartConfiguration;
     scaleOptions: ScaleOptions | null | undefined;
     devicePixelRatio: number;
   }) {
@@ -103,11 +124,11 @@ export default class ChartJSManager {
       type,
       data,
       options: { ...this._addFunctionsToConfig(options, scaleOptions), devicePixelRatio },
-    });
+    }) as ChartInstance;
     this._chartInstance = chartInstance;
   }
 
-  getScaleBounds() {
+  getScaleBounds(): ScaleBounds[] | undefined {
     const chartInstance = this._chartInstance;
     if (!chartInstance) {
       return;
@@ -128,7 +149,7 @@ export default class ChartJSManager {
     percentZoomY: number;
     focalPoint?: { x: number; y: number };
     whichAxesParam?: string;
-  }) {
+  }): ScaleBounds[] | undefined {
     const chartInstance = this._chartInstance;
     if (!chartInstance) {
       return;
@@ -146,7 +167,7 @@ export default class ChartJSManager {
     return getScaleBounds(chartInstance);
   }
 
-  resetZoomDelta() {
+  resetZoomDelta(): void {
     const chartInstance = this._chartInstance;
     if (!chartInstance) {
       return;
@@ -163,7 +184,7 @@ export default class ChartJSManager {
     panOptions: PanOptions;
     deltaX: number;
     deltaY: number;
-  }) {
+  }): ScaleBounds[] | undefined {
     const chartInstance = this._chartInstance;
     if (!chartInstance) {
       return;
@@ -173,7 +194,7 @@ export default class ChartJSManager {
     return getScaleBounds(chartInstance);
   }
 
-  resetPanDelta() {
+  resetPanDelta(): void {
     resetPanDelta(this.id);
   }
 
@@ -182,10 +203,10 @@ export default class ChartJSManager {
     options,
     scaleOptions,
   }: {
-    data: any;
-    options: any;
+    data: Chart.ChartData;
+    options: Chart.ChartConfiguration;
     scaleOptions: ScaleOptions | null | undefined;
-  }) {
+  }): ScaleBounds[] | undefined {
     const chartInstance = this._chartInstance;
 
     if (!chartInstance) {
@@ -205,18 +226,24 @@ export default class ChartJSManager {
 
     const currentDatasetsIndexed = keyBy(currentDatasets, datasetKeyProvider);
 
-    // We can safely replace the dataset array, as long as we retain the _meta property
-    // on each dataset.
-    chartInstance.config.data.datasets = nextDatasets.map((next: any) => {
-      const current = currentDatasetsIndexed[datasetKeyProvider(next)];
+    const datasets = nextDatasets.map((next) => {
+      const current = currentDatasetsIndexed[datasetKeyProvider(next) ?? ""];
 
       if (current && current.type === next.type && next.data) {
         // Be robust to no data. Relevant for other update mechanisms as in chartjs-plugin-streaming.
         // The data array must be edited in place. As chart.js adds listeners to it.
-        current.data.splice(next.data.length);
-        next.data.forEach((_: never, pid: any) => {
-          current.data[pid] = next.data[pid];
-        });
+        if (current.data) {
+          current.data.splice(next.data.length);
+          if (next.data) {
+            const currentData = current.data;
+            next.data.forEach(
+              (value: number | number[] | Chart.ChartPoint | null | undefined, pid: number) => {
+                currentData[pid] = value;
+              },
+            );
+          }
+        }
+
         const otherDatasetProps = omit(next, "data");
         // Merge properties. Notice a weakness here. If a property is removed
         // from next, it will be retained by current and never disappears.
@@ -236,12 +263,16 @@ export default class ChartJSManager {
       ...otherDataProps,
     };
 
+    // We can safely replace the dataset array, as long as we retain the _meta property
+    // on each dataset.
+    chartInstance.config.data.datasets = datasets;
+
     chartInstance.update();
 
     return getScaleBounds(chartInstance);
   }
 
-  resetZoom() {
+  resetZoom(): ScaleBounds[] {
     const chartInstance = this._chartInstance;
     if (chartInstance) {
       resetZoom(this.id, chartInstance);
@@ -250,7 +281,7 @@ export default class ChartJSManager {
     return getScaleBounds(chartInstance);
   }
 
-  destroy() {
+  destroy(): void {
     const chartInstance = this._chartInstance;
     if (chartInstance) {
       chartInstance.destroy();
@@ -261,29 +292,32 @@ export default class ChartJSManager {
   // Get the closest element at the same x-axis value as the cursor.
   // This is a somewhat complex function because we attempt to copy the same behavior that the built-in tooltips have
   // for Chart.js without a direct API for it.
-  getElementAtXAxis({ event }: { event: Event }) {
+  getElementAtXAxis({ event }: { event: Event }): EventElement | undefined {
     const chartInstance = this._chartInstance;
     if (chartInstance) {
       // Elements directly under the cursor.
       const pointElements = chartInstance.getElementsAtEventForMode(event, "point");
+      const firstPointElement = pointElements[0];
 
-      if (pointElements.length) {
+      if (firstPointElement) {
         // If we have an element directly under the cursor, return it.
-        return mapChartElementToEventElement(chartInstance, pointElements[0]);
+        return mapChartElementToEventElement(chartInstance, firstPointElement);
       }
 
       // Elements near the x-axis position of the cursor.
       const xAxisElements = chartInstance.getElementsAtEventForMode(event, "x", {
         intersect: false,
       });
-      if (xAxisElements.length) {
+      const firstXAxisElement = xAxisElements[0];
+
+      if (firstXAxisElement) {
         // The nearest elements to the cursor, regardless of how close they are.
         const nearestElements = chartInstance.getElementsAtEventForMode(event, "nearest", {
           intersect: false,
         });
-        const nearestXAxisElement = nearestElements.find((item: any) =>
+        const nearestXAxisElement = nearestElements.find((item) =>
           xAxisElements.some(
-            (item2: any) =>
+            (item2) =>
               // eslint-disable-next-line no-underscore-dangle
               item._index === item2._index && item._datasetIndex === item2._datasetIndex,
           ),
@@ -293,13 +327,15 @@ export default class ChartJSManager {
           return mapChartElementToEventElement(chartInstance, nearestXAxisElement);
         }
         // Otherwise just return the first element on the x-axis.
-        return mapChartElementToEventElement(chartInstance, xAxisElements[0]);
+        return mapChartElementToEventElement(chartInstance, firstXAxisElement);
       }
     }
   }
 
-  getDatalabelAtEvent({ event }: { event: Event }) {
-    const chartInstance = this._chartInstance;
+  getDatalabelAtEvent({ event }: { event: Event }): unknown {
+    // Disabling type checking for this method as there are multiple cases of poking into internal members
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const chartInstance = this._chartInstance as any;
     if (chartInstance) {
       const chartDatalabel = chartInstance.$datalabels.getLabelAtEvent(event);
       if (chartDatalabel) {
@@ -309,7 +345,7 @@ export default class ChartJSManager {
     }
   }
 
-  _addFunctionsToConfig(config: any, scaleOptions: ScaleOptions | null | undefined) {
+  _addFunctionsToConfig(config: any, scaleOptions: ScaleOptions | null | undefined): typeof config {
     if (config && config.plugins.datalabels) {
       // This controls which datalabels are displayed. Only display labels for datapoints that include a "label"
       // property.
@@ -357,7 +393,7 @@ export default class ChartJSManager {
     return config;
   }
 
-  _checkDatasets(datasets: any[]) {
+  _checkDatasets(datasets: Chart.ChartDataSets[]): void {
     const isDev = process.env.NODE_ENV !== "production" && process.env.NODE_ENV !== "prod";
     const multipleDatasets = datasets.length > 1;
 
@@ -377,7 +413,7 @@ export default class ChartJSManager {
     }
   }
 
-  _getCurrentDatasets() {
+  _getCurrentDatasets(): Chart.ChartDataSets[] {
     return (
       (this._chartInstance &&
         this._chartInstance.config.data &&

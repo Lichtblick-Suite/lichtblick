@@ -14,6 +14,8 @@
 import { TimeBasedChartTooltipData } from "@foxglove-studio/app/components/TimeBasedChart";
 import { PlotChartPoint } from "@foxglove-studio/app/panels/Plot/PlotChart";
 
+export type MathFunction = (arg0: number) => number;
+
 export function derivative(
   data: PlotChartPoint[],
   tooltips: TimeBasedChartTooltipData[],
@@ -41,7 +43,7 @@ export function derivative(
   return { points, tooltips: newTooltips };
 }
 
-export const mathFunctions = {
+export const mathFunctions: { [fn: string]: MathFunction } = {
   abs: Math.abs,
   acos: Math.acos,
   asin: Math.asin,

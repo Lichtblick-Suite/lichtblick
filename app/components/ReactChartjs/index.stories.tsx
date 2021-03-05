@@ -53,12 +53,12 @@ const props = {
     annotations: { annotations: [] },
     plugins: {
       datalabels: {
-        anchor: "top",
+        anchor: "start",
         align: 0,
         offset: 5,
         color: "white",
       },
-    },
+    } as Chart.ChartPluginsOptions,
     scales: {
       yAxes: [
         {
@@ -96,7 +96,7 @@ const props = {
 };
 
 const propsWithDatalabels = cloneDeep(props);
-propsWithDatalabels.data.datasets[0].datalabels.display = true;
+propsWithDatalabels.data.datasets[0]!.datalabels.display = true;
 
 const divStyle = { width: 600, height: 800, background: "black" };
 
@@ -112,7 +112,7 @@ function DatalabelUpdateExample({
 
   const chartProps = cloneDeep(props);
   if (hasRenderedOnce) {
-    chartProps.data.datasets[0].data[0].x = chartProps.data.datasets[0].data[0].x + 1;
+    chartProps.data.datasets[0]!.data[0]!.x++;
   }
   return (
     <div style={divStyle} ref={refFn}>
@@ -127,7 +127,7 @@ function DatalabelClickExample() {
     setTimeout(() => {
       if (!clickedDatalabel) {
         const [canvas] = document.getElementsByTagName("canvas");
-        TestUtils.Simulate.click(canvas, { clientX: 245, clientY: 419 });
+        TestUtils.Simulate.click(canvas!, { clientX: 245, clientY: 419 });
       }
     }, 200);
   }, [clickedDatalabel]);

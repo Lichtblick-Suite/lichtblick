@@ -11,6 +11,7 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
+import { AnnotationOptions } from "chartjs-plugin-annotation";
 import flatten from "lodash/flatten";
 import React, { memo } from "react";
 import { createSelector } from "reselect";
@@ -20,6 +21,7 @@ import { v4 as uuidv4 } from "uuid";
 import styles from "./PlotChart.module.scss";
 import { PlotXAxisVal } from "./index";
 import Dimensions from "@foxglove-studio/app/components/Dimensions";
+import { ScaleOptions } from "@foxglove-studio/app/components/ReactChartjs";
 import TimeBasedChart, {
   ChartDefaultView,
   TimeBasedChartTooltipData,
@@ -34,12 +36,19 @@ import {
   derivative,
   applyToDataOrTooltips,
   mathFunctions,
+  MathFunction,
 } from "@foxglove-studio/app/panels/Plot/transformPlotRange";
 import { deepParse, isBobject } from "@foxglove-studio/app/util/binaryObjects";
 import filterMap from "@foxglove-studio/app/util/filterMap";
 import { format } from "@foxglove-studio/app/util/formatTime";
 import { lightColor, lineColors } from "@foxglove-studio/app/util/plotColors";
-import { isTime, subtractTimes, toSec, formatTimeRaw } from "@foxglove-studio/app/util/time";
+import {
+  isTime,
+  subtractTimes,
+  toSec,
+  formatTimeRaw,
+  TimestampMethod,
+} from "@foxglove-studio/app/util/time";
 
 export type PlotChartPoint = {
   x: number;
@@ -62,6 +71,12 @@ export type DataSet = {
 
 export type PlotDataByPath = {
   [path: string]: ReadonlyArray<ReadonlyArray<TooltipItem>>;
+};
+
+type PointsAndTooltips = {
+  points: PlotChartPoint[];
+  tooltips: TimeBasedChartTooltipData[];
+  hasMismatchedData: boolean;
 };
 
 const Y_AXIS_ID = "Y_AXIS_ID";
@@ -89,13 +104,13 @@ function getXForPoint(
       const maybeBobject = xItem.queriedData[innerIdx]?.value;
       const value =
         maybeBobject && isBobject(maybeBobject) ? deepParse(maybeBobject) : maybeBobject;
-      return isTime(value) ? toSec(value as any) : Number(value);
+      return isTime(value) ? toSec(value as Time) : Number(value);
     }
   }
   return xAxisVal === "timestamp" ? timestamp : innerIdx;
 }
 
-const scaleOptions = {
+const scaleOptions: ScaleOptions = {
   fixedYAxisWidth: 48,
   yAxisTicks: "hideFirstAndLast",
 };
@@ -104,14 +119,14 @@ function getPointsAndTooltipsForMessagePathItem(
   yItem: TooltipItem,
   xItem: TooltipItem | null | undefined,
   startTime: Time,
-  timestampMethod: any,
+  timestampMethod: TimestampMethod,
   xAxisVal: PlotXAxisVal,
   xAxisPath?: BasePlotPath,
   xAxisRanges?: ReadonlyArray<ReadonlyArray<TooltipItem>> | null,
   datasetKey?: string,
-) {
-  const points: any = [];
-  const tooltips: any = [];
+): PointsAndTooltips {
+  const points: PlotChartPoint[] = [];
+  const tooltips: TimeBasedChartTooltipData[] = [];
   const timestamp = timestampMethod === "headerStamp" ? yItem.headerStamp : yItem.receiveTime;
   if (!timestamp) {
     return { points, tooltips, hasMismatchedData: false };
@@ -185,7 +200,7 @@ function getDatasetAndTooltipsFromMessagePlotPath(
     isCustomScale(xAxisVal) &&
     xAxisRanges != null &&
     (yAxisRanges.length !== xAxisRanges.length ||
-      xAxisRanges.every((range, rangeIndex) => range.length !== yAxisRanges[rangeIndex].length));
+      xAxisRanges.every((range, rangeIndex) => range.length !== yAxisRanges[rangeIndex]?.length));
   let rangesOfTooltips: TimeBasedChartTooltipData[][] = [];
   let rangesOfPoints: PlotChartPoint[][] = [];
   for (const [rangeIdx, range] of yAxisRanges.entries()) {
@@ -229,7 +244,7 @@ function getDatasetAndTooltipsFromMessagePlotPath(
       const newRangesOfTooltips = [];
       const newRangesOfPoints = [];
       for (const [rangeIdx, rangePoints] of rangesOfPoints.entries()) {
-        const rangeTooltips = rangesOfTooltips[rangeIdx];
+        const rangeTooltips = rangesOfTooltips[rangeIdx] ?? [];
         const { points, tooltips } = derivative(rangePoints, rangeTooltips);
         newRangesOfTooltips.push(tooltips);
         newRangesOfPoints.push(points);
@@ -245,11 +260,10 @@ function getDatasetAndTooltipsFromMessagePlotPath(
   }
   for (const funcName of Object.keys(mathFunctions)) {
     if (path.value.endsWith(`.@${funcName}`)) {
-      rangesOfPoints = rangesOfPoints.map((points) =>
-        applyToDataOrTooltips(points, (mathFunctions as any)[funcName]),
-      );
+      const mathFn = mathFunctions[funcName] as MathFunction;
+      rangesOfPoints = rangesOfPoints.map((points) => applyToDataOrTooltips(points, mathFn));
       rangesOfTooltips = rangesOfTooltips.map((tooltips) =>
-        applyToDataOrTooltips(tooltips, (mathFunctions as any)[funcName]),
+        applyToDataOrTooltips(tooltips, mathFn),
       );
       break;
     }
@@ -264,8 +278,9 @@ function getDatasetAndTooltipsFromMessagePlotPath(
     }
   });
 
-  const dataset = {
-    borderColor: lineColors[index % lineColors.length],
+  const borderColor = lineColors[index % lineColors.length] ?? "#DDDDDD";
+  const dataset: DataSet = {
+    borderColor,
     label: path.value || uuidv4(),
     key: datasetKey,
     showLine,
@@ -273,7 +288,7 @@ function getDatasetAndTooltipsFromMessagePlotPath(
     borderWidth: 1,
     pointRadius: 1.5,
     pointHoverRadius: 3,
-    pointBackgroundColor: lightColor(lineColors[index % lineColors.length]),
+    pointBackgroundColor: lightColor(borderColor),
     pointBorderColor: "transparent",
     data: flatten(rangesOfPoints),
   };
@@ -286,13 +301,14 @@ function getDatasetAndTooltipsFromMessagePlotPath(
 }
 
 // A "reference line" plot path is a numeric value. It creates a horizontal line on the plot at the specified value.
-function getAnnotationFromReferenceLine(path: PlotPath, index: number) {
+function getAnnotationFromReferenceLine(path: PlotPath, index: number): AnnotationOptions {
+  const borderColor = lineColors[index % lineColors.length] ?? "#DDDDDD";
   return {
     type: "line",
     drawTime: "beforeDatasetsDraw",
     scaleID: Y_AXIS_ID,
-    label: path.value,
-    borderColor: lineColors[index % lineColors.length],
+    label: { content: path.value },
+    borderColor,
     borderDash: [5, 5],
     borderWidth: 1,
     mode: "horizontal",
@@ -312,7 +328,7 @@ export function getDatasetsAndTooltips(
   pathsWithMismatchedDataLengths: string[];
 } {
   const datasetsAndTooltips = filterMap(paths, (path: PlotPath, index: number) => {
-    const yRanges = itemsByPath[path.value];
+    const yRanges = itemsByPath[path.value] ?? [];
     const xRanges = xAxisPath && itemsByPath[xAxisPath.value];
     if (!path.enabled) {
       return null;
@@ -352,9 +368,9 @@ function getAnnotations(paths: PlotPath[]) {
 
 type YAxesInterface = { minY: number; maxY: number; scaleId: string };
 // min/maxYValue is NaN when it's unset, and an actual number otherwise.
-const yAxes = createSelector<YAxesInterface, unknown, unknown, unknown>(
+const yAxes = createSelector<YAxesInterface, unknown, Chart.ChartYAxe[], unknown>(
   // @ts-expect-error investigate correct argument here
-  (params: any) => params,
+  (params) => params,
   ({ minY, maxY, scaleId }: YAxesInterface) => {
     const min = isNaN(minY) ? undefined : minY;
     const max = isNaN(maxY) ? undefined : maxY;
@@ -387,7 +403,7 @@ type PlotChartProps = {
   defaultView: ChartDefaultView;
   onClick?: (
     arg0: React.MouseEvent<HTMLCanvasElement>,
-    arg1: any,
+    arg1: unknown,
     arg2: {
       [scaleId: string]: number;
     },
@@ -425,7 +441,7 @@ export default memo<PlotChartProps>(function PlotChart(props: PlotChartProps) {
             yAxes={yAxes({ minY: minYValue, maxY: maxYValue, scaleId: Y_AXIS_ID })}
             saveCurrentView={saveCurrentView}
             xAxisIsPlaybackTime={xAxisVal === "timestamp"}
-            scaleOptions={scaleOptions as any}
+            scaleOptions={scaleOptions}
             currentTime={currentTime}
             defaultView={defaultView}
             onClick={onClick}

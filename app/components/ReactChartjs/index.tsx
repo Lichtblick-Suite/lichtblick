@@ -47,17 +47,20 @@ type OnEndChartUpdate = () => void;
 
 type Props = {
   id?: string;
-  data: any;
+  data: Chart.ChartData;
   height: number;
   width: number;
-  legend?: any;
-  options: any;
+  legend?: Chart.ChartLegendOptions;
+  options: Chart.ChartOptions;
   type: string;
   zoomOptions: ZoomOptions;
   panOptions: PanOptions;
   onScaleBoundsUpdate?: (arg0: ScaleBounds[]) => void;
   onPanZoom?: (arg0: ScaleBounds[]) => void;
-  onClick?: (arg0: React.MouseEvent<HTMLCanvasElement>, datalabel: any | null | undefined) => void;
+  onClick?: (
+    arg0: React.MouseEvent<HTMLCanvasElement>,
+    datalabel: ScaleBounds[] | null | undefined,
+  ) => void;
   forceDisableWorkerRendering?: boolean | null | undefined;
   scaleOptions?: ScaleOptions | null | undefined;
   onChartUpdate?: () => OnEndChartUpdate;
@@ -119,7 +122,7 @@ class ChartComponent extends React.PureComponent<Props> {
     return rpc.send(event, data, transferrables);
   };
 
-  componentDidMount() {
+  componentDidMount(): void {
     const { type, data, options, scaleOptions, width, height } = this.props;
     if (!this.canvas) {
       throw new Error("ReactChartJS not initialized");
@@ -152,7 +155,7 @@ class ChartComponent extends React.PureComponent<Props> {
     ).then((scaleBoundsUpdate) => this._onUpdateScaleBounds(scaleBoundsUpdate));
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(): void {
     const { data, options, scaleOptions, width, height, onChartUpdate } = this.props;
     let chartUpdateId: string;
     if (onChartUpdate) {
@@ -172,14 +175,15 @@ class ChartComponent extends React.PureComponent<Props> {
         this._onUpdateScaleBounds(scaleBoundsUpdate);
       })
       .finally(() => {
-        if (this._onEndChartUpdateCallbacks[chartUpdateId]) {
-          this._onEndChartUpdateCallbacks[chartUpdateId]();
+        const onEndChartUpdateCallback = this._onEndChartUpdateCallbacks[chartUpdateId];
+        if (onEndChartUpdateCallback) {
+          onEndChartUpdateCallback();
           delete this._onEndChartUpdateCallbacks[chartUpdateId];
         }
       });
   }
 
-  componentWillUnmount() {
+  componentWillUnmount(): void {
     // If this component will unmount, resolve any pending update callbacks.
     objectValues(this._onEndChartUpdateCallbacks).forEach((callback) => callback());
     this._onEndChartUpdateCallbacks = {};
@@ -194,7 +198,7 @@ class ChartComponent extends React.PureComponent<Props> {
     }
   }
 
-  _ref = (element: HTMLCanvasElement | null | undefined) => {
+  _ref = (element: HTMLCanvasElement | null | undefined): void => {
     this.canvas = element;
   };
 
@@ -225,7 +229,7 @@ class ChartComponent extends React.PureComponent<Props> {
 
   // Pan/zoom section
 
-  resetZoom = async () => {
+  resetZoom = async (): Promise<void> => {
     const scaleBoundsUpdate = await this._sendToRpc("resetZoom", { id: this._id });
     this._onUpdateScaleBounds(scaleBoundsUpdate);
   };
@@ -235,7 +239,7 @@ class ChartComponent extends React.PureComponent<Props> {
   _currentDeltaY?: number;
   _currentPinchScaling = 1;
 
-  _setupPanAndPinchHandlers() {
+  _setupPanAndPinchHandlers(): void {
     if (!this.canvas) {
       throw new Error("ReactChartJS not initialized");
     }
@@ -244,7 +248,7 @@ class ChartComponent extends React.PureComponent<Props> {
     hammerManager.add(new Hammer.Pinch());
     hammerManager.add(new Hammer.Pan({ threshold }));
 
-    const hammerPanHandler = async (event: any) => {
+    const hammerPanHandler = async (event: HammerInput) => {
       if (!this.props.panOptions.enabled) {
         return;
       }
@@ -283,7 +287,7 @@ class ChartComponent extends React.PureComponent<Props> {
     // TODO: pinch gestures only kind of work right now - the built-in browser pinch zoom takes over if pinch is too
     // aggressive. Figure out why this is happening and fix it. This is almost identical to the original plugin that
     // does not have this problem.
-    const handlePinch = async (e: any) => {
+    const handlePinch = async (e: HammerInput) => {
       if (!this.props.panOptions.enabled) {
         return;
       }
@@ -337,7 +341,7 @@ class ChartComponent extends React.PureComponent<Props> {
     });
   }
 
-  _onWheel = async (event: React.WheelEvent<HTMLCanvasElement>) => {
+  _onWheel = async (event: React.WheelEvent<HTMLCanvasElement>): Promise<void> => {
     if (!this.props.zoomOptions.enabled) {
       return;
     }
@@ -357,19 +361,19 @@ class ChartComponent extends React.PureComponent<Props> {
     this._onPanZoom(scaleBoundsUpdate);
   };
 
-  _onPanZoom = (scaleBoundsUpdate: ScaleBounds[]) => {
+  _onPanZoom = (scaleBoundsUpdate: ScaleBounds[]): void => {
     if (this.props.onPanZoom) {
       this.props.onPanZoom(scaleBoundsUpdate);
     }
   };
 
-  _onUpdateScaleBounds = (scaleBoundsUpdate: ScaleBounds[]) => {
+  _onUpdateScaleBounds = (scaleBoundsUpdate: ScaleBounds[]): void => {
     if (this.props.onScaleBoundsUpdate && scaleBoundsUpdate) {
       this.props.onScaleBoundsUpdate(scaleBoundsUpdate);
     }
   };
 
-  _onClick = async (event: React.MouseEvent<HTMLCanvasElement>) => {
+  _onClick = async (event: React.MouseEvent<HTMLCanvasElement>): Promise<void> => {
     const { onClick } = this.props;
     if (!this._panning && onClick && this.canvas) {
       const rect = event.currentTarget.getBoundingClientRect();
@@ -386,7 +390,7 @@ class ChartComponent extends React.PureComponent<Props> {
     }
   };
 
-  render() {
+  render(): JSX.Element {
     const { height, width, id } = this.props;
 
     return (
