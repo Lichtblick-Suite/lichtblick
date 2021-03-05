@@ -15,3 +15,8 @@ export const loaders = [
     }
   },
 ];
+
+export const parameters = {
+  // Disable default padding around the page body
+  layout: "fullscreen",
+};
