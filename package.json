@@ -7,6 +7,7 @@
   "productDescription": "Foxglove Studio is an highly customizable and extensible visualization and display tool for robotics.",
   "private": true,
   "homepage": "https://foxglove.dev/studio",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/foxglove/studio.git"
@@ -31,7 +32,7 @@
     "storybook": "yarn workspace @foxglove-studio/app run start-storybook",
     "storybook:build": "yarn workspace @foxglove-studio/app run build-storybook",
     "storybook:storycap": "yarn workspace @foxglove-studio/app run storycap http://localhost:9001 --serverCmd \"yarn http-server storybook-static -p 9001\" --outDir \"storybook-screenshots\"",
-    "storybook:ci": "ci/storybook.sh"
+    "storybook:ci": "cd ci && node --loader ts-node/esm --experimental-specifier-resolution=node storybook.ts"
   },
   "workspaces": {
     "packages": [
@@ -39,6 +40,8 @@
     ]
   },
   "devDependencies": {
+    "@actions/core": "1.2.6",
+    "@actions/exec": "1.0.4",
     "@jest/types": "26.6.2",
     "@mapbox/rehype-prism": "0.5.0",
     "@mdx-js/loader": "1.6.22",

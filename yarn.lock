@@ -12,6 +12,29 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@actions/core@npm:1.2.6":
+  version: 1.2.6
+  resolution: "@actions/core@npm:1.2.6"
+  checksum: 984c7d5ae95c02f62f69549a9d5cfbc0db0b035f519775301b397c167791ceee269fb504cb622da541d1fa305ee4ad3fc30d017c6407045aa4eb6809eee4c549
+  languageName: node
+  linkType: hard
+
+"@actions/exec@npm:1.0.4":
+  version: 1.0.4
+  resolution: "@actions/exec@npm:1.0.4"
+  dependencies:
+    "@actions/io": ^1.0.1
+  checksum: 99e3a90a24ae157bc77f5e933d82caba5b8deee979e8489e534db75ffab08a2758f625e83f020736b031eca054ac3710b9f18cea5c9123f69457bb0582094c3e
+  languageName: node
+  linkType: hard
+
+"@actions/io@npm:^1.0.1":
+  version: 1.0.2
+  resolution: "@actions/io@npm:1.0.2"
+  checksum: ccf358b298c115867061985a2ff1169f5565cde5d00af49ede272a0271001cb16165269f59742c720eb07a2d6f8faf05ec078895e38286a9dbabb40a518a776f
+  languageName: node
+  linkType: hard
+
 "@babel/code-frame@npm:7.10.4":
   version: 7.10.4
   resolution: "@babel/code-frame@npm:7.10.4"
@@ -11202,6 +11225,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "foxglove-studio@workspace:."
   dependencies:
+    "@actions/core": 1.2.6
+    "@actions/exec": 1.0.4
     "@jest/types": 26.6.2
     "@mapbox/rehype-prism": 0.5.0
     "@mdx-js/loader": 1.6.22
