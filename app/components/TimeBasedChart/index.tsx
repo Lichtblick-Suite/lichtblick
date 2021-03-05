@@ -119,8 +119,8 @@ const SBar = styled.div<{ xAxisIsPlaybackTime: boolean }>`
   border-style: solid;
   border-color: #f7be00 transparent;
   background: ${(props) =>
-    props.xAxisIsPlaybackTime ? "#F7BE00 padding-box" : "#248EFF padding-box"},
-  borderWidth: ${(props) => (props.xAxisIsPlaybackTime ? "4px" : "0px 4px")},
+    props.xAxisIsPlaybackTime ? "#F7BE00 padding-box" : "#248EFF padding-box"};
+  border-width: ${(props) => (props.xAxisIsPlaybackTime ? "4px" : "0px 4px")};
 `;
 
 // Sometimes a click gets fired at the end of a pan. Probably subtle touchpad stuff. Ignore "clicks"
