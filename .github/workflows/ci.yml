@@ -23,8 +23,8 @@ jobs:
             command: build:prod
           - name: test
             command: test --maxWorkers=100%
-          - name: build storybook
-            command: build:storybook
+          - name: storybook
+            command: storybook:ci
 
     name: ${{ matrix.config.name }}
 
@@ -45,5 +45,15 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
+      - name: Configure Google Cloud
+        if: matrix.config.name == 'storybook'
+        uses: google-github-actions/setup-gcloud@v0.2.1
+        with:
+          service_account_key: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+          export_default_credentials: true
       - run: yarn install --immutable
       - run: yarn run ${{ matrix.config.command }}
+        env:
+          REG_SUIT_GITHUB_CLIENT_ID: ${{ secrets.REG_SUIT_GITHUB_CLIENT_ID }}
+          REG_SUIT_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          REG_SUIT_BASE_SHA: ${{ github.event.pull_request.base.sha }}

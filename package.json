@@ -16,20 +16,23 @@
     "email": "support@foxglove.dev"
   },
   "scripts": {
-    "start": "yarn run electron .webpack",
-    "build:prod": "yarn run webpack --mode production --progress",
-    "build:dev": "yarn run webpack --mode development --progress",
-    "serve": "yarn run webpack serve --mode development --progress",
-    "lint": "TIMING=1 yarn run eslint --fix .",
-    "lint:nofix": "TIMING=1 yarn run eslint .",
-    "test": "yarn run jest",
-    "test:watch": "yarn run jest --watch",
+    "start": "electron .webpack",
+    "build:prod": "webpack --mode production --progress",
+    "build:dev": "webpack --mode development --progress",
+    "serve": "webpack serve --mode development --progress",
+    "lint": "TIMING=1 eslint --fix .",
+    "lint:nofix": "TIMING=1 eslint .",
+    "test": "jest",
+    "test:watch": "jest --watch",
     "package:win": "yarn package --win",
     "package:darwin": "yarn package --mac",
     "package:linux": "yarn package --linux",
     "package": "electron-builder",
     "storybook": "yarn workspace @foxglove-studio/app run start-storybook",
-    "build:storybook": "yarn workspace @foxglove-studio/app run build-storybook"
+    "storybook:build": "yarn workspace @foxglove-studio/app run build-storybook",
+    "storybook:storycap": "yarn workspace @foxglove-studio/app run storycap http://localhost:9001 --serverCmd \"yarn http-server storybook-static -p 9001\" --outDir \"storybook-screenshots\"",
+    "storybook:reg-suit": "yarn workspace @foxglove-studio/app run reg-suit run",
+    "storybook:ci": "ci/storybook.sh"
   },
   "workspaces": {
     "packages": [

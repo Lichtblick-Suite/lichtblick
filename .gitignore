@@ -3,6 +3,7 @@
 .webpack/
 dist/
 node_modules/
+storybook-screenshots/
 storybook-static/
 
 # Yarn
