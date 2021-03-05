@@ -4442,6 +4442,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/semver@npm:^7.3.4":
+  version: 7.3.4
+  resolution: "@types/semver@npm:7.3.4"
+  checksum: 7e8588aa55ecb344eda6954674b83a3c568d97d478e70e4617bd3ab22902590ac416ccf2cea48b58fb2f0fbd80f9ad1896332c9b3c3189ffd24e4350ff22094a
+  languageName: node
+  linkType: hard
+
 "@types/serve-static@npm:*":
   version: 1.13.9
   resolution: "@types/serve-static@npm:1.13.9"
@@ -9493,6 +9500,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"electron-updater@npm:4.3.8":
+  version: 4.3.8
+  resolution: "electron-updater@npm:4.3.8"
+  dependencies:
+    "@types/semver": ^7.3.4
+    builder-util-runtime: 8.7.3
+    fs-extra: ^9.1.0
+    js-yaml: ^4.0.0
+    lazy-val: ^1.0.4
+    lodash.isequal: ^4.5.0
+    semver: ^7.3.4
+  checksum: c0ebb2064ad6a17f93b29603edccd9ef2f689885ef1af02c0ee23426776d1073639178deb1aa002c4dc30c80fd4f6a49dfba85288a79d9a48431abe43968fe5f
+  languageName: node
+  linkType: hard
+
 "electron@npm:12.0.0":
   version: 12.0.0
   resolution: "electron@npm:12.0.0"
@@ -11202,6 +11224,7 @@ __metadata:
     electron-builder: 22.10.5
     electron-devtools-installer: 3.1.1
     electron-squirrel-startup: 1.0.0
+    electron-updater: 4.3.8
     eslint: 7.21.0
     eslint-config-prettier: 8.1.0
     eslint-import-resolver-webpack: 0.13.0

@@ -6,7 +6,7 @@
 /* eslint-disable no-restricted-syntax */
 
 import "colors";
-import { init as initSentry } from "@sentry/electron";
+import { captureException, init as initSentry } from "@sentry/electron";
 import {
   app,
   BrowserWindow,
@@ -21,6 +21,7 @@ import installExtension, {
   REACT_DEVELOPER_TOOLS,
   REDUX_DEVTOOLS,
 } from "electron-devtools-installer";
+import { autoUpdater } from "electron-updater";
 import path from "path";
 
 import packageJson from "../package.json";
@@ -187,6 +188,10 @@ async function createWindow(): Promise<void> {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on("ready", async () => {
+  autoUpdater.checkForUpdatesAndNotify().catch((err) => {
+    captureException(err);
+  });
+
   if (!isProduction) {
     console.group("Installing Chrome extensions for development...");
     // Extension installation sometimes gets stuck between the download step and the extension loading step, for unknown reasons.

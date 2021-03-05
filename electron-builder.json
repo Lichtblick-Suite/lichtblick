@@ -70,5 +70,9 @@
     "name": "ssh URL",
     "schemes": ["ssh"]
   },
-  "publish": null
+  "publish": [
+    {
+      "provider": "github"
+    }
+  ]
 }
