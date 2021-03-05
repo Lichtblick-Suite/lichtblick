@@ -13,12 +13,13 @@
 
 import { storiesOf } from "@storybook/react";
 import moment from "moment";
-import * as React from "react";
+import { useRef } from "react";
 
 import { setHooks } from "../loadWebviz";
 import NotificationDisplay, {
   NotificationList,
-  showNotificationModal,
+  NotificationModal,
+  NotificationMessage,
 } from "@foxglove-studio/app/components/NotificationDisplay";
 import sendNotification from "@foxglove-studio/app/util/sendNotification";
 
@@ -108,56 +109,48 @@ storiesOf("<NotificationDisplay>", module)
     return <Wrapper />;
   })
   .add("expanded with 4 messages", () => {
-    class Wrapper extends React.Component<any> {
-      el: HTMLDivElement | null | undefined;
-      componentDidMount() {
-        sendNotification(
-          "Something bad happened 1",
-          "This error is on purpose - it comes from the story",
-          "app",
-          "error",
-        );
-        sendNotification(
-          "Something bad happened 2",
-          "This error is on purpose - it comes from the story",
-          "app",
-          "error",
-        );
-        sendNotification(
-          "Just a warning",
-          "This warning is on purpose - it comes from the story",
-          "app",
-          "warn",
-        );
-        sendNotification(
-          "Something bad happened 3",
-          "This error is on purpose - it comes from the story",
-          "app",
-          "error",
-        );
-        if (this.el) {
-          const icon = this.el.querySelector(".icon");
-          if (icon) {
-            (icon as any).click();
-          }
-        }
-      }
+    const el = useRef<HTMLDivElement>(null);
+    React.useLayoutEffect(() => {
+      sendNotification(
+        "Something bad happened 1",
+        "This error is on purpose - it comes from the story",
+        "app",
+        "error",
+      );
+      sendNotification(
+        "Something bad happened 2",
+        "This error is on purpose - it comes from the story",
+        "app",
+        "error",
+      );
+      sendNotification(
+        "Just a warning",
+        "This warning is on purpose - it comes from the story",
+        "app",
+        "warn",
+      );
+      sendNotification(
+        "Something bad happened 3",
+        "This error is on purpose - it comes from the story",
+        "app",
+        "error",
+      );
 
-      render() {
-        return (
-          <div style={{ padding: 10 }} ref={(el) => (this.el = el)}>
-            <NotificationDisplayWrapper />
-          </div>
-        );
-      }
-    }
-    return <Wrapper />;
+      setImmediate(() => {
+        el.current?.querySelector<HTMLElement>(".icon")?.click();
+      });
+    }, []);
+    return (
+      <div style={{ padding: 10 }} ref={el}>
+        <NotificationDisplayWrapper />
+      </div>
+    );
   })
   .add("Error list", () => {
     // make the container very short to test scrolling
     const style = { width: 400, height: 150, margin: 20 };
     const date = new Date();
-    const errors = [
+    const errors: NotificationMessage[] = [
       {
         id: "1",
         message: "Error 1",
@@ -202,7 +195,7 @@ storiesOf("<NotificationDisplay>", module)
     return (
       <div style={style}>
         <NotificationList
-          notifications={errors as any}
+          notifications={errors}
           onClick={() => {
             // no-ops
           }}
@@ -211,37 +204,46 @@ storiesOf("<NotificationDisplay>", module)
     );
   })
   .add("Error Modal", () => {
-    showNotificationModal({
-      id: "1",
-      message: "Error 1",
-      details: "Some error details",
-      read: false,
-      created: new Date(),
-      severity: "error",
-    });
-    return <div />;
+    return (
+      <NotificationModal
+        notification={{
+          id: "1",
+          message: "Error 1",
+          details: "Some error details",
+          read: false,
+          created: new Date(),
+          severity: "error",
+        }}
+      />
+    );
   })
   .add("Warning Modal", () => {
-    showNotificationModal({
-      id: "1",
-      message: "Warning 1",
-      details: "Some error details",
-      read: false,
-      created: new Date(),
-      severity: "warn",
-    });
-    return <div />;
+    return (
+      <NotificationModal
+        notification={{
+          id: "1",
+          message: "Warning 1",
+          details: "Some error details",
+          read: false,
+          created: new Date(),
+          severity: "warn",
+        }}
+      />
+    );
   })
   .add("Error Modal without details", () => {
-    showNotificationModal({
-      id: "1",
-      message: "Error 1",
-      details: null,
-      read: false,
-      created: new Date(),
-      severity: "error",
-    });
-    return <div />;
+    return (
+      <NotificationModal
+        notification={{
+          id: "1",
+          message: "Error 1",
+          details: null,
+          read: false,
+          created: new Date(),
+          severity: "error",
+        }}
+      />
+    );
   })
   .add("Error Modal with custom details renderer", () => {
     setHooks({
@@ -249,28 +251,34 @@ storiesOf("<NotificationDisplay>", module)
         return <span style={{ fontStyle: "italic" }}>Modified details [{details}]</span>;
       },
     });
-    showNotificationModal({
-      id: "1",
-      message: "Error Modal without details",
-      details: "original",
-      read: false,
-      created: new Date(),
-      severity: "error",
-    });
-    return <div />;
+    return (
+      <NotificationModal
+        notification={{
+          id: "1",
+          message: "Error Modal without details",
+          details: "original",
+          read: false,
+          created: new Date(),
+          severity: "error",
+        }}
+      />
+    );
   })
   .add("Error Modal with details in React.Node type", () => {
-    showNotificationModal({
-      id: "1",
-      message: "Error 1",
-      details: (
-        <p>
-          This is <b style={{ color: "red" }}>customized</b> error detail.
-        </p>
-      ),
-      read: false,
-      created: new Date(),
-      severity: "error",
-    });
-    return <div />;
+    return (
+      <NotificationModal
+        notification={{
+          id: "1",
+          message: "Error 1",
+          details: (
+            <p>
+              This is <b style={{ color: "red" }}>customized</b> error detail.
+            </p>
+          ),
+          read: false,
+          created: new Date(),
+          severity: "error",
+        }}
+      />
+    );
   });

@@ -13,3 +13,4 @@
 
 export const ndash = "\u2013";
 export const times = "\xd7";
+export const nbsp = "\xa0";

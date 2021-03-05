@@ -16,6 +16,7 @@ import InfoIcon from "@mdi/svg/svg/bell.svg";
 import NotificationIcon from "@mdi/svg/svg/close-circle.svg";
 import moment from "moment";
 import * as React from "react";
+import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import tinyColor from "tinycolor2";
 import { v4 as uuidv4 } from "uuid";
@@ -26,6 +27,7 @@ import Menu from "@foxglove-studio/app/components/Menu";
 import Modal, { Title } from "@foxglove-studio/app/components/Modal";
 import renderToBody from "@foxglove-studio/app/components/renderToBody";
 import { getGlobalHooks } from "@foxglove-studio/app/loadWebviz";
+import { nbsp } from "@foxglove-studio/app/util/entities";
 import minivizAPI from "@foxglove-studio/app/util/minivizAPI";
 import {
   DetailsType,
@@ -36,7 +38,7 @@ import {
 } from "@foxglove-studio/app/util/sendNotification";
 import { colors } from "@foxglove-studio/app/util/sharedStyleConstants";
 
-type NotificationMessage = {
+export type NotificationMessage = {
   readonly id: string;
   readonly message: string;
   readonly details: DetailsType;
@@ -45,7 +47,7 @@ type NotificationMessage = {
   readonly severity: NotificationSeverity;
 };
 
-const Container = styled.div<any>`
+const Container = styled.div<{ flash: boolean; unread: boolean; color: string }>`
   height: 100%;
   display: flex;
   flex: 1 1 auto;
@@ -59,7 +61,7 @@ const Container = styled.div<any>`
     props.flash ? "black" : props.unread ? props.color : "rgba(255, 255, 255, 0.5)"};
 `;
 
-const Fader = styled.span<any>`
+const Fader = styled.span<{ visible: boolean }>`
   text-align: center;
   font-size: 12px;
   padding-right: 2px
@@ -181,50 +183,52 @@ const ModalBody = styled.div`
 `;
 
 // Exporting for tests.
-export function showNotificationModal(notification: NotificationMessage): void {
-  const { renderNotificationDetails } = getGlobalHooks() as any;
-  let details = renderNotificationDetails
-    ? renderNotificationDetails(notification.details)
-    : notification.details;
-  if (details instanceof Error) {
-    details = details.stack;
-  }
+export function NotificationModal({ notification }: { notification: NotificationMessage }): null {
+  useLayoutEffect(() => {
+    const { renderNotificationDetails } = getGlobalHooks() as any;
+    let details = renderNotificationDetails
+      ? renderNotificationDetails(notification.details)
+      : notification.details;
+    if (details instanceof Error) {
+      details = details.stack;
+    }
 
-  const modal = renderToBody(
-    <Modal onRequestClose={() => modal.remove()}>
-      <Title style={{ color: getColorForSeverity(notification.severity) }}>
-        {notification.message}
-      </Title>
-      <hr />
-      <ModalBody>
-        {typeof details === "string" ? (
-          <pre style={{ whiteSpace: "pre-wrap", lineHeight: 1.3 }}>{details}</pre>
-        ) : (
-          details || "No details provided"
-        )}
-      </ModalBody>
-    </Modal>,
-  );
+    let removed = false;
+    function remove() {
+      if (!removed) {
+        modal.remove();
+        removed = true;
+      }
+    }
+
+    const modal = renderToBody(
+      <Modal onRequestClose={remove}>
+        <Title style={{ color: getColorForSeverity(notification.severity) }}>
+          {notification.message}
+        </Title>
+        <hr />
+        <ModalBody>
+          {typeof details === "string" ? (
+            <pre style={{ whiteSpace: "pre-wrap", lineHeight: 1.3 }}>{details}</pre>
+          ) : (
+            details || "No details provided"
+          )}
+        </ModalBody>
+      </Modal>,
+    );
+    return remove;
+  }, [notification]);
+
+  return null;
 }
 
-type State = {
-  notifications: NotificationMessage[];
-  showMostRecent: boolean;
-};
+export default function NotificationDisplay(): React.ReactElement {
+  const [notifications, setNotifications] = useState<NotificationMessage[]>([]);
+  const [showMostRecent, setShowMostRecent] = useState(false);
+  const [clickedNotification, setClickedNotification] = useState<NotificationMessage>();
+  const hideTimeout = useRef<ReturnType<typeof setTimeout>>();
 
-type Props = {
-  onNotification?: (message: string, details: DetailsType) => void;
-};
-
-export default class NotificationDisplay extends React.PureComponent<Props, State> {
-  state = {
-    notifications: [],
-    showMostRecent: false,
-  };
-
-  hideTimeout?: ReturnType<typeof setTimeout>;
-
-  componentDidMount() {
+  useLayoutEffect(() => {
     setNotificationHandler(
       (
         message: string,
@@ -232,29 +236,18 @@ export default class NotificationDisplay extends React.PureComponent<Props, Stat
         type: NotificationType,
         severity: NotificationSeverity,
       ): void => {
-        this.setState((state: State) => {
-          const newNotifications = [
-            { id: uuidv4(), created: new Date(), read: false, message, details, severity },
-          ];
-          // shift notifications in to the front of the array and keep a max of 100
-          const notifications = newNotifications.concat(state.notifications).slice(0, 100);
-          return {
-            ...state,
-            notifications,
-            showMostRecent: true,
-          };
-        });
+        // shift notifications in to the front of the array and keep a max of 100
+        setNotifications((notes) => [
+          { id: uuidv4(), created: new Date(), read: false, message, details, severity },
+          ...notes.slice(0, 100),
+        ]);
+        setShowMostRecent(true);
 
-        if (this.props.onNotification) {
-          this.props.onNotification(message, details);
+        if (hideTimeout.current) {
+          clearTimeout(hideTimeout.current);
         }
-
-        if (this.hideTimeout) {
-          clearTimeout(this.hideTimeout);
-        }
-
-        this.hideTimeout = setTimeout(() => {
-          this.setState({ showMostRecent: false });
+        hideTimeout.current = setTimeout(() => {
+          setShowMostRecent(false);
         }, FLASH_DURATION_MILLIS);
 
         // Notify the iFrame from here, since we should always have a `window` here since we're not
@@ -262,56 +255,53 @@ export default class NotificationDisplay extends React.PureComponent<Props, Stat
         minivizAPI.postNotificationMessage({ message, details, type, severity });
       },
     );
-  }
 
-  componentWillUnmount() {
-    unsetNotificationHandler();
-  }
+    return () => {
+      if (hideTimeout.current) {
+        clearTimeout(hideTimeout.current);
+      }
+      unsetNotificationHandler();
+    };
+  }, []);
 
-  toggleNotificationList = (isOpen: boolean) => {
+  const toggleNotificationList = useCallback((isOpen: boolean) => {
     if (!isOpen) {
-      this.setState((state): any => {
-        // mark items read on closed
-        return {
-          notifications: state.notifications.map((err) => ({ ...err, read: true })),
-        };
-      });
+      // mark items read on closed
+      setNotifications((notes) => notes.map((note) => ({ ...note, read: true })));
     }
-  };
+  }, []);
 
-  render() {
-    const { notifications, showMostRecent } = this.state;
-    const unreadCount = notifications.reduce((acc, err) => acc + ((err as any).read ? 0 : 1), 0);
+  const unreadCount = notifications.reduce((acc, err) => acc + (err.read ? 0 : 1), 0);
 
-    const severity = (notifications[0] as any)?.severity ?? "error";
-    const { name, color, IconSvg } = (displayPropsBySeverity as any)[severity];
-    const hasUnread = unreadCount > 0;
+  const firstNotification = notifications[0];
+  const { name, color, IconSvg } = displayPropsBySeverity[firstNotification?.severity ?? "error"];
+  const hasUnread = unreadCount > 0;
 
-    return (
-      <Container flash={showMostRecent} unread={hasUnread} color={color}>
-        {!!notifications.length && (
-          <ChildToggle position="below" onToggle={this.toggleNotificationList}>
-            <div style={{ display: "flex", flex: "1 1 auto", alignItems: "center" }}>
-              <div
-                style={{
-                  display: "flex",
-                  flex: "none",
-                  alignItems: "center",
-                }}
-              >
-                <Icon small tooltip={name}>
-                  <IconSvg />
-                </Icon>
-              </div>
-              <Fader visible={showMostRecent} style={{ paddingLeft: 5, cursor: "pointer" }}>
-                {(notifications[0] as any).message}
-              </Fader>
-              <div style={{ fontSize: 12 }}>{unreadCount > 1 && `\u00A0(1 of ${unreadCount})`}</div>
+  return (
+    <Container flash={showMostRecent} unread={hasUnread} color={color}>
+      {clickedNotification && <NotificationModal notification={clickedNotification} />}
+      {firstNotification && (
+        <ChildToggle position="below" onToggle={toggleNotificationList}>
+          <div style={{ display: "flex", flex: "1 1 auto", alignItems: "center" }}>
+            <div
+              style={{
+                display: "flex",
+                flex: "none",
+                alignItems: "center",
+              }}
+            >
+              <Icon small tooltip={name}>
+                <IconSvg />
+              </Icon>
             </div>
-            <NotificationList notifications={notifications} onClick={showNotificationModal} />
-          </ChildToggle>
-        )}
-      </Container>
-    );
-  }
+            <Fader visible={showMostRecent} style={{ paddingLeft: 5, cursor: "pointer" }}>
+              {firstNotification.message}
+            </Fader>
+            <div style={{ fontSize: 12 }}>{unreadCount > 1 && `${nbsp}(1 of ${unreadCount})`}</div>
+          </div>
+          <NotificationList notifications={notifications} onClick={setClickedNotification} />
+        </ChildToggle>
+      )}
+    </Container>
+  );
 }
