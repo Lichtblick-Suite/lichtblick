@@ -232,15 +232,11 @@ app.on("ready", async () => {
   // See: https://www.electronjs.org/docs/tutorial/security
   const contentSecurtiyPolicy: Record<string, string> = {
     "default-src": "'self'",
-    "script-src": `'self' 'unsafe-inline'`,
+    "script-src": `'self' 'unsafe-inline' 'unsafe-eval'`,
     "style-src": "'self' 'unsafe-inline'",
     "connect-src": "'self' ws: wss: http: https:", // Required for rosbridge connections
     "font-src": "'self' data:",
   };
-  if (!isProduction) {
-    // 'unsafe-eval' is required to support webpack's eval-cheap-source-map
-    contentSecurtiyPolicy["script-src"] += " 'unsafe-eval'";
-  }
 
   // Set default http headers
   session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
