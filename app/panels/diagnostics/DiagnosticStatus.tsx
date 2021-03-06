@@ -46,14 +46,15 @@ type Props = {
   saveConfig: (arg0: $Shape<Config>) => void;
 };
 
-const ResizeHandle = styled.div<{ splitFraction: number }>`
+const ResizeHandle = styled.div.attrs<{ splitFraction: number }>(({ splitFraction }) => ({
+  style: { left: `${100 * splitFraction}%` },
+}))<{ splitFraction: number }>`
   position: absolute;
   top: 0;
   bottom: 0;
   width: 12px;
   margin-left: -6px;
   cursor: col-resize;
-  left: ${({ splitFraction }) => `${100 * splitFraction}%`}
   :hover,
   :active,
   :focus {

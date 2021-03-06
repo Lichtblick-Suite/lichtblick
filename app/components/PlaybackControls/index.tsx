@@ -62,14 +62,15 @@ export const StyledFullWidthBar = styled.div<{ activeData?: PlayerStateActiveDat
   height: 4px;
 `;
 
-export const StyledMarker = styled.div<{ width: number }>`
+export const StyledMarker = styled.div.attrs<{ width: number }>(({ width }) => ({
+  style: { left: `calc(${(width || 0) * 100}% - 2px)` },
+}))<{ width: number }>`
   background-color: white;
   position: absolute;
   height: 36%;
   border: 1px solid ${colors.divider};
   width: 2px;
   top: 32%;
-  left: ${({ width }) => `calc(${(width || 0) * 100}% - 2px)`};
 `;
 
 export type PlaybackControlProps = {

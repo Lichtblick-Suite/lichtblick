@@ -49,12 +49,13 @@ const StyledSlider = styled.div<{ disabled?: boolean }>`
   border-radius: 2px;
 `;
 
-export const StyledRange = styled.div<{ width: number }>`
+export const StyledRange = styled.div.attrs<{ width: number }>(({ width }) => ({
+  style: { width: `${(width || 0) * 100}%` },
+}))<{ width: number }>`
   background-color: rgba(255, 255, 255, 0.2);
   position: absolute;
   height: 100%;
   border-radius: 2px;
-  width: ${({ width }) => `${(width || 0) * 100}%`};
 `;
 
 function defaultRenderSlider(value: number | undefined): React.ReactNode {
