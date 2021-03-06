@@ -13,11 +13,10 @@
 
 import { flatten } from "lodash";
 
-// Joins arrays of topics with proper slashes similar to node's path.join
+// This trims leading and trailing forward slashes off each topic component
+// (so "/a/b/c/" becomes "a/b/c") then joins all topics together with "/"
 export const joinTopics = (...topics: string[]): string => {
-  const parts = [...topics].map((t) => t.replace(/^\/+|\/+$/g, ""));
-  const joinedTopics = parts.join("/");
-  return joinedTopics.startsWith("/") ? joinedTopics : `/${joinedTopics}`;
+  return "/" + topics.map((t) => t.replace(/^\/+|\/+$/g, "")).join("/");
 };
 
 export const addTopicPrefix = (topics: string[], prefix: string): string[] => {

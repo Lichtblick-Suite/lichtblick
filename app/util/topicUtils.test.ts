@@ -20,9 +20,11 @@ import {
 describe("topicUtil", () => {
   describe("joinTopics", () => {
     it("joins topics with a single /", () => {
+      expect(joinTopics()).toEqual("/");
       expect(joinTopics("/foo", "bar")).toEqual("/foo/bar");
       expect(joinTopics("/foo", "/bar")).toEqual("/foo/bar");
-      expect(joinTopics("/foo", "/bar")).toEqual("/foo/bar");
+      expect(joinTopics("/foo", "/bar/")).toEqual("/foo/bar");
+      expect(joinTopics("foo", "bar")).toEqual("/foo/bar");
       expect(joinTopics("//foo", "bar", "/baz")).toEqual("/foo/bar/baz");
       expect(joinTopics("/foo", "////bar", "baz")).toEqual("/foo/bar/baz");
     });
