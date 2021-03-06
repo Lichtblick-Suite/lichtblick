@@ -1,6 +1,10 @@
 {
   "name": "@foxglove-studio/app",
   "private": true,
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
   "dependencies": {
     "@mdi/svg": "5.9.55",
     "cbor-js": "0.1.0",

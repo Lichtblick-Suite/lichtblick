@@ -7,31 +7,25 @@ const sharedConfig = {
   preset: "ts-jest",
   globals: {
     "ts-jest": {
-      tsconfig: "<rootDir>/app/tsconfig.jest.json",
+      tsconfig: "<rootDir>/tsconfig.jest.json",
     },
   },
-  setupFiles: [
-    "<rootDir>/app/test/setup.ts",
-    "<rootDir>/app/test/setupEnzyme.ts",
-    "jest-canvas-mock",
-  ],
-  setupFilesAfterEnv: ["<rootDir>/app/test/setupTestFramework.ts"],
+  setupFiles: ["<rootDir>/test/setup.ts", "<rootDir>/test/setupEnzyme.ts", "jest-canvas-mock"],
+  setupFilesAfterEnv: ["<rootDir>/test/setupTestFramework.ts"],
   restoreMocks: true,
   transform: {
-    "\\.ne$": "<rootDir>/app/test/transformers/neTransformer.js",
-    "\\.(bin|template|wasm)$": "<rootDir>/app/test/transformers/rawTransformer.js",
+    "\\.ne$": "<rootDir>/test/transformers/neTransformer.js",
+    "\\.(bin|template|wasm)$": "<rootDir>/test/transformers/rawTransformer.js",
   },
   moduleNameMapper: {
-    "worker-loader.*!.*/UserNodePlayer/.+Worker":
-      "<rootDir>/app/players/UserNodePlayer/worker.mock.ts",
-    "worker-loader.*!.*": "<rootDir>/app/test/mocks/MockWorker.ts",
+    "worker-loader.*!.*/UserNodePlayer/.+Worker": "<rootDir>/players/UserNodePlayer/worker.mock.ts",
+    "worker-loader.*!.*": "<rootDir>/test/mocks/MockWorker.ts",
     "(.*)\\?raw$": "$1",
-    "\\.svg$": "<rootDir>/app/test/mocks/MockSvg.tsx",
-    "react-monaco-editor": "<rootDir>/app/test/stubs/MonacoEditor.tsx",
-    "\\.(glb|md|png)$": "<rootDir>/app/test/mocks/fileMock.ts",
-    "\\.(css|scss)$": "<rootDir>/app/test/mocks/styleMock.ts",
+    "\\.svg$": "<rootDir>/test/mocks/MockSvg.tsx",
+    "react-monaco-editor": "<rootDir>/test/stubs/MonacoEditor.tsx",
+    "\\.(glb|md|png)$": "<rootDir>/test/mocks/fileMock.ts",
+    "\\.(css|scss)$": "<rootDir>/test/mocks/styleMock.ts",
   },
-  modulePathIgnorePatterns: ["<rootDir>/.webpack"],
 };
 
 export default {
@@ -42,7 +36,7 @@ export default {
       transform: {
         ...sharedConfig.transform,
         "[\\/]nodeTransformerWorker[\\/]typescript[\\/]userUtils[\\/].+\\.ts":
-          "<rootDir>/app/test/transformers/rawTransformer.js",
+          "<rootDir>/test/transformers/rawTransformer.js",
       },
       testPathIgnorePatterns: [
         "/node_modules/",
