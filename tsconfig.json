@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "es2020",
     "module": "commonjs",
+    "newLine": "lf",
     "skipLibCheck": true,
     "esModuleInterop": true,
     "noImplicitAny": true,

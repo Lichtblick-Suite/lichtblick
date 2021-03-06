@@ -12,11 +12,11 @@
 //   You may not use this file except in compliance with the License.
 
 import { flatten } from "lodash";
-import { join as pathJoin } from "path";
 
 // Joins arrays of topics with proper slashes similar to node's path.join
-export const joinTopics = (...topics: string[]) => {
-  const joinedTopics = pathJoin(...topics);
+export const joinTopics = (...topics: string[]): string => {
+  const parts = [...topics].map((t) => t.replace(/^\/+|\/+$/g, ""));
+  const joinedTopics = parts.join("/");
   return joinedTopics.startsWith("/") ? joinedTopics : `/${joinedTopics}`;
 };
 

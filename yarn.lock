@@ -1797,7 +1797,7 @@ __metadata:
     react-autocomplete: "janpaul123/react-autocomplete#bc8737070b5744069719c8fcd4e0a197192b0d48"
     react-dnd: 10.0.2
     react-dnd-html5-backend: 10.0.2
-    react-document-events: "davidswinegar/react-document-events#d7003228d8cd57535ee8b30fac9811aa237526b8"
+    react-document-events: 1.5.1
     react-dom: 16.10.2
     react-highlight-words: 0.17.0
     react-hot-loader: 4.13.0
@@ -1827,7 +1827,7 @@ __metadata:
     reg-suit: 0.10.14
     regl-worldview: 0.16.0
     reselect: 4.0.0
-    rosbag: "github:foxglove/rosbag.js#13d921b946fa355df32a07f245594102a622ccb7"
+    rosbag: "github:foxglove/rosbag.js#fc61125fbc01ff55698c5ed48987b2d9e7599572"
     roslib: "github:foxglove/roslibjs#364a19d5f3ada7543fac9194a50b96087c7556ba"
     sanitize-html: 1.20.0
     seedrandom: 2.4.4
@@ -18633,13 +18633,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-document-events@davidswinegar/react-document-events#d7003228d8cd57535ee8b30fac9811aa237526b8":
-  version: 1.4.0
-  resolution: "react-document-events@https://github.com/davidswinegar/react-document-events.git#commit=d7003228d8cd57535ee8b30fac9811aa237526b8"
+"react-document-events@npm:1.5.1":
+  version: 1.5.1
+  resolution: "react-document-events@npm:1.5.1"
   peerDependencies:
     react: ">0.14"
     react-dom: ">0.14"
-  checksum: 72572f0b159300e2e29c0fa35978185f0c82673acb99b30b312abdb9f0cbe454e26d8e9f3db74d217291fa4c2643c33813ecca94e59ca836c2a3b89e511e0069
+  checksum: afa19fa7b2379259038f9237bf926958f708002a485e632320fa67f5b0cac51ea0fa9bd179545d8b8304250c41bb3257a42cedcc83522e90e9e4db1d82c021f6
   languageName: node
   linkType: hard
 
@@ -20189,9 +20189,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rosbag@github:foxglove/rosbag.js#13d921b946fa355df32a07f245594102a622ccb7":
+"rosbag@github:foxglove/rosbag.js#fc61125fbc01ff55698c5ed48987b2d9e7599572":
   version: 2.6.3
-  resolution: "rosbag@https://github.com/foxglove/rosbag.js.git#commit=13d921b946fa355df32a07f245594102a622ccb7"
+  resolution: "rosbag@https://github.com/foxglove/rosbag.js.git#commit=fc61125fbc01ff55698c5ed48987b2d9e7599572"
   dependencies:
     buffer: 6.0.3
     heap: 0.2.6

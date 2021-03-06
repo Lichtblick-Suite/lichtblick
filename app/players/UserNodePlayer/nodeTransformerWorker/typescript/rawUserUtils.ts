@@ -9,6 +9,10 @@ import time from "@foxglove-studio/app/players/UserNodePlayer/nodeTransformerWor
 import types from "@foxglove-studio/app/players/UserNodePlayer/nodeTransformerWorker/typescript/userUtils/types?raw";
 import vectors from "@foxglove-studio/app/players/UserNodePlayer/nodeTransformerWorker/typescript/userUtils/vectors?raw";
 
+if (markers === undefined) {
+  throw new Error("markers?raw import failed");
+}
+
 export default [
   { fileName: "pointClouds.ts", sourceCode: pointClouds },
   { fileName: "readers.ts", sourceCode: readers },

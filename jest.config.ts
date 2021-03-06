@@ -41,13 +41,13 @@ export default {
       ...sharedConfig,
       transform: {
         ...sharedConfig.transform,
-        "\\/nodeTransformerWorker\\/typescript\\/userUtils\\/.+\\.ts":
+        "[\\/]nodeTransformerWorker[\\/]typescript[\\/]userUtils[\\/].+\\.ts":
           "<rootDir>/app/test/transformers/rawTransformer.js",
       },
       testPathIgnorePatterns: [
         "/node_modules/",
         // Ignore userUtils tests - they are run in the nested jest project
-        "\\/nodeTransformerWorker\\/typescript\\/userUtils\\/",
+        "[\\/]nodeTransformerWorker[\\/]typescript[\\/]userUtils[\\/]",
       ],
     },
 
@@ -57,7 +57,7 @@ export default {
     {
       ...sharedConfig,
       displayName: "Node Playground userUtils tests",
-      testRegex: "\\/nodeTransformerWorker\\/typescript\\/userUtils\\/.+\\.test\\.tsx?$",
+      testRegex: "[\\/]nodeTransformerWorker[\\/]typescript[\\/]userUtils[\\/].+\\.test\\.tsx?$",
     },
   ],
 };

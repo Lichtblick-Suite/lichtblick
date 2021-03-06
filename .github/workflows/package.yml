@@ -25,7 +25,7 @@ jobs:
       - name: Configure Node.js
         uses: actions/setup-node@v2.1.5
         with:
-          node-version: 15.x
+          node-version: ${{ matrix.node-version }}
       - name: Restore cache
         uses: actions/cache@v2.1.4
         with:
@@ -36,15 +36,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
 
-      # Work around yarn checksum mismatches for git repo dependencies on Windows
-      - name: YARN_CHECKSUM_BEHAVIOR=ignore yarn install --immutable
-        run: yarn install --immutable
-        if: matrix.os == 'windows-latest'
-        env:
-          YARN_CHECKSUM_BEHAVIOR: ignore
-
       - run: yarn install --immutable
-        if: matrix.os != 'windows-latest'
 
       - run: yarn run build:prod
 

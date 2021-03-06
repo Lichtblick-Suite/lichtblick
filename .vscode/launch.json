@@ -20,7 +20,7 @@
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
       "disableOptimisticBPs": true,
-      "program": "${workspaceFolder}/.yarn/releases/yarn-berry.cjs"
+      "program": "${workspaceFolder}/.yarn/releases/yarn-2.4.1.cjs"
     }
   ]
 }
