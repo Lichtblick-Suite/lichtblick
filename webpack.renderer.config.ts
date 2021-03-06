@@ -6,6 +6,7 @@ import rehypePrism from "@mapbox/rehype-prism";
 import CircularDependencyPlugin from "circular-dependency-plugin";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
+import MonacoWebpackPlugin from "monaco-editor-webpack-plugin";
 import path from "path";
 import retext from "retext";
 import retextSmartypants from "retext-smartypants";
@@ -196,6 +197,10 @@ export function makeConfig(_: unknown, argv: WebpackArgv): Configuration {
       new webpack.IgnorePlugin({
         resourceRegExp: /^\.[\\/]locale$/,
         contextRegExp: /moment$/,
+      }),
+      new MonacoWebpackPlugin({
+        // available options: https://github.com/Microsoft/monaco-editor-webpack-plugin#options
+        languages: ["typescript", "javascript"],
       }),
       // We use two ForkTsCheckers to ignore known files which fail noUncheckedIndexedAccess
       // The first checker disables the compiler option and is used for all files
