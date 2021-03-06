@@ -1830,7 +1830,7 @@ __metadata:
     rosbag: "github:foxglove/rosbag.js#fc61125fbc01ff55698c5ed48987b2d9e7599572"
     roslib: "github:foxglove/roslibjs#364a19d5f3ada7543fac9194a50b96087c7556ba"
     sanitize-html: 1.20.0
-    seedrandom: 2.4.4
+    seedrandom: 3.0.5
     shallowequal: 1.1.0
     sharedworker-loader: 2.1.1
     storycap: 3.0.3
@@ -20497,10 +20497,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"seedrandom@npm:2.4.4":
-  version: 2.4.4
-  resolution: "seedrandom@npm:2.4.4"
-  checksum: d5a8a7d948ebcdd7c2db6710f5324e601d62cc7ad0f603a15cd9f30d74701c398cbce5a3a9d6a946d61cf275d14a0340b7ed263674effea4e0fd656278442d1e
+"seedrandom@npm:3.0.5":
+  version: 3.0.5
+  resolution: "seedrandom@npm:3.0.5"
+  checksum: 8ca859bd79cc6a4367783f19d802ef4651f957da388f162f45c4e32c4d4df8cb55649b25b9d66cf73f905d920640b8da9ae04418feb40b41c9c7c767a1c49691
   languageName: node
   linkType: hard
 

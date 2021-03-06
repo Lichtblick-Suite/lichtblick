@@ -75,7 +75,7 @@
     "rosbag": "github:foxglove/rosbag.js#fc61125fbc01ff55698c5ed48987b2d9e7599572",
     "roslib": "github:foxglove/roslibjs#364a19d5f3ada7543fac9194a50b96087c7556ba",
     "sanitize-html": "1.20.0",
-    "seedrandom": "2.4.4",
+    "seedrandom": "3.0.5",
     "shallowequal": "1.1.0",
     "sharedworker-loader": "2.1.1",
     "string-hash": "1.1.3",
