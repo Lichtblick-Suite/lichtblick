@@ -3,7 +3,7 @@ import { makeConfig } from "../../webpack.renderer.config";
 
 module.exports = {
   stories: ["../**/*.stories.@(ts|tsx)"],
-  addons: ["@storybook/addon-essentials", "@storybook/addon-actions"],
+  addons: ["@storybook/addon-essentials", "@storybook/addon-actions", "storycap"],
 
   core: {
     builder: "webpack5",

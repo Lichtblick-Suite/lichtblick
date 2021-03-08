@@ -51,7 +51,7 @@ const AddMoreButtons = () => (
 storiesOf("<NotificationDisplay>", module)
   .addParameters({
     screenshot: {
-      delay: 5000,
+      delay: 1000,
     },
   })
   .add("No errors", () => {
