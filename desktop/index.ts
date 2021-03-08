@@ -236,6 +236,7 @@ app.on("ready", async () => {
     "style-src": "'self' 'unsafe-inline'",
     "connect-src": "'self' ws: wss: http: https:", // Required for rosbridge connections
     "font-src": "'self' data:",
+    "img-src": "'self' data:",
   };
 
   // Set default http headers
