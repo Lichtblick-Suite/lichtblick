@@ -8,7 +8,7 @@ import { Configuration, EnvironmentPlugin } from "webpack";
 
 import { WebpackArgv } from "./WebpackArgv";
 
-export default (_: never, _argv: WebpackArgv): Configuration => {
+export default (_: unknown, _argv: WebpackArgv): Configuration => {
   return {
     context: path.resolve("./preload"),
     entry: "./index.ts",

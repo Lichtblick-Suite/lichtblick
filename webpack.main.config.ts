@@ -8,7 +8,7 @@ import { Configuration, ResolveOptions, DefinePlugin, EnvironmentPlugin } from "
 
 import { WebpackArgv } from "./WebpackArgv";
 
-export default (_: never, argv: WebpackArgv): Configuration => {
+export default (_: unknown, argv: WebpackArgv): Configuration => {
   const isServe = argv.env?.WEBPACK_SERVE ?? false;
 
   const isDev = argv.mode === "development";

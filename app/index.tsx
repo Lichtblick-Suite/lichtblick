@@ -32,7 +32,11 @@ async function main() {
   // This should live within App and become part of startup
   await getGlobalConfig().load();
 
-  ReactDOM.render(<App />, rootEl);
+  ReactDOM.render(<App />, rootEl, () => {
+    // Integration tests look for this console log to indicate the app has rendered once
+    // eslint-disable-next-line no-restricted-syntax
+    console.log("App rendered");
+  });
 }
 
 main();
