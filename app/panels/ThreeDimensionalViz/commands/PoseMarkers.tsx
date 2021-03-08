@@ -11,7 +11,7 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 import { vec3 } from "gl-matrix";
-import { ReactElement } from "react";
+import { memo, ReactElement } from "react";
 import {
   Arrows,
   FilledPolygons,
@@ -19,16 +19,16 @@ import {
   vec3ToPoint,
   orientationToVec4,
   CommonCommandProps,
+  Pose,
 } from "regl-worldview";
 
 import CarModel from "./CarModel";
 import carOutlinePoints from "./CarModel/carOutline.json";
 import { useExperimentalFeature } from "@foxglove-studio/app/components/ExperimentalFeatures";
 import { getGlobalHooks } from "@foxglove-studio/app/loadWebviz";
-
-type Props = CommonCommandProps & {
-  children: any;
-};
+import { InteractionData } from "@foxglove-studio/app/panels/ThreeDimensionalViz/Interactions/types";
+import { PoseSettings } from "@foxglove-studio/app/panels/ThreeDimensionalViz/TopicSettingsEditor/PoseSettingsEditor";
+import { Color, Header, Scale } from "@foxglove-studio/app/types/Messages";
 
 const { originalScaling, updatedScaling } = getGlobalHooks().getPoseErrorScaling();
 
@@ -66,8 +66,20 @@ const getScaledCarOutlineBufferPoints = (scaling: { x: number; y: number }) => {
   return scaledAndTransformedPoints;
 };
 
-// eslint-disable-next-line react/prop-types
-export default React.memo<Props>(function PoseMarkers({ children, layerIndex }): ReactElement {
+type PoseMarker = {
+  header: Header;
+  pose: Pose;
+  scale: Scale;
+  color?: Color;
+  interactionData?: InteractionData;
+  settings?: PoseSettings;
+};
+
+type PoseMarkerProps = CommonCommandProps & {
+  markers: PoseMarker[];
+};
+
+function PoseMarkers({ markers, layerIndex }: PoseMarkerProps): ReactElement {
   const useUpdatedScaling = useExperimentalFeature("updatedPoseErrorScaling");
   const scaledCarOutlineBufferPoints = React.useMemo(
     () => getScaledCarOutlineBufferPoints(useUpdatedScaling ? updatedScaling : originalScaling),
@@ -76,11 +88,10 @@ export default React.memo<Props>(function PoseMarkers({ children, layerIndex }):
   const models: any = [];
   const filledPolygons: any = [];
   const arrowMarkers: any = [];
-  // children.forEach is missing in props validation, why?
-  // eslint-disable-next-line react/prop-types
-  children.forEach((marker: any, i: any) => {
+
+  markers.forEach((marker, idx) => {
     const { pose, settings, interactionData } = marker;
-    if (settings?.addCarOutlineBuffer) {
+    if (settings?.addCarOutlineBuffer ?? false) {
       filledPolygons.push({
         pose,
         interactionData,
@@ -101,25 +112,25 @@ export default React.memo<Props>(function PoseMarkers({ children, layerIndex }):
       }
       case "car-model": {
         models.push(
-          <CarModel layerIndex={layerIndex} key={i}>
-            {{ pose, alpha: settings.alpha || 1, interactionData }}
+          <CarModel layerIndex={layerIndex} key={idx}>
+            {{ pose, alpha: settings.alpha ?? 1, interactionData }}
           </CarModel>,
         );
         break;
       }
       case "arrow":
       default: {
-        if (settings && settings.overrideColor) {
+        if (settings?.overrideColor !== undefined) {
           marker = { ...marker, color: settings.overrideColor };
         }
 
-        if (settings && settings.size) {
+        if (settings?.size) {
           marker = {
             ...marker,
             scale: {
-              x: settings.size.shaftWidth || marker.scale.x,
-              y: settings.size.headWidth || marker.scale.y,
-              z: settings.size.headLength || marker.scale.z,
+              x: settings.size.shaftWidth ?? marker.scale.x,
+              y: settings.size.headWidth ?? marker.scale.y,
+              z: settings.size.headLength ?? marker.scale.z,
             },
           };
         }
@@ -148,4 +159,6 @@ export default React.memo<Props>(function PoseMarkers({ children, layerIndex }):
       </Arrows>
     </>
   );
-});
+}
+
+export default memo(PoseMarkers);

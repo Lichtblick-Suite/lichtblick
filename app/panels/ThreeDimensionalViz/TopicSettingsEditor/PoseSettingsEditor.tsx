@@ -22,11 +22,11 @@ import { SLabel, SInput } from "./common";
 import Flex from "@foxglove-studio/app/components/Flex";
 import Icon from "@foxglove-studio/app/components/Icon";
 import { getGlobalHooks } from "@foxglove-studio/app/loadWebviz";
-import { PoseStamped } from "@foxglove-studio/app/types/Messages";
+import { Color, PoseStamped } from "@foxglove-studio/app/types/Messages";
 import { colors } from "@foxglove-studio/app/util/sharedStyleConstants";
 
-type PoseSettings = {
-  overrideColor?: string | null | undefined;
+export type PoseSettings = {
+  overrideColor?: Color;
   alpha?: number;
   size?: {
     headLength: number;
@@ -65,7 +65,7 @@ export default function PoseSettingsEditor(
           <>
             <SLabel>Color of outline</SLabel>
             <ColorPickerForTopicSettings
-              color={settings.overrideColor as any}
+              color={settings.overrideColor}
               onChange={(newColor) => onFieldChange("overrideColor", newColor)}
             />
           </>

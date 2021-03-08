@@ -12,10 +12,12 @@
 //   You may not use this file except in compliance with the License.
 
 import { storiesOf } from "@storybook/react";
-import * as React from "react";
+import { ComponentProps } from "react";
 import { Worldview, DEFAULT_CAMERA_STATE, Color } from "regl-worldview";
 
 import PoseMarkers from "./PoseMarkers";
+
+type PoseMarker = ComponentProps<typeof PoseMarkers>["markers"][0];
 
 const MARKER_DATA = {
   header: { seq: 26967, stamp: { sec: 1516929048, nsec: 413347495 }, frame_id: "" },
@@ -62,7 +64,7 @@ function Example({
       },
     },
   };
-  const markerWithCarModel = {
+  const markerWithCarModel: PoseMarker = {
     ...MARKER_DATA,
     pose: {
       position: { x: -1951.7028138723192, y: 1770.5034239982174, z: 52.870026489273044 },
@@ -85,9 +87,7 @@ function Example({
       cameraMode="perspective"
       hideDebug
     >
-      <PoseMarkers>
-        {[marker, markerWithoutColor, markerWithSettings, markerWithCarModel]}
-      </PoseMarkers>
+      <PoseMarkers markers={[marker, markerWithoutColor, markerWithSettings, markerWithCarModel]} />
     </Worldview>
   );
 }
@@ -95,6 +95,8 @@ function Example({
 storiesOf("<3DViz> / PoseMarkers", module)
   .addParameters({
     screenshot: {
+      // the car-model marker loads the car models asyncronously
+      // we delay screenshot until some time with the hope it has loaded
       delay: 3000,
     },
   })

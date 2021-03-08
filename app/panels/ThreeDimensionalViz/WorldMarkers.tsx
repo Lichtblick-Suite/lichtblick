@@ -237,7 +237,7 @@ export default function WorldMarkers({
       <Spheres layerIndex={layerIndex}>{[...sphere, ...sphereList]}</Spheres>
       <Cylinders layerIndex={layerIndex}>{cylinder}</Cylinders>
       <Cubes layerIndex={layerIndex}>{[...cube, ...cubeList]}</Cubes>
-      <PoseMarkers layerIndex={layerIndex}>{poseMarker}</PoseMarkers>
+      <PoseMarkers layerIndex={layerIndex} markers={poseMarker} />
       <LaserScans layerIndex={layerIndex}>{laserScan as any}</LaserScans>
       {glTextAtlasInfo.status === "LOADED" && (
         <GLText
