@@ -2,8 +2,8 @@
   "name": "@foxglove-studio/app",
   "private": true,
   "scripts": {
-    "test": "jest",
-    "test:watch": "jest --watch"
+    "test": "NODE_OPTIONS='-r ts-node/register' jest",
+    "test:watch": "NODE_OPTIONS='-r ts-node/register' jest --watch"
   },
   "dependencies": {
     "@mdi/svg": "5.9.55",
