@@ -2,7 +2,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 
 import {
   AppBarProps,
@@ -17,6 +17,7 @@ import {
   McapLocalDataSourceFactory,
   SampleNuscenesDataSourceFactory,
   SharedRoot,
+  IdbExtensionLoader,
 } from "@foxglove/studio-base";
 
 import LocalStorageAppConfiguration from "./services/LocalStorageAppConfiguration";
@@ -38,6 +39,10 @@ export function WebRoot(props: {
       }),
     [],
   );
+  const [extensionLoaders] = useState(() => [
+    new IdbExtensionLoader("org"),
+    new IdbExtensionLoader("local"),
+  ]);
 
   const dataSources = useMemo(() => {
     const sources = [
@@ -60,6 +65,7 @@ export function WebRoot(props: {
       deepLinks={[window.location.href]}
       dataSources={dataSources}
       appConfiguration={appConfiguration}
+      extensionLoaders={extensionLoaders}
       enableGlobalCss
       extraProviders={props.extraProviders}
       AppBarComponent={props.AppBarComponent}
