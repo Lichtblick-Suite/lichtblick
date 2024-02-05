@@ -9,7 +9,7 @@ jobs:
   test:
     runs-on: ${{ matrix.os }}
 
-    # Run each command in parallel with the same setup steps.
+    # Run each command in parallel with the same setup steps..
     strategy:
       fail-fast: false
       matrix:
