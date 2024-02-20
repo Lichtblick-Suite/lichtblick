@@ -4,8 +4,8 @@
 
 import { AutocompleteRenderOptionState, MenuItem } from "@mui/material";
 import { FzfResultItem } from "fzf";
-import { useMemo } from "react";
-import { FixedSizeList, ListChildComponentProps } from "react-window";
+import { Component, ReactNode, useMemo } from "react";
+import { FixedSizeList, FixedSizeListProps, ListChildComponentProps } from "react-window";
 import { makeStyles } from "tss-react/mui";
 
 import { HighlightChars } from "@foxglove/studio-base/components/HighlightChars";
@@ -94,7 +94,7 @@ export const ReactWindowListboxAdapter = React.forwardRef<
 });
 
 /** Render an individual row for the FixedSizeList */
-function FixedSizeListRenderRow(props: ListChildComponentProps<ListboxAdapterChild[]>) {
+function FixedSizeListRenderRow(props: ListChildComponentProps<ListboxAdapterChild[]>): ReactNode {
   // data is the array of all items, index is the index of the current row (item), and style
   // is the position style for the specific item
   const { data, index, style } = props;

@@ -12,7 +12,7 @@ import { alertClasses, PaletteOptions, darken, lighten } from "@mui/material";
 
 import { OverrideComponentReturn } from "../types";
 
-declare module "@mui/material/Alert" {
+declare module "@mui/material" {
   interface AlertPropsColorOverrides {
     primary: true;
   }
