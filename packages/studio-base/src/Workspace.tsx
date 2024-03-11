@@ -27,6 +27,7 @@ import {
 import DocumentDropListener from "@foxglove/studio-base/components/DocumentDropListener";
 import { EventsList } from "@foxglove/studio-base/components/EventsList";
 import KeyListener from "@foxglove/studio-base/components/KeyListener";
+import LayoutBrowser from "@foxglove/studio-base/components/LayoutBrowser";
 import {
   MessagePipelineContext,
   useMessagePipeline,
@@ -274,6 +275,111 @@ function WorkspaceContent(props: WorkspaceProps): JSX.Element {
     },
     [openFiles, openHandle],
   );
+
+  // Since the _component_ field of a sidebar item entry is a component and accepts no additional
+  // props we need to wrap our DataSourceSidebar component to connect the open data source action to
+  // open the data source dialog.
+  const DataSourceSidebarItem = useMemo(() => {
+    return function DataSourceSidebarItemImpl() {
+      return <DataSourceSidebar disableToolbar={enableNewTopNav} />;
+    };
+  }, [enableNewTopNav]);
+
+  const PanelSettingsSidebar = useMemo(() => {
+    return function PanelSettingsSidebarImpl() {
+      return <PanelSettings disableToolbar />;
+    };
+  }, []);
+
+  const { layoutBrowser: AppContextLayoutBrowser } = useAppContext();
+
+  const [sidebarItems, sidebarBottomItems] = useMemo(() => {
+    const topItems = new Map<SidebarItemKey, SidebarItem>([
+      [
+        "connection",
+        {
+          iconName: "DatabaseSettings",
+          title: "Data source",
+          component: DataSourceSidebarItem,
+          badge:
+            playerProblems && playerProblems.length > 0
+              ? { count: playerProblems.length }
+              : undefined,
+        },
+      ],
+    ]);
+
+    if (!enableNewTopNav) {
+      topItems.set("layouts", {
+        iconName: "FiveTileGrid",
+        title: "Layouts",
+        component: AppContextLayoutBrowser ?? LayoutBrowser,
+      });
+      topItems.set("add-panel", {
+        iconName: "RectangularClipping",
+        title: "Add panel",
+        component: AddPanel,
+      });
+    }
+    topItems.set("panel-settings", {
+      iconName: "PanelSettings",
+      title: "Panel settings",
+      component: PanelSettings,
+    });
+    if (!enableNewTopNav) {
+      topItems.set("variables", {
+        iconName: "Variable2",
+        title: "Variables",
+        component: VariablesList,
+      });
+      topItems.set("extensions", {
+        iconName: "AddIn",
+        title: "Extensions",
+        component: ExtensionsSidebar,
+      });
+    }
+    if (enableStudioLogsSidebar) {
+      topItems.set("studio-logs-settings", {
+        iconName: "BacklogList",
+        title: "Studio logs settings",
+        component: StudioLogsSettingsSidebar,
+      });
+    }
+
+    const bottomItems = new Map<SidebarItemKey, SidebarItem>([]);
+
+    if (!enableNewTopNav) {
+      if (supportsAccountSettings) {
+        bottomItems.set("account", {
+          iconName: currentUser != undefined ? "BlockheadFilled" : "Blockhead",
+          title: currentUser != undefined ? `Signed in as ${currentUser.email}` : "Account",
+          component: AccountSettings,
+        });
+      }
+
+      for (const item of appContextSidebarItems ?? []) {
+        if (isInjectedSidebarItem(item)) {
+          bottomItems.set(item[0], item[1]);
+        }
+      }
+
+      bottomItems.set("app-settings", {
+        iconName: "Settings",
+        title: "Settings",
+      });
+    }
+
+    return [topItems, bottomItems];
+  }, [
+    DataSourceSidebarItem,
+    playerProblems,
+    enableNewTopNav,
+    enableStudioLogsSidebar,
+    AppContextLayoutBrowser,
+    supportsAccountSettings,
+    currentUser,
+    appContextSidebarItems,
+  ]);
 
   const eventsSupported = useEvents(selectEventsSupported);
   const showEventsTab = currentUserType !== "unauthenticated" && eventsSupported;
