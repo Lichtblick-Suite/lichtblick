@@ -2,7 +2,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import { compact, pull, union, xor } from "lodash";
+import * as _ from "lodash-es";
 import { Dispatch } from "react";
 import { useImmerReducer } from "use-immer";
 
@@ -44,7 +44,7 @@ function reducer(draft: State, action: Action) {
       break;
     case "select-id":
       if (action.modKey === true) {
-        draft.selectedIds = xor(draft.selectedIds, compact([action.id]));
+        draft.selectedIds = _.xor(draft.selectedIds, _.compact([action.id]));
       } else if (action.shiftKey === true) {
         for (const layouts of Object.values(action.layouts ?? {})) {
           const lastId = layouts.findIndex((layout) => layout.id === draft.lastSelectedId);
@@ -53,13 +53,13 @@ function reducer(draft: State, action: Action) {
             const start = Math.min(lastId, thisId);
             const end = Math.max(lastId, thisId);
             for (let i = start; i <= end; i++) {
-              draft.selectedIds = union(draft.selectedIds, [layouts[i]!.id]);
+              draft.selectedIds = _.union(draft.selectedIds, [layouts[i]!.id]);
             }
           }
         }
       } else {
         draft.multiAction = undefined;
-        draft.selectedIds = compact([action.id]);
+        draft.selectedIds = _.compact([action.id]);
       }
       draft.lastSelectedId = action.id;
       break;
@@ -77,7 +77,7 @@ function reducer(draft: State, action: Action) {
       if (draft.multiAction?.ids.length === 0) {
         draft.multiAction = undefined;
       }
-      pull(draft.selectedIds, id);
+      _.pull(draft.selectedIds, id);
       break;
     }
   }

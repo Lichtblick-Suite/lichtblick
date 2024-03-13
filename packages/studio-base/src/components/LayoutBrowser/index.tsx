@@ -6,15 +6,15 @@ import AddIcon from "@mui/icons-material/Add";
 import CloudOffIcon from "@mui/icons-material/CloudOff";
 import FileOpenOutlinedIcon from "@mui/icons-material/FileOpenOutlined";
 import {
-  IconButton,
   CircularProgress,
+  Divider,
+  IconButton,
   List,
   ListItem,
   ListItemButton,
   ListItemText,
-  Divider,
 } from "@mui/material";
-import { partition } from "lodash";
+import * as _ from "lodash-es";
 import moment from "moment";
 import { useSnackbar } from "notistack";
 import path from "path";
@@ -93,8 +93,12 @@ export default function LayoutBrowser({
     const busyListener = () => {
       dispatch({ type: "set-busy", value: layoutManager.isBusy });
     };
-    const onlineListener = () => dispatch({ type: "set-online", value: layoutManager.isOnline });
-    const errorListener = () => dispatch({ type: "set-error", value: layoutManager.error });
+    const onlineListener = () => {
+      dispatch({ type: "set-online", value: layoutManager.isOnline });
+    };
+    const errorListener = () => {
+      dispatch({ type: "set-error", value: layoutManager.error });
+    };
     busyListener();
     onlineListener();
     errorListener();
@@ -110,7 +114,7 @@ export default function LayoutBrowser({
 
   const [layouts, reloadLayouts] = useAsyncFn(
     async () => {
-      const [shared, personal] = partition(
+      const [shared, personal] = _.partition(
         await layoutManager.getLayouts(),
         layoutManager.supportsSharing ? layoutIsShared : () => false,
       );
@@ -165,18 +169,24 @@ export default function LayoutBrowser({
       }
     };
 
-    processAction().catch((err) => log.error(err));
+    processAction().catch((err) => {
+      log.error(err);
+    });
   }, [dispatch, enqueueSnackbar, layoutManager, state.multiAction]);
 
   useEffect(() => {
     const listener = () => void reloadLayouts();
     layoutManager.on("change", listener);
-    return () => layoutManager.off("change", listener);
+    return () => {
+      layoutManager.off("change", listener);
+    };
   }, [layoutManager, reloadLayouts]);
 
   // Start loading on first mount
   useEffect(() => {
-    reloadLayouts().catch((err) => log.error(err));
+    reloadLayouts().catch((err) => {
+      log.error(err);
+    });
   }, [reloadLayouts]);
 
   /**

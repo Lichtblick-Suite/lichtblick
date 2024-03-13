@@ -161,7 +161,7 @@ export function useUnsavedChangesPrompt(): {
   const [isOnline, setIsOnline] = useState(layoutManager.isOnline);
 
   useLayoutEffect(() => {
-    const onlineListener = () => setIsOnline(layoutManager.isOnline);
+    const onlineListener = () => { setIsOnline(layoutManager.isOnline); };
     onlineListener();
     layoutManager.on("onlinechange", onlineListener);
     return () => layoutManager.off("onlinechange", onlineListener);

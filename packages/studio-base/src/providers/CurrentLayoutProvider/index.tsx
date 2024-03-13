@@ -127,6 +127,7 @@ export default function CurrentLayoutProvider({ children }: React.PropsWithChild
         // discared shared panel state for panel types that are no longer in the layout
         sharedPanelState: _.pick(layoutStateRef.current.sharedPanelState, panelTypesInUse),
         selectedLayout: {
+          id: layoutStateRef.current.selectedLayout.id,
           data: newData,
           name: layoutStateRef.current.selectedLayout.name,
           edited: true,

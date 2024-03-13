@@ -71,7 +71,7 @@ describe("usePrompt", () => {
     fireEvent.change(input, { target: { value: "something" } });
 
     const submitButton = screen.getByText("OK");
-    act(() => submitButton.click());
+    act(() => { submitButton.click(); });
 
     await expect(valPromise).resolves.toEqual("something");
     root.unmount();
@@ -99,7 +99,7 @@ describe("usePrompt", () => {
     expect(input.value).toEqual("initial-value");
 
     const submitButton = screen.getByText("OK");
-    act(() => submitButton.click());
+    act(() => { submitButton.click(); });
 
     await expect(valPromise).resolves.toEqual("initial-value");
     root.unmount();

@@ -54,7 +54,9 @@ export type WorkspaceActions = {
     finishTour: (tour: string) => void;
   };
 
+  openAccountSettings: () => void;
   openPanelSettings: () => void;
+  openLayoutBrowser: () => void;
 
   playbackControlActions: {
     setRepeat: Dispatch<SetStateAction<boolean>>;

@@ -52,7 +52,6 @@ export default function SettingsTreeEditor({
   variant,
   settings,
 }: {
-  variant: "panel" | "log";
   settings: Immutable<SettingsTree>;
 }): JSX.Element {
   const { classes } = useStyles();

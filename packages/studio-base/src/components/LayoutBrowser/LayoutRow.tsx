@@ -5,26 +5,26 @@
 import ErrorIcon from "@mui/icons-material/Error";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {
+  Divider,
+  IconButton,
   ListItem,
   ListItemButton,
   ListItemText,
-  IconButton,
   Menu,
   MenuItem,
   SvgIcon,
-  Divider,
-  Typography,
   TextField,
+  Typography,
   styled as muiStyled,
 } from "@mui/material";
 import {
+  MouseEvent,
   useCallback,
+  useEffect,
   useLayoutEffect,
   useMemo,
-  useState,
-  MouseEvent,
-  useEffect,
   useRef,
+  useState,
 } from "react";
 import { useMountedState } from "react-use";
 
@@ -162,7 +162,9 @@ export default React.memo(function LayoutRow({
   const multiSelection = multiSelectedIds.length > 1;
 
   useLayoutEffect(() => {
-    const onlineListener = () => setIsOnline(layoutManager.isOnline);
+    const onlineListener = () => {
+      setIsOnline(layoutManager.isOnline);
+    };
     onlineListener();
     layoutManager.on("onlinechange", onlineListener);
     return () => {
@@ -204,9 +206,15 @@ export default React.memo(function LayoutRow({
     [layout, onSelect],
   );
 
-  const duplicateAction = useCallback(() => onDuplicate(layout), [layout, onDuplicate]);
-  const shareAction = useCallback(() => onShare(layout), [layout, onShare]);
-  const exportAction = useCallback(() => onExport(layout), [layout, onExport]);
+  const duplicateAction = useCallback(() => {
+    onDuplicate(layout);
+  }, [layout, onDuplicate]);
+  const shareAction = useCallback(() => {
+    onShare(layout);
+  }, [layout, onShare]);
+  const exportAction = useCallback(() => {
+    onExport(layout);
+  }, [layout, onExport]);
 
   const onSubmit = useCallback(
     (event: React.FormEvent) => {
@@ -425,7 +433,9 @@ export default React.memo(function LayoutRow({
           <TextField
             inputRef={nameInputRef}
             value={nameFieldValue}
-            onChange={(event) => setNameFieldValue(event.target.value)}
+            onChange={(event) => {
+              setNameFieldValue(event.target.value);
+            }}
             onKeyDown={onTextFieldKeyDown}
             onBlur={onBlur}
             fullWidth

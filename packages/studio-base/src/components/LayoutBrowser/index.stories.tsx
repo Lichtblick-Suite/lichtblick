@@ -413,7 +413,7 @@ export const DeleteLayout: StoryObj = {
   },
 
   parameters: { colorScheme: "dark" },
-  play: async () => await deleteLayoutInteraction(0),
+  play: async () => { await deleteLayoutInteraction(0); },
 };
 
 export const DeleteSelectedLayout: StoryObj = {
@@ -445,7 +445,7 @@ export const DeleteLastLayout: StoryObj = {
     colorScheme: "dark",
   },
 
-  play: async () => await deleteLayoutInteraction(0),
+  play: async () => { await deleteLayoutInteraction(0); },
 };
 
 export const SignInPrompt: StoryObj = {
