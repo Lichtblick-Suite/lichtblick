@@ -80,7 +80,7 @@ export function StudioApp(): JSX.Element {
   providers.unshift(<StudioToastProvider />);
   providers.unshift(<StudioLogsSettingsProvider />);
 
-  // Problems provider also must come before other, depdendent contexts.
+  // Problems provider also must come before other, dependent contexts.
   providers.unshift(<ProblemsContextProvider />);
 
   const MaybeLaunchPreference = enableLaunchPreferenceScreen === true ? LaunchPreference : Fragment;
