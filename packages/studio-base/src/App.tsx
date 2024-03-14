@@ -8,6 +8,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 
 import GlobalCss from "@foxglove/studio-base/components/GlobalCss";
 import EventsProvider from "@foxglove/studio-base/providers/EventsProvider";
+import ProblemsContextProvider from "@foxglove/studio-base/providers/ProblemsContextProvider";
 import { StudioLogsSettingsProvider } from "@foxglove/studio-base/providers/StudioLogsSettingsProvider";
 import TimelineInteractionStateProvider from "@foxglove/studio-base/providers/TimelineInteractionStateProvider";
 
@@ -97,6 +98,9 @@ export function App(props: AppProps): JSX.Element {
   // The toast and logs provider comes first so they are available to all downstream providers
   providers.unshift(<StudioToastProvider />);
   providers.unshift(<StudioLogsSettingsProvider />);
+
+  // Problems provider also must come before other, dependent contexts.
+  providers.unshift(<ProblemsContextProvider />);
 
   const MaybeLaunchPreference = enableLaunchPreferenceScreen === true ? LaunchPreference : Fragment;
 
