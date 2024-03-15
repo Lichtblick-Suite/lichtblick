@@ -46,7 +46,7 @@ import PlaybackControls from "@foxglove/studio-base/components/PlaybackControls"
 import { ProblemsList } from "@foxglove/studio-base/components/ProblemsList";
 import RemountOnValueChange from "@foxglove/studio-base/components/RemountOnValueChange";
 import { SidebarContent } from "@foxglove/studio-base/components/SidebarContent";
-import { SidebarItem, Sidebars } from "@foxglove/studio-base/components/Sidebars";
+import Sidebars, { SidebarItem } from "@foxglove/studio-base/components/Sidebars";
 import Stack from "@foxglove/studio-base/components/Stack";
 import {
   StudioLogsSettings,
@@ -61,7 +61,10 @@ import {
   LayoutState,
   useCurrentLayoutSelector,
 } from "@foxglove/studio-base/context/CurrentLayoutContext";
-import { useCurrentUser } from "@foxglove/studio-base/context/CurrentUserContext";
+import {
+  useCurrentUser,
+  useCurrentUserType,
+} from "@foxglove/studio-base/context/CurrentUserContext";
 import { EventsStore, useEvents } from "@foxglove/studio-base/context/EventsContext";
 import { useExtensionCatalog } from "@foxglove/studio-base/context/ExtensionCatalogContext";
 import { usePlayerSelection } from "@foxglove/studio-base/context/PlayerSelectionContext";
@@ -179,13 +182,14 @@ function WorkspaceContent(props: WorkspaceProps): JSX.Element {
   // see comment below above the RemountOnValueChange component
   const playerId = useMessagePipeline(selectPlayerId);
 
-  const { currentUserType } = useCurrentUser();
+  const currentUserType = useCurrentUserType();
 
   useDefaultWebLaunchPreference();
 
   const [enableDebugMode = false] = useAppConfigurationValue<boolean>(AppSetting.SHOW_DEBUG_PANELS);
 
   const { currentUser, signIn } = useCurrentUser();
+
   const supportsAccountSettings = signIn != undefined;
 
   const [enableStudioLogsSidebar = false] = useAppConfigurationValue<boolean>(
@@ -434,18 +438,21 @@ function WorkspaceContent(props: WorkspaceProps): JSX.Element {
 
   const leftSidebarItems = useMemo(() => {
     const items = new Map<LeftSidebarItemKey, SidebarItem>([
-      ["panel-settings", { title: t("panel"), component: PanelSettingsSidebar }],
-      ["topics", { title: t("topics"), component: TopicList }],
+      [
+        "panel-settings",
+        { title: t("workspace:panel"), component: PanelSettingsSidebar, iconName: undefined },
+      ],
+      ["topics", { title: t("workspace:topics"), component: TopicList, iconName: undefined }],
       [
         "problems",
         {
-          title: t("problems"),
+          title: t("workspace:problems"),
           component: ProblemsList,
+          iconName: undefined,
           badge:
             playerProblems && playerProblems.length > 0
               ? {
                   count: playerProblems.length,
-                  color: "error",
                 }
               : undefined,
         },
@@ -456,25 +463,32 @@ function WorkspaceContent(props: WorkspaceProps): JSX.Element {
 
   const rightSidebarItems = useMemo(() => {
     const items = new Map<RightSidebarItemKey, SidebarItem>([
-      ["variables", { title: t("variables"), component: VariablesList }],
+      [
+        "variables",
+        {
+          title: t("workspace:variables"),
+          component: VariablesList,
+          iconName: undefined,
+        },
+      ],
     ]);
     if (enableDebugMode) {
       if (PerformanceSidebarComponent) {
         items.set("performance", {
-          title: t("performance"),
+          title: t("workspace:performance"),
           component: PerformanceSidebarComponent,
           iconName: undefined,
         });
       }
       items.set("studio-logs-settings", {
-        title: t("studioLogs"),
+        title: t("workspace:studioLogs"),
         component: StudioLogsSettings,
         iconName: undefined,
       });
     }
     if (showEventsTab) {
       items.set("events", {
-        title: t("events"),
+        title: t("workspace:events"),
         component: EventsList,
         iconName: undefined,
       });
@@ -489,14 +503,14 @@ function WorkspaceContent(props: WorkspaceProps): JSX.Element {
     const addPanel = useAddPanel();
     const { openLayoutBrowser } = useWorkspaceActions();
     const selectedLayoutId = useCurrentLayoutSelector(selectedLayoutIdSelector);
-    const { t } = useTranslation("addPanel");
+    const { t: tAddPanel } = useTranslation("addPanel");
 
     return (
-      <SidebarContent disablePadding={selectedLayoutId != undefined} title={t("addPanel")}>
+      <SidebarContent disablePadding={selectedLayoutId != undefined} title={tAddPanel("addPanel")}>
         {selectedLayoutId == undefined ? (
           <Typography color="text.secondary">
             <Trans
-              t={t}
+              t={tAddPanel}
               i18nKey="noLayoutSelected"
               components={{
                 selectLayoutLink: <Link onClick={openLayoutBrowser} />,

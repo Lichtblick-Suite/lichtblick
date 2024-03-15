@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import { useUnmount } from "react-use";
 
 import { SettingsTree } from "@foxglove/studio";
+import { AppSetting } from "@foxglove/studio-base/AppSetting";
 import { useConfigById } from "@foxglove/studio-base/PanelAPI";
 import EmptyState from "@foxglove/studio-base/components/EmptyState";
 import { ActionMenu } from "@foxglove/studio-base/components/PanelSettings/ActionMenu";
@@ -165,10 +166,11 @@ export default function PanelSettings({
 
   const showTitleField = panelInfo != undefined && panelInfo.hasCustomToolbar !== true;
   const title = panelInfo?.title ?? t("unknown");
+  const isSettingTreeDefined = settingsTree != undefined;
 
   return (
     <SidebarContent
-      disablePadding={enableNewTopNav || isSettingsTree}
+      disablePadding={enableNewTopNav || isSettingTreeDefined}
       disableToolbar={disableToolbar}
       title={t("currentSettingsPanelName", { title })}
       trailingItems={[
