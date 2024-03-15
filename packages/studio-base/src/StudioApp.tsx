@@ -55,7 +55,6 @@ export function StudioApp(): JSX.Element {
   const providers = [
     /* eslint-disable react/jsx-key */
     <TimelineInteractionStateProvider />,
-    <CurrentLayoutProvider />,
     <ExtensionMarketplaceProvider />,
     <ExtensionCatalogProvider loaders={extensionLoaders} />,
     <UserScriptStateProvider />,
@@ -82,7 +81,7 @@ export function StudioApp(): JSX.Element {
 
   // Problems provider also must come before other, dependent contexts.
   providers.unshift(<ProblemsContextProvider />);
-
+  providers.unshift(<CurrentLayoutProvider />);
   const MaybeLaunchPreference = enableLaunchPreferenceScreen === true ? LaunchPreference : Fragment;
 
   useEffect(() => {

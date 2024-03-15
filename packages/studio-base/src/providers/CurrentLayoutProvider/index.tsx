@@ -3,8 +3,10 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import * as _ from "lodash-es";
+import { enqueueSnackbar } from "notistack";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { getNodeAtPath } from "react-mosaic-component";
+import useAsyncFn from "react-use/lib/useAsyncFn";
 import shallowequal from "shallowequal";
 import { v4 as uuidv4 } from "uuid";
 
@@ -14,6 +16,7 @@ import { VariableValue } from "@foxglove/studio";
 import { useAnalytics } from "@foxglove/studio-base/context/AnalyticsContext";
 import CurrentLayoutContext, {
   ICurrentLayout,
+  LayoutID,
   LayoutState,
   SelectedLayout,
 } from "@foxglove/studio-base/context/CurrentLayoutContext";
@@ -105,6 +108,60 @@ export default function CurrentLayoutProvider({ children }: React.PropsWithChild
     [],
   );
 
+  const [, setSelectedLayoutId] = useAsyncFn(
+    async (
+      id: LayoutID | undefined,
+      { saveToProfile = true }: { saveToProfile?: boolean } = {},
+    ) => {
+      if (id == undefined) {
+        setLayoutState({ selectedLayout: undefined });
+        return;
+      }
+      try {
+        setLayoutState({ selectedLayout: { id, loading: true, data: undefined } });
+        const layout = await layoutManager.getLayout(id);
+        const layoutVersion = layout?.baseline.data.version;
+        if (layoutVersion != undefined && layoutVersion > MAX_SUPPORTED_LAYOUT_VERSION) {
+          setIncompatibleLayoutVersionError(true);
+          setLayoutState({ selectedLayout: undefined });
+          return;
+        }
+        if (!isMounted()) {
+          return;
+        }
+        setIncompatibleLayoutVersionError(false);
+        if (layout == undefined) {
+          setLayoutState({ selectedLayout: undefined });
+        } else {
+          setLayoutState({
+            selectedLayout: {
+              loading: false,
+              id: layout.id,
+              data: layout.working?.data ?? layout.baseline.data,
+              name: layout.name,
+            },
+          });
+          if (saveToProfile) {
+            setUserProfile({ currentLayoutId: id }).catch((error) => {
+              console.error(error);
+              enqueueSnackbar(`The current layout could not be saved. ${error.toString()}`, {
+                variant: "error",
+              });
+            });
+          }
+        }
+      } catch (error) {
+        console.error(error);
+        enqueueSnackbar(`The layout could not be loaded. ${error.toString()}`, {
+          variant: "error",
+        });
+        setIncompatibleLayoutVersionError(false);
+        setLayoutState({ selectedLayout: undefined });
+      }
+    },
+    [setLayoutState],
+  );
+
   const performAction = useCallback(
     (action: PanelsActions) => {
       if (layoutStateRef.current.selectedLayout?.data == undefined) {
@@ -136,7 +193,6 @@ export default function CurrentLayoutProvider({ children }: React.PropsWithChild
     },
     [setLayoutState],
   );
-
   const setCurrentLayout = useCallback(
     (newLayout: SelectedLayout | undefined) => {
       setLayoutState({
@@ -165,9 +221,8 @@ export default function CurrentLayoutProvider({ children }: React.PropsWithChild
     () => ({
       getCurrentLayoutState: () => layoutStateRef.current,
       setCurrentLayout,
-
       updateSharedPanelState,
-
+      setSelectedLayoutId,
       savePanelConfigs: (payload: SaveConfigsPayload) => {
         performAction({ type: "SAVE_PANEL_CONFIGS", payload });
       },
@@ -254,7 +309,14 @@ export default function CurrentLayoutProvider({ children }: React.PropsWithChild
         performAction({ type: "END_DRAG", payload });
       },
     }),
-    [analytics, performAction, setCurrentLayout, setSelectedPanelIds, updateSharedPanelState],
+    [
+      analytics,
+      performAction,
+      setCurrentLayout,
+      setSelectedLayoutId,
+      setSelectedPanelIds,
+      updateSharedPanelState,
+    ],
   );
 
   const value: ICurrentLayout = useShallowMemo({
