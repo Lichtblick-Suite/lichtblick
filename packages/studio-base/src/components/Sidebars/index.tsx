@@ -121,6 +121,8 @@ function mosiacRightSidebarSplitPercentage(node: MosaicNode<LayoutNode>): number
     );
   }
 }
+type NewLeftKeys = "panel-settings" | "problems" | "topics";
+type NewRightKeys = "events" | "variables" | "studio-logs-settings" | "performance";
 
 type SidebarProps<OldLeftKey, LeftKey, RightKey> = PropsWithChildren<{
   items: Map<OldLeftKey, SidebarItem>;
@@ -130,13 +132,13 @@ type SidebarProps<OldLeftKey, LeftKey, RightKey> = PropsWithChildren<{
 
   leftItems: Map<LeftKey, NewSidebarItem>;
   selectedLeftKey: LeftKey | undefined;
-  onSelectLeftKey: (key: LeftKey | undefined) => void;
+  onSelectLeftKey: (item: NewLeftKeys | undefined) => void;
   leftSidebarSize: number | undefined;
   setLeftSidebarSize: (size: number | undefined) => void;
 
   rightItems: Map<RightKey, NewSidebarItem>;
   selectedRightKey: RightKey | undefined;
-  onSelectRightKey: (key: RightKey | undefined) => void;
+  onSelectRightKey: (item: NewRightKeys | undefined) => void;
   rightSidebarSize: number | undefined;
   setRightSidebarSize: (size: number | undefined) => void;
 }>;

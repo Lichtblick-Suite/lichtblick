@@ -2,11 +2,15 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { useMemo } from "react";
+
+import { IdbLayoutStorage } from "@foxglove/studio-base/IdbLayoutStorage";
 import GlobalCss from "@foxglove/studio-base/components/GlobalCss";
 import {
   ISharedRootContext,
   SharedRootContext,
 } from "@foxglove/studio-base/context/SharedRootContext";
+import { ILayoutStorage } from "@foxglove/studio-base/services/ILayoutStorage";
 
 import { ColorSchemeThemeProvider } from "./components/ColorSchemeThemeProvider";
 import CssBaseline from "./components/CssBaseline";
@@ -28,7 +32,7 @@ export function SharedRoot(props: ISharedRootContext & { children: JSX.Element }
     extensionLoaders,
     extraProviders,
   } = props;
-
+  const layoutStorage = useMemo(() => new IdbLayoutStorage(), []) as unknown as ILayoutStorage;
   return (
     <AppConfigurationContext.Provider value={appConfiguration}>
       <ColorSchemeThemeProvider>
@@ -47,6 +51,7 @@ export function SharedRoot(props: ISharedRootContext & { children: JSX.Element }
                 extensionLoaders,
                 extraProviders,
                 onAppBarDoubleClick,
+                layoutStorage,
               }}
             >
               {children}
