@@ -47,6 +47,7 @@ import { ProblemsList } from "@foxglove/studio-base/components/ProblemsList";
 import RemountOnValueChange from "@foxglove/studio-base/components/RemountOnValueChange";
 import { SidebarContent } from "@foxglove/studio-base/components/SidebarContent";
 import Sidebars, { SidebarItem } from "@foxglove/studio-base/components/Sidebars";
+import { NewSidebarItem } from "@foxglove/studio-base/components/Sidebars/NewSidebar";
 import Stack from "@foxglove/studio-base/components/Stack";
 import {
   StudioLogsSettings,
@@ -437,22 +438,19 @@ function WorkspaceContent(props: WorkspaceProps): JSX.Element {
   const showEventsTab = currentUserType !== "unauthenticated" && eventsSupported;
 
   const leftSidebarItems = useMemo(() => {
-    const items = new Map<LeftSidebarItemKey, SidebarItem>([
-      [
-        "panel-settings",
-        { title: t("workspace:panel"), component: PanelSettingsSidebar, iconName: undefined },
-      ],
-      ["topics", { title: t("workspace:topics"), component: TopicList, iconName: undefined }],
+    const items = new Map<LeftSidebarItemKey, NewSidebarItem>([
+      ["panel-settings", { title: "Panel", component: PanelSettingsSidebar }],
+      ["topics", { title: "Topics", component: TopicList }],
       [
         "problems",
         {
-          title: t("workspace:problems"),
+          title: "Problems",
           component: ProblemsList,
-          iconName: undefined,
           badge:
             playerProblems && playerProblems.length > 0
               ? {
                   count: playerProblems.length,
+                  color: "error",
                 }
               : undefined,
         },
@@ -462,13 +460,12 @@ function WorkspaceContent(props: WorkspaceProps): JSX.Element {
   }, [PanelSettingsSidebar, playerProblems]);
 
   const rightSidebarItems = useMemo(() => {
-    const items = new Map<RightSidebarItemKey, SidebarItem>([
+    const items = new Map<RightSidebarItemKey, NewSidebarItem>([
       [
         "variables",
         {
           title: t("workspace:variables"),
           component: VariablesList,
-          iconName: undefined,
         },
       ],
     ]);
@@ -477,20 +474,17 @@ function WorkspaceContent(props: WorkspaceProps): JSX.Element {
         items.set("performance", {
           title: t("workspace:performance"),
           component: PerformanceSidebarComponent,
-          iconName: undefined,
         });
       }
       items.set("studio-logs-settings", {
         title: t("workspace:studioLogs"),
         component: StudioLogsSettings,
-        iconName: undefined,
       });
     }
     if (showEventsTab) {
       items.set("events", {
         title: t("workspace:events"),
         component: EventsList,
-        iconName: undefined,
       });
     }
     return items;

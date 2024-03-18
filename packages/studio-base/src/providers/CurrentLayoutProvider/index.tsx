@@ -3,10 +3,10 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import * as _ from "lodash-es";
-import { enqueueSnackbar } from "notistack";
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useSnackbar } from "notistack";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { getNodeAtPath } from "react-mosaic-component";
-import useAsyncFn from "react-use/lib/useAsyncFn";
+import { useAsync, useAsyncFn, useMountedState } from "react-use";
 import shallowequal from "shallowequal";
 import { v4 as uuidv4 } from "uuid";
 
@@ -18,7 +18,6 @@ import CurrentLayoutContext, {
   ICurrentLayout,
   LayoutID,
   LayoutState,
-  SelectedLayout,
 } from "@foxglove/studio-base/context/CurrentLayoutContext";
 import {
   AddPanelPayload,
@@ -34,9 +33,14 @@ import {
   StartDragPayload,
   SwapPanelPayload,
 } from "@foxglove/studio-base/context/CurrentLayoutContext/actions";
+import { useLayoutManager } from "@foxglove/studio-base/context/LayoutManagerContext";
+import { useUserProfileStorage } from "@foxglove/studio-base/context/UserProfileStorageContext";
+import { defaultLayout } from "@foxglove/studio-base/providers/CurrentLayoutProvider/defaultLayout";
 import panelsReducer from "@foxglove/studio-base/providers/CurrentLayoutProvider/reducers";
 import { AppEvent } from "@foxglove/studio-base/services/IAnalytics";
+import { LayoutManagerEventTypes } from "@foxglove/studio-base/services/ILayoutManager";
 import { PanelConfig, PlaybackConfig, UserScripts } from "@foxglove/studio-base/types/panels";
+import { windowAppURLState } from "@foxglove/studio-base/util/appURLState";
 import { getPanelTypeFromId } from "@foxglove/studio-base/util/layout";
 
 import { IncompatibleLayoutVersionAlert } from "./IncompatibleLayoutVersionAlert";
@@ -50,7 +54,11 @@ export const MAX_SUPPORTED_LAYOUT_VERSION = 1;
  * automatically restoring the current layout from LayoutStorage.
  */
 export default function CurrentLayoutProvider({ children }: React.PropsWithChildren): JSX.Element {
+  const { enqueueSnackbar } = useSnackbar();
+  const { getUserProfile, setUserProfile } = useUserProfileStorage();
+  const layoutManager = useLayoutManager();
   const analytics = useAnalytics();
+  const isMounted = useMountedState();
 
   const [mosaicId] = useState(() => uuidv4());
 
@@ -159,7 +167,7 @@ export default function CurrentLayoutProvider({ children }: React.PropsWithChild
         setLayoutState({ selectedLayout: undefined });
       }
     },
-    [setLayoutState],
+    [enqueueSnackbar, isMounted, layoutManager, setLayoutState, setUserProfile],
   );
 
   const performAction = useCallback(
@@ -193,36 +201,79 @@ export default function CurrentLayoutProvider({ children }: React.PropsWithChild
     },
     [setLayoutState],
   );
-  const setCurrentLayout = useCallback(
-    (newLayout: SelectedLayout | undefined) => {
-      setLayoutState({
-        sharedPanelState: {},
-        selectedLayout: newLayout,
-      });
-    },
-    [setLayoutState],
-  );
 
-  const updateSharedPanelState = useCallback<ICurrentLayout["actions"]["updateSharedPanelState"]>(
-    (type, newSharedState) => {
-      if (layoutStateRef.current.selectedLayout?.data == undefined) {
+  // Changes to the layout storage from external user actions (such as resetting a layout to a
+  // previous saved state) need to trigger setLayoutState.
+  useEffect(() => {
+    const listener: LayoutManagerEventTypes["change"] = ({ updatedLayout }) => {
+      if (
+        updatedLayout &&
+        layoutStateRef.current.selectedLayout &&
+        updatedLayout.id === layoutStateRef.current.selectedLayout.id
+      ) {
+        setLayoutState({
+          selectedLayout: {
+            loading: false,
+            id: updatedLayout.id,
+            data: updatedLayout.working?.data ?? updatedLayout.baseline.data,
+            name: updatedLayout.name,
+          },
+        });
+      }
+    };
+    layoutManager.on("change", listener);
+    return () => {
+      layoutManager.off("change", listener);
+    };
+  }, [layoutManager, setLayoutState]);
+
+  // Make sure our layout still exists after changes. If not deselect it.
+  useEffect(() => {
+    const listener: LayoutManagerEventTypes["change"] = async (event) => {
+      if (event.type !== "delete" || !layoutStateRef.current.selectedLayout?.id) {
         return;
       }
 
-      setLayoutState({
-        ...layoutStateRef.current,
-        sharedPanelState: { ...layoutStateRef.current.sharedPanelState, [type]: newSharedState },
+      if (event.layoutId === layoutStateRef.current.selectedLayout.id) {
+        const layouts = await layoutManager.getLayouts();
+        await setSelectedLayoutId(layouts[0]?.id);
+      }
+    };
+
+    layoutManager.on("change", listener);
+    return () => {
+      layoutManager.off("change", listener);
+    };
+  }, [enqueueSnackbar, layoutManager, setSelectedLayoutId]);
+
+  // Load initial state by re-selecting the last selected layout from the UserProfile.
+  useAsync(async () => {
+    // Don't restore the layout if there's one specified in the app state url.
+    if (windowAppURLState()?.layoutId) {
+      return;
+    }
+
+    // Retreive the selected layout id from the user's profile. If there's no layout specified
+    // or we can't load it then save and select a default layout.
+    const { currentLayoutId } = await getUserProfile();
+    const layout = currentLayoutId ? await layoutManager.getLayout(currentLayoutId) : undefined;
+    if (layout) {
+      await setSelectedLayoutId(currentLayoutId, { saveToProfile: false });
+    } else {
+      const newLayout = await layoutManager.saveNewLayout({
+        name: "Default",
+        data: defaultLayout,
+        permission: "CREATOR_WRITE",
       });
-    },
-    [setLayoutState],
-  );
+      await setSelectedLayoutId(newLayout.id);
+    }
+  }, [getUserProfile, layoutManager, setSelectedLayoutId]);
 
   const actions: ICurrentLayout["actions"] = useMemo(
     () => ({
-      getCurrentLayoutState: () => layoutStateRef.current,
-      setCurrentLayout,
-      updateSharedPanelState,
       setSelectedLayoutId,
+      getCurrentLayoutState: () => layoutStateRef.current,
+
       savePanelConfigs: (payload: SaveConfigsPayload) => {
         performAction({ type: "SAVE_PANEL_CONFIGS", payload });
       },
@@ -309,14 +360,7 @@ export default function CurrentLayoutProvider({ children }: React.PropsWithChild
         performAction({ type: "END_DRAG", payload });
       },
     }),
-    [
-      analytics,
-      performAction,
-      setCurrentLayout,
-      setSelectedLayoutId,
-      setSelectedPanelIds,
-      updateSharedPanelState,
-    ],
+    [analytics, performAction, setSelectedLayoutId, setSelectedPanelIds],
   );
 
   const value: ICurrentLayout = useShallowMemo({

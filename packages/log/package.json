@@ -20,6 +20,10 @@
     "prepack": "tsc -b"
   },
   "devDependencies": {
+    "@foxglove/log": "workspace:*",
+    "@foxglove/rostime": "1.1.2",
+    "@foxglove/schemas": "1.3.0",
+    "@foxglove/studio": "workspace:*",
     "@foxglove/tsconfig": "2.0.0",
     "typescript": "5.3.3"
   }
