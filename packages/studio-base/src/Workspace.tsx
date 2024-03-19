@@ -455,6 +455,7 @@ function WorkspaceContent(props: WorkspaceProps): JSX.Element {
               : undefined,
         },
       ],
+      ["layouts", { title: "Layouts", component: LayoutBrowser }],
     ]);
     return items;
   }, [PanelSettingsSidebar, playerProblems]);
@@ -643,6 +644,8 @@ function WorkspaceContent(props: WorkspaceProps): JSX.Element {
       <div className={classes.container} ref={containerRef} tabIndex={0}>
         {appBar}
         <Sidebars
+          // selectedKey=""
+          // onSelectKey={() => {}}
           items={sidebarItems}
           leftItems={leftSidebarItems}
           bottomItems={sidebarBottomItems}

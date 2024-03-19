@@ -271,6 +271,8 @@ export default function CurrentLayoutProvider({ children }: React.PropsWithChild
 
   const actions: ICurrentLayout["actions"] = useMemo(
     () => ({
+      // updateSharedPanelState: () => {},
+      // setCurrentLayout: () => {},
       setSelectedLayoutId,
       getCurrentLayoutState: () => layoutStateRef.current,
 

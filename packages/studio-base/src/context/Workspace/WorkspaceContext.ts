@@ -25,7 +25,7 @@ export const SidebarItemKeys = [
 ] as const;
 export type SidebarItemKey = (typeof SidebarItemKeys)[number];
 
-export const LeftSidebarItemKeys = ["panel-settings", "topics", "problems"] as const;
+export const LeftSidebarItemKeys = ["panel-settings", "topics", "problems", "layouts"] as const;
 export type LeftSidebarItemKey = (typeof LeftSidebarItemKeys)[number];
 
 export const RightSidebarItemKeys = [
