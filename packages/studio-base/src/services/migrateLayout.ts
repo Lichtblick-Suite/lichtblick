@@ -5,8 +5,8 @@
 import { MarkOptional } from "ts-essentials";
 
 import { LayoutData } from "@foxglove/studio-base/context/CurrentLayoutContext/actions";
+import { ISO8601Timestamp, Layout } from "@foxglove/studio-base/services/ILayoutStorage";
 
-import { ISO8601Timestamp, Layout } from "./ILayoutStorage";
 import { migrateLegacyToNew3DPanels } from "./migrateLayout/migrateLegacyToNew3DPanels";
 
 /**

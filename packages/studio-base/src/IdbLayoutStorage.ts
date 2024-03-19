@@ -3,11 +3,10 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import * as IDB from "idb/with-async-ittr";
-import { Layout } from "react-window";
 
 import Log from "@foxglove/log";
 import { LayoutID } from "@foxglove/studio-base/context/CurrentLayoutContext";
-import { ILayoutStorage } from "@foxglove/studio-base/services/ILayoutStorage";
+import { ILayoutStorage, Layout } from "@foxglove/studio-base/services/ILayoutStorage";
 import { migrateLayout } from "@foxglove/studio-base/services/migrateLayout";
 
 const log = Log.getLogger(__filename);
