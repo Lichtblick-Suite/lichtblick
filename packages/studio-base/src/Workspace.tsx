@@ -10,8 +10,7 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { Link } from "@mui/material";
-import Typography from "@mui/material/Typography";
+import { Link, Typography } from "@mui/material";
 import { t } from "i18next";
 import { useSnackbar } from "notistack";
 import { extname } from "path";

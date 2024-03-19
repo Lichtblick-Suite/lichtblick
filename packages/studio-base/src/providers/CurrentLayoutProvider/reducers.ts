@@ -13,55 +13,55 @@
 
 import * as _ from "lodash-es";
 import {
-  updateTree,
-  createDragToUpdates,
-  createRemoveUpdate,
-  createHideUpdate,
-  getNodeAtPath,
-  MosaicPath,
-  getLeaves,
   MosaicNode,
+  MosaicPath,
+  createDragToUpdates,
+  createHideUpdate,
+  createRemoveUpdate,
+  getLeaves,
+  getNodeAtPath,
+  updateTree,
 } from "react-mosaic-component";
 import { MarkOptional } from "ts-essentials";
 
 import { filterMap } from "@foxglove/den/collection";
 import {
-  StartDragPayload,
-  EndDragPayload,
-  SplitPanelPayload,
-  DropPanelPayload,
-  SwapPanelPayload,
   AddPanelPayload,
+  ChangePanelLayoutPayload,
   ClosePanelPayload,
-  MoveTabPayload,
-  PanelsActions,
-  LayoutData,
   ConfigsPayload,
   CreateTabPanelPayload,
-  ChangePanelLayoutPayload,
+  DropPanelPayload,
+  EndDragPayload,
+  LayoutData,
+  MoveTabPayload,
+  PanelsActions,
   SaveConfigsPayload,
   SaveFullConfigPayload,
+  SplitPanelPayload,
+  StartDragPayload,
+  SwapPanelPayload,
 } from "@foxglove/studio-base/context/CurrentLayoutContext/actions";
 import { TabPanelConfig } from "@foxglove/studio-base/types/layouts";
-import { PlaybackConfig, MosaicDropTargetPosition } from "@foxglove/studio-base/types/panels";
+import { MosaicDropTargetPosition, PlaybackConfig } from "@foxglove/studio-base/types/panels";
 import { TAB_PANEL_TYPE } from "@foxglove/studio-base/util/globalConstants";
 import {
-  updateTabPanelLayout,
-  replaceAndRemovePanels,
-  getPanelIdForType,
-  getPanelTypeFromId,
-  getPanelIdsInsideTabPanels,
   DEFAULT_TAB_PANEL_CONFIG,
-  getConfigsForNestedPanelsInsideTab,
-  getAllPanelIds,
-  inlineTabPanelLayouts,
-  getSaveConfigsPayloadForAddedPanel,
   addPanelToTab,
-  reorderTabWithinTabPanel,
-  moveTabBetweenTabPanels,
   createAddUpdates,
-  removePanelFromTabPanel,
+  getAllPanelIds,
+  getConfigsForNestedPanelsInsideTab,
+  getPanelIdForType,
+  getPanelIdsInsideTabPanels,
+  getPanelTypeFromId,
   getPathFromNode,
+  getSaveConfigsPayloadForAddedPanel,
+  inlineTabPanelLayouts,
+  moveTabBetweenTabPanels,
+  removePanelFromTabPanel,
+  reorderTabWithinTabPanel,
+  replaceAndRemovePanels,
+  updateTabPanelLayout,
 } from "@foxglove/studio-base/util/layout";
 
 import { isTabPanelConfig } from "../../util/layout";
@@ -101,6 +101,7 @@ function savePanelConfigs(state: LayoutData, payload: SaveConfigsPayload): Layou
       }
 
       const oldConfig = currentSavedProps[id];
+      console.log("old config:", oldConfig);
       const newConfig = {
         // merge the partial new config with the default config and the old config
         // any entries in the new config can override default config and previous config entries
@@ -112,6 +113,8 @@ function savePanelConfigs(state: LayoutData, payload: SaveConfigsPayload): Layou
       // if the new config is unchanged, return currentSavedProps to keep same object
       // keeping the same object around is useful for upstream consumers of state which look at changes
       // in object reference to mean the object changed
+      console.log("new config:", newConfig);
+
       if (_.isEqual(oldConfig, newConfig)) {
         return currentSavedProps;
       }

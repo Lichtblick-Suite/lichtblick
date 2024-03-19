@@ -172,10 +172,15 @@ export default function CurrentLayoutProvider({ children }: React.PropsWithChild
 
   const performAction = useCallback(
     (action: PanelsActions) => {
-      if (layoutStateRef.current.selectedLayout?.data == undefined) {
+      if (
+        layoutStateRef.current.selectedLayout?.data == undefined ||
+        layoutStateRef.current.selectedLayout.loading === true
+      ) {
         return;
       }
       const oldData = layoutStateRef.current.selectedLayout.data;
+      console.log(layoutStateRef.current.selectedLayout);
+      //id and loading are being shown, but data and name are undefined
       const newData = panelsReducer(oldData, action);
 
       // The panel state did not change, so no need to perform layout state
@@ -271,8 +276,8 @@ export default function CurrentLayoutProvider({ children }: React.PropsWithChild
 
   const actions: ICurrentLayout["actions"] = useMemo(
     () => ({
-      // updateSharedPanelState: () => {},
-      // setCurrentLayout: () => {},
+      updateSharedPanelState: () => {},
+      setCurrentLayout: () => {},
       setSelectedLayoutId,
       getCurrentLayoutState: () => layoutStateRef.current,
 

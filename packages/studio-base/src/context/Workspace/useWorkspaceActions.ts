@@ -237,11 +237,17 @@ export function useWorkspaceActions(): WorkspaceActions {
           });
         },
       },
-
+      //not sure if this is necessary
+      openAccountSettings: () => {},
       openPanelSettings: () => {
         set((draft) => {
           draft.sidebars.left.item = "panel-settings";
           draft.sidebars.left.open = true;
+        });
+      },
+      openLayoutBrowser: () => {
+        set((draft) => {
+          draft.sidebars.left.item = "layouts";
         });
       },
 
