@@ -169,11 +169,13 @@ export function useWorkspaceActions(): WorkspaceActions {
     // Use a stable getter to fetch the current layout to avoid thrashing the
     // dependencies array for our hook.
     const layoutData = getCurrentLayoutState().selectedLayout?.data;
+
     if (!layoutData) {
       return;
     }
 
     const name = getCurrentLayoutState().selectedLayout?.name ?? "foxglove-layout";
+
     const content = JSON.stringify(layoutData, undefined, 2) ?? "";
     downloadTextFile(content, `${name}.json`);
     void analytics.logEvent(AppEvent.LAYOUT_EXPORT);
