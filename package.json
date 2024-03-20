@@ -127,10 +127,10 @@
     "webpack-hot-middleware": "2.26.0"
   },
   "dependencies": {
-    "@mui/material": "5.15.10",
     "@foxglove/hooks": "workspace:*",
     "@foxglove/log": "workspace:*",
     "@foxglove/studio": "workspace:*",
+    "@mui/material": "5.13.5",
     "react-use": "17.4.0",
     "rehype-raw": "6.1.1"
   }
