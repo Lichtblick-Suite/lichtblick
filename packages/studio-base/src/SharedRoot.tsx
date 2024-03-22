@@ -10,7 +10,6 @@ import {
   ISharedRootContext,
   SharedRootContext,
 } from "@foxglove/studio-base/context/SharedRootContext";
-import { ILayoutStorage } from "@foxglove/studio-base/services/ILayoutStorage";
 
 import { ColorSchemeThemeProvider } from "./components/ColorSchemeThemeProvider";
 import CssBaseline from "./components/CssBaseline";
@@ -32,7 +31,9 @@ export function SharedRoot(props: ISharedRootContext & { children: JSX.Element }
     extensionLoaders,
     extraProviders,
   } = props;
-  const layoutStorage = useMemo(() => new IdbLayoutStorage(), []) as unknown as ILayoutStorage;
+
+  const layoutStorage = useMemo(() => new IdbLayoutStorage(), []);
+
   return (
     <AppConfigurationContext.Provider value={appConfiguration}>
       <ColorSchemeThemeProvider>

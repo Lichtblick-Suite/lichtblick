@@ -13,9 +13,13 @@ import {
   useCurrentLayoutActions,
   useCurrentLayoutSelector,
 } from "@foxglove/studio-base/context/CurrentLayoutContext";
+import LayoutStorageContext from "@foxglove/studio-base/context/LayoutStorageContext";
 import CurrentLayoutProvider, {
   MAX_SUPPORTED_LAYOUT_VERSION,
 } from "@foxglove/studio-base/providers/CurrentLayoutProvider";
+import LayoutManagerProvider from "@foxglove/studio-base/providers/LayoutManagerProvider";
+import UserProfileLocalStorageProvider from "@foxglove/studio-base/providers/UserProfileLocalStorageProvider";
+import MockLayoutStorage from "@foxglove/studio-base/services/MockLayoutStorage";
 
 describe("CurrentLayoutProvider", () => {
   it("refuses to load an incompatible layout", async () => {
@@ -47,9 +51,16 @@ describe("CurrentLayoutProvider", () => {
 
     const { getByText } = render(<SetUnsupportedLayout />, {
       wrapper: (props) => {
+        const mockStorage = new MockLayoutStorage("test", []);
         return (
           <SnackbarProvider>
-            <CurrentLayoutProvider>{props.children}</CurrentLayoutProvider>
+            <UserProfileLocalStorageProvider>
+              <LayoutManagerProvider>
+                <LayoutStorageContext.Provider value={mockStorage}>
+                  <CurrentLayoutProvider>{props.children}</CurrentLayoutProvider>
+                </LayoutStorageContext.Provider>
+              </LayoutManagerProvider>
+            </UserProfileLocalStorageProvider>
           </SnackbarProvider>
         );
       },
@@ -73,9 +84,16 @@ describe("CurrentLayoutProvider", () => {
       },
       {
         wrapper: function Wrapper({ children }) {
+          const mockStorage = new MockLayoutStorage("test", []);
           return (
             <SnackbarProvider>
-              <CurrentLayoutProvider>{children}</CurrentLayoutProvider>
+              <UserProfileLocalStorageProvider>
+                <LayoutManagerProvider>
+                  <LayoutStorageContext.Provider value={mockStorage}>
+                    <CurrentLayoutProvider>{children}</CurrentLayoutProvider>
+                  </LayoutStorageContext.Provider>
+                </LayoutManagerProvider>
+              </UserProfileLocalStorageProvider>
             </SnackbarProvider>
           );
         },
