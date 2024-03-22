@@ -3,7 +3,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import { render, screen, fireEvent, act } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 
 import { usePrompt } from "./usePrompt";
 
@@ -44,7 +44,7 @@ describe("usePrompt", () => {
       });
     });
 
-    await expect(screen.findByText("test-title")).resolves.not.toBeNullOrUndefined();
+    await expect(screen.findByText("test-title")).resolves.not.toBeUndefined();
     const input = await screen.findByPlaceholderText<HTMLInputElement>("test-placeholder");
     expect(input.value).toEqual("");
     root.unmount();
@@ -71,7 +71,9 @@ describe("usePrompt", () => {
     fireEvent.change(input, { target: { value: "something" } });
 
     const submitButton = screen.getByText("OK");
-    act(() => { submitButton.click(); });
+    act(() => {
+      submitButton.click();
+    });
 
     await expect(valPromise).resolves.toEqual("something");
     root.unmount();
@@ -99,7 +101,9 @@ describe("usePrompt", () => {
     expect(input.value).toEqual("initial-value");
 
     const submitButton = screen.getByText("OK");
-    act(() => { submitButton.click(); });
+    act(() => {
+      submitButton.click();
+    });
 
     await expect(valPromise).resolves.toEqual("initial-value");
     root.unmount();

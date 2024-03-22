@@ -179,8 +179,6 @@ export default function CurrentLayoutProvider({ children }: React.PropsWithChild
         return;
       }
       const oldData = layoutStateRef.current.selectedLayout.data;
-      console.log(layoutStateRef.current.selectedLayout);
-      //id and loading are being shown, but data and name are undefined
       const newData = panelsReducer(oldData, action);
 
       // The panel state did not change, so no need to perform layout state
