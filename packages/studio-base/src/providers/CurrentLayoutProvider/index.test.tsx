@@ -7,19 +7,55 @@ import { act, render, renderHook } from "@testing-library/react";
 import { SnackbarProvider } from "notistack";
 import { useEffect } from "react";
 
+import { Condvar } from "@foxglove/den/async";
+import { CurrentLayoutSyncAdapter } from "@foxglove/studio-base/components/CurrentLayoutSyncAdapter";
 import {
   CurrentLayoutActions,
+  LayoutData,
   LayoutState,
   useCurrentLayoutActions,
   useCurrentLayoutSelector,
 } from "@foxglove/studio-base/context/CurrentLayoutContext";
-import LayoutStorageContext from "@foxglove/studio-base/context/LayoutStorageContext";
+import LayoutManagerContext from "@foxglove/studio-base/context/LayoutManagerContext";
+import { UserProfileStorageContext } from "@foxglove/studio-base/context/UserProfileStorageContext";
 import CurrentLayoutProvider, {
   MAX_SUPPORTED_LAYOUT_VERSION,
 } from "@foxglove/studio-base/providers/CurrentLayoutProvider";
-import LayoutManagerProvider from "@foxglove/studio-base/providers/LayoutManagerProvider";
-import UserProfileLocalStorageProvider from "@foxglove/studio-base/providers/UserProfileLocalStorageProvider";
-import MockLayoutStorage from "@foxglove/studio-base/services/MockLayoutStorage";
+import LayoutManagerProvider from "../LayoutManagerProvider";
+
+function mockThrow(name: string) {
+  return () => {
+    throw new Error(`Unexpected mock function call ${name}`);
+  };
+}
+
+function makeMockLayoutManager() {
+  return {
+    supportsSharing: false,
+    supportsSyncing: false,
+    isBusy: false,
+    isOnline: false,
+    error: undefined,
+    on: jest.fn(/*noop*/),
+    off: jest.fn(/*noop*/),
+    setError: jest.fn(/*noop*/),
+    setOnline: jest.fn(/*noop*/),
+    getLayouts: jest.fn().mockImplementation(mockThrow("getLayouts")),
+    getLayout: jest.fn().mockImplementation(mockThrow("getLayout")),
+    saveNewLayout: jest.fn().mockImplementation(mockThrow("saveNewLayout")),
+    updateLayout: jest.fn().mockImplementation(mockThrow("updateLayout")),
+    deleteLayout: jest.fn().mockImplementation(mockThrow("deleteLayout")),
+    overwriteLayout: jest.fn().mockImplementation(mockThrow("overwriteLayout")),
+    revertLayout: jest.fn().mockImplementation(mockThrow("revertLayout")),
+    makePersonalCopy: jest.fn().mockImplementation(mockThrow("makePersonalCopy")),
+  };
+}
+function makeMockUserProfile() {
+  return {
+    getUserProfile: jest.fn().mockImplementation(mockThrow("getUserProfile")),
+    setUserProfile: jest.fn().mockImplementation(mockThrow("setUserProfile")),
+  };
+}
 
 describe("CurrentLayoutProvider", () => {
   it("refuses to load an incompatible layout", async () => {
@@ -51,16 +87,9 @@ describe("CurrentLayoutProvider", () => {
 
     const { getByText } = render(<SetUnsupportedLayout />, {
       wrapper: (props) => {
-        const mockStorage = new MockLayoutStorage("test", []);
         return (
           <SnackbarProvider>
-            <UserProfileLocalStorageProvider>
-              <LayoutManagerProvider>
-                <LayoutStorageContext.Provider value={mockStorage}>
-                  <CurrentLayoutProvider>{props.children}</CurrentLayoutProvider>
-                </LayoutStorageContext.Provider>
-              </LayoutManagerProvider>
-            </UserProfileLocalStorageProvider>
+            <CurrentLayoutProvider>{props.children}</CurrentLayoutProvider>
           </SnackbarProvider>
         );
       },
@@ -76,6 +105,27 @@ describe("CurrentLayoutProvider", () => {
 
   it("keeps identity of action functions when modifying layout", async () => {
     const all: Array<CurrentLayoutActions> = [];
+    const condvar = new Condvar();
+    const expectedState: LayoutData = {
+      layout: "Foo!bar",
+      configById: { "Foo!bar": { setting: 1 } },
+      globalVariables: { var: "hello" },
+      userNodes: { node1: { name: "node", sourceCode: "node()" } },
+      playbackConfig: { speed: 0.1 },
+    };
+    const mockLayoutManager = makeMockLayoutManager();
+    const mockUserProfile = makeMockUserProfile();
+    mockUserProfile.getUserProfile.mockResolvedValue({ currentLayoutId: "example" });
+
+    mockLayoutManager.getLayout.mockImplementation(async () => {
+      condvar.notifyAll();
+      return {
+        id: "example",
+        name: "Example layout",
+        baseline: { updatedAt: new Date(10).toISOString(), data: expectedState },
+      };
+    });
+
     const { result } = renderHook(
       () => {
         const actions = useCurrentLayoutActions();
@@ -84,16 +134,18 @@ describe("CurrentLayoutProvider", () => {
       },
       {
         wrapper: function Wrapper({ children }) {
-          const mockStorage = new MockLayoutStorage("test", []);
           return (
             <SnackbarProvider>
-              <UserProfileLocalStorageProvider>
+              <UserProfileStorageContext.Provider value={mockUserProfile}>
                 <LayoutManagerProvider>
-                  <LayoutStorageContext.Provider value={mockStorage}>
-                    <CurrentLayoutProvider>{children}</CurrentLayoutProvider>
-                  </LayoutStorageContext.Provider>
+                  <LayoutManagerContext.Provider value={mockLayoutManager}>
+                    <CurrentLayoutProvider>
+                      {children}
+                      <CurrentLayoutSyncAdapter />
+                    </CurrentLayoutProvider>
+                  </LayoutManagerContext.Provider>
                 </LayoutManagerProvider>
-              </UserProfileLocalStorageProvider>
+              </UserProfileStorageContext.Provider>
             </SnackbarProvider>
           );
         },
