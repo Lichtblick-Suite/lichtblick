@@ -21,7 +21,9 @@ import {
   UserProfileStorage,
   UserProfileStorageContext,
 } from "@foxglove/studio-base/context/UserProfileStorageContext";
-import CurrentLayoutProvider from "@foxglove/studio-base/providers/CurrentLayoutProvider";
+import CurrentLayoutProvider, {
+  MAX_SUPPORTED_LAYOUT_VERSION,
+} from "@foxglove/studio-base/providers/CurrentLayoutProvider";
 import { ILayoutManager } from "@foxglove/studio-base/services/ILayoutManager";
 
 const TEST_LAYOUT: LayoutData = {
@@ -146,6 +148,14 @@ describe("CurrentLayoutProvider", () => {
     expect(mockLayoutManager.getLayout.mock.calls).toEqual([["example"], ["example"]]);
     expect(all.map((item) => (item instanceof Error ? undefined : item.layoutState))).toEqual([
       { selectedLayout: undefined },
+      {
+        selectedLayout: {
+          loading: false,
+          id: "example",
+          data: expectedState,
+          name: "Example layout",
+        },
+      },
     ]);
     (console.warn as jest.Mock).mockClear();
   });
@@ -157,6 +167,7 @@ describe("CurrentLayoutProvider", () => {
       globalVariables: { var: "hello" },
       userNodes: { node1: { name: "node", sourceCode: "node()" } },
       playbackConfig: { speed: 0.1 },
+      version: MAX_SUPPORTED_LAYOUT_VERSION + 1,
     };
 
     const condvar = new Condvar();
@@ -182,7 +193,6 @@ describe("CurrentLayoutProvider", () => {
     expect(mockLayoutManager.getLayout.mock.calls).toEqual([["example"], ["example"]]);
     expect(all.map((item) => (item instanceof Error ? undefined : item.layoutState))).toEqual([
       { selectedLayout: undefined },
-      { selectedLayout: { loading: true, id: "example", data: undefined } },
       { selectedLayout: undefined },
     ]);
     (console.warn as jest.Mock).mockClear();
@@ -199,6 +209,7 @@ describe("CurrentLayoutProvider", () => {
         baseline: { data: TEST_LAYOUT, updatedAt: new Date(10).toISOString() },
       };
     });
+
     mockLayoutManager.updateLayout.mockImplementation(async () => {
       condvar.notifyAll();
       return {
