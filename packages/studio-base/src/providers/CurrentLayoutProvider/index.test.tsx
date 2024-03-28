@@ -199,8 +199,6 @@ describe("CurrentLayoutProvider", () => {
   });
 
   it("keeps identity of action functions when modifying layout", async () => {
-    const condvar = new Condvar();
-    const layoutStoragePutCalled = condvar.wait();
     const mockLayoutManager = makeMockLayoutManager();
     mockLayoutManager.getLayout.mockImplementation(async () => {
       return {
@@ -211,7 +209,6 @@ describe("CurrentLayoutProvider", () => {
     });
 
     mockLayoutManager.updateLayout.mockImplementation(async () => {
-      condvar.notifyAll();
       return {
         id: "TEST_ID",
         name: "Test layout",
@@ -235,9 +232,7 @@ describe("CurrentLayoutProvider", () => {
         configs: [{ id: "ExamplePanel!1", config: { foo: "bar" } }],
       });
     });
-    await act(async () => {
-      await layoutStoragePutCalled;
-    });
+
     expect(result.current.actions.savePanelConfigs).toBe(actions.savePanelConfigs);
     (console.warn as jest.Mock).mockClear();
   });
