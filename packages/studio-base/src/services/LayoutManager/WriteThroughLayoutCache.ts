@@ -35,7 +35,7 @@ export default class WriteThroughLayoutCache implements ILayoutStorage {
     fromNamespace: string;
     toNamespace: string;
   }): Promise<void> {
-    return await this.storage.importLayouts(params);
+    await this.storage.importLayouts(params);
   }
 
   public async migrateUnnamespacedLayouts(namespace: string): Promise<void> {
