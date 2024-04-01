@@ -24,10 +24,10 @@ import {
 } from "@foxglove/studio-base";
 import { IdbLayoutStorage } from "@foxglove/studio-base/IdbLayoutStorage";
 
-import { Desktop, NativeMenuBridge, Storage } from "../common/types";
 import { DesktopExtensionLoader } from "./services/DesktopExtensionLoader";
 import { NativeAppMenu } from "./services/NativeAppMenu";
 import { NativeWindow } from "./services/NativeWindow";
+import { Desktop, NativeMenuBridge, Storage } from "../common/types";
 
 const desktopBridge = (global as unknown as { desktopBridge: Desktop }).desktopBridge;
 const storageBridge = (global as unknown as { storageBridge?: Storage }).storageBridge;

@@ -164,7 +164,7 @@ export function useUnsavedChangesPrompt(): {
     const onlineListener = () => { setIsOnline(layoutManager.isOnline); };
     onlineListener();
     layoutManager.on("onlinechange", onlineListener);
-    return () => layoutManager.off("onlinechange", onlineListener);
+    return () => { layoutManager.off("onlinechange", onlineListener); };
   }, [layoutManager]);
 
   const unsavedChangesPrompt = useMemo(() => {
