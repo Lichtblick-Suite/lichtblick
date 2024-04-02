@@ -229,6 +229,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/helper-create-class-features-plugin@npm:^7.24.1":
+  version: 7.24.1
+  resolution: "@babel/helper-create-class-features-plugin@npm:7.24.1"
+  dependencies:
+    "@babel/helper-annotate-as-pure": ^7.22.5
+    "@babel/helper-environment-visitor": ^7.22.20
+    "@babel/helper-function-name": ^7.23.0
+    "@babel/helper-member-expression-to-functions": ^7.23.0
+    "@babel/helper-optimise-call-expression": ^7.22.5
+    "@babel/helper-replace-supers": ^7.24.1
+    "@babel/helper-skip-transparent-expression-wrappers": ^7.22.5
+    "@babel/helper-split-export-declaration": ^7.22.6
+    semver: ^6.3.1
+  peerDependencies:
+    "@babel/core": ^7.0.0
+  checksum: 310d063eafbd2a777609770c1aa7b24e43f375122fd84031c45edc512686000197da1cf450b48eca266489131bc06dbaa35db2afed8b7213c9bcfa8c89b82c4d
+  languageName: node
+  linkType: hard
+
 "@babel/helper-create-regexp-features-plugin@npm:^7.18.6, @babel/helper-create-regexp-features-plugin@npm:^7.22.15, @babel/helper-create-regexp-features-plugin@npm:^7.22.5":
   version: 7.22.15
   resolution: "@babel/helper-create-regexp-features-plugin@npm:7.22.15"
@@ -347,6 +366,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/helper-plugin-utils@npm:^7.24.0":
+  version: 7.24.0
+  resolution: "@babel/helper-plugin-utils@npm:7.24.0"
+  checksum: e2baa0eede34d2fa2265947042aa84d444aa48dc51e9feedea55b67fc1bc3ab051387e18b33ca7748285a6061390831ab82f8a2c767d08470b93500ec727e9b9
+  languageName: node
+  linkType: hard
+
 "@babel/helper-remap-async-to-generator@npm:^7.22.20":
   version: 7.22.20
   resolution: "@babel/helper-remap-async-to-generator@npm:7.22.20"
@@ -370,6 +396,19 @@ __metadata:
   peerDependencies:
     "@babel/core": ^7.0.0
   checksum: a0008332e24daedea2e9498733e3c39b389d6d4512637e000f96f62b797e702ee24a407ccbcd7a236a551590a38f31282829a8ef35c50a3c0457d88218cae639
+  languageName: node
+  linkType: hard
+
+"@babel/helper-replace-supers@npm:^7.24.1":
+  version: 7.24.1
+  resolution: "@babel/helper-replace-supers@npm:7.24.1"
+  dependencies:
+    "@babel/helper-environment-visitor": ^7.22.20
+    "@babel/helper-member-expression-to-functions": ^7.23.0
+    "@babel/helper-optimise-call-expression": ^7.22.5
+  peerDependencies:
+    "@babel/core": ^7.0.0
+  checksum: c04182c34a3195c6396de2f2945f86cb60daa94ca7392db09bd8b0d4e7a15b02fbe1947c70f6062c87eadaea6d7135207129efa35cf458ea0987bab8c0f02d5a
   languageName: node
   linkType: hard
 
@@ -508,6 +547,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/plugin-proposal-decorators@npm:7.24.1":
+  version: 7.24.1
+  resolution: "@babel/plugin-proposal-decorators@npm:7.24.1"
+  dependencies:
+    "@babel/helper-create-class-features-plugin": ^7.24.1
+    "@babel/helper-plugin-utils": ^7.24.0
+    "@babel/plugin-syntax-decorators": ^7.24.1
+  peerDependencies:
+    "@babel/core": ^7.0.0-0
+  checksum: b9375c64656bf9ae6d2eeb965c40823e6447f0f4594979d037231884c0f3a92af97172087f35a05e90b8ca0ccb47551b013998e85853c1c634d47b341f4deece
+  languageName: node
+  linkType: hard
+
 "@babel/plugin-proposal-explicit-resource-management@npm:7.23.3":
   version: 7.23.3
   resolution: "@babel/plugin-proposal-explicit-resource-management@npm:7.23.3"
@@ -570,6 +622,17 @@ __metadata:
   peerDependencies:
     "@babel/core": ^7.0.0-0
   checksum: 3e80814b5b6d4fe17826093918680a351c2d34398a914ce6e55d8083d72a9bdde4fbaf6a2dcea0e23a03de26dc2917ae3efd603d27099e2b98380345703bf948
+  languageName: node
+  linkType: hard
+
+"@babel/plugin-syntax-decorators@npm:^7.24.1":
+  version: 7.24.1
+  resolution: "@babel/plugin-syntax-decorators@npm:7.24.1"
+  dependencies:
+    "@babel/helper-plugin-utils": ^7.24.0
+  peerDependencies:
+    "@babel/core": ^7.0.0-0
+  checksum: 5933fdb1d8d2c0b4b80621ad65dacd4e1ccd836041557c2ddc4cb4c1f46a347fa72977fc519695a801c9cca8b9aaf90d7895ddd52cb4e510fbef5b9f03cb9568
   languageName: node
   linkType: hard
 
@@ -2616,10 +2679,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@foxglove/log@workspace:packages/log"
   dependencies:
-    "@foxglove/log": "workspace:*"
-    "@foxglove/rostime": 1.1.2
-    "@foxglove/schemas": 1.3.0
-    "@foxglove/studio": "workspace:*"
     "@foxglove/tsconfig": 2.0.0
     typescript: 5.3.3
   languageName: unknown
@@ -2824,16 +2883,6 @@ __metadata:
   version: 1.1.2
   resolution: "@foxglove/rostime@npm:1.1.2"
   checksum: a4f93001ccfa011f679af9a3d1e04c2d3c499848a9845856bf17f23cf9369ab975b27cd9fd048187002468de6852861bfb2292d5cfcbd85ff43afc274e1279e8
-  languageName: node
-  linkType: hard
-
-"@foxglove/schemas@npm:1.3.0":
-  version: 1.3.0
-  resolution: "@foxglove/schemas@npm:1.3.0"
-  dependencies:
-    "@foxglove/rosmsg-msgs-common": ^3.0.0
-    tslib: ^2.5.0
-  checksum: e4998c51bc874eeeba4c254d68ab5933278dc9c58dc2ec49b33ec8727338d47b971dfca51126b8bbd07f6385acc7f812d5b370e81cb5e6cd47fc026a8a27e93c
   languageName: node
   linkType: hard
 
@@ -13150,6 +13199,7 @@ __metadata:
     "@actions/exec": 1.1.1
     "@actions/tool-cache": 2.0.1
     "@babel/core": 7.23.7
+    "@babel/plugin-proposal-decorators": 7.24.1
     "@babel/plugin-proposal-explicit-resource-management": 7.23.3
     "@babel/preset-env": 7.23.8
     "@babel/preset-typescript": 7.23.3
