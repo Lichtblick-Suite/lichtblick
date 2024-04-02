@@ -83,7 +83,6 @@ function changePanelLayout(
   const configById = trimConfigById
     ? _.pick(state.configById, [...panelIdsInsideTabPanels, ...panelIds])
     : state.configById;
-
   return { ...state, configById, layout };
 }
 
@@ -102,7 +101,6 @@ function savePanelConfigs(state: LayoutData, payload: SaveConfigsPayload): Layou
       }
 
       const oldConfig = currentSavedProps[id];
-
       const newConfig = {
         // merge the partial new config with the default config and the old config
         // any entries in the new config can override default config and previous config entries
