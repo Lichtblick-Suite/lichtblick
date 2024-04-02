@@ -4,25 +4,26 @@
 
 import AddIcon from "@mui/icons-material/Add";
 import {
+  CircularProgress,
+  Divider,
   IconButton,
   Tab,
   Tabs,
   styled as muiStyled,
-  Divider,
-  CircularProgress,
 } from "@mui/material";
-import { useState, useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { makeStyles } from "tss-react/mui";
 
 import { AppSetting } from "@foxglove/studio-base/AppSetting";
-import { EventsList } from "@foxglove/studio-base/components/DataSourceSidebar/EventsList";
+import { EventsList } from "@foxglove/studio-base/components/EventsList";
 import {
   MessagePipelineContext,
   useMessagePipeline,
 } from "@foxglove/studio-base/components/MessagePipeline";
 import { SidebarContent } from "@foxglove/studio-base/components/SidebarContent";
 import Stack from "@foxglove/studio-base/components/Stack";
+import { TopicList } from "@foxglove/studio-base/components/TopicList";
 import WssErrorModal from "@foxglove/studio-base/components/WssErrorModal";
 import { useCurrentUser } from "@foxglove/studio-base/context/CurrentUserContext";
 import { EventsStore, useEvents } from "@foxglove/studio-base/context/EventsContext";
@@ -30,7 +31,6 @@ import { useWorkspaceActions } from "@foxglove/studio-base/context/Workspace/use
 import { useAppConfigurationValue } from "@foxglove/studio-base/hooks/useAppConfigurationValue";
 import { PlayerPresence } from "@foxglove/studio-base/players/types";
 
-import { TopicList } from "./TopicList";
 import { DataSourceInfoView } from "../DataSourceInfoView";
 import { ProblemsList } from "../ProblemsList";
 
