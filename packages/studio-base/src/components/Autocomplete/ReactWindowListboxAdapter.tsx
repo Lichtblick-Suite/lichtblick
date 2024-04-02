@@ -4,8 +4,8 @@
 
 import { AutocompleteRenderOptionState, MenuItem } from "@mui/material";
 import { FzfResultItem } from "fzf";
-import { Component, ReactNode, useMemo } from "react";
-import { FixedSizeList, FixedSizeListProps, ListChildComponentProps } from "react-window";
+import { ReactNode, useMemo } from "react";
+import { FixedSizeList, ListChildComponentProps } from "react-window";
 import { makeStyles } from "tss-react/mui";
 
 import { HighlightChars } from "@foxglove/studio-base/components/HighlightChars";

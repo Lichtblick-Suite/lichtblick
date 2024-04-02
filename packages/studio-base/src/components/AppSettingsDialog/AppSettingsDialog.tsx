@@ -319,7 +319,7 @@ export function AppSettingsDialog(
               </header>
               <Stack direction="row" alignItems="center" gap={1}>
                 <Typography variant="body2">
-                  Foxglove Studio version {FOXGLOVE_STUDIO_VERSION}
+                  Foxbox Studio version {FOXGLOVE_STUDIO_VERSION}
                 </Typography>
                 <CopyButton
                   size="small"
