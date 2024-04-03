@@ -2,10 +2,11 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import { AutocompleteRenderOptionState, MenuItem } from "@mui/material";
+import { AutocompleteRenderOptionState } from "@mui/material/Autocomplete";
+import MenuItem from "@mui/material/MenuItem";
 import { FzfResultItem } from "fzf";
-import { Component, ReactNode, useMemo } from "react";
-import { FixedSizeList, FixedSizeListProps, ListChildComponentProps } from "react-window";
+import { useMemo, ReactNode } from "react";
+import { FixedSizeList, ListChildComponentProps } from "react-window";
 import { makeStyles } from "tss-react/mui";
 
 import { HighlightChars } from "@foxglove/studio-base/components/HighlightChars";

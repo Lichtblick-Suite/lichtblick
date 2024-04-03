@@ -2,7 +2,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import { useMemo, useEffect, useState, useCallback } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import {
   App,
@@ -12,16 +12,17 @@ import {
   IDataSourceFactory,
   IdbExtensionLoader,
   McapLocalDataSourceFactory,
+  OsContext,
+  RemoteDataSourceFactory,
   Ros1LocalBagDataSourceFactory,
+  Ros1SocketDataSourceFactory,
   Ros2LocalBagDataSourceFactory,
   RosbridgeDataSourceFactory,
-  RemoteDataSourceFactory,
-  Ros1SocketDataSourceFactory,
   SampleNuscenesDataSourceFactory,
   UlogLocalDataSourceFactory,
   VelodyneDataSourceFactory,
-  OsContext,
 } from "@foxglove/studio-base";
+import { IdbLayoutStorage } from "@foxglove/studio-base/IdbLayoutStorage";
 
 import { DesktopExtensionLoader } from "./services/DesktopExtensionLoader";
 import { NativeAppMenu } from "./services/NativeAppMenu";
@@ -140,6 +141,8 @@ export default function Root(props: {
     };
   }, []);
 
+  const layoutStorage = useMemo(() => new IdbLayoutStorage(), []);
+
   return (
     <>
       <App
@@ -161,6 +164,7 @@ export default function Root(props: {
         onUnmaximizeWindow={onUnmaximizeWindow}
         onCloseWindow={onCloseWindow}
         extraProviders={props.extraProviders}
+        layoutStorage={layoutStorage}
       />
     </>
   );

@@ -72,6 +72,7 @@
     "@actions/exec": "1.1.1",
     "@actions/tool-cache": "2.0.1",
     "@babel/core": "7.23.7",
+    "@babel/plugin-proposal-decorators": "7.24.1",
     "@babel/plugin-proposal-explicit-resource-management": "7.23.3",
     "@babel/preset-env": "7.23.8",
     "@babel/preset-typescript": "7.23.3",
@@ -127,6 +128,11 @@
     "webpack-hot-middleware": "2.26.0"
   },
   "dependencies": {
-    "@mui/material": "5.15.10"
+    "@foxglove/hooks": "workspace:*",
+    "@foxglove/log": "workspace:*",
+    "@foxglove/studio": "workspace:*",
+    "@mui/material": "5.13.5",
+    "react-use": "17.4.0",
+    "rehype-raw": "6.1.1"
   }
 }
