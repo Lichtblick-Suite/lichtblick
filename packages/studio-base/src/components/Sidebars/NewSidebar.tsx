@@ -99,7 +99,7 @@ export function NewSidebar<K extends string>({
 }): JSX.Element {
   const { classes, cx } = useStyles();
 
-  const SelectedComponent = (activeTab != undefined && items.get(activeTab)?.component) || Noop;
+  const SelectedComponent = (activeTab != undefined && items.get(activeTab)?.component) ?? Noop;
 
   return (
     <Stack
@@ -157,7 +157,7 @@ export function NewSidebar<K extends string>({
       <Divider />
       {activeTab != undefined && (
         <div className={classes.tabContent}>
-          <SelectedComponent />
+          {SelectedComponent !== false ? <SelectedComponent /> : <></>}
         </div>
       )}
     </Stack>

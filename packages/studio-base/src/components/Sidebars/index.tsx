@@ -240,7 +240,7 @@ export default function Sidebars<
   ]);
 
   const SelectedLeftComponent =
-    (selectedKey != undefined && allOldLeftItems.get(selectedKey)?.component) || Noop;
+    (selectedKey != undefined && allOldLeftItems.get(selectedKey)?.component) ?? Noop;
 
   const onClickTabAction = useCallback(
     (key: OldLeftKey) => {
@@ -394,7 +394,7 @@ export default function Sidebars<
                       />
                     ) : (
                       <Paper square elevation={0}>
-                        <SelectedLeftComponent />
+                        {SelectedLeftComponent !== false ? <SelectedLeftComponent /> : <></>}
                       </Paper>
                     )}
                   </ErrorBoundary>

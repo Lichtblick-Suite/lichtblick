@@ -189,14 +189,14 @@ export const MultiSelect: StoryObj = {
   play: async ({ canvasElement }) => {
     const layouts = await within(canvasElement).findAllByTestId("layout-list-item");
 
-    userEvent.click(layouts[0]!);
+    await userEvent.click(layouts[0]!);
 
-    userEvent.click(layouts[1]!, { metaKey: true });
-    userEvent.click(layouts[3]!, { metaKey: true });
+    await userEvent.click(layouts[1]!, { metaKey: true });
+    await userEvent.click(layouts[3]!, { metaKey: true });
 
-    userEvent.click(layouts[6]!, { shiftKey: true });
+    await userEvent.click(layouts[6]!, { shiftKey: true });
 
-    userEvent.click(layouts[4]!, { metaKey: true });
+    await userEvent.click(layouts[4]!, { metaKey: true });
   },
 };
 
@@ -413,7 +413,9 @@ export const DeleteLayout: StoryObj = {
   },
 
   parameters: { colorScheme: "dark" },
-  play: async () => { await deleteLayoutInteraction(0); },
+  play: async () => {
+    await deleteLayoutInteraction(0);
+  },
 };
 
 export const DeleteSelectedLayout: StoryObj = {
@@ -445,7 +447,9 @@ export const DeleteLastLayout: StoryObj = {
     colorScheme: "dark",
   },
 
-  play: async () => { await deleteLayoutInteraction(0); },
+  play: async () => {
+    await deleteLayoutInteraction(0);
+  },
 };
 
 export const SignInPrompt: StoryObj = {
