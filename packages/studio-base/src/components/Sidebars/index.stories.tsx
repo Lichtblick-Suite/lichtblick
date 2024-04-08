@@ -46,7 +46,7 @@ function Story({
   height?: number;
 }) {
   const [selectedKey, setSelectedKey] = useState<string | undefined>(defaultSelectedKey);
-  const [_, setAppBarEnabled] = useAppConfigurationValue<boolean>(AppSetting.ENABLE_NEW_TOPNAV);
+  const [, setAppBarEnabled] = useAppConfigurationValue<boolean>(AppSetting.ENABLE_NEW_TOPNAV);
 
   useEffect(() => {
     if (enableAppBar === true) {
