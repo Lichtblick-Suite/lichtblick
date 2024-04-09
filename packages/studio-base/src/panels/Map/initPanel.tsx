@@ -7,7 +7,7 @@ import LeafletRetinaIconUrl from "leaflet/dist/images/marker-icon-2x.png";
 import LeafletIconUrl from "leaflet/dist/images/marker-icon.png";
 import LeafletShadowIconUrl from "leaflet/dist/images/marker-shadow.png";
 import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
+import ReactDOM from "react-dom";
 
 import { useCrash } from "@foxglove/hooks";
 import { PanelExtensionContext } from "@foxglove/studio";
@@ -34,17 +34,17 @@ export function initPanel(
   crash: ReturnType<typeof useCrash>,
   context: PanelExtensionContext,
 ): () => void {
-  const root = createRoot(context.panelElement);
-  root.render(
+  // eslint-disable-next-line react/no-deprecated
+  ReactDOM.render(
     <StrictMode>
       <CaptureErrorBoundary onError={crash}>
         <MapPanel context={context} />
       </CaptureErrorBoundary>
     </StrictMode>,
+    context.panelElement,
   );
   return () => {
-    setTimeout(() => {
-      root.unmount();
-    }, 0);
+    // eslint-disable-next-line react/no-deprecated
+    ReactDOM.unmountComponentAtNode(context.panelElement);
   };
 }
