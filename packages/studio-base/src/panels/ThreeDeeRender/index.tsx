@@ -3,7 +3,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import { StrictMode, useMemo } from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import { DeepPartial } from "ts-essentials";
 
 import { useCrash } from "@foxglove/hooks";
@@ -36,8 +36,8 @@ type InitPanelArgs = {
 
 function initPanel(args: InitPanelArgs, context: BuiltinPanelExtensionContext) {
   const { crash, forwardedAnalytics, interfaceMode, testOptions, customSceneExtensions } = args;
-  // eslint-disable-next-line react/no-deprecated
-  ReactDOM.render(
+  const root = createRoot(context.panelElement);
+  root.render(
     <StrictMode>
       <CaptureErrorBoundary onError={crash}>
         <ForwardAnalyticsContextProvider forwardedAnalytics={forwardedAnalytics}>
@@ -50,11 +50,11 @@ function initPanel(args: InitPanelArgs, context: BuiltinPanelExtensionContext) {
         </ForwardAnalyticsContextProvider>
       </CaptureErrorBoundary>
     </StrictMode>,
-    context.panelElement,
   );
   return () => {
-    // eslint-disable-next-line react/no-deprecated
-    ReactDOM.unmountComponentAtNode(context.panelElement);
+    setTimeout(() => {
+      root.unmount();
+    }, 0);
   };
 }
 
