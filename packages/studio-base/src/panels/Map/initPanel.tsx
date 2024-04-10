@@ -34,6 +34,7 @@ export function initPanel(
   crash: ReturnType<typeof useCrash>,
   context: PanelExtensionContext,
 ): () => void {
+  // The lib leaflet changes the DOM somehow that 'createRoot' crashes.
   // eslint-disable-next-line react/no-deprecated
   ReactDOM.render(
     <StrictMode>
