@@ -160,7 +160,7 @@ function SidebarItems(props: {
   onSelectView: (newValue: DataSourceDialogItem) => void;
 }): JSX.Element {
   const { onSelectView } = props;
-  const { currentUserType, signIn } = useCurrentUser();
+  const { currentUserType } = useCurrentUser();
   const analytics = useAnalytics();
   const { classes } = useStyles();
   const { t } = useTranslation("openDialog");
