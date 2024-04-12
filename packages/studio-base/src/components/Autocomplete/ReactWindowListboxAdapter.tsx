@@ -5,7 +5,7 @@
 import { AutocompleteRenderOptionState } from "@mui/material/Autocomplete";
 import MenuItem from "@mui/material/MenuItem";
 import { FzfResultItem } from "fzf";
-import { ReactNode, useMemo } from "react";
+import { useMemo, ReactNode } from "react";
 import { FixedSizeList, ListChildComponentProps } from "react-window";
 import { makeStyles } from "tss-react/mui";
 
