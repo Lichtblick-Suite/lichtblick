@@ -318,9 +318,7 @@ export function AppSettingsDialog(
                 <FoxgloveLogoText color="primary" className={classes.logo} />
               </header>
               <Stack direction="row" alignItems="center" gap={1}>
-                <Typography variant="body2">
-                  Foxglove Studio version {FOXGLOVE_STUDIO_VERSION}
-                </Typography>
+                <Typography variant="body2">FoxBox version {FOXGLOVE_STUDIO_VERSION}</Typography>
                 <CopyButton
                   size="small"
                   getText={() => FOXGLOVE_STUDIO_VERSION?.toString() ?? ""}
