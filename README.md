@@ -1,5 +1,3 @@
-![Accelerate your robotics development](https://user-images.githubusercontent.com/14011012/195918769-5aaeedf3-5de2-48fb-951e-7399f2b9e190.png)
-
 <br/>
 
 <div align="center">
@@ -38,8 +36,7 @@ The official binary distributions available at [studio.foxglove.dev](https://stu
 ## Contributing
 
 Foxbox is written in TypeScript – contributions are welcome!
-
-Note: All contributors must agree to our [Contributor License Agreement](https://github.com/foxglove/cla). See [CONTRIBUTING.md](CONTRIBUTING.md) for more details.
+Note: All contributors must agree to our Contributor License Agreement. See [CONTRIBUTING.md](CONTRIBUTING.md) for more details.
 
 ## Credits
 
