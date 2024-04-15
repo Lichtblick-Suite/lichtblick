@@ -4,7 +4,7 @@
 
 import { createContext, useCallback, useState } from "react";
 
-import { useShallowMemo, useGuaranteedContext } from "@foxglove/hooks";
+import { useShallowMemo } from "@foxglove/hooks";
 import { generateEmptyTypesLib } from "@foxglove/studio-base/players/UserNodePlayer/nodeTransformerWorker/generateTypesLib";
 import { ros_lib_dts } from "@foxglove/studio-base/players/UserNodePlayer/nodeTransformerWorker/typescript/ros";
 import { Diagnostic, UserNodeLog } from "@foxglove/studio-base/players/UserNodePlayer/types";
