@@ -189,11 +189,6 @@ export function AppMenu(props: AppMenuProps): JSX.Element {
     handleNestedMenuClose();
   }, [handleNestedMenuClose]);
 
-  const onSlackClick = useCallback(() => {
-    window.open("https://foxglove.dev/slack", "_blank");
-    handleNestedMenuClose();
-  }, [handleNestedMenuClose]);
-
   const onDemoClick = useCallback(() => {
     dialogActions.dataSource.open("demo");
     handleNestedMenuClose();
@@ -208,13 +203,12 @@ export function AppMenu(props: AppMenuProps): JSX.Element {
         type: "item",
         key: "join-slack",
         label: t("joinOurSlack"),
-        onClick: onSlackClick,
         external: true,
       },
       { type: "divider" },
       { type: "item", key: "demo", label: t("exploreSampleData"), onClick: onDemoClick },
     ],
-    [onAboutClick, onDemoClick, onDocsClick, onSlackClick, t],
+    [onAboutClick, onDemoClick, onDocsClick, t],
   );
 
   return (
