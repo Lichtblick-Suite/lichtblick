@@ -104,8 +104,3 @@ export function UserNodeStateProvider({ children }: React.PropsWithChildren): JS
 
   return <UserNodeStateContext.Provider value={value}>{children}</UserNodeStateContext.Provider>;
 }
-
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export function useUserNodeState() {
-  return useGuaranteedContext(UserNodeStateContext, "UserNodeStateContext");
-}
