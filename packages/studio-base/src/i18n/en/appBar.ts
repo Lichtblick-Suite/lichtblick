@@ -15,7 +15,6 @@ export const appBar = {
   hideRightSidebar: "Hide right sidebar",
   importLayoutFromFile: "Import layout from file…",
   joinOurSlack: "Join our Slack",
-  joinSlackCommunity: "Join Slack community",
   noDataSource: "No data source",
   open: "Open…",
   openConnection: "Open connection…",
