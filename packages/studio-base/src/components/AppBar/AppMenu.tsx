@@ -199,12 +199,6 @@ export function AppMenu(props: AppMenuProps): JSX.Element {
       { type: "item", key: "about", label: t("about"), onClick: onAboutClick },
       { type: "divider" },
       { type: "item", key: "docs", label: t("viewOurDocs"), onClick: onDocsClick, external: true },
-      {
-        type: "item",
-        key: "join-slack",
-        label: t("joinOurSlack"),
-        external: true,
-      },
       { type: "divider" },
       { type: "item", key: "demo", label: t("exploreSampleData"), onClick: onDemoClick },
     ],
