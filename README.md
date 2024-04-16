@@ -27,6 +27,10 @@ yarn run web:serve
 Foxbox will be accessible in your browser at [localhost:8080](http://localhost:8080/).
 It can also be installed by using the desktop aplication versions available on [github releases](https://github.com/bmw-software-engineering/foxbox/tags).
 
+## Open Source
+
+Foxbox follows an open core licensing model. Most functionality is available in this repository, and can be reproduced or modified per the terms of the [Mozilla Public License v2.0](/LICENSE).
+
 ## Contributing
 
 Foxbox is written in TypeScript – contributions are welcome!
