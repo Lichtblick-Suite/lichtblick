@@ -38,6 +38,7 @@
     "lint:unused-exports": "ts-node ./ci/lint-unused-exports.ts",
     "lint:dependencies": "ts-node ./ci/lint-dependencies.ts .",
     "test": "jest",
+    "test:lint": "yarn license-check && yarn dedupe --check && yarn run tsc --noEmit && yarn run lint:ci && yarn run lint:unused-exports && yarn run lint:dependencies       ",
     "test:debug": "cross-env NODE_OPTIONS='--inspect-brk' jest",
     "test:watch": "jest --watch",
     "test:integration": "jest --forceExit --projects desktop/integration-test",
