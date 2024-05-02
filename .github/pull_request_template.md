@@ -12,5 +12,5 @@
 
 - [ ] The web version was tested and it is running ok
 - [ ] The desktop version was tested and it is running ok
-- [ ] I've updated/created the storybook files
+- [ ] I've updated/created the storybook file(s)
 - [ ] The release version was updated on package.json files
