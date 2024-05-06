@@ -3,13 +3,13 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import { StrictMode, useMemo } from "react";
-import { createRoot } from "react-dom/client";
 
 import { useCrash } from "@foxglove/hooks";
 import { PanelExtensionContext } from "@foxglove/studio";
 import { CaptureErrorBoundary } from "@foxglove/studio-base/components/CaptureErrorBoundary";
 import Panel from "@foxglove/studio-base/components/Panel";
 import { PanelExtensionAdapter } from "@foxglove/studio-base/components/PanelExtensionAdapter";
+import { createSyncRoot } from "@foxglove/studio-base/panels/createSyncRoot";
 import ThemeProvider from "@foxglove/studio-base/theme/ThemeProvider";
 import { SaveConfig } from "@foxglove/studio-base/types/panels";
 
@@ -17,8 +17,7 @@ import { Gauge } from "./Gauge";
 import { Config } from "./types";
 
 function initPanel(crash: ReturnType<typeof useCrash>, context: PanelExtensionContext) {
-  const root = createRoot(context.panelElement);
-  root.render(
+  return createSyncRoot(
     <StrictMode>
       <CaptureErrorBoundary onError={crash}>
         <ThemeProvider isDark>
@@ -26,12 +25,8 @@ function initPanel(crash: ReturnType<typeof useCrash>, context: PanelExtensionCo
         </ThemeProvider>
       </CaptureErrorBoundary>
     </StrictMode>,
+    context.panelElement,
   );
-  return () => {
-    setTimeout(() => {
-      root.unmount();
-    }, 0);
-  };
 }
 
 type Props = {

@@ -20,6 +20,7 @@ import {
 } from "@foxglove/studio-base/components/PanelExtensionAdapter";
 import { INJECTED_FEATURE_KEYS, useAppContext } from "@foxglove/studio-base/context/AppContext";
 import { TestOptions } from "@foxglove/studio-base/panels/ThreeDeeRender/IRenderer";
+import { createSyncRoot } from "@foxglove/studio-base/panels/createSyncRoot";
 import { SaveConfig } from "@foxglove/studio-base/types/panels";
 
 import { SceneExtensionConfig } from "./SceneExtensionConfig";
@@ -36,8 +37,7 @@ type InitPanelArgs = {
 
 function initPanel(args: InitPanelArgs, context: BuiltinPanelExtensionContext) {
   const { crash, forwardedAnalytics, interfaceMode, testOptions, customSceneExtensions } = args;
-  const root = createRoot(context.panelElement);
-  root.render(
+  return createSyncRoot(
     <StrictMode>
       <CaptureErrorBoundary onError={crash}>
         <ForwardAnalyticsContextProvider forwardedAnalytics={forwardedAnalytics}>
@@ -50,12 +50,8 @@ function initPanel(args: InitPanelArgs, context: BuiltinPanelExtensionContext) {
         </ForwardAnalyticsContextProvider>
       </CaptureErrorBoundary>
     </StrictMode>,
+    context.panelElement,
   );
-  return () => {
-    setTimeout(() => {
-      root.unmount();
-    }, 0);
-  };
 }
 
 type Props = {
