@@ -3,7 +3,6 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import { StrictMode, useMemo } from "react";
-import { createRoot } from "react-dom/client";
 import { DeepPartial } from "ts-essentials";
 
 import { useCrash } from "@foxglove/hooks";
