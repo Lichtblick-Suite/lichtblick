@@ -1,6 +1,6 @@
 # Contributing Guidelines
 
-Welcome, and thank you for your interest in contributing to FoxBox! We value your contributions and want to make the contributing experience enjoyable and rewarding for you. Here’s how you can get started:
+Welcome, and thank you for your interest in contributing to Foxbox! We value your contributions and want to make the contributing experience enjoyable and rewarding for you. Here’s how you can get started:
 
 ## :rocket: Getting Started
 

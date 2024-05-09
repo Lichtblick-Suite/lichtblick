@@ -1,4 +1,4 @@
-<h1 align="center">FoxBox</h1>
+<h1 align="center">Foxbox</h1>
 
 <div align="center">
   <a href="https://github.com/bmw-software-engineering/foxbox/stargazers"><img src="https://img.shields.io/github/stars/bmw-software-engineering/foxbox" alt="Stars Badge"/></a>
@@ -11,7 +11,7 @@
 
   <br />
 <p  align="center">
-FoxBox is an integrated visualization and diagnosis tool for robotics, available in your browser or as a desktop app on Linux, Windows, and macOS.
+Foxbox is an integrated visualization and diagnosis tool for robotics, available in your browser or as a desktop app on Linux, Windows, and macOS.
 </p>
   <p align="center">
     <img alt="Foxbox screenshot" src="resources/screenshot.png">
@@ -64,7 +64,7 @@ $ yarn desktop:start        # launch electron
 $ yarn run web:serve        # it will be avaiable in http://localhost:8080
 ```
 
-## :hammer_and_wrench: Building FoxBox
+## :hammer_and_wrench: Building Foxbox
 
 Build the application for production using these commands:
 
@@ -95,8 +95,8 @@ Foxbox follows an open core licensing model. Most functionality is available in 
 
 ## :handshake: Contributing
 
-Contributions are welcome! FoxBox is primarily built in TypeScript and ReactJS. All potential contributors must agree to the Contributor License Agreement outlined in [CONTRIBUTING.md](CONTRIBUTING.md).
+Contributions are welcome! Foxbox is primarily built in TypeScript and ReactJS. All potential contributors must agree to the Contributor License Agreement outlined in [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## :star: Credits
 
-FoxBox originally began as a fork of [FoxGlove Studio](https://github.com/foxglove/studio), an open source project developed by [Foxglove](https://app.foxglove.dev/).
+Foxbox originally began as a fork of [FoxGlove Studio](https://github.com/foxglove/studio), an open source project developed by [Foxglove](https://app.foxglove.dev/).
