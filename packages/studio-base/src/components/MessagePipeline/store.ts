@@ -424,7 +424,6 @@ export function reducer(
       };
     }
   }
-
 }
 
 async function builtinFetch(url: string, opts?: { signal?: AbortSignal }) {

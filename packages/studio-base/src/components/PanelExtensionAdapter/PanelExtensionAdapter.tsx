@@ -119,7 +119,7 @@ function PanelExtensionAdapter(
   const { playerState, pauseFrame, setSubscriptions, seekPlayback, sortedTopics } =
     messagePipelineContext;
 
-  const { capabilities, profile: dataSourceProfile, presence: playerPresence  } = playerState;
+  const { capabilities, profile: dataSourceProfile, presence: playerPresence } = playerState;
 
   const { openSiblingPanel, setMessagePathDropConfig } = usePanelContext();
 
@@ -548,8 +548,7 @@ function PanelExtensionAdapter(
     );
   }, [initialState, highestSupportedConfigVersion]);
 
-
-   const playerIsInitializing = playerPresence === PlayerPresence.INITIALIZING;
+  const playerIsInitializing = playerPresence === PlayerPresence.INITIALIZING;
 
   // Manage extension lifecycle by calling initPanel() when the panel context changes.
   //
@@ -603,7 +602,14 @@ function PanelExtensionAdapter(
       getMessagePipelineContext().setSubscriptions(panelId, []);
       getMessagePipelineContext().setPublishers(panelId, []);
     };
-  }, [initPanel, panelId, partialExtensionContext, getMessagePipelineContext, configTooNew, playerIsInitializing,]);
+  }, [
+    initPanel,
+    panelId,
+    partialExtensionContext,
+    getMessagePipelineContext,
+    configTooNew,
+    playerIsInitializing,
+  ]);
 
   const style: CSSProperties = {};
   if (slowRender) {
