@@ -356,9 +356,6 @@ function Chart(props: Props): JSX.Element {
     // closed RPC, causing some panels to become unusable. This approach ignores the error to
     // keep the component functional. Revisit this once the underlying issue is resolved.
     updateChart(newUpdate).catch((err: Error) => {
-      // if (isMounted()) {
-      //   setUpdateError(err);
-      // }
       console.error(err);
     });
   }, [getNewUpdateMessage, isMounted, updateChart]);
