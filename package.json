@@ -12,7 +12,8 @@
     "url": "https://github.com/bmw-software-engineering/foxbox"
   },
   "author": {
-    "name": "Foxbox"
+    "name": "Foxbox",
+    "email": "support@foxglove.dev"
   },
   "homepage": "https://github.com/bmw-software-engineering/foxbox",
   "engines": {
