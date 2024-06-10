@@ -144,29 +144,8 @@ const aboutItems = new Map<
     {
       subheader: "External resources",
       links: [
-        ...(isDesktopApp() ? [] : [{ title: "Desktop app", url: "https://foxglove.dev/download" }]),
-        { title: "Browse docs", url: "https://docs.foxglove.dev/docs" },
-        { title: "Join our community", url: "https://foxglove.dev/community" },
-      ],
-    },
-  ],
-  [
-    "products",
-    {
-      subheader: "Products",
-      links: [
-        { title: "Foxglove Studio", url: "https://foxglove.dev/studio" },
-        { title: "Foxglove Data Platform", url: "https://foxglove.dev/data-platform" },
-      ],
-    },
-  ],
-  [
-    "contact",
-    {
-      subheader: "Contact",
-      links: [
-        { title: "Give feedback", url: "https://foxglove.dev/contact" },
-        { title: "Schedule a demo", url: "https://foxglove.dev/demo" },
+        { title: "Repository", url: "https://github.com/bmw-software-engineering/foxbox" },
+        { title: "Releases", url: "https://github.com/bmw-software-engineering/foxbox/releases" },
       ],
     },
   ],
@@ -175,8 +154,7 @@ const aboutItems = new Map<
     {
       subheader: "Legal",
       links: [
-        { title: "License terms", url: "https://foxglove.dev/legal/studio-license" },
-        { title: "Privacy policy", url: "https://foxglove.dev/legal/privacy" },
+        { title: "License terms", url: "https://github.com/bmw-software-engineering/foxbox/blob/main/LICENSE" },
       ],
     },
   ],
