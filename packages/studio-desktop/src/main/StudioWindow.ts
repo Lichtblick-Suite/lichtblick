@@ -60,7 +60,7 @@ function getTitleBarOverlayOptions(): TitleBarOverlayOptions {
 }
 
 function newStudioWindow(deepLinks: string[] = [], reloadMainWindow: () => void): BrowserWindow {
-  const { crashReportingEnabled, telemetryEnabled } = getTelemetrySettings();
+  const { crashReportingEnabled } = getTelemetrySettings();
   const preloadPath = path.join(app.getAppPath(), "main", "preload.js");
 
   const macTrafficLightInset =
@@ -85,7 +85,7 @@ function newStudioWindow(deepLinks: string[] = [], reloadMainWindow: () => void)
       nodeIntegration: false,
       additionalArguments: [
         `--allowCrashReporting=${crashReportingEnabled ? "1" : "0"}`,
-        `--allowTelemetry=${telemetryEnabled ? "1" : "0"}`,
+        `--allowTelemetry=0`,
         encodeRendererArg("deepLinks", deepLinks),
       ],
       // Disable webSecurity in development so we can make XML-RPC calls, load

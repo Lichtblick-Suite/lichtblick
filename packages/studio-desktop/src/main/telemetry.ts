@@ -8,10 +8,8 @@ import { getAppSetting } from "./settings";
 
 export function getTelemetrySettings(): {
   crashReportingEnabled: boolean;
-  telemetryEnabled: boolean;
 } {
   const crashReportingEnabled = getAppSetting<boolean>(AppSetting.CRASH_REPORTING_ENABLED) ?? true;
-  const telemetryEnabled = getAppSetting<boolean>(AppSetting.TELEMETRY_ENABLED) ?? true;
 
-  return { crashReportingEnabled, telemetryEnabled };
+  return { crashReportingEnabled };
 }

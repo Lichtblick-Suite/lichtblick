@@ -16,7 +16,6 @@ export enum AppSetting {
   ENABLE_NEW_TOPNAV = "enableNewTopNav",
 
   // Privacy
-  TELEMETRY_ENABLED = "telemetry.telemetryEnabled",
   CRASH_REPORTING_ENABLED = "telemetry.crashReportingEnabled",
 
   // Experimental features

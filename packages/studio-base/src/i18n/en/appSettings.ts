@@ -25,7 +25,6 @@ export const appSettings = {
   newAppMenuDescription: "Show the new menu and navigation.",
   noExperimentalFeatures: "Currently there are no experimental features.",
   openLinksIn: "Open links in",
-  privacy: "Privacy",
   ros: "ROS",
   settings: "Settings",
   timestampFormat: "Timestamp format",
