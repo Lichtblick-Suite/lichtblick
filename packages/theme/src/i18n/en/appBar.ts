@@ -30,6 +30,6 @@ export const appBar = {
   userProfile: "User profile",
   view: "View",
   viewData: "View data",
-  viewOurDocs: "View our docs",
+  viewOurDocs: "View Foxglove docs",
   profile: "Profile",
 };
