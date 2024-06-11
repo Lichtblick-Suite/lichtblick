@@ -19,3 +19,16 @@ coverage/
 
 # Extensions
 *.foxe
+Default/
+BrowserMetrics/
+desktop/
+Dictionaries/
+GrShaderCache/
+ShaderCache/
+WidevineCdm/
+Last Version
+Local State
+Consent To Send Stats
+CrashpadMetrics-active.pma
+First Run
+chrome_shutdown_ms.txt

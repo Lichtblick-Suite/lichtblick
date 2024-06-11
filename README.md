@@ -29,6 +29,10 @@ Foxsight is an integrated visualization and diagnosis tool for robotics, availab
 
 Clone the repository:
 
+### Building the container
+
+Please after cloning the repo you need to download some stuff from git lfs with:
+
 ```sh
 $ git clone https://github.com/bmw-software-engineering/lichtblick.git
 ```

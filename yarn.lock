@@ -2361,7 +2361,11 @@ __metadata:
   resolution: "@foxglove/electron-socket@npm:2.1.1"
   dependencies:
     dns-packet: ^5.2.4
-    eventemitter3: ^4.0.7
+    eventemitter3: 5.0.1
+    "@foxglove/tsconfig": 2.0.0
+    "@types/dom-webcodecs": 0.1.7
+    async-mutex: 0.4.0
+    xacro-parser: 0.3.9
   peerDependencies:
     electron: ">=12"
   checksum: dc9d34999d12002de20f39b4d516016303edfd8ea9f825f93ac12824f6443680585fa52f95319b3f1c9116df678adc15a011f313ee94eb76a021fe44d37dab20
@@ -6599,6 +6603,13 @@ __metadata:
   version: 0.0.9
   resolution: "@types/doctrine@npm:0.0.9"
   checksum: 3909eaca42e7386b2ab866f082b78da3e00718d2fa323597e254feb0556c678b41f2c490729067433630083ac9c806ec6ae1e146754f7f8ba7d3e43ed68d6500
+  languageName: node
+  linkType: hard
+
+"@types/dom-webcodecs@npm:0.1.7":
+  version: 0.1.7
+  resolution: "@types/dom-webcodecs@npm:0.1.7"
+  checksum: f9934231fc1d9e56be8eba9eca314a4d9ba4fb8f9069c648b03511a2b5e43321ca579ecf6d1b17cbdbecbacb49a0551329835eea234acc210fb6a365fb24985f
   languageName: node
   linkType: hard
 
