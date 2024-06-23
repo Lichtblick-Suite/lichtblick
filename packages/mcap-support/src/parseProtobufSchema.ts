@@ -3,6 +3,8 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import protobufjs from "protobufjs";
+import * as protobuf from 'protobufjs';
+
 import { FileDescriptorSet } from "protobufjs/ext/descriptor";
 
 import { protobufDefinitionsToDatatypes, stripLeadingDot } from "./protobufDefinitionsToDatatypes";
@@ -59,10 +61,20 @@ export function parseProtobufSchema(
   fixTimeType(root.lookup(".google.protobuf.Duration"));
 
   const deserialize = (data: ArrayBufferView) => {
+    // console.log(
+	    
+    return rootType.toObject(populateNestedDefaults( 
+      rootType, // 
+      rootType.decode(new Uint8Array(data.buffer, data.byteOffset, data.byteLength)),
+      'MSG',
+      new Set()), {defaults: true}); //  );
+
+      /*
     return rootType.toObject(
       rootType.decode(new Uint8Array(data.buffer, data.byteOffset, data.byteLength)),
       { defaults: true },
     );
+   */
   };
 
   const datatypes: MessageDefinitionMap = new Map();
@@ -77,4 +89,71 @@ export function parseProtobufSchema(
   }
 
   return { deserialize, datatypes };
+}
+
+
+function populateNestedDefaults(
+    typeDescriptor: protobuf.Type,
+    message: any,
+    parent_name: string,
+    visitedTypes: Set<string>
+): any {
+
+    if (visitedTypes.has(parent_name)){ 
+        return message; // Avoid recursion on already visited types
+    }
+
+    for (const oneof of typeDescriptor.oneofsArray || []) {
+        // Handle oneof fields
+        let setMember: string | null = null;
+        for (const fieldName of oneof.oneof) {
+            if (message[fieldName] !== undefined && message[fieldName] !== null) {
+                setMember = fieldName;
+                break;
+            }
+        }
+        if (setMember) {
+            // Populate defaults for the set member if not already set
+            const fieldDescriptor = typeDescriptor.fields[setMember];
+            if (fieldDescriptor) {
+                const fieldType = fieldDescriptor.resolve().resolvedType;
+                if (fieldType instanceof protobuf.Type) {
+                    message[setMember] = populateNestedDefaults(fieldType, message[setMember], `${parent_name}.${setMember}`, visitedTypes);
+                }
+            }
+        } else if (oneof.oneof.length > 0) {
+            // Default to the first member
+            const firstMember = oneof.oneof[0];
+            if (firstMember && typeDescriptor.fields[firstMember]) {
+                const fieldDescriptor = typeDescriptor.fields[firstMember];
+                if (fieldDescriptor) {
+                    const fieldType = fieldDescriptor.resolve().resolvedType;
+                    if (fieldType instanceof protobuf.Type) {
+                        message[firstMember] = populateNestedDefaults(fieldType, {}, `${parent_name}.${firstMember}`, visitedTypes);
+                }
+            }
+	    }}}
+
+    for (const field of typeDescriptor.fieldsArray) {
+        if (typeDescriptor.oneofs && Object.values(typeDescriptor.oneofs).some(o => o.oneof.includes(field.name))) {
+            continue; // Skip oneof fields handled above
+        }
+
+        const fieldType = field.resolve().resolvedType;
+
+
+        if (fieldType instanceof protobuf.Type) {
+            // Field is a message type, recursively populate its defaults
+            message[field.name] = populateNestedDefaults(fieldType, message?.[field.name]? message[field.name]: fieldType.create({}), `${parent_name}.${field.name}`, visitedTypes);
+        } else {
+            // Field is a primitive type, use the default value from the field descriptor
+            
+	    if (message[field.name] === undefined && message[field.name] === null) {
+            	message[field.name] = field.defaultValue; 
+	    }
+	    console.log("MESSAGE:", message);
+        }
+    }
+    visitedTypes.add(parent_name); 
+    return message;
 }
