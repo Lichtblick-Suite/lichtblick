@@ -148,6 +148,8 @@ export type MessageEvent<T = unknown> = {
    * un-converted message event.
    */
   originalMessageEvent?: MessageEvent;
+
+  topicConfig?: unknown;
 };
 
 export interface LayoutActions {
@@ -440,10 +442,17 @@ export type ExtensionPanelRegistration = {
   initPanel: (context: PanelExtensionContext) => void | (() => void);
 };
 
+export interface PanelSettings<ExtensionSettings> {
+  settings: (config?: ExtensionSettings) => SettingsTreeNode;
+  handler: (action: SettingsTreeAction, config?: ExtensionSettings) => void;
+  defaultConfig?: ExtensionSettings;
+}
+
 export type RegisterMessageConverterArgs<Src> = {
   fromSchemaName: string;
   toSchemaName: string;
   converter: (msg: Src, event: Immutable<MessageEvent<Src>>) => unknown;
+  panelSettings?: Record<string, Record<string, PanelSettings<unknown>>>;
 };
 
 type BaseTopic = { name: string; schemaName?: string };

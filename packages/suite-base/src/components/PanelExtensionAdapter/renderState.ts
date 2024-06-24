@@ -41,6 +41,10 @@ import {
 
 const EmptyParameters = new Map<string, ParameterValue>();
 
+export type RenderStateConfig = {
+  topics: Record<string, unknown>;
+};
+
 export type BuilderRenderStateInput = Immutable<{
   appSettings: Map<string, AppSettingValue> | undefined;
   colorScheme: RenderState["colorScheme"] | undefined;
@@ -53,6 +57,7 @@ export type BuilderRenderStateInput = Immutable<{
   sortedTopics: readonly PlayerTopic[];
   subscriptions: Subscription[];
   watchedFields: Set<string>;
+  config: RenderStateConfig | undefined;
 }>;
 
 type BuildRenderStateFn = (input: BuilderRenderStateInput) => Immutable<RenderState> | undefined;
@@ -98,6 +103,7 @@ function initRenderStateBuilder(): BuildRenderStateFn {
       sortedTopics,
       subscriptions,
       watchedFields,
+      config,
     } = input;
 
     // Should render indicates whether any fields of render state are updated
@@ -204,7 +210,11 @@ function initRenderStateBuilder(): BuildRenderStateFn {
           if (unconvertedSubscriptionTopics.has(messageEvent.topic)) {
             postProcessedFrame.push(messageEvent);
           }
-          convertMessage(messageEvent, topicSchemaConverters, postProcessedFrame);
+          convertMessage(
+            { ...messageEvent, topicConfig: config?.topics[messageEvent.topic] },
+            topicSchemaConverters,
+            postProcessedFrame,
+          );
           lastMessageByTopic.set(messageEvent.topic, messageEvent);
         }
         renderState.currentFrame = postProcessedFrame;
@@ -214,7 +224,11 @@ function initRenderStateBuilder(): BuildRenderStateFn {
         // only the new conversions on our most recent message on each topic.
         const postProcessedFrame: MessageEvent[] = [];
         for (const messageEvent of lastMessageByTopic.values()) {
-          convertMessage(messageEvent, newConverters, postProcessedFrame);
+          convertMessage(
+            { ...messageEvent, topicConfig: config?.topics[messageEvent.topic] },
+            newConverters,
+            postProcessedFrame,
+          );
         }
         renderState.currentFrame = postProcessedFrame;
         shouldRender = true;
@@ -262,7 +276,11 @@ function initRenderStateBuilder(): BuildRenderStateFn {
               if (unconvertedSubscriptionTopics.has(messageEvent.topic)) {
                 frames.push(messageEvent);
               }
-              convertMessage(messageEvent, topicSchemaConverters, frames);
+              convertMessage(
+                { ...messageEvent, topicConfig: config?.topics[messageEvent.topic] },
+                topicSchemaConverters,
+                frames,
+              );
             },
           );
         }

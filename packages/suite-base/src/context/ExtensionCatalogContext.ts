@@ -5,6 +5,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import * as _ from "lodash-es";
 import { createContext } from "react";
 import { StoreApi, useStore } from "zustand";
 
@@ -12,6 +13,7 @@ import { useGuaranteedContext } from "@lichtblick/hooks";
 import {
   ExtensionPanelRegistration,
   Immutable,
+  PanelSettings,
   RegisterMessageConverterArgs,
 } from "@lichtblick/suite";
 import { TopicAliasFunctions } from "@lichtblick/suite-base/players/TopicAliasingPlayer/TopicAliasingPlayer";
@@ -45,4 +47,13 @@ export const ExtensionCatalogContext = createContext<undefined | StoreApi<Extens
 export function useExtensionCatalog<T>(selector: (registry: ExtensionCatalog) => T): T {
   const context = useGuaranteedContext(ExtensionCatalogContext);
   return useStore(context, selector);
+}
+
+export function getExtensionPanelSettings(
+  reg: ExtensionCatalog,
+): Record<string, Record<string, PanelSettings<unknown>>> {
+  return _.merge(
+    {},
+    ...(reg.installedMessageConverters ?? []).map((converter) => converter.panelSettings),
+  );
 }
