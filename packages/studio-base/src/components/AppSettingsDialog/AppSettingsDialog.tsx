@@ -162,6 +162,7 @@ const aboutItems = new Map<
 
 export type AppSettingsTab =
   | "general"
+  | "privacy"
   | "extensions"
   | "experimental-features"
   | "about";
@@ -221,6 +222,7 @@ export function AppSettingsDialog(
           onChange={handleTabChange}
         >
           <Tab className={classes.tab} label={t("general")} value="general" />
+          <Tab className={classes.tab} label={t("privacy")} value="privacy" />
           <Tab className={classes.tab} label={t("extensions")} value="extensions" />
           <Tab
             className={classes.tab}
