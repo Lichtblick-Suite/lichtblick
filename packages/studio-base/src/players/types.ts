@@ -20,6 +20,7 @@ import { GlobalVariables } from "@foxglove/studio-base/hooks/useGlobalVariables"
 import { RosDatatypes } from "@foxglove/studio-base/types/RosDatatypes";
 import { Range } from "@foxglove/studio-base/util/ranges";
 import { NotificationSeverity } from "@foxglove/studio-base/util/sendNotification";
+import { Metadata } from "@mcap/core/dist/esm/src/types";
 
 // re-exported until other import sites are updated from players/types to @foxglove/studio
 export type { MessageEvent };
@@ -71,6 +72,7 @@ export interface Player {
   // PlayerCapabilities.setSpeed), set that speed. E.g. 1.0 is real time, 0.2 is 20% of real time.
   setPlaybackSpeed?(speedFraction: number): void;
   setGlobalVariables(globalVariables: GlobalVariables): void;
+  metadata?: Metadata[];
 }
 
 export enum PlayerPresence {
@@ -127,6 +129,8 @@ export type PlayerState = {
   // The actual data to render panels with. Can be empty during initialization, until all this data
   // is known. See `type PlayerStateActiveData` for more details.
   activeData?: PlayerStateActiveData;
+
+  metadata?: Metadata[];
 
   /** State to serialize into the active URL. */
   urlState?: PlayerURLState;

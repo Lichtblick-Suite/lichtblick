@@ -24,6 +24,7 @@ import {
   TopicStats,
 } from "@foxglove/studio-base/players/types";
 import { RosDatatypes } from "@foxglove/studio-base/types/RosDatatypes";
+import { Metadata } from "@mcap/core/dist/esm/src/types";
 
 const log = Logger.getLogger(__filename);
 
@@ -61,6 +62,7 @@ export class McapIndexedIterableSource implements IIterableSource {
     const topicsByName = new Map<string, Topic>();
     const datatypes: RosDatatypes = new Map();
     const problems: PlayerProblem[] = [];
+    const metadata: Metadata[] = [];
     const publishersByTopic = new Map<string, Set<string>>();
 
     for (const channel of this.#reader.channelsById.values()) {
@@ -121,6 +123,13 @@ export class McapIndexedIterableSource implements IIterableSource {
     this.#start = fromNanoSec(startTime ?? 0n);
     this.#end = fromNanoSec(endTime ?? startTime ?? 0n);
 
+    const metadataGenerator = this.#reader.readMetadata();
+    let metadataIterator = await metadataGenerator.next();
+    while (!metadataIterator.done) {
+      metadata.push(metadataIterator.value);
+      metadataIterator = await metadataGenerator.next();
+    }
+
     return {
       start: this.#start,
       end: this.#end,
@@ -128,6 +137,7 @@ export class McapIndexedIterableSource implements IIterableSource {
       datatypes,
       profile: this.#reader.header.profile,
       problems,
+      metadata,
       publishersByTopic,
       topicStats,
     };

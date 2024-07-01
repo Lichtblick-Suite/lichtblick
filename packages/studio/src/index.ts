@@ -252,6 +252,12 @@ export type PanelExtensionContext = {
   /** Actions the panel may perform related to the user's current layout. */
   readonly layout: LayoutActions;
 
+  /** Pass metadata to extensios. It should be imported with correct type. */
+  readonly metadata?: readonly {
+    readonly name: string;
+    readonly metadata: ReadonlyMap<string, string>;
+  }[];
+
   /**
    * Identifies the semantics of the data being played back, such as which topics or parameters
    * are semantically meaningful or normalization conventions to use. This typically maps to a

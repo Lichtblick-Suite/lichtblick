@@ -119,6 +119,10 @@ function PanelExtensionAdapter(
   const { playerState, pauseFrame, setSubscriptions, seekPlayback, sortedTopics } =
     messagePipelineContext;
 
+  console.log("[Context] playerState: ", playerState);
+
+  const { metadata } = playerState;
+
   const { capabilities, profile: dataSourceProfile, presence: playerPresence } = playerState;
 
   const { openSiblingPanel, setMessagePathDropConfig } = usePanelContext();
@@ -290,6 +294,7 @@ function PanelExtensionAdapter(
   const updatePanelSettingsTree = usePanelSettingsTreeUpdate();
 
   type PartialPanelExtensionContext = Omit<BuiltinPanelExtensionContext, "panelElement">;
+
   const partialExtensionContext = useMemo<PartialPanelExtensionContext>(() => {
     const layout: PanelExtensionContext["layout"] = {
       addPanel({ position, type, updateIfExists, getState }) {
@@ -321,6 +326,8 @@ function PanelExtensionAdapter(
       },
 
       layout,
+
+      metadata,
 
       seekPlayback: seekPlayback
         ? (stamp: number | Time) => {

@@ -11,6 +11,7 @@ import {
   TopicStats,
 } from "@foxglove/studio-base/players/types";
 import { RosDatatypes } from "@foxglove/studio-base/types/RosDatatypes";
+import { Metadata } from "@mcap/core/dist/esm/src/types";
 
 export type Initalization = {
   start: Time;
@@ -20,6 +21,7 @@ export type Initalization = {
   datatypes: RosDatatypes;
   profile: string | undefined;
   name?: string;
+  metadata?: Metadata[];
 
   /** Publisher names by topic **/
   publishersByTopic: Map<string, Set<string>>;

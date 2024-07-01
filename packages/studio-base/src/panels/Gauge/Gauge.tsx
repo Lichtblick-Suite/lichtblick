@@ -278,6 +278,7 @@ export function Gauge({ context }: Props): JSX.Element {
   const needleThickness = 8;
   const needleExtraLength = 0.05;
   const [clipPathId] = useState(() => `gauge-clip-path-${uuidv4()}`);
+  console.log("[Context]", context);
   return (
     <div
       style={{
@@ -291,6 +292,7 @@ export function Gauge({ context }: Props): JSX.Element {
         padding: 8,
       }}
     >
+      {context.metadata?.length.toString()}
       <div style={{ width: "100%", overflow: "hidden" }}>
         <div
           style={{

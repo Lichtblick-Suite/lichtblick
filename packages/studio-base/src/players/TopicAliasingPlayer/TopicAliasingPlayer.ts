@@ -24,6 +24,7 @@ import {
   StateProcessorFactory,
   TopicAliasFunctions,
 } from "./StateProcessorFactory";
+import { Metadata } from "@mcap/core/dist/esm/src/types";
 
 export type { TopicAliasFunctions };
 
@@ -64,6 +65,10 @@ export class TopicAliasingPlayer implements Player {
       topics: undefined,
       variables: {},
     };
+  }
+
+  public getMetadata(): Metadata[] {
+    return this.#player.metadata ?? [];
   }
 
   public setListener(listener: (playerState: PlayerState) => Promise<void>): void {

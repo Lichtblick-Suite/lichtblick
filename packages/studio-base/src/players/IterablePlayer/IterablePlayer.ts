@@ -43,6 +43,7 @@ import delay from "@foxglove/studio-base/util/delay";
 import { BlockLoader } from "./BlockLoader";
 import { BufferedIterableSource } from "./BufferedIterableSource";
 import { IIterableSource, IteratorResult } from "./IIterableSource";
+import { Metadata } from "@mcap/core/dist/esm/src/types";
 
 const log = Log.getLogger(__filename);
 
@@ -173,6 +174,8 @@ export class IterablePlayer implements Player {
   #queueEmitState: ReturnType<typeof debouncePromise>;
 
   readonly #sourceId: string;
+
+  metadata: Metadata[] = [];
 
   #untilTime?: Time;
 
@@ -465,6 +468,7 @@ export class IterablePlayer implements Player {
         profile,
         topicStats,
         problems,
+        metadata,
         publishersByTopic,
         datatypes,
         name,
@@ -475,6 +479,8 @@ export class IterablePlayer implements Player {
       if (this.#seekTarget) {
         this.#seekTarget = clampTime(this.#seekTarget, start, end);
       }
+
+      this.metadata = metadata ?? [];
 
       this.#profile = profile;
       this.#start = start;
