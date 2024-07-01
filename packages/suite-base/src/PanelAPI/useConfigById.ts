@@ -10,6 +10,10 @@ import { useCallback } from "react";
 import { DeepPartial } from "ts-essentials";
 
 import {
+  getTopicToSchemaNameMap,
+  useMessagePipeline,
+} from "@foxglove/studio-base/components/MessagePipeline";
+import {
   LayoutState,
   useCurrentLayoutActions,
   useCurrentLayoutSelector,
@@ -30,6 +34,7 @@ export default function useConfigById<Config extends Record<string, unknown>>(
 ): [Config | undefined, SaveConfig<Config>] {
   const { getCurrentLayoutState, savePanelConfigs } = useCurrentLayoutActions();
   const extensionSettings = useExtensionCatalog(getExtensionPanelSettings);
+  const topicToSchemaNameMap = useMessagePipeline(getTopicToSchemaNameMap);
 
   const configSelector = useCallback(
     (state: DeepPartial<LayoutState>) => {
@@ -40,13 +45,21 @@ export default function useConfigById<Config extends Record<string, unknown>>(
       const topics = Object.keys(stateConfig?.topics ?? {});
       const topicsSettings = _.merge(
         {},
-        ...topics.map((topic) => ({ [topic]: extensionSettings[topic]?.defaultConfig })),
+        ...topics.map((topic) => {
+          const schemaName = topicToSchemaNameMap[topic];
+          if (schemaName == undefined) {
+            return {};
+          }
+          return {
+            [topic]: extensionSettings[schemaName]?.defaultConfig,
+          };
+        }),
         stateConfig?.topics,
       );
 
       return maybeCast<Config>({ ...stateConfig, topics: topicsSettings });
     },
-    [panelId, extensionSettings],
+    [panelId, extensionSettings, topicToSchemaNameMap],
   );
 
   const config = useCurrentLayoutSelector(configSelector);

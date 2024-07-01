@@ -452,7 +452,7 @@ export type RegisterMessageConverterArgs<Src> = {
   fromSchemaName: string;
   toSchemaName: string;
   converter: (msg: Src, event: Immutable<MessageEvent<Src>>) => unknown;
-  panelSettings?: Record<string, Record<string, PanelSettings<unknown>>>;
+  panelSettings?: Record<string, PanelSettings<unknown>>;
 };
 
 type BaseTopic = { name: string; schemaName?: string };

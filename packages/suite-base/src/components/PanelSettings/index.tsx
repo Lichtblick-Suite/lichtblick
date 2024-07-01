@@ -15,6 +15,10 @@ import { SettingsTree } from "@lichtblick/suite";
 import { AppSetting } from "@lichtblick/suite-base/AppSetting";
 import { useConfigById } from "@lichtblick/suite-base/PanelAPI";
 import EmptyState from "@lichtblick/suite-base/components/EmptyState";
+import {
+  getTopicToSchemaNameMap,
+  useMessagePipeline,
+} from "@lichtblick/suite-base/components/MessagePipeline";
 import { ActionMenu } from "@lichtblick/suite-base/components/PanelSettings/ActionMenu";
 import SettingsTreeEditor from "@lichtblick/suite-base/components/SettingsTreeEditor";
 import { ShareJsonModal } from "@lichtblick/suite-base/components/ShareJsonModal";
@@ -154,6 +158,8 @@ export default function PanelSettings({
 
   const extensionSettings = useExtensionCatalog(getExtensionPanelSettings);
 
+  const topicToSchemaNameMap = useMessagePipeline(getTopicToSchemaNameMap);
+
   const settingsTree = usePanelStateStore((state) => {
     if (selectedPanelId) {
       const set = state.settingsTrees[selectedPanelId];
@@ -162,9 +168,15 @@ export default function PanelSettings({
         const topicsConfig = maybeCast<{ topics: Record<string, unknown> }>(config)?.topics;
         const topicsSettings = _.merge(
           {},
-          ...topics.map((topic) => ({
-            [topic]: extensionSettings[panelType]?.[topic]?.settings(topicsConfig?.[topic]),
-          })),
+          ...topics.map((topic) => {
+            const schemaName = topicToSchemaNameMap[topic];
+            if (schemaName == undefined) {
+              return {};
+            }
+            return {
+              [topic]: extensionSettings[panelType]?.[schemaName]?.settings(topicsConfig?.[topic]),
+            };
+          }),
         );
 
         return { ...set, nodes: _.merge({}, set.nodes, { topics: { children: topicsSettings } }) };

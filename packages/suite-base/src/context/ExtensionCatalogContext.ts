@@ -5,7 +5,6 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import * as _ from "lodash-es";
 import { createContext } from "react";
 import { StoreApi, useStore } from "zustand";
 
@@ -36,8 +35,11 @@ export type ExtensionCatalog = Immutable<{
 
   installedExtensions: undefined | ExtensionInfo[];
   installedPanels: undefined | Record<string, RegisteredPanel>;
-  installedMessageConverters: undefined | RegisterMessageConverterArgs<unknown>[];
+  installedMessageConverters:
+    | undefined
+    | Omit<RegisterMessageConverterArgs<unknown>, "panelSettings">[];
   installedTopicAliasFunctions: undefined | TopicAliasFunctions;
+  panelSettings: undefined | Record<string, Record<string, PanelSettings<unknown>>>;
 }>;
 
 export const ExtensionCatalogContext = createContext<undefined | StoreApi<ExtensionCatalog>>(
@@ -52,8 +54,5 @@ export function useExtensionCatalog<T>(selector: (registry: ExtensionCatalog) =>
 export function getExtensionPanelSettings(
   reg: ExtensionCatalog,
 ): Record<string, Record<string, PanelSettings<unknown>>> {
-  return _.merge(
-    {},
-    ...(reg.installedMessageConverters ?? []).map((converter) => converter.panelSettings),
-  );
+  return reg.panelSettings ?? {};
 }
