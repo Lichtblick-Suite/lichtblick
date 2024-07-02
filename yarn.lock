@@ -3014,7 +3014,7 @@ __metadata:
     ts-loader: 9.5.1
     tss-react: 4.8.6
     typescript: 5.3.3
-    use-debounce: 10.0.0
+    use-debounce: 10.0.1
     use-immer: 0.9.0
     uuid: 9.0.1
     webpack: 5.90.0
@@ -22558,12 +22558,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"use-debounce@npm:10.0.0":
-  version: 10.0.0
-  resolution: "use-debounce@npm:10.0.0"
+"use-debounce@npm:10.0.1":
+  version: 10.0.1
+  resolution: "use-debounce@npm:10.0.1"
   peerDependencies:
     react: ">=16.8.0"
-  checksum: b296fedba916ca721eeb7117f29a13c252966d03411abccc5e5894ed4de0f32b9cb6f6b150555b8b4cb9b0acf53b84022ad4cd43b89253389e9cd13779eebca7
+  checksum: 6b53d2b9b1856bacfa4dffd78234bba744792e1d75c194af0642faf1ac2914ebdcc770ac23b7e59ca999f997d969edf3c75d22362879818927d20d3408dd59db
   languageName: node
   linkType: hard
 
