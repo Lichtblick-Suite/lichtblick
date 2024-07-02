@@ -17,7 +17,7 @@
   ],
   "devDependencies": {
     "@foxglove/tsconfig": "2.0.0",
-    "@typescript-eslint/rule-tester": "6.10.0",
-    "@typescript-eslint/utils": "6.10.0"
+    "@typescript-eslint/rule-tester": "7.15.0",
+    "@typescript-eslint/utils": "7.15.0"
   }
 }
