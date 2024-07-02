@@ -76,7 +76,7 @@
     "@babel/plugin-proposal-explicit-resource-management": "7.23.3",
     "@babel/preset-env": "7.23.8",
     "@babel/preset-typescript": "7.23.3",
-    "@foxglove/eslint-plugin": "1.0.0",
+    "@foxglove/eslint-plugin": "1.0.1",
     "@foxglove/eslint-plugin-studio": "workspace:*",
     "@foxglove/tsconfig": "2.0.0",
     "@octokit/rest": "20.0.2",

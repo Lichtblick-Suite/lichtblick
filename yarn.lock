@@ -2582,22 +2582,22 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@foxglove/eslint-plugin@npm:1.0.0":
-  version: 1.0.0
-  resolution: "@foxglove/eslint-plugin@npm:1.0.0"
+"@foxglove/eslint-plugin@npm:1.0.1":
+  version: 1.0.1
+  resolution: "@foxglove/eslint-plugin@npm:1.0.1"
   dependencies:
     "@typescript-eslint/utils": ^6
     tsutils: ^3
     typescript: ^4 || ^5
   peerDependencies:
     eslint: ^7 || ^8
-    eslint-config-prettier: ^8
+    eslint-config-prettier: ^8 || ^9
     eslint-plugin-es: ^4
     eslint-plugin-filenames: ^1
     eslint-plugin-import: ^2
     eslint-plugin-prettier: ^5
     prettier: ^3
-  checksum: 455819c6d2a0de3901fee957688433d631dd7ecd5ad691c838b853cd63a1e2e94362b0b065e83410d979deccabea5959b46d5de994006d80d287c3afc3e4aed0
+  checksum: 53a802c11a373545932671151c1ab432fd3c9af9eef124a462ceff1bbc0c04605dfba72e7e078c38f56ff873baa8e135a24440ad1b69ef7d2fd78239795d9589
   languageName: node
   linkType: hard
 
@@ -13072,7 +13072,7 @@ __metadata:
     "@babel/plugin-proposal-explicit-resource-management": 7.23.3
     "@babel/preset-env": 7.23.8
     "@babel/preset-typescript": 7.23.3
-    "@foxglove/eslint-plugin": 1.0.0
+    "@foxglove/eslint-plugin": 1.0.1
     "@foxglove/eslint-plugin-studio": "workspace:*"
     "@foxglove/hooks": "workspace:*"
     "@foxglove/log": "workspace:*"
