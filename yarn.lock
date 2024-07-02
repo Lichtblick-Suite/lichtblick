@@ -3006,7 +3006,7 @@ __metadata:
     string-hash: 1.1.3
     string-replace-loader: 3.1.0
     style-loader: 3.3.3
-    text-metrics: 3.0.0
+    text-metrics: 4.0.1
     three: "patch:three@0.156.1#../../patches/three.patch"
     tinycolor2: 1.6.0
     ts-essentials: 9.4.0
@@ -21537,10 +21537,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"text-metrics@npm:3.0.0":
-  version: 3.0.0
-  resolution: "text-metrics@npm:3.0.0"
-  checksum: dae3039a5c831e436bccf73c605174ecc42f7dd270f75b56ba36b438f63319151d2ebdedb49d915fb93a233c62c92913ccf7be3e1c3de34b9f4a021ef7d5a579
+"text-metrics@npm:4.0.1":
+  version: 4.0.1
+  resolution: "text-metrics@npm:4.0.1"
+  checksum: f9fc0284babf09782cf89687e6c24aa4b4fe881e3d9ae4326c431d0b3b60f3b5c87536db67f5f350b286d2266a6816c801d22f6fc424b755d4c6e2c38a5d6741
   languageName: node
   linkType: hard
 
