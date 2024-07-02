@@ -101,7 +101,7 @@
     "chromatic": "7.2.0",
     "comlink": "github:foxglove/comlink#9181fa505671b35b1e66e0a8361a6fc1bdd03307",
     "crypto-browserify": "3.12.0",
-    "css-loader": "6.8.1",
+    "css-loader": "7.1.2",
     "cytoscape": "3.28.1",
     "cytoscape-dagre": "2.5.0",
     "esbuild-loader": "2.21.0",
