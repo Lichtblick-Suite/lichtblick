@@ -17,8 +17,8 @@
   "main": "src/index",
   "devDependencies": {
     "@emotion/cache": "11.11.0",
-    "@emotion/react": "11.11.3",
-    "@emotion/styled": "11.11.0",
+    "@emotion/react": "11.11.4",
+    "@emotion/styled": "11.11.5",
     "@fluentui/react-icons": "2.0.224",
     "@foxglove/avl": "1.0.0",
     "@foxglove/chartjs-plugin-zoom": "2.0.4",
