@@ -43,7 +43,7 @@
     "@foxglove/schemas": "1.6.2",
     "@foxglove/studio": "workspace:*",
     "@foxglove/theme": "workspace:*",
-    "@foxglove/three-text": "0.2.2",
+    "@foxglove/three-text": "0.3.1",
     "@foxglove/tsconfig": "2.0.0",
     "@foxglove/typescript-transformers": "workspace:*",
     "@foxglove/ulog": "2.1.2",
