@@ -2930,7 +2930,7 @@ __metadata:
     "@types/string-hash": 1.1.3
     "@types/text-metrics": "workspace:*"
     "@types/three": 0.156.0
-    "@types/tinycolor2": 1.4.4
+    "@types/tinycolor2": 1.4.6
     "@types/uuid": 9.0.7
     "@types/wicg-file-system-access": 2020.9.6
     "@uiw/react-textarea-code-editor": 3.0.2
@@ -3043,7 +3043,7 @@ __metadata:
     "@types/electron-devtools-installer": 2.2.3
     "@types/plist": ^3.0.3
     "@types/pngjs": ^6.0.2
-    "@types/tinycolor2": 1.4.4
+    "@types/tinycolor2": 1.4.6
     "@types/utif": ^3.0.2
     "@xmldom/xmldom": 0.8.10
     app-builder-lib: "*"
@@ -7331,10 +7331,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/tinycolor2@npm:1.4.4":
-  version: 1.4.4
-  resolution: "@types/tinycolor2@npm:1.4.4"
-  checksum: cf92f3b7c11750a4a8fe7ba2292fb9a795f5a0eeec39c69cf7e3fc3bbc3467a02c4eaf42d9eb258f63cd6a1c64448cfcf17301bacaa67e87cd0eacc93d25e12a
+"@types/tinycolor2@npm:1.4.6":
+  version: 1.4.6
+  resolution: "@types/tinycolor2@npm:1.4.6"
+  checksum: 50179851b32dcf78e0b4b691350a61043d8a00c3a8176d8155a257b34bb937136ff5d7950c814dca3c832673c7b6dc835f89dd154e85ccec3a4d4eac3993ed84
   languageName: node
   linkType: hard
 
