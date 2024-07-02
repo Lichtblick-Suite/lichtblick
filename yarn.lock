@@ -3042,7 +3042,7 @@ __metadata:
     "@storybook/react": 7.4.5
     "@types/electron-devtools-installer": 2.2.3
     "@types/plist": ^3.0.3
-    "@types/pngjs": ^6.0.2
+    "@types/pngjs": ^6.0.5
     "@types/tinycolor2": 1.4.4
     "@types/utif": ^3.0.2
     "@xmldom/xmldom": 0.8.10
@@ -7048,12 +7048,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/pngjs@npm:^6.0.2":
-  version: 6.0.4
-  resolution: "@types/pngjs@npm:6.0.4"
+"@types/pngjs@npm:^6.0.5":
+  version: 6.0.5
+  resolution: "@types/pngjs@npm:6.0.5"
   dependencies:
     "@types/node": "*"
-  checksum: ffc8b96f86561289964012043ef517625252a99e9faeebe9d9f5492f53c995699981ec2e77d85966906f116866b9423792b34fbabc5ae3973ca09b727d131ebb
+  checksum: 132fce25817d47a784ed48aa678332521b0f7e6edbaa76f3fa4e9ca1228078788ae712f99ad4d1a324d9ba0b14829958677eabf3ebef1fb6e120816f433f0cd8
   languageName: node
   linkType: hard
 
