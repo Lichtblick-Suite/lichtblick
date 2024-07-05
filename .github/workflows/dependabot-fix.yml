@@ -15,7 +15,8 @@ on:
 jobs:
   fix:
     runs-on: ubuntu-latest
-    if: github.actor == 'dependabot[bot]'
+    # Remove to testing. Put it again as soon as possible
+    #if: github.actor == 'dependabot[bot]'
 
     # IMPORTANT: setting YARN_ENABLE_SCRIPTS=false is critical to ensure that untrusted
     # PRs can't add an npm package and then use that to execute untrusted code in
@@ -37,7 +38,7 @@ jobs:
 
       - run: corepack enable
 
-      - uses: actions/setup-node@v4.0.1
+      - uses: actions/setup-node@v4.0.2
         with:
           node-version: 16.17
           cache: yarn
