@@ -14,7 +14,7 @@ export function selectWithUnstableIdentityWarning<T, U>(value: T, selector: (val
     const secondResult = selector(value);
     if (result !== secondResult) {
       log.warn(`Selector ${selector.toString()} produced different values for the same input.
-  This will cause unecesessery re-renders of your component.`);
+      This will cause unecesessery re-renders of your component.`);
     }
     return secondResult;
   }

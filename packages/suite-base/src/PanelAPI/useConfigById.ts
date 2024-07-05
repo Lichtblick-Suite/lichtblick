@@ -6,7 +6,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import * as _ from "lodash-es";
-import { useCallback } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { DeepPartial } from "ts-essentials";
 
 import {
@@ -25,6 +25,8 @@ import {
 import { SaveConfig } from "@lichtblick/suite-base/types/panels";
 import { maybeCast } from "@lichtblick/suite-base/util/maybeCast";
 
+import { getPanelTypeFromId } from "../util/layout";
+
 /**
  * Like `useConfig`, but for a specific panel id. This generally shouldn't be used by panels
  * directly, but is for use in internal code that's running outside of regular context providers.
@@ -34,7 +36,13 @@ export default function useConfigById<Config extends Record<string, unknown>>(
 ): [Config | undefined, SaveConfig<Config>] {
   const { getCurrentLayoutState, savePanelConfigs } = useCurrentLayoutActions();
   const extensionSettings = useExtensionCatalog(getExtensionPanelSettings);
-  const topicToSchemaNameMap = useMessagePipeline(getTopicToSchemaNameMap);
+  // const topicToSchemaNameMap = useMessagePipeline(getTopicToSchemaNameMap);
+  const sortedTopics = useMessagePipeline((state) => state.sortedTopics);
+
+  const topicToSchemaNameMap = useMemo(
+    () => _.mapValues(_.keyBy(sortedTopics, "name"), ({ schemaName }) => schemaName),
+    [sortedTopics],
+  );
 
   const configSelector = useCallback(
     (state: DeepPartial<LayoutState>) => {
@@ -43,20 +51,27 @@ export default function useConfigById<Config extends Record<string, unknown>>(
       }
       const stateConfig = maybeCast<Config>(state.selectedLayout?.data?.configById?.[panelId]);
       const topics = Object.keys(stateConfig?.topics ?? {});
-      const topicsSettings = _.merge(
+      const panelType = getPanelTypeFromId(panelId);
+      const topicsSettings: Record<string, unknown> = _.merge(
         {},
         ...topics.map((topic) => {
           const schemaName = topicToSchemaNameMap[topic];
           if (schemaName == undefined) {
             return {};
           }
+          const defaultConfig = extensionSettings[panelType]?.[schemaName]?.defaultConfig;
+          if (defaultConfig == undefined) {
+            return {};
+          }
           return {
-            [topic]: extensionSettings[schemaName]?.defaultConfig,
+            [topic]: defaultConfig,
           };
         }),
         stateConfig?.topics,
       );
-
+      if (Object.keys(topicsSettings).length === 0) {
+        return stateConfig;
+      }
       return maybeCast<Config>({ ...stateConfig, topics: topicsSettings });
     },
     [panelId, extensionSettings, topicToSchemaNameMap],

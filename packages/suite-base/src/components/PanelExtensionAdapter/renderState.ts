@@ -58,7 +58,7 @@ export type BuilderRenderStateInput = Immutable<{
   sortedTopics: readonly PlayerTopic[];
   subscriptions: Subscription[];
   watchedFields: Set<string>;
-  config: RenderStateConfig | undefined;
+  config?: RenderStateConfig | undefined;
 }>;
 
 type BuildRenderStateFn = (input: BuilderRenderStateInput) => Immutable<RenderState> | undefined;
