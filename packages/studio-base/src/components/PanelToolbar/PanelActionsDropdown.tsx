@@ -66,11 +66,7 @@ function PanelActionsDropdownComponent({ isUnknownPanel }: Props): JSX.Element {
   const tabId = panelContext?.tabId;
   const { mosaicActions } = useContext(MosaicContext);
   const { mosaicWindowActions } = useContext(MosaicWindowContext);
-  const {
-    getCurrentLayoutState: getCurrentLayout,
-    closePanel,
-    splitPanel,
-  } = useCurrentLayoutActions();
+  const { getCurrentLayoutState: getCurrentLayout, splitPanel } = useCurrentLayoutActions();
   const getPanelType = useCallback(
     () => getPanelTypeFromMosaic(mosaicWindowActions, mosaicActions),
     [mosaicActions, mosaicWindowActions],
@@ -101,15 +97,6 @@ function PanelActionsDropdownComponent({ isUnknownPanel }: Props): JSX.Element {
     setSubmenuAnchorEl(event.currentTarget);
   };
 
-  const close = useCallback(() => {
-    closePanel({
-      tabId,
-      root: mosaicActions.getRoot() as MosaicNode<string>,
-      path: mosaicWindowActions.getPath(),
-    });
-    handleMenuClose();
-  }, [closePanel, mosaicActions, mosaicWindowActions, tabId]);
-
   const split = useCallback(
     (id: string | undefined, direction: "row" | "column") => {
       const type = getPanelType();
@@ -136,8 +123,24 @@ function PanelActionsDropdownComponent({ isUnknownPanel }: Props): JSX.Element {
     handleMenuClose();
   }, [panelContext]);
 
+  function instanceOfMenuDivider(object: any): object is MenuDivider {
+    return object.type === "divider";
+  }
+
+  interface MenuDivider {
+    key: string;
+    type: string;
+  }
+
+  interface MenuAction {
+    key: string;
+    text: string;
+    onClick: () => void;
+    "data-testid"?: string;
+    className?: string;
+  }
   const menuItems = useMemo(() => {
-    const items = [];
+    const items: Array<MenuAction | MenuDivider> = [];
 
     if (!isUnknownPanel) {
       items.push(
@@ -167,27 +170,8 @@ function PanelActionsDropdownComponent({ isUnknownPanel }: Props): JSX.Element {
       });
     }
 
-    items.push({ key: "divider", type: "divider" });
-
-    items.push({
-      key: "remove",
-      text: t("removePanel"),
-      onClick: close,
-      "data-testid": "panel-menu-remove",
-      className: classes.error,
-    });
-
     return items;
-  }, [
-    classes.error,
-    close,
-    enterFullscreen,
-    isUnknownPanel,
-    panelContext?.id,
-    panelContext?.isFullscreen,
-    split,
-    t,
-  ]);
+  }, [enterFullscreen, isUnknownPanel, panelContext?.id, panelContext?.isFullscreen, split, t]);
 
   const buttonRef = useRef<HTMLDivElement>(ReactNull);
   const type = getPanelType();
@@ -236,19 +220,19 @@ function PanelActionsDropdownComponent({ isUnknownPanel }: Props): JSX.Element {
         <ChangePanelMenu anchorEl={subMenuAnchorEl} onClose={handleSubmenuClose} tabId={tabId} />
         <Divider variant="middle" />
         {menuItems.map((item, idx) =>
-          item.type === "divider" ? (
+          instanceOfMenuDivider(item) ? (
             <Divider key={`divider-${idx}`} variant="middle" />
           ) : (
             <MenuItem
               key={item.key}
               onClick={(event) => {
                 event.stopPropagation();
-                item.onClick?.();
+                item.onClick();
               }}
               onMouseEnter={() => {
                 setSubmenuAnchorEl(undefined);
               }}
-              className={cx(classes.menuItem, item.className)}
+              className={cx(classes.menuItem)}
               data-testid={item["data-testid"]}
             >
               {item.text}

@@ -12,8 +12,9 @@
 //   You may not use this file except in compliance with the License.
 
 import SettingsIcon from "@mui/icons-material/Settings";
+import CloseIcon from "@mui/icons-material/Close";
 import { forwardRef, useCallback, useContext, useMemo } from "react";
-
+import { MosaicContext, MosaicNode, MosaicWindowContext } from "react-mosaic-component";
 import PanelContext from "@foxglove/studio-base/components/PanelContext";
 import ToolbarIconButton from "@foxglove/studio-base/components/PanelToolbar/ToolbarIconButton";
 import Stack from "@foxglove/studio-base/components/Stack";
@@ -24,6 +25,7 @@ import {
   usePanelStateStore,
 } from "@foxglove/studio-base/context/PanelStateContext";
 import { useWorkspaceActions } from "@foxglove/studio-base/context/Workspace/useWorkspaceActions";
+import { useCurrentLayoutActions } from "@foxglove/studio-base/context/CurrentLayoutContext";
 
 import { PanelActionsDropdown } from "./PanelActionsDropdown";
 
@@ -59,6 +61,20 @@ const PanelToolbarControlsComponent = forwardRef<HTMLDivElement, PanelToolbarCon
       }
     }, [panelId, setSelectedPanelIds, openPanelSettings]);
 
+    const panelContext = useContext(PanelContext);
+    const tabId = panelContext?.tabId;
+    const { mosaicActions } = useContext(MosaicContext);
+    const { mosaicWindowActions } = useContext(MosaicWindowContext);
+    const { closePanel } = useCurrentLayoutActions();
+
+    const close = useCallback(() => {
+      closePanel({
+        tabId,
+        root: mosaicActions.getRoot() as MosaicNode<string>,
+        path: mosaicWindowActions.getPath(),
+      });
+    }, [closePanel, mosaicActions, mosaicWindowActions, tabId]);
+
     // Show the settings button so that panel title is editable, unless we have a custom
     // toolbar in which case the title wouldn't be visible.
     const showSettingsButton = panelInfo?.hasCustomToolbar !== true || hasSettings;
@@ -72,6 +88,9 @@ const PanelToolbarControlsComponent = forwardRef<HTMLDivElement, PanelToolbarCon
           </ToolbarIconButton>
         )}
         <PanelActionsDropdown isUnknownPanel={isUnknownPanel} />
+        <ToolbarIconButton title="Close" onClick={close}>
+          <CloseIcon />
+        </ToolbarIconButton>
       </Stack>
     );
   },
