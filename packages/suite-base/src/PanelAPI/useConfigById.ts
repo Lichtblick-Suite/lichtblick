@@ -36,13 +36,7 @@ export default function useConfigById<Config extends Record<string, unknown>>(
 ): [Config | undefined, SaveConfig<Config>] {
   const { getCurrentLayoutState, savePanelConfigs } = useCurrentLayoutActions();
   const extensionSettings = useExtensionCatalog(getExtensionPanelSettings);
-  // const topicToSchemaNameMap = useMessagePipeline(getTopicToSchemaNameMap);
   const sortedTopics = useMessagePipeline((state) => state.sortedTopics);
-
-  const topicToSchemaNameMap = useMemo(
-    () => _.mapValues(_.keyBy(sortedTopics, "name"), ({ schemaName }) => schemaName),
-    [sortedTopics],
-  );
 
   const configSelector = useCallback(
     (state: DeepPartial<LayoutState>) => {
@@ -50,12 +44,10 @@ export default function useConfigById<Config extends Record<string, unknown>>(
         return undefined;
       }
       const stateConfig = maybeCast<Config>(state.selectedLayout?.data?.configById?.[panelId]);
-      const topics = Object.keys(stateConfig?.topics ?? {});
       const panelType = getPanelTypeFromId(panelId);
       const topicsSettings: Record<string, unknown> = _.merge(
         {},
-        ...topics.map((topic) => {
-          const schemaName = topicToSchemaNameMap[topic];
+        ...sortedTopics.map(({ name: topic, schemaName }) => {
           if (schemaName == undefined) {
             return {};
           }
@@ -69,12 +61,13 @@ export default function useConfigById<Config extends Record<string, unknown>>(
         }),
         stateConfig?.topics,
       );
+      // console.log(extensionSettings);
       if (Object.keys(topicsSettings).length === 0) {
         return stateConfig;
       }
       return maybeCast<Config>({ ...stateConfig, topics: topicsSettings });
     },
-    [panelId, extensionSettings, topicToSchemaNameMap],
+    [panelId, extensionSettings, sortedTopics],
   );
 
   const config = useCurrentLayoutSelector(configSelector);

@@ -204,7 +204,12 @@ function createExtensionRegistryStore(
 
     installedTopicAliasFunctions: [],
 
-    panelSettings: {},
+    panelSettings: _.merge(
+      {},
+      ...(mockMessageConverters ?? []).map(({ fromSchemaName, panelSettings }) =>
+        _.mapValues(panelSettings, (settings) => ({ [fromSchemaName]: settings })),
+      ),
+    ),
 
     uninstallExtension: async (namespace: ExtensionNamespace, id: string) => {
       const namespacedLoader = loaders.find((loader) => loader.namespace === namespace);
