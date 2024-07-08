@@ -329,8 +329,9 @@ function PanelExtensionAdapter(
 
       saveConfig(
         produce<{ topics: Record<string, unknown> }>((draft) => {
-          if (path[0] === "topics" && path[1] != undefined) {
-            extensionsSettings[panelName]?.[path[1]]?.handler(action, draft.topics[path[1]]);
+          const [category, topicName] = path;
+          if (category === "topics" && topicName != undefined) {
+            extensionsSettings[panelName]?.[topicName]?.handler(action, draft.topics[topicName]);
           }
         }),
       );

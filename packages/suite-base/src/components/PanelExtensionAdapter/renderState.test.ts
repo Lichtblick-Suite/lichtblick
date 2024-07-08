@@ -1072,7 +1072,7 @@ describe("renderState", () => {
     const generatePanelSettings = <T>(obj: PanelSettings<T>) => obj as PanelSettings<unknown>;
     const checkRenderedConfig = jest.fn();
     const buildRenderState = initRenderStateBuilder();
-    const state = buildRenderState({
+    buildRenderState({
       appSettings: undefined,
       playerState: undefined,
       currentFrame: [

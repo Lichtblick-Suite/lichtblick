@@ -6,13 +6,10 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import * as _ from "lodash-es";
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback } from "react";
 import { DeepPartial } from "ts-essentials";
 
-import {
-  getTopicToSchemaNameMap,
-  useMessagePipeline,
-} from "@foxglove/studio-base/components/MessagePipeline";
+import { useMessagePipeline } from "@foxglove/studio-base/components/MessagePipeline";
 import {
   LayoutState,
   useCurrentLayoutActions,
@@ -45,7 +42,7 @@ export default function useConfigById<Config extends Record<string, unknown>>(
       }
       const stateConfig = maybeCast<Config>(state.selectedLayout?.data?.configById?.[panelId]);
       const panelType = getPanelTypeFromId(panelId);
-      const topicsSettings: Record<string, unknown> = _.merge(
+      const customSettingsByTopic: Record<string, unknown> = _.merge(
         {},
         ...sortedTopics.map(({ name: topic, schemaName }) => {
           if (schemaName == undefined) {
@@ -61,11 +58,10 @@ export default function useConfigById<Config extends Record<string, unknown>>(
         }),
         stateConfig?.topics,
       );
-      // console.log(extensionSettings);
-      if (Object.keys(topicsSettings).length === 0) {
+      if (Object.keys(customSettingsByTopic).length === 0) {
         return stateConfig;
       }
-      return maybeCast<Config>({ ...stateConfig, topics: topicsSettings });
+      return maybeCast<Config>({ ...stateConfig, topics: customSettingsByTopic });
     },
     [panelId, extensionSettings, sortedTopics],
   );
