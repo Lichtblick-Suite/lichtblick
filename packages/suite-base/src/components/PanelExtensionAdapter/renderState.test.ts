@@ -957,7 +957,7 @@ describe("renderState", () => {
     const state2 = buildRenderState(
       produce(initialState, (draft) => {
         draft.currentFrame = undefined;
-        draft.playerState!.progress.messageCache = undefined;
+        draft.playerState.progress.messageCache = undefined;
         draft.subscriptions.push({ topic: "test", convertTo: "anotherSchema", preload: true });
       }),
     );
@@ -1066,5 +1066,62 @@ describe("renderState", () => {
 
       expect(state).toEqual(undefined);
     }
+  });
+
+  it("should add extension settings to converter method", async () => {
+    const generatePanelSettings = <T>(obj: PanelSettings<T>) => obj as PanelSettings<unknown>;
+    const checkRenderedConfig = jest.fn();
+    const buildRenderState = initRenderStateBuilder();
+    const state = buildRenderState({
+      appSettings: undefined,
+      playerState: undefined,
+      currentFrame: [
+        {
+          schemaName: "from.Schema",
+          topic: "myTopic",
+          receiveTime: { sec: 0, nsec: 0 },
+          message: {},
+          sizeInBytes: 0,
+        },
+      ],
+      colorScheme: undefined,
+      globalVariables: {},
+      hoverValue: undefined,
+      sharedPanelState: undefined,
+      sortedTopics: [{ name: "myTopic", schemaName: "from.Schema" }],
+      subscriptions: [{ topic: "myTopic", convertTo: "to.Schema", preload: true }],
+      watchedFields: new Set(["topics", "currentFrame"]),
+      messageConverters: [
+        {
+          fromSchemaName: "from.Schema",
+          toSchemaName: "to.Schema",
+          converter: (msg, event) => {
+            checkRenderedConfig(event.topicConfig);
+            return msg;
+          },
+          panelSettings: {
+            Dummy: generatePanelSettings({
+              settings: (config) => ({
+                fields: {
+                  test: {
+                    input: "boolean",
+                    value: config?.test,
+                    label: "Nope",
+                  },
+                },
+              }),
+              handler: () => {},
+              defaultConfig: {
+                test: true,
+              },
+            }),
+          },
+        },
+      ],
+      config: { topics: { myTopic: { test: false } } },
+    });
+
+    expect(checkRenderedConfig).toHaveBeenCalled();
+    expect(checkRenderedConfig.mock.calls.at(-1)).toEqual([{ test: false }]);
   });
 });
