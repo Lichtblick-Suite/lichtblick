@@ -32,7 +32,7 @@
     "electron-builder": "24.6.4",
     "electron-devtools-installer": "3.2.0",
     "electron-squirrel-startup": "1.0.0",
-    "electron-updater": "6.1.4",
+    "electron-updater": "6.2.1",
     "esbuild-loader": "2.21.0",
     "eventemitter3": "5.0.1",
     "fork-ts-checker-webpack-plugin": "9.0.2",
