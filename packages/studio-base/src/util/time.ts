@@ -60,6 +60,12 @@ export function getTimestampForMessage(message: unknown): Time | undefined {
     if (stamp != undefined && typeof stamp === "object" && "sec" in stamp && "nsec" in stamp) {
       return stamp;
     }
+  } else if (Object.hasOwn(message as Object, "stamp")) {
+    // Some messages use .stamp directly, instead of .header.stamp
+    const stamp = (message as Partial<{stamp : Time}>).stamp;
+    if (stamp != undefined && typeof stamp === "object" && "sec" in stamp && "nsec" in stamp) {
+      return stamp;
+    }
   }
 
   return undefined;
