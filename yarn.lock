@@ -3054,7 +3054,7 @@ __metadata:
     electron-builder: 24.6.4
     electron-devtools-installer: 3.2.0
     electron-squirrel-startup: 1.0.0
-    electron-updater: 6.1.4
+    electron-updater: 6.2.1
     esbuild-loader: 2.21.0
     eventemitter3: 5.0.1
     fork-ts-checker-webpack-plugin: 9.0.2
@@ -11430,11 +11430,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron-updater@npm:6.1.4":
-  version: 6.1.4
-  resolution: "electron-updater@npm:6.1.4"
+"electron-updater@npm:6.2.1":
+  version: 6.2.1
+  resolution: "electron-updater@npm:6.2.1"
   dependencies:
-    builder-util-runtime: 9.2.1
+    builder-util-runtime: 9.2.4
     fs-extra: ^10.1.0
     js-yaml: ^4.1.0
     lazy-val: ^1.0.5
@@ -11442,7 +11442,7 @@ __metadata:
     lodash.isequal: ^4.5.0
     semver: ^7.3.8
     tiny-typed-emitter: ^2.1.0
-  checksum: 39d67a24103c24c75e8f0dd172c6f3bae71aa3b9e7b120ba7ce1838981b92f55b616e05b97c529da3db4e28e9db4ac749de450c2fb4d25f119671adfb08e3bd9
+  checksum: 92a064610a3c9df747dce9c3eccd69c48adb2c8b37b9d7c13d1c39f7e2a9ffaef4e909ab50e6973d557566bde6de7ec9c64e2cc3a2cdef18b3220c5d91333e1c
   languageName: node
   linkType: hard
 
