@@ -516,6 +516,7 @@ function PanelExtensionAdapter(
         setMessagePathDropConfig(dropConfig);
       },
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps due to getMetadata functionality
   }, [
     capabilities,
     clearHoverValue,
