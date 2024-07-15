@@ -75,4 +75,14 @@ describe("freezeMetadata", () => {
       metadata[0].metadata.key = "wrongMetadata";
     }).toThrow();
   });
+
+  it("should freeze an empty array", () => {
+    const emptyMetadata: Metadata[] = [];
+
+    freezeMetadata(emptyMetadata);
+
+    expect(() => {
+      metadata.push(wrongMetadata);
+    }).toThrow();
+  });
 });
