@@ -55,10 +55,6 @@ export default function PlayerManager(props: PropsWithChildren<PlayerManagerProp
 
   const [basePlayer, setBasePlayer] = useState<Player | undefined>();
 
-  useEffect(() => {
-    console.log("[PlayerManager] basePlayer", basePlayer);
-  }, [basePlayer]);
-
   const { recents, addRecent } = useIndexedDbRecents();
 
   const topicAliasPlayer = useMemo(() => {
