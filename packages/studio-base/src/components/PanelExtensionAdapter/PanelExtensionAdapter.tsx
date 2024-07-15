@@ -534,7 +534,6 @@ function PanelExtensionAdapter(
     setSubscriptions,
     updatePanelSettingsTree,
     setMessagePathDropConfig,
-    getMetadata,
   ]);
 
   const panelContainerRef = useRef<HTMLDivElement>(ReactNull);

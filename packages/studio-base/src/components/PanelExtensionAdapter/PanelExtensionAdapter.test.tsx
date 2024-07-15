@@ -733,7 +733,12 @@ describe("PanelExtensionAdapter", () => {
 
     const initPanel = (context: PanelExtensionContext) => {
       expect(context.metadata).toBeDefined();
-      expect(context.metadata).toEqual([]);
+      expect(context.metadata).toEqual([
+        {
+          name: "mockMetadata",
+          metadata: { key: "value" },
+        },
+      ]);
       sig.resolve();
     };
 
