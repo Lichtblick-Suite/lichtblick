@@ -849,7 +849,7 @@ describe("IterablePlayer", () => {
       sourceId: "test",
     });
 
-    let metadata = player.getMetadata();
+    const metadata = player.getMetadata();
 
     // At first, metadata is empty because it's initialized in an async way.
     expect(metadata.length).toBe(0);
@@ -862,11 +862,11 @@ describe("IterablePlayer", () => {
     // Wait for player to be in start-play state
     await store.done;
 
-    metadata = player.getMetadata();
-    expect(metadata.length).toBe(1);
+    const metadataInitialized = player.getMetadata();
+    expect(metadataInitialized.length).toBe(1);
     expect(() => {
       // @ts-ignore
-      metadata.pop();
+      metadataInitialized.pop();
     }).toThrow();
   });
 });
