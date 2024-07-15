@@ -6,7 +6,7 @@ import * as _ from "lodash-es";
 
 import { MutexLocked } from "@foxglove/den/async";
 import { Time } from "@foxglove/rostime";
-import { Immutable, ParameterValue } from "@foxglove/studio";
+import { Immutable, Metadata, ParameterValue } from "@foxglove/studio";
 import { Asset } from "@foxglove/studio-base/components/PanelExtensionAdapter";
 import { GlobalVariables } from "@foxglove/studio-base/hooks/useGlobalVariables";
 import {
@@ -24,7 +24,6 @@ import {
   StateProcessorFactory,
   TopicAliasFunctions,
 } from "./StateProcessorFactory";
-import { Metadata } from "@mcap/core/dist/esm/src/types";
 
 export type { TopicAliasFunctions };
 
@@ -67,8 +66,8 @@ export class TopicAliasingPlayer implements Player {
     };
   }
 
-  public getMetadata(): Metadata[] {
-    return this.#player.metadata ?? [];
+  public getMetadata(): ReadonlyArray<Readonly<Metadata>> {
+    return this.#player.getMetadata?.() ?? Object.freeze([]);
   }
 
   public setListener(listener: (playerState: PlayerState) => Promise<void>): void {

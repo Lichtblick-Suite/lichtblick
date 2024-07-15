@@ -11,7 +11,7 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { ParameterValue } from "@foxglove/studio";
+import { Metadata, ParameterValue } from "@foxglove/studio";
 import {
   PlayerCapabilities,
   PlayerStateActiveData,
@@ -100,4 +100,10 @@ export default class FakePlayer implements Player {
   public setGlobalVariables = (): void => {
     // no-op
   };
+  public getMetadata = (): readonly Metadata[] => [
+    {
+      name: "metadataFake",
+      metadata: { key: "value" },
+    },
+  ];
 }

@@ -86,6 +86,26 @@ export type Subscription = {
 };
 
 /**
+ * An array of metadata entries. Each entry includes a name and a map of key-value pairs
+ * representing the metadata associated with that name.
+ */
+
+/**
+ * A metadata object containing a name and a map of key-value pairs representing the metadata.
+ */
+export type Metadata = {
+  /**
+   * The name of the metadata entry.
+   */
+  readonly name: string;
+
+  /**
+   * A key-value object associated with the metadata entry.
+   */
+  readonly metadata: Record<string, string>;
+};
+
+/**
  * A message event frames message data with the topic and receive time
  */
 export type MessageEvent<T = unknown> = {
@@ -252,12 +272,6 @@ export type PanelExtensionContext = {
   /** Actions the panel may perform related to the user's current layout. */
   readonly layout: LayoutActions;
 
-  /** Pass metadata to extensios. It should be imported with correct type. */
-  readonly metadata?: readonly {
-    readonly name: string;
-    readonly metadata: ReadonlyMap<string, string>;
-  }[];
-
   /**
    * Identifies the semantics of the data being played back, such as which topics or parameters
    * are semantically meaningful or normalization conventions to use. This typically maps to a
@@ -265,6 +279,12 @@ export type PanelExtensionContext = {
    * profiles concept at <https://github.com/foxglove/mcap/blob/main/docs/specification/appendix.md#well-known-profiles>.
    */
   readonly dataSourceProfile?: string;
+
+  /**
+   * An array of metadata entries. Each entry includes a name and a map of key-value pairs
+   * representing the metadata associated with that name (only avaiable in MCAP files).
+   */
+  readonly metadata: ReadonlyArray<Readonly<Metadata>>;
 
   /**
    * Subscribe to updates on this field within the render state. Render will only be invoked when

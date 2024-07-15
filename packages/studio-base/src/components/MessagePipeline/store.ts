@@ -128,6 +128,10 @@ export function createMessagePipelineStore({
           messageEventsBySubscriberId: new Map(),
           subscriptions: [],
           sortedTopics: [],
+          getMetadata() {
+            const player = get().player;
+            return player?.getMetadata?.() ?? Object.freeze([]);
+          },
           datatypes: new Map(),
           startPlayback: undefined,
           playUntil: undefined,
@@ -205,6 +209,10 @@ export function createMessagePipelineStore({
 
         // Use a regular fetch for all other protocols
         return await builtinFetch(uri, options);
+      },
+      getMetadata() {
+        const player = get().player;
+        return player?.getMetadata?.() ?? Object.freeze([]);
       },
       startPlayback: undefined,
       playUntil: undefined,

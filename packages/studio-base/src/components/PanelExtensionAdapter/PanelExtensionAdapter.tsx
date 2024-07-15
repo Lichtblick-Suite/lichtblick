@@ -116,12 +116,8 @@ function PanelExtensionAdapter(
 
   const messagePipelineContext = useMessagePipeline(selectContext);
 
-  const { playerState, pauseFrame, setSubscriptions, seekPlayback, sortedTopics } =
+  const { playerState, pauseFrame, setSubscriptions, seekPlayback, getMetadata, sortedTopics } =
     messagePipelineContext;
-
-  console.log("[Context] playerState: ", playerState);
-
-  const { metadata } = playerState;
 
   const { capabilities, profile: dataSourceProfile, presence: playerPresence } = playerState;
 
@@ -327,7 +323,7 @@ function PanelExtensionAdapter(
 
       layout,
 
-      metadata,
+      metadata: getMetadata?.() ?? Object.freeze([]),
 
       seekPlayback: seekPlayback
         ? (stamp: number | Time) => {
@@ -538,6 +534,7 @@ function PanelExtensionAdapter(
     setSubscriptions,
     updatePanelSettingsTree,
     setMessagePathDropConfig,
+    getMetadata,
   ]);
 
   const panelContainerRef = useRef<HTMLDivElement>(ReactNull);
