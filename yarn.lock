@@ -3060,7 +3060,6 @@ __metadata:
   resolution: "@foxglove/studio@workspace:packages/studio"
   dependencies:
     "@foxglove/tsconfig": 2.0.0
-    "@mcap/core": 2.1.2
     typescript: 5.3.3
   languageName: unknown
   linkType: soft
@@ -3649,17 +3648,6 @@ __metadata:
     heap-js: ^2.2.0
     tslib: ^2.5.0
   checksum: 8c1f44edbcc9abf98eca6ca630c1012dac395892c8d368843045f7bcd3660cd2f9456211a13891437ef7055fa71b77863ca277a05b06f4b20f9c92eead89adbd
-  languageName: node
-  linkType: hard
-
-"@mcap/core@npm:2.1.2":
-  version: 2.1.2
-  resolution: "@mcap/core@npm:2.1.2"
-  dependencies:
-    "@foxglove/crc": ^0.0.3
-    heap-js: ^2.2.0
-    tslib: ^2.5.0
-  checksum: 70d6d1ed2ed4a9c1ccaa6c5c445f3cd329cd06f2b91dfad9c552b30cf7b94ec9f51570aab7e95913f7139cd06241b489ed276541eee8ccddf97271fb63c8defc
   languageName: node
   linkType: hard
 
