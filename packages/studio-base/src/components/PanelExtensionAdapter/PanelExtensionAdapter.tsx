@@ -516,7 +516,8 @@ function PanelExtensionAdapter(
         setMessagePathDropConfig(dropConfig);
       },
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps due to getMetadata functionality
+    // Disable this rule because the metadata function. If used, it will break.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     capabilities,
     clearHoverValue,
