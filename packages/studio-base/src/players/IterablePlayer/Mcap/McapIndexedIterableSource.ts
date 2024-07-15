@@ -125,7 +125,7 @@ export class McapIndexedIterableSource implements IIterableSource {
 
     const metadataGenerator = this.#reader.readMetadata();
     let metadataIterator = await metadataGenerator.next();
-    while (!metadataIterator.done) {
+    while (metadataIterator.done !== true) {
       metadata.push({
         name: metadataIterator.value.name,
         metadata: Object.fromEntries(metadataIterator.value.metadata),

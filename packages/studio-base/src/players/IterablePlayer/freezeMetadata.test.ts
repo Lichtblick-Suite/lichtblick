@@ -1,3 +1,7 @@
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at http://mozilla.org/MPL/2.0/
+
 import { Metadata } from "@foxglove/studio";
 import { freezeMetadata } from "@foxglove/studio-base/players/IterablePlayer/freezeMetadata";
 
@@ -11,19 +15,19 @@ describe("freezeMetadata", () => {
 
   const wrongMetadata: Metadata = { name: "WrongMetadata", metadata: { key: "test" } };
 
-  afterEach(() => {
-    // Expect data to be unchanged after all tests, even throwing error.
-    expect(metadata.length).toBe(2);
-    expect(metadata[0]?.name).toBe("Metadata1");
-    expect(metadata[0]?.metadata.key).toBe("value1");
-    expect(metadata[1]?.name).toBe("Metadata2");
-    expect(metadata[1]?.metadata.key).toBe("value2");
-
-    expect(metadata[2]).toBeUndefined();
-  });
+  // Expect data to be unchanged after all tests, even throwing error.
+  const checkMetadataUnchanged = () => {
+    expect(metadata).toEqual([
+      { name: "Metadata1", metadata: { key: "value1" } },
+      { name: "Metadata2", metadata: { key: "value2" } },
+    ]);
+  };
 
   it("should access successfully all properties", () => {
-    // Does it on 'afterEach' function.
+    expect(metadata).toEqual([
+      { name: "Metadata1", metadata: { key: "value1" } },
+      { name: "Metadata2", metadata: { key: "value2" } },
+    ]);
   });
 
   it("should fail when attempting to change the metadata array", () => {
@@ -41,39 +45,45 @@ describe("freezeMetadata", () => {
     expect(() => {
       metadata.pop();
     }).toThrow();
+
+    checkMetadataUnchanged();
   });
 
   it("should fail when attempting to change the metadata name", () => {
     expect(() => {
-      // @ts-ignore Force typescript to ignore type check for readonly
+      // @ts-expect-error because data is typed as readonly, but the test is really for it in runtime
       metadata[0].name = "Wrong name";
     }).toThrow();
+
+    checkMetadataUnchanged();
   });
 
   it("should fail when attempting to change the metadata record", () => {
     // Can't replace the metadata
     expect(() => {
-      // @ts-ignore Force typescript to ignore type check for readonly
+      // @ts-expect-error because data is typed as readonly, but the test is really for it in runtime
       metadata[0].metadata = {};
     }).toThrow();
 
     // Can't delete a key from the metadata
     expect(() => {
-      // @ts-ignore Force typescript to ignore type check for readonly
+      // @ts-expect-error because data is typed as readonly, but the test is really for it in runtime
       delete metadata[0].metadata.key;
     }).toThrow();
 
     // Can't add a new key on metadata record
     expect(() => {
-      // @ts-ignore Force typescript to ignore type check for readonly
+      // @ts-expect-error because data is typed as readonly, but the test is really for it in runtime
       metadata[0].metadata["wrongKey"] = "wrongMetadata";
     }).toThrow();
 
     // Can't replace a value from a specific key of metadata record
     expect(() => {
-      // @ts-ignore Force typescript to ignore type check for readonly
+      // @ts-expect-error because data is typed as readonly, but the test is really for it in runtime
       metadata[0].metadata.key = "wrongMetadata";
     }).toThrow();
+
+    checkMetadataUnchanged();
   });
 
   it("should freeze an empty array", () => {
@@ -84,5 +94,7 @@ describe("freezeMetadata", () => {
     expect(() => {
       metadata.push(wrongMetadata);
     }).toThrow();
+
+    checkMetadataUnchanged();
   });
 });

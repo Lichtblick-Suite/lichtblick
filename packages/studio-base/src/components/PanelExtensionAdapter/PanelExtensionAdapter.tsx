@@ -323,7 +323,7 @@ function PanelExtensionAdapter(
 
       layout,
 
-      metadata: getMetadata?.() ?? Object.freeze([]),
+      metadata: getMetadata(),
 
       seekPlayback: seekPlayback
         ? (stamp: number | Time) => {

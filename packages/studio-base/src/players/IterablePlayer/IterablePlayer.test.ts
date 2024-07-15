@@ -865,7 +865,7 @@ describe("IterablePlayer", () => {
     const metadataInitialized = player.getMetadata();
     expect(metadataInitialized.length).toBe(1);
     expect(() => {
-      // @ts-ignore
+      // @ts-expect-error because the array is type as readonly
       metadataInitialized.pop();
     }).toThrow();
   });
