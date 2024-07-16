@@ -16,26 +16,26 @@ import ts from "typescript/lib/typescript";
 import { filterMap } from "@foxglove/den/collection";
 import { formatInterfaceName } from "@foxglove/studio-base/players/UserNodePlayer/nodeTransformerWorker/generateRosLib";
 import {
-  constructDatatypes,
-  findDefaultExportFunction,
-  DatatypeExtractionError,
-  findReturnType,
+    constructDatatypes,
+    DatatypeExtractionError,
+    findDefaultExportFunction,
+    findReturnType,
 } from "@foxglove/studio-base/players/UserNodePlayer/nodeTransformerWorker/typescript/ast";
 import { getUserScriptProjectConfig } from "@foxglove/studio-base/players/UserNodePlayer/nodeTransformerWorker/typescript/projectConfig";
 import {
-  baseCompilerOptions,
-  transformDiagnosticToMarkerData,
+    baseCompilerOptions,
+    transformDiagnosticToMarkerData,
 } from "@foxglove/studio-base/players/UserNodePlayer/nodeTransformerWorker/utils";
 import {
-  DiagnosticSeverity,
-  Sources,
-  ErrorCodes,
-  NodeData,
-  Diagnostic,
-  NodeDataTransformer,
+    Diagnostic,
+    DiagnosticSeverity,
+    ErrorCodes,
+    NodeData,
+    NodeDataTransformer,
+    Sources,
 } from "@foxglove/studio-base/players/UserNodePlayer/types";
 import { Topic } from "@foxglove/studio-base/players/types";
-import { DEFAULT_STUDIO_NODE_PREFIX } from "@foxglove/studio-base/util/globalConstants";
+import { DEFAULT_STUDIO_SCRIPT_PREFIX } from "@foxglove/studio-base/util/globalConstants";
 
 import { TransformArgs } from "./types";
 import generatedTypesLibSrc from "./typescript/userUtils/generatedTypes.ts?raw";
@@ -172,7 +172,7 @@ export const getOutputTopic = (nodeData: NodeData): NodeData => {
   if (outputTopic == undefined) {
     const error = {
       severity: DiagnosticSeverity.Error,
-      message: `Must include an output, e.g. export const output = "${DEFAULT_STUDIO_NODE_PREFIX}your_output_topic";`,
+      message: `Must include an output, e.g. export const output = "${DEFAULT_STUDIO_SCRIPT_PREFIX}your_output_topic";`,
       source: Sources.OutputTopicChecker,
       code: ErrorCodes.OutputTopicChecker.NO_OUTPUTS,
     };

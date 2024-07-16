@@ -16,31 +16,31 @@
 import exampleDatatypes from "@foxglove/studio-base/players/UserNodePlayer/nodeTransformerWorker/fixtures/example-datatypes";
 import generateRosLib from "@foxglove/studio-base/players/UserNodePlayer/nodeTransformerWorker/generateRosLib";
 import {
-  generateEmptyTypesLib,
-  generateTypesLib,
+    generateEmptyTypesLib,
+    generateTypesLib,
 } from "@foxglove/studio-base/players/UserNodePlayer/nodeTransformerWorker/generateTypesLib";
 import {
-  getOutputTopic,
-  validateInputTopics,
-  compile,
-  extractDatatypes,
-  extractGlobalVariables,
-  compose,
-  getInputTopics,
+    compile,
+    compose,
+    extractDatatypes,
+    extractGlobalVariables,
+    getInputTopics,
+    getOutputTopic,
+    validateInputTopics,
 } from "@foxglove/studio-base/players/UserNodePlayer/nodeTransformerWorker/transform";
 import {
-  DiagnosticSeverity,
-  ErrorCodes,
-  Sources,
-  NodeData,
+    DiagnosticSeverity,
+    ErrorCodes,
+    NodeData,
+    Sources,
 } from "@foxglove/studio-base/players/UserNodePlayer/types";
 import { RosDatatypes } from "@foxglove/studio-base/types/RosDatatypes";
 import { basicDatatypes } from "@foxglove/studio-base/util/basicDatatypes";
-import { DEFAULT_STUDIO_NODE_PREFIX } from "@foxglove/studio-base/util/globalConstants";
+import { DEFAULT_STUDIO_SCRIPT_PREFIX } from "@foxglove/studio-base/util/globalConstants";
 
 // Exported for use in other tests.
 const baseNodeData: NodeData = {
-  name: `${DEFAULT_STUDIO_NODE_PREFIX}main`,
+  name: `${DEFAULT_STUDIO_SCRIPT_PREFIX}main`,
   sourceCode: "",
   projectCode: new Map<string, string>(),
   transpiledCode: "",
@@ -93,7 +93,7 @@ describe("pipeline", () => {
       ],
       [
         `export const inputs = [];
-       export const output = "${DEFAULT_STUDIO_NODE_PREFIX}1";
+       export const output = "${DEFAULT_STUDIO_SCRIPT_PREFIX}1";
        const randomVar = [];`,
         [],
       ],
@@ -776,7 +776,7 @@ describe("pipeline", () => {
         description: "Multiple exports",
         sourceCode: `
           export const inputs = [];
-          export const output = "${DEFAULT_STUDIO_NODE_PREFIX}";
+          export const output = "${DEFAULT_STUDIO_SCRIPT_PREFIX}";
           export default (msg: any): { num: number } => {
             return { num: 1 };
           };`,
@@ -1080,7 +1080,7 @@ describe("pipeline", () => {
           import { Messages } from "ros";
 
           export const inputs = [];
-          export const output = "${DEFAULT_STUDIO_NODE_PREFIX}";
+          export const output = "${DEFAULT_STUDIO_SCRIPT_PREFIX}";
 
           const publisher = (message: any): Messages.std_msgs__ColorRGBA => {
             return { r: 1, g: 1, b: 1, a: 1 };
@@ -1097,7 +1097,7 @@ describe("pipeline", () => {
           import { Messages } from "ros";
 
           export const inputs = [];
-          export const output = "${DEFAULT_STUDIO_NODE_PREFIX}";
+          export const output = "${DEFAULT_STUDIO_SCRIPT_PREFIX}";
 
           type ReturnType = { color: Messages.std_msgs__ColorRGBA };
 
@@ -1114,7 +1114,7 @@ describe("pipeline", () => {
           import { Messages } from "ros";
 
           export const inputs = [];
-          export const output = "${DEFAULT_STUDIO_NODE_PREFIX}";
+          export const output = "${DEFAULT_STUDIO_SCRIPT_PREFIX}";
 
           type ReturnType = Messages.std_msgs__ColorRGBA;
 
@@ -1132,7 +1132,7 @@ describe("pipeline", () => {
           import { Messages, TopicsToMessageDefinition } from "ros";
 
           export const inputs = [];
-          export const output = "${DEFAULT_STUDIO_NODE_PREFIX}";
+          export const output = "${DEFAULT_STUDIO_SCRIPT_PREFIX}";
 
           const publisher = (message: any): TopicsToMessageDefinition["/some_topic"] => {
             return { r: 1, g: 1, b: 1, a: 1 };
@@ -1148,7 +1148,7 @@ describe("pipeline", () => {
           import { Messages, TopicsToMessageDefinition } from "ros";
 
           export const inputs = [];
-          export const output = "${DEFAULT_STUDIO_NODE_PREFIX}";
+          export const output = "${DEFAULT_STUDIO_SCRIPT_PREFIX}";
 
           type Alias = TopicsToMessageDefinition["/some_topic"]
 
@@ -1166,7 +1166,7 @@ describe("pipeline", () => {
           import { Color } from "@foxglove/schemas";
 
           export const inputs = [];
-          export const output = "${DEFAULT_STUDIO_NODE_PREFIX}";
+          export const output = "${DEFAULT_STUDIO_SCRIPT_PREFIX}";
 
           const publisher = (message: any): Color => {
             return { r: 1, g: 1, b: 1, a: 1 };
@@ -1257,7 +1257,7 @@ describe("pipeline", () => {
           import { Message } from "./types";
 
           export const inputs = [];
-          export const output = "${DEFAULT_STUDIO_NODE_PREFIX}";
+          export const output = "${DEFAULT_STUDIO_SCRIPT_PREFIX}";
 
           const publisher = (message: any): Message<"std_msgs/ColorRGBA"> => {
             return { r: 1, g: 1, b: 1, a: 1 };
@@ -1489,7 +1489,7 @@ describe("pipeline", () => {
 
           type Output = { m: LineStripMarker[] };
           export const inputs = [];
-          export const output = "${DEFAULT_STUDIO_NODE_PREFIX}";
+          export const output = "${DEFAULT_STUDIO_SCRIPT_PREFIX}";
           const publisher = (message: any): Output => {
               return { m: [] }
           };

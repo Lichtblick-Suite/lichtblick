@@ -16,10 +16,10 @@ import * as _ from "lodash-es";
 import { exportTypeScriptSchemas } from "@foxglove/schemas/internal";
 import rawUserUtils from "@foxglove/studio-base/players/UserNodePlayer/nodeTransformerWorker/typescript/rawUserUtils";
 import {
-  ros_lib_dts,
-  ros_lib_filename,
+    ros_lib_dts,
+    ros_lib_filename,
 } from "@foxglove/studio-base/players/UserNodePlayer/nodeTransformerWorker/typescript/ros";
-import { DEFAULT_STUDIO_NODE_PREFIX } from "@foxglove/studio-base/util/globalConstants";
+import { DEFAULT_STUDIO_SCRIPT_PREFIX } from "@foxglove/studio-base/util/globalConstants";
 
 import { lib_dts, lib_filename } from "./lib";
 import { UserScriptProjectConfig, UserScriptProjectFile } from "./types";
@@ -44,7 +44,7 @@ export function generateFoxgloveSchemaDeclarations(): UserScriptProjectFile[] {
 
 const utilityFiles: UserScriptProjectFile[] = rawUserUtils.map((utility) => ({
   ...utility,
-  filePath: `${DEFAULT_STUDIO_NODE_PREFIX}${utility.fileName}`,
+  filePath: `${DEFAULT_STUDIO_SCRIPT_PREFIX}${utility.fileName}`,
 }));
 
 export function getUserScriptProjectConfig(): UserScriptProjectConfig {

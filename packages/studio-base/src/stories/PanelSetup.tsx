@@ -41,6 +41,7 @@ import {
 import { UserScriptStateProvider } from "@foxglove/studio-base/context/UserScriptStateContext";
 import { GlobalVariables } from "@foxglove/studio-base/hooks/useGlobalVariables";
 import * as panels from "@foxglove/studio-base/panels";
+import { Diagnostic, UserScriptLog } from "@foxglove/studio-base/players/UserScriptPlayer/types";
 import {
   AdvertiseOptions,
   PlayerStateActiveData,
@@ -79,6 +80,8 @@ export type Fixture = {
   globalVariables?: GlobalVariables;
   layout?: MosaicNode<string>;
   userScripts?: UserScripts;
+  userScriptDiagnostics?: { [scriptId: string]: readonly Diagnostic[] };
+  userScriptLogs?: { [scriptId: string]: readonly UserScriptLog[] };
   savedProps?: SavedProps;
   publish?: (request: PublishPayload) => void;
   setPublishers?: (publisherId: string, advertisements: AdvertiseOptions[]) => void;

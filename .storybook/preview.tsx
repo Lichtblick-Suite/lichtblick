@@ -4,7 +4,7 @@
 
 import { GlobalStyles } from "@mui/material";
 import { Story, StoryContext } from "@storybook/react";
-import { useMemo, useRef, useEffect } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 
 import { Condvar } from "@foxglove/den/async";
@@ -20,6 +20,7 @@ import ThemeProvider from "@foxglove/studio-base/theme/ThemeProvider";
 import { makeMockAppConfiguration } from "@foxglove/studio-base/util/makeMockAppConfiguration";
 import waitForFonts from "@foxglove/studio-base/util/waitForFonts";
 
+import { UserScriptStateProvider } from "@foxglove/studio-base/context/UserScriptStateContext";
 import "./styles.css";
 
 let loaded = false;
@@ -80,6 +81,7 @@ function StudioContextProviders({
     <ReadySignalContext.Provider value={readySignal} />,
     <StudioToastProvider />,
     <TimelineInteractionStateProvider />,
+    <UserScriptStateProvider />,
     /* eslint-enable react/jsx-key */
   ];
   return (
