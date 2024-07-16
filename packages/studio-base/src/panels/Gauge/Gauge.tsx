@@ -278,7 +278,6 @@ export function Gauge({ context }: Props): JSX.Element {
   const needleThickness = 8;
   const needleExtraLength = 0.05;
   const [clipPathId] = useState(() => `gauge-clip-path-${uuidv4()}`);
-
   return (
     <div
       style={{

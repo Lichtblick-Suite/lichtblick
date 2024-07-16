@@ -128,10 +128,6 @@ export function createMessagePipelineStore({
           messageEventsBySubscriberId: new Map(),
           subscriptions: [],
           sortedTopics: [],
-          getMetadata() {
-            const player = get().player;
-            return player?.getMetadata?.() ?? Object.freeze([]);
-          },
           datatypes: new Map(),
           startPlayback: undefined,
           playUntil: undefined,
