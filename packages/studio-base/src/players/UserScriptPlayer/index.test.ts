@@ -50,17 +50,6 @@ const nodeUserCodeWithCompileError = `
   export default
 `;
 
-const nodeUserCodeWithPointClouds = `
-  import { convertToRangeView } from "./pointClouds";
-  import { RGBA } from "./types";
-  export const inputs = ["/np_input"];
-  export const output = "${DEFAULT_STUDIO_SCRIPT_PREFIX}1";
-  export default (message: { message: { payload: string } }): RGBA => {
-    const colors = convertToRangeView([{x:0.1, y:0.2, z:0.3}], 0.4, true);
-    return colors[0];
-  };
-`;
-
 const nodeUserCodeWithGlobalVars = `
   export const inputs = ["/np_input"];
   export const output = "${DEFAULT_STUDIO_SCRIPT_PREFIX}1";
