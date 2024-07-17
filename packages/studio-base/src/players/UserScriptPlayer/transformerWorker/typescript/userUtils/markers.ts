@@ -1,4 +1,4 @@
-import { Header, Pose, Point, RGBA, Time } from "./types";
+import { Header, Point, Pose, RGBA, Time } from "./types";
 
 export interface IMarker {
   header: Header;

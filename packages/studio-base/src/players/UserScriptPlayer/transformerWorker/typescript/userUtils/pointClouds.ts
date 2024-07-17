@@ -1,5 +1,5 @@
 import { FieldReader, getReader } from "./readers";
-import { Point, Header, RGBA } from "./types";
+import { Header, Point, RGBA } from "./types";
 
 interface sensor_msgs__PointField {
   name: string;
