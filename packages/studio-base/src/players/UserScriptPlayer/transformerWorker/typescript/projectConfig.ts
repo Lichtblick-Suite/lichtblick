@@ -15,7 +15,10 @@ import * as _ from "lodash-es";
 
 import { exportTypeScriptSchemas } from "@foxglove/schemas/internal";
 import rawUserUtils from "@foxglove/studio-base/players/UserScriptPlayer/transformerWorker/typescript/rawUserUtils";
-import { ros_lib_dts, ros_lib_filename } from "@foxglove/studio-base/players/UserScriptPlayer/transformerWorker/typescript/ros";
+import {
+  ros_lib_dts,
+  ros_lib_filename,
+} from "@foxglove/studio-base/players/UserScriptPlayer/transformerWorker/typescript/ros";
 import { DEFAULT_STUDIO_SCRIPT_PREFIX } from "@foxglove/studio-base/util/globalConstants";
 
 import { lib_dts, lib_filename } from "./lib";
