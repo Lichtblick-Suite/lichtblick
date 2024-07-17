@@ -27,7 +27,7 @@ export function getPreloadTypes(
     R.mapObjIndexed((payloads: SubscribePayload[] | undefined, topic): SubscribePayload => {
       // If at least one preloadType is explicitly "full", we need "full",
       // but default to "partial"
-      const hasFull = R.any((v: SubscribePayload) => v.preloadType === "full", payloads ?? []);
+      const hasFull = (payloads ?? []).some((v: SubscribePayload) => v.preloadType === "full");
 
       return {
         topic,
