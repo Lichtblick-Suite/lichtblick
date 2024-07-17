@@ -239,7 +239,7 @@ export const EditorShowsNewCodeWhenUserNodesChange: StoryObj = {
       <PanelSetup
         fixture={{
           ...fixture,
-          : {
+         userScripts:{
             nodeId1: {
               name: "/studio_script/script",
               sourceCode: sourceCodeWithUtils,
