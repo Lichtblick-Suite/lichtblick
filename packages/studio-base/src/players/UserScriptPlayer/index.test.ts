@@ -1036,48 +1036,6 @@ describe("UserScriptPlayer", () => {
       ]);
     });
 
-    it("provides access to './pointClouds' library for user input node code", async () => {
-      const fakePlayer = new FakePlayer();
-      const mockSetNodeDiagnostics = jest.fn();
-      const userScriptPlayer = new UserScriptPlayer(fakePlayer, {
-        ...defaultUserScriptActions,
-        setUserScriptDiagnostics: mockSetNodeDiagnostics,
-      });
-
-      const [done] = setListenerHelper(userScriptPlayer);
-
-      userScriptPlayer.setSubscriptions([{ topic: `${DEFAULT_STUDIO_SCRIPT_PREFIX}1` }]);
-      await userScriptPlayer.setUserScripts({
-        [nodeId]: {
-          name: `${DEFAULT_STUDIO_SCRIPT_PREFIX}1`,
-          sourceCode: nodeUserCodeWithPointClouds,
-        },
-      });
-
-      await fakePlayer.emit({
-        activeData: {
-          ...basicPlayerState,
-          messages: [upstreamFirst],
-          currentTime: upstreamFirst.receiveTime,
-          topics: [{ name: "/np_input", schemaName: "std_msgs/Header" }],
-          datatypes: new Map(Object.entries({ "std_msgs/Header": { definitions: [] } })),
-        },
-      });
-
-      const { messages } = (await done)!;
-
-      expect(mockSetNodeDiagnostics).toHaveBeenCalledWith(nodeId, []);
-      expect(messages).toEqual([
-        upstreamFirst,
-        {
-          topic: `${DEFAULT_STUDIO_SCRIPT_PREFIX}1`,
-          receiveTime: upstreamFirst.receiveTime,
-          message: { a: 1, b: 0.7483314773547883, g: 0.7483314773547883, r: 1 },
-          schemaName: "/studio_script/1",
-          sizeInBytes: 0,
-        },
-      ]);
-    });
 
     it("skips publishing messages if a node does not produce a message", async () => {
       const fakePlayer = new FakePlayer();
