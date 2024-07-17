@@ -14,13 +14,13 @@ import path from "path";
 
 import { GlobalVariables } from "@foxglove/studio-base/hooks/useGlobalVariables";
 import {
-    Diagnostic,
-    DiagnosticSeverity,
-    ErrorCodes,
-    ProcessMessageOutput,
-    RegistrationOutput,
-    Sources,
-    UserNodeLog,
+  Diagnostic,
+  DiagnosticSeverity,
+  ErrorCodes,
+  ProcessMessageOutput,
+  RegistrationOutput,
+  Sources,
+  UserNodeLog,
 } from "@foxglove/studio-base/players/UserNodePlayer/types";
 import { DEFAULT_STUDIO_SCRIPT_PREFIX } from "@foxglove/studio-base/util/globalConstants";
 

@@ -30,7 +30,6 @@ if (monacoPkg.version !== "0.40.0") {
   `);
 }
 
-
 type Options = {
   // During hot reloading and development it is useful to comment out code while iterating.
   // We ignore errors from unused locals to avoid having to also comment

@@ -1025,7 +1025,6 @@ describe("UserScriptPlayer", () => {
       ]);
     });
 
-
     it("skips publishing messages if a node does not produce a message", async () => {
       const fakePlayer = new FakePlayer();
       const userScriptPlayer = new UserScriptPlayer(fakePlayer, defaultUserScriptActions);

@@ -16,23 +16,23 @@
 import exampleDatatypes from "@foxglove/studio-base/players/UserNodePlayer/nodeTransformerWorker/fixtures/example-datatypes";
 import generateRosLib from "@foxglove/studio-base/players/UserNodePlayer/nodeTransformerWorker/generateRosLib";
 import {
-    generateEmptyTypesLib,
-    generateTypesLib,
+  generateEmptyTypesLib,
+  generateTypesLib,
 } from "@foxglove/studio-base/players/UserNodePlayer/nodeTransformerWorker/generateTypesLib";
 import {
-    compile,
-    compose,
-    extractDatatypes,
-    extractGlobalVariables,
-    getInputTopics,
-    getOutputTopic,
-    validateInputTopics,
+  compile,
+  compose,
+  extractDatatypes,
+  extractGlobalVariables,
+  getInputTopics,
+  getOutputTopic,
+  validateInputTopics,
 } from "@foxglove/studio-base/players/UserNodePlayer/nodeTransformerWorker/transform";
 import {
-    DiagnosticSeverity,
-    ErrorCodes,
-    NodeData,
-    Sources,
+  DiagnosticSeverity,
+  ErrorCodes,
+  NodeData,
+  Sources,
 } from "@foxglove/studio-base/players/UserNodePlayer/types";
 import { RosDatatypes } from "@foxglove/studio-base/types/RosDatatypes";
 import { basicDatatypes } from "@foxglove/studio-base/util/basicDatatypes";
