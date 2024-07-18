@@ -8617,44 +8617,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"app-builder-lib@npm:24.13.3":
-  version: 24.13.3
-  resolution: "app-builder-lib@npm:24.13.3"
-  dependencies:
-    "@develar/schema-utils": ~2.6.5
-    "@electron/notarize": 2.2.1
-    "@electron/osx-sign": 1.0.5
-    "@electron/universal": 1.5.1
-    "@malept/flatpak-bundler": ^0.4.0
-    "@types/fs-extra": 9.0.13
-    async-exit-hook: ^2.0.1
-    bluebird-lst: ^1.0.9
-    builder-util: 24.13.1
-    builder-util-runtime: 9.2.4
-    chromium-pickle-js: ^0.2.0
-    debug: ^4.3.4
-    ejs: ^3.1.8
-    electron-publish: 24.13.1
-    form-data: ^4.0.0
-    fs-extra: ^10.1.0
-    hosted-git-info: ^4.1.0
-    is-ci: ^3.0.0
-    isbinaryfile: ^5.0.0
-    js-yaml: ^4.1.0
-    lazy-val: ^1.0.5
-    minimatch: ^5.1.1
-    read-config-file: 6.3.2
-    sanitize-filename: ^1.6.3
-    semver: ^7.3.8
-    tar: ^6.1.12
-    temp-file: ^3.4.0
-  peerDependencies:
-    dmg-builder: 24.13.3
-    electron-builder-squirrel-windows: 24.13.3
-  checksum: 68ea3295efe99b8e8d4f9a1e77f3eae34de01b9829f8907e467d658b9406aa04c95baa2c06142b29bd8184d4efdc69f176a53d62fec36e7eba80024c46ce5adc
-  languageName: node
-  linkType: hard
-
 "app-root-dir@npm:^1.0.2":
   version: 1.0.2
   resolution: "app-root-dir@npm:1.0.2"
