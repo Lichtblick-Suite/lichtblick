@@ -13,12 +13,12 @@
 
 /* eslint-disable jest/no-conditional-expect */
 
-import exampleDatatypes from "@foxglove/studio-base/players/UserNodePlayer/nodeTransformerWorker/fixtures/example-datatypes";
-import generateRosLib from "@foxglove/studio-base/players/UserNodePlayer/nodeTransformerWorker/generateRosLib";
+import exampleDatatypes from "@foxglove/studio-base/players/UserScriptPlayer/transformerWorker/fixtures/example-datatypes";
+import generateRosLib from "@foxglove/studio-base/players/UserScriptPlayer/transformerWorker/generateRosLib";
 import {
   generateEmptyTypesLib,
   generateTypesLib,
-} from "@foxglove/studio-base/players/UserNodePlayer/nodeTransformerWorker/generateTypesLib";
+} from "@foxglove/studio-base/players/UserScriptPlayer/transformerWorker/generateTypesLib";
 import {
   getOutputTopic,
   validateInputTopics,
@@ -27,20 +27,20 @@ import {
   extractGlobalVariables,
   compose,
   getInputTopics,
-} from "@foxglove/studio-base/players/UserNodePlayer/nodeTransformerWorker/transform";
+} from "@foxglove/studio-base/players/UserScriptPlayer/transformerWorker/transform";
 import {
   DiagnosticSeverity,
   ErrorCodes,
   Sources,
-  NodeData,
-} from "@foxglove/studio-base/players/UserNodePlayer/types";
+  ScriptData,
+} from "@foxglove/studio-base/players/UserScriptPlayer/types";
 import { RosDatatypes } from "@foxglove/studio-base/types/RosDatatypes";
 import { basicDatatypes } from "@foxglove/studio-base/util/basicDatatypes";
-import { DEFAULT_STUDIO_NODE_PREFIX } from "@foxglove/studio-base/util/globalConstants";
+import { DEFAULT_STUDIO_SCRIPT_PREFIX } from "@foxglove/studio-base/util/globalConstants";
 
 // Exported for use in other tests.
-const baseNodeData: NodeData = {
-  name: `${DEFAULT_STUDIO_NODE_PREFIX}main`,
+const baseNodeData: ScriptData = {
+  name: `${DEFAULT_STUDIO_SCRIPT_PREFIX}main`,
   sourceCode: "",
   projectCode: new Map<string, string>(),
   transpiledCode: "",
@@ -93,7 +93,7 @@ describe("pipeline", () => {
       ],
       [
         `export const inputs = [];
-       export const output = "${DEFAULT_STUDIO_NODE_PREFIX}1";
+       export const output = "${DEFAULT_STUDIO_SCRIPT_PREFIX}1";
        const randomVar = [];`,
         [],
       ],
@@ -776,7 +776,7 @@ describe("pipeline", () => {
         description: "Multiple exports",
         sourceCode: `
           export const inputs = [];
-          export const output = "${DEFAULT_STUDIO_NODE_PREFIX}";
+          export const output = "${DEFAULT_STUDIO_SCRIPT_PREFIX}";
           export default (msg: any): { num: number } => {
             return { num: 1 };
           };`,
@@ -1080,7 +1080,7 @@ describe("pipeline", () => {
           import { Messages } from "ros";
 
           export const inputs = [];
-          export const output = "${DEFAULT_STUDIO_NODE_PREFIX}";
+          export const output = "${DEFAULT_STUDIO_SCRIPT_PREFIX}";
 
           const publisher = (message: any): Messages.std_msgs__ColorRGBA => {
             return { r: 1, g: 1, b: 1, a: 1 };
@@ -1097,7 +1097,7 @@ describe("pipeline", () => {
           import { Messages } from "ros";
 
           export const inputs = [];
-          export const output = "${DEFAULT_STUDIO_NODE_PREFIX}";
+          export const output = "${DEFAULT_STUDIO_SCRIPT_PREFIX}";
 
           type ReturnType = { color: Messages.std_msgs__ColorRGBA };
 
@@ -1114,7 +1114,7 @@ describe("pipeline", () => {
           import { Messages } from "ros";
 
           export const inputs = [];
-          export const output = "${DEFAULT_STUDIO_NODE_PREFIX}";
+          export const output = "${DEFAULT_STUDIO_SCRIPT_PREFIX}";
 
           type ReturnType = Messages.std_msgs__ColorRGBA;
 
@@ -1132,7 +1132,7 @@ describe("pipeline", () => {
           import { Messages, TopicsToMessageDefinition } from "ros";
 
           export const inputs = [];
-          export const output = "${DEFAULT_STUDIO_NODE_PREFIX}";
+          export const output = "${DEFAULT_STUDIO_SCRIPT_PREFIX}";
 
           const publisher = (message: any): TopicsToMessageDefinition["/some_topic"] => {
             return { r: 1, g: 1, b: 1, a: 1 };
@@ -1148,7 +1148,7 @@ describe("pipeline", () => {
           import { Messages, TopicsToMessageDefinition } from "ros";
 
           export const inputs = [];
-          export const output = "${DEFAULT_STUDIO_NODE_PREFIX}";
+          export const output = "${DEFAULT_STUDIO_SCRIPT_PREFIX}";
 
           type Alias = TopicsToMessageDefinition["/some_topic"]
 
@@ -1166,7 +1166,7 @@ describe("pipeline", () => {
           import { Color } from "@foxglove/schemas";
 
           export const inputs = [];
-          export const output = "${DEFAULT_STUDIO_NODE_PREFIX}";
+          export const output = "${DEFAULT_STUDIO_SCRIPT_PREFIX}";
 
           const publisher = (message: any): Color => {
             return { r: 1, g: 1, b: 1, a: 1 };
@@ -1175,6 +1175,63 @@ describe("pipeline", () => {
           export default publisher;`,
         datatypes: basicDatatypes,
         outputDatatype: "foxglove.Color",
+      },
+      {
+        description: "Allows TypedArrays when output datatype is from @foxglove/schemas",
+        sourceCode: `
+          import { LaserScan } from "@foxglove/schemas";
+
+          export const inputs = [];
+          export const output = "${DEFAULT_STUDIO_SCRIPT_PREFIX}";
+
+          const publisher = (message: any): LaserScan => {
+            return {
+              timestamp: {sec: 0, nsec: 1},
+              frame_id: "",
+              pose: {
+                position: {x: 0, y: 0, z: 0},
+                orientation: {x: 0, y: 0, z: 0, w: 1},
+              },
+              start_angle: 0,
+              end_angle: 0,
+              ranges: new Float64Array([1, 2, 3]),
+              intensities: new Float32Array([1, 2, 3]),
+            };
+          };
+
+          export default publisher;`,
+        datatypes: basicDatatypes,
+        outputDatatype: "foxglove.LaserScan",
+      },
+      {
+        description:
+          "Rejects wrong kind of TypedArray when output datatype is from @foxglove/schemas",
+        sourceCode: `
+          import { LaserScan } from "@foxglove/schemas";
+
+          export const inputs = [];
+          export const output = "${DEFAULT_STUDIO_SCRIPT_PREFIX}";
+
+          const publisher = (message: any): LaserScan => {
+            return {
+              timestamp: {sec: 0, nsec: 1},
+              frame_id: "",
+              pose: {
+                position: {x: 0, y: 0, z: 0},
+                orientation: {x: 0, y: 0, z: 0, w: 1},
+              },
+              start_angle: 0,
+              end_angle: 0,
+              ranges: new Float64Array([1, 2, 3]),
+              intensities: new Uint32Array([1, 2, 3]),
+            };
+          };
+
+          export default publisher;`,
+        error: 2322,
+        errorMessage: expect.stringContaining(
+          `Type 'Uint32Array' is not assignable to type 'number[] | Float32Array | Float64Array'`,
+        ),
       },
       {
         description: "Should handle deep subtype lookup",
@@ -1257,7 +1314,7 @@ describe("pipeline", () => {
           import { Message } from "./types";
 
           export const inputs = [];
-          export const output = "${DEFAULT_STUDIO_NODE_PREFIX}";
+          export const output = "${DEFAULT_STUDIO_SCRIPT_PREFIX}";
 
           const publisher = (message: any): Message<"std_msgs/ColorRGBA"> => {
             return { r: 1, g: 1, b: 1, a: 1 };
@@ -1489,7 +1546,7 @@ describe("pipeline", () => {
 
           type Output = { m: LineStripMarker[] };
           export const inputs = [];
-          export const output = "${DEFAULT_STUDIO_NODE_PREFIX}";
+          export const output = "${DEFAULT_STUDIO_SCRIPT_PREFIX}";
           const publisher = (message: any): Output => {
               return { m: [] }
           };
@@ -1642,7 +1699,7 @@ describe("pipeline", () => {
         }) => {
           it(`${error != undefined ? "Expected Error: " : ""}${description}`, () => {
             const typesLib = generateTypesLib({ topics: [], datatypes });
-            const inputNodeData: NodeData = {
+            const inputNodeData: ScriptData = {
               ...baseNodeData,
               datatypes,
               sourceCode,

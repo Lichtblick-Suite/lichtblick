@@ -14,37 +14,37 @@
 import ts from "typescript/lib/typescript";
 
 import { filterMap } from "@foxglove/den/collection";
-import { formatInterfaceName } from "@foxglove/studio-base/players/UserNodePlayer/nodeTransformerWorker/generateRosLib";
+import { formatInterfaceName } from "@foxglove/studio-base/players/UserScriptPlayer/transformerWorker/generateRosLib";
 import {
   constructDatatypes,
-  findDefaultExportFunction,
   DatatypeExtractionError,
+  findDefaultExportFunction,
   findReturnType,
-} from "@foxglove/studio-base/players/UserNodePlayer/nodeTransformerWorker/typescript/ast";
-import { getUserScriptProjectConfig } from "@foxglove/studio-base/players/UserNodePlayer/nodeTransformerWorker/typescript/projectConfig";
+} from "@foxglove/studio-base/players/UserScriptPlayer/transformerWorker/typescript/ast";
+import { getUserScriptProjectConfig } from "@foxglove/studio-base/players/UserScriptPlayer/transformerWorker/typescript/projectConfig";
 import {
   baseCompilerOptions,
   transformDiagnosticToMarkerData,
-} from "@foxglove/studio-base/players/UserNodePlayer/nodeTransformerWorker/utils";
+} from "@foxglove/studio-base/players/UserScriptPlayer/transformerWorker/utils";
 import {
-  DiagnosticSeverity,
-  Sources,
-  ErrorCodes,
-  NodeData,
   Diagnostic,
-  NodeDataTransformer,
-} from "@foxglove/studio-base/players/UserNodePlayer/types";
+  DiagnosticSeverity,
+  ErrorCodes,
+  ScriptData,
+  ScriptDataTransformer,
+  Sources,
+} from "@foxglove/studio-base/players/UserScriptPlayer/types";
 import { Topic } from "@foxglove/studio-base/players/types";
-import { DEFAULT_STUDIO_NODE_PREFIX } from "@foxglove/studio-base/util/globalConstants";
+import { DEFAULT_STUDIO_SCRIPT_PREFIX } from "@foxglove/studio-base/util/globalConstants";
 
 import { TransformArgs } from "./types";
 import generatedTypesLibSrc from "./typescript/userUtils/generatedTypes.ts?raw";
 
-export const hasTransformerErrors = (nodeData: NodeData): boolean =>
-  nodeData.diagnostics.some(({ severity }) => severity === DiagnosticSeverity.Error);
+export const hasTransformerErrors = (scriptData: ScriptData): boolean =>
+  scriptData.diagnostics.some(({ severity }) => severity === DiagnosticSeverity.Error);
 
-export const getInputTopics = (nodeData: NodeData): NodeData => {
-  const { sourceFile, typeChecker } = nodeData;
+export const getInputTopics = (scriptData: ScriptData): ScriptData => {
+  const { sourceFile, typeChecker } = scriptData;
   if (!sourceFile || !typeChecker) {
     const error = {
       severity: DiagnosticSeverity.Error,
@@ -55,8 +55,8 @@ export const getInputTopics = (nodeData: NodeData): NodeData => {
     };
 
     return {
-      ...nodeData,
-      diagnostics: [...nodeData.diagnostics, error],
+      ...scriptData,
+      diagnostics: [...scriptData.diagnostics, error],
     };
   }
 
@@ -69,8 +69,8 @@ export const getInputTopics = (nodeData: NodeData): NodeData => {
       code: ErrorCodes.InputTopicsChecker.NO_INPUTS_EXPORT,
     };
     return {
-      ...nodeData,
-      diagnostics: [...nodeData.diagnostics, error],
+      ...scriptData,
+      diagnostics: [...scriptData.diagnostics, error],
     };
   }
 
@@ -86,8 +86,8 @@ export const getInputTopics = (nodeData: NodeData): NodeData => {
       code: ErrorCodes.InputTopicsChecker.EMPTY_INPUTS_EXPORT,
     };
     return {
-      ...nodeData,
-      diagnostics: [...nodeData.diagnostics, error],
+      ...scriptData,
+      diagnostics: [...scriptData.diagnostics, error],
     };
   }
 
@@ -100,8 +100,8 @@ export const getInputTopics = (nodeData: NodeData): NodeData => {
       code: ErrorCodes.InputTopicsChecker.BAD_INPUTS_TYPE,
     };
     return {
-      ...nodeData,
-      diagnostics: [...nodeData.diagnostics, error],
+      ...scriptData,
+      diagnostics: [...scriptData.diagnostics, error],
     };
   }
 
@@ -113,8 +113,8 @@ export const getInputTopics = (nodeData: NodeData): NodeData => {
       code: ErrorCodes.InputTopicsChecker.BAD_INPUTS_TYPE,
     };
     return {
-      ...nodeData,
-      diagnostics: [...nodeData.diagnostics, error],
+      ...scriptData,
+      diagnostics: [...scriptData.diagnostics, error],
     };
   }
 
@@ -128,8 +128,8 @@ export const getInputTopics = (nodeData: NodeData): NodeData => {
       code: ErrorCodes.InputTopicsChecker.BAD_INPUTS_TYPE,
     };
     return {
-      ...nodeData,
-      diagnostics: [...nodeData.diagnostics, error],
+      ...scriptData,
+      diagnostics: [...scriptData.diagnostics, error],
     };
   }
 
@@ -150,20 +150,20 @@ export const getInputTopics = (nodeData: NodeData): NodeData => {
     };
 
     return {
-      ...nodeData,
-      diagnostics: [...nodeData.diagnostics, error],
+      ...scriptData,
+      diagnostics: [...scriptData.diagnostics, error],
     };
   }
 
   return {
-    ...nodeData,
+    ...scriptData,
     inputTopics,
   };
 };
 
-export const getOutputTopic = (nodeData: NodeData): NodeData => {
+export const getOutputTopic = (scriptData: ScriptData): ScriptData => {
   const matches = /^\s*export\s+const\s+output\s*=\s*("([^"]+)"|'([^']+)')/gm.exec(
-    nodeData.sourceCode,
+    scriptData.sourceCode,
   );
   // Pick either the first matching group or the second, which corresponds
   // to single quotes or double quotes respectively.
@@ -172,25 +172,25 @@ export const getOutputTopic = (nodeData: NodeData): NodeData => {
   if (outputTopic == undefined) {
     const error = {
       severity: DiagnosticSeverity.Error,
-      message: `Must include an output, e.g. export const output = "${DEFAULT_STUDIO_NODE_PREFIX}your_output_topic";`,
+      message: `Must include an output, e.g. export const output = "${DEFAULT_STUDIO_SCRIPT_PREFIX}your_output_topic";`,
       source: Sources.OutputTopicChecker,
       code: ErrorCodes.OutputTopicChecker.NO_OUTPUTS,
     };
 
     return {
-      ...nodeData,
-      diagnostics: [...nodeData.diagnostics, error],
+      ...scriptData,
+      diagnostics: [...scriptData.diagnostics, error],
     };
   }
 
   return {
-    ...nodeData,
+    ...scriptData,
     outputTopic,
   };
 };
 
-export const validateInputTopics = (nodeData: NodeData, topics: Topic[]): NodeData => {
-  const { inputTopics } = nodeData;
+export const validateInputTopics = (scriptData: ScriptData, topics: Topic[]): ScriptData => {
+  const { inputTopics } = scriptData;
   const activeTopics = topics.map(({ name }) => name);
   const diagnostics = [];
   for (const inputTopic of inputTopics) {
@@ -205,8 +205,8 @@ export const validateInputTopics = (nodeData: NodeData, topics: Topic[]): NodeDa
   }
 
   return {
-    ...nodeData,
-    diagnostics: [...nodeData.diagnostics, ...diagnostics],
+    ...scriptData,
+    diagnostics: [...scriptData.diagnostics, ...diagnostics],
   };
 };
 
@@ -214,16 +214,16 @@ export const validateInputTopics = (nodeData: NodeData, topics: Topic[]): NodeDa
 // will be leveraged to:
 // - Generate the AST
 // - Handle external libraries
-export const compile = (nodeData: NodeData): NodeData => {
-  const { sourceCode, rosLib, typesLib } = nodeData;
+export const compile = (scriptData: ScriptData): ScriptData => {
+  const { sourceCode, rosLib, typesLib } = scriptData;
 
   const options: ts.CompilerOptions = baseCompilerOptions;
-  const nodeFileName = "/studio_script/index.ts";
+  const scriptFileName = "/studio_script/index.ts";
   const projectConfig = getUserScriptProjectConfig();
   const projectCode = new Map<string, string>();
 
   const sourceCodeMap = new Map<string, string>();
-  sourceCodeMap.set(nodeFileName, sourceCode);
+  sourceCodeMap.set(scriptFileName, sourceCode);
   sourceCodeMap.set(projectConfig.rosLib.filePath, rosLib);
   sourceCodeMap.set("/studio_script/generatedTypes.ts", typesLib ? typesLib : generatedTypesLibSrc);
 
@@ -280,7 +280,7 @@ export const compile = (nodeData: NodeData): NodeData => {
     },
   };
 
-  const program = ts.createProgram([nodeFileName], options, host);
+  const program = ts.createProgram([scriptFileName], options, host);
   program.emit();
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   if (!codeEmitted) {
@@ -292,8 +292,8 @@ export const compile = (nodeData: NodeData): NodeData => {
     };
 
     return {
-      ...nodeData,
-      diagnostics: [...nodeData.diagnostics, error],
+      ...scriptData,
+      diagnostics: [...scriptData.diagnostics, error],
     };
   }
 
@@ -301,29 +301,29 @@ export const compile = (nodeData: NodeData): NodeData => {
 
   const newDiagnostics = diagnostics.map(transformDiagnosticToMarkerData);
 
-  const sourceFile = program.getSourceFile(nodeFileName);
+  const sourceFile = program.getSourceFile(scriptFileName);
   const typeChecker = program.getTypeChecker();
 
   return {
-    ...nodeData,
+    ...scriptData,
     sourceFile,
     typeChecker,
     transpiledCode,
     projectCode,
-    diagnostics: [...nodeData.diagnostics, ...newDiagnostics],
+    diagnostics: [...scriptData.diagnostics, ...newDiagnostics],
   };
 };
 
 // Currently we only look types matching the exact name "GlobalVariables". In the future,
 // we should check the type of the 2nd arg passed to the publisher function in
 // case users have renamed the GlobalVariables type.
-export const extractGlobalVariables = (nodeData: NodeData): NodeData => {
+export const extractGlobalVariables = (scriptData: ScriptData): ScriptData => {
   // Do not attempt to run if there were any compile time errors.
-  if (hasTransformerErrors(nodeData)) {
-    return nodeData;
+  if (hasTransformerErrors(scriptData)) {
+    return scriptData;
   }
 
-  const { sourceFile } = nodeData;
+  const { sourceFile } = scriptData;
   if (!sourceFile) {
     throw new Error("'sourceFile' is absent'. There is a problem with the `compile` step.");
   }
@@ -352,18 +352,18 @@ export const extractGlobalVariables = (nodeData: NodeData): NodeData => {
   });
 
   return {
-    ...nodeData,
+    ...scriptData,
     globalVariables,
   };
 };
 
-export const extractDatatypes = (nodeData: NodeData): NodeData => {
+export const extractDatatypes = (scriptData: ScriptData): ScriptData => {
   // Do not attempt to run if there were any compile time errors.
-  if (hasTransformerErrors(nodeData)) {
-    return nodeData;
+  if (hasTransformerErrors(scriptData)) {
+    return scriptData;
   }
 
-  const { sourceFile, typeChecker, name, datatypes: sourceDatatypes } = nodeData;
+  const { sourceFile, typeChecker, name, datatypes: sourceDatatypes } = scriptData;
   if (!sourceFile || !typeChecker) {
     throw new Error(
       "Either the 'sourceFile' or 'typeChecker' is absent'. There is a problem with the `compile` step.",
@@ -379,7 +379,7 @@ export const extractDatatypes = (nodeData: NodeData): NodeData => {
   try {
     const exportNode = findDefaultExportFunction(sourceFile, typeChecker);
     if (!exportNode) {
-      throw new Error("Your node must default export a function");
+      throw new Error("Your script must default export a function");
     }
 
     const typeNode = findReturnType(typeChecker, exportNode);
@@ -391,16 +391,16 @@ export const extractDatatypes = (nodeData: NodeData): NodeData => {
       messageDefinitionMap,
       sourceDatatypes,
     );
-    return { ...nodeData, datatypes, outputDatatype };
+    return { ...scriptData, datatypes, outputDatatype };
   } catch (error) {
     if (error instanceof DatatypeExtractionError) {
-      return { ...nodeData, diagnostics: [...nodeData.diagnostics, error.diagnostic] };
+      return { ...scriptData, diagnostics: [...scriptData.diagnostics, error.diagnostic] };
     }
 
     return {
-      ...nodeData,
+      ...scriptData,
       diagnostics: [
-        ...nodeData.diagnostics,
+        ...scriptData.diagnostics,
         {
           message: error.message,
           severity: DiagnosticSeverity.Error,
@@ -412,13 +412,13 @@ export const extractDatatypes = (nodeData: NodeData): NodeData => {
   }
 };
 
-export const compose = (...transformers: NodeDataTransformer[]): NodeDataTransformer => {
-  return (nodeData: NodeData, topics: Topic[]) => {
-    let newNodeData = nodeData;
+export const compose = (...transformers: ScriptDataTransformer[]): ScriptDataTransformer => {
+  return (scriptData: ScriptData, topics: Topic[]) => {
+    let newScriptData = scriptData;
     for (const transformer of transformers) {
-      newNodeData = transformer(newNodeData, topics);
+      newScriptData = transformer(newScriptData, topics);
     }
-    return newNodeData;
+    return newScriptData;
   };
 };
 
@@ -426,15 +426,15 @@ export const compose = (...transformers: NodeDataTransformer[]): NodeDataTransfo
 
   TRANSFORM
 
-  Defines the pipeline with which user nodes are processed. Each
-  'NodeDataTransformer' is a pure function that receives NodeData and returns
-  NodeData. In this way, each transformer has the power to inspect previous
+  Defines the pipeline with which user scripts are processed. Each
+  'ScriptDataTransformer' is a pure function that receives ScriptData and returns
+  ScriptData. In this way, each transformer has the power to inspect previous
   diagnostics, compiled source code, etc. and to abort the pipeline if there
   is a fatal error, or continue to pass along information further downstream
   when errors are not fatal.
 
 */
-const transform = (args: TransformArgs): NodeData => {
+const transform = (args: TransformArgs): ScriptData => {
   const { name, sourceCode, topics, rosLib, typesLib, datatypes } = args;
 
   const transformer = compose(

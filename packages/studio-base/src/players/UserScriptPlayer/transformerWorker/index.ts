@@ -10,8 +10,8 @@
 //   This source code is licensed under the Apache License, Version 2.0,
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
-import generateRosLib from "@foxglove/studio-base/players/UserNodePlayer/nodeTransformerWorker/generateRosLib";
-import transform from "@foxglove/studio-base/players/UserNodePlayer/nodeTransformerWorker/transform";
+import generateRosLib from "@foxglove/studio-base/players/UserScriptPlayer/transformerWorker/generateRosLib";
+import transform from "@foxglove/studio-base/players/UserScriptPlayer/transformerWorker/transform";
 import Rpc from "@foxglove/studio-base/util/Rpc";
 import { setupSendReportNotificationHandler } from "@foxglove/studio-base/util/RpcWorkerUtils";
 import { enforceFetchIsBlocked, inSharedWorker } from "@foxglove/studio-base/util/workers";
@@ -42,7 +42,7 @@ if (!inSharedWorker()) {
 (global as unknown as SharedWorkerGlobalScope).onconnect = (connectEvent: MessageEvent) => {
   const port = connectEvent.ports[0];
   if (!port) {
-    throw new Error("NodeTransformWorker connect requires at least 1 message port.");
+    throw new Error("TransformWorker connect requires at least 1 message port.");
   }
 
   const rpc = new Rpc(port);

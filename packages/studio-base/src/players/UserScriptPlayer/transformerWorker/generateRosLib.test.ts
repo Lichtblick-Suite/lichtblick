@@ -13,17 +13,17 @@
 
 import ts from "typescript/lib/typescript";
 
-import stressTestDatatypes from "@foxglove/studio-base/players/UserNodePlayer/nodeTransformerWorker/fixtures/example-datatypes";
+import stressTestDatatypes from "@foxglove/studio-base/players/UserScriptPlayer/transformerWorker/fixtures/example-datatypes";
 import generateRosLib, {
   generateTypeDefs,
-  typedArrayMap,
   InterfaceDeclarations,
-} from "@foxglove/studio-base/players/UserNodePlayer/nodeTransformerWorker/generateRosLib";
-import { compile } from "@foxglove/studio-base/players/UserNodePlayer/nodeTransformerWorker/transform";
-import { NodeData } from "@foxglove/studio-base/players/UserNodePlayer/types";
+  typedArrayMap,
+} from "@foxglove/studio-base/players/UserScriptPlayer/transformerWorker/generateRosLib";
+import { compile } from "@foxglove/studio-base/players/UserScriptPlayer/transformerWorker/transform";
+import { ScriptData } from "@foxglove/studio-base/players/UserScriptPlayer/types";
 import { Topic } from "@foxglove/studio-base/players/types";
 
-const baseNodeData: NodeData = {
+const baseNodeData: ScriptData = {
   name: "/studio_script/main",
   sourceCode: "",
   transpiledCode: "",
