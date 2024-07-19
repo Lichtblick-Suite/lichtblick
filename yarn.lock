@@ -2521,7 +2521,7 @@ __metadata:
   dependencies:
     "@foxglove/tsconfig": 2.0.0
     comlink: "github:foxglove/comlink#9181fa505671b35b1e66e0a8361a6fc1bdd03307"
-    typescript: 5.3.3
+    typescript: 5.5.3
   languageName: unknown
   linkType: soft
 
@@ -2595,7 +2595,7 @@ __metadata:
     "@types/lodash-es": ^4
     lodash-es: 4.17.21
     shallowequal: 1.1.0
-    typescript: 5.3.3
+    typescript: 5.5.3
   peerDependencies:
     react: ^18.2.0
   languageName: unknown
@@ -2615,7 +2615,7 @@ __metadata:
   resolution: "@foxglove/log@workspace:packages/log"
   dependencies:
     "@foxglove/tsconfig": 2.0.0
-    typescript: 5.3.3
+    typescript: 5.5.3
   languageName: unknown
   linkType: soft
 
@@ -2641,7 +2641,7 @@ __metadata:
     flatbuffers: 23.5.26
     flatbuffers_reflection: 0.0.7
     protobufjs: "patch:protobufjs@7.2.5#../../patches/protobufjs.patch"
-    typescript: 5.3.3
+    typescript: 5.5.3
   languageName: unknown
   linkType: soft
 
@@ -2666,7 +2666,7 @@ __metadata:
     "@foxglove/tsconfig": 2.0.0
     "@types/nearley": 2.11.5
     nearley: 2.20.1
-    typescript: 5.3.3
+    typescript: 5.5.3
   languageName: unknown
   linkType: soft
 
@@ -3027,7 +3027,7 @@ __metadata:
     ts-key-enum: 2.0.12
     ts-loader: 9.5.1
     tss-react: 4.8.6
-    typescript: 5.3.3
+    typescript: 5.5.3
     use-debounce: 10.0.0
     use-immer: 0.9.0
     uuid: 9.0.1
@@ -3121,7 +3121,7 @@ __metadata:
   resolution: "@foxglove/studio@workspace:packages/studio"
   dependencies:
     "@foxglove/tsconfig": 2.0.0
-    typescript: 5.3.3
+    typescript: 5.5.3
   languageName: unknown
   linkType: soft
 
@@ -3169,7 +3169,7 @@ __metadata:
   resolution: "@foxglove/typescript-transformers@workspace:packages/typescript-transformers"
   dependencies:
     "@foxglove/tsconfig": 2.0.0
-    typescript: 5.3.3
+    typescript: 5.5.3
   languageName: unknown
   linkType: soft
 
@@ -13371,7 +13371,7 @@ __metadata:
     ts-node: 10.9.2
     ts-unused-exports: 10.0.1
     tslib: 2.6.2
-    typescript: 5.3.3
+    typescript: 5.5.3
     vm-browserify: 1.1.2
     webpack: 5.90.0
     webpack-cli: 5.1.4
@@ -22523,17 +22523,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:5.3.3":
-  version: 5.3.3
-  resolution: "typescript@npm:5.3.3"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 2007ccb6e51bbbf6fde0a78099efe04dc1c3dfbdff04ca3b6a8bc717991862b39fd6126c0c3ebf2d2d98ac5e960bcaa873826bb2bb241f14277034148f41f6a2
-  languageName: node
-  linkType: hard
-
-"typescript@npm:^4 || ^5, typescript@npm:^5.3.3":
+"typescript@npm:5.5.3, typescript@npm:^4 || ^5, typescript@npm:^5.3.3":
   version: 5.5.3
   resolution: "typescript@npm:5.5.3"
   bin:
@@ -22543,17 +22533,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@5.3.3#~builtin<compat/typescript>":
-  version: 5.3.3
-  resolution: "typescript@patch:typescript@npm%3A5.3.3#~builtin<compat/typescript>::version=5.3.3&hash=f3b441"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: f61375590b3162599f0f0d5b8737877ac0a7bc52761dbb585d67e7b8753a3a4c42d9a554c4cc929f591ffcf3a2b0602f65ae3ce74714fd5652623a816862b610
-  languageName: node
-  linkType: hard
-
-"typescript@patch:typescript@^4 || ^5#~builtin<compat/typescript>, typescript@patch:typescript@^5.3.3#~builtin<compat/typescript>":
+"typescript@patch:typescript@5.5.3#~builtin<compat/typescript>, typescript@patch:typescript@^4 || ^5#~builtin<compat/typescript>, typescript@patch:typescript@^5.3.3#~builtin<compat/typescript>":
   version: 5.5.3
   resolution: "typescript@patch:typescript@npm%3A5.5.3#~builtin<compat/typescript>::version=5.5.3&hash=f3b441"
   bin:
