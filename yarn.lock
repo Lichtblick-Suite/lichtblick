@@ -2423,6 +2423,347 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@foxglove/studio-base@workspace:*, @foxglove/studio-base@workspace:packages/studio-base":
+  version: 0.0.0-use.local
+  resolution: "@foxglove/studio-base@workspace:packages/studio-base"
+  dependencies:
+    "@emotion/cache": 11.11.0
+    "@emotion/react": 11.11.3
+    "@emotion/styled": 11.11.0
+    "@fluentui/react-icons": 2.0.224
+    "@foxglove/avl": 1.0.0
+    "@foxglove/chartjs-plugin-zoom": 2.0.4
+    "@foxglove/comlink-transfer-handlers": "workspace:*"
+    "@foxglove/crc": 0.0.3
+    "@foxglove/den": "workspace:*"
+    "@foxglove/electron-socket": 2.1.1
+    "@foxglove/hooks": "workspace:*"
+    "@foxglove/log": "workspace:*"
+    "@foxglove/mcap-support": "workspace:*"
+    "@foxglove/message-definition": 0.3.1
+    "@foxglove/message-path": "workspace:*"
+    "@foxglove/ros1": 3.0.0
+    "@foxglove/rosbag": 0.4.0
+    "@foxglove/rosbag2-web": 4.1.1
+    "@foxglove/roslibjs": 0.0.3
+    "@foxglove/rosmsg": 4.2.2
+    "@foxglove/rosmsg-msgs-common": 3.1.0
+    "@foxglove/rosmsg-serialization": 2.0.2
+    "@foxglove/rosmsg2-serialization": 2.0.3
+    "@foxglove/rostime": 1.1.2
+    "@foxglove/schemas": 1.6.3
+    "@foxglove/studio": "workspace:*"
+    "@foxglove/theme": "workspace:*"
+    "@foxglove/three-text": 0.2.2
+    "@foxglove/tsconfig": 2.0.0
+    "@foxglove/typescript-transformers": "workspace:*"
+    "@foxglove/ulog": 2.1.2
+    "@foxglove/velodyne-cloud": 1.0.1
+    "@foxglove/wasm-bz2": 0.1.1
+    "@foxglove/wasm-lz4": 1.0.2
+    "@foxglove/ws-protocol": 0.7.2
+    "@foxglove/xmlrpc": 1.3.0
+    "@mcap/core": 2.0.2
+    "@mui/icons-material": 5.15.5
+    "@mui/material": 5.13.5
+    "@popperjs/core": ^2.11.8
+    "@protobufjs/base64": 1.1.2
+    "@storybook/addon-actions": 7.6.10
+    "@storybook/jest": 0.2.3
+    "@storybook/react": 7.6.10
+    "@storybook/testing-library": 0.2.2
+    "@svgr/webpack": 8.1.0
+    "@tanstack/react-table": 8.11.7
+    "@testing-library/react": 14.0.0
+    "@types/base16": ^1.0.5
+    "@types/cytoscape": ^3.19.16
+    "@types/foxglove__roslibjs": "workspace:*"
+    "@types/geojson": 7946.0.11
+    "@types/gl-matrix": 3.2.0
+    "@types/hammerjs": 2.0.45
+    "@types/leaflet": 1.9.7
+    "@types/memoize-weak": "workspace:*"
+    "@types/moment-duration-format": 2.2.6
+    "@types/nearley": 2.11.5
+    "@types/ramda": 0.29.4
+    "@types/react": 18.2.56
+    "@types/react-dom": 18.3.0
+    "@types/react-hover-observer": "workspace:*"
+    "@types/react-transition-group": ^4.4.8
+    "@types/react-virtualized": 9.21.29
+    "@types/react-window": ^1.8.5
+    "@types/sanitize-html": 2.9.3
+    "@types/seedrandom": 3.0.8
+    "@types/shallowequal": 1.1.5
+    "@types/string-hash": 1.1.3
+    "@types/text-metrics": "workspace:*"
+    "@types/three": 0.156.0
+    "@types/tinycolor2": 1.4.4
+    "@types/uuid": 9.0.7
+    "@types/wicg-file-system-access": 2020.9.6
+    "@uiw/react-textarea-code-editor": 3.0.2
+    async-mutex: 0.5.0
+    babel-jest: 29.7.0
+    babel-plugin-transform-import-meta: 2.2.1
+    browserify-zlib: 0.2.0
+    chart.js: 4.4.0
+    chartjs-plugin-annotation: 3.0.1
+    chartjs-plugin-datalabels: 2.2.0
+    chromatic: 7.2.0
+    comlink: "github:foxglove/comlink#9181fa505671b35b1e66e0a8361a6fc1bdd03307"
+    crypto-browserify: 3.12.0
+    css-loader: 6.8.1
+    cytoscape: 3.28.1
+    cytoscape-dagre: 2.5.0
+    esbuild-loader: 2.21.0
+    eventemitter3: 5.0.1
+    fake-indexeddb: 4.0.2
+    fork-ts-checker-webpack-plugin: 9.0.2
+    fuzzysort: 2.0.4
+    fzf: 0.5.2
+    geojson: 0.5.0
+    gl-matrix: 3.4.3
+    hammerjs: 2.0.8
+    i18next: 23.7.18
+    i18next-browser-languagedetector: 7.1.0
+    idb: 7.1.1
+    idb-keyval: 6.2.1
+    immer: 10.0.2
+    intervals-fn: 3.0.3
+    jest-canvas-mock: 2.5.2
+    jszip: 3.10.0
+    just-diff: 6.0.2
+    leaflet: 1.9.4
+    leaflet-ellipse: 0.9.1
+    lodash-es: 4.17.21
+    mathjs: 11.11.1
+    memoize-weak: 1.0.2
+    meshoptimizer: 0.19.0
+    moize: 6.1.6
+    moment: 2.29.4
+    moment-duration-format: 2.3.2
+    moment-timezone: 0.5.43
+    natsort: 2.0.3
+    nearley: 2.20.1
+    nearley-loader: 2.0.0
+    notistack: 3.0.1
+    path-browserify: 1.0.1
+    ramda: 0.29.0
+    react: 18.2.0
+    react-colorful: 5.6.1
+    react-dnd: 16.0.1
+    react-dnd-html5-backend: 16.0.1
+    react-dom: 18.3.1
+    react-hover-observer: 2.1.1
+    react-i18next: 14.0.1
+    react-json-tree: "patch:react-json-tree@npm:0.15.1#../../patches/react-json-tree.patch"
+    react-markdown: 8.0.7
+    react-mosaic-component: 6.1.0
+    react-refresh-typescript: 2.0.9
+    react-resize-detector: 10.0.1
+    react-transition-group: 4.4.5
+    react-use: 17.4.0
+    react-virtualized: 9.22.5
+    react-window: 1.8.9
+    readable-stream: 4.4.2
+    rehype-raw: 6.1.1
+    reselect: 5.1.1
+    sanitize-html: 2.12.1
+    seedrandom: 3.0.5
+    shallowequal: 1.1.0
+    string-hash: 1.1.3
+    string-replace-loader: 3.1.0
+    style-loader: 3.3.3
+    text-metrics: 3.0.0
+    three: "patch:three@0.156.1#../../patches/three.patch"
+    tinycolor2: 1.6.0
+    ts-essentials: 9.4.0
+    ts-key-enum: 2.0.12
+    ts-loader: 9.5.1
+    tss-react: 4.8.6
+    typescript: 5.3.3
+    use-debounce: 10.0.0
+    use-immer: 0.9.0
+    uuid: 9.0.1
+    vm-browserify: 1.1.2
+    webpack: 5.90.0
+    zustand: 4.4.1
+  languageName: unknown
+  linkType: soft
+
+"@foxglove/studio-desktop@workspace:*, @foxglove/studio-desktop@workspace:packages/studio-desktop":
+  version: 0.0.0-use.local
+  resolution: "@foxglove/studio-desktop@workspace:packages/studio-desktop"
+  dependencies:
+    "@actions/exec": 1.1.1
+    "@actions/tool-cache": 2.0.1
+    "@foxglove/den": "workspace:*"
+    "@foxglove/electron-socket": 2.1.1
+    "@foxglove/log": "workspace:*"
+    "@foxglove/mcap-support": "workspace:*"
+    "@foxglove/rosbag": 0.4.0
+    "@foxglove/rostime": 1.1.2
+    "@foxglove/studio-base": "workspace:*"
+    "@foxglove/theme": "workspace:*"
+    "@foxglove/tsconfig": 2.0.0
+    "@mcap/core": 1.3.0
+    "@pmmmwh/react-refresh-webpack-plugin": 0.5.11
+    "@storybook/react": 7.6.10
+    "@types/electron-devtools-installer": 2.2.3
+    "@types/plist": ^3.0.3
+    "@types/pngjs": ^6.0.2
+    "@types/tinycolor2": 1.4.4
+    "@types/utif": ^3.0.2
+    "@xmldom/xmldom": 0.8.10
+    app-builder-lib: 24.13.3
+    async-mutex: 0.4.0
+    builder-util: "*"
+    clean-webpack-plugin: 4.0.0
+    electron: 25.8.4
+    electron-builder: 24.13.3
+    electron-devtools-installer: 3.2.0
+    electron-squirrel-startup: 1.0.0
+    electron-updater: 6.3.0-alpha.6
+    esbuild-loader: 2.21.0
+    eventemitter3: 5.0.1
+    fork-ts-checker-webpack-plugin: 9.0.2
+    html-webpack-plugin: 5.5.3
+    i18next: 23.5.1
+    jszip: 3.10.1
+    path-browserify: 1.0.1
+    plist: 3.1.0
+    pngjs: 7.0.0
+    quicklookjs: 0.0.3
+    react: 18.2.0
+    react-dom: 18.3.1
+    react-refresh-typescript: 2.0.9
+    react-use: 17.4.0
+    tinycolor2: 1.6.0
+    tss-react: 4.9.2
+    utif: 3.1.0
+    webpack: 5.90.0
+    webpack-dev-server: 5.0.4
+  languageName: unknown
+  linkType: soft
+
+"@foxglove/studio-web@workspace:*, @foxglove/studio-web@workspace:packages/studio-web":
+  version: 0.0.0-use.local
+  resolution: "@foxglove/studio-web@workspace:packages/studio-web"
+  dependencies:
+    "@fluentui/react-icons": 2.0.224
+    "@foxglove/log": "workspace:*"
+    "@foxglove/studio-base": "workspace:*"
+    "@foxglove/theme": "workspace:*"
+    "@foxglove/tsconfig": 2.0.0
+    "@mui/material": 5.13.5
+    "@pmmmwh/react-refresh-webpack-plugin": 0.5.11
+    "@storybook/react": 7.6.10
+    "@types/copy-webpack-plugin": 10.1.0
+    clean-webpack-plugin: 4.0.0
+    copy-webpack-plugin: 12.0.2
+    html-webpack-plugin: 5.6.0
+    react: 18.2.0
+    react-dom: 18.3.1
+    tss-react: 4.9.3
+    webpack: 5.90.0
+    webpack-dev-server: 5.0.4
+  languageName: unknown
+  linkType: soft
+
+"@foxglove/studio@workspace:*, @foxglove/studio@workspace:packages/studio":
+  version: 0.0.0-use.local
+  resolution: "@foxglove/studio@workspace:packages/studio"
+  dependencies:
+    "@foxglove/tsconfig": 2.0.0
+    typescript: 5.3.3
+  languageName: unknown
+  linkType: soft
+
+"@foxglove/theme@workspace:*, @foxglove/theme@workspace:packages/theme":
+  version: 0.0.0-use.local
+  resolution: "@foxglove/theme@workspace:packages/theme"
+  dependencies:
+    "@emotion/react": 11.13.0
+    "@emotion/styled": 11.13.0
+    "@fluentui/react-icons": 2.0.224
+    "@foxglove/tsconfig": 2.0.0
+    "@mui/icons-material": 5.15.5
+    "@mui/lab": 5.0.0-alpha.161
+    "@mui/material": 5.13.5
+    "@mui/x-data-grid": 6.18.7
+    "@storybook/react": 7.6.10
+    "@types/react": 18.2.56
+    i18next: 23.11.2
+    i18next-browser-languagedetector: 7.2.1
+    react: 18.2.0
+    react-i18next: 14.1.0
+  languageName: unknown
+  linkType: soft
+
+"@foxglove/three-text@npm:0.2.2":
+  version: 0.2.2
+  resolution: "@foxglove/three-text@npm:0.2.2"
+  dependencies:
+    "@mapbox/tiny-sdf": 2.0.6
+  peerDependencies:
+    three: ">=0.140.2"
+  checksum: 9dc10c9adaa8c1ca1731bc133d4ab8f07345a4aa51197efc6c2bb899cbefa5ee8ccf69d16a93d2569429c2a53a921fe5d62281228a6ed6ebadd7b6fb117a0ce1
+  languageName: node
+  linkType: hard
+
+"@foxglove/tsconfig@npm:2.0.0":
+  version: 2.0.0
+  resolution: "@foxglove/tsconfig@npm:2.0.0"
+  checksum: c6d581ff4e6e75e4c22d909a51f377b6f9b296805234009ca6950f86c76bbefc5f4f95eef92e24ede3134cb411c0d08e73d484a30c448d8e248414dcc98c1400
+  languageName: node
+  linkType: hard
+
+"@foxglove/typescript-transformers@workspace:*, @foxglove/typescript-transformers@workspace:packages/typescript-transformers":
+  version: 0.0.0-use.local
+  resolution: "@foxglove/typescript-transformers@workspace:packages/typescript-transformers"
+  dependencies:
+    "@foxglove/tsconfig": 2.0.0
+    typescript: 5.3.3
+  languageName: unknown
+  linkType: soft
+
+"@foxglove/ulog@npm:2.1.2":
+  version: 2.1.2
+  resolution: "@foxglove/ulog@npm:2.1.2"
+  checksum: 5014a871a13e3acaeba7fc8d7db16937f1936e6bef827f10800b254a9bedd56faa939347479ee88412967789d8680e74f375cc82acb21aae39bbbfa3f21a2444
+  languageName: node
+  linkType: hard
+
+"@foxglove/velodyne-cloud@npm:1.0.1":
+  version: 1.0.1
+  resolution: "@foxglove/velodyne-cloud@npm:1.0.1"
+  checksum: 3f461bdc2e36c4f8bcbd295f4337fe600f259465987bedcd21e8a7a03817f409fc3346d3b68ca8b52a6e8c42dfe6e148532cca06224868d50cad1f903e108d70
+  languageName: node
+  linkType: hard
+
+"@foxglove/wasm-bz2@npm:0.1.1":
+  version: 0.1.1
+  resolution: "@foxglove/wasm-bz2@npm:0.1.1"
+  dependencies:
+    tslib: ^2
+  checksum: 525206e231e765dfec3f787bcd4da664eff7bc72ccddfebee22782c5822c2e6d776c4aa4fc67fd58710eadb87a09dc16a207de08f4583500481bddef6a99bb71
+  languageName: node
+  linkType: hard
+
+"@foxglove/wasm-lz4@npm:1.0.2":
+  version: 1.0.2
+  resolution: "@foxglove/wasm-lz4@npm:1.0.2"
+  checksum: 1148ae84be22830382995ef19912dd033f009c0f16690dd942acce2efee02035b035f5910690c7e37c9435e7636b94006ef33220f86e98bc281129e50445bb19
+  languageName: node
+  linkType: hard
+
+"@foxglove/wasm-zstd@npm:1.0.1":
+  version: 1.0.1
+  resolution: "@foxglove/wasm-zstd@npm:1.0.1"
+  checksum: 91fffc0970e4dad0550e054ae1647730e09876ef0d6fb15c70d800e9027e38d8372e990dde98542a95eb00d88d483c9e1227be0ea958f9d3f41693dc78311027
+  languageName: node
+  linkType: hard
+
 "@foxglove/ws-protocol@npm:0.7.2":
   version: 0.7.2
   resolution: "@foxglove/ws-protocol@npm:0.7.2"
@@ -5735,12 +6076,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:18.2.7":
-  version: 18.2.7
-  resolution: "@types/react-dom@npm:18.2.7"
+"@types/react-dom@npm:18.3.0, @types/react-dom@npm:^18.0.0":
+  version: 18.3.0
+  resolution: "@types/react-dom@npm:18.3.0"
   dependencies:
     "@types/react": "*"
-  checksum: e02ea908289a7ad26053308248d2b87f6aeafd73d0e2de2a3d435947bcea0422599016ffd1c3e38ff36c42f5e1c87c7417f05b0a157e48649e4a02f21727d54f
+  checksum: a0cd9b1b815a6abd2a367a9eabdd8df8dd8f13f95897b2f9e1359ea3ac6619f957c1432ece004af7d95e2a7caddbba19faa045f831f32d6263483fc5404a7596
   languageName: node
   linkType: hard
 
@@ -7553,14 +7894,14 @@ __metadata:
     "@lichtblick/tsconfig": 1.0.0
     "@pmmmwh/react-refresh-webpack-plugin": 0.5.11
     "@types/react": 18.2.56
-    "@types/react-dom": 18.2.7
+    "@types/react-dom": 18.3.0
     clean-webpack-plugin: 4.0.0
     html-webpack-plugin: 5.6.0
     mathjs: 11.11.1
     react: 18.2.0
-    react-dom: 18.2.0
-    webpack: 5.95.0
-    webpack-dev-server: 5.1.0
+    react-dom: 18.3.1
+    webpack: 5.90.0
+    webpack-dev-server: 5.0.4
   languageName: unknown
   linkType: soft
 
@@ -17087,15 +17428,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:18.2.0":
-  version: 18.2.0
-  resolution: "react-dom@npm:18.2.0"
+"react-dom@npm:18.3.1":
+  version: 18.3.1
+  resolution: "react-dom@npm:18.3.1"
   dependencies:
     loose-envify: ^1.1.0
-    scheduler: ^0.23.0
+    scheduler: ^0.23.2
   peerDependencies:
-    react: ^18.2.0
-  checksum: 7d323310bea3a91be2965f9468d552f201b1c27891e45ddc2d6b8f717680c95a75ae0bc1e3f5cf41472446a2589a75aed4483aee8169287909fcd59ad149e8cc
+    react: ^18.3.1
+  checksum: 298954ecd8f78288dcaece05e88b570014d8f6dce5db6f66e6ee91448debeb59dcd31561dddb354eee47e6c1bb234669459060deb238ed0213497146e555a0b9
   languageName: node
   linkType: hard
 
@@ -18193,7 +18534,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"scheduler@npm:^0.23.0, scheduler@npm:^0.23.2":
+"scheduler@npm:^0.23.2":
   version: 0.23.2
   resolution: "scheduler@npm:0.23.2"
   dependencies:
