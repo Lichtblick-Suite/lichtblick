@@ -20,11 +20,11 @@ import {
   ProcessMessageOutput,
   RegistrationOutput,
   Sources,
-  UserNodeLog,
-} from "@foxglove/studio-base/players/UserNodePlayer/types";
+  UserScriptLog
+} from "@foxglove/studio-base/players/UserScriptPlayer/types";
 import { DEFAULT_STUDIO_SCRIPT_PREFIX } from "@foxglove/studio-base/util/globalConstants";
 
-// Each node runtime worker runs one node at a time, hence why we have one
+// Each script runtime worker runs one script at a time, hence why we have one
 // global declaration of 'nodeCallback'.
 let nodeCallback: (
   message: unknown,
@@ -86,29 +86,29 @@ export const requireImplementation = (id: string, projectCode: Map<string, strin
       return sourceExports;
     }
   }
-  throw new Error(`User node required unknown module: '${id}'`);
+  throw new Error(`User script required unknown module: '${id}'`);
 };
 
-export const registerNode = ({
-  nodeCode,
+export const registerScript = ({
+  scriptCode,
   projectCode,
 }: {
-  nodeCode: string;
+  scriptCode: string;
   projectCode: Map<string, string>;
 }): RegistrationOutput => {
-  const userNodeLogs: UserNodeLog[] = [];
-  const userNodeDiagnostics: Diagnostic[] = [];
+  const userScriptLogs: UserScriptLog[] = [];
+  const userScriptDiagnostics: Diagnostic[] = [];
   (self as { log?: unknown }).log = function (...args: unknown[]) {
     // recursively check that args do not contain a function declaration
     if (containsFuncDeclaration(args)) {
       const argsToPrint = getArgsToPrint(args);
       throw new Error(
-        `Cannot invoke log() with a function argument (registerNode) - log(${argsToPrint.join(
+        `Cannot invoke log() with a function argument (registerScript) - log(${argsToPrint.join(
           ", ",
         )})`,
       );
     }
-    userNodeLogs.push(...args.map((value) => ({ source: "registerNode" as const, value })));
+    userScriptLogs.push(...args.map((value) => ({ source: "registerScript" as const, value })));
   };
   try {
     const nodeExports: { default?: typeof nodeCallback } = {};
@@ -117,19 +117,19 @@ export const registerNode = ({
 
     // Using new Function in order to execute user-input text in User Scripts as code
     // eslint-disable-next-line no-new-func, @typescript-eslint/no-implied-eval
-    new Function("exports", "require", nodeCode)(nodeExports, require);
+    new Function("exports", "require", scriptCode)(nodeExports, require);
     nodeCallback = nodeExports.default!;
     return {
       error: undefined,
-      userNodeLogs,
-      userNodeDiagnostics,
+      userScriptLogs,
+      userScriptDiagnostics,
     };
   } catch (e) {
     const error: string = e.toString();
     return {
       error: error.length > 0 ? error : `Unknown error encountered registering this node.`,
-      userNodeLogs,
-      userNodeDiagnostics,
+      userScriptLogs,
+      userScriptDiagnostics,
     };
   }
 };
@@ -141,8 +141,8 @@ export const processMessage = ({
   message: unknown;
   globalVariables: GlobalVariables;
 }): ProcessMessageOutput => {
-  const userNodeLogs: UserNodeLog[] = [];
-  const userNodeDiagnostics: Diagnostic[] = [];
+  const userScriptLogs: UserScriptLog[] = [];
+  const userScriptDiagnostics: Diagnostic[] = [];
   (self as { log?: unknown }).log = function (...args: unknown[]) {
     // recursively check that args do not contain a function declaration
     if (containsFuncDeclaration(args)) {
@@ -153,11 +153,11 @@ export const processMessage = ({
         )})`,
       );
     }
-    userNodeLogs.push(...args.map((value) => ({ source: "processMessage" as const, value })));
+    userScriptLogs.push(...args.map((value) => ({ source: "processMessage" as const, value })));
   };
   try {
     const newMessage = nodeCallback(message, globalVariables);
-    return { message: newMessage, error: undefined, userNodeLogs, userNodeDiagnostics };
+    return { message: newMessage, error: undefined, userScriptLogs, userScriptDiagnostics };
   } catch (err) {
     const error: string = err.toString();
     const diagnostic: Diagnostic = {
@@ -170,8 +170,8 @@ export const processMessage = ({
     return {
       message: undefined,
       error: undefined,
-      userNodeLogs,
-      userNodeDiagnostics: [diagnostic],
+      userScriptLogs,
+      userScriptDiagnostics: [diagnostic],
     };
   }
 };

@@ -11,8 +11,8 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 import {
-  processMessage,
-  registerNode,
+    processMessage,
+    registerScript,
 } from "@foxglove/studio-base/players/UserScriptPlayer/runtimeWorker/registry";
 import Rpc from "@foxglove/studio-base/util/Rpc";
 import { enforceFetchIsBlocked, inSharedWorker } from "@foxglove/studio-base/util/workers";
@@ -58,7 +58,7 @@ if (!inSharedWorker()) {
   };
 
   // Just check fetch is blocked on registration, don't slow down message processing.
-  rpc.receive("registerNode", enforceFetchIsBlocked(registerNode));
+  rpc.receive("registerNode", enforceFetchIsBlocked(registerScript));
   rpc.receive("processMessage", processMessage);
 
   port.start();
