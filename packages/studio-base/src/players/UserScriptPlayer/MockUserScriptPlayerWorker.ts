@@ -19,7 +19,6 @@ import { processMessage, registerScript } from "./runtimeWorker/registry";
 import generateRosLib from "./transformerWorker/generateRosLib";
 import transform from "./transformerWorker/transform";
 
-
 const validateWorkerArgs = (arg: unknown) => {
   expect(arg).not.toBeInstanceOf(Function);
 

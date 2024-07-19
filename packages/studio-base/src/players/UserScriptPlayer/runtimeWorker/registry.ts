@@ -20,7 +20,7 @@ import {
   ProcessMessageOutput,
   RegistrationOutput,
   Sources,
-  UserScriptLog
+  UserScriptLog,
 } from "@foxglove/studio-base/players/UserScriptPlayer/types";
 import { DEFAULT_STUDIO_SCRIPT_PREFIX } from "@foxglove/studio-base/util/globalConstants";
 
