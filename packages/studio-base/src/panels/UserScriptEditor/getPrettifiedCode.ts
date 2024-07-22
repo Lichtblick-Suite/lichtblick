@@ -10,7 +10,6 @@
 //   This source code is licensed under the Apache License, Version 2.0,
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
-
 // Takes in a string of Typescript code and returns beautified, formatted string of Typescript code
 async function getPrettifiedCode(code: string): Promise<string> {
   // use dynamic imports to avoid loading prettier unless the function is invoked
