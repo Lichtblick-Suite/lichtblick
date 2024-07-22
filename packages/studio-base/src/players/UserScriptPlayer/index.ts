@@ -22,7 +22,7 @@ import { MutexLocked } from "@foxglove/den/async";
 import { filterMap } from "@foxglove/den/collection";
 import Log from "@foxglove/log";
 import { Time, compare } from "@foxglove/rostime";
-import { ParameterValue } from "@foxglove/studio";
+import { Metadata, ParameterValue } from "@foxglove/studio";
 import { Asset } from "@foxglove/studio-base/components/PanelExtensionAdapter";
 import {
   IPerformanceRegistry,
@@ -1074,6 +1074,10 @@ export default class UserScriptPlayer implements Player {
       void this.#transformRpc.send("close");
     }
   };
+
+  public getMetadata(): ReadonlyArray<Readonly<Metadata>> {
+    return this.#player.getMetadata?.() ?? Object.freeze([]);
+  }
 
   public setPublishers(publishers: AdvertiseOptions[]): void {
     this.#player.setPublishers(publishers);
