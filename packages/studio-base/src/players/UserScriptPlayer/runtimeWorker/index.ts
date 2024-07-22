@@ -58,7 +58,7 @@ if (!inSharedWorker()) {
   };
 
   // Just check fetch is blocked on registration, don't slow down message processing.
-  rpc.receive("registerNode", enforceFetchIsBlocked(registerScript));
+  rpc.receive("registerScript", enforceFetchIsBlocked(registerScript));
   rpc.receive("processMessage", processMessage);
 
   port.start();
