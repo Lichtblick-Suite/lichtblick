@@ -2353,12 +2353,116 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@foxglove/crc@npm:^0.0.3":
+"@foxglove/avl@npm:1.0.0":
+  version: 1.0.0
+  resolution: "@foxglove/avl@npm:1.0.0"
+  checksum: 6d25573e0ce50dc9217a13fcb88ac07acdf3d2d6fcf570f268b449d3e010a1bab133c0dc604b102ebfbf31c55215726b34b0aa794d2b43b2451828f4010eaf1c
+  languageName: node
+  linkType: hard
+
+"@foxglove/cdr@npm:^3.0.0, @foxglove/cdr@npm:^3.2.1":
+  version: 3.3.0
+  resolution: "@foxglove/cdr@npm:3.3.0"
+  checksum: f1c5479474bbd94a9992f788b52092d9938095014df4983eb6099741dc390c2168ff77c5e8431a8fa3bbf437b34cb74f2c73a0a97331166c837788711f5d501d
+  languageName: node
+  linkType: hard
+
+"@foxglove/chartjs-plugin-zoom@npm:2.0.4":
+  version: 2.0.4
+  resolution: "@foxglove/chartjs-plugin-zoom@npm:2.0.4"
+  dependencies:
+    hammerjs: ^2.0.8
+  peerDependencies:
+    chart.js: ^3.0.0-beta.13
+  checksum: f7456c75aefef6de44522fb872a1b716714df7a8b70f4f2605f5cc98670b14779b0958c63c09fa6582520fcbec2abe9e396503b854eee31fbfcd1a6c4dd5fff3
+  languageName: node
+  linkType: hard
+
+"@foxglove/comlink-transfer-handlers@workspace:*, @foxglove/comlink-transfer-handlers@workspace:packages/comlink-transfer-handlers":
+  version: 0.0.0-use.local
+  resolution: "@foxglove/comlink-transfer-handlers@workspace:packages/comlink-transfer-handlers"
+  dependencies:
+    "@foxglove/tsconfig": 2.0.0
+    comlink: "github:foxglove/comlink#9181fa505671b35b1e66e0a8361a6fc1bdd03307"
+    typescript: 5.5.4
+  languageName: unknown
+  linkType: soft
+
+"@foxglove/crc@npm:0.0.3, @foxglove/crc@npm:^0.0.3":
   version: 0.0.3
   resolution: "@foxglove/crc@npm:0.0.3"
   checksum: 2eee0e45780e3289c4a190fa909e5977643667e19a21b945a109977b89427b877d8e12ebf91821653d69bdb0390e58540e1c9bb906aefcc7dd818c64f131f071
   languageName: node
   linkType: hard
+
+"@foxglove/den@workspace:*, @foxglove/den@workspace:packages/den":
+  version: 0.0.0-use.local
+  resolution: "@foxglove/den@workspace:packages/den"
+  dependencies:
+    "@foxglove/tsconfig": 2.0.0
+    async-mutex: 0.4.0
+    comlink: "github:foxglove/comlink#9181fa505671b35b1e66e0a8361a6fc1bdd03307"
+    xacro-parser: 0.3.9
+  languageName: unknown
+  linkType: soft
+
+"@foxglove/electron-socket@npm:2.1.1":
+  version: 2.1.1
+  resolution: "@foxglove/electron-socket@npm:2.1.1"
+  dependencies:
+    dns-packet: ^5.2.4
+    eventemitter3: ^4.0.7
+  peerDependencies:
+    electron: ">=12"
+  checksum: dc9d34999d12002de20f39b4d516016303edfd8ea9f825f93ac12824f6443680585fa52f95319b3f1c9116df678adc15a011f313ee94eb76a021fe44d37dab20
+  languageName: node
+  linkType: hard
+
+"@foxglove/eslint-plugin-studio@workspace:*, @foxglove/eslint-plugin-studio@workspace:packages/eslint-plugin-studio":
+  version: 0.0.0-use.local
+  resolution: "@foxglove/eslint-plugin-studio@workspace:packages/eslint-plugin-studio"
+  dependencies:
+    "@foxglove/tsconfig": 2.0.0
+    "@typescript-eslint/rule-tester": 6.10.0
+    "@typescript-eslint/utils": 6.10.0
+  languageName: unknown
+  linkType: soft
+
+"@foxglove/eslint-plugin@npm:1.0.0":
+  version: 1.0.0
+  resolution: "@foxglove/eslint-plugin@npm:1.0.0"
+  dependencies:
+    "@typescript-eslint/utils": ^6
+    tsutils: ^3
+    typescript: ^4 || ^5
+  peerDependencies:
+    eslint: ^7 || ^8
+    eslint-config-prettier: ^8
+    eslint-plugin-es: ^4
+    eslint-plugin-filenames: ^1
+    eslint-plugin-import: ^2
+    eslint-plugin-prettier: ^5
+    prettier: ^3
+  checksum: 455819c6d2a0de3901fee957688433d631dd7ecd5ad691c838b853cd63a1e2e94362b0b065e83410d979deccabea5959b46d5de994006d80d287c3afc3e4aed0
+  languageName: node
+  linkType: hard
+
+"@foxglove/hooks@workspace:*, @foxglove/hooks@workspace:packages/hooks":
+  version: 0.0.0-use.local
+  resolution: "@foxglove/hooks@workspace:packages/hooks"
+  dependencies:
+    "@foxglove/log": "workspace:*"
+    "@foxglove/tsconfig": 2.0.0
+    "@testing-library/react": 16.0.0
+    "@types/foxglove__web": "workspace:*"
+    "@types/lodash-es": ^4
+    lodash-es: 4.17.21
+    shallowequal: 1.1.0
+    typescript: 5.5.4
+  peerDependencies:
+    react: ^18.2.0
+  languageName: unknown
+  linkType: soft
 
 "@foxglove/just-fetch@npm:^1.2.4":
   version: 1.3.1
@@ -2369,10 +2473,166 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@foxglove/message-definition@npm:^0.3.1":
+"@foxglove/log@workspace:*, @foxglove/log@workspace:packages/log":
+  version: 0.0.0-use.local
+  resolution: "@foxglove/log@workspace:packages/log"
+  dependencies:
+    "@foxglove/tsconfig": 2.0.0
+    typescript: 5.5.4
+  languageName: unknown
+  linkType: soft
+
+"@foxglove/mcap-support@workspace:*, @foxglove/mcap-support@workspace:packages/mcap-support":
+  version: 0.0.0-use.local
+  resolution: "@foxglove/mcap-support@workspace:packages/mcap-support"
+  dependencies:
+    "@foxglove/message-definition": 0.3.1
+    "@foxglove/omgidl-parser": 1.0.3
+    "@foxglove/omgidl-serialization": 1.0.3
+    "@foxglove/ros2idl-parser": 0.3.2
+    "@foxglove/rosmsg": 4.2.2
+    "@foxglove/rosmsg-serialization": 2.0.2
+    "@foxglove/rosmsg2-serialization": 2.0.3
+    "@foxglove/schemas": 1.6.3
+    "@foxglove/tsconfig": 2.0.0
+    "@foxglove/wasm-bz2": 0.1.1
+    "@foxglove/wasm-lz4": 1.0.2
+    "@foxglove/wasm-zstd": 1.0.1
+    "@mcap/core": 2.0.2
+    "@protobufjs/base64": 1.1.2
+    "@types/protobufjs": "workspace:*"
+    flatbuffers: 23.5.26
+    flatbuffers_reflection: 0.0.7
+    protobufjs: "patch:protobufjs@7.2.5#../../patches/protobufjs.patch"
+    typescript: 5.5.4
+  languageName: unknown
+  linkType: soft
+
+"@foxglove/message-definition@npm:0.3.1, @foxglove/message-definition@npm:^0.3.1":
   version: 0.3.1
   resolution: "@foxglove/message-definition@npm:0.3.1"
   checksum: 71699bc9dafc90d07ce312bcaebbedc1f60a173c8ba66421d741cf713ea6bbf6b462b551fcfe6da86488814629639e1dc424e9664c7ea2474227a20ad88ac776
+  languageName: node
+  linkType: hard
+
+"@foxglove/message-definition@npm:^0.2.0":
+  version: 0.2.0
+  resolution: "@foxglove/message-definition@npm:0.2.0"
+  checksum: 8f972dd52cf2f44e8357c8f13ee2136b23548d49d9251fc47c68569a33effe5d082c0681e3b0761751dd27759ac778f1e45de9f52d5925298ccc80e607784159
+  languageName: node
+  linkType: hard
+
+"@foxglove/message-path@workspace:*, @foxglove/message-path@workspace:packages/message-path":
+  version: 0.0.0-use.local
+  resolution: "@foxglove/message-path@workspace:packages/message-path"
+  dependencies:
+    "@foxglove/tsconfig": 2.0.0
+    "@types/nearley": 2.11.5
+    nearley: 2.20.1
+    typescript: 5.5.4
+  languageName: unknown
+  linkType: soft
+
+"@foxglove/omgidl-parser@npm:1.0.3":
+  version: 1.0.3
+  resolution: "@foxglove/omgidl-parser@npm:1.0.3"
+  dependencies:
+    tslib: ^2
+  checksum: ec40f681bee1ff677569176dfa1ad04db5683932c055b70f8e09a757c7ef0cf454f2a07afe18d34dc5418bb68b960e0034636f578e1236c3430e378f6ccd27c3
+  languageName: node
+  linkType: hard
+
+"@foxglove/omgidl-serialization@npm:1.0.3":
+  version: 1.0.3
+  resolution: "@foxglove/omgidl-serialization@npm:1.0.3"
+  dependencies:
+    "@foxglove/cdr": ^3.2.1
+    "@foxglove/message-definition": ^0.3.1
+  checksum: 68bbc957f7186a875ee90923f7619fb69b943ee89b2a9862460cc4841d0ad94aa62c9bd5ab8f953fb1389a01a4aebead1be379bf402dc90e64133c70a4b20176
+  languageName: node
+  linkType: hard
+
+"@foxglove/ros1@npm:3.0.0":
+  version: 3.0.0
+  resolution: "@foxglove/ros1@npm:3.0.0"
+  dependencies:
+    "@foxglove/message-definition": ^0.2.0
+    "@foxglove/rosmsg": ^4.0.0
+    "@foxglove/rosmsg-serialization": ^2.0.0
+    "@foxglove/xmlrpc": ^1.3.0
+    eventemitter3: ^5.0.0
+    ipaddr.js: ^2.0.1
+  bin:
+    roscore: dist/nodejs/roscore.js
+  checksum: 8fc81db65d042339302653e15ee3cde11ded6adc7ab2535da977c96cadbc3e15d26f4e000475b146dbb155c5347d751b8deb76fcda577b1b1f70d3fe043219cb
+  languageName: node
+  linkType: hard
+
+"@foxglove/ros2idl-parser@npm:0.3.2":
+  version: 0.3.2
+  resolution: "@foxglove/ros2idl-parser@npm:0.3.2"
+  dependencies:
+    "@foxglove/message-definition": ^0.3.1
+    "@foxglove/omgidl-parser": 1.0.3
+    md5-typescript: ^1.0.5
+  checksum: 9ad981467a441798142106eca23d32d3da11878141f59379d66c01e6d1a61c79e0d47e776b0864fa281193b64c6eaf8752df502d0fdea9aac0a89982f0061594
+  languageName: node
+  linkType: hard
+
+"@foxglove/rosbag2-web@npm:4.1.1":
+  version: 4.1.1
+  resolution: "@foxglove/rosbag2-web@npm:4.1.1"
+  dependencies:
+    "@foxglove/rosbag2": ^5.0.1
+    "@foxglove/sql.js": ^0.0.4
+  checksum: 24a8d5495f109481636e2188ed1faf51dfc99137477b9aaae9f384edc0577637de8498901ea825af5755ec73468b22c4eafacd2d2127b56f861b4b305ff5e7a1
+  languageName: node
+  linkType: hard
+
+"@foxglove/rosbag2@npm:^5.0.1":
+  version: 5.0.1
+  resolution: "@foxglove/rosbag2@npm:5.0.1"
+  dependencies:
+    "@foxglove/rosmsg-msgs-common": ^3.0.0
+    "@foxglove/rosmsg2-serialization": ^2.0.0
+    "@foxglove/rostime": ^1.1.2
+    "@foxglove/schemas": ^1.3.1
+    js-yaml: ^4.1.0
+  checksum: ff9f11834451b676d5a9c4fb257e701c3e742ea8770d3489a4bf307e19fdcc109162c3b485c90a9fa5f59da274cf8eb66547863881fbb6b8bb3bb199f84acc95
+  languageName: node
+  linkType: hard
+
+"@foxglove/rosbag@npm:0.4.1":
+  version: 0.4.1
+  resolution: "@foxglove/rosbag@npm:0.4.1"
+  dependencies:
+    "@foxglove/rosmsg": ^4.0.0
+    "@foxglove/rosmsg-serialization": ^2.0.0
+    "@foxglove/rostime": ^1.1.2
+    heap: ^0.2.7
+  checksum: 3ecf550e62fd95caec14e2d37d6040b046144fbef91c4959b58122b4df6e38fffd652ca8d745abb00091f6b78d27cf2ec66175348104766a640395619aec43a6
+  languageName: node
+  linkType: hard
+
+"@foxglove/roslibjs@npm:0.0.3":
+  version: 0.0.3
+  resolution: "@foxglove/roslibjs@npm:0.0.3"
+  dependencies:
+    cbor-js: ^0.1.0
+    eventemitter2: ^6.4.0
+    object-assign: ^4.0.1
+    webworkify: ^1.5.0
+  checksum: 01ade8dfe88fbcbc94d3ee1375b9c9f0a1bcc28d067eeaf3e7c49a5496315948fb43d6cf8987707edf2b20ab52889ddcc53d1ec411d58831d955d150f74c197c
+  languageName: node
+  linkType: hard
+
+"@foxglove/rosmsg-msgs-common@npm:3.1.0":
+  version: 3.1.0
+  resolution: "@foxglove/rosmsg-msgs-common@npm:3.1.0"
+  dependencies:
+    "@foxglove/message-definition": ^0.2.0
+    "@foxglove/rosmsg": ^4.0.0
+  checksum: d353ec1177af057a6d558d084aab1ab6d31ff382e5f9ff85ecd87cc8293305e1f7701122e3ac409c4f30d3f5b81b05debce0bbad8a35d463e351d4d078ba0a51
   languageName: node
   linkType: hard
 
@@ -2420,6 +2680,352 @@ __metadata:
   version: 0.0.4
   resolution: "@foxglove/sql.js@npm:0.0.4"
   checksum: f750c68f0bb9d6854dfbb872d960ab499ce653899eaea48e2e9a5edcdc12bf2e89fb1b3e25a0e8696cd2ea75cc5ad56b673053cca3e4c2f950640bd9c08164cb
+  languageName: node
+  linkType: hard
+
+"@foxglove/studio-base@workspace:*, @foxglove/studio-base@workspace:packages/studio-base":
+  version: 0.0.0-use.local
+  resolution: "@foxglove/studio-base@workspace:packages/studio-base"
+  dependencies:
+    "@emotion/cache": 11.11.0
+    "@emotion/react": 11.11.3
+    "@emotion/styled": 11.11.0
+    "@fluentui/react-icons": 2.0.224
+    "@foxglove/avl": 1.0.0
+    "@foxglove/chartjs-plugin-zoom": 2.0.4
+    "@foxglove/comlink-transfer-handlers": "workspace:*"
+    "@foxglove/crc": 0.0.3
+    "@foxglove/den": "workspace:*"
+    "@foxglove/electron-socket": 2.1.1
+    "@foxglove/hooks": "workspace:*"
+    "@foxglove/log": "workspace:*"
+    "@foxglove/mcap-support": "workspace:*"
+    "@foxglove/message-definition": 0.3.1
+    "@foxglove/message-path": "workspace:*"
+    "@foxglove/ros1": 3.0.0
+    "@foxglove/rosbag": 0.4.1
+    "@foxglove/rosbag2-web": 4.1.1
+    "@foxglove/roslibjs": 0.0.3
+    "@foxglove/rosmsg": 4.2.2
+    "@foxglove/rosmsg-msgs-common": 3.1.0
+    "@foxglove/rosmsg-serialization": 2.0.2
+    "@foxglove/rosmsg2-serialization": 2.0.3
+    "@foxglove/rostime": 1.1.2
+    "@foxglove/schemas": 1.6.3
+    "@foxglove/studio": "workspace:*"
+    "@foxglove/theme": "workspace:*"
+    "@foxglove/three-text": 0.2.2
+    "@foxglove/tsconfig": 2.0.0
+    "@foxglove/typescript-transformers": "workspace:*"
+    "@foxglove/ulog": 2.1.2
+    "@foxglove/velodyne-cloud": 1.0.1
+    "@foxglove/wasm-bz2": 0.1.1
+    "@foxglove/wasm-lz4": 1.0.2
+    "@foxglove/ws-protocol": 0.7.2
+    "@foxglove/xmlrpc": 1.3.0
+    "@mcap/core": 2.0.2
+    "@mui/icons-material": 5.15.5
+    "@mui/material": 5.13.5
+    "@popperjs/core": ^2.11.8
+    "@protobufjs/base64": 1.1.2
+    "@storybook/addon-actions": 7.6.10
+    "@storybook/jest": 0.2.3
+    "@storybook/react": 7.6.10
+    "@storybook/testing-library": 0.2.2
+    "@svgr/webpack": 8.1.0
+    "@tanstack/react-table": 8.11.7
+    "@testing-library/react": 16.0.0
+    "@types/base16": ^1.0.5
+    "@types/cytoscape": ^3.19.16
+    "@types/foxglove__roslibjs": "workspace:*"
+    "@types/geojson": 7946.0.11
+    "@types/gl-matrix": 3.2.0
+    "@types/hammerjs": 2.0.45
+    "@types/leaflet": 1.9.7
+    "@types/memoize-weak": "workspace:*"
+    "@types/moment-duration-format": 2.2.6
+    "@types/nearley": 2.11.5
+    "@types/ramda": 0.29.4
+    "@types/react": 18.2.56
+    "@types/react-dom": 18.2.7
+    "@types/react-hover-observer": "workspace:*"
+    "@types/react-transition-group": ^4.4.8
+    "@types/react-virtualized": 9.21.29
+    "@types/react-window": ^1.8.5
+    "@types/sanitize-html": 2.9.3
+    "@types/seedrandom": 3.0.8
+    "@types/shallowequal": 1.1.5
+    "@types/string-hash": 1.1.3
+    "@types/text-metrics": "workspace:*"
+    "@types/three": 0.156.0
+    "@types/tinycolor2": 1.4.4
+    "@types/uuid": 9.0.7
+    "@types/wicg-file-system-access": 2020.9.6
+    "@uiw/react-textarea-code-editor": 3.0.2
+    async-mutex: 0.5.0
+    babel-jest: 29.7.0
+    babel-plugin-transform-import-meta: 2.2.1
+    browserify-zlib: 0.2.0
+    chart.js: 4.4.0
+    chartjs-plugin-annotation: 3.0.1
+    chartjs-plugin-datalabels: 2.2.0
+    chromatic: 11.5.6
+    comlink: "github:foxglove/comlink#9181fa505671b35b1e66e0a8361a6fc1bdd03307"
+    crypto-browserify: 3.12.0
+    css-loader: 6.8.1
+    cytoscape: 3.28.1
+    cytoscape-dagre: 2.5.0
+    esbuild-loader: 2.21.0
+    eventemitter3: 5.0.1
+    fake-indexeddb: 4.0.2
+    fork-ts-checker-webpack-plugin: 9.0.2
+    fuzzysort: 2.0.4
+    fzf: 0.5.2
+    geojson: 0.5.0
+    gl-matrix: 3.4.3
+    hammerjs: 2.0.8
+    i18next: 23.7.18
+    i18next-browser-languagedetector: 7.1.0
+    idb: 7.1.1
+    idb-keyval: 6.2.1
+    immer: 10.0.2
+    intervals-fn: 3.0.3
+    jest-canvas-mock: 2.5.2
+    jszip: 3.10.0
+    just-diff: 6.0.2
+    leaflet: 1.9.4
+    leaflet-ellipse: 0.9.1
+    lodash-es: 4.17.21
+    mathjs: 11.11.1
+    memoize-weak: 1.0.2
+    meshoptimizer: 0.19.0
+    moize: 6.1.6
+    moment: 2.29.4
+    moment-duration-format: 2.3.2
+    moment-timezone: 0.5.43
+    monaco-editor: 0.40.0
+    monaco-editor-webpack-plugin: 7.1.0
+    natsort: 2.0.3
+    nearley: 2.20.1
+    nearley-loader: 2.0.0
+    notistack: 3.0.1
+    path-browserify: 1.0.1
+    prettier: 3.0.3
+    ramda: 0.29.0
+    react: 18.2.0
+    react-colorful: 5.6.1
+    react-dnd: 16.0.1
+    react-dnd-html5-backend: 16.0.1
+    react-dom: 18.2.0
+    react-hover-observer: 2.1.1
+    react-i18next: 14.0.1
+    react-json-tree: "patch:react-json-tree@npm:0.15.1#../../patches/react-json-tree.patch"
+    react-markdown: 8.0.7
+    react-monaco-editor: 0.54.0
+    react-mosaic-component: 6.1.0
+    react-refresh-typescript: 2.0.9
+    react-resizable-panels: 0.0.55
+    react-resize-detector: 10.0.1
+    react-transition-group: 4.4.5
+    react-use: 17.5.1
+    react-virtualized: 9.22.5
+    react-window: 1.8.9
+    readable-stream: 4.4.2
+    rehype-raw: 6.1.1
+    reselect: 5.1.1
+    sanitize-html: 2.12.1
+    seedrandom: 3.0.5
+    shallowequal: 1.1.0
+    string-hash: 1.1.3
+    string-replace-loader: 3.1.0
+    style-loader: 3.3.3
+    text-metrics: 3.0.0
+    three: "patch:three@0.156.1#../../patches/three.patch"
+    tinycolor2: 1.6.0
+    ts-essentials: 9.4.0
+    ts-key-enum: 2.0.12
+    ts-loader: 9.5.1
+    tss-react: 4.8.6
+    typescript: 5.5.4
+    use-debounce: 10.0.0
+    use-immer: 0.10.0
+    uuid: 9.0.1
+    vm-browserify: 1.1.2
+    webpack: 5.93.0
+    zustand: 4.4.1
+  languageName: unknown
+  linkType: soft
+
+"@foxglove/studio-desktop@workspace:*, @foxglove/studio-desktop@workspace:packages/studio-desktop":
+  version: 0.0.0-use.local
+  resolution: "@foxglove/studio-desktop@workspace:packages/studio-desktop"
+  dependencies:
+    "@actions/exec": 1.1.1
+    "@actions/tool-cache": 2.0.1
+    "@foxglove/den": "workspace:*"
+    "@foxglove/electron-socket": 2.1.1
+    "@foxglove/log": "workspace:*"
+    "@foxglove/mcap-support": "workspace:*"
+    "@foxglove/rosbag": 0.4.1
+    "@foxglove/rostime": 1.1.2
+    "@foxglove/studio-base": "workspace:*"
+    "@foxglove/theme": "workspace:*"
+    "@foxglove/tsconfig": 2.0.0
+    "@mcap/core": 1.3.0
+    "@pmmmwh/react-refresh-webpack-plugin": 0.5.11
+    "@storybook/react": 7.6.10
+    "@types/electron-devtools-installer": 2.2.3
+    "@types/plist": ^3.0.3
+    "@types/pngjs": ^6.0.2
+    "@types/tinycolor2": 1.4.4
+    "@types/utif": ^3.0.2
+    "@xmldom/xmldom": 0.8.10
+    app-builder-lib: 24.13.3
+    async-mutex: 0.4.0
+    builder-util: "*"
+    clean-webpack-plugin: 4.0.0
+    electron: 25.8.4
+    electron-builder: 24.13.3
+    electron-devtools-installer: 3.2.0
+    electron-squirrel-startup: 1.0.0
+    electron-updater: 6.3.0-alpha.6
+    esbuild-loader: 2.21.0
+    eventemitter3: 5.0.1
+    fork-ts-checker-webpack-plugin: 9.0.2
+    html-webpack-plugin: 5.5.3
+    i18next: 23.5.1
+    jszip: 3.10.1
+    path-browserify: 1.0.1
+    plist: 3.1.0
+    pngjs: 7.0.0
+    quicklookjs: 0.0.3
+    react: 18.2.0
+    react-dom: 18.2.0
+    react-refresh-typescript: 2.0.9
+    react-use: 17.5.1
+    tinycolor2: 1.6.0
+    tss-react: 4.9.2
+    utif: 3.1.0
+    webpack: 5.93.0
+    webpack-dev-server: 5.0.4
+  languageName: unknown
+  linkType: soft
+
+"@foxglove/studio-web@workspace:*, @foxglove/studio-web@workspace:packages/studio-web":
+  version: 0.0.0-use.local
+  resolution: "@foxglove/studio-web@workspace:packages/studio-web"
+  dependencies:
+    "@fluentui/react-icons": 2.0.224
+    "@foxglove/log": "workspace:*"
+    "@foxglove/studio-base": "workspace:*"
+    "@foxglove/theme": "workspace:*"
+    "@foxglove/tsconfig": 2.0.0
+    "@mui/material": 5.13.5
+    "@pmmmwh/react-refresh-webpack-plugin": 0.5.11
+    "@storybook/react": 7.6.10
+    "@types/copy-webpack-plugin": 10.1.0
+    clean-webpack-plugin: 4.0.0
+    copy-webpack-plugin: 12.0.2
+    html-webpack-plugin: 5.6.0
+    react: 18.2.0
+    react-dom: 18.2.0
+    tss-react: 4.9.3
+    webpack: 5.93.0
+    webpack-dev-server: 5.0.4
+  languageName: unknown
+  linkType: soft
+
+"@foxglove/studio@workspace:*, @foxglove/studio@workspace:packages/studio":
+  version: 0.0.0-use.local
+  resolution: "@foxglove/studio@workspace:packages/studio"
+  dependencies:
+    "@foxglove/tsconfig": 2.0.0
+    typescript: 5.5.4
+  languageName: unknown
+  linkType: soft
+
+"@foxglove/theme@workspace:*, @foxglove/theme@workspace:packages/theme":
+  version: 0.0.0-use.local
+  resolution: "@foxglove/theme@workspace:packages/theme"
+  dependencies:
+    "@emotion/react": 11.11.3
+    "@emotion/styled": 11.11.0
+    "@fluentui/react-icons": 2.0.224
+    "@foxglove/tsconfig": 2.0.0
+    "@mui/icons-material": 5.15.5
+    "@mui/lab": 5.0.0-alpha.161
+    "@mui/material": 5.13.5
+    "@mui/x-data-grid": 6.18.7
+    "@storybook/react": 7.6.10
+    "@types/react": 18.2.56
+    i18next: 23.11.2
+    i18next-browser-languagedetector: 7.2.1
+    react: 18.2.0
+    react-i18next: 14.1.0
+  languageName: unknown
+  linkType: soft
+
+"@foxglove/three-text@npm:0.2.2":
+  version: 0.2.2
+  resolution: "@foxglove/three-text@npm:0.2.2"
+  dependencies:
+    "@mapbox/tiny-sdf": 2.0.6
+  peerDependencies:
+    three: ">=0.140.2"
+  checksum: 9dc10c9adaa8c1ca1731bc133d4ab8f07345a4aa51197efc6c2bb899cbefa5ee8ccf69d16a93d2569429c2a53a921fe5d62281228a6ed6ebadd7b6fb117a0ce1
+  languageName: node
+  linkType: hard
+
+"@foxglove/tsconfig@npm:2.0.0":
+  version: 2.0.0
+  resolution: "@foxglove/tsconfig@npm:2.0.0"
+  checksum: c6d581ff4e6e75e4c22d909a51f377b6f9b296805234009ca6950f86c76bbefc5f4f95eef92e24ede3134cb411c0d08e73d484a30c448d8e248414dcc98c1400
+  languageName: node
+  linkType: hard
+
+"@foxglove/typescript-transformers@workspace:*, @foxglove/typescript-transformers@workspace:packages/typescript-transformers":
+  version: 0.0.0-use.local
+  resolution: "@foxglove/typescript-transformers@workspace:packages/typescript-transformers"
+  dependencies:
+    "@foxglove/tsconfig": 2.0.0
+    typescript: 5.5.4
+  languageName: unknown
+  linkType: soft
+
+"@foxglove/ulog@npm:2.1.2":
+  version: 2.1.2
+  resolution: "@foxglove/ulog@npm:2.1.2"
+  checksum: 5014a871a13e3acaeba7fc8d7db16937f1936e6bef827f10800b254a9bedd56faa939347479ee88412967789d8680e74f375cc82acb21aae39bbbfa3f21a2444
+  languageName: node
+  linkType: hard
+
+"@foxglove/velodyne-cloud@npm:1.0.1":
+  version: 1.0.1
+  resolution: "@foxglove/velodyne-cloud@npm:1.0.1"
+  checksum: 3f461bdc2e36c4f8bcbd295f4337fe600f259465987bedcd21e8a7a03817f409fc3346d3b68ca8b52a6e8c42dfe6e148532cca06224868d50cad1f903e108d70
+  languageName: node
+  linkType: hard
+
+"@foxglove/wasm-bz2@npm:0.1.1":
+  version: 0.1.1
+  resolution: "@foxglove/wasm-bz2@npm:0.1.1"
+  dependencies:
+    tslib: ^2
+  checksum: 525206e231e765dfec3f787bcd4da664eff7bc72ccddfebee22782c5822c2e6d776c4aa4fc67fd58710eadb87a09dc16a207de08f4583500481bddef6a99bb71
+  languageName: node
+  linkType: hard
+
+"@foxglove/wasm-lz4@npm:1.0.2":
+  version: 1.0.2
+  resolution: "@foxglove/wasm-lz4@npm:1.0.2"
+  checksum: 1148ae84be22830382995ef19912dd033f009c0f16690dd942acce2efee02035b035f5910690c7e37c9435e7636b94006ef33220f86e98bc281129e50445bb19
+  languageName: node
+  linkType: hard
+
+"@foxglove/wasm-zstd@npm:1.0.1":
+  version: 1.0.1
+  resolution: "@foxglove/wasm-zstd@npm:1.0.1"
+  checksum: 91fffc0970e4dad0550e054ae1647730e09876ef0d6fb15c70d800e9027e38d8372e990dde98542a95eb00d88d483c9e1227be0ea958f9d3f41693dc78311027
   languageName: node
   linkType: hard
 
@@ -11394,6 +12000,78 @@ __metadata:
   languageName: node
   linkType: hard
 
+"foxbox@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "foxbox@workspace:."
+  dependencies:
+    "@actions/core": 1.10.1
+    "@actions/exec": 1.1.1
+    "@actions/tool-cache": 2.0.1
+    "@babel/core": 7.24.9
+    "@babel/plugin-proposal-decorators": 7.24.7
+    "@babel/plugin-proposal-explicit-resource-management": 7.24.7
+    "@babel/preset-env": 7.24.8
+    "@babel/preset-typescript": 7.24.7
+    "@foxglove/eslint-plugin": 1.0.0
+    "@foxglove/eslint-plugin-studio": "workspace:*"
+    "@foxglove/hooks": "workspace:*"
+    "@foxglove/log": "workspace:*"
+    "@foxglove/studio": "workspace:*"
+    "@foxglove/tsconfig": 2.0.0
+    "@mui/material": 5.13.5
+    "@octokit/rest": 20.0.2
+    "@storybook/addon-actions": 7.6.10
+    "@storybook/addon-essentials": 7.6.10
+    "@storybook/addon-interactions": 7.6.10
+    "@storybook/react": 7.6.10
+    "@storybook/react-webpack5": 7.6.10
+    "@types/babel__core": ^7.20.3
+    "@types/babel__preset-env": ^7.9.6
+    "@types/case-sensitive-paths-webpack-plugin": 2.1.9
+    "@types/jest": 29.5.11
+    "@types/license-checker": ^25.0.6
+    "@types/semver": ^7.5.3
+    "@typescript-eslint/eslint-plugin": 6.10.0
+    "@typescript-eslint/parser": 6.10.0
+    babel-plugin-transform-import-meta: 2.2.1
+    cross-env: 7.0.3
+    depcheck: 1.4.7
+    electron: 25.8.4
+    electron-builder: 24.13.3
+    eslint: 8.50.0
+    eslint-config-prettier: 9.1.0
+    eslint-import-resolver-webpack: 0.13.8
+    eslint-plugin-es: 4.1.0
+    eslint-plugin-file-progress: 1.3.0
+    eslint-plugin-filenames: 1.3.2
+    eslint-plugin-import: 2.28.1
+    eslint-plugin-jest: 27.6.3
+    eslint-plugin-prettier: 5.1.3
+    eslint-plugin-react: 7.33.2
+    eslint-plugin-react-hooks: 4.6.0
+    eslint-plugin-storybook: 0.6.15
+    eslint-plugin-tss-unused-classes: 1.0.2
+    jest: 29.7.0
+    jest-environment-jsdom: 29.7.0
+    license-checker: 25.0.1
+    prettier: 3.3.2
+    react-use: 17.5.1
+    rehype-raw: 6.1.1
+    rimraf: 5.0.5
+    semver: 7.5.4
+    storybook: 7.6.20
+    ts-node: 10.9.2
+    ts-unused-exports: 10.0.1
+    tslib: 2.6.2
+    typescript: 5.5.4
+    vm-browserify: 1.1.2
+    webpack: 5.93.0
+    webpack-cli: 5.1.4
+    webpack-dev-server: 5.0.4
+    webpack-hot-middleware: 2.26.0
+  languageName: unknown
+  linkType: soft
+
 "fraction.js@npm:4.3.4":
   version: 4.3.4
   resolution: "fraction.js@npm:4.3.4"
@@ -19847,13 +20525,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:5.3.3":
-  version: 5.3.3
-  resolution: "typescript@npm:5.3.3"
+"typescript@npm:5.5.4":
+  version: 5.5.4
+  resolution: "typescript@npm:5.5.4"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 2007ccb6e51bbbf6fde0a78099efe04dc1c3dfbdff04ca3b6a8bc717991862b39fd6126c0c3ebf2d2d98ac5e960bcaa873826bb2bb241f14277034148f41f6a2
+  checksum: b309040f3a1cd91c68a5a58af6b9fdd4e849b8c42d837b2c2e73f9a4f96a98c4f1ed398a9aab576ee0a4748f5690cf594e6b99dbe61de7839da748c41e6d6ca8
   languageName: node
   linkType: hard
 
@@ -19867,13 +20545,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@5.3.3#~builtin<compat/typescript>":
-  version: 5.3.3
-  resolution: "typescript@patch:typescript@npm%3A5.3.3#~builtin<compat/typescript>::version=5.3.3&hash=f3b441"
+"typescript@patch:typescript@5.5.4#~builtin<compat/typescript>":
+  version: 5.5.4
+  resolution: "typescript@patch:typescript@npm%3A5.5.4#~builtin<compat/typescript>::version=5.5.4&hash=f3b441"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: f61375590b3162599f0f0d5b8737877ac0a7bc52761dbb585d67e7b8753a3a4c42d9a554c4cc929f591ffcf3a2b0602f65ae3ce74714fd5652623a816862b610
+  checksum: fc52962f31a5bcb716d4213bef516885e4f01f30cea797a831205fc9ef12b405a40561c40eae3127ab85ba1548e7df49df2bcdee6b84a94bfbe3a0d7eff16b14
   languageName: node
   linkType: hard
 
