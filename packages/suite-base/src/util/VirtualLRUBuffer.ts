@@ -160,11 +160,7 @@ export default class VirtualLRUBuffer {
         );
       }
     }
-    const block = this.#blocks[index];
-    if (!block) {
-      throw new Error("invariant violation - no block at index");
-    }
-    return block;
+    return this.#blocks[index];
   }
 
   // For a given position, calculate `blockIndex` (which block is this position in);
