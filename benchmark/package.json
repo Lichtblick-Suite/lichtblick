@@ -8,7 +8,7 @@
     "@foxglove/den": "workspace:*",
     "@foxglove/log": "workspace:*",
     "@foxglove/rostime": "1.1.2",
-    "@foxglove/schemas": "1.6.2",
+    "@foxglove/schemas": "1.6.3",
     "@foxglove/studio": "workspace:*",
     "@foxglove/tsconfig": "2.0.0",
     "@pmmmwh/react-refresh-webpack-plugin": "0.5.11",
@@ -20,6 +20,6 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "webpack": "5.90.0",
-    "webpack-dev-server": "4.15.1"
+    "webpack-dev-server": "5.0.4"
   }
 }

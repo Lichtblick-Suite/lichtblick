@@ -20,12 +20,13 @@ import { createStore } from "zustand";
 
 import { Condvar } from "@foxglove/den/async";
 import { Time, isLessThan } from "@foxglove/rostime";
-import { ParameterValue } from "@foxglove/studio";
+import { Metadata, ParameterValue } from "@foxglove/studio";
 import {
   FramePromise,
   pauseFrameForPromises,
 } from "@foxglove/studio-base/components/MessagePipeline/pauseFrameForPromise";
 import { BuiltinPanelExtensionContext } from "@foxglove/studio-base/components/PanelExtensionAdapter";
+import { freezeMetadata } from "@foxglove/studio-base/players/IterablePlayer/freezeMetadata";
 import {
   AdvertiseOptions,
   MessageEvent,
@@ -143,8 +144,8 @@ function getPublicState(
       props.topics === prevState?.mockProps.topics
         ? prevState?.public.sortedTopics ?? []
         : props.topics
-        ? [...props.topics].sort((a, b) => a.name.localeCompare(b.name))
-        : [],
+          ? [...props.topics].sort((a, b) => a.name.localeCompare(b.name))
+          : [],
     datatypes: props.datatypes ?? NO_DATATYPES,
     setSubscriptions:
       (props.setSubscriptions === prevState?.mockProps.setSubscriptions
@@ -176,7 +177,16 @@ function getPublicState(
     setPlaybackSpeed:
       props.capabilities?.includes(PlayerCapabilities.setSpeed) === true ? noop : undefined,
     seekPlayback: props.seekPlayback,
-
+    getMetadata: () => {
+      const mockMetadata: ReadonlyArray<Readonly<Metadata>> = [
+        {
+          name: "mockMetadata",
+          metadata: { key: "value" },
+        },
+      ];
+      freezeMetadata(mockMetadata);
+      return mockMetadata;
+    },
     pauseFrame:
       props.pauseFrame ??
       function (name) {
