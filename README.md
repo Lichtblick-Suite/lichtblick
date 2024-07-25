@@ -1,13 +1,13 @@
 <h1 align="center">Lichtblick</h1>
 
 <div align="center">
-  <a href="https://github.com/bmw-software-engineering/lichtblick/stargazers"><img src="https://img.shields.io/github/stars/bmw-software-engineerlichtblickxbox" alt="Stars Badge"/></a>
-  <a href="https://github.com/bmw-software-engineering/lichtblick/network/members"><img src="https://img.shields.io/github/forks/bmw-software-engineerlichtblickxbox" alt="Forks Badge"/></a>
-  <a href="https://github.com/bmw-software-engineering/lichtblick/pulls"><img src="https://img.shields.io/github/issues-pr/bmw-software-engineerlichtblickxbox" alt="Pull Requests Badge"/></a>
-  <a href="https://github.com/bmw-software-engineering/lichtblick/issues"><img src="https://img.shields.io/github/issues/bmw-software-engineerlichtblickxbox" alt="Issues Badge"/></a>
-  <a href="https://github.com/bmw-software-engineering/lichtblick/issues"><img src="https://img.shields.io/github/issues/bmw-software-engineerlichtblickxbox" alt="Version"/></a>
-  <a href="https://github.com/bmw-software-engineering/lichtblick/graphs/contributors"><img alt="GitHub contributors" src="https://img.shields.io/github/contributors/bmw-software-engineerlichtblickxbox?color=2b9348"></a>
-  <a href="https://github.com/bmw-software-engineering/lichtblick/blob/master/LICENSE"><img src="https://img.shields.io/github/license/bmw-software-engineerlichtblickxbox?color=2b9348" alt="License Badge"/></a>
+  <a href="https://github.com/bmw-software-engineering/lichtblick/stargazers"><img src="https://img.shields.io/github/stars/bmw-software-engineering/lichtblick" alt="Stars Badge"/></a>
+  <a href="https://github.com/bmw-software-engineering/lichtblick/network/members"><img src="https://img.shields.io/github/forks/bmw-software-engineering/lichtblick" alt="Forks Badge"/></a>
+  <a href="https://github.com/bmw-software-engineering/lichtblick/pulls"><img src="https://img.shields.io/github/issues-pr/bmw-software-engineering/lichtblick" alt="Pull Requests Badge"/></a>
+  <a href="https://github.com/bmw-software-engineering/lichtblick/issues"><img src="https://img.shields.io/github/issues/bmw-software-engineering/lichtblick" alt="Issues Badge"/></a>
+  <a href="https://github.com/bmw-software-engineering/lichtblick/issues"><img src="https://img.shields.io/github/issues/bmw-software-engineering/lichtblick" alt="Version"/></a>
+  <a href="https://github.com/bmw-software-engineering/lichtblick/graphs/contributors"><img alt="GitHub contributors" src="https://img.shields.io/github/contributors/bmw-software-engineering/lichtblick?color=2b9348"></a>
+  <a href="https://github.com/bmw-software-engineering/lichtblick/blob/master/LICENSE"><img src="https://img.shields.io/github/license/bmw-software-engineering/lichtblick?color=2b9348" alt="License Badge"/></a>
 
   <br />
 <p  align="center">
