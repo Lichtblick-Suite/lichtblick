@@ -5,7 +5,7 @@
   "private": true,
   "repository": {
     "type": "git",
-    "url": "https://github.com/foxglove/studio.git"
+    "url": "https://github.com/bmw-software-engineering/lichtblick.git"
   },
   "author": {
     "name": "Foxglove Technologies",
