@@ -30,7 +30,6 @@ type Props = {
 };
 
 const useStyles = makeStyles()((theme) => ({
-  error: { color: theme.palette.error.main },
   icon: {
     marginRight: theme.spacing(-1),
   },
