@@ -186,20 +186,6 @@ function SidebarItems(props: {
           >
             {t("exploreSampleData")}
           </Button>
-          <Button
-            href="https://docs.foxglove.dev/docs/connecting-to-data/introduction"
-            target="_blank"
-            className={classes.button}
-            disabled
-            onClick={() => {
-              void analytics.logEvent(AppEvent.DIALOG_CLICK_CTA, {
-                user: currentUserType,
-                cta: "docs",
-              });
-            }}
-          >
-            {t("viewOurDocs")}
-          </Button>
         </>
       ),
     };
@@ -213,20 +199,6 @@ function SidebarItems(props: {
           text: t("needHelpDescription"),
           actions: (
             <>
-              <Button
-                href="https://docs.foxglove.dev/docs"
-                target="_blank"
-                className={classes.button}
-                variant="outlined"
-                onClick={() => {
-                  void analytics.logEvent(AppEvent.DIALOG_CLICK_CTA, {
-                    user: currentUserType,
-                    cta: "docs",
-                  });
-                }}
-              >
-                {t("viewOurDocs")}
-              </Button>
               <Button
                 href="https://foxglove.dev/tutorials"
                 target="_blank"

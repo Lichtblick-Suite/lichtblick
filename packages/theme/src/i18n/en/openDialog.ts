@@ -32,5 +32,4 @@ export const openDialog = {
   startCollaboratingDescription:
     "Make the most of your Lichtblick account – whether you want to dive deep on your data or share tools with your teammates.",
   uploadToDataPlatform: "Upload to Data Platform",
-  viewOurDocs: "View our docs",
 };
