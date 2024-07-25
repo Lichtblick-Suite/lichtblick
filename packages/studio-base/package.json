@@ -2,8 +2,8 @@
   "name": "@foxglove/studio-base",
   "description": "Core components of Foxglove Studio",
   "private": true,
-  "productName": "Foxglove",
-  "productDescription": "Foxglove Studio",
+  "productName": "Lichtblick",
+  "productDescription": "Lichtblick",
   "license": "MPL-2.0",
   "repository": {
     "type": "git",
