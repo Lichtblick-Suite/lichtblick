@@ -29,6 +29,7 @@ export { default as overwriteFetch } from "./util/overwriteFetch";
 export { default as waitForFonts } from "./util/waitForFonts";
 export { initI18n } from "./i18n";
 export type { ExtensionLoader } from "./services/ExtensionLoader";
+export type { LayoutLoader } from "./services/ILayoutLoader";
 export type { ExtensionInfo, ExtensionNamespace } from "./types/Extensions";
 export { AppSetting } from "./AppSetting";
 export { default as FoxgloveWebSocketDataSourceFactory } from "./dataSources/FoxgloveWebSocketDataSourceFactory";

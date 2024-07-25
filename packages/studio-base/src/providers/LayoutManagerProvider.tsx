@@ -10,6 +10,7 @@ import Logger from "@foxglove/log";
 import LayoutManagerContext from "@foxglove/studio-base/context/LayoutManagerContext";
 import { useLayoutStorage } from "@foxglove/studio-base/context/LayoutStorageContext";
 import { useRemoteLayoutStorage } from "@foxglove/studio-base/context/RemoteLayoutStorageContext";
+import { LayoutLoader } from "@foxglove/studio-base/services/ILayoutLoader";
 import LayoutManager from "@foxglove/studio-base/services/LayoutManager/LayoutManager";
 import delay from "@foxglove/studio-base/util/delay";
 
@@ -18,7 +19,12 @@ const log = Logger.getLogger(__filename);
 const SYNC_INTERVAL_BASE_MS = 30_000;
 const SYNC_INTERVAL_MAX_MS = 3 * 60_000;
 
-export default function LayoutManagerProvider({ children }: React.PropsWithChildren): JSX.Element {
+export default function LayoutManagerProvider({
+  children,
+  loaders = [],
+}: React.PropsWithChildren<{
+  loaders?: readonly LayoutLoader[];
+}>): JSX.Element {
   const layoutStorage = useLayoutStorage();
   const remoteLayoutStorage = useRemoteLayoutStorage();
 
@@ -32,6 +38,31 @@ export default function LayoutManagerProvider({ children }: React.PropsWithChild
   useEffect(() => {
     layoutManager.setOnline(online);
   }, [layoutManager, online]);
+
+  useEffect(() => {
+    if (loaders.length === 0) {
+      return;
+    }
+    void (async () => {
+      try {
+        const currentLayouts = await layoutManager.getLayouts();
+        loaders.forEach(async (loader) => {
+          for (const layout of await loader.fetchLayouts()) {
+            const layoutExists = currentLayouts.some((l) => l.from === layout.from);
+            if (layoutExists) {
+              continue;
+            }
+            await layoutManager.saveNewLayout({
+              ...layout,
+              permission: "CREATOR_WRITE",
+            });
+          }
+        });
+      } catch (err) {
+        log.error("Loading default layouts failed:", err);
+      }
+    })();
+  }, [layoutManager, loaders]);
 
   // Sync periodically when logged in, online, and the app is not hidden
   const enableSyncing = remoteLayoutStorage != undefined && online && visibilityState === "visible";
