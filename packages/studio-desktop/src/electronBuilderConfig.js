@@ -74,7 +74,7 @@ function makeElectronBuilderConfig(params) {
         },
         {
           ext: "foxe",
-          name: "Lichtblicklick Extension",
+          name: "Lichtblick Extension",
           mimeType: "application/zip",
         },
       ],
