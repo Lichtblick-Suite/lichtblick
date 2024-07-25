@@ -24,11 +24,12 @@ import { APP_BAR_HEIGHT } from "@foxglove/studio-base/src/components/AppBar/cons
 import { NativeAppMenuEvent } from "@foxglove/studio-base/src/context/NativeAppMenuContext";
 import { palette } from "@foxglove/theme";
 
-import { encodeRendererArg } from "../common/rendererArgs";
 import StudioAppUpdater from "./StudioAppUpdater";
 import getDevModeIcon from "./getDevModeIcon";
 import { simulateUserClick } from "./simulateUserClick";
 import { getTelemetrySettings } from "./telemetry";
+import { encodeRendererArg } from "../common/rendererArgs";
+import { FOXGLOVE_PRODUCT_NAME } from "../common/webpackDefines";
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 
