@@ -48,7 +48,7 @@ function makeElectronBuilderConfig(params) {
         },
         {
           ext: "foxe",
-          name: "Lichtblicklick Extension",
+          name: "Lichtblick Extension",
           mimeType: "application/zip",
         },
       ],
@@ -125,7 +125,7 @@ function makeElectronBuilderConfig(params) {
           {
             CFBundleTypeExtensions: ["foxe"],
             CFBundleTypeIconFile: "FoxeIcon",
-            CFBundleTypeName: "Lichtblicklick Extension File",
+            CFBundleTypeName: "Lichtblick Extension File",
             CFBundleTypeRole: "Viewer",
             LSHandlerRank: "Owner",
             CFBundleTypeIconSystemGenerated: 1,
@@ -149,7 +149,7 @@ function makeElectronBuilderConfig(params) {
           },
           {
             UTTypeConformsTo: ["public.data", "public.archive", "public.zip-archive"],
-            UTTypeDescription: "Lichtblicklick Extension File",
+            UTTypeDescription: "Lichtblick Extension File",
             UTTypeIcons: { UTTypeIconText: "foxe" },
             UTTypeIdentifier: "dev.foxglove.extension",
             UTTypeTagSpecification: { "public.filename-extension": "foxe" },
@@ -171,7 +171,7 @@ function makeElectronBuilderConfig(params) {
     appx: {
       applicationId: "FoxgloveStudio",
       backgroundColor: "#f7def6",
-      displayName: "Lichtblicklick",
+      displayName: "Lichtblick",
       identityName: "Foxglove.Studio",
       publisher:
         "CN=Foxglove Technologies, O=Foxglove Technologies, L=San Francisco, S=California, C=US",

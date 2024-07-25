@@ -12,8 +12,8 @@ export const openDialog = {
   learnMore: "Learn more",
   needHelp: "Need help?",
   needHelpDescription: "View our documentation, or check out the tutorials on the Lichtblick blog.",
-  newToLichtblickStudio: "New to Lichtblick?",
-  newToLichtblickStudioDescription:
+  newToLichtblick: "New to Lichtblick?",
+  newToLichtblickDescription:
     "Start by exploring a sample dataset or checking out our documentation.",
   openAGitHubIssue: "Open a GitHub issue",
   openConnection: "Open connection",
