@@ -7,8 +7,8 @@
     "url": "https://github.com/bmw-software-engineering/lichtblick.git"
   },
   "author": {
-    "name": "Foxglove Technologies",
-    "email": "support@foxglove.dev"
+    "name": "Lichtblick",
+    "email": "lichtblick@bmwgroup.com"
   },
   "homepage": "https://foxglove.dev/",
   "main": "./src/index.ts",
