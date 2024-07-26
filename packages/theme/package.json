@@ -10,7 +10,7 @@
     "name": "Lichtblick",
     "email": "lichtblick@bmwgroup.com"
   },
-  "homepage": "https://foxglove.dev/",
+  "homepage": "https://github.com/bmw-software-engineering",
   "main": "./src/index",
   "devDependencies": {
     "@emotion/react": "11.13.0",
