@@ -42,5 +42,5 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           gitHubToken: ${{ secrets.LICHTBLICKBOT_GITHUB_TOKEN }}
           branch: ${{ github.head_ref || github.ref_name }}
-          projectName: foxglove-studio-oss
+          projectName: lichtblick-suite-oss
           directory: web/.webpack
