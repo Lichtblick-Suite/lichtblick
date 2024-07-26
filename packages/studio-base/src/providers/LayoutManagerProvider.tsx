@@ -61,7 +61,7 @@ export default function LayoutManagerProvider({
         log.error("Loading default layouts failed:", err);
       }
     };
-    loadAndSaveLayouts();
+    void loadAndSaveLayouts();
   }, [layoutManager, loaders]);
 
   // Sync periodically when logged in, online, and the app is not hidden
