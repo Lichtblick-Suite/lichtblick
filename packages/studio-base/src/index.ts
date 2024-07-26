@@ -30,6 +30,8 @@ export { default as waitForFonts } from "./util/waitForFonts";
 export { initI18n } from "./i18n";
 export type { ExtensionLoader } from "./services/ExtensionLoader";
 export type { LayoutLoader } from "./services/ILayoutLoader";
+export type { LayoutInfo } from "./types/layouts";
+export type { LayoutData } from "./context/CurrentLayoutContext";
 export type { ExtensionInfo, ExtensionNamespace } from "./types/Extensions";
 export { AppSetting } from "./AppSetting";
 export { default as FoxgloveWebSocketDataSourceFactory } from "./dataSources/FoxgloveWebSocketDataSourceFactory";

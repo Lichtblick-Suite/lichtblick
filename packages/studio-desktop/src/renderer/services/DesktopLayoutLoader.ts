@@ -3,9 +3,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import Logger from "@foxglove/log";
-import { LayoutData } from "@foxglove/studio-base/context/CurrentLayoutContext";
-import { LayoutLoader } from "@foxglove/studio-base/index";
-import { LayoutInfo } from "@foxglove/studio-base/types/layouts";
+import { LayoutLoader, LayoutInfo, LayoutData } from "@foxglove/studio-base";
 
 import { Desktop } from "../../common/types";
 
