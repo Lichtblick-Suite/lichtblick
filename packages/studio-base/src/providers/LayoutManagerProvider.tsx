@@ -19,6 +19,12 @@ const log = Logger.getLogger(__filename);
 const SYNC_INTERVAL_BASE_MS = 30_000;
 const SYNC_INTERVAL_MAX_MS = 3 * 60_000;
 
+const isFulfilled = <T,>(result: PromiseSettledResult<T>): result is PromiseFulfilledResult<T> =>
+  result.status === "fulfilled";
+
+const isRejected = (result: PromiseSettledResult<unknown>): result is PromiseRejectedResult =>
+  result.status === "rejected";
+
 export default function LayoutManagerProvider({
   children,
   loaders = [],
@@ -43,19 +49,39 @@ export default function LayoutManagerProvider({
     if (loaders.length === 0) {
       return;
     }
+
     const loadAndSaveLayouts = async () => {
       try {
         const currentLayouts = await layoutManager.getLayouts();
-        loaders.forEach(async (loader) => {
-          for (const layout of await loader.fetchLayouts()) {
-            const layoutExists = currentLayouts.some((l) => l.from === layout.from);
-            if (!layoutExists) {
-              await layoutManager.saveNewLayout({
-                ...layout,
-                permission: "CREATOR_WRITE",
-              });
-            }
-          }
+        const currentLayoutsFroms = new Set(currentLayouts.map((layout) => layout.from));
+
+        const loaderPromises = loaders.map(async (loader) => await loader.fetchLayouts());
+        const loaderResults = await Promise.allSettled(loaderPromises);
+
+        const newLayouts = loaderResults
+          .filter(isFulfilled)
+          .flatMap((result) => result.value)
+          .filter((layout) => !currentLayoutsFroms.has(layout.from));
+
+        // Log errors cause failed to fetch some layout from a specific loader
+        loaderResults.filter(isRejected).forEach((result) => {
+          log.error(`Failed to fetch layouts from loader: ${result.reason}`);
+        });
+
+        const savedPromises = newLayouts.map(
+          async (layout) =>
+            await layoutManager.saveNewLayout({
+              ...layout,
+              permission: "CREATOR_WRITE",
+            }),
+        );
+
+        // Try to save all layouts
+        const saveResults = await Promise.allSettled(savedPromises);
+
+        // Log errors cause failed to save a layout
+        saveResults.filter(isRejected).forEach((result) => {
+          log.error(`Failed to save layout: ${result.reason}`);
         });
       } catch (err) {
         log.error("Loading default layouts failed:", err);

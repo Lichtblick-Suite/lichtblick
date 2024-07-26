@@ -28,7 +28,7 @@ export type TabLocation = {
 };
 
 /**
- * Metadata describing an layout.
+ * Metadata describing a layout.
  */
 export type LayoutInfo = {
   name: string;
