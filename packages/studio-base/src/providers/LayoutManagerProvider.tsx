@@ -43,25 +43,25 @@ export default function LayoutManagerProvider({
     if (loaders.length === 0) {
       return;
     }
-    void (async () => {
+    const loadAndSaveLayouts = async () => {
       try {
         const currentLayouts = await layoutManager.getLayouts();
         loaders.forEach(async (loader) => {
           for (const layout of await loader.fetchLayouts()) {
             const layoutExists = currentLayouts.some((l) => l.from === layout.from);
-            if (layoutExists) {
-              continue;
+            if (!layoutExists) {
+              await layoutManager.saveNewLayout({
+                ...layout,
+                permission: "CREATOR_WRITE",
+              });
             }
-            await layoutManager.saveNewLayout({
-              ...layout,
-              permission: "CREATOR_WRITE",
-            });
           }
         });
       } catch (err) {
         log.error("Loading default layouts failed:", err);
       }
-    })();
+    };
+    loadAndSaveLayouts();
   }, [layoutManager, loaders]);
 
   // Sync periodically when logged in, online, and the app is not hidden
