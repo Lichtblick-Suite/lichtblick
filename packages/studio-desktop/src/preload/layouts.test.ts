@@ -45,8 +45,8 @@ describe("fetchLayouts", () => {
     mockExistsSync.mockReturnValueOnce(true);
     mockReaddir.mockResolvedValueOnce(mockFiles as Dirent[]);
     mockReadFile
-      .mockResolvedValueOnce(JSON.stringify(mockLayout1))
-      .mockResolvedValueOnce(JSON.stringify(mockLayout2));
+      .mockResolvedValueOnce(JSON.stringify(mockLayout1) as string)
+      .mockResolvedValueOnce(JSON.stringify(mockLayout2) as string);
 
     const result = await fetchLayouts("/valid/path");
 
@@ -65,7 +65,7 @@ describe("fetchLayouts", () => {
 
     mockExistsSync.mockReturnValueOnce(true);
     mockReaddir.mockResolvedValueOnce(mockFiles as Dirent[]);
-    mockReadFile.mockResolvedValueOnce(JSON.stringify(mockLayout1));
+    mockReadFile.mockResolvedValueOnce(JSON.stringify(mockLayout1) as string);
 
     const result = await fetchLayouts("/valid/path");
 
@@ -81,7 +81,7 @@ describe("fetchLayouts", () => {
 
     mockExistsSync.mockReturnValueOnce(true);
     mockReaddir.mockResolvedValueOnce(mockFiles as Dirent[]);
-    mockReadFile.mockResolvedValueOnce(JSON.stringify(mockLayout1));
+    mockReadFile.mockResolvedValueOnce(JSON.stringify(mockLayout1) as string);
 
     const result = await fetchLayouts("/valid/path");
 
@@ -98,7 +98,7 @@ describe("fetchLayouts", () => {
     mockExistsSync.mockReturnValueOnce(true);
     mockReaddir.mockResolvedValueOnce(mockFiles as Dirent[]);
     mockReadFile
-      .mockResolvedValueOnce(JSON.stringify(mockLayout1))
+      .mockResolvedValueOnce(JSON.stringify(mockLayout1) as string)
       .mockRejectedValueOnce(new Error("read error"));
 
     const result = await fetchLayouts("/valid/path");
