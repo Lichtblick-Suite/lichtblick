@@ -289,11 +289,11 @@ export function AppSettingsDialog(
               </header>
               <Stack direction="row" alignItems="center" gap={1}>
                 <Typography variant="body2">
-                  Lichtblick version {FOXGLOVE_STUDIO_VERSION}
+                  Lichtblick version {LICHTBLICK_STUDIO_VERSION}
                 </Typography>
                 <CopyButton
                   size="small"
-                  getText={() => FOXGLOVE_STUDIO_VERSION?.toString() ?? ""}
+                  getText={() => LICHTBLICK_STUDIO_VERSION?.toString() ?? ""}
                 />
               </Stack>
               {[

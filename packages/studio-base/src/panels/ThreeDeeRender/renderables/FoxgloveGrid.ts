@@ -11,12 +11,12 @@ import { GRID_DATATYPES } from "@foxglove/studio-base/panels/ThreeDeeRender/foxg
 import type { RosValue } from "@foxglove/studio-base/players/types";
 
 import {
-  colorModeSettingsFields,
   ColorModeSettings,
-  getColorConverter,
-  NEEDS_MIN_MAX,
   FS_SRGB_TO_LINEAR,
+  NEEDS_MIN_MAX,
   autoSelectColorSettings,
+  colorModeSettingsFields,
+  getColorConverter,
 } from "./colorMode";
 import { FieldReader, getReader } from "./pointClouds/fieldReaders";
 import type { AnyRendererSubscription, IRenderer } from "../IRenderer";
@@ -29,7 +29,7 @@ import {
 } from "../SceneExtension";
 import { SettingsTreeEntry, SettingsTreeNodeWithActionHandler } from "../SettingsManager";
 import { rgbaToCssString, rgbaToLinear, stringToRgba } from "../color";
-import { normalizePose, normalizeTime, normalizeByteArray } from "../normalizeMessages";
+import { normalizeByteArray, normalizePose, normalizeTime } from "../normalizeMessages";
 import { BaseSettings } from "../settings";
 import { topicIsConvertibleToSchema } from "../topicIsConvertibleToSchema";
 
@@ -48,7 +48,7 @@ function zeroReader(): number {
 
 const floatTextureColorModes: GridColorModeSettings["colorMode"][] = ["gradient", "colormap"];
 
-const INVALID_FOXGLOVE_GRID = "INVALID_FOXGLOVE_GRID";
+const INVALID_LICHTBLICK_GRID = "INVALID_LICHTBLICK_GRID";
 
 const DEFAULT_COLOR_MAP = "turbo";
 const DEFAULT_FLAT_COLOR = { r: 1, g: 1, b: 1, a: 1 };
@@ -649,7 +649,7 @@ function createGridGeometry(): THREE.PlaneGeometry {
 }
 
 function invalidFoxgloveGridError(renderer: IRenderer, topic: string, message: string): void {
-  renderer.settings.errors.addToTopic(topic, INVALID_FOXGLOVE_GRID, message);
+  renderer.settings.errors.addToTopic(topic, INVALID_LICHTBLICK_GRID, message);
 }
 
 function createTexture(foxgloveGrid: Grid, settings: GridColorModeSettings): THREE.DataTexture {

@@ -29,7 +29,7 @@ import getDevModeIcon from "./getDevModeIcon";
 import { simulateUserClick } from "./simulateUserClick";
 import { getTelemetrySettings } from "./telemetry";
 import { encodeRendererArg } from "../common/rendererArgs";
-import { FOXGLOVE_PRODUCT_NAME } from "../common/webpackDefines";
+import { LICHTBLICK_PRODUCT_NAME } from "../common/webpackDefines";
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 
@@ -73,7 +73,7 @@ function newStudioWindow(deepLinks: string[] = [], reloadMainWindow: () => void)
     minWidth: 350,
     minHeight: 250,
     autoHideMenuBar: true,
-    title: FOXGLOVE_PRODUCT_NAME,
+    title: LICHTBLICK_PRODUCT_NAME,
     frame: isLinux ? false : true,
     titleBarStyle: "hidden",
     trafficLightPosition: isMac ? { x: macTrafficLightInset, y: macTrafficLightInset } : undefined,

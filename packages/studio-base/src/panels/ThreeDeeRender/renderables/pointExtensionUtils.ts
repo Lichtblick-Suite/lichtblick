@@ -11,8 +11,8 @@ import { IRenderer } from "@foxglove/studio-base/panels/ThreeDeeRender/IRenderer
 import { BaseUserData, Renderable } from "@foxglove/studio-base/panels/ThreeDeeRender/Renderable";
 import { rgbaToCssString } from "@foxglove/studio-base/panels/ThreeDeeRender/color";
 import {
-  missingTransformMessage,
   MISSING_TRANSFORM,
+  missingTransformMessage,
 } from "@foxglove/studio-base/panels/ThreeDeeRender/renderables/transforms";
 import { BaseSettings } from "@foxglove/studio-base/panels/ThreeDeeRender/settings";
 import { MAX_DURATION } from "@foxglove/studio-base/panels/ThreeDeeRender/transforms";
@@ -20,12 +20,12 @@ import { updatePose } from "@foxglove/studio-base/panels/ThreeDeeRender/updatePo
 
 import { LaserScanMaterial } from "./LaserScans";
 import {
-  colorModeSettingsFields,
   colorHasTransparency,
   ColorModeSettings,
+  colorModeSettingsFields,
   FS_SRGB_TO_LINEAR,
 } from "./colorMode";
-import { POINTCLOUD_DATATYPES as FOXGLOVE_POINTCLOUD_DATATYPES } from "../foxglove";
+import { POINTCLOUD_DATATYPES as LICHTBLICK_POINTCLOUD_DATATYPES } from "../foxglove";
 import { POINTCLOUD_DATATYPES as ROS_POINTCLOUD_DATATYPES } from "../ros";
 
 export type LayerSettingsPointExtension = BaseSettings &
@@ -85,7 +85,7 @@ export function pointSettingsNode(
     defaults: defaultSettings,
     modifiers: {
       supportsPackedRgbModes: ROS_POINTCLOUD_DATATYPES.has(topic.schemaName),
-      supportsRgbaFieldsMode: FOXGLOVE_POINTCLOUD_DATATYPES.has(topic.schemaName),
+      supportsRgbaFieldsMode: LICHTBLICK_POINTCLOUD_DATATYPES.has(topic.schemaName),
     },
   });
 

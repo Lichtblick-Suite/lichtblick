@@ -61,9 +61,9 @@ export const webpackPreloadConfig =
 
       plugins: [
         new DefinePlugin({
-          FOXGLOVE_PRODUCT_NAME: JSON.stringify(params.packageJson.productName),
-          FOXGLOVE_PRODUCT_VERSION: JSON.stringify(params.packageJson.version),
-          FOXGLOVE_PRODUCT_HOMEPAGE: JSON.stringify(params.packageJson.homepage),
+          LICHTBLICK_PRODUCT_NAME: JSON.stringify(params.packageJson.productName),
+          LICHTBLICK_PRODUCT_VERSION: JSON.stringify(params.packageJson.version),
+          LICHTBLICK_PRODUCT_HOMEPAGE: JSON.stringify(params.packageJson.homepage),
         }),
         new ForkTsCheckerWebpackPlugin(),
       ],

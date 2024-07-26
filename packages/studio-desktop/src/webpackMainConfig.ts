@@ -5,7 +5,7 @@
 import { ESBuildMinifyPlugin } from "esbuild-loader";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import path from "path";
-import { Configuration, ResolveOptions, DefinePlugin } from "webpack";
+import { Configuration, DefinePlugin, ResolveOptions } from "webpack";
 
 import { WebpackArgv } from "@foxglove/studio-base/WebpackArgv";
 
@@ -79,9 +79,9 @@ export const webpackMainConfig =
       plugins: [
         new DefinePlugin({
           MAIN_WINDOW_WEBPACK_ENTRY: rendererEntry,
-          FOXGLOVE_PRODUCT_NAME: JSON.stringify(params.packageJson.productName),
-          FOXGLOVE_PRODUCT_VERSION: JSON.stringify(params.packageJson.version),
-          FOXGLOVE_PRODUCT_HOMEPAGE: JSON.stringify(params.packageJson.homepage),
+          LICHTBLICK_PRODUCT_NAME: JSON.stringify(params.packageJson.productName),
+          LICHTBLICK_PRODUCT_VERSION: JSON.stringify(params.packageJson.version),
+          LICHTBLICK_PRODUCT_HOMEPAGE: JSON.stringify(params.packageJson.homepage),
         }),
         new ForkTsCheckerWebpackPlugin(),
       ],
