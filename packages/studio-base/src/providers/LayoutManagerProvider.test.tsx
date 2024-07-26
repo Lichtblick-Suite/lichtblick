@@ -152,7 +152,7 @@ describe("LayoutManagerProvider", () => {
     ]);
 
     // Mock an existing layout with "from" equals to "layout2"
-    mockLayoutManager.getLayouts.mockResolvedValueOnce([{ from: "layout2.json", name: "layout2" }]);
+    mockLayoutManager.getLayouts.mockResolvedValueOnce([{ from: "layout2.json", name: "layout" }]);
 
     render(<LayoutManagerProvider loaders={[mockLayoutLoader]} />);
 
@@ -170,7 +170,7 @@ describe("LayoutManagerProvider", () => {
         expect.objectContaining({ from: "layout3.json", name: "layout" }),
       );
 
-      // Expect "layout2.json" to not be saved, because it already was loaded.
+      // Expect "layout2.json" to not be saved, because it has been already loaded.
       expect(mockLayoutManager.saveNewLayout).not.toHaveBeenCalledWith(
         expect.objectContaining({ from: "layout2.json", name: "layout" }),
       );
