@@ -9,7 +9,7 @@ import * as _ from "lodash-es";
 import { useCallback } from "react";
 import { DeepPartial } from "ts-essentials";
 
-import { useMessagePipeline } from "@foxglove/studio-base/components/MessagePipeline";
+import { useMessagePipeline } from "@lichtblick/suite-base/components/MessagePipeline";
 import {
   LayoutState,
   useCurrentLayoutActions,

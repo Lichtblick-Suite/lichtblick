@@ -338,8 +338,3 @@ function createPlayerListener(args: {
     },
   };
 }
-
-export const getTopicToSchemaNameMap = (
-  state: MessagePipelineContext,
-): Record<string, string | undefined> =>
-  _.mapValues(_.keyBy(state.sortedTopics, "name"), ({ schemaName }) => schemaName);

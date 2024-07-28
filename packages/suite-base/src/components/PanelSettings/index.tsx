@@ -15,10 +15,8 @@ import { SettingsTree } from "@lichtblick/suite";
 import { AppSetting } from "@lichtblick/suite-base/AppSetting";
 import { useConfigById } from "@lichtblick/suite-base/PanelAPI";
 import EmptyState from "@lichtblick/suite-base/components/EmptyState";
-import {
-  getTopicToSchemaNameMap,
-  useMessagePipeline,
-} from "@lichtblick/suite-base/components/MessagePipeline";
+import { useMessagePipeline } from "@lichtblick/suite-base/components/MessagePipeline";
+import { getTopicToSchemaNameMap } from "@lichtblick/suite-base/components/MessagePipeline/selectors";
 import { ActionMenu } from "@lichtblick/suite-base/components/PanelSettings/ActionMenu";
 import SettingsTreeEditor from "@lichtblick/suite-base/components/SettingsTreeEditor";
 import { ShareJsonModal } from "@lichtblick/suite-base/components/ShareJsonModal";

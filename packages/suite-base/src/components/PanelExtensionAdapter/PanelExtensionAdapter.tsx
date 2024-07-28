@@ -57,12 +57,12 @@ import {
 } from "@lichtblick/suite-base/providers/PanelStateContextProvider";
 import { PanelConfig, SaveConfig } from "@lichtblick/suite-base/types/panels";
 import { assertNever } from "@lichtblick/suite-base/util/assertNever";
+import { maybeCast } from "@lichtblick/suite-base/util/maybeCast";
 
 import { PanelConfigVersionError } from "./PanelConfigVersionError";
 import { RenderStateConfig, initRenderStateBuilder } from "./renderState";
 import { BuiltinPanelExtensionContext } from "./types";
 import { useSharedPanelState } from "./useSharedPanelState";
-import { maybeCast } from "@lichtblick/suite-base/util/maybeCast";
 
 const log = Logger.getLogger(__filename);
 

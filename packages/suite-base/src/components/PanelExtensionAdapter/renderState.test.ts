@@ -7,6 +7,7 @@
 
 import { produce } from "immer";
 
+import { PanelSettings } from "@lichtblick/suite";
 import { PlayerPresence } from "@lichtblick/suite-base/players/types";
 
 import { BuilderRenderStateInput, initRenderStateBuilder } from "./renderState";
@@ -957,7 +958,7 @@ describe("renderState", () => {
     const state2 = buildRenderState(
       produce(initialState, (draft) => {
         draft.currentFrame = undefined;
-        draft.playerState.progress.messageCache = undefined;
+        draft.playerState!.progress.messageCache = undefined;
         draft.subscriptions.push({ topic: "test", convertTo: "anotherSchema", preload: true });
       }),
     );
