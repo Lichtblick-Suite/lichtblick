@@ -144,7 +144,11 @@ const aboutItems = new Map<
     {
       subheader: "Legal",
       links: [
-        { title: "License terms", url: "https://github.com/bmw-software-engineering/foxbox/blob/main/LICENSE" },
+        {
+          title: "License terms",
+          url: "https://github.com/bmw-software-engineering/lichtblick/blob/main/LICENSE",
+        },
+        { title: "Privacy policy", url: "https://foxglove.dev/legal/privacy" },
       ],
     },
   ],
