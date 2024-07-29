@@ -32,6 +32,7 @@ describe("LayoutManagerProvider", () => {
     namespace: "local",
   };
 
+  // Mock necessary hooks to render <LayoutManagerProvider /> component, otherwise it will fail
   (useNetworkState as jest.Mock).mockReturnValue({ online: true });
   (useVisibilityState as jest.Mock).mockReturnValue("visible");
   (useLayoutStorage as jest.Mock).mockReturnValue({});
