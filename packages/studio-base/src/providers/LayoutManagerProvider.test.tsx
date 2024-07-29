@@ -32,13 +32,15 @@ describe("LayoutManagerProvider", () => {
     namespace: "local",
   };
 
+  (useNetworkState as jest.Mock).mockReturnValue({ online: true });
+  (useVisibilityState as jest.Mock).mockReturnValue("visible");
+  (useLayoutStorage as jest.Mock).mockReturnValue({});
+  (useRemoteLayoutStorage as jest.Mock).mockReturnValue({});
+
+  const consoleErrorMock = console.error as ReturnType<typeof jest.fn>;
+
   beforeEach(() => {
     jest.clearAllMocks();
-
-    (useNetworkState as jest.Mock).mockReturnValue({ online: true });
-    (useVisibilityState as jest.Mock).mockReturnValue("visible");
-    (useLayoutStorage as jest.Mock).mockReturnValue({});
-    (useRemoteLayoutStorage as jest.Mock).mockReturnValue({});
   });
 
   it("should call layoutManager.setOnline accordingly with useNetworkState", async () => {
@@ -174,6 +176,90 @@ describe("LayoutManagerProvider", () => {
       expect(mockLayoutManager.saveNewLayout).not.toHaveBeenCalledWith(
         expect.objectContaining({ from: "layout2.json", name: "layout" }),
       );
+    });
+  });
+
+  it("should log the correct error when fetchLayouts fails", async () => {
+    const errorMessage = "Failed to fetch layouts";
+    const expectedError = `Failed to fetch layouts from loader: ${errorMessage}`;
+
+    mockLayoutLoader.fetchLayouts.mockRejectedValueOnce(errorMessage);
+
+    render(<LayoutManagerProvider loaders={[mockLayoutLoader]} />);
+
+    await waitFor(() => {
+      expect(consoleErrorMock.mock.calls[0]).toContain(expectedError);
+      consoleErrorMock.mockClear();
+    });
+  });
+
+  it("should log the correct error when saveNewLayout fails", async () => {
+    const errorMessage = "Failed to save layout";
+    const expectedError = `Failed to save layout: ${errorMessage}`;
+
+    mockLayoutLoader.fetchLayouts.mockResolvedValueOnce([
+      { from: "layout1.json", name: "layout1", data: {} as LayoutData },
+    ]);
+
+    mockLayoutManager.saveNewLayout.mockRejectedValueOnce(errorMessage);
+
+    render(<LayoutManagerProvider loaders={[mockLayoutLoader]} />);
+
+    await waitFor(() => {
+      expect(mockLayoutLoader.fetchLayouts).toHaveBeenCalledTimes(1);
+      expect(mockLayoutManager.getLayouts).toHaveBeenCalledTimes(1);
+      expect(mockLayoutManager.saveNewLayout).toHaveBeenCalledTimes(1);
+      expect(consoleErrorMock.mock.calls[0]).toContain(expectedError);
+      consoleErrorMock.mockClear();
+    });
+  });
+
+  it("should log the correct error when the entire loadAndSaveLayouts process fails", async () => {
+    const errorMessage = "General loading error";
+    const expectedError = `Loading default layouts failed: ${errorMessage}`;
+
+    mockLayoutManager.getLayouts.mockRejectedValueOnce(errorMessage);
+
+    render(<LayoutManagerProvider loaders={[mockLayoutLoader]} />);
+
+    await waitFor(() => {
+      expect(mockLayoutManager.getLayouts).toHaveBeenCalledTimes(1);
+      expect(mockLayoutLoader.fetchLayouts).toHaveBeenCalledTimes(0);
+      expect(consoleErrorMock.mock.calls[0]).toContain(expectedError);
+      consoleErrorMock.mockClear();
+    });
+  });
+
+  it("should handle partial successes and log correct errors", async () => {
+    const fetchErrorMessage = "Fetch failed";
+    const expectedFetchError = `Failed to fetch layouts from loader: ${fetchErrorMessage}`;
+
+    const saveErrorMessage = "Save failed";
+    const expectedSaveError = `Failed to save layout: ${saveErrorMessage}`;
+
+    const layouts = [
+      { from: "layout1.json", name: "layout1", data: {} as LayoutData },
+      { from: "layout2.json", name: "layout2", data: {} as LayoutData },
+    ];
+
+    mockLayoutLoader.fetchLayouts
+      .mockResolvedValueOnce(layouts)
+      .mockRejectedValueOnce(fetchErrorMessage);
+
+    mockLayoutManager.saveNewLayout
+      .mockResolvedValueOnce("sucess")
+      .mockRejectedValueOnce(saveErrorMessage);
+
+    render(<LayoutManagerProvider loaders={[mockLayoutLoader, mockLayoutLoader]} />);
+
+    await waitFor(() => {
+      expect(mockLayoutLoader.fetchLayouts).toHaveBeenCalledTimes(2);
+      expect(mockLayoutManager.getLayouts).toHaveBeenCalledTimes(1);
+      expect(mockLayoutManager.saveNewLayout).toHaveBeenCalledTimes(2);
+      expect(consoleErrorMock.mock.calls[0]).toContain(expectedFetchError);
+      expect(consoleErrorMock.mock.calls[1]).toContain(expectedSaveError);
+
+      consoleErrorMock.mockClear();
     });
   });
 

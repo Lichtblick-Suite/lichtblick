@@ -84,7 +84,7 @@ export default function LayoutManagerProvider({
           log.error(`Failed to save layout: ${result.reason}`);
         });
       } catch (err) {
-        log.error("Loading default layouts failed:", err);
+        log.error(`Loading default layouts failed: ${err}`);
       }
     };
     void loadAndSaveLayouts();
