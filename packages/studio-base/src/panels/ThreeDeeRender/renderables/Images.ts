@@ -2,6 +2,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { ALL_SUPPORTED_IMAGE_SCHEMAS } from "@lichtblick/studio-base/panels/ThreeDeeRender/renderables/ImageMode/ImageMode";
 import { t } from "i18next";
 import { assert } from "ts-essentials";
 
@@ -11,7 +12,6 @@ import Logger from "@foxglove/log";
 import { toNanoSec } from "@foxglove/rostime";
 import { CameraCalibration, CompressedImage, RawImage } from "@foxglove/schemas";
 import { SettingsTreeAction, SettingsTreeFields } from "@foxglove/studio";
-import { ALL_SUPPORTED_IMAGE_SCHEMAS } from "@foxglove/studio-base/panels/ThreeDeeRender/renderables/ImageMode/ImageMode";
 
 import {
   IMAGE_RENDERABLE_DEFAULT_SETTINGS,

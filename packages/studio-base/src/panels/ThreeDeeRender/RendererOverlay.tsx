@@ -4,6 +4,15 @@
 
 import { Ruler20Filled, Ruler20Regular } from "@fluentui/react-icons";
 import {
+  PanelContextMenu,
+  PanelContextMenuItem,
+} from "@lichtblick/studio-base/components/PanelContextMenu";
+import PublishGoalIcon from "@lichtblick/studio-base/components/PublishGoalIcon";
+import PublishPointIcon from "@lichtblick/studio-base/components/PublishPointIcon";
+import PublishPoseEstimateIcon from "@lichtblick/studio-base/components/PublishPoseEstimateIcon";
+import { usePanelMousePresence } from "@lichtblick/studio-base/hooks/usePanelMousePresence";
+import { HUD } from "@lichtblick/studio-base/panels/ThreeDeeRender/HUD";
+import {
   Button,
   IconButton,
   ListItemIcon,
@@ -21,15 +30,6 @@ import tc from "tinycolor2";
 import { makeStyles } from "tss-react/mui";
 
 import { LayoutActions } from "@foxglove/studio";
-import {
-  PanelContextMenu,
-  PanelContextMenuItem,
-} from "@foxglove/studio-base/components/PanelContextMenu";
-import PublishGoalIcon from "@foxglove/studio-base/components/PublishGoalIcon";
-import PublishPointIcon from "@foxglove/studio-base/components/PublishPointIcon";
-import PublishPoseEstimateIcon from "@foxglove/studio-base/components/PublishPoseEstimateIcon";
-import { usePanelMousePresence } from "@foxglove/studio-base/hooks/usePanelMousePresence";
-import { HUD } from "@foxglove/studio-base/panels/ThreeDeeRender/HUD";
 
 import { InteractionContextMenu, Interactions, SelectionObject, TabType } from "./Interactions";
 import type { PickedRenderable } from "./Picker";

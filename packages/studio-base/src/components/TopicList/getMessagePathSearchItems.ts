@@ -7,7 +7,7 @@ import * as _ from "lodash-es";
 import { MessageDefinition } from "@foxglove/message-definition";
 import { quoteFieldNameIfNeeded, quoteTopicNameIfNeeded } from "@foxglove/message-path";
 import { Immutable } from "@foxglove/studio";
-import { Topic } from "@foxglove/studio-base/src/players/types";
+import { Topic } from "@lichtblick/studio-base/src/players/types";
 
 /**
  * Represents a message path inside a specific schema

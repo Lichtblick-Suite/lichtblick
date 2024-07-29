@@ -2,6 +2,9 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import EmptyState from "@lichtblick/studio-base/components/EmptyState";
+import Stack from "@lichtblick/studio-base/components/Stack";
+import ThemeProvider from "@lichtblick/studio-base/theme/ThemeProvider";
 import * as _ from "lodash-es";
 import { useCallback, useEffect, useLayoutEffect, useState } from "react";
 import { DeepPartial } from "ts-essentials";
@@ -14,9 +17,6 @@ import {
   SettingsTreeNodes,
   Topic,
 } from "@foxglove/studio";
-import EmptyState from "@foxglove/studio-base/components/EmptyState";
-import Stack from "@foxglove/studio-base/components/Stack";
-import ThemeProvider from "@foxglove/studio-base/theme/ThemeProvider";
 
 import DirectionalPad, { DirectionalPadAction } from "./DirectionalPad";
 

@@ -2,6 +2,16 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+
+import { PanelContextMenuItem } from "@lichtblick/studio-base/components/PanelContextMenu";
+import {
+  BuiltinPanelExtensionContext,
+  DraggedMessagePath,
+  MessagePathDropStatus,
+} from "@lichtblick/studio-base/components/PanelExtensionAdapter";
+import { HUDItemManager } from "@lichtblick/studio-base/panels/ThreeDeeRender/HUDItemManager";
+import { ICameraHandler } from "@lichtblick/studio-base/panels/ThreeDeeRender/renderables/ICameraHandler";
+import IAnalytics from "@lichtblick/studio-base/services/IAnalytics";
 import EventEmitter from "eventemitter3";
 import * as THREE from "three";
 
@@ -13,15 +23,6 @@ import {
   Topic,
   VariableValue,
 } from "@foxglove/studio";
-import { PanelContextMenuItem } from "@foxglove/studio-base/components/PanelContextMenu";
-import {
-  BuiltinPanelExtensionContext,
-  DraggedMessagePath,
-  MessagePathDropStatus,
-} from "@foxglove/studio-base/components/PanelExtensionAdapter";
-import { HUDItemManager } from "@foxglove/studio-base/panels/ThreeDeeRender/HUDItemManager";
-import { ICameraHandler } from "@foxglove/studio-base/panels/ThreeDeeRender/renderables/ICameraHandler";
-import IAnalytics from "@foxglove/studio-base/services/IAnalytics";
 import { LabelPool } from "@foxglove/three-text";
 
 import { HUDItem } from "./HUDItemManager";

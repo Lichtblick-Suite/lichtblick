@@ -2,6 +2,10 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import BlockheadFilledIcon from "@lichtblick/studio-base/components/BlockheadFilledIcon";
+import Stack from "@lichtblick/studio-base/components/Stack";
+import { useCurrentUser, User } from "@lichtblick/studio-base/context/CurrentUserContext";
+import { useConfirm } from "@lichtblick/studio-base/hooks/useConfirm";
 import { Button, CircularProgress, Typography } from "@mui/material";
 import { useSnackbar } from "notistack";
 import { useCallback } from "react";
@@ -9,10 +13,6 @@ import { useAsyncFn } from "react-use";
 import { makeStyles } from "tss-react/mui";
 
 import Logger from "@foxglove/log";
-import BlockheadFilledIcon from "@foxglove/studio-base/components/BlockheadFilledIcon";
-import Stack from "@foxglove/studio-base/components/Stack";
-import { useCurrentUser, User } from "@foxglove/studio-base/context/CurrentUserContext";
-import { useConfirm } from "@foxglove/studio-base/hooks/useConfirm";
 
 const log = Logger.getLogger(__filename);
 

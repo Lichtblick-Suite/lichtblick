@@ -2,12 +2,12 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { AppSetting } from "@lichtblick/studio-base/src/AppSetting";
 import { app, BrowserWindow, ipcMain, Menu, nativeTheme, session } from "electron";
 import fs from "fs";
 import i18n from "i18next";
 
 import Logger from "@foxglove/log";
-import { AppSetting } from "@foxglove/studio-base/src/AppSetting";
 
 import StudioAppUpdater from "./StudioAppUpdater";
 import StudioWindow from "./StudioWindow";

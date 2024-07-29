@@ -2,6 +2,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { RosObject, RosValue } from "@lichtblick/studio-base/players/types";
 import * as THREE from "three";
 import { LineGeometry } from "three/examples/jsm/lines/LineGeometry";
 import { LineSegments2 } from "three/examples/jsm/lines/LineSegments2";
@@ -9,7 +10,6 @@ import { LineSegmentsGeometry } from "three/examples/jsm/lines/LineSegmentsGeome
 
 import { PinholeCameraModel } from "@foxglove/den/image";
 import { Color } from "@foxglove/schemas";
-import { RosObject, RosValue } from "@foxglove/studio-base/players/types";
 
 import {
   ANNOTATION_RENDER_ORDER,

@@ -2,6 +2,9 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { makeRgba, stringToRgba } from "@lichtblick/studio-base/panels/ThreeDeeRender/color";
+import { eulerToQuaternion } from "@lichtblick/studio-base/util/geometry";
+import isDesktopApp from "@lichtblick/studio-base/util/isDesktopApp";
 import { vec3 } from "gl-matrix";
 import i18next from "i18next";
 import * as _ from "lodash-es";
@@ -18,9 +21,6 @@ import {
   SettingsTreeField,
   SettingsTreeFields,
 } from "@foxglove/studio";
-import { makeRgba, stringToRgba } from "@foxglove/studio-base/panels/ThreeDeeRender/color";
-import { eulerToQuaternion } from "@foxglove/studio-base/util/geometry";
-import isDesktopApp from "@foxglove/studio-base/util/isDesktopApp";
 
 import { RenderableCube } from "./markers/RenderableCube";
 import { RenderableCylinder } from "./markers/RenderableCylinder";

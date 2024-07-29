@@ -2,6 +2,14 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import CopyButton from "@lichtblick/studio-base/components/CopyButton";
+import JsonInput from "@lichtblick/studio-base/components/JsonInput";
+import Stack from "@lichtblick/studio-base/components/Stack";
+import { useAnalytics } from "@lichtblick/studio-base/context/AnalyticsContext";
+import useGlobalVariables, {
+  GlobalVariables,
+} from "@lichtblick/studio-base/hooks/useGlobalVariables";
+import { AppEvent } from "@lichtblick/studio-base/services/IAnalytics";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ErrorIcon from "@mui/icons-material/Error";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -23,14 +31,6 @@ import { useMemo, useCallback, useState, useRef } from "react";
 import { makeStyles } from "tss-react/mui";
 
 import { VariableValue } from "@foxglove/studio";
-import CopyButton from "@foxglove/studio-base/components/CopyButton";
-import JsonInput from "@foxglove/studio-base/components/JsonInput";
-import Stack from "@foxglove/studio-base/components/Stack";
-import { useAnalytics } from "@foxglove/studio-base/context/AnalyticsContext";
-import useGlobalVariables, {
-  GlobalVariables,
-} from "@foxglove/studio-base/hooks/useGlobalVariables";
-import { AppEvent } from "@foxglove/studio-base/services/IAnalytics";
 
 const useStyles = makeStyles<void, "copyButton">()((theme, _params, classes) => ({
   root: {

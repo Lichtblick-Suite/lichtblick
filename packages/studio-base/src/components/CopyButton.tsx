@@ -10,6 +10,7 @@ import {
   Checkmark20Filled,
   Checkmark24Filled,
 } from "@fluentui/react-icons";
+import clipboard from "@lichtblick/studio-base/util/clipboard";
 import {
   Button,
   ButtonProps,
@@ -21,7 +22,6 @@ import {
 } from "@mui/material";
 import { useCallback, useState, PropsWithChildren, useMemo } from "react";
 
-import clipboard from "@foxglove/studio-base/util/clipboard";
 
 function CopyButtonComponent(
   props: PropsWithChildren<{

@@ -11,15 +11,16 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
+import { Asset } from "@lichtblick/studio-base/components/PanelExtensionAdapter";
+import { GlobalVariables } from "@lichtblick/studio-base/hooks/useGlobalVariables";
+import { RosDatatypes } from "@lichtblick/studio-base/types/RosDatatypes";
+import { Range } from "@lichtblick/studio-base/util/ranges";
+import { NotificationSeverity } from "@lichtblick/studio-base/util/sendNotification";
+
 import { MessageDefinition } from "@foxglove/message-definition";
 import { Time } from "@foxglove/rostime";
-import type { MessageEvent, Metadata, ParameterValue } from "@foxglove/studio";
 import { Immutable } from "@foxglove/studio";
-import { Asset } from "@foxglove/studio-base/components/PanelExtensionAdapter";
-import { GlobalVariables } from "@foxglove/studio-base/hooks/useGlobalVariables";
-import { RosDatatypes } from "@foxglove/studio-base/types/RosDatatypes";
-import { Range } from "@foxglove/studio-base/util/ranges";
-import { NotificationSeverity } from "@foxglove/studio-base/util/sendNotification";
+import type { MessageEvent, Metadata, ParameterValue } from "@foxglove/studio";
 
 // re-exported until other import sites are updated from players/types to @foxglove/studio
 export type { MessageEvent };

@@ -2,6 +2,8 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { simpleGetMessagePathDataItems } from "@lichtblick/studio-base/components/MessagePathSyntax/simpleGetMessagePathDataItems";
+import Stack from "@lichtblick/studio-base/components/Stack";
 import { Typography } from "@mui/material";
 import * as _ from "lodash-es";
 import { useCallback, useEffect, useLayoutEffect, useMemo, useReducer, useState } from "react";
@@ -9,8 +11,6 @@ import { makeStyles } from "tss-react/mui";
 
 import { MessagePath, parseMessagePath } from "@foxglove/message-path";
 import { MessageEvent, PanelExtensionContext, SettingsTreeAction } from "@foxglove/studio";
-import { simpleGetMessagePathDataItems } from "@foxglove/studio-base/components/MessagePathSyntax/simpleGetMessagePathDataItems";
-import Stack from "@foxglove/studio-base/components/Stack";
 
 import { getMatchingRule } from "./getMatchingRule";
 import { settingsActionReducer, useSettingsTree } from "./settings";

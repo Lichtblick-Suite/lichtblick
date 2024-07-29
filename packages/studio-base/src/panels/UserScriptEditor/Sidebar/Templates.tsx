@@ -2,10 +2,10 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import { List, ListItem, ListItemButton, ListItemText } from "@mui/material";
 
-import Stack from "@foxglove/studio-base/components/Stack";
-import templates from "@foxglove/studio-base/players/UserScriptPlayer/transformerWorker/typescript/templates";
+import Stack from "@lichtblick/studio-base/components/Stack";
+import templates from "@lichtblick/studio-base/players/UserScriptPlayer/transformerWorker/typescript/templates";
+import { List, ListItem, ListItemButton, ListItemText } from "@mui/material";
 
 import { SidebarHeader } from "./SidebarHeader";
 

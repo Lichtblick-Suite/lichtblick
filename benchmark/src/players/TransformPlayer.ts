@@ -2,12 +2,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import Log from "@foxglove/log";
-import * as rostime from "@foxglove/rostime";
-import { Time } from "@foxglove/rostime";
-import { FrameTransform } from "@foxglove/schemas";
-import { MessageEvent } from "@foxglove/studio";
-import { GlobalVariables } from "@foxglove/studio-base/hooks/useGlobalVariables";
+import { GlobalVariables } from "@lichtblick/studio-base/hooks/useGlobalVariables";
 import {
   AdvertiseOptions,
   Player,
@@ -17,9 +12,15 @@ import {
   SubscribePayload,
   Topic,
   TopicStats,
-} from "@foxglove/studio-base/players/types";
-import { RosDatatypes } from "@foxglove/studio-base/types/RosDatatypes";
-import { Quaternion } from "@foxglove/studio-base/util/geometry";
+} from "@lichtblick/studio-base/players/types";
+import { RosDatatypes } from "@lichtblick/studio-base/types/RosDatatypes";
+import { Quaternion } from "@lichtblick/studio-base/util/geometry";
+
+import Log from "@foxglove/log";
+import * as rostime from "@foxglove/rostime";
+import { Time } from "@foxglove/rostime";
+import { FrameTransform } from "@foxglove/schemas";
+import { MessageEvent } from "@foxglove/studio";
 
 import { now } from "./time";
 import { BenchmarkStats } from "../BenchmarkStats";

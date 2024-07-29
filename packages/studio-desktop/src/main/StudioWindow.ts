@@ -4,6 +4,8 @@
 
 /// <reference types="../typings/i18next" />
 
+import { APP_BAR_HEIGHT } from "@lichtblick/studio-base/src/components/AppBar/constants";
+import { NativeAppMenuEvent } from "@lichtblick/studio-base/src/context/NativeAppMenuContext";
 import {
   BrowserWindow,
   BrowserWindowConstructorOptions,
@@ -20,8 +22,6 @@ import i18n, { t } from "i18next";
 import path from "path";
 
 import Logger from "@foxglove/log";
-import { APP_BAR_HEIGHT } from "@foxglove/studio-base/src/components/AppBar/constants";
-import { NativeAppMenuEvent } from "@foxglove/studio-base/src/context/NativeAppMenuContext";
 import { palette } from "@foxglove/theme";
 
 import StudioAppUpdater from "./StudioAppUpdater";

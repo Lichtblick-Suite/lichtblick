@@ -1,5 +1,5 @@
 {
-  "name": "@foxglove/studio-base",
+  "name": "@lichtblick/studio-base",
   "description": "Core components of Foxglove Studio",
   "private": true,
   "productName": "Lichtblick",

@@ -2,12 +2,12 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { WebpackArgv } from "@lichtblick/studio-base/WebpackArgv";
 import { ESBuildMinifyPlugin } from "esbuild-loader";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import path from "path";
 import { Configuration, DefinePlugin } from "webpack";
 
-import { WebpackArgv } from "@foxglove/studio-base/WebpackArgv";
 
 import { WebpackConfigParams } from "./WebpackConfigParams";
 

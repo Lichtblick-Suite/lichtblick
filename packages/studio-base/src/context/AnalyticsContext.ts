@@ -2,10 +2,10 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import { createContext, useContext } from "react";
 
-import IAnalytics from "@foxglove/studio-base/services/IAnalytics";
-import NullAnalytics from "@foxglove/studio-base/services/NullAnalytics";
+import IAnalytics from "@lichtblick/studio-base/services/IAnalytics";
+import NullAnalytics from "@lichtblick/studio-base/services/NullAnalytics";
+import { createContext, useContext } from "react";
 
 const AnalyticsContext = createContext<IAnalytics>(new NullAnalytics());
 AnalyticsContext.displayName = "AnalyticsContext";

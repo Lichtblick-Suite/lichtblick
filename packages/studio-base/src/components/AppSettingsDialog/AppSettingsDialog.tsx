@@ -2,6 +2,17 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { AppSetting } from "@lichtblick/studio-base/AppSetting";
+import OsContextSingleton from "@lichtblick/studio-base/OsContextSingleton";
+import CopyButton from "@lichtblick/studio-base/components/CopyButton";
+import { ExperimentalFeatureSettings } from "@lichtblick/studio-base/components/ExperimentalFeatureSettings";
+import ExtensionsSettings from "@lichtblick/studio-base/components/ExtensionsSettings";
+import LichtblickLogoText from "@lichtblick/studio-base/components/LichtblickLogoText";
+import Stack from "@lichtblick/studio-base/components/Stack";
+import { useAppContext } from "@lichtblick/studio-base/context/AppContext";
+import { useWorkspaceStore, WorkspaceContextStore } from "@lichtblick/studio-base/context/Workspace/WorkspaceContext";
+import { useAppConfigurationValue } from "@lichtblick/studio-base/hooks/useAppConfigurationValue";
+import isDesktopApp from "@lichtblick/studio-base/util/isDesktopApp";
 import CloseIcon from "@mui/icons-material/Close";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import {
@@ -24,21 +35,6 @@ import {
 import { MouseEvent, SyntheticEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { makeStyles } from "tss-react/mui";
-
-import { AppSetting } from "@foxglove/studio-base/AppSetting";
-import OsContextSingleton from "@foxglove/studio-base/OsContextSingleton";
-import CopyButton from "@foxglove/studio-base/components/CopyButton";
-import { ExperimentalFeatureSettings } from "@foxglove/studio-base/components/ExperimentalFeatureSettings";
-import ExtensionsSettings from "@foxglove/studio-base/components/ExtensionsSettings";
-import LichtblickLogoText from "@foxglove/studio-base/components/LichtblickLogoText";
-import Stack from "@foxglove/studio-base/components/Stack";
-import { useAppContext } from "@foxglove/studio-base/context/AppContext";
-import {
-  useWorkspaceStore,
-  WorkspaceContextStore,
-} from "@foxglove/studio-base/context/Workspace/WorkspaceContext";
-import { useAppConfigurationValue } from "@foxglove/studio-base/hooks";
-import isDesktopApp from "@foxglove/studio-base/util/isDesktopApp";
 
 import {
   AutoUpdate,

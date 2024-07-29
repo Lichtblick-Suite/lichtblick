@@ -2,6 +2,9 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import useShouldNotChangeOften from "@lichtblick/studio-base/hooks/useShouldNotChangeOften";
+import toggleSelectedPanel from "@lichtblick/studio-base/providers/CurrentLayoutProvider/toggleSelectedPanel";
+import { PanelConfig, PlaybackConfig, UserScripts } from "@lichtblick/studio-base/types/panels";
 import { createContext, useCallback, useLayoutEffect, useReducer, useRef, useState } from "react";
 import { getLeaves } from "react-mosaic-component";
 
@@ -12,9 +15,6 @@ import {
 } from "@foxglove/hooks";
 import Logger from "@foxglove/log";
 import { RenderState, VariableValue } from "@foxglove/studio";
-import useShouldNotChangeOften from "@foxglove/studio-base/hooks/useShouldNotChangeOften";
-import toggleSelectedPanel from "@foxglove/studio-base/providers/CurrentLayoutProvider/toggleSelectedPanel";
-import { PanelConfig, PlaybackConfig, UserScripts } from "@foxglove/studio-base/types/panels";
 
 import {
   AddPanelPayload,

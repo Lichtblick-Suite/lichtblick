@@ -2,10 +2,10 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { mockTopicSelection } from "@lichtblick/studio-base/test/mocks/mockTopicSelection";
 import * as _ from "lodash-es";
 
 import { MessageEvent } from "@foxglove/studio";
-import { mockTopicSelection } from "@foxglove/studio-base/test/mocks/mockTopicSelection";
 
 import { BufferedIterableSource } from "./BufferedIterableSource";
 import {

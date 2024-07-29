@@ -12,10 +12,11 @@
 //   You may not use this file except in compliance with the License.
 
 // No time functions that require `moment` should live in this file.
+import { MessageEvent } from "@lichtblick/studio-base/players/types";
+import { MarkerArray, StampedMessage } from "@lichtblick/studio-base/types/Messages";
+
 import log from "@foxglove/log";
 import { Time } from "@foxglove/rostime";
-import { MessageEvent } from "@foxglove/studio-base/players/types";
-import { MarkerArray, StampedMessage } from "@foxglove/studio-base/types/Messages";
 
 export type TimestampMethod = "receiveTime" | "headerStamp";
 

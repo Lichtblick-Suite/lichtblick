@@ -2,7 +2,7 @@
   "name": "benchmark",
   "private": true,
   "dependencies": {
-    "@foxglove/studio-base": "workspace:*"
+    "@lichtblick/studio-base": "workspace:*"
   },
   "devDependencies": {
     "@foxglove/den": "workspace:*",

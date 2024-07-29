@@ -2,12 +2,8 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import Log from "@foxglove/log";
-import { Time, compare } from "@foxglove/rostime";
-import { FrameTransform, Vector3 } from "@foxglove/schemas";
-import { MessageEvent } from "@foxglove/studio";
-import { GlobalVariables } from "@foxglove/studio-base/hooks/useGlobalVariables";
-import { normalizeFrameTransform } from "@foxglove/studio-base/panels/ThreeDeeRender/normalizeMessages";
+import { GlobalVariables } from "@lichtblick/studio-base/hooks/useGlobalVariables";
+import { normalizeFrameTransform } from "@lichtblick/studio-base/panels/ThreeDeeRender/normalizeMessages";
 import {
   AdvertiseOptions,
   BlockCache,
@@ -20,9 +16,14 @@ import {
   SubscribePayload,
   Topic,
   TopicStats,
-} from "@foxglove/studio-base/players/types";
-import { RosDatatypes } from "@foxglove/studio-base/types/RosDatatypes";
-import delay from "@foxglove/studio-base/util/delay";
+} from "@lichtblick/studio-base/players/types";
+import { RosDatatypes } from "@lichtblick/studio-base/types/RosDatatypes";
+import delay from "@lichtblick/studio-base/util/delay";
+
+import Log from "@foxglove/log";
+import { Time, compare } from "@foxglove/rostime";
+import { FrameTransform, Vector3 } from "@foxglove/schemas";
+import { MessageEvent } from "@foxglove/studio";
 
 const log = Log.getLogger(__filename);
 

@@ -2,8 +2,9 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { Transform } from "@lichtblick/studio-base/panels/ThreeDeeRender/transforms/Transform";
+
 import { ObjectPool } from "@foxglove/den/collection";
-import { Transform } from "@foxglove/studio-base/panels/ThreeDeeRender/transforms/Transform";
 
 import { AddTransformResult, TransformTree } from "./TransformTree";
 

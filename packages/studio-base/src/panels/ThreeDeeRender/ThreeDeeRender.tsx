@@ -2,6 +2,14 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { AppSetting } from "@lichtblick/studio-base/AppSetting";
+import { BuiltinPanelExtensionContext } from "@lichtblick/studio-base/components/PanelExtensionAdapter";
+import { useAnalytics } from "@lichtblick/studio-base/context/AnalyticsContext";
+import {
+  DEFAULT_SCENE_EXTENSION_CONFIG,
+  SceneExtensionConfig,
+} from "@lichtblick/studio-base/panels/ThreeDeeRender/SceneExtensionConfig";
+import ThemeProvider from "@lichtblick/studio-base/theme/ThemeProvider";
 import * as _ from "lodash-es";
 import { useSnackbar } from "notistack";
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
@@ -23,14 +31,6 @@ import {
   Subscription,
   Topic,
 } from "@foxglove/studio";
-import { AppSetting } from "@foxglove/studio-base/AppSetting";
-import { BuiltinPanelExtensionContext } from "@foxglove/studio-base/components/PanelExtensionAdapter";
-import { useAnalytics } from "@foxglove/studio-base/context/AnalyticsContext";
-import {
-  DEFAULT_SCENE_EXTENSION_CONFIG,
-  SceneExtensionConfig,
-} from "@foxglove/studio-base/panels/ThreeDeeRender/SceneExtensionConfig";
-import ThemeProvider from "@foxglove/studio-base/theme/ThemeProvider";
 
 import type {
   FollowMode,

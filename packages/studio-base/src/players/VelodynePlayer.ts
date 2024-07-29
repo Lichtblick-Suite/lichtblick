@@ -2,14 +2,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import { v4 as uuidv4 } from "uuid";
-
-import { debouncePromise } from "@foxglove/den/async";
-import { Sockets, UdpRemoteInfo, UdpSocketRenderer } from "@foxglove/electron-socket/renderer";
-import Logger from "@foxglove/log";
-import { Time, fromMillis, add as addTimes, toDate, fromDate, fromMicros } from "@foxglove/rostime";
-import { ParameterValue } from "@foxglove/studio";
-import { GlobalVariables } from "@foxglove/studio-base/hooks/useGlobalVariables";
+import { GlobalVariables } from "@lichtblick/studio-base/hooks/useGlobalVariables";
 import {
   AdvertiseOptions,
   MessageEvent,
@@ -22,8 +15,15 @@ import {
   SubscribePayload,
   Topic,
   TopicStats,
-} from "@foxglove/studio-base/players/types";
-import { RosDatatypes } from "@foxglove/studio-base/types/RosDatatypes";
+} from "@lichtblick/studio-base/players/types";
+import { RosDatatypes } from "@lichtblick/studio-base/types/RosDatatypes";
+import { v4 as uuidv4 } from "uuid";
+
+import { debouncePromise } from "@foxglove/den/async";
+import { Sockets, UdpRemoteInfo, UdpSocketRenderer } from "@foxglove/electron-socket/renderer";
+import Logger from "@foxglove/log";
+import { Time, fromMillis, add as addTimes, toDate, fromDate, fromMicros } from "@foxglove/rostime";
+import { ParameterValue } from "@foxglove/studio";
 import { Model, RawPacket, ReturnMode, packetRate } from "@foxglove/velodyne-cloud";
 
 const log = Logger.getLogger(__filename);

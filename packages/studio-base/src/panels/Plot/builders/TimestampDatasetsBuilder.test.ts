@@ -2,18 +2,18 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import {
+  MessageBlock,
+  PlayerPresence,
+  PlayerState,
+  PlayerStateActiveData,
+} from "@lichtblick/studio-base/players/types";
 import * as _ from "lodash-es";
 
 import { unwrap } from "@foxglove/den/monads";
 import { makeComlinkWorkerMock } from "@foxglove/den/testing";
 import { parseMessagePath } from "@foxglove/message-path";
 import { MessageEvent } from "@foxglove/studio";
-import {
-  MessageBlock,
-  PlayerPresence,
-  PlayerState,
-  PlayerStateActiveData,
-} from "@foxglove/studio-base/players/types";
 
 import { SeriesConfigKey, SeriesItem } from "./IDatasetsBuilder";
 import { TimestampDatasetsBuilder } from "./TimestampDatasetsBuilder";

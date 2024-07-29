@@ -11,9 +11,10 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
+import { RosDatatypes } from "@lichtblick/studio-base/types/RosDatatypes";
+
 import { unwrap } from "@foxglove/den/monads";
 import { parseMessagePath } from "@foxglove/message-path";
-import { RosDatatypes } from "@foxglove/studio-base/types/RosDatatypes";
 
 import {
   traverseStructure,

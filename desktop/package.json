@@ -4,9 +4,9 @@
   "devDependencies": {
     "@foxglove/den": "workspace:*",
     "@foxglove/log": "workspace:*",
-    "@foxglove/studio-base": "workspace:*",
     "@foxglove/studio-desktop": "workspace:*",
     "@foxglove/tsconfig": "2.0.0",
+    "@lichtblick/studio-base": "workspace:*",
     "electron": "25.8.4",
     "playwright": "1.37.1",
     "webpack": "5.93.0"

@@ -11,10 +11,11 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
+import NoopMetricsCollector from "@lichtblick/studio-base/players/NoopMetricsCollector";
+import RosbridgePlayer from "@lichtblick/studio-base/players/RosbridgePlayer";
+
 import { signal } from "@foxglove/den/async";
 import { Time } from "@foxglove/rostime";
-import NoopMetricsCollector from "@foxglove/studio-base/players/NoopMetricsCollector";
-import RosbridgePlayer from "@foxglove/studio-base/players/RosbridgePlayer";
 
 const headerMessage = ({
   seq,

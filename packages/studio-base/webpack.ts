@@ -57,7 +57,7 @@ export function makeConfig(
     resolve: {
       extensions: [".js", ".ts", ".jsx", ".tsx"],
       alias: {
-        "@foxglove/studio-base": path.resolve(__dirname, "src"),
+        "@lichtblick/studio-base": path.resolve(__dirname, "src"),
       },
       fallback: {
         path: require.resolve("path-browserify"),
@@ -236,8 +236,8 @@ export function makeConfig(
         React: "react",
         // the buffer module exposes the Buffer class as a property
         Buffer: ["buffer", "Buffer"],
-        process: ["@foxglove/studio-base/util/process", "default"],
-        setImmediate: ["@foxglove/studio-base/util/setImmediate", "default"],
+        process: ["@lichtblick/studio-base/util/process", "default"],
+        setImmediate: ["@lichtblick/studio-base/util/setImmediate", "default"],
       }),
       new webpack.DefinePlugin({
         // Should match webpack-defines.d.ts

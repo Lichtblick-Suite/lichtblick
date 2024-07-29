@@ -2,6 +2,16 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import {
+  EMPTY_GLOBAL_VARIABLES,
+  GlobalVariables,
+} from "@lichtblick/studio-base/hooks/useGlobalVariables";
+import {
+  MessageBlock,
+  PlayerState,
+  Topic as PlayerTopic,
+} from "@lichtblick/studio-base/players/types";
+import { HoverValue } from "@lichtblick/studio-base/types/hoverValue";
 import memoizeWeak from "memoize-weak";
 import { Writable } from "ts-essentials";
 
@@ -17,16 +27,6 @@ import {
   Subscription,
   Topic,
 } from "@foxglove/studio";
-import {
-  EMPTY_GLOBAL_VARIABLES,
-  GlobalVariables,
-} from "@foxglove/studio-base/hooks/useGlobalVariables";
-import {
-  MessageBlock,
-  PlayerState,
-  Topic as PlayerTopic,
-} from "@foxglove/studio-base/players/types";
-import { HoverValue } from "@foxglove/studio-base/types/hoverValue";
 
 import {
   collateTopicSchemaConversions,

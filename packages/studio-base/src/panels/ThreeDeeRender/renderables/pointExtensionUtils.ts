@@ -2,21 +2,22 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+
+import { DynamicBufferGeometry } from "@lichtblick/studio-base/panels/ThreeDeeRender/DynamicBufferGeometry";
+import { IRenderer } from "@lichtblick/studio-base/panels/ThreeDeeRender/IRenderer";
+import { BaseUserData, Renderable } from "@lichtblick/studio-base/panels/ThreeDeeRender/Renderable";
+import { rgbaToCssString } from "@lichtblick/studio-base/panels/ThreeDeeRender/color";
+import {
+  MISSING_TRANSFORM,
+  missingTransformMessage,
+} from "@lichtblick/studio-base/panels/ThreeDeeRender/renderables/transforms";
+import { BaseSettings } from "@lichtblick/studio-base/panels/ThreeDeeRender/settings";
+import { MAX_DURATION } from "@lichtblick/studio-base/panels/ThreeDeeRender/transforms";
+import { updatePose } from "@lichtblick/studio-base/panels/ThreeDeeRender/updatePose";
 import { t } from "i18next";
 import * as THREE from "three";
 
 import { SettingsTreeNode, Topic } from "@foxglove/studio";
-import { DynamicBufferGeometry } from "@foxglove/studio-base/panels/ThreeDeeRender/DynamicBufferGeometry";
-import { IRenderer } from "@foxglove/studio-base/panels/ThreeDeeRender/IRenderer";
-import { BaseUserData, Renderable } from "@foxglove/studio-base/panels/ThreeDeeRender/Renderable";
-import { rgbaToCssString } from "@foxglove/studio-base/panels/ThreeDeeRender/color";
-import {
-  MISSING_TRANSFORM,
-  missingTransformMessage,
-} from "@foxglove/studio-base/panels/ThreeDeeRender/renderables/transforms";
-import { BaseSettings } from "@foxglove/studio-base/panels/ThreeDeeRender/settings";
-import { MAX_DURATION } from "@foxglove/studio-base/panels/ThreeDeeRender/transforms";
-import { updatePose } from "@foxglove/studio-base/panels/ThreeDeeRender/updatePose";
 
 import { LaserScanMaterial } from "./LaserScans";
 import {
