@@ -11,11 +11,12 @@ name: Dependabot
 
 on:
   - pull_request_target
+  - workflow_dispatch
 
 jobs:
   fix:
     runs-on: ubuntu-latest
-    if: github.actor == 'dependabot[bot]'
+    # if: github.actor == 'dependabot[bot]'
 
     # IMPORTANT: setting YARN_ENABLE_SCRIPTS=false is critical to ensure that untrusted
     # PRs can't add an npm package and then use that to execute untrusted code in
@@ -30,7 +31,7 @@ jobs:
           # Using a Personal Access Token here is required to trigger workflows on our new commit.
           # The default GitHub token doesn't trigger any workflows.
           # See: https://github.community/t/push-from-action-does-not-trigger-subsequent-action/16854/2
-          token: ${{ secrets.LICHTBLICK_GITHUB_TOKEN }}
+          # token: ${{ secrets.LICHTBLICK_GITHUB_TOKEN }}
           ref: ${{ github.event.pull_request.head.ref }}
           lfs: true
 
@@ -59,7 +60,7 @@ jobs:
       - uses: octokit/request-action@v2.1.9
         if: contains(fromJSON('["opened", "reopened"]'), github.event.action)
         env:
-          GITHUB_TOKEN: ${{ secrets.LICHTBLICK_GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
         with:
           route: POST /repos/{owner_and_repo}/pulls/{pull_number}/reviews
           owner_and_repo: ${{ github.repository }}
@@ -69,7 +70,7 @@ jobs:
       - uses: octokit/request-action@v2.1.9
         if: contains(fromJSON('["opened", "reopened"]'), github.event.action)
         env:
-          GITHUB_TOKEN: ${{ secrets.LICHTBLICK_GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
         with:
           route: POST /repos/{owner_and_repo}/issues/{pull_number}/comments
           owner_and_repo: ${{ github.repository }}
