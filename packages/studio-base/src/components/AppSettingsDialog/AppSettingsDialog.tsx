@@ -148,7 +148,6 @@ const aboutItems = new Map<
           title: "License terms",
           url: "https://github.com/bmw-software-engineering/lichtblick/blob/main/LICENSE",
         },
-        { title: "Privacy policy", url: "https://foxglove.dev/legal/privacy" },
       ],
     },
   ],
