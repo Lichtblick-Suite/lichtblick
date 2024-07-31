@@ -173,7 +173,7 @@ export const mainConfig =
     </head>
     <script>
       global = globalThis;
-      globalThis.FOXBOX_STUDIO_DEFAULT_LAYOUT = [/*FOXBOX_STUDIO_DEFAULT_LAYOUT_PLACEHOLDER*/][0];
+      globalThis.LICHTBLICK_STUDIO_DEFAULT_LAYOUT = [/*LICHTBLICK_STUDIO_DEFAULT_LAYOUT_PLACEHOLDER*/][0];
     </script>
     <body>
       <div id="root"></div>
