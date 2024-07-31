@@ -15,7 +15,7 @@ const pkgInfo = {
   description: "",
   devDependencies: {
     "@foxglove/fox": "file:../fox",
-    "@lichtblick/studio": "0.11.0",
+    "@foxglove/studio": "0.11.0",
     typescript: "4.3.2",
   },
   displayName: "turtlesim",
