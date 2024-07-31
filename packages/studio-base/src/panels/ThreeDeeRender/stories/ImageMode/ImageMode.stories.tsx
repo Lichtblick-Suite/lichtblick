@@ -2,6 +2,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { MessageEvent } from "@lichtblick/studio";
 import Stack from "@lichtblick/studio-base/components/Stack";
 import {
   makeCompressedImageAndCalibration,
@@ -24,7 +25,6 @@ import {
   PointsAnnotationType,
   RawImage,
 } from "@foxglove/schemas";
-import { MessageEvent } from "@foxglove/studio";
 
 import { ImagePanel } from "../../index";
 import { CameraInfo, CompressedImage as RosCompressedImage, Image as RosRawImage } from "../../ros";

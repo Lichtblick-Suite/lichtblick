@@ -11,6 +11,8 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
+import { Immutable } from "@lichtblick/studio";
+import type { MessageEvent, Metadata, ParameterValue } from "@lichtblick/studio";
 import { Asset } from "@lichtblick/studio-base/components/PanelExtensionAdapter";
 import { GlobalVariables } from "@lichtblick/studio-base/hooks/useGlobalVariables";
 import { RosDatatypes } from "@lichtblick/studio-base/types/RosDatatypes";
@@ -19,10 +21,8 @@ import { NotificationSeverity } from "@lichtblick/studio-base/util/sendNotificat
 
 import { MessageDefinition } from "@foxglove/message-definition";
 import { Time } from "@foxglove/rostime";
-import { Immutable } from "@foxglove/studio";
-import type { MessageEvent, Metadata, ParameterValue } from "@foxglove/studio";
 
-// re-exported until other import sites are updated from players/types to @foxglove/studio
+// re-exported until other import sites are updated from players/types to @lichtblick/studio
 export type { MessageEvent };
 
 export type MessageDefinitionsByTopic = {

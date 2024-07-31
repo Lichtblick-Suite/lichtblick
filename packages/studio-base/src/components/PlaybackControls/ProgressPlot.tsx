@@ -3,6 +3,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import { keyframes } from "@emotion/react";
+import { Immutable } from "@lichtblick/studio";
 import Stack from "@lichtblick/studio-base/components/Stack";
 import { Range } from "@lichtblick/studio-base/util/ranges";
 import { simplify } from "intervals-fn";
@@ -12,7 +13,6 @@ import tinycolor from "tinycolor2";
 import { makeStyles } from "tss-react/mui";
 
 import { filterMap } from "@foxglove/den/collection";
-import { Immutable } from "@foxglove/studio";
 
 type ProgressProps = Immutable<{
   loading: boolean;

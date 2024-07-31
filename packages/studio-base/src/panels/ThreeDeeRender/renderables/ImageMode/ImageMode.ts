@@ -3,6 +3,14 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 
+import Logger from "@lichtblick/log";
+import {
+  Immutable,
+  MessageEvent,
+  SettingsTreeAction,
+  SettingsTreeFields,
+  Topic,
+} from "@lichtblick/studio";
 import { PanelContextMenuItem } from "@lichtblick/studio-base/components/PanelContextMenu";
 import { DraggedMessagePath } from "@lichtblick/studio-base/components/PanelExtensionAdapter";
 import { HUDItem } from "@lichtblick/studio-base/panels/ThreeDeeRender/HUDItemManager";
@@ -36,15 +44,7 @@ import { Writable } from "ts-essentials";
 
 import { filterMap } from "@foxglove/den/collection";
 import { PinholeCameraModel } from "@foxglove/den/image";
-import Logger from "@foxglove/log";
 import { toNanoSec } from "@foxglove/rostime";
-import {
-  Immutable,
-  MessageEvent,
-  SettingsTreeAction,
-  SettingsTreeFields,
-  Topic,
-} from "@foxglove/studio";
 
 import { ImageModeCamera } from "./ImageModeCamera";
 import { IMessageHandler, MessageHandler, MessageRenderState } from "./MessageHandler";

@@ -12,6 +12,8 @@
 //   You may not use this file except in compliance with the License.
 
 
+import Log from "@lichtblick/log";
+import { Metadata, ParameterValue } from "@lichtblick/studio";
 import { Asset } from "@lichtblick/studio-base/components/PanelExtensionAdapter";
 import {
   IPerformanceRegistry,
@@ -59,9 +61,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import { MutexLocked } from "@foxglove/den/async";
 import { filterMap } from "@foxglove/den/collection";
-import Log from "@foxglove/log";
 import { Time, compare } from "@foxglove/rostime";
-import { Metadata, ParameterValue } from "@foxglove/studio";
 
 import { remapVirtualSubscriptions, getPreloadTypes } from "./subscriptions";
 

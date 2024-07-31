@@ -5,6 +5,7 @@
 // Make Electron type definitions available globally, such as extensions to File and other built-ins
 /// <reference types="electron" />
 
+import Logger from "@lichtblick/log";
 import {
   installDevtoolsFormatters,
   overwriteFetch,
@@ -17,7 +18,6 @@ import { StrictMode, useEffect } from "react";
 import ReactDOM from "react-dom";
 
 import { Sockets } from "@foxglove/electron-socket/renderer";
-import Logger from "@foxglove/log";
 
 import Root from "./Root";
 

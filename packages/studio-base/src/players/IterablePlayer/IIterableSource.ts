@@ -2,6 +2,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { Immutable, MessageEvent, Metadata } from "@lichtblick/studio";
 import {
   PlayerProblem,
   Topic,
@@ -11,7 +12,6 @@ import {
 import { RosDatatypes } from "@lichtblick/studio-base/types/RosDatatypes";
 
 import { Time } from "@foxglove/rostime";
-import { Immutable, MessageEvent, Metadata } from "@foxglove/studio";
 
 export type Initalization = {
   start: Time;

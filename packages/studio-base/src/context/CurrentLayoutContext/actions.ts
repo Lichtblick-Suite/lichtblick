@@ -12,6 +12,7 @@
 //   You may not use this file except in compliance with the License.
 
 
+import { VariableValue } from "@lichtblick/studio";
 import { GlobalVariables } from "@lichtblick/studio-base/hooks/useGlobalVariables";
 import { TabLocation } from "@lichtblick/studio-base/types/layouts";
 import {
@@ -23,7 +24,6 @@ import {
 } from "@lichtblick/studio-base/types/panels";
 import { MosaicNode, MosaicPath } from "react-mosaic-component";
 
-import { VariableValue } from "@foxglove/studio";
 
 export type LayoutData = {
   // We store config for each panel in an object keyed by the panel id.

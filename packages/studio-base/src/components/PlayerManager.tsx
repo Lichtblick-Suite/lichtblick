@@ -12,6 +12,8 @@
 //   You may not use this file except in compliance with the License.
 
 
+import Logger from "@lichtblick/log";
+import { Immutable } from "@lichtblick/studio";
 import { MessagePipelineProvider } from "@lichtblick/studio-base/components/MessagePipeline";
 import { useAnalytics } from "@lichtblick/studio-base/context/AnalyticsContext";
 import {
@@ -52,8 +54,6 @@ import {
 import { useLatest, useMountedState } from "react-use";
 
 import { useWarnImmediateReRender } from "@foxglove/hooks";
-import Logger from "@foxglove/log";
-import { Immutable } from "@foxglove/studio";
 
 const log = Logger.getLogger(__filename);
 

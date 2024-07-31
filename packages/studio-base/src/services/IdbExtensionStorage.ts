@@ -2,6 +2,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import Log from "@lichtblick/log";
 import {
   IExtensionStorage,
   StoredExtension,
@@ -9,7 +10,6 @@ import {
 import { ExtensionInfo } from "@lichtblick/studio-base/types/Extensions";
 import * as IDB from "idb/with-async-ittr";
 
-import Log from "@foxglove/log";
 
 const log = Log.getLogger(__filename);
 

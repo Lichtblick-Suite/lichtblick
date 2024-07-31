@@ -11,6 +11,7 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
+import { Metadata, ParameterValue } from "@lichtblick/studio";
 import {
   FramePromise,
   pauseFrameForPromises,
@@ -42,7 +43,6 @@ import { createStore } from "zustand";
 
 import { Condvar } from "@foxglove/den/async";
 import { Time, isLessThan } from "@foxglove/rostime";
-import { Metadata, ParameterValue } from "@foxglove/studio";
 
 import { ContextInternal } from "./index";
 import { MessagePipelineInternalState, MessagePipelineStateAction, reducer } from "./store";

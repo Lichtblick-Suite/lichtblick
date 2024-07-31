@@ -2,6 +2,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { MessageEvent } from "@lichtblick/studio";
 import { ImageModeConfig } from "@lichtblick/studio-base/panels/ThreeDeeRender/IRenderer";
 import { makeRawImageAndCalibration } from "@lichtblick/studio-base/panels/ThreeDeeRender/stories/ImageMode/imageCommon";
 import { xyzrpyToPose } from "@lichtblick/studio-base/panels/ThreeDeeRender/transforms";
@@ -18,7 +19,6 @@ import {
   PointsAnnotationType,
   SceneUpdate,
 } from "@foxglove/schemas";
-import { MessageEvent } from "@foxglove/studio";
 
 import { ImagePanel } from "../../index";
 import { QUAT_IDENTITY, makeColor } from "../common";

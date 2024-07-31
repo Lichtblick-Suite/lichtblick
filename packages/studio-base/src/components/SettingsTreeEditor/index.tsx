@@ -2,6 +2,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { Immutable, SettingsTree, SettingsTreeAction, SettingsTreeField } from "@lichtblick/studio";
 import { useConfigById } from "@lichtblick/studio-base/PanelAPI";
 import { FieldEditor } from "@lichtblick/studio-base/components/SettingsTreeEditor/FieldEditor";
 import Stack from "@lichtblick/studio-base/components/Stack";
@@ -17,7 +18,6 @@ import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { makeStyles } from "tss-react/mui";
 
-import { Immutable, SettingsTree, SettingsTreeAction, SettingsTreeField } from "@foxglove/studio";
 
 import { NodeEditor } from "./NodeEditor";
 import { filterTreeNodes, prepareSettingsNodes } from "./utils";

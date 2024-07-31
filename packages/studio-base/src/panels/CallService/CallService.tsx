@@ -2,6 +2,8 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import Log from "@lichtblick/log";
+import { PanelExtensionContext, SettingsTreeAction } from "@lichtblick/studio";
 import Stack from "@lichtblick/studio-base/components/Stack";
 import { Config } from "@lichtblick/studio-base/panels/CallService/types";
 import ThemeProvider from "@lichtblick/studio-base/theme/ThemeProvider";
@@ -9,8 +11,6 @@ import { Button, Palette, TextField, Tooltip, Typography, inputBaseClasses } fro
 import { Dispatch, SetStateAction, useCallback, useEffect, useMemo, useState } from "react";
 import { makeStyles } from "tss-react/mui";
 
-import Log from "@foxglove/log";
-import { PanelExtensionContext, SettingsTreeAction } from "@foxglove/studio";
 
 import { defaultConfig, settingsActionReducer, useSettingsTree } from "./settings";
 

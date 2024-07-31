@@ -2,6 +2,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import Logger from "@lichtblick/log";
 import electronPath from "electron";
 import { mkdtemp } from "fs/promises";
 import * as os from "os";
@@ -9,7 +10,6 @@ import * as path from "path";
 import { ConsoleMessage, _electron as electron, ElectronApplication, Page } from "playwright";
 
 import { signal } from "@foxglove/den/async";
-import Logger from "@foxglove/log";
 
 import { appPath } from "./build";
 

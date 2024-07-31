@@ -2,6 +2,18 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import Logger from "@lichtblick/log";
+import {
+  Immutable,
+  LayoutActions,
+  MessageEvent,
+  ParameterValue,
+  RenderState,
+  SettingsTreeAction,
+  SettingsTreeNodes,
+  Subscription,
+  Topic,
+} from "@lichtblick/studio";
 import { AppSetting } from "@lichtblick/studio-base/AppSetting";
 import { BuiltinPanelExtensionContext } from "@lichtblick/studio-base/components/PanelExtensionAdapter";
 import { useAnalytics } from "@lichtblick/studio-base/context/AnalyticsContext";
@@ -18,19 +30,7 @@ import { useLatest } from "react-use";
 import { DeepPartial } from "ts-essentials";
 import { useDebouncedCallback } from "use-debounce";
 
-import Logger from "@foxglove/log";
 import { Time, toNanoSec } from "@foxglove/rostime";
-import {
-  Immutable,
-  LayoutActions,
-  MessageEvent,
-  ParameterValue,
-  RenderState,
-  SettingsTreeAction,
-  SettingsTreeNodes,
-  Subscription,
-  Topic,
-} from "@foxglove/studio";
 
 import type {
   FollowMode,

@@ -3,6 +3,8 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 
+import Logger from "@lichtblick/log";
+import { VariableValue } from "@lichtblick/studio";
 import { useAnalytics } from "@lichtblick/studio-base/context/AnalyticsContext";
 import CurrentLayoutContext, {
   ICurrentLayout,
@@ -41,8 +43,6 @@ import shallowequal from "shallowequal";
 import { v4 as uuidv4 } from "uuid";
 
 import { useShallowMemo } from "@foxglove/hooks";
-import Logger from "@foxglove/log";
-import { VariableValue } from "@foxglove/studio";
 
 import { IncompatibleLayoutVersionAlert } from "./IncompatibleLayoutVersionAlert";
 

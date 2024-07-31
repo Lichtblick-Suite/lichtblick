@@ -3,12 +3,12 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 
+import { MessageEvent } from "@lichtblick/studio";
 import { Topic } from "@lichtblick/studio-base/players/types";
 import PanelSetup from "@lichtblick/studio-base/stories/PanelSetup";
 import delay from "@lichtblick/studio-base/util/delay";
 import { StoryObj } from "@storybook/react";
 
-import { MessageEvent } from "@foxglove/studio";
 
 import { QUAT_IDENTITY, rad2deg } from "./common";
 import ThreeDeePanel from "../index";

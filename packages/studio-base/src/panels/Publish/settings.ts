@@ -3,6 +3,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 
+import { Immutable, SettingsTreeAction, SettingsTreeNodes } from "@lichtblick/studio";
 import buildSampleMessage from "@lichtblick/studio-base/panels/Publish/buildSampleMessage";
 import { Topic } from "@lichtblick/studio-base/players/types";
 import { usePanelSettingsTreeUpdate } from "@lichtblick/studio-base/providers/PanelStateContextProvider";
@@ -12,7 +13,6 @@ import { produce } from "immer";
 import * as _ from "lodash-es";
 import { useCallback, useEffect, useMemo } from "react";
 
-import { Immutable, SettingsTreeAction, SettingsTreeNodes } from "@foxglove/studio";
 
 import { PublishConfig } from "./types";
 

@@ -2,6 +2,12 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import {
+  Immutable,
+  SettingsTreeAction,
+  SettingsTreeNode,
+  SettingsTreeNodeActionItem,
+} from "@lichtblick/studio";
 import { HighlightedText } from "@lichtblick/studio-base/components/HighlightedText";
 import Stack from "@lichtblick/studio-base/components/Stack";
 import { useAppContext } from "@lichtblick/studio-base/context/AppContext";
@@ -22,12 +28,6 @@ import { makeStyles } from "tss-react/mui";
 import { useImmer } from "use-immer";
 
 import { filterMap } from "@foxglove/den/collection";
-import {
-  Immutable,
-  SettingsTreeAction,
-  SettingsTreeNode,
-  SettingsTreeNodeActionItem,
-} from "@foxglove/studio";
 
 import { FieldEditor } from "./FieldEditor";
 import { NodeActionsMenu } from "./NodeActionsMenu";

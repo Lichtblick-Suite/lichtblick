@@ -2,6 +2,18 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import Logger from "@lichtblick/log";
+import {
+  Immutable,
+  MessageEvent,
+  ParameterValue,
+  SettingsIcon,
+  SettingsTreeAction,
+  SettingsTreeNodeActionItem,
+  SettingsTreeNodes,
+  Topic,
+  VariableValue,
+} from "@lichtblick/studio";
 import { PanelContextMenuItem } from "@lichtblick/studio-base/components/PanelContextMenu";
 import {
   Asset,
@@ -22,20 +34,8 @@ import { DeepPartial, assert } from "ts-essentials";
 import { v4 as uuidv4 } from "uuid";
 
 import { ObjectPool } from "@foxglove/den/collection";
-import Logger from "@foxglove/log";
 import { Time, fromNanoSec, isLessThan, toNanoSec } from "@foxglove/rostime";
 import type { FrameTransform, FrameTransforms, SceneUpdate } from "@foxglove/schemas";
-import {
-  Immutable,
-  MessageEvent,
-  ParameterValue,
-  SettingsIcon,
-  SettingsTreeAction,
-  SettingsTreeNodeActionItem,
-  SettingsTreeNodes,
-  Topic,
-  VariableValue,
-} from "@foxglove/studio";
 import { palette, fontMonospace } from "@foxglove/theme";
 import { LabelMaterial, LabelPool } from "@foxglove/three-text";
 

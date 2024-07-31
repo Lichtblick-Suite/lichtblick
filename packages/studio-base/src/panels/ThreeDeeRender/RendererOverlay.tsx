@@ -3,6 +3,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import { Ruler20Filled, Ruler20Regular } from "@fluentui/react-icons";
+import { LayoutActions } from "@lichtblick/studio";
 import {
   PanelContextMenu,
   PanelContextMenuItem,
@@ -29,7 +30,6 @@ import { useLongPress } from "react-use";
 import tc from "tinycolor2";
 import { makeStyles } from "tss-react/mui";
 
-import { LayoutActions } from "@foxglove/studio";
 
 import { InteractionContextMenu, Interactions, SelectionObject, TabType } from "./Interactions";
 import type { PickedRenderable } from "./Picker";

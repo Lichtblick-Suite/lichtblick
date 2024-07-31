@@ -11,6 +11,7 @@
 //   You may not use this file except in compliance with the License.
 
 
+import Logger from "@lichtblick/log";
 import { AppSetting } from "@lichtblick/studio-base/AppSetting";
 import AccountSettings from "@lichtblick/studio-base/components/AccountSettingsSidebar/AccountSettings";
 import { AppBar, AppBarProps } from "@lichtblick/studio-base/components/AppBar";
@@ -86,7 +87,6 @@ import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } fr
 import { Trans, useTranslation } from "react-i18next";
 import { makeStyles } from "tss-react/mui";
 
-import Logger from "@foxglove/log";
 
 import { useWorkspaceActions } from "./context/Workspace/useWorkspaceActions";
 

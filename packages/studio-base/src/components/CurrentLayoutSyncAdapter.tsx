@@ -2,6 +2,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import Logger from "@lichtblick/log";
 import { useAnalytics } from "@lichtblick/studio-base/context/AnalyticsContext";
 import {
   LayoutID,
@@ -15,7 +16,6 @@ import { useEffect, useState } from "react";
 import { useAsync, useMountedState } from "react-use";
 import { useDebounce } from "use-debounce";
 
-import Logger from "@foxglove/log";
 
 type UpdatedLayout = NonNullable<LayoutState["selectedLayout"]>;
 

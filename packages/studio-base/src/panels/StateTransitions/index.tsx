@@ -12,6 +12,7 @@
 //   You may not use this file except in compliance with the License.
 
 
+import { Immutable } from "@lichtblick/studio";
 import { useBlocksSubscriptions } from "@lichtblick/studio-base/PanelAPI";
 import {
   MessageAndData,
@@ -44,7 +45,6 @@ import { makeStyles } from "tss-react/mui";
 
 import { filterMap } from "@foxglove/den/collection";
 import { add as addTimes, fromSec, subtract as subtractTimes, toSec } from "@foxglove/rostime";
-import { Immutable } from "@foxglove/studio";
 import { fontMonospace } from "@foxglove/theme";
 import { OnClickArg as OnChartClickArgs } from "@lichtblick/studio-base/src/components/Chart";
 

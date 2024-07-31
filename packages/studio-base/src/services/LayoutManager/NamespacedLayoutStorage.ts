@@ -2,10 +2,10 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import Logger from "@lichtblick/log";
 import { LayoutID } from "@lichtblick/studio-base/context/CurrentLayoutContext";
 import { ILayoutStorage, Layout } from "@lichtblick/studio-base/services/ILayoutStorage";
 
-import Logger from "@foxglove/log";
 
 const log = Logger.getLogger(__filename);
 

@@ -2,6 +2,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { Immutable, MessageEvent } from "@lichtblick/studio";
 import {
   makeSubscriptionMemoizer,
   mergeSubscriptions,
@@ -21,7 +22,6 @@ import shallowequal from "shallowequal";
 import { createStore, StoreApi } from "zustand";
 
 import { Condvar } from "@foxglove/den/async";
-import { Immutable, MessageEvent } from "@foxglove/studio";
 
 import { FramePromise } from "./pauseFrameForPromise";
 import { MessagePipelineContext } from "./types";

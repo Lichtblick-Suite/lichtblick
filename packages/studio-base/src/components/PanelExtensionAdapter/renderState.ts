@@ -3,6 +3,16 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import {
+  AppSettingValue,
+  Immutable,
+  MessageEvent,
+  ParameterValue,
+  RegisterMessageConverterArgs,
+  RenderState,
+  Subscription,
+  Topic,
+} from "@lichtblick/studio";
+import {
   EMPTY_GLOBAL_VARIABLES,
   GlobalVariables,
 } from "@lichtblick/studio-base/hooks/useGlobalVariables";
@@ -17,16 +27,6 @@ import { Writable } from "ts-essentials";
 
 import { filterMap } from "@foxglove/den/collection";
 import { compare, toSec } from "@foxglove/rostime";
-import {
-  AppSettingValue,
-  Immutable,
-  MessageEvent,
-  ParameterValue,
-  RegisterMessageConverterArgs,
-  RenderState,
-  Subscription,
-  Topic,
-} from "@foxglove/studio";
 
 import {
   collateTopicSchemaConversions,

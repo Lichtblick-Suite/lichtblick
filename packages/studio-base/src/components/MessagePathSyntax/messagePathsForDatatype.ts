@@ -12,6 +12,7 @@
 //   You may not use this file except in compliance with the License.
 
 
+import { Immutable } from "@lichtblick/studio";
 import { isTypicalFilterName } from "@lichtblick/studio-base/components/MessagePathSyntax/isTypicalFilterName";
 import { RosDatatypes } from "@lichtblick/studio-base/types/RosDatatypes";
 import { assertNever } from "@lichtblick/studio-base/util/assertNever";
@@ -26,7 +27,6 @@ import {
   MessagePathStructureItem,
   MessagePathStructureItemMessage,
 } from "@foxglove/message-path";
-import { Immutable } from "@foxglove/studio";
 
 const STRUCTURE_ITEM_INTEGER_TYPES = [
   "int8",
@@ -57,7 +57,6 @@ function isPrimitiveType(type: string): type is PrimitiveType {
       return true;
   }
 
-  return false;
 }
 
 function structureItemIsIntegerPrimitive(item: MessagePathStructureItem) {

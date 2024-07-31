@@ -11,10 +11,10 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
+import Logger from "@lichtblick/log";
 import { PlayerState, MessageEvent, PlayerProblem } from "@lichtblick/studio-base/players/types";
 import { formatFrame } from "@lichtblick/studio-base/util/time";
 
-import Logger from "@foxglove/log";
 import { Time, isLessThan, subtract as subtractTimes, toSec } from "@foxglove/rostime";
 
 const DRIFT_THRESHOLD_SEC = 1; // Maximum amount of drift allowed.

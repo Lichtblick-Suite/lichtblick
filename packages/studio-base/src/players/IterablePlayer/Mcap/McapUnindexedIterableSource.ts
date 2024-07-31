@@ -2,6 +2,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { MessageEvent, Metadata } from "@lichtblick/studio";
 import {
   GetBackfillMessagesArgs,
   IIterableSource,
@@ -27,7 +28,6 @@ import {
   toRFC3339String,
   compare,
 } from "@foxglove/rostime";
-import { MessageEvent, Metadata } from "@foxglove/studio";
 
 const DURATION_YEAR_SEC = 365 * 24 * 60 * 60;
 

@@ -2501,8 +2501,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@foxglove/hooks@workspace:packages/hooks"
   dependencies:
-    "@foxglove/log": "workspace:*"
     "@foxglove/tsconfig": 2.0.0
+    "@lichtblick/log": "workspace:*"
     "@testing-library/react": 16.0.0
     "@types/foxglove__web": "workspace:*"
     "@types/lodash-es": ^4
@@ -2522,15 +2522,6 @@ __metadata:
   checksum: 11c2c5f07c9bb1e324382c55e7a0f6a1476f7ba446475b895bd33bf09043b3af3a7b3a1c6e773f39639e09386d8709dc2d235f579ede46976afee05fc0fd47a3
   languageName: node
   linkType: hard
-
-"@foxglove/log@workspace:*, @foxglove/log@workspace:packages/log":
-  version: 0.0.0-use.local
-  resolution: "@foxglove/log@workspace:packages/log"
-  dependencies:
-    "@foxglove/tsconfig": 2.0.0
-    typescript: 5.3.3
-  languageName: unknown
-  linkType: soft
 
 "@foxglove/mcap-support@workspace:*, @foxglove/mcap-support@workspace:packages/mcap-support":
   version: 0.0.0-use.local
@@ -2962,94 +2953,6 @@ __metadata:
     vm-browserify: 1.1.2
     webpack: 5.93.0
     zustand: 4.4.1
-  languageName: unknown
-  linkType: soft
-
-"@foxglove/studio-desktop@workspace:*, @foxglove/studio-desktop@workspace:packages/studio-desktop":
-  version: 0.0.0-use.local
-  resolution: "@foxglove/studio-desktop@workspace:packages/studio-desktop"
-  dependencies:
-    "@actions/exec": 1.1.1
-    "@actions/tool-cache": 2.0.1
-    "@foxglove/den": "workspace:*"
-    "@foxglove/electron-socket": 2.1.1
-    "@foxglove/log": "workspace:*"
-    "@foxglove/mcap-support": "workspace:*"
-    "@foxglove/rosbag": 0.4.1
-    "@foxglove/rostime": 1.1.2
-    "@foxglove/theme": "workspace:*"
-    "@foxglove/tsconfig": 2.0.0
-    "@lichtblick/studio-base": "workspace:*"
-    "@mcap/core": 1.3.0
-    "@pmmmwh/react-refresh-webpack-plugin": 0.5.11
-    "@storybook/react": 7.6.10
-    "@types/electron-devtools-installer": 2.2.3
-    "@types/plist": ^3.0.3
-    "@types/pngjs": ^6.0.2
-    "@types/tinycolor2": 1.4.4
-    "@types/utif": ^3.0.2
-    "@xmldom/xmldom": 0.8.10
-    app-builder-lib: 24.13.3
-    async-mutex: 0.4.0
-    builder-util: "*"
-    clean-webpack-plugin: 4.0.0
-    electron: 25.8.4
-    electron-builder: 24.13.3
-    electron-devtools-installer: 3.2.0
-    electron-squirrel-startup: 1.0.0
-    electron-updater: 6.3.0-alpha.6
-    esbuild-loader: 2.21.0
-    eventemitter3: 5.0.1
-    fork-ts-checker-webpack-plugin: 9.0.2
-    html-webpack-plugin: 5.5.3
-    i18next: 23.5.1
-    jszip: 3.10.1
-    path-browserify: 1.0.1
-    plist: 3.1.0
-    pngjs: 7.0.0
-    quicklookjs: 0.0.3
-    react: 18.2.0
-    react-dom: 18.2.0
-    react-refresh-typescript: 2.0.9
-    react-use: 17.5.1
-    tinycolor2: 1.6.0
-    tss-react: 4.9.2
-    utif: 3.1.0
-    webpack: 5.93.0
-    webpack-dev-server: 5.0.4
-  languageName: unknown
-  linkType: soft
-
-"@foxglove/studio-web@workspace:*, @foxglove/studio-web@workspace:packages/studio-web":
-  version: 0.0.0-use.local
-  resolution: "@foxglove/studio-web@workspace:packages/studio-web"
-  dependencies:
-    "@fluentui/react-icons": 2.0.224
-    "@foxglove/log": "workspace:*"
-    "@foxglove/theme": "workspace:*"
-    "@foxglove/tsconfig": 2.0.0
-    "@lichtblick/studio-base": "workspace:*"
-    "@mui/material": 5.13.5
-    "@pmmmwh/react-refresh-webpack-plugin": 0.5.11
-    "@storybook/react": 7.6.10
-    "@types/copy-webpack-plugin": 10.1.0
-    clean-webpack-plugin: 4.0.0
-    copy-webpack-plugin: 12.0.2
-    html-webpack-plugin: 5.6.0
-    react: 18.2.0
-    react-dom: 18.2.0
-    tss-react: 4.9.3
-    webpack: 5.93.0
-    webpack-dev-server: 5.0.4
-  languageName: unknown
-  linkType: soft
-
-"@foxglove/studio@workspace:*, @foxglove/studio@workspace:packages/studio":
-  version: 0.0.0-use.local
-  resolution: "@foxglove/studio@workspace:packages/studio"
-  dependencies:
-    "@foxglove/tsconfig": 2.0.0
-    typescript: 5.3.3
   languageName: unknown
   linkType: soft
 
@@ -3622,6 +3525,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@lichtblick/log@workspace:*, @lichtblick/log@workspace:packages/log":
+  version: 0.0.0-use.local
+  resolution: "@lichtblick/log@workspace:packages/log"
+  dependencies:
+    "@foxglove/tsconfig": 2.0.0
+    typescript: 5.3.3
+  languageName: unknown
+  linkType: soft
+
 "@lichtblick/studio-base@workspace:*, @lichtblick/studio-base@workspace:packages/studio-base":
   version: 0.0.0-use.local
   resolution: "@lichtblick/studio-base@workspace:packages/studio-base"
@@ -3637,7 +3549,6 @@ __metadata:
     "@foxglove/den": "workspace:*"
     "@foxglove/electron-socket": 2.1.1
     "@foxglove/hooks": "workspace:*"
-    "@foxglove/log": "workspace:*"
     "@foxglove/mcap-support": "workspace:*"
     "@foxglove/message-definition": 0.3.1
     "@foxglove/message-path": "workspace:*"
@@ -3651,7 +3562,6 @@ __metadata:
     "@foxglove/rosmsg2-serialization": 2.0.3
     "@foxglove/rostime": 1.1.2
     "@foxglove/schemas": 1.6.3
-    "@foxglove/studio": "workspace:*"
     "@foxglove/theme": "workspace:*"
     "@foxglove/three-text": 0.2.2
     "@foxglove/tsconfig": 2.0.0
@@ -3662,6 +3572,8 @@ __metadata:
     "@foxglove/wasm-lz4": 1.0.2
     "@foxglove/ws-protocol": 0.7.2
     "@foxglove/xmlrpc": 1.3.0
+    "@lichtblick/log": "workspace:*"
+    "@lichtblick/studio": "workspace:*"
     "@mcap/core": 2.0.2
     "@mui/icons-material": 5.15.5
     "@mui/material": 5.13.5
@@ -3792,6 +3704,94 @@ __metadata:
     vm-browserify: 1.1.2
     webpack: 5.93.0
     zustand: 4.4.1
+  languageName: unknown
+  linkType: soft
+
+"@lichtblick/studio-desktop@workspace:*, @lichtblick/studio-desktop@workspace:packages/studio-desktop":
+  version: 0.0.0-use.local
+  resolution: "@lichtblick/studio-desktop@workspace:packages/studio-desktop"
+  dependencies:
+    "@actions/exec": 1.1.1
+    "@actions/tool-cache": 2.0.1
+    "@foxglove/den": "workspace:*"
+    "@foxglove/electron-socket": 2.1.1
+    "@foxglove/mcap-support": "workspace:*"
+    "@foxglove/rosbag": 0.4.1
+    "@foxglove/rostime": 1.1.2
+    "@foxglove/theme": "workspace:*"
+    "@foxglove/tsconfig": 2.0.0
+    "@lichtblick/log": "workspace:*"
+    "@lichtblick/studio-base": "workspace:*"
+    "@mcap/core": 1.3.0
+    "@pmmmwh/react-refresh-webpack-plugin": 0.5.11
+    "@storybook/react": 7.6.10
+    "@types/electron-devtools-installer": 2.2.3
+    "@types/plist": ^3.0.3
+    "@types/pngjs": ^6.0.2
+    "@types/tinycolor2": 1.4.4
+    "@types/utif": ^3.0.2
+    "@xmldom/xmldom": 0.8.10
+    app-builder-lib: 24.13.3
+    async-mutex: 0.4.0
+    builder-util: "*"
+    clean-webpack-plugin: 4.0.0
+    electron: 25.8.4
+    electron-builder: 24.13.3
+    electron-devtools-installer: 3.2.0
+    electron-squirrel-startup: 1.0.0
+    electron-updater: 6.3.0-alpha.6
+    esbuild-loader: 2.21.0
+    eventemitter3: 5.0.1
+    fork-ts-checker-webpack-plugin: 9.0.2
+    html-webpack-plugin: 5.5.3
+    i18next: 23.5.1
+    jszip: 3.10.1
+    path-browserify: 1.0.1
+    plist: 3.1.0
+    pngjs: 7.0.0
+    quicklookjs: 0.0.3
+    react: 18.2.0
+    react-dom: 18.2.0
+    react-refresh-typescript: 2.0.9
+    react-use: 17.5.1
+    tinycolor2: 1.6.0
+    tss-react: 4.9.2
+    utif: 3.1.0
+    webpack: 5.93.0
+    webpack-dev-server: 5.0.4
+  languageName: unknown
+  linkType: soft
+
+"@lichtblick/studio-web@workspace:packages/studio-web":
+  version: 0.0.0-use.local
+  resolution: "@lichtblick/studio-web@workspace:packages/studio-web"
+  dependencies:
+    "@fluentui/react-icons": 2.0.224
+    "@foxglove/theme": "workspace:*"
+    "@foxglove/tsconfig": 2.0.0
+    "@lichtblick/log": "workspace:*"
+    "@lichtblick/studio-base": "workspace:*"
+    "@mui/material": 5.13.5
+    "@pmmmwh/react-refresh-webpack-plugin": 0.5.11
+    "@storybook/react": 7.6.10
+    "@types/copy-webpack-plugin": 10.1.0
+    clean-webpack-plugin: 4.0.0
+    copy-webpack-plugin: 12.0.2
+    html-webpack-plugin: 5.6.0
+    react: 18.2.0
+    react-dom: 18.2.0
+    tss-react: 4.9.3
+    webpack: 5.93.0
+    webpack-dev-server: 5.0.4
+  languageName: unknown
+  linkType: soft
+
+"@lichtblick/studio@workspace:*, @lichtblick/studio@workspace:packages/studio":
+  version: 0.0.0-use.local
+  resolution: "@lichtblick/studio@workspace:packages/studio"
+  dependencies:
+    "@foxglove/tsconfig": 2.0.0
+    typescript: 5.3.3
   languageName: unknown
   linkType: soft
 
@@ -9236,11 +9236,11 @@ __metadata:
   resolution: "benchmark@workspace:benchmark"
   dependencies:
     "@foxglove/den": "workspace:*"
-    "@foxglove/log": "workspace:*"
     "@foxglove/rostime": 1.1.2
     "@foxglove/schemas": 1.6.3
-    "@foxglove/studio": "workspace:*"
     "@foxglove/tsconfig": 2.0.0
+    "@lichtblick/log": "workspace:*"
+    "@lichtblick/studio": "workspace:*"
     "@lichtblick/studio-base": "workspace:*"
     "@pmmmwh/react-refresh-webpack-plugin": 0.5.11
     "@types/react": 18.2.56
@@ -11229,10 +11229,10 @@ __metadata:
   resolution: "desktop@workspace:desktop"
   dependencies:
     "@foxglove/den": "workspace:*"
-    "@foxglove/log": "workspace:*"
-    "@foxglove/studio-desktop": "workspace:*"
     "@foxglove/tsconfig": 2.0.0
+    "@lichtblick/log": "workspace:*"
     "@lichtblick/studio-base": "workspace:*"
+    "@lichtblick/studio-desktop": "workspace:*"
     electron: 25.8.4
     playwright: 1.37.1
     webpack: 5.93.0
@@ -16484,9 +16484,9 @@ __metadata:
     "@foxglove/eslint-plugin": 1.0.0
     "@foxglove/eslint-plugin-studio": "workspace:*"
     "@foxglove/hooks": "workspace:*"
-    "@foxglove/log": "workspace:*"
-    "@foxglove/studio": "workspace:*"
     "@foxglove/tsconfig": 2.0.0
+    "@lichtblick/log": "workspace:*"
+    "@lichtblick/studio": "workspace:*"
     "@mui/material": 5.13.5
     "@octokit/rest": 20.0.2
     "@storybook/addon-actions": 7.6.10
@@ -23435,9 +23435,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "web@workspace:web"
   dependencies:
-    "@foxglove/log": "workspace:*"
-    "@foxglove/studio-web": "workspace:*"
     "@foxglove/tsconfig": 2.0.0
+    "@lichtblick/log": "workspace:*"
+    "@lichtblick/studio-desktop": "workspace:*"
     "@types/serve-handler": ^6
     playwright: 1.37.1
     serve-handler: 6.1.5

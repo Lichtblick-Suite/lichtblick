@@ -2,6 +2,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { VariableValue } from "@lichtblick/studio";
 import CopyButton from "@lichtblick/studio-base/components/CopyButton";
 import JsonInput from "@lichtblick/studio-base/components/JsonInput";
 import Stack from "@lichtblick/studio-base/components/Stack";
@@ -30,7 +31,6 @@ import * as _ from "lodash-es";
 import { useMemo, useCallback, useState, useRef } from "react";
 import { makeStyles } from "tss-react/mui";
 
-import { VariableValue } from "@foxglove/studio";
 
 const useStyles = makeStyles<void, "copyButton">()((theme, _params, classes) => ({
   root: {

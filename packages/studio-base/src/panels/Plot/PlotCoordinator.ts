@@ -3,6 +3,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 
+import { Immutable, Time } from "@lichtblick/studio";
 import { simpleGetMessagePathDataItems } from "@lichtblick/studio-base/components/MessagePathSyntax/simpleGetMessagePathDataItems";
 import { stringifyMessagePath } from "@lichtblick/studio-base/components/MessagePathSyntax/stringifyRosPath";
 import { fillInGlobalVariablesInPath } from "@lichtblick/studio-base/components/MessagePathSyntax/useCachedGetMessagePathDataItems";
@@ -19,7 +20,6 @@ import { debouncePromise } from "@foxglove/den/async";
 import { filterMap } from "@foxglove/den/collection";
 import { parseMessagePath } from "@foxglove/message-path";
 import { toSec, subtract as subtractTime } from "@foxglove/rostime";
-import { Immutable, Time } from "@foxglove/studio";
 
 import { Dataset, InteractionEvent, Scale, UpdateAction } from "./ChartRenderer";
 import { OffscreenCanvasRenderer } from "./OffscreenCanvasRenderer";

@@ -2,6 +2,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { Topic } from "@lichtblick/studio";
 import MessagePathInput from "@lichtblick/studio-base/components/MessagePathSyntax/MessagePathInput";
 import PanelToolbar from "@lichtblick/studio-base/components/PanelToolbar";
 import Stack from "@lichtblick/studio-base/components/Stack";
@@ -13,7 +14,6 @@ import UnfoldMoreIcon from "@mui/icons-material/UnfoldMore";
 import { IconButton, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import { makeStyles } from "tss-react/mui";
 
-import { Topic } from "@foxglove/studio";
 
 import { Constants, RawMessagesPanelConfig } from "./types";
 

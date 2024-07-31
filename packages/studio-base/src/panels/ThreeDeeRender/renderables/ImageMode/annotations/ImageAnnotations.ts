@@ -2,6 +2,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { Immutable, MessageEvent, SettingsTreeAction, Topic } from "@lichtblick/studio";
 import { Path } from "@lichtblick/studio-base/panels/ThreeDeeRender/LayerErrors";
 import { onlyLastByTopicMessage } from "@lichtblick/studio-base/panels/ThreeDeeRender/SceneExtension";
 import {
@@ -15,7 +16,6 @@ import { Opaque } from "ts-essentials";
 import { filterMap } from "@foxglove/den/collection";
 import { PinholeCameraModel } from "@foxglove/den/image";
 import { ImageAnnotations as FoxgloveImageAnnotations } from "@foxglove/schemas";
-import { Immutable, MessageEvent, SettingsTreeAction, Topic } from "@foxglove/studio";
 import { LabelPool } from "@foxglove/three-text";
 
 import { RenderableTopicAnnotations } from "./RenderableTopicAnnotations";

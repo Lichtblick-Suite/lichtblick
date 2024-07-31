@@ -2,6 +2,8 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import Logger from "@lichtblick/log";
+import { ParameterValue } from "@lichtblick/studio";
 import OsContextSingleton from "@lichtblick/studio-base/OsContextSingleton";
 import PlayerProblemManager from "@lichtblick/studio-base/players/PlayerProblemManager";
 import {
@@ -26,11 +28,9 @@ import { v4 as uuidv4 } from "uuid";
 
 import { debouncePromise } from "@foxglove/den/async";
 import { Sockets } from "@foxglove/electron-socket/renderer";
-import Logger from "@foxglove/log";
 import { MessageDefinition } from "@foxglove/message-definition";
 import { RosNode, TcpSocket } from "@foxglove/ros1";
 import { Time, fromMillis, isGreaterThan, toSec } from "@foxglove/rostime";
-import { ParameterValue } from "@foxglove/studio";
 import { HttpServer } from "@foxglove/xmlrpc";
 
 const log = Logger.getLogger(__filename);

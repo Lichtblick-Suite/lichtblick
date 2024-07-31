@@ -2,13 +2,13 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { SettingsTreeAction } from "@lichtblick/studio";
 import { GRID_DATATYPES } from "@lichtblick/studio-base/panels/ThreeDeeRender/foxglove";
 import type { RosValue } from "@lichtblick/studio-base/players/types";
 import * as THREE from "three";
 
 import { toNanoSec } from "@foxglove/rostime";
 import { Grid, NumericType, PackedElementField } from "@foxglove/schemas";
-import { SettingsTreeAction } from "@foxglove/studio";
 
 import {
   ColorModeSettings,

@@ -2,6 +2,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import Logger from "@lichtblick/log";
 import { IRenderer } from "@lichtblick/studio-base/panels/ThreeDeeRender/IRenderer";
 import { BaseUserData, Renderable } from "@lichtblick/studio-base/panels/ThreeDeeRender/Renderable";
 import { stringToRgba } from "@lichtblick/studio-base/panels/ThreeDeeRender/color";
@@ -13,7 +14,6 @@ import * as THREE from "three";
 import { assert } from "ts-essentials";
 
 import { PinholeCameraModel } from "@foxglove/den/image";
-import Logger from "@foxglove/log";
 import { toNanoSec } from "@foxglove/rostime";
 
 import { AnyImage } from "./ImageTypes";

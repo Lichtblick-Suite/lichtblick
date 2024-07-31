@@ -2,6 +2,13 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import {
+  MessageEvent,
+  PanelExtensionContext,
+  SettingsTreeAction,
+  Subscription,
+  Topic,
+} from "@lichtblick/studio";
 import EmptyState from "@lichtblick/studio-base/components/EmptyState";
 import Stack from "@lichtblick/studio-base/components/Stack";
 import FilteredPointLayer, {
@@ -29,13 +36,6 @@ import { useDebouncedCallback } from "use-debounce";
 
 import { filterMap } from "@foxglove/den/collection";
 import { toSec } from "@foxglove/rostime";
-import {
-  MessageEvent,
-  PanelExtensionContext,
-  SettingsTreeAction,
-  Subscription,
-  Topic,
-} from "@foxglove/studio";
 
 import { buildSettingsTree, Config, validateCustomUrl } from "./config";
 import {

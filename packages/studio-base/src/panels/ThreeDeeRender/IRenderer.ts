@@ -3,6 +3,14 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 
+import {
+  Immutable,
+  MessageEvent,
+  ParameterValue,
+  SettingsIcon,
+  Topic,
+  VariableValue,
+} from "@lichtblick/studio";
 import { PanelContextMenuItem } from "@lichtblick/studio-base/components/PanelContextMenu";
 import {
   BuiltinPanelExtensionContext,
@@ -15,14 +23,6 @@ import IAnalytics from "@lichtblick/studio-base/services/IAnalytics";
 import EventEmitter from "eventemitter3";
 import * as THREE from "three";
 
-import {
-  Immutable,
-  MessageEvent,
-  ParameterValue,
-  SettingsIcon,
-  Topic,
-  VariableValue,
-} from "@foxglove/studio";
 import { LabelPool } from "@foxglove/three-text";
 
 import { HUDItem } from "./HUDItemManager";

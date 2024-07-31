@@ -3,6 +3,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 
+import { SettingsTree } from "@lichtblick/studio";
 import { AppSetting } from "@lichtblick/studio-base/AppSetting";
 import { useConfigById } from "@lichtblick/studio-base/PanelAPI";
 import EmptyState from "@lichtblick/studio-base/components/EmptyState";
@@ -31,7 +32,6 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useUnmount } from "react-use";
 
-import { SettingsTree } from "@foxglove/studio";
 
 const singlePanelIdSelector = (state: LayoutState) =>
   typeof state.selectedLayout?.data?.layout === "string"

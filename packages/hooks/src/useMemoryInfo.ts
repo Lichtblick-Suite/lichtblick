@@ -4,9 +4,9 @@
 
 // foxglove-depcheck-used: @types/foxglove__web
 
+import Logger from "@lichtblick/log";
 import { useEffect, useState } from "react";
 
-import Logger from "@foxglove/log";
 
 const log = Logger.getLogger(__filename);
 

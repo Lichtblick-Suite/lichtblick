@@ -8,6 +8,7 @@
 /// <reference types="chartjs-plugin-datalabels" />
 /// <reference types="@foxglove/chartjs-plugin-zoom" />
 
+import Logger from "@lichtblick/log";
 import ChartJsMux, {
   ChartUpdateMessage,
 } from "@lichtblick/studio-base/components/Chart/worker/ChartJsMux";
@@ -23,7 +24,6 @@ import { assert } from "ts-essentials";
 import { v4 as uuidv4 } from "uuid";
 
 import { type ZoomPluginOptions } from "@foxglove/chartjs-plugin-zoom/types/options";
-import Logger from "@foxglove/log";
 
 import { TypedChartData, ChartData, RpcElement, RpcScales } from "./types";
 

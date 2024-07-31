@@ -2,6 +2,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { SettingsTreeAction, MessageEvent } from "@lichtblick/studio";
 import {
   DEFAULT_POINT_SETTINGS,
   LayerSettingsPointExtension,
@@ -16,7 +17,6 @@ import * as THREE from "three";
 
 import { Time, toNanoSec } from "@foxglove/rostime";
 import { LaserScan as FoxgloveLaserScan } from "@foxglove/schemas";
-import { SettingsTreeAction, MessageEvent } from "@foxglove/studio";
 
 import { colorHasTransparency, getColorConverter } from "./colorMode";
 import { DynamicBufferGeometry } from "../DynamicBufferGeometry";

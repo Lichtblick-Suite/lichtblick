@@ -2,6 +2,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { SettingsIcon } from "@lichtblick/studio";
 import Clock from "@mui/icons-material/AccessTime";
 import Add from "@mui/icons-material/Add";
 import Addchart from "@mui/icons-material/Addchart";
@@ -42,7 +43,6 @@ import Cells from "@mui/icons-material/ViewComfy";
 import Cube from "@mui/icons-material/ViewInAr";
 import ImageProjection from "@mui/icons-material/Vrpano";
 
-import { SettingsIcon } from "@foxglove/studio";
 
 const icons: Record<SettingsIcon, typeof Add> = {
   Add,

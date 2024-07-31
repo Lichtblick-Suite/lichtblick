@@ -2,6 +2,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { MessageEvent } from "@lichtblick/studio";
 import { makeRawImageAndCalibration } from "@lichtblick/studio-base/panels/ThreeDeeRender/stories/ImageMode/imageCommon";
 import PanelSetup, { Fixture } from "@lichtblick/studio-base/stories/PanelSetup";
 import { StoryObj } from "@storybook/react";
@@ -9,7 +10,6 @@ import { fireEvent } from "@storybook/testing-library";
 import * as THREE from "three";
 
 import { ImageAnnotations, SceneUpdate } from "@foxglove/schemas";
-import { MessageEvent } from "@foxglove/studio";
 
 import { ImagePanel } from "../../index";
 

@@ -12,6 +12,7 @@
 //   You may not use this file except in compliance with the License.
 
 
+import { SettingsTreeAction } from "@lichtblick/studio";
 import { useDataSourceInfo, useMessagesByTopic } from "@lichtblick/studio-base/PanelAPI";
 import Panel from "@lichtblick/studio-base/components/Panel";
 import PanelToolbar from "@lichtblick/studio-base/components/PanelToolbar";
@@ -26,7 +27,6 @@ import * as _ from "lodash-es";
 import { useCallback, useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 
-import { SettingsTreeAction } from "@foxglove/studio";
 
 import LogList from "./LogList";
 import { normalizedLogMessage } from "./conversion";

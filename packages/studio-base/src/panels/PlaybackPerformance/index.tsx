@@ -12,6 +12,7 @@
 //   You may not use this file except in compliance with the License.
 
 
+import { Immutable } from "@lichtblick/studio";
 import { useMessagePipeline } from "@lichtblick/studio-base/components/MessagePipeline";
 import Panel from "@lichtblick/studio-base/components/Panel";
 import PanelToolbar from "@lichtblick/studio-base/components/PanelToolbar";
@@ -23,7 +24,6 @@ import * as _ from "lodash-es";
 import { ReactElement } from "react";
 
 import { subtract as subtractTimes, toSec } from "@foxglove/rostime";
-import { Immutable } from "@foxglove/studio";
 
 const TIME_RANGE = 5000;
 

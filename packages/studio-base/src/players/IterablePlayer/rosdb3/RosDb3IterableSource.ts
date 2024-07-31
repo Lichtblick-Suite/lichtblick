@@ -2,6 +2,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { MessageEvent } from "@lichtblick/studio";
 import { estimateObjectSize } from "@lichtblick/studio-base/players/messageMemoryEstimation";
 import {
   MessageDefinitionsByTopic,
@@ -16,7 +17,6 @@ import { basicDatatypes } from "@lichtblick/studio-base/util/basicDatatypes";
 import { ROS2_TO_DEFINITIONS, Rosbag2, SqliteSqljs } from "@foxglove/rosbag2-web";
 import { stringify } from "@foxglove/rosmsg";
 import { Time, add as addTime } from "@foxglove/rostime";
-import { MessageEvent } from "@foxglove/studio";
 
 import {
   GetBackfillMessagesArgs,

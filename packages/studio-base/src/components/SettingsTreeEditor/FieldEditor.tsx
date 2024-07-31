@@ -2,6 +2,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { Immutable, SettingsTreeAction, SettingsTreeField } from "@lichtblick/studio";
 import MessagePathInput from "@lichtblick/studio-base/components/MessagePathSyntax/MessagePathInput";
 import Stack from "@lichtblick/studio-base/components/Stack";
 import { useAppContext } from "@lichtblick/studio-base/context/AppContext";
@@ -22,7 +23,6 @@ import {
 import { makeStyles } from "tss-react/mui";
 import { v4 as uuid } from "uuid";
 
-import { Immutable, SettingsTreeAction, SettingsTreeField } from "@foxglove/studio";
 
 import { ColorGradientInput, ColorPickerInput, NumberInput, Vec2Input, Vec3Input } from "./inputs";
 

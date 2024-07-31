@@ -11,6 +11,7 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
+import Logger from "@lichtblick/log";
 import ChartComponent from "@lichtblick/studio-base/components/Chart/index";
 import { RpcElement, RpcScales } from "@lichtblick/studio-base/components/Chart/types";
 import KeyListener from "@lichtblick/studio-base/components/KeyListener";
@@ -43,7 +44,6 @@ import { v4 as uuidv4 } from "uuid";
 
 import type { ZoomOptions } from "@foxglove/chartjs-plugin-zoom/types/options";
 import { filterMap } from "@foxglove/den/collection";
-import Logger from "@foxglove/log";
 import { fontMonospace } from "@foxglove/theme";
 
 import HoverBar from "./HoverBar";

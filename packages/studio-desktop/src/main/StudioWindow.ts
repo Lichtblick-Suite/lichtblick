@@ -4,6 +4,7 @@
 
 /// <reference types="../typings/i18next" />
 
+import Logger from "@lichtblick/log";
 import { APP_BAR_HEIGHT } from "@lichtblick/studio-base/src/components/AppBar/constants";
 import { NativeAppMenuEvent } from "@lichtblick/studio-base/src/context/NativeAppMenuContext";
 import {
@@ -21,7 +22,6 @@ import {
 import i18n, { t } from "i18next";
 import path from "path";
 
-import Logger from "@foxglove/log";
 import { palette } from "@foxglove/theme";
 
 import StudioAppUpdater from "./StudioAppUpdater";

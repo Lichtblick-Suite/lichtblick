@@ -2,10 +2,10 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import Logger from "@lichtblick/log";
 import { initI18n } from "@lichtblick/studio-base";
 import ReactDOM from "react-dom";
 
-import Logger from "@foxglove/log";
 
 const log = Logger.getLogger(__filename);
 log.debug("initializing");

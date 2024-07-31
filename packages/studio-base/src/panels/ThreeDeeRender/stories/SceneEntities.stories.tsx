@@ -2,6 +2,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { MessageEvent } from "@lichtblick/studio";
 import { ColorRGBA } from "@lichtblick/studio-base/panels/ThreeDeeRender/ros";
 import { xyzrpyToPose } from "@lichtblick/studio-base/panels/ThreeDeeRender/transforms";
 import { Topic } from "@lichtblick/studio-base/players/types";
@@ -15,7 +16,6 @@ import { TeapotGeometry } from "three/examples/jsm/geometries/TeapotGeometry";
 import tinycolor from "tinycolor2";
 
 import { FrameTransform, LineType, SceneEntity, SceneUpdate } from "@foxglove/schemas";
-import { MessageEvent } from "@foxglove/studio";
 
 import { makeColor, QUAT_IDENTITY, rad2deg } from "./common";
 import ThreeDeePanel from "../index";

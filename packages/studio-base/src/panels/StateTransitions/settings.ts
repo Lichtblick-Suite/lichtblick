@@ -2,6 +2,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { SettingsTreeAction, SettingsTreeNode, SettingsTreeNodes } from "@lichtblick/studio";
 import { plotableRosTypes } from "@lichtblick/studio-base/panels/Plot/plotableRosTypes";
 import { usePanelSettingsTreeUpdate } from "@lichtblick/studio-base/providers/PanelStateContextProvider";
 import { SaveConfig } from "@lichtblick/studio-base/types/panels";
@@ -12,7 +13,6 @@ import memoizeWeak from "memoize-weak";
 import { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
-import { SettingsTreeAction, SettingsTreeNode, SettingsTreeNodes } from "@foxglove/studio";
 
 import { DEFAULT_PATH, stateTransitionPathDisplayName } from "./shared";
 import { StateTransitionConfig, StateTransitionPath } from "./types";

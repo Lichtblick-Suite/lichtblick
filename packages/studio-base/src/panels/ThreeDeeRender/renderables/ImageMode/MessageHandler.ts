@@ -3,6 +3,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 
+import { Immutable, MessageEvent } from "@lichtblick/studio";
 import {
   HUDItem,
   HUDItemManager,
@@ -38,7 +39,6 @@ import {
   RawImage,
   ImageAnnotations as FoxgloveImageAnnotations,
 } from "@foxglove/schemas";
-import { Immutable, MessageEvent } from "@foxglove/studio";
 
 import { normalizeAnnotations } from "./annotations/normalizeAnnotations";
 import { Annotation } from "./annotations/types";

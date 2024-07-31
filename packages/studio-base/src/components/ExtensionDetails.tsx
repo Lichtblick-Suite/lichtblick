@@ -2,6 +2,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { Immutable } from "@lichtblick/studio";
 import Stack from "@lichtblick/studio-base/components/Stack";
 import TextContent from "@lichtblick/studio-base/components/TextContent";
 import { useAnalytics } from "@lichtblick/studio-base/context/AnalyticsContext";
@@ -19,7 +20,6 @@ import { useCallback, useState } from "react";
 import { useAsync, useMountedState } from "react-use";
 import { makeStyles } from "tss-react/mui";
 
-import { Immutable } from "@foxglove/studio";
 
 type Props = {
   installed: boolean;

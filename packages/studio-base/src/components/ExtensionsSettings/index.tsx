@@ -2,6 +2,8 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import Log from "@lichtblick/log";
+import { Immutable } from "@lichtblick/studio";
 import { ExtensionDetails } from "@lichtblick/studio-base/components/ExtensionDetails";
 import Stack from "@lichtblick/studio-base/components/Stack";
 import { useExtensionCatalog } from "@lichtblick/studio-base/context/ExtensionCatalogContext";
@@ -24,8 +26,6 @@ import { useEffect, useMemo, useState } from "react";
 import { useAsyncFn } from "react-use";
 import { makeStyles } from "tss-react/mui";
 
-import Log from "@foxglove/log";
-import { Immutable } from "@foxglove/studio";
 
 const log = Log.getLogger(__filename);
 

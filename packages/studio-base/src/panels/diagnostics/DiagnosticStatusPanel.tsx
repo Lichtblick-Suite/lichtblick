@@ -12,6 +12,7 @@
 //   You may not use this file except in compliance with the License.
 
 
+import { SettingsTreeAction } from "@lichtblick/studio";
 import { useDataSourceInfo } from "@lichtblick/studio-base/PanelAPI";
 import EmptyState from "@lichtblick/studio-base/components/EmptyState";
 import Panel from "@lichtblick/studio-base/components/Panel";
@@ -28,7 +29,6 @@ import { useCallback, useEffect, useMemo } from "react";
 import { makeStyles } from "tss-react/mui";
 
 import { compare } from "@foxglove/rostime";
-import { SettingsTreeAction } from "@foxglove/studio";
 
 import DiagnosticStatus from "./DiagnosticStatus";
 import { buildStatusPanelSettingsTree } from "./settings";

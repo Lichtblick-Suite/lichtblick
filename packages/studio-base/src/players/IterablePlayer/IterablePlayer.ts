@@ -2,6 +2,8 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import Log from "@lichtblick/log";
+import { Immutable, MessageEvent, Metadata, ParameterValue } from "@lichtblick/studio";
 import { freezeMetadata } from "@lichtblick/studio-base/players/IterablePlayer/freezeMetadata";
 import NoopMetricsCollector from "@lichtblick/studio-base/players/NoopMetricsCollector";
 import PlayerProblemManager from "@lichtblick/studio-base/players/PlayerProblemManager";
@@ -28,7 +30,6 @@ import { v4 as uuidv4 } from "uuid";
 
 import { debouncePromise } from "@foxglove/den/async";
 import { filterMap } from "@foxglove/den/collection";
-import Log from "@foxglove/log";
 import {
   Time,
   add,
@@ -39,7 +40,6 @@ import {
   toRFC3339String,
   toString,
 } from "@foxglove/rostime";
-import { Immutable, MessageEvent, Metadata, ParameterValue } from "@foxglove/studio";
 
 import { BlockLoader } from "./BlockLoader";
 import { BufferedIterableSource } from "./BufferedIterableSource";

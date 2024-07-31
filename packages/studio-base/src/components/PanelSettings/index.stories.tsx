@@ -11,6 +11,7 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
+import { SettingsTreeNodes } from "@lichtblick/studio";
 import { PanelCatalog, PanelInfo } from "@lichtblick/studio-base/context/PanelCatalogContext";
 import MockCurrentLayoutProvider from "@lichtblick/studio-base/providers/CurrentLayoutProvider/MockCurrentLayoutProvider";
 import PanelSetup from "@lichtblick/studio-base/stories/PanelSetup";
@@ -18,7 +19,6 @@ import { StoryFn, StoryObj } from "@storybook/react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
-import { SettingsTreeNodes } from "@foxglove/studio";
 
 import PanelSettings from ".";
 

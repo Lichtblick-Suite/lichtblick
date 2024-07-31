@@ -3,6 +3,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 
+import { PanelExtensionContext } from "@lichtblick/studio";
 import { CaptureErrorBoundary } from "@lichtblick/studio-base/components/CaptureErrorBoundary";
 import Panel from "@lichtblick/studio-base/components/Panel";
 import { PanelExtensionAdapter } from "@lichtblick/studio-base/components/PanelExtensionAdapter";
@@ -12,7 +13,6 @@ import { SaveConfig } from "@lichtblick/studio-base/types/panels";
 import { StrictMode, useMemo } from "react";
 
 import { useCrash } from "@foxglove/hooks";
-import { PanelExtensionContext } from "@foxglove/studio";
 
 import { Indicator } from "./Indicator";
 import { Config } from "./types";

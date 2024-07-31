@@ -3,6 +3,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 
+import { SettingsTreeNode, Topic } from "@lichtblick/studio";
 import { DynamicBufferGeometry } from "@lichtblick/studio-base/panels/ThreeDeeRender/DynamicBufferGeometry";
 import { IRenderer } from "@lichtblick/studio-base/panels/ThreeDeeRender/IRenderer";
 import { BaseUserData, Renderable } from "@lichtblick/studio-base/panels/ThreeDeeRender/Renderable";
@@ -17,7 +18,6 @@ import { updatePose } from "@lichtblick/studio-base/panels/ThreeDeeRender/update
 import { t } from "i18next";
 import * as THREE from "three";
 
-import { SettingsTreeNode, Topic } from "@foxglove/studio";
 
 import { LaserScanMaterial } from "./LaserScans";
 import {

@@ -15,7 +15,6 @@ import { useNetworkState } from "react-use";
 
 import { useVisibilityState } from "@foxglove/hooks";
 
-
 const log = Logger.getLogger(__filename);
 
 const SYNC_INTERVAL_BASE_MS = 30_000;

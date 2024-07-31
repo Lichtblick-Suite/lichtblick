@@ -12,6 +12,7 @@
 //   You may not use this file except in compliance with the License.
 
 
+import { Immutable, SettingsTreeAction } from "@lichtblick/studio";
 import { useDataSourceInfo } from "@lichtblick/studio-base/PanelAPI";
 import EmptyState from "@lichtblick/studio-base/components/EmptyState";
 import useGetItemStringWithTimezone from "@lichtblick/studio-base/components/JsonTree/useGetItemStringWithTimezone";
@@ -43,7 +44,6 @@ import Tree from "react-json-tree";
 import { makeStyles } from "tss-react/mui";
 
 import { parseMessagePath, MessagePathStructureItem, MessagePath } from "@foxglove/message-path";
-import { Immutable, SettingsTreeAction } from "@foxglove/studio";
 
 import { DiffSpan } from "./DiffSpan";
 import DiffStats from "./DiffStats";

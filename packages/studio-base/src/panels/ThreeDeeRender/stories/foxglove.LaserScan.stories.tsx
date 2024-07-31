@@ -2,6 +2,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { MessageEvent } from "@lichtblick/studio";
 import { xyzrpyToPose } from "@lichtblick/studio-base/panels/ThreeDeeRender/transforms";
 import { Topic } from "@lichtblick/studio-base/players/types";
 import PanelSetup from "@lichtblick/studio-base/stories/PanelSetup";
@@ -12,7 +13,6 @@ import * as THREE from "three";
 
 import { fromSec } from "@foxglove/rostime";
 import { FrameTransform, LaserScan, PointCloud } from "@foxglove/schemas";
-import { MessageEvent } from "@foxglove/studio";
 
 import { QUAT_IDENTITY, rad2deg } from "./common";
 import useDelayedFixture from "./useDelayedFixture";

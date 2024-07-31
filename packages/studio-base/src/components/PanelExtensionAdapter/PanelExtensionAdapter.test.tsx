@@ -6,6 +6,7 @@
 
 /* eslint-disable jest/no-done-callback */
 
+import { PanelExtensionContext, RenderState, MessageEvent, Immutable } from "@lichtblick/studio";
 import MockPanelContextProvider from "@lichtblick/studio-base/components/MockPanelContextProvider";
 import { AdvertiseOptions, PlayerCapabilities } from "@lichtblick/studio-base/players/types";
 import PanelSetup, { Fixture } from "@lichtblick/studio-base/stories/PanelSetup";
@@ -15,7 +16,6 @@ import { act } from "react-dom/test-utils";
 
 import { Condvar, signal } from "@foxglove/den/async";
 import { Time } from "@foxglove/rostime";
-import { PanelExtensionContext, RenderState, MessageEvent, Immutable } from "@foxglove/studio";
 
 import PanelExtensionAdapter from "./PanelExtensionAdapter";
 

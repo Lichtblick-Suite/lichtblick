@@ -11,6 +11,7 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
+import { ParameterValue } from "@lichtblick/studio";
 import CopyButton from "@lichtblick/studio-base/components/CopyButton";
 import EmptyState from "@lichtblick/studio-base/components/EmptyState";
 import JsonInput from "@lichtblick/studio-base/components/JsonInput";
@@ -40,7 +41,6 @@ import { ReactElement, useCallback, useEffect, useMemo, useRef, useState } from 
 import { makeStyles } from "tss-react/mui";
 import { useDebouncedCallback } from "use-debounce";
 
-import { ParameterValue } from "@foxglove/studio";
 
 // The minimum amount of time to wait between showing the parameter update animation again
 const ANIMATION_RESET_DELAY_MS = 3000;

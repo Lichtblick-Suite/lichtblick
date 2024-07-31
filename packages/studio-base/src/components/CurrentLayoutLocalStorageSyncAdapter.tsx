@@ -3,6 +3,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 
+import Log from "@lichtblick/log";
 import { LOCAL_STORAGE_STUDIO_LAYOUT_KEY } from "@lichtblick/studio-base/constants/localStorageKeys";
 import {
   LayoutState,
@@ -19,7 +20,6 @@ import { useEffect } from "react";
 import { useAsync } from "react-use";
 import { useDebounce } from "use-debounce";
 
-import Log from "@foxglove/log";
 
 function selectLayoutData(state: LayoutState) {
   return state.selectedLayout?.data;

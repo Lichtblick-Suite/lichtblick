@@ -2,6 +2,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import Logger from "@lichtblick/log";
 import { LayoutID } from "@lichtblick/studio-base/context/CurrentLayoutContext";
 import { LayoutData } from "@lichtblick/studio-base/context/CurrentLayoutContext/actions";
 import {
@@ -27,7 +28,6 @@ import * as _ from "lodash-es";
 import { v4 as uuidv4 } from "uuid";
 
 import { MutexLocked } from "@foxglove/den/async";
-import Logger from "@foxglove/log";
 
 import { NamespacedLayoutStorage } from "./NamespacedLayoutStorage";
 import WriteThroughLayoutCache from "./WriteThroughLayoutCache";

@@ -11,6 +11,7 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
+import { Immutable } from "@lichtblick/studio";
 import {
   MessagePipelineContext,
   useMessagePipeline,
@@ -24,7 +25,6 @@ import memoizeWeak from "memoize-weak";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-import { Immutable } from "@foxglove/studio";
 
 export type MessageBlock = Immutable<{
   [topicName: string]: MessageEvent[];

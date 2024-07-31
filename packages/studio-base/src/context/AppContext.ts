@@ -3,6 +3,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 
+import { Immutable, SettingsTreeField, SettingsTreeNode } from "@lichtblick/studio";
 import { AppBarMenuItem } from "@lichtblick/studio-base/components/AppBar/types";
 import { LayoutData } from "@lichtblick/studio-base/context/CurrentLayoutContext";
 import { WorkspaceContextStore } from "@lichtblick/studio-base/context/Workspace/WorkspaceContext";
@@ -12,7 +13,6 @@ import { createContext, useContext } from "react";
 import { DeepPartial } from "ts-essentials";
 import { StoreApi } from "zustand";
 
-import { Immutable, SettingsTreeField, SettingsTreeNode } from "@foxglove/studio";
 
 interface IAppContext {
   appBarLayoutButton?: JSX.Element;

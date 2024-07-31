@@ -3,6 +3,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 
+import Logger from "@lichtblick/log";
 import { AppSetting } from "@lichtblick/studio-base/AppSetting";
 import SignInPrompt from "@lichtblick/studio-base/components/LayoutBrowser/SignInPrompt";
 import { useUnsavedChangesPrompt } from "@lichtblick/studio-base/components/LayoutBrowser/UnsavedChangesPrompt";
@@ -48,7 +49,6 @@ import { useMountedState } from "react-use";
 import useAsyncFn from "react-use/lib/useAsyncFn";
 import { makeStyles } from "tss-react/mui";
 
-import Logger from "@foxglove/log";
 
 import LayoutSection from "./LayoutSection";
 import { useLayoutBrowserReducer } from "./reducer";

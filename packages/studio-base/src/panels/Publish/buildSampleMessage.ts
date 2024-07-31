@@ -11,9 +11,9 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
+import { Immutable } from "@lichtblick/studio";
 import { RosDatatypes } from "@lichtblick/studio-base/types/RosDatatypes";
 
-import { Immutable } from "@foxglove/studio";
 
 export const builtinSampleValues: Record<string, unknown> = {
   bool: false,

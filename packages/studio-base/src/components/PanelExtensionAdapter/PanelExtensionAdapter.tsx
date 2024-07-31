@@ -3,6 +3,18 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 
+import Logger from "@lichtblick/log";
+import {
+  AppSettingValue,
+  ExtensionPanelRegistration,
+  PanelExtensionContext,
+  ParameterValue,
+  RenderState,
+  SettingsTree,
+  Subscription,
+  Time,
+  VariableValue,
+} from "@lichtblick/studio";
 import {
   MessagePipelineContext,
   useMessagePipeline,
@@ -39,19 +51,7 @@ import { useLatest } from "react-use";
 import { v4 as uuid } from "uuid";
 
 import { useSynchronousMountedState, useValueChangedDebugLog } from "@foxglove/hooks";
-import Logger from "@foxglove/log";
 import { fromSec, toSec } from "@foxglove/rostime";
-import {
-  AppSettingValue,
-  ExtensionPanelRegistration,
-  PanelExtensionContext,
-  ParameterValue,
-  RenderState,
-  SettingsTree,
-  Subscription,
-  Time,
-  VariableValue,
-} from "@foxglove/studio";
 
 import { PanelConfigVersionError } from "./PanelConfigVersionError";
 import { initRenderStateBuilder } from "./renderState";

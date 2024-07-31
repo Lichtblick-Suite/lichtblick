@@ -9,6 +9,7 @@ import {
   Square12Filled,
   Square12Regular,
 } from "@fluentui/react-icons";
+import { Immutable } from "@lichtblick/studio";
 import { usePanelContext } from "@lichtblick/studio-base/components/PanelContext";
 import { useSelectedPanels } from "@lichtblick/studio-base/context/CurrentLayoutContext";
 import { useWorkspaceActions } from "@lichtblick/studio-base/context/Workspace/useWorkspaceActions";
@@ -19,7 +20,6 @@ import { useTranslation } from "react-i18next";
 import { makeStyles } from "tss-react/mui";
 
 import { isTime, toSec } from "@foxglove/rostime";
-import { Immutable } from "@foxglove/studio";
 
 import { PlotPath, plotPathDisplayName } from "./config";
 

@@ -12,6 +12,7 @@
 //   You may not use this file except in compliance with the License.
 
 
+import { Immutable } from "@lichtblick/studio";
 import { useDataSourceInfo } from "@lichtblick/studio-base/PanelAPI";
 import {
   MessagePipelineContext,
@@ -32,7 +33,6 @@ import { useDebounce } from "use-debounce";
 
 import { MessageDefinition } from "@foxglove/message-definition";
 import CommonRosTypes from "@foxglove/rosmsg-msgs-common";
-import { Immutable } from "@foxglove/studio";
 
 import { defaultConfig, usePublishPanelSettings } from "./settings";
 import { PublishConfig } from "./types";

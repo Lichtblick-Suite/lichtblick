@@ -11,6 +11,7 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
+import Logger from "@lichtblick/log";
 import { RpcElement, RpcScales } from "@lichtblick/studio-base/components/Chart/types";
 import { maybeCast } from "@lichtblick/studio-base/util/maybeCast";
 import {
@@ -29,7 +30,6 @@ import { type Options as DatalabelsPluginOptions } from "chartjs-plugin-datalabe
 import EventEmitter from "eventemitter3";
 
 import { Zoom as ZoomPlugin } from "@foxglove/chartjs-plugin-zoom";
-import Logger from "@foxglove/log";
 import { fontMonospace } from "@foxglove/theme";
 
 import { lineSegmentLabelColor } from "./lineSegments";

@@ -4,6 +4,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 
+import { MessageEvent } from "@lichtblick/studio";
 import { Asset } from "@lichtblick/studio-base/components/PanelExtensionAdapter";
 import { Renderer } from "@lichtblick/studio-base/panels/ThreeDeeRender/Renderer";
 import { DEFAULT_SCENE_EXTENSION_CONFIG } from "@lichtblick/studio-base/panels/ThreeDeeRender/SceneExtensionConfig";
@@ -14,7 +15,6 @@ import { TFMessage } from "@lichtblick/studio-base/panels/ThreeDeeRender/ros";
 import { setupJestCanvasMock } from "jest-canvas-mock";
 
 import { fromNanoSec, toNanoSec } from "@foxglove/rostime";
-import { MessageEvent } from "@foxglove/studio";
 
 import { RendererConfig } from "./IRenderer";
 

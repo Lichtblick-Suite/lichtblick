@@ -2,6 +2,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { MessageEvent } from "@lichtblick/studio";
 import { HUDItemManager } from "@lichtblick/studio-base/panels/ThreeDeeRender/HUDItemManager";
 import {
   MessageHandler,
@@ -24,7 +25,6 @@ import {
   RawImage,
   TextAnnotation,
 } from "@foxglove/schemas";
-import { MessageEvent } from "@foxglove/studio";
 
 import { PartialMessageEvent } from "../../SceneExtension";
 

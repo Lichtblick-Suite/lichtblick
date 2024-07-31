@@ -3,6 +3,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 
+import { Immutable } from "@lichtblick/studio";
 import { usePanelContext } from "@lichtblick/studio-base/components/PanelContext";
 import {
   LayoutState,
@@ -13,7 +14,6 @@ import {
 import { getPanelTypeFromId } from "@lichtblick/studio-base/util/layout";
 import { useCallback, useMemo } from "react";
 
-import { Immutable } from "@foxglove/studio";
 
 const EmptySharedPanelState: Record<string, SharedPanelState> = Object.freeze({});
 const selectSharedState = (state: LayoutState) => state.sharedPanelState ?? EmptySharedPanelState;

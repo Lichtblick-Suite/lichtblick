@@ -12,6 +12,12 @@
 //   You may not use this file except in compliance with the License.
 
 
+import {
+  MessageEvent,
+  ParameterValue,
+  RegisterMessageConverterArgs,
+  SettingsTree,
+} from "@lichtblick/studio";
 import MockMessagePipelineProvider from "@lichtblick/studio-base/components/MessagePipeline/MockMessagePipelineProvider";
 import SettingsTreeEditor from "@lichtblick/studio-base/components/SettingsTreeEditor";
 import AppConfigurationContext from "@lichtblick/studio-base/context/AppConfigurationContext";
@@ -57,12 +63,6 @@ import { useTranslation } from "react-i18next";
 import { Mosaic, MosaicNode, MosaicWindow } from "react-mosaic-component";
 
 import { useShallowMemo } from "@foxglove/hooks";
-import {
-  MessageEvent,
-  ParameterValue,
-  RegisterMessageConverterArgs,
-  SettingsTree,
-} from "@foxglove/studio";
 import "react-mosaic-component/react-mosaic-component.css";
 
 function noop() {}

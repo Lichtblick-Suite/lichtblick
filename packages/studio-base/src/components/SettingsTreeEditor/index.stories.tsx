@@ -2,6 +2,13 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import Logger from "@lichtblick/log";
+import {
+  SettingsTreeNode,
+  SettingsTreeNodes,
+  SettingsTreeFieldValue,
+  SettingsTreeAction,
+} from "@lichtblick/studio";
 import { MessagePathInputStoryFixture } from "@lichtblick/studio-base/components/MessagePathSyntax/fixture";
 import SettingsTreeEditor from "@lichtblick/studio-base/components/SettingsTreeEditor";
 import Stack from "@lichtblick/studio-base/components/Stack";
@@ -13,13 +20,6 @@ import { produce } from "immer";
 import * as _ from "lodash-es";
 import { useCallback, useMemo, useState, useEffect } from "react";
 
-import Logger from "@foxglove/log";
-import {
-  SettingsTreeNode,
-  SettingsTreeNodes,
-  SettingsTreeFieldValue,
-  SettingsTreeAction,
-} from "@foxglove/studio";
 
 export default {
   title: "components/SettingsTreeEditor",
