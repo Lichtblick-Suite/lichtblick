@@ -2,6 +2,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { filterMap } from "@lichtblick/den/collection";
 import { RosObject } from "@lichtblick/studio-base/players/types";
 import {
   ImageMarker,
@@ -10,7 +11,6 @@ import {
 } from "@lichtblick/studio-base/types/Messages";
 import { mightActuallyBePartial } from "@lichtblick/studio-base/util/mightActuallyBePartial";
 
-import { filterMap } from "@lichtblick/den/collection";
 import { Time, fromNanoSec } from "@foxglove/rostime";
 import { ImageAnnotations, PointsAnnotationType } from "@foxglove/schemas";
 

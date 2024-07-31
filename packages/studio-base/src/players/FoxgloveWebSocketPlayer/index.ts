@@ -2,6 +2,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { debouncePromise } from "@lichtblick/den/async";
 import Log from "@lichtblick/log";
 import { ParameterValue } from "@lichtblick/studio";
 import { Asset } from "@lichtblick/studio-base/components/PanelExtensionAdapter";
@@ -26,7 +27,6 @@ import * as base64 from "@protobufjs/base64";
 import * as _ from "lodash-es";
 import { v4 as uuidv4 } from "uuid";
 
-import { debouncePromise } from "@lichtblick/den/async";
 import { parseChannel, ParsedChannel } from "@foxglove/mcap-support";
 import { MessageDefinition, isMsgDefEqual } from "@foxglove/message-definition";
 import CommonRosTypes from "@foxglove/rosmsg-msgs-common";

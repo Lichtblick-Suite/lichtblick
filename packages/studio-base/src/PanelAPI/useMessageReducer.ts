@@ -11,6 +11,7 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
+import { useShallowMemo } from "@lichtblick/hooks";
 import Log from "@lichtblick/log";
 import {
   MessagePipelineContext,
@@ -26,7 +27,6 @@ import {
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-import { useShallowMemo } from "@lichtblick/hooks";
 
 const log = Log.getLogger(__filename);
 

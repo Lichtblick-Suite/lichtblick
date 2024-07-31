@@ -3,6 +3,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 
+import { Condvar } from "@lichtblick/den/async";
 import CssBaseline from "@lichtblick/studio-base/components/CssBaseline";
 import GlobalCss from "@lichtblick/studio-base/components/GlobalCss";
 import MultiProvider from "@lichtblick/studio-base/components/MultiProvider";
@@ -19,7 +20,6 @@ import { Story, StoryContext } from "@storybook/react";
 import { useMemo, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
-import { Condvar } from "@lichtblick/den/async";
 
 import "./styles.css";
 

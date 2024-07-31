@@ -3,8 +3,6 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import { render, waitFor } from "@testing-library/react";
-import { useNetworkState } from "react-use";
 
 import { useVisibilityState } from "@lichtblick/hooks";
 import { LayoutData } from "@lichtblick/studio-base/context/CurrentLayoutContext";
@@ -13,6 +11,8 @@ import { useRemoteLayoutStorage } from "@lichtblick/studio-base/context/RemoteLa
 import LayoutManagerProvider from "@lichtblick/studio-base/providers/LayoutManagerProvider";
 import { LayoutLoader } from "@lichtblick/studio-base/services/ILayoutLoader";
 import MockLayoutManager from "@lichtblick/studio-base/services/LayoutManager/MockLayoutManager";
+import { render, waitFor } from "@testing-library/react";
+import { useNetworkState } from "react-use";
 
 // Mock dependencies
 jest.mock("react-use");

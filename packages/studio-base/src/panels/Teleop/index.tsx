@@ -3,6 +3,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 
+import { useCrash } from "@lichtblick/hooks";
 import { PanelExtensionContext } from "@lichtblick/studio";
 import { CaptureErrorBoundary } from "@lichtblick/studio-base/components/CaptureErrorBoundary";
 import Panel from "@lichtblick/studio-base/components/Panel";
@@ -11,7 +12,6 @@ import { createSyncRoot } from "@lichtblick/studio-base/panels/createSyncRoot";
 import { SaveConfig } from "@lichtblick/studio-base/types/panels";
 import { StrictMode, useMemo } from "react";
 
-import { useCrash } from "@lichtblick/hooks";
 
 import TeleopPanel from "./TeleopPanel";
 

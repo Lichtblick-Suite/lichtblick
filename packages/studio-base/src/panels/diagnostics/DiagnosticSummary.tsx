@@ -12,6 +12,7 @@
 //   You may not use this file except in compliance with the License.
 
 
+import { filterMap } from "@lichtblick/den/collection";
 import { SettingsTreeAction } from "@lichtblick/studio";
 import { useDataSourceInfo } from "@lichtblick/studio-base/PanelAPI";
 import EmptyState from "@lichtblick/studio-base/components/EmptyState";
@@ -46,7 +47,6 @@ import { AutoSizer } from "react-virtualized";
 import { FixedSizeList as List } from "react-window";
 import { makeStyles } from "tss-react/mui";
 
-import { filterMap } from "@lichtblick/den/collection";
 
 import { buildSummarySettingsTree } from "./settings";
 import {

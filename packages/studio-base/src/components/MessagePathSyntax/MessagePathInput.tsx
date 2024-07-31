@@ -11,6 +11,7 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
+import { filterMap } from "@lichtblick/den/collection";
 import * as PanelAPI from "@lichtblick/studio-base/PanelAPI";
 import { Autocomplete, IAutocomplete } from "@lichtblick/studio-base/components/Autocomplete";
 import useGlobalVariables, {
@@ -21,7 +22,6 @@ import * as _ from "lodash-es";
 import { CSSProperties, useCallback, useMemo } from "react";
 import { makeStyles } from "tss-react/mui";
 
-import { filterMap } from "@lichtblick/den/collection";
 import {
   quoteTopicNameIfNeeded,
   parseMessagePath,

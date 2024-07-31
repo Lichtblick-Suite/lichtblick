@@ -3,6 +3,8 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 
+import { filterMap } from "@lichtblick/den/collection";
+import { PinholeCameraModel } from "@lichtblick/den/image";
 import Logger from "@lichtblick/log";
 import {
   Immutable,
@@ -42,8 +44,7 @@ import * as _ from "lodash-es";
 import * as THREE from "three";
 import { Writable } from "ts-essentials";
 
-import { filterMap } from "@lichtblick/den/collection";
-import { PinholeCameraModel } from "@lichtblick/den/image";
+
 import { toNanoSec } from "@foxglove/rostime";
 
 import { ImageModeCamera } from "./ImageModeCamera";

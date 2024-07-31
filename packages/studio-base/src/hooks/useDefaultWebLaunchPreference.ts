@@ -3,6 +3,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 
+import { useSessionStorageValue } from "@lichtblick/hooks";
 import { AppSetting } from "@lichtblick/studio-base/AppSetting";
 import {
   MessagePipelineContext,
@@ -12,7 +13,6 @@ import { LaunchPreferenceValue } from "@lichtblick/studio-base/types/LaunchPrefe
 import isDesktopApp from "@lichtblick/studio-base/util/isDesktopApp";
 import { useEffect } from "react";
 
-import { useSessionStorageValue } from "@lichtblick/hooks";
 
 const selectHasUrlState = (ctx: MessagePipelineContext) => ctx.playerState.urlState != undefined;
 

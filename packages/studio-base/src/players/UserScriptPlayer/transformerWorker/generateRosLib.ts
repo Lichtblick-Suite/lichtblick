@@ -11,11 +11,11 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
+import { filterMap } from "@lichtblick/den/collection";
 import { Topic } from "@lichtblick/studio-base/players/types";
 import { RosDatatypes } from "@lichtblick/studio-base/types/RosDatatypes";
 import ts from "typescript/lib/typescript";
 
-import { filterMap } from "@lichtblick/den/collection";
 
 export type InterfaceDeclarations = {
   [datatype: string]: ts.InterfaceDeclaration;

@@ -2,6 +2,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { filterMap } from "@lichtblick/den/collection";
 import { useDataSourceInfo } from "@lichtblick/studio-base/PanelAPI";
 import { DirectTopicStatsUpdater } from "@lichtblick/studio-base/components/DirectTopicStatsUpdater";
 import EmptyState from "@lichtblick/studio-base/components/EmptyState";
@@ -32,7 +33,6 @@ import { ListChildComponentProps, VariableSizeList } from "react-window";
 import { makeStyles } from "tss-react/mui";
 import { useDebounce } from "use-debounce";
 
-import { filterMap } from "@lichtblick/den/collection";
 import { quoteTopicNameIfNeeded } from "@foxglove/message-path";
 
 import { MessagePathRow } from "./MessagePathRow";

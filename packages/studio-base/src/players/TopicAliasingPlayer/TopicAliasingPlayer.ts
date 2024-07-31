@@ -2,6 +2,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { MutexLocked } from "@lichtblick/den/async";
 import { Immutable, Metadata, ParameterValue } from "@lichtblick/studio";
 import { Asset } from "@lichtblick/studio-base/components/PanelExtensionAdapter";
 import { GlobalVariables } from "@lichtblick/studio-base/hooks/useGlobalVariables";
@@ -14,7 +15,6 @@ import {
 } from "@lichtblick/studio-base/players/types";
 import * as _ from "lodash-es";
 
-import { MutexLocked } from "@lichtblick/den/async";
 import { Time } from "@foxglove/rostime";
 
 import { IStateProcessor } from "./IStateProcessor";

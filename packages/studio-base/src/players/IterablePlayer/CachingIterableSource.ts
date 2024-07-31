@@ -2,6 +2,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { minIndexBy, sortedIndexByTuple } from "@lichtblick/den/collection";
 import Log from "@lichtblick/log";
 import { MessageEvent, Time } from "@lichtblick/studio";
 import { TopicSelection } from "@lichtblick/studio-base/players/types";
@@ -9,7 +10,6 @@ import { Range } from "@lichtblick/studio-base/util/ranges";
 import EventEmitter from "eventemitter3";
 import * as _ from "lodash-es";
 
-import { minIndexBy, sortedIndexByTuple } from "@lichtblick/den/collection";
 import { add, compare, subtract, toNanoSec } from "@foxglove/rostime";
 
 import {

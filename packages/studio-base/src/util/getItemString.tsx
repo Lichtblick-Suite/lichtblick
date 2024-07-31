@@ -2,13 +2,13 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { filterMap } from "@lichtblick/den/collection";
 import { isTypicalFilterName } from "@lichtblick/studio-base/components/MessagePathSyntax/isTypicalFilterName";
 import { format, formatDuration } from "@lichtblick/studio-base/util/formatTime";
 import { quatToEuler } from "@lichtblick/studio-base/util/quatToEuler";
 import { ReactNode } from "react";
 import tinycolor from "tinycolor2";
 
-import { filterMap } from "@lichtblick/den/collection";
 
 const DURATION_20_YEARS_SEC = 20 * 365 * 24 * 60 * 60;
 

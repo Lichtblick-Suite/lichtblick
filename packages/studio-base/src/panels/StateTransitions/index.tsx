@@ -12,6 +12,7 @@
 //   You may not use this file except in compliance with the License.
 
 
+import { filterMap } from "@lichtblick/den/collection";
 import { Immutable } from "@lichtblick/studio";
 import { useBlocksSubscriptions } from "@lichtblick/studio-base/PanelAPI";
 import {
@@ -43,7 +44,6 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useResizeDetector } from "react-resize-detector";
 import { makeStyles } from "tss-react/mui";
 
-import { filterMap } from "@lichtblick/den/collection";
 import { add as addTimes, fromSec, subtract as subtractTimes, toSec } from "@foxglove/rostime";
 import { fontMonospace } from "@foxglove/theme";
 import { OnClickArg as OnChartClickArgs } from "@lichtblick/studio-base/src/components/Chart";

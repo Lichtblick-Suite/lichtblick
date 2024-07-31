@@ -11,6 +11,8 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
+import { filterMap } from "@lichtblick/den/collection";
+import { useDeepMemo, useShallowMemo } from "@lichtblick/hooks";
 import { Immutable } from "@lichtblick/studio";
 import * as PanelAPI from "@lichtblick/studio-base/PanelAPI";
 import useGlobalVariables, {
@@ -25,8 +27,7 @@ import {
 import * as _ from "lodash-es";
 import { useCallback, useMemo } from "react";
 
-import { filterMap } from "@lichtblick/den/collection";
-import { useDeepMemo, useShallowMemo } from "@lichtblick/hooks";
+
 import {
   quoteTopicNameIfNeeded,
   parseMessagePath,

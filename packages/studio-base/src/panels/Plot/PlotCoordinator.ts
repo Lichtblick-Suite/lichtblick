@@ -3,6 +3,8 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 
+import { debouncePromise } from "@lichtblick/den/async";
+import { filterMap } from "@lichtblick/den/collection";
 import { Immutable, Time } from "@lichtblick/studio";
 import { simpleGetMessagePathDataItems } from "@lichtblick/studio-base/components/MessagePathSyntax/simpleGetMessagePathDataItems";
 import { stringifyMessagePath } from "@lichtblick/studio-base/components/MessagePathSyntax/stringifyRosPath";
@@ -16,8 +18,7 @@ import { getContrastColor, getLineColor } from "@lichtblick/studio-base/util/plo
 import EventEmitter from "eventemitter3";
 import * as _ from "lodash-es";
 
-import { debouncePromise } from "@lichtblick/den/async";
-import { filterMap } from "@lichtblick/den/collection";
+
 import { parseMessagePath } from "@foxglove/message-path";
 import { toSec, subtract as subtractTime } from "@foxglove/rostime";
 

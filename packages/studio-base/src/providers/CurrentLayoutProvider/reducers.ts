@@ -12,6 +12,7 @@
 //   You may not use this file except in compliance with the License.
 
 
+import { filterMap } from "@lichtblick/den/collection";
 import {
   AddPanelPayload,
   ChangePanelLayoutPayload,
@@ -63,7 +64,6 @@ import {
 } from "react-mosaic-component";
 import { MarkOptional } from "ts-essentials";
 
-import { filterMap } from "@lichtblick/den/collection";
 
 import { isTabPanelConfig } from "../../util/layout";
 

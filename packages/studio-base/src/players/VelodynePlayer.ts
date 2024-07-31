@@ -2,6 +2,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { debouncePromise } from "@lichtblick/den/async";
 import Logger from "@lichtblick/log";
 import { ParameterValue } from "@lichtblick/studio";
 import { GlobalVariables } from "@lichtblick/studio-base/hooks/useGlobalVariables";
@@ -21,7 +22,6 @@ import {
 import { RosDatatypes } from "@lichtblick/studio-base/types/RosDatatypes";
 import { v4 as uuidv4 } from "uuid";
 
-import { debouncePromise } from "@lichtblick/den/async";
 import { Sockets, UdpRemoteInfo, UdpSocketRenderer } from "@foxglove/electron-socket/renderer";
 import { Time, fromMillis, add as addTimes, toDate, fromDate, fromMicros } from "@foxglove/rostime";
 import { Model, RawPacket, ReturnMode, packetRate } from "@foxglove/velodyne-cloud";

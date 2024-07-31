@@ -3,6 +3,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 
+import { useShallowMemo } from "@lichtblick/hooks";
 import CurrentLayoutContext, {
   ICurrentLayout,
   LayoutID,
@@ -16,7 +17,6 @@ import {
 import { defaultPlaybackConfig } from "@lichtblick/studio-base/providers/CurrentLayoutProvider/reducers";
 import { useCallback, useMemo, useRef, useState } from "react";
 
-import { useShallowMemo } from "@lichtblick/hooks";
 
 import panelsReducer from "./reducers";
 

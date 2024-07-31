@@ -2,6 +2,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { filterMap } from "@lichtblick/den/collection";
 import Log from "@lichtblick/log";
 import { MessageEvent } from "@lichtblick/studio";
 import { GlobalVariables } from "@lichtblick/studio-base/hooks/useGlobalVariables";
@@ -20,7 +21,6 @@ import {
 } from "@lichtblick/studio-base/players/types";
 import delay from "@lichtblick/studio-base/util/delay";
 
-import { filterMap } from "@lichtblick/den/collection";
 import { toRFC3339String } from "@foxglove/rostime";
 
 const log = Log.getLogger(__filename);

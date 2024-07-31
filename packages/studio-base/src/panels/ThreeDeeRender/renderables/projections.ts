@@ -3,6 +3,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import { PinholeCameraModel } from "@lichtblick/den/image";
+
 import { CameraCalibration } from "@foxglove/schemas";
 
 import { PartialMessage } from "../SceneExtension";

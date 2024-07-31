@@ -3,6 +3,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 
+import { filterMap } from "@lichtblick/den/collection";
 import { LayoutData } from "@lichtblick/studio-base/context/CurrentLayoutContext/actions";
 import type { RendererConfig } from "@lichtblick/studio-base/panels/ThreeDeeRender/IRenderer";
 import { DEFAULT_CAMERA_STATE } from "@lichtblick/studio-base/panels/ThreeDeeRender/camera";
@@ -13,7 +14,6 @@ import {
 } from "@lichtblick/studio-base/util/layout";
 import * as _ from "lodash-es";
 
-import { filterMap } from "@lichtblick/den/collection";
 
 import { replacePanel } from "./replacePanel";
 

@@ -2,6 +2,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { filterMap } from "@lichtblick/den/collection";
 import {
   AppSettingValue,
   Immutable,
@@ -25,7 +26,6 @@ import { HoverValue } from "@lichtblick/studio-base/types/hoverValue";
 import memoizeWeak from "memoize-weak";
 import { Writable } from "ts-essentials";
 
-import { filterMap } from "@lichtblick/den/collection";
 import { compare, toSec } from "@foxglove/rostime";
 
 import {

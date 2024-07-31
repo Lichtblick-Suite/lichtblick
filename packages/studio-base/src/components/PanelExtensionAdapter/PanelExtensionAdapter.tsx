@@ -3,6 +3,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 
+import { useSynchronousMountedState, useValueChangedDebugLog } from "@lichtblick/hooks";
 import Logger from "@lichtblick/log";
 import {
   AppSettingValue,
@@ -50,7 +51,6 @@ import { CSSProperties, useEffect, useLayoutEffect, useMemo, useRef, useState } 
 import { useLatest } from "react-use";
 import { v4 as uuid } from "uuid";
 
-import { useSynchronousMountedState, useValueChangedDebugLog } from "@lichtblick/hooks";
 import { fromSec, toSec } from "@foxglove/rostime";
 
 import { PanelConfigVersionError } from "./PanelConfigVersionError";

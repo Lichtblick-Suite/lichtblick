@@ -11,6 +11,7 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
+import { Condvar } from "@lichtblick/den/async";
 import { Metadata, ParameterValue } from "@lichtblick/studio";
 import {
   FramePromise,
@@ -41,7 +42,6 @@ import shallowequal from "shallowequal";
 import { Writable } from "ts-essentials";
 import { createStore } from "zustand";
 
-import { Condvar } from "@lichtblick/den/async";
 import { Time, isLessThan } from "@foxglove/rostime";
 
 import { ContextInternal } from "./index";

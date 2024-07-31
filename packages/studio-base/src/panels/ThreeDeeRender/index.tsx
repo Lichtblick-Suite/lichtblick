@@ -3,6 +3,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 
+import { useCrash } from "@lichtblick/hooks";
 import { CaptureErrorBoundary } from "@lichtblick/studio-base/components/CaptureErrorBoundary";
 import {
   ForwardAnalyticsContextProvider,
@@ -21,7 +22,6 @@ import { SaveConfig } from "@lichtblick/studio-base/types/panels";
 import { StrictMode, useMemo } from "react";
 import { DeepPartial } from "ts-essentials";
 
-import { useCrash } from "@lichtblick/hooks";
 
 import { SceneExtensionConfig } from "./SceneExtensionConfig";
 import { ThreeDeeRender } from "./ThreeDeeRender";

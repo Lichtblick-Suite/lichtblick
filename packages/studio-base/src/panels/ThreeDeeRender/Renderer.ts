@@ -2,6 +2,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { ObjectPool } from "@lichtblick/den/collection";
 import Logger from "@lichtblick/log";
 import {
   Immutable,
@@ -33,7 +34,6 @@ import * as THREE from "three";
 import { DeepPartial, assert } from "ts-essentials";
 import { v4 as uuidv4 } from "uuid";
 
-import { ObjectPool } from "@lichtblick/den/collection";
 import { Time, fromNanoSec, isLessThan, toNanoSec } from "@foxglove/rostime";
 import type { FrameTransform, FrameTransforms, SceneUpdate } from "@foxglove/schemas";
 import { palette, fontMonospace } from "@foxglove/theme";

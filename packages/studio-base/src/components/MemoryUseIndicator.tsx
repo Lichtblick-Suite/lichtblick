@@ -2,12 +2,12 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { useMemoryInfo } from "@lichtblick/hooks";
 import { AppSetting } from "@lichtblick/studio-base/AppSetting";
 import { useAppConfigurationValue } from "@lichtblick/studio-base/hooks";
 import { Tooltip, Typography } from "@mui/material";
 import { makeStyles } from "tss-react/mui";
 
-import { useMemoryInfo } from "@lichtblick/hooks";
 
 const useStyles = makeStyles()((theme) => ({
   root: {

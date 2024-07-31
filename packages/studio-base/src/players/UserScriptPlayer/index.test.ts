@@ -12,6 +12,7 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
+import { signal } from "@lichtblick/den/async";
 import FakePlayer from "@lichtblick/studio-base/components/MessagePipeline/FakePlayer";
 import MockUserScriptPlayerWorker from "@lichtblick/studio-base/players/UserScriptPlayer/MockUserScriptPlayerWorker";
 import {
@@ -27,7 +28,6 @@ import { basicDatatypes } from "@lichtblick/studio-base/util/basicDatatypes";
 import delay from "@lichtblick/studio-base/util/delay";
 import { DEFAULT_STUDIO_SCRIPT_PREFIX } from "@lichtblick/studio-base/util/globalConstants";
 
-import { signal } from "@lichtblick/den/async";
 
 import UserScriptPlayer from ".";
 import exampleDatatypes from "./transformerWorker/fixtures/example-datatypes";

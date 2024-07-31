@@ -3,12 +3,12 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 
+import { useCrash } from "@lichtblick/hooks";
 import Panel from "@lichtblick/studio-base/components/Panel";
 import { PanelExtensionAdapter } from "@lichtblick/studio-base/components/PanelExtensionAdapter";
 import { SaveConfig } from "@lichtblick/studio-base/types/panels";
 import { useMemo } from "react";
 
-import { useCrash } from "@lichtblick/hooks";
 
 import { initPanel } from "./initPanel";
 

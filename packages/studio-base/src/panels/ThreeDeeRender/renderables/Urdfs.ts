@@ -2,6 +2,8 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { filterMap } from "@lichtblick/den/collection";
+import { UrdfGeometryMesh, UrdfRobot, UrdfVisual, parseRobot, UrdfJoint } from "@lichtblick/den/urdf";
 import Logger from "@lichtblick/log";
 import {
   SettingsTreeAction,
@@ -18,8 +20,7 @@ import * as _ from "lodash-es";
 import * as THREE from "three";
 import { v4 as uuidv4 } from "uuid";
 
-import { filterMap } from "@lichtblick/den/collection";
-import { UrdfGeometryMesh, UrdfRobot, UrdfVisual, parseRobot, UrdfJoint } from "@lichtblick/den/urdf";
+
 import { toNanoSec } from "@foxglove/rostime";
 
 import { RenderableCube } from "./markers/RenderableCube";

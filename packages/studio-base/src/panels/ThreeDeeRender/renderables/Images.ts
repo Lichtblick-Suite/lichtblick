@@ -2,14 +2,15 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { MultiMap, filterMap } from "@lichtblick/den/collection";
+import { PinholeCameraModel } from "@lichtblick/den/image";
 import Logger from "@lichtblick/log";
 import { SettingsTreeAction, SettingsTreeFields } from "@lichtblick/studio";
 import { ALL_SUPPORTED_IMAGE_SCHEMAS } from "@lichtblick/studio-base/panels/ThreeDeeRender/renderables/ImageMode/ImageMode";
 import { t } from "i18next";
 import { assert } from "ts-essentials";
 
-import { MultiMap, filterMap } from "@lichtblick/den/collection";
-import { PinholeCameraModel } from "@lichtblick/den/image";
+
 import { toNanoSec } from "@foxglove/rostime";
 import { CompressedImage, RawImage } from "@foxglove/schemas";
 

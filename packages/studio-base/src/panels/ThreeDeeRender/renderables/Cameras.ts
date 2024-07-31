@@ -2,12 +2,12 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { PinholeCameraModel } from "@lichtblick/den/image";
 import Logger from "@lichtblick/log";
 import { SettingsTreeAction, SettingsTreeFields } from "@lichtblick/studio";
 import type { RosValue } from "@lichtblick/studio-base/players/types";
 import { t } from "i18next";
 
-import { PinholeCameraModel } from "@lichtblick/den/image";
 import { toNanoSec } from "@foxglove/rostime";
 import { CameraCalibration } from "@foxglove/schemas";
 

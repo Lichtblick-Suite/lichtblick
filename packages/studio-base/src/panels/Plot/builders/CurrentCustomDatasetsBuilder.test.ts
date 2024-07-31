@@ -2,6 +2,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { unwrap } from "@lichtblick/den/monads";
 import {
   MessageBlock,
   PlayerPresence,
@@ -9,7 +10,6 @@ import {
   PlayerStateActiveData,
 } from "@lichtblick/studio-base/players/types";
 
-import { unwrap } from "@lichtblick/den/monads";
 import { parseMessagePath } from "@foxglove/message-path";
 
 import { CurrentCustomDatasetsBuilder } from "./CurrentCustomDatasetsBuilder";

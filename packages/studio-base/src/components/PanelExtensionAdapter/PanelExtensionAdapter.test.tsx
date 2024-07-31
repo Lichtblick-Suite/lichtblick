@@ -6,6 +6,7 @@
 
 /* eslint-disable jest/no-done-callback */
 
+import { Condvar, signal } from "@lichtblick/den/async";
 import { PanelExtensionContext, RenderState, MessageEvent, Immutable } from "@lichtblick/studio";
 import MockPanelContextProvider from "@lichtblick/studio-base/components/MockPanelContextProvider";
 import { AdvertiseOptions, PlayerCapabilities } from "@lichtblick/studio-base/players/types";
@@ -14,7 +15,6 @@ import ThemeProvider from "@lichtblick/studio-base/theme/ThemeProvider";
 import { render } from "@testing-library/react";
 import { act } from "react-dom/test-utils";
 
-import { Condvar, signal } from "@lichtblick/den/async";
 import { Time } from "@foxglove/rostime";
 
 import PanelExtensionAdapter from "./PanelExtensionAdapter";

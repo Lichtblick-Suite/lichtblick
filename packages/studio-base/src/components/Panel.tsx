@@ -17,6 +17,7 @@ import {
   TabDesktopMultiple20Regular,
   TableSimple20Regular,
 } from "@fluentui/react-icons";
+import { useShallowMemo } from "@lichtblick/hooks";
 import { useConfigById } from "@lichtblick/studio-base/PanelAPI";
 import KeyListener from "@lichtblick/studio-base/components/KeyListener";
 import { MosaicPathContext } from "@lichtblick/studio-base/components/MosaicPathContext";
@@ -69,7 +70,6 @@ import { Transition } from "react-transition-group";
 import { useMountedState } from "react-use";
 import { makeStyles } from "tss-react/mui";
 
-import { useShallowMemo } from "@lichtblick/hooks";
 
 const useStyles = makeStyles()((theme) => ({
   perfInfo: {

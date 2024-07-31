@@ -2,6 +2,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { useDeepMemo } from "@lichtblick/hooks";
 import {
   MessagePipelineContext,
   useMessagePipeline,
@@ -13,7 +14,6 @@ import * as _ from "lodash-es";
 import { useEffect } from "react";
 import { useDebounce } from "use-debounce";
 
-import { useDeepMemo } from "@lichtblick/hooks";
 
 const selectCanSeek = (ctx: MessagePipelineContext) =>
   ctx.playerState.capabilities.includes(PlayerCapabilities.playbackControl);

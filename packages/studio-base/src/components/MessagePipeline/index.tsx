@@ -2,6 +2,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { useGuaranteedContext } from "@lichtblick/hooks";
 import { Immutable } from "@lichtblick/studio";
 import { AppSetting } from "@lichtblick/studio-base/AppSetting";
 import CurrentLayoutContext, {
@@ -27,7 +28,6 @@ import {
 } from "react";
 import { StoreApi, useStore } from "zustand";
 
-import { useGuaranteedContext } from "@lichtblick/hooks";
 
 import MessageOrderTracker from "./MessageOrderTracker";
 import { pauseFrameForPromises, FramePromise } from "./pauseFrameForPromise";

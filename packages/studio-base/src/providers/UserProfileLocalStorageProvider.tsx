@@ -2,6 +2,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { useShallowMemo } from "@lichtblick/hooks";
 import {
   UserProfile,
   UserProfileStorageContext,
@@ -9,7 +10,6 @@ import {
 import * as _ from "lodash-es";
 import { useCallback, useEffect } from "react";
 
-import { useShallowMemo } from "@lichtblick/hooks";
 
 const DEFAULT_PROFILE: UserProfile = {};
 const LOCAL_STORAGE_KEY = "studio.profile-data";

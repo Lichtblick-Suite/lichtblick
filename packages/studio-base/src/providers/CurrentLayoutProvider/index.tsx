@@ -3,6 +3,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 
+import { useShallowMemo } from "@lichtblick/hooks";
 import Logger from "@lichtblick/log";
 import { VariableValue } from "@lichtblick/studio";
 import { useAnalytics } from "@lichtblick/studio-base/context/AnalyticsContext";
@@ -42,7 +43,6 @@ import { useAsync, useAsyncFn, useMountedState } from "react-use";
 import shallowequal from "shallowequal";
 import { v4 as uuidv4 } from "uuid";
 
-import { useShallowMemo } from "@lichtblick/hooks";
 
 import { IncompatibleLayoutVersionAlert } from "./IncompatibleLayoutVersionAlert";
 

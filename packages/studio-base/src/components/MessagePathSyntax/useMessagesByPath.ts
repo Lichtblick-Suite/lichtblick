@@ -11,6 +11,8 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
+import { filterMap } from "@lichtblick/den/collection";
+import { useShallowMemo } from "@lichtblick/hooks";
 import * as PanelAPI from "@lichtblick/studio-base/PanelAPI";
 import {
   MessageDataItemsByPath,
@@ -19,8 +21,6 @@ import {
 import { subscribePayloadFromMessagePath } from "@lichtblick/studio-base/players/subscribePayloadFromMessagePath";
 import { useMemo } from "react";
 
-import { filterMap } from "@lichtblick/den/collection";
-import { useShallowMemo } from "@lichtblick/hooks";
 
 // Given a set of message paths, subscribe to the appropriate topics and return
 // messages with their queried data decoded for each path.
