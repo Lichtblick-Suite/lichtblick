@@ -26,7 +26,7 @@ import * as base64 from "@protobufjs/base64";
 import * as _ from "lodash-es";
 import { v4 as uuidv4 } from "uuid";
 
-import { debouncePromise } from "@foxglove/den/async";
+import { debouncePromise } from "@lichtblick/den/async";
 import { parseChannel, ParsedChannel } from "@foxglove/mcap-support";
 import { MessageDefinition, isMsgDefEqual } from "@foxglove/message-definition";
 import CommonRosTypes from "@foxglove/rosmsg-msgs-common";

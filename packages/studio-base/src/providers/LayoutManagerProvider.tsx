@@ -3,6 +3,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 
+import { useVisibilityState } from "@lichtblick/hooks";
 import Logger from "@lichtblick/log";
 import LayoutManagerContext from "@lichtblick/studio-base/context/LayoutManagerContext";
 import { useLayoutStorage } from "@lichtblick/studio-base/context/LayoutStorageContext";
@@ -12,8 +13,6 @@ import LayoutManager from "@lichtblick/studio-base/services/LayoutManager/Layout
 import delay from "@lichtblick/studio-base/util/delay";
 import { useEffect, useMemo } from "react";
 import { useNetworkState } from "react-use";
-
-import { useVisibilityState } from "@foxglove/hooks";
 
 const log = Logger.getLogger(__filename);
 

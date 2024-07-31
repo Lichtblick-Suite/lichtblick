@@ -53,7 +53,7 @@ import {
 } from "react";
 import { useLatest, useMountedState } from "react-use";
 
-import { useWarnImmediateReRender } from "@foxglove/hooks";
+import { useWarnImmediateReRender } from "@lichtblick/hooks";
 
 const log = Logger.getLogger(__filename);
 

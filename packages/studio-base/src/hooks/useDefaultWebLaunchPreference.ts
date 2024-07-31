@@ -12,7 +12,7 @@ import { LaunchPreferenceValue } from "@lichtblick/studio-base/types/LaunchPrefe
 import isDesktopApp from "@lichtblick/studio-base/util/isDesktopApp";
 import { useEffect } from "react";
 
-import { useSessionStorageValue } from "@foxglove/hooks";
+import { useSessionStorageValue } from "@lichtblick/hooks";
 
 const selectHasUrlState = (ctx: MessagePipelineContext) => ctx.playerState.urlState != undefined;
 

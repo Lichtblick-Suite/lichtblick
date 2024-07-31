@@ -7,7 +7,7 @@ import { createContext } from "react";
 import { AsyncState } from "react-use/lib/useAsyncFn";
 import { StoreApi, useStore } from "zustand";
 
-import { useGuaranteedContext } from "@foxglove/hooks";
+import { useGuaranteedContext } from "@lichtblick/hooks";
 import { Time } from "@foxglove/rostime";
 
 /**

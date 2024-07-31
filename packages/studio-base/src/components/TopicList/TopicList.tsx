@@ -32,7 +32,7 @@ import { ListChildComponentProps, VariableSizeList } from "react-window";
 import { makeStyles } from "tss-react/mui";
 import { useDebounce } from "use-debounce";
 
-import { filterMap } from "@foxglove/den/collection";
+import { filterMap } from "@lichtblick/den/collection";
 import { quoteTopicNameIfNeeded } from "@foxglove/message-path";
 
 import { MessagePathRow } from "./MessagePathRow";

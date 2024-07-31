@@ -27,7 +27,7 @@ import {
 } from "react";
 import { StoreApi, useStore } from "zustand";
 
-import { useGuaranteedContext } from "@foxglove/hooks";
+import { useGuaranteedContext } from "@lichtblick/hooks";
 
 import MessageOrderTracker from "./MessageOrderTracker";
 import { pauseFrameForPromises, FramePromise } from "./pauseFrameForPromise";

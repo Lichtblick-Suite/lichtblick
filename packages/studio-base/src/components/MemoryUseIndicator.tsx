@@ -7,7 +7,7 @@ import { useAppConfigurationValue } from "@lichtblick/studio-base/hooks";
 import { Tooltip, Typography } from "@mui/material";
 import { makeStyles } from "tss-react/mui";
 
-import { useMemoryInfo } from "@foxglove/hooks";
+import { useMemoryInfo } from "@lichtblick/hooks";
 
 const useStyles = makeStyles()((theme) => ({
   root: {

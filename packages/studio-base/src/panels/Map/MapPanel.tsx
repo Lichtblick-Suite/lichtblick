@@ -34,7 +34,7 @@ import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } fr
 import { useResizeDetector } from "react-resize-detector";
 import { useDebouncedCallback } from "use-debounce";
 
-import { filterMap } from "@foxglove/den/collection";
+import { filterMap } from "@lichtblick/den/collection";
 import { toSec } from "@foxglove/rostime";
 
 import { buildSettingsTree, Config, validateCustomUrl } from "./config";

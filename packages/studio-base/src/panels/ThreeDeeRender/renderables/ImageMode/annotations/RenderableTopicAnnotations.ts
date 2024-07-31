@@ -5,7 +5,7 @@
 import { RosObject } from "@lichtblick/studio-base/players/types";
 import * as THREE from "three";
 
-import { PinholeCameraModel } from "@foxglove/den/image";
+import { PinholeCameraModel } from "@lichtblick/den/image";
 import { LabelPool } from "@foxglove/three-text";
 
 import { RenderableLineAnnotation } from "./RenderableLineAnnotation";

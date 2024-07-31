@@ -27,7 +27,7 @@ import { keyframes } from "tss-react";
 import { makeStyles } from "tss-react/mui";
 import { useImmer } from "use-immer";
 
-import { filterMap } from "@foxglove/den/collection";
+import { filterMap } from "@lichtblick/den/collection";
 
 import { FieldEditor } from "./FieldEditor";
 import { NodeActionsMenu } from "./NodeActionsMenu";

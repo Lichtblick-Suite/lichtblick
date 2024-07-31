@@ -8,7 +8,7 @@ import { IDataSourceFactory } from "@lichtblick/studio-base/context/PlayerSelect
 import { createContext } from "react";
 import { StoreApi, useStore } from "zustand";
 
-import { useGuaranteedContext } from "@foxglove/hooks";
+import { useGuaranteedContext } from "@lichtblick/hooks";
 
 export const SidebarItemKeys = [
   "account",

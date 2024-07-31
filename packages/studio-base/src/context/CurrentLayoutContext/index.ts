@@ -14,7 +14,7 @@ import {
   selectWithUnstableIdentityWarning,
   useGuaranteedContext,
   useShallowMemo,
-} from "@foxglove/hooks";
+} from "@lichtblick/hooks";
 
 import {
   AddPanelPayload,

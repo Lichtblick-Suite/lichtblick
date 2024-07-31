@@ -69,7 +69,7 @@ import { Transition } from "react-transition-group";
 import { useMountedState } from "react-use";
 import { makeStyles } from "tss-react/mui";
 
-import { useShallowMemo } from "@foxglove/hooks";
+import { useShallowMemo } from "@lichtblick/hooks";
 
 const useStyles = makeStyles()((theme) => ({
   perfInfo: {

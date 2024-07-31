@@ -23,7 +23,7 @@ import * as _ from "lodash-es";
 import { Dispatch, SetStateAction, useCallback, useMemo } from "react";
 import { useMountedState } from "react-use";
 
-import { useGuaranteedContext } from "@foxglove/hooks";
+import { useGuaranteedContext } from "@lichtblick/hooks";
 
 import {
   LeftSidebarItemKey,

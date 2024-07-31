@@ -13,8 +13,8 @@ import { t } from "i18next";
 import * as THREE from "three";
 import { Opaque } from "ts-essentials";
 
-import { filterMap } from "@foxglove/den/collection";
-import { PinholeCameraModel } from "@foxglove/den/image";
+import { filterMap } from "@lichtblick/den/collection";
+import { PinholeCameraModel } from "@lichtblick/den/image";
 import { ImageAnnotations as FoxgloveImageAnnotations } from "@foxglove/schemas";
 import { LabelPool } from "@foxglove/three-text";
 

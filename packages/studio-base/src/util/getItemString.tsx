@@ -8,7 +8,7 @@ import { quatToEuler } from "@lichtblick/studio-base/util/quatToEuler";
 import { ReactNode } from "react";
 import tinycolor from "tinycolor2";
 
-import { filterMap } from "@foxglove/den/collection";
+import { filterMap } from "@lichtblick/den/collection";
 
 const DURATION_20_YEARS_SEC = 20 * 365 * 24 * 60 * 60;
 

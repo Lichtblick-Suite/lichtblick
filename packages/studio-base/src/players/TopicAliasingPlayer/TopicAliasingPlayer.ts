@@ -14,7 +14,7 @@ import {
 } from "@lichtblick/studio-base/players/types";
 import * as _ from "lodash-es";
 
-import { MutexLocked } from "@foxglove/den/async";
+import { MutexLocked } from "@lichtblick/den/async";
 import { Time } from "@foxglove/rostime";
 
 import { IStateProcessor } from "./IStateProcessor";

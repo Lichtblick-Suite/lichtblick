@@ -16,7 +16,7 @@ import concatAndTruncate from "@lichtblick/studio-base/util/concatAndTruncate";
 import * as _ from "lodash-es";
 import { useCallback } from "react";
 
-import { useDeepMemo } from "@foxglove/hooks";
+import { useDeepMemo } from "@lichtblick/hooks";
 
 import { useMessageReducer } from "./useMessageReducer";
 

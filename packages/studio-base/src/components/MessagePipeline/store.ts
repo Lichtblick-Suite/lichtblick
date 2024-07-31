@@ -21,7 +21,7 @@ import { MutableRefObject } from "react";
 import shallowequal from "shallowequal";
 import { createStore, StoreApi } from "zustand";
 
-import { Condvar } from "@foxglove/den/async";
+import { Condvar } from "@lichtblick/den/async";
 
 import { FramePromise } from "./pauseFrameForPromise";
 import { MessagePipelineContext } from "./types";

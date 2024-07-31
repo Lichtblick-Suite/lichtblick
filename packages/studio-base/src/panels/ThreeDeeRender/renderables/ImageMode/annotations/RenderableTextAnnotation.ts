@@ -4,7 +4,7 @@
 
 import { RosObject, RosValue } from "@lichtblick/studio-base/players/types";
 
-import { PinholeCameraModel } from "@foxglove/den/image";
+import { PinholeCameraModel } from "@lichtblick/den/image";
 import { Label, LabelPool } from "@foxglove/three-text";
 
 import { ANNOTATION_RENDER_ORDER } from "./annotationRenderOrder";

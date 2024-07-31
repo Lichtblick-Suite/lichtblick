@@ -12,7 +12,7 @@ import ThemeProvider from "@lichtblick/studio-base/theme/ThemeProvider";
 import { SaveConfig } from "@lichtblick/studio-base/types/panels";
 import { StrictMode, useMemo } from "react";
 
-import { useCrash } from "@foxglove/hooks";
+import { useCrash } from "@lichtblick/hooks";
 
 import { Gauge } from "./Gauge";
 import { Config } from "./types";

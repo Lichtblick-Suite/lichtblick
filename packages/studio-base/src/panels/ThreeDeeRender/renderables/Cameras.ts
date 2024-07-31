@@ -7,7 +7,7 @@ import { SettingsTreeAction, SettingsTreeFields } from "@lichtblick/studio";
 import type { RosValue } from "@lichtblick/studio-base/players/types";
 import { t } from "i18next";
 
-import { PinholeCameraModel } from "@foxglove/den/image";
+import { PinholeCameraModel } from "@lichtblick/den/image";
 import { toNanoSec } from "@foxglove/rostime";
 import { CameraCalibration } from "@foxglove/schemas";
 

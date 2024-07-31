@@ -8,7 +8,7 @@ import { MessageBlock, PlayerState } from "@lichtblick/studio-base/players/types
 import { TimestampMethod, getTimestampForMessage } from "@lichtblick/studio-base/util/time";
 import * as Comlink from "comlink";
 
-import { ComlinkWrap } from "@foxglove/den/worker";
+import { ComlinkWrap } from "@lichtblick/den/worker";
 import { MessagePath } from "@foxglove/message-path";
 import { toSec, subtract as subtractTime } from "@foxglove/rostime";
 

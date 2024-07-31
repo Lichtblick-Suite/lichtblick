@@ -26,7 +26,7 @@ import rosDatatypesToMessageDefinition from "@lichtblick/studio-base/util/rosDat
 import * as _ from "lodash-es";
 import { v4 as uuidv4 } from "uuid";
 
-import { debouncePromise } from "@foxglove/den/async";
+import { debouncePromise } from "@lichtblick/den/async";
 import { Sockets } from "@foxglove/electron-socket/renderer";
 import { MessageDefinition } from "@foxglove/message-definition";
 import { RosNode, TcpSocket } from "@foxglove/ros1";

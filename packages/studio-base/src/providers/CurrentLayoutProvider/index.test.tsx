@@ -25,7 +25,7 @@ import { act, renderHook } from "@testing-library/react";
 import { SnackbarProvider } from "notistack";
 import { useEffect } from "react";
 
-import { Condvar } from "@foxglove/den/async";
+import { Condvar } from "@lichtblick/den/async";
 
 const TEST_LAYOUT: LayoutData = {
   layout: "ExamplePanel!1",

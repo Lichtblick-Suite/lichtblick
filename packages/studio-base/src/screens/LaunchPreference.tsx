@@ -5,7 +5,7 @@
 import { LaunchPreferenceValue } from "@lichtblick/studio-base/types/LaunchPreferenceValue";
 import { PropsWithChildren } from "react";
 
-import { useSessionStorageValue } from "@foxglove/hooks";
+import { useSessionStorageValue } from "@lichtblick/hooks";
 
 import { LaunchPreferenceScreen } from "./LaunchPreferenceScreen";
 import { LaunchingInDesktopScreen } from "./LaunchingInDesktopScreen";

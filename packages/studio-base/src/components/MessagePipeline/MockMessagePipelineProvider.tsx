@@ -41,7 +41,7 @@ import shallowequal from "shallowequal";
 import { Writable } from "ts-essentials";
 import { createStore } from "zustand";
 
-import { Condvar } from "@foxglove/den/async";
+import { Condvar } from "@lichtblick/den/async";
 import { Time, isLessThan } from "@foxglove/rostime";
 
 import { ContextInternal } from "./index";

@@ -13,7 +13,7 @@ import * as _ from "lodash-es";
 import * as THREE from "three";
 import { assert } from "ts-essentials";
 
-import { PinholeCameraModel } from "@foxglove/den/image";
+import { PinholeCameraModel } from "@lichtblick/den/image";
 import { toNanoSec } from "@foxglove/rostime";
 
 import { AnyImage } from "./ImageTypes";

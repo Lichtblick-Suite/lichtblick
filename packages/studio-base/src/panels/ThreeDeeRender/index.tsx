@@ -21,7 +21,7 @@ import { SaveConfig } from "@lichtblick/studio-base/types/panels";
 import { StrictMode, useMemo } from "react";
 import { DeepPartial } from "ts-essentials";
 
-import { useCrash } from "@foxglove/hooks";
+import { useCrash } from "@lichtblick/hooks";
 
 import { SceneExtensionConfig } from "./SceneExtensionConfig";
 import { ThreeDeeRender } from "./ThreeDeeRender";

@@ -42,8 +42,8 @@ import * as _ from "lodash-es";
 import * as THREE from "three";
 import { Writable } from "ts-essentials";
 
-import { filterMap } from "@foxglove/den/collection";
-import { PinholeCameraModel } from "@foxglove/den/image";
+import { filterMap } from "@lichtblick/den/collection";
+import { PinholeCameraModel } from "@lichtblick/den/image";
 import { toNanoSec } from "@foxglove/rostime";
 
 import { ImageModeCamera } from "./ImageModeCamera";

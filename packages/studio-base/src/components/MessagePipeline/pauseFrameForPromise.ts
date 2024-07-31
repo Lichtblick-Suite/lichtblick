@@ -13,7 +13,7 @@
 
 import sendNotification from "@lichtblick/studio-base/util/sendNotification";
 
-import { PromiseTimeoutError, promiseTimeout } from "@foxglove/den/async";
+import { PromiseTimeoutError, promiseTimeout } from "@lichtblick/den/async";
 
 export type FramePromise = { name: string; promise: Promise<void> };
 

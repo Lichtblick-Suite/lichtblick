@@ -7,7 +7,7 @@ import IAnalytics from "@lichtblick/studio-base/services/IAnalytics";
 import { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { StoreApi, createStore, useStore } from "zustand";
 
-import { useMustNotChange } from "@foxglove/hooks";
+import { useMustNotChange } from "@lichtblick/hooks";
 
 export type ForwardedAnalytics = StoreApi<{ value: IAnalytics }>;
 

@@ -19,7 +19,7 @@ import {
 import { ReactElement, useState } from "react";
 import { makeStyles } from "tss-react/mui";
 
-import { useSessionStorageValue } from "@foxglove/hooks";
+import { useSessionStorageValue } from "@lichtblick/hooks";
 
 const useStyles = makeStyles()((theme) => ({
   button: {

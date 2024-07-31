@@ -20,7 +20,7 @@ import {
 } from "@lichtblick/studio-base/players/types";
 import delay from "@lichtblick/studio-base/util/delay";
 
-import { filterMap } from "@foxglove/den/collection";
+import { filterMap } from "@lichtblick/den/collection";
 import { toRFC3339String } from "@foxglove/rostime";
 
 const log = Log.getLogger(__filename);

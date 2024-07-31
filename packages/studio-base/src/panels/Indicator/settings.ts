@@ -13,7 +13,7 @@ import * as _ from "lodash-es";
 import memoizeWeak from "memoize-weak";
 import { useMemo } from "react";
 
-import { useShallowMemo } from "@foxglove/hooks";
+import { useShallowMemo } from "@lichtblick/hooks";
 
 import { Config, Rule } from "./types";
 

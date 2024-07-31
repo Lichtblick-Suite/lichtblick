@@ -10,7 +10,7 @@ import {
 } from "@lichtblick/studio-base/types/Messages";
 import { mightActuallyBePartial } from "@lichtblick/studio-base/util/mightActuallyBePartial";
 
-import { filterMap } from "@foxglove/den/collection";
+import { filterMap } from "@lichtblick/den/collection";
 import { Time, fromNanoSec } from "@foxglove/rostime";
 import { ImageAnnotations, PointsAnnotationType } from "@foxglove/schemas";
 

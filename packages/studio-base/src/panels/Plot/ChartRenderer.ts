@@ -10,7 +10,7 @@ import { AnnotationOptions } from "chartjs-plugin-annotation";
 import EventEmitter from "eventemitter3";
 
 import { Zoom as ZoomPlugin } from "@foxglove/chartjs-plugin-zoom";
-import { unwrap } from "@foxglove/den/monads";
+import { unwrap } from "@lichtblick/den/monads";
 import { fontMonospace } from "@foxglove/theme";
 
 import { OriginalValue } from "./datum";

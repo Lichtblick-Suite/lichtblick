@@ -10,8 +10,8 @@ import { MessageBlock, Progress, TopicSelection } from "@lichtblick/studio-base/
 import { simplify } from "intervals-fn";
 import * as _ from "lodash-es";
 
-import { Condvar } from "@foxglove/den/async";
-import { filterMap } from "@foxglove/den/collection";
+import { Condvar } from "@lichtblick/den/async";
+import { filterMap } from "@lichtblick/den/collection";
 import {
   Time,
   add,

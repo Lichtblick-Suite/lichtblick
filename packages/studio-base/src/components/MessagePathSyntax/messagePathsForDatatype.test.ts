@@ -13,7 +13,7 @@
 
 import { RosDatatypes } from "@lichtblick/studio-base/types/RosDatatypes";
 
-import { unwrap } from "@foxglove/den/monads";
+import { unwrap } from "@lichtblick/den/monads";
 import { parseMessagePath } from "@foxglove/message-path";
 
 import {

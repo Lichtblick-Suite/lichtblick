@@ -6,7 +6,7 @@ import { Immutable, MessageEvent, Time } from "@lichtblick/studio";
 import * as Comlink from "comlink";
 
 import { abortSignalTransferHandler } from "@foxglove/comlink-transfer-handlers";
-import { ComlinkWrap } from "@foxglove/den/worker";
+import { ComlinkWrap } from "@lichtblick/den/worker";
 
 import type {
   GetBackfillMessagesArgs,

@@ -12,7 +12,7 @@ import { ExtensionInfo, ExtensionNamespace } from "@lichtblick/studio-base/types
 import { createContext } from "react";
 import { StoreApi, useStore } from "zustand";
 
-import { useGuaranteedContext } from "@foxglove/hooks";
+import { useGuaranteedContext } from "@lichtblick/hooks";
 
 export type RegisteredPanel = {
   extensionName: string;

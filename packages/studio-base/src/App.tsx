@@ -13,6 +13,7 @@ import ProblemsContextProvider from "@lichtblick/studio-base/providers/ProblemsC
 import { StudioLogsSettingsProvider } from "@lichtblick/studio-base/providers/StudioLogsSettingsProvider";
 import TimelineInteractionStateProvider from "@lichtblick/studio-base/providers/TimelineInteractionStateProvider";
 import UserProfileLocalStorageProvider from "@lichtblick/studio-base/providers/UserProfileLocalStorageProvider";
+import { LayoutLoader } from "@lichtblick/studio-base/services/ILayoutLoader";
 import { Fragment, Suspense, useEffect, useMemo } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";

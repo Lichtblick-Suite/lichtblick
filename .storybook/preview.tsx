@@ -19,7 +19,7 @@ import { Story, StoryContext } from "@storybook/react";
 import { useMemo, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
-import { Condvar } from "@foxglove/den/async";
+import { Condvar } from "@lichtblick/den/async";
 
 import "./styles.css";
 

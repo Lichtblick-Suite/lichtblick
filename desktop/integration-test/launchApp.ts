@@ -9,7 +9,7 @@ import * as os from "os";
 import * as path from "path";
 import { ConsoleMessage, _electron as electron, ElectronApplication, Page } from "playwright";
 
-import { signal } from "@foxglove/den/async";
+import { signal } from "@lichtblick/den/async";
 
 import { appPath } from "./build";
 

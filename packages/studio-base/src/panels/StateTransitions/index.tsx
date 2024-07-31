@@ -43,7 +43,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useResizeDetector } from "react-resize-detector";
 import { makeStyles } from "tss-react/mui";
 
-import { filterMap } from "@foxglove/den/collection";
+import { filterMap } from "@lichtblick/den/collection";
 import { add as addTimes, fromSec, subtract as subtractTimes, toSec } from "@foxglove/rostime";
 import { fontMonospace } from "@foxglove/theme";
 import { OnClickArg as OnChartClickArgs } from "@lichtblick/studio-base/src/components/Chart";

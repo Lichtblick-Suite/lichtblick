@@ -6,7 +6,7 @@ import { existsSync } from "fs";
 import { readdir, readFile } from "fs/promises";
 import { join as pathJoin } from "path";
 
-import Logger from "@foxglove/log";
+import Logger from "@lichtblick/log";
 
 import { DesktopLayout } from "../common/types";
 

@@ -9,7 +9,7 @@ import { Range } from "@lichtblick/studio-base/util/ranges";
 import EventEmitter from "eventemitter3";
 import * as _ from "lodash-es";
 
-import { minIndexBy, sortedIndexByTuple } from "@foxglove/den/collection";
+import { minIndexBy, sortedIndexByTuple } from "@lichtblick/den/collection";
 import { add, compare, subtract, toNanoSec } from "@foxglove/rostime";
 
 import {

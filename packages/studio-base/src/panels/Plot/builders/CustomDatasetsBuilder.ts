@@ -9,7 +9,7 @@ import { PlayerState } from "@lichtblick/studio-base/players/types";
 import { extendBounds1D, unionBounds1D } from "@lichtblick/studio-base/types/Bounds";
 import * as Comlink from "comlink";
 
-import { ComlinkWrap } from "@foxglove/den/worker";
+import { ComlinkWrap } from "@lichtblick/den/worker";
 import { MessagePath } from "@foxglove/message-path";
 
 import { BlockTopicCursor } from "./BlockTopicCursor";

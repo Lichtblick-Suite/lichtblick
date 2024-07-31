@@ -8,7 +8,7 @@ import { Bounds1D } from "@lichtblick/studio-base/components/TimeBasedChart/type
 import { PlayerState } from "@lichtblick/studio-base/players/types";
 import { ChartDataset } from "chart.js";
 
-import { filterMap } from "@foxglove/den/collection";
+import { filterMap } from "@lichtblick/den/collection";
 import { MessagePath } from "@foxglove/message-path";
 
 import {

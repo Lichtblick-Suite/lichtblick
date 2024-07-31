@@ -13,7 +13,7 @@ import {
 } from "@lichtblick/studio-base/util/layout";
 import * as _ from "lodash-es";
 
-import { filterMap } from "@foxglove/den/collection";
+import { filterMap } from "@lichtblick/den/collection";
 
 import { replacePanel } from "./replacePanel";
 

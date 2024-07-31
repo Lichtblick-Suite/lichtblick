@@ -11,7 +11,7 @@ import { createSyncRoot } from "@lichtblick/studio-base/panels/createSyncRoot";
 import { SaveConfig } from "@lichtblick/studio-base/types/panels";
 import { StrictMode, useMemo } from "react";
 
-import { useCrash } from "@foxglove/hooks";
+import { useCrash } from "@lichtblick/hooks";
 
 import { CallService } from "./CallService";
 import { Config } from "./types";

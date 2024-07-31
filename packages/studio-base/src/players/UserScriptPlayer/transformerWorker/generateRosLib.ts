@@ -15,7 +15,7 @@ import { Topic } from "@lichtblick/studio-base/players/types";
 import { RosDatatypes } from "@lichtblick/studio-base/types/RosDatatypes";
 import ts from "typescript/lib/typescript";
 
-import { filterMap } from "@foxglove/den/collection";
+import { filterMap } from "@lichtblick/den/collection";
 
 export type InterfaceDeclarations = {
   [datatype: string]: ts.InterfaceDeclaration;

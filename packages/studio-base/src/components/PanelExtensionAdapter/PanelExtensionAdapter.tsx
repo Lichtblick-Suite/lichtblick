@@ -50,7 +50,7 @@ import { CSSProperties, useEffect, useLayoutEffect, useMemo, useRef, useState } 
 import { useLatest } from "react-use";
 import { v4 as uuid } from "uuid";
 
-import { useSynchronousMountedState, useValueChangedDebugLog } from "@foxglove/hooks";
+import { useSynchronousMountedState, useValueChangedDebugLog } from "@lichtblick/hooks";
 import { fromSec, toSec } from "@foxglove/rostime";
 
 import { PanelConfigVersionError } from "./PanelConfigVersionError";

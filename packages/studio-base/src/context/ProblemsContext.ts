@@ -7,7 +7,7 @@ import { PlayerProblem } from "@lichtblick/studio-base/players/types";
 import { createContext } from "react";
 import { StoreApi, useStore } from "zustand";
 
-import { useGuaranteedContext } from "@foxglove/hooks";
+import { useGuaranteedContext } from "@lichtblick/hooks";
 
 export type SessionProblem = PlayerProblem;
 

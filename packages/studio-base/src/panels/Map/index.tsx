@@ -8,7 +8,7 @@ import { PanelExtensionAdapter } from "@lichtblick/studio-base/components/PanelE
 import { SaveConfig } from "@lichtblick/studio-base/types/panels";
 import { useMemo } from "react";
 
-import { useCrash } from "@foxglove/hooks";
+import { useCrash } from "@lichtblick/hooks";
 
 import { initPanel } from "./initPanel";
 

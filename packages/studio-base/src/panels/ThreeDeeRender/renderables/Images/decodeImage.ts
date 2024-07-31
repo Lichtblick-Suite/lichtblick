@@ -18,7 +18,7 @@ import {
   decodeRGBA8,
   decodeUYVY,
   decodeYUYV,
-} from "@foxglove/den/image";
+} from "@lichtblick/den/image";
 import { RawImage } from "@foxglove/schemas";
 
 import { CompressedImageTypes } from "./ImageTypes";

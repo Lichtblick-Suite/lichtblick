@@ -7,7 +7,7 @@ import { produce } from "immer";
 import * as _ from "lodash-es";
 import { useMemo } from "react";
 
-import { useShallowMemo } from "@foxglove/hooks";
+import { useShallowMemo } from "@lichtblick/hooks";
 
 import type { Config } from "./types";
 

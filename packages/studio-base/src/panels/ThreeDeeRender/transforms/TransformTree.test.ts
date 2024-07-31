@@ -4,7 +4,7 @@
 
 import { Transform } from "@lichtblick/studio-base/panels/ThreeDeeRender/transforms/Transform";
 
-import { ObjectPool } from "@foxglove/den/collection";
+import { ObjectPool } from "@lichtblick/den/collection";
 
 import { AddTransformResult, TransformTree } from "./TransformTree";
 

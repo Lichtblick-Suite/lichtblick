@@ -25,8 +25,8 @@ import {
 import * as _ from "lodash-es";
 import { useCallback, useMemo } from "react";
 
-import { filterMap } from "@foxglove/den/collection";
-import { useDeepMemo, useShallowMemo } from "@foxglove/hooks";
+import { filterMap } from "@lichtblick/den/collection";
+import { useDeepMemo, useShallowMemo } from "@lichtblick/hooks";
 import {
   quoteTopicNameIfNeeded,
   parseMessagePath,

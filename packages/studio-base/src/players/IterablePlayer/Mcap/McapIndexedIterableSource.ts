@@ -21,7 +21,7 @@ import {
 import { RosDatatypes } from "@lichtblick/studio-base/types/RosDatatypes";
 import { McapIndexedReader, McapTypes } from "@mcap/core";
 
-import { pickFields } from "@foxglove/den/records";
+import { pickFields } from "@lichtblick/den/records";
 import { ParsedChannel, parseChannel } from "@foxglove/mcap-support";
 import { Time, fromNanoSec, toNanoSec, compare } from "@foxglove/rostime";
 

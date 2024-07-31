@@ -6,7 +6,7 @@ import { LogLevel } from "@lichtblick/log";
 import { createContext } from "react";
 import { StoreApi, useStore } from "zustand";
 
-import { useGuaranteedContext } from "@foxglove/hooks";
+import { useGuaranteedContext } from "@lichtblick/hooks";
 
 type StudioLogConfigChannel = { name: string; enabled: boolean };
 

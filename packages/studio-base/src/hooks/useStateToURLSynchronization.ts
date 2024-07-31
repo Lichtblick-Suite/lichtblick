@@ -13,7 +13,7 @@ import * as _ from "lodash-es";
 import { useEffect } from "react";
 import { useDebounce } from "use-debounce";
 
-import { useDeepMemo } from "@foxglove/hooks";
+import { useDeepMemo } from "@lichtblick/hooks";
 
 const selectCanSeek = (ctx: MessagePipelineContext) =>
   ctx.playerState.capabilities.includes(PlayerCapabilities.playbackControl);

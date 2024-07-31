@@ -63,7 +63,7 @@ import {
 } from "react-mosaic-component";
 import { MarkOptional } from "ts-essentials";
 
-import { filterMap } from "@foxglove/den/collection";
+import { filterMap } from "@lichtblick/den/collection";
 
 import { isTabPanelConfig } from "../../util/layout";
 

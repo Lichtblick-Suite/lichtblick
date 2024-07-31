@@ -6,7 +6,7 @@ import { Immutable, SettingsTree } from "@lichtblick/studio";
 import { createContext } from "react";
 import { StoreApi, useStore } from "zustand";
 
-import { useGuaranteedContext } from "@foxglove/hooks";
+import { useGuaranteedContext } from "@lichtblick/hooks";
 
 export type ImmutableSettingsTree = Immutable<SettingsTree>;
 

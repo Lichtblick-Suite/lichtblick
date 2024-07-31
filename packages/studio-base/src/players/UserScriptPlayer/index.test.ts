@@ -27,7 +27,7 @@ import { basicDatatypes } from "@lichtblick/studio-base/util/basicDatatypes";
 import delay from "@lichtblick/studio-base/util/delay";
 import { DEFAULT_STUDIO_SCRIPT_PREFIX } from "@lichtblick/studio-base/util/globalConstants";
 
-import { signal } from "@foxglove/den/async";
+import { signal } from "@lichtblick/den/async";
 
 import UserScriptPlayer from ".";
 import exampleDatatypes from "./transformerWorker/fixtures/example-datatypes";

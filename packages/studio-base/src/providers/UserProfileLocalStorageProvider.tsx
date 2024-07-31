@@ -9,7 +9,7 @@ import {
 import * as _ from "lodash-es";
 import { useCallback, useEffect } from "react";
 
-import { useShallowMemo } from "@foxglove/hooks";
+import { useShallowMemo } from "@lichtblick/hooks";
 
 const DEFAULT_PROFILE: UserProfile = {};
 const LOCAL_STORAGE_KEY = "studio.profile-data";

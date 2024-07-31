@@ -21,7 +21,7 @@ import {
 import { RosDatatypes } from "@lichtblick/studio-base/types/RosDatatypes";
 import { v4 as uuidv4 } from "uuid";
 
-import { debouncePromise } from "@foxglove/den/async";
+import { debouncePromise } from "@lichtblick/den/async";
 import { Sockets, UdpRemoteInfo, UdpSocketRenderer } from "@foxglove/electron-socket/renderer";
 import { Time, fromMillis, add as addTimes, toDate, fromDate, fromMicros } from "@foxglove/rostime";
 import { Model, RawPacket, ReturnMode, packetRate } from "@foxglove/velodyne-cloud";

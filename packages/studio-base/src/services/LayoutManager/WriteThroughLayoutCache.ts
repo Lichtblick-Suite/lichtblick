@@ -5,7 +5,7 @@
 import { LayoutID } from "@lichtblick/studio-base/context/CurrentLayoutContext";
 import { ILayoutStorage, Layout } from "@lichtblick/studio-base/services/ILayoutStorage";
 
-import { LazilyInitialized } from "@foxglove/den/async";
+import { LazilyInitialized } from "@lichtblick/den/async";
 
 /**
  * A view of ILayoutCache which only calls the underlying list() once per namespace, and implements

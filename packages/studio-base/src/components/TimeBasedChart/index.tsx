@@ -43,7 +43,7 @@ import { makeStyles } from "tss-react/mui";
 import { v4 as uuidv4 } from "uuid";
 
 import type { ZoomOptions } from "@foxglove/chartjs-plugin-zoom/types/options";
-import { filterMap } from "@foxglove/den/collection";
+import { filterMap } from "@lichtblick/den/collection";
 import { fontMonospace } from "@foxglove/theme";
 
 import HoverBar from "./HoverBar";

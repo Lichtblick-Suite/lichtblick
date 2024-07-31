@@ -16,7 +16,7 @@ import {
 import { defaultPlaybackConfig } from "@lichtblick/studio-base/providers/CurrentLayoutProvider/reducers";
 import { useCallback, useMemo, useRef, useState } from "react";
 
-import { useShallowMemo } from "@foxglove/hooks";
+import { useShallowMemo } from "@lichtblick/hooks";
 
 import panelsReducer from "./reducers";
 

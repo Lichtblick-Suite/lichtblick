@@ -5,7 +5,7 @@
 import Logger from "@lichtblick/log";
 import installExtension, { REACT_DEVELOPER_TOOLS } from "electron-devtools-installer";
 
-import { PromiseTimeoutError, promiseTimeout } from "@foxglove/den/async";
+import { PromiseTimeoutError, promiseTimeout } from "@lichtblick/den/async";
 
 const log = Logger.getLogger(__filename);
 

@@ -25,7 +25,7 @@ import { HoverValue } from "@lichtblick/studio-base/types/hoverValue";
 import memoizeWeak from "memoize-weak";
 import { Writable } from "ts-essentials";
 
-import { filterMap } from "@foxglove/den/collection";
+import { filterMap } from "@lichtblick/den/collection";
 import { compare, toSec } from "@foxglove/rostime";
 
 import {

@@ -11,8 +11,8 @@ import {
 } from "@lichtblick/studio-base/players/types";
 import * as _ from "lodash-es";
 
-import { unwrap } from "@foxglove/den/monads";
-import { makeComlinkWorkerMock } from "@foxglove/den/testing";
+import { unwrap } from "@lichtblick/den/monads";
+import { makeComlinkWorkerMock } from "@lichtblick/den/testing";
 import { parseMessagePath } from "@foxglove/message-path";
 
 import { SeriesConfigKey, SeriesItem } from "./IDatasetsBuilder";

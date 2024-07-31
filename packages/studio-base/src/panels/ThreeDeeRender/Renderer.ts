@@ -33,7 +33,7 @@ import * as THREE from "three";
 import { DeepPartial, assert } from "ts-essentials";
 import { v4 as uuidv4 } from "uuid";
 
-import { ObjectPool } from "@foxglove/den/collection";
+import { ObjectPool } from "@lichtblick/den/collection";
 import { Time, fromNanoSec, isLessThan, toNanoSec } from "@foxglove/rostime";
 import type { FrameTransform, FrameTransforms, SceneUpdate } from "@foxglove/schemas";
 import { palette, fontMonospace } from "@foxglove/theme";

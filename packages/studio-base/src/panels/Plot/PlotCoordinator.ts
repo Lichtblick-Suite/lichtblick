@@ -16,8 +16,8 @@ import { getContrastColor, getLineColor } from "@lichtblick/studio-base/util/plo
 import EventEmitter from "eventemitter3";
 import * as _ from "lodash-es";
 
-import { debouncePromise } from "@foxglove/den/async";
-import { filterMap } from "@foxglove/den/collection";
+import { debouncePromise } from "@lichtblick/den/async";
+import { filterMap } from "@lichtblick/den/collection";
 import { parseMessagePath } from "@foxglove/message-path";
 import { toSec, subtract as subtractTime } from "@foxglove/rostime";
 

@@ -5,10 +5,10 @@
     "@lichtblick/studio-base": "workspace:*"
   },
   "devDependencies": {
-    "@foxglove/den": "workspace:*",
     "@foxglove/rostime": "1.1.2",
     "@foxglove/schemas": "1.6.3",
     "@foxglove/tsconfig": "2.0.0",
+    "@lichtblick/den": "workspace:*",
     "@lichtblick/log": "workspace:*",
     "@lichtblick/studio": "workspace:*",
     "@pmmmwh/react-refresh-webpack-plugin": "0.5.11",

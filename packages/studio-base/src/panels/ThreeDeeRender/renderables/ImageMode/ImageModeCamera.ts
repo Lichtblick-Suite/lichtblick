@@ -4,7 +4,7 @@
 
 import * as THREE from "three";
 
-import { PinholeCameraModel } from "@foxglove/den/image";
+import { PinholeCameraModel } from "@lichtblick/den/image";
 
 const DEFAULT_CAMERA_STATE = {
   near: 0.001,

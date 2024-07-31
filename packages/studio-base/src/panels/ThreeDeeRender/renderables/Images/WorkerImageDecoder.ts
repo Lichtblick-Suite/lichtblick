@@ -4,7 +4,7 @@
 
 import * as Comlink from "comlink";
 
-import { ComlinkWrap } from "@foxglove/den/worker";
+import { ComlinkWrap } from "@lichtblick/den/worker";
 import { RawImage } from "@foxglove/schemas";
 
 import type { RawImageOptions } from "./decodeImage";

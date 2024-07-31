@@ -8,7 +8,7 @@ import { PlayerState } from "@lichtblick/studio-base/players/types";
 import { ChartDataset } from "chart.js";
 import * as _ from "lodash-es";
 
-import { filterMap } from "@foxglove/den/collection";
+import { filterMap } from "@lichtblick/den/collection";
 import { MessagePath } from "@foxglove/message-path";
 
 import {

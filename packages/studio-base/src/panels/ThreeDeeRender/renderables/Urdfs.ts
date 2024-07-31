@@ -18,8 +18,8 @@ import * as _ from "lodash-es";
 import * as THREE from "three";
 import { v4 as uuidv4 } from "uuid";
 
-import { filterMap } from "@foxglove/den/collection";
-import { UrdfGeometryMesh, UrdfRobot, UrdfVisual, parseRobot, UrdfJoint } from "@foxglove/den/urdf";
+import { filterMap } from "@lichtblick/den/collection";
+import { UrdfGeometryMesh, UrdfRobot, UrdfVisual, parseRobot, UrdfJoint } from "@lichtblick/den/urdf";
 import { toNanoSec } from "@foxglove/rostime";
 
 import { RenderableCube } from "./markers/RenderableCube";

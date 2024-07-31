@@ -19,8 +19,8 @@ import {
 import { subscribePayloadFromMessagePath } from "@lichtblick/studio-base/players/subscribePayloadFromMessagePath";
 import { useMemo } from "react";
 
-import { filterMap } from "@foxglove/den/collection";
-import { useShallowMemo } from "@foxglove/hooks";
+import { filterMap } from "@lichtblick/den/collection";
+import { useShallowMemo } from "@lichtblick/hooks";
 
 // Given a set of message paths, subscribe to the appropriate topics and return
 // messages with their queried data decoded for each path.

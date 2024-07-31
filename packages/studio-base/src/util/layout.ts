@@ -36,7 +36,7 @@ import {
 } from "react-mosaic-component";
 import { MosaicDirection, MosaicKey } from "react-mosaic-component/lib/types";
 
-import { filterMap } from "@foxglove/den/collection";
+import { filterMap } from "@lichtblick/den/collection";
 
 const log = Logger.getLogger(__filename);
 

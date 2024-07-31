@@ -14,7 +14,7 @@
 
 import { renderHook } from "@testing-library/react";
 
-import { useShallowMemo } from "@foxglove/hooks";
+import { useShallowMemo } from "@lichtblick/hooks";
 
 describe("useShallowMemo", () => {
   it("returns original object when shallowly equal", () => {

@@ -59,8 +59,8 @@ import ReactDOM from "react-dom";
 import shallowequal from "shallowequal";
 import { v4 as uuidv4 } from "uuid";
 
-import { MutexLocked } from "@foxglove/den/async";
-import { filterMap } from "@foxglove/den/collection";
+import { MutexLocked } from "@lichtblick/den/async";
+import { filterMap } from "@lichtblick/den/collection";
 import { Time, compare } from "@foxglove/rostime";
 
 import { remapVirtualSubscriptions, getPreloadTypes } from "./subscriptions";

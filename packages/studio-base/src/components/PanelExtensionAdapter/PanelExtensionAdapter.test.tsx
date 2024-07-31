@@ -14,7 +14,7 @@ import ThemeProvider from "@lichtblick/studio-base/theme/ThemeProvider";
 import { render } from "@testing-library/react";
 import { act } from "react-dom/test-utils";
 
-import { Condvar, signal } from "@foxglove/den/async";
+import { Condvar, signal } from "@lichtblick/den/async";
 import { Time } from "@foxglove/rostime";
 
 import PanelExtensionAdapter from "./PanelExtensionAdapter";
