@@ -16,7 +16,7 @@ export default function getDevModeIcon(): NativeImage | undefined {
       path.resolve(
         __dirname,
         "..",
-        require.resolve("@lichtblick/studio-desktop/src/main"),
+        require.resolve("@lichtblick/suite-desktop/src/main"),
         "../../../resources/icon/icon.png",
       ),
     );

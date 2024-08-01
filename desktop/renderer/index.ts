@@ -3,9 +3,9 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import { AppSetting } from "@lichtblick/studio-base";
-import { Storage } from "@lichtblick/studio-desktop/src/common/types";
-import { main as rendererMain } from "@lichtblick/studio-desktop/src/renderer/index";
-import NativeStorageAppConfiguration from "@lichtblick/studio-desktop/src/renderer/services/NativeStorageAppConfiguration";
+import { Storage } from "@lichtblick/suite-desktop/src/common/types";
+import { main as rendererMain } from "@lichtblick/suite-desktop/src/renderer/index";
+import NativeStorageAppConfiguration from "@lichtblick/suite-desktop/src/renderer/services/NativeStorageAppConfiguration";
 
 const isDevelopment = process.env.NODE_ENV === "development";
 

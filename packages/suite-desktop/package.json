@@ -1,5 +1,5 @@
 {
-  "name": "@lichtblick/studio-desktop",
+  "name": "@lichtblick/suite-desktop",
   "license": "MPL-2.0",
   "private": true,
   "main": "./src/index.tsx",
