@@ -3589,7 +3589,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@lichtblick/studio-web@workspace:packages/studio-web":
+"@lichtblick/studio-web@workspace:*, @lichtblick/studio-web@workspace:packages/studio-web":
   version: 0.0.0-use.local
   resolution: "@lichtblick/studio-web@workspace:packages/studio-web"
   dependencies:
@@ -23264,7 +23264,7 @@ __metadata:
   dependencies:
     "@foxglove/tsconfig": 2.0.0
     "@lichtblick/log": "workspace:*"
-    "@lichtblick/studio-desktop": "workspace:*"
+    "@lichtblick/studio-web": "workspace:*"
     "@types/serve-handler": ^6
     playwright: 1.37.1
     serve-handler: 6.1.5
