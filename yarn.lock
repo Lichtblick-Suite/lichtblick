@@ -3500,9 +3500,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@lichtblick/studio-web@workspace:*, @lichtblick/studio-web@workspace:packages/studio-web":
+"@lichtblick/studio@workspace:*, @lichtblick/studio@workspace:packages/studio":
   version: 0.0.0-use.local
-  resolution: "@lichtblick/studio-web@workspace:packages/studio-web"
+  resolution: "@lichtblick/studio@workspace:packages/studio"
+  dependencies:
+    "@foxglove/tsconfig": 2.0.0
+    typescript: 5.3.3
+  languageName: unknown
+  linkType: soft
+
+"@lichtblick/suite-web@workspace:*, @lichtblick/suite-web@workspace:packages/suite-web":
+  version: 0.0.0-use.local
+  resolution: "@lichtblick/suite-web@workspace:packages/suite-web"
   dependencies:
     "@fluentui/react-icons": 2.0.224
     "@foxglove/theme": "workspace:*"
@@ -3521,15 +3530,6 @@ __metadata:
     tss-react: 4.9.3
     webpack: 5.93.0
     webpack-dev-server: 5.0.4
-  languageName: unknown
-  linkType: soft
-
-"@lichtblick/studio@workspace:*, @lichtblick/studio@workspace:packages/studio":
-  version: 0.0.0-use.local
-  resolution: "@lichtblick/studio@workspace:packages/studio"
-  dependencies:
-    "@foxglove/tsconfig": 2.0.0
-    typescript: 5.3.3
   languageName: unknown
   linkType: soft
 
@@ -23175,7 +23175,7 @@ __metadata:
   dependencies:
     "@foxglove/tsconfig": 2.0.0
     "@lichtblick/log": "workspace:*"
-    "@lichtblick/studio-web": "workspace:*"
+    "@lichtblick/suite-web": "workspace:*"
     "@types/serve-handler": ^6
     playwright: 1.37.1
     serve-handler: 6.1.5
