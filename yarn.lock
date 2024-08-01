@@ -3445,9 +3445,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@lichtblick/studio-desktop@workspace:*, @lichtblick/studio-desktop@workspace:packages/studio-desktop":
+"@lichtblick/studio-desktop@workspace:*, @lichtblick/studio-desktop@workspace:packages/suite-desktop":
   version: 0.0.0-use.local
-  resolution: "@lichtblick/studio-desktop@workspace:packages/studio-desktop"
+  resolution: "@lichtblick/studio-desktop@workspace:packages/suite-desktop"
   dependencies:
     "@actions/exec": 1.1.1
     "@actions/tool-cache": 2.0.1
