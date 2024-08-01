@@ -5,7 +5,7 @@
 const { makeElectronBuilderConfig } = require("@lichtblick/studio-desktop/src/electronBuilderConfig");
 const path = require("path");
 
-
-module.exports = makeElectronBuilderConfig({
+module.exports =
+  makeElectronBuilderConfig({
   appPath: path.resolve(__dirname, ".webpack"),
 });
