@@ -34,7 +34,6 @@ import {
 import memoizeWeak from "memoize-weak";
 import { makeStyles } from "tss-react/mui";
 
-
 import TableCell from "./TableCell";
 import { sanitizeAccessorPath } from "./sanitizeAccessorPath";
 import { CellValue } from "./types";

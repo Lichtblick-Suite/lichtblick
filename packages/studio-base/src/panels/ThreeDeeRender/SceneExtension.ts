@@ -9,7 +9,6 @@ import * as _ from "lodash-es";
 import * as THREE from "three";
 import { DeepPartial, Writable } from "ts-essentials";
 
-
 import type { AnyRendererSubscription, IRenderer, RendererConfig } from "./IRenderer";
 import { Path } from "./LayerErrors";
 import { Renderable } from "./Renderable";

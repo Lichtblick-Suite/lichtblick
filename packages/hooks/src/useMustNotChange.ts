@@ -5,7 +5,6 @@
 import Logger from "@lichtblick/log";
 import { useRef } from "react";
 
-
 const log = Logger.getLogger(__filename);
 
 const useMustNotChangeImpl = (value: unknown): void => {

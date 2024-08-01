@@ -14,7 +14,6 @@ import {
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
-
 type Props = {
   isDesktop?: boolean;
   onClose: () => void;

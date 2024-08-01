@@ -14,7 +14,6 @@
 import { LayoutData } from "@lichtblick/studio-base/context/CurrentLayoutContext";
 import { MosaicNode } from "react-mosaic-component";
 
-
 export type TabConfig = { title: string; layout?: MosaicNode<string> };
 
 export type TabPanelConfig = {

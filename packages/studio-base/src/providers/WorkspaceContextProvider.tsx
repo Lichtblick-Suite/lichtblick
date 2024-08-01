@@ -12,7 +12,6 @@ import { ReactNode, useState } from "react";
 import { StoreApi, createStore } from "zustand";
 import { persist } from "zustand/middleware";
 
-
 /**
  * Creates the default initial state for the workspace store.
  */

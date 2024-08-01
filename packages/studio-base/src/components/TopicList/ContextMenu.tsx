@@ -8,7 +8,6 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useCopyToClipboard } from "react-use";
 
-
 export function ContextMenu(props: {
   messagePaths: DraggedMessagePath[];
   anchorPosition: NonNullable<MenuProps["anchorPosition"]>;

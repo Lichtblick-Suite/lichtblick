@@ -9,7 +9,6 @@ import { LaunchPreferenceValue } from "@lichtblick/studio-base/types/LaunchPrefe
 import { Link, Typography } from "@mui/material";
 import { ReactElement, useEffect } from "react";
 
-
 export function LaunchingInDesktopScreen(): ReactElement {
   const [, setLaunchPreference] = useSessionStorageValue(AppSetting.LAUNCH_PREFERENCE);
 

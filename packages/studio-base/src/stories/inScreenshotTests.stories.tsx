@@ -5,7 +5,6 @@
 import inScreenshotTests from "@lichtblick/studio-base/stories/inScreenshotTests";
 import { StoryObj } from "@storybook/react";
 
-
 export default {
   title: "inScreenshotTests",
 };

@@ -7,7 +7,6 @@ import { SubscribePayload } from "@lichtblick/studio-base/players/types";
 import moize from "moize";
 import * as R from "ramda";
 
-
 /**
  * Create a deep equal memoized identify function. Used for stabilizing the subscription payloads we
  * send on to the player.

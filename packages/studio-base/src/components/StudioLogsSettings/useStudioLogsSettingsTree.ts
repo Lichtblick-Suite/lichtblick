@@ -8,7 +8,6 @@ import { useStudioLogsSettings } from "@lichtblick/studio-base/context/StudioLog
 import { extname } from "path";
 import { useMemo } from "react";
 
-
 const log = Log.getLogger(__filename);
 
 type ItemDetail = {

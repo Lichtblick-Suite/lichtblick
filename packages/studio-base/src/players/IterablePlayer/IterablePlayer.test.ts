@@ -15,7 +15,6 @@ import * as _ from "lodash-es";
 
 import { fromSec } from "@foxglove/rostime";
 
-
 import {
   GetBackfillMessagesArgs,
   IIterableSource,

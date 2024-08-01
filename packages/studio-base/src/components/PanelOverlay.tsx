@@ -19,7 +19,6 @@ import { ReactElement } from "react-markdown/lib/react-markdown";
 import tc from "tinycolor2";
 import { makeStyles } from "tss-react/mui";
 
-
 const useStyles = makeStyles<void, "buttonGroup">()((theme, _params, classes) => {
   const transparentBackground = tc(theme.palette.background.default).setAlpha(0).toRgbString();
   const hoverBackground = tc(theme.palette.background.default)

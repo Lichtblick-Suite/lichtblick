@@ -8,7 +8,6 @@ import CssBaseline from "@lichtblick/studio-base/components/CssBaseline";
 import { StrictMode, useEffect } from "react";
 import ReactDOM from "react-dom";
 
-
 import { CompatibilityBanner } from "./CompatibilityBanner";
 import { canRenderApp } from "./canRenderApp";
 

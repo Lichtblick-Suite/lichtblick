@@ -10,7 +10,6 @@ import { ALL_SUPPORTED_IMAGE_SCHEMAS } from "@lichtblick/studio-base/panels/Thre
 import { t } from "i18next";
 import { assert } from "ts-essentials";
 
-
 import { toNanoSec } from "@foxglove/rostime";
 import { CompressedImage, RawImage } from "@foxglove/schemas";
 
@@ -363,9 +362,7 @@ export class Images extends SceneExtension<ImageRenderable> {
     }
   };
 
-  #handleCameraInfo = (
-    messageEvent: PartialMessageEvent<CameraInfo>  ,
-  ): void => {
+  #handleCameraInfo = (messageEvent: PartialMessageEvent<CameraInfo>): void => {
     // Store the last camera info on each topic, when processing an image message we'll look up
     // the camera info by the info topic configured for the image
     const cameraInfo = normalizeCameraInfo(messageEvent.message);

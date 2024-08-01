@@ -7,7 +7,6 @@ import * as _ from "lodash-es";
 import { Dispatch } from "react";
 import { useImmerReducer } from "use-immer";
 
-
 type MultiAction = "delete" | "duplicate" | "revert" | "save";
 
 type State = {

@@ -7,7 +7,6 @@ import {
 } from "@lichtblick/studio-base/context/AppConfigurationContext";
 import { useCallback, useEffect, useState } from "react";
 
-
 /**
  * Load a value from app configuration and provide a function to change it
  * This function behaves similarly to useState for a given app configuration key.

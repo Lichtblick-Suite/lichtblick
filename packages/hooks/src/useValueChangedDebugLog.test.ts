@@ -6,7 +6,6 @@
 import Logger from "@lichtblick/log";
 import { renderHook } from "@testing-library/react";
 
-
 import { default as useValueChangedDebugLog } from "./useValueChangedDebugLog";
 
 describe("useValueChangeDebugLog", () => {

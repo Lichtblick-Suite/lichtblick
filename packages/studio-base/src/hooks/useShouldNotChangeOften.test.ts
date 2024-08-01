@@ -15,7 +15,6 @@
 import useShouldNotChangeOften from "@lichtblick/studio-base/hooks/useShouldNotChangeOften";
 import { renderHook } from "@testing-library/react";
 
-
 describe("useShouldNotChangeOften", () => {
   it("logs when value changes twice in a row", () => {
     const warn = jest.fn();

@@ -7,7 +7,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Badge, BadgeProps, Divider, IconButton, Tab, Tabs } from "@mui/material";
 import { makeStyles } from "tss-react/mui";
 
-
 const useStyles = makeStyles()((theme) => ({
   root: {
     boxSizing: "content-box",

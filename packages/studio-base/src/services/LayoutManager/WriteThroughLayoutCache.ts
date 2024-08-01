@@ -6,7 +6,6 @@ import { LazilyInitialized } from "@lichtblick/den/async";
 import { LayoutID } from "@lichtblick/studio-base/context/CurrentLayoutContext";
 import { ILayoutStorage, Layout } from "@lichtblick/studio-base/services/ILayoutStorage";
 
-
 /**
  * A view of ILayoutCache which only calls the underlying list() once per namespace, and implements
  * all operations on the cached data in memory as well as writing through to the underlying storage.

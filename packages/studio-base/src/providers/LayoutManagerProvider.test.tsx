@@ -3,7 +3,6 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-
 import { useVisibilityState } from "@lichtblick/hooks";
 import { LayoutData } from "@lichtblick/studio-base/context/CurrentLayoutContext";
 import { useLayoutStorage } from "@lichtblick/studio-base/context/LayoutStorageContext";

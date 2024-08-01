@@ -11,7 +11,6 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-
 import { SettingsTreeAction } from "@lichtblick/studio";
 import { useDataSourceInfo, useMessagesByTopic } from "@lichtblick/studio-base/PanelAPI";
 import Panel from "@lichtblick/studio-base/components/Panel";
@@ -26,7 +25,6 @@ import { produce } from "immer";
 import * as _ from "lodash-es";
 import { useCallback, useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
-
 
 import LogList from "./LogList";
 import { normalizedLogMessage } from "./conversion";

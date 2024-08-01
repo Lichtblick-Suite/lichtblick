@@ -18,7 +18,6 @@ import { Row } from "@tanstack/react-table";
 import { PropsWithChildren } from "react";
 import { makeStyles } from "tss-react/mui";
 
-
 import { sanitizeAccessorPath } from "./sanitizeAccessorPath";
 
 const useStyles = makeStyles()((theme) => ({

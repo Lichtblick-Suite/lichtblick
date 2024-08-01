@@ -8,7 +8,6 @@ import PanelSetup from "@lichtblick/studio-base/stories/PanelSetup";
 import { StoryObj } from "@storybook/react";
 import { useState } from "react";
 
-
 import Parameters from "./index";
 
 const DEFAULT_PARAMS = new Map<string, ParameterValue>([

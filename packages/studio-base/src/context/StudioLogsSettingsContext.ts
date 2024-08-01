@@ -7,7 +7,6 @@ import { LogLevel } from "@lichtblick/log";
 import { createContext } from "react";
 import { StoreApi, useStore } from "zustand";
 
-
 type StudioLogConfigChannel = { name: string; enabled: boolean };
 
 interface IStudioLogsSettings {

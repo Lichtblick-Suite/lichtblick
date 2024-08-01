@@ -6,7 +6,6 @@ import { McapUnindexedIterableSource } from "@lichtblick/studio-base/players/Ite
 import { McapWriter, TempBuffer } from "@mcap/core";
 import { Blob } from "node:buffer";
 
-
 describe("McapUnindexedIterableSource", () => {
   it("returns the correct metadata", async () => {
     const tempBuffer = new TempBuffer();

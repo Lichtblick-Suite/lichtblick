@@ -2,12 +2,14 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-
 import {
   IDataSourceFactory,
   DataSourceFactoryInitializeArgs,
 } from "@lichtblick/studio-base/context/PlayerSelectionContext";
-import { IterablePlayer, WorkerIterableSource } from "@lichtblick/studio-base/players/IterablePlayer";
+import {
+  IterablePlayer,
+  WorkerIterableSource,
+} from "@lichtblick/studio-base/players/IterablePlayer";
 import { Player } from "@lichtblick/studio-base/players/types";
 import { Link } from "@mui/material";
 import path from "path";

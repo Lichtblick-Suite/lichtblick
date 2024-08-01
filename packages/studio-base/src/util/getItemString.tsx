@@ -9,7 +9,6 @@ import { quatToEuler } from "@lichtblick/studio-base/util/quatToEuler";
 import { ReactNode } from "react";
 import tinycolor from "tinycolor2";
 
-
 const DURATION_20_YEARS_SEC = 20 * 365 * 24 * 60 * 60;
 
 const PRIMITIVE_TYPES = ["string", "number", "bigint", "boolean"];

@@ -10,7 +10,6 @@ import * as React from "react";
 import tc from "tinycolor2";
 import { makeStyles } from "tss-react/mui";
 
-
 import { HUDItem } from "./HUDItemManager";
 import { useRendererProperty } from "./RendererContext";
 

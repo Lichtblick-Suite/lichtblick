@@ -7,7 +7,6 @@ import { GlobalVariables } from "@lichtblick/studio-base/hooks/useGlobalVariable
 import { PlayerProblem, Topic } from "@lichtblick/studio-base/players/types";
 import * as _ from "lodash-es";
 
-
 import { AliasingStateProcessor, TopicAliasMap } from "./AliasingStateProcessor";
 import { IStateProcessor } from "./IStateProcessor";
 import { NoopStateProcessor } from "./NoopStateProcessor";

@@ -6,7 +6,6 @@ import Logger from "@lichtblick/log";
 import { initI18n } from "@lichtblick/studio-base";
 import ReactDOM from "react-dom";
 
-
 const log = Logger.getLogger(__filename);
 log.debug("initializing");
 

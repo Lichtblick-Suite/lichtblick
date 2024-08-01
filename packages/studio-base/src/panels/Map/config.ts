@@ -6,7 +6,6 @@ import { filterMap } from "@lichtblick/den/collection";
 import { SettingsTreeFields, SettingsTreeNodes, Topic } from "@lichtblick/studio";
 import * as _ from "lodash-es";
 
-
 // Persisted panel state
 export type Config = {
   center?: { lat: number; lon: number };

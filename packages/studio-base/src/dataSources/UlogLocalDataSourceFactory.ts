@@ -6,7 +6,10 @@ import {
   IDataSourceFactory,
   DataSourceFactoryInitializeArgs,
 } from "@lichtblick/studio-base/context/PlayerSelectionContext";
-import { IterablePlayer, WorkerIterableSource } from "@lichtblick/studio-base/players/IterablePlayer";
+import {
+  IterablePlayer,
+  WorkerIterableSource,
+} from "@lichtblick/studio-base/players/IterablePlayer";
 import { Player } from "@lichtblick/studio-base/players/types";
 
 class UlogLocalDataSourceFactory implements IDataSourceFactory {

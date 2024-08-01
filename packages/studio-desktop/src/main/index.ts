@@ -8,7 +8,6 @@ import { app, BrowserWindow, ipcMain, Menu, nativeTheme, session } from "electro
 import fs from "fs";
 import i18n from "i18next";
 
-
 import StudioAppUpdater from "./StudioAppUpdater";
 import StudioWindow from "./StudioWindow";
 import getDevModeIcon from "./getDevModeIcon";

@@ -12,7 +12,6 @@ import {
 import { PropsWithChildren, useCallback, useEffect, useState } from "react";
 import { StoreApi, createStore } from "zustand";
 
-
 function createPanelStateStore(initialState?: Partial<PanelStateStore>): StoreApi<PanelStateStore> {
   return createStore((set) => {
     return {

@@ -5,7 +5,6 @@
 import type { OpenSiblingPanel, PanelConfig } from "@lichtblick/studio-base/types/panels";
 import * as _ from "lodash-es";
 
-
 import type { PlotConfig } from "./config";
 
 export function openSiblingPlotPanel(openSiblingPanel: OpenSiblingPanel, topicName: string): void {

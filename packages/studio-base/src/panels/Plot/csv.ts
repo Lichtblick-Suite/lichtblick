@@ -6,7 +6,6 @@ import { Immutable } from "@lichtblick/studio";
 import { downloadFiles } from "@lichtblick/studio-base/util/download";
 import { formatTimeRaw } from "@lichtblick/studio-base/util/time";
 
-
 import { CsvDataset } from "./builders/IDatasetsBuilder";
 import { PlotXAxisVal } from "./config";
 

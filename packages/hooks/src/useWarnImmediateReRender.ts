@@ -4,7 +4,6 @@
 import Log from "@lichtblick/log";
 import { useLayoutEffect, useRef } from "react";
 
-
 const log = Log.getLogger(__filename);
 
 // useWarnImmediateReRender will warn if the component re-renders before the next animation frame

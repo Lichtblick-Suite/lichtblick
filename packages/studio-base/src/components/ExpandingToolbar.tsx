@@ -8,7 +8,6 @@ import { Paper, IconButton, Tabs, Tab, tabClasses, tabsClasses, Tooltip } from "
 import { ReactElement, ReactNode } from "react";
 import { makeStyles } from "tss-react/mui";
 
-
 const PANE_HEIGHT = 240;
 
 const useStyles = makeStyles()((theme) => ({

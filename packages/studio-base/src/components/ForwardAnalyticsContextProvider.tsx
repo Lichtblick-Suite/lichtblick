@@ -8,7 +8,6 @@ import IAnalytics from "@lichtblick/studio-base/services/IAnalytics";
 import { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { StoreApi, createStore, useStore } from "zustand";
 
-
 export type ForwardedAnalytics = StoreApi<{ value: IAnalytics }>;
 
 /**

@@ -5,7 +5,6 @@
 import { MessageEvent } from "@lichtblick/studio";
 import * as _ from "lodash-es";
 
-
 import { BlockTopicCursor } from "./BlockTopicCursor";
 
 function groupByTopic(events: MessageEvent[]): Record<string, MessageEvent[]> {

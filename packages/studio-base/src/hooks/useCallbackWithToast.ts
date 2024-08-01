@@ -6,7 +6,6 @@ import Logger from "@lichtblick/log";
 import { useSnackbar } from "notistack";
 import { useCallback } from "react";
 
-
 const log = Logger.getLogger(__filename);
 
 /**

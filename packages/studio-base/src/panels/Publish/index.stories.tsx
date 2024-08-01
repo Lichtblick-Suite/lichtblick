@@ -10,7 +10,6 @@ import { expect } from "@storybook/jest";
 import { Meta, StoryObj } from "@storybook/react";
 import { userEvent, within } from "@storybook/testing-library";
 
-
 import { PublishConfig } from "./types";
 
 const getFixture = ({ allowPublish }: { allowPublish: boolean }): Fixture => {

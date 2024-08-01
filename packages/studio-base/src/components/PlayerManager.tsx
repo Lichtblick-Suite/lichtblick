@@ -11,7 +11,6 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-
 import { useWarnImmediateReRender } from "@lichtblick/hooks";
 import Logger from "@lichtblick/log";
 import { Immutable } from "@lichtblick/studio";
@@ -33,7 +32,9 @@ import {
   useUserScriptState,
 } from "@lichtblick/studio-base/context/UserScriptStateContext";
 import { GlobalVariables } from "@lichtblick/studio-base/hooks/useGlobalVariables";
-import useIndexedDbRecents, { RecentRecord } from "@lichtblick/studio-base/hooks/useIndexedDbRecents";
+import useIndexedDbRecents, {
+  RecentRecord,
+} from "@lichtblick/studio-base/hooks/useIndexedDbRecents";
 import AnalyticsMetricsCollector from "@lichtblick/studio-base/players/AnalyticsMetricsCollector";
 import {
   TopicAliasFunctions,
@@ -53,7 +54,6 @@ import {
   useState,
 } from "react";
 import { useLatest, useMountedState } from "react-use";
-
 
 const log = Logger.getLogger(__filename);
 

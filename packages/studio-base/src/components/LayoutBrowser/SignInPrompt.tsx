@@ -2,7 +2,6 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-
 import { AppSetting } from "@lichtblick/studio-base/AppSetting";
 import { useCurrentUser } from "@lichtblick/studio-base/context/CurrentUserContext";
 import { useWorkspaceActions } from "@lichtblick/studio-base/context/Workspace/useWorkspaceActions";

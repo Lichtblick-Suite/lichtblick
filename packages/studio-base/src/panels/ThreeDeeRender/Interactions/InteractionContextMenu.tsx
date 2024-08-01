@@ -6,7 +6,6 @@ import { BaseMarker, InstancedLineListMarker } from "@lichtblick/studio-base/typ
 import { Menu, MenuItem, MenuProps } from "@mui/material";
 import { useCallback } from "react";
 
-
 import { Interactive, SelectedObject } from "./types";
 import { MouseEventObject } from "../camera";
 

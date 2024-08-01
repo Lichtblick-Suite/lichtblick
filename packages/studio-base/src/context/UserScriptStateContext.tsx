@@ -9,7 +9,6 @@ import { Diagnostic, UserScriptLog } from "@lichtblick/studio-base/players/UserS
 import { createContext, useState } from "react";
 import { StoreApi, createStore, useStore } from "zustand";
 
-
 type UserScriptState = {
   rosLib: string;
   typesLib: string;

@@ -15,7 +15,6 @@ import { getPanelTypeFromId } from "@lichtblick/studio-base/util/layout";
 import { getNodeAtPath, MosaicRootActions, MosaicWindowActions } from "react-mosaic-component";
 import { MosaicKey } from "react-mosaic-component/lib/types";
 
-
 export function getPanelTypeFromMosaic(
   mosaicWindowActions?: MosaicWindowActions,
   mosaicActions?: MosaicRootActions<MosaicKey>,

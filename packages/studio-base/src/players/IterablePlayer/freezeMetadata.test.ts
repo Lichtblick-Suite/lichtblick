@@ -5,7 +5,6 @@
 import { Metadata } from "@lichtblick/studio";
 import { freezeMetadata } from "@lichtblick/studio-base/players/IterablePlayer/freezeMetadata";
 
-
 describe("freezeMetadata", () => {
   const metadata: Metadata[] = [
     { name: "Metadata1", metadata: { key: "value1" } },

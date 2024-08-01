@@ -5,7 +5,6 @@
 import type { RosValue } from "@lichtblick/studio-base/players/types";
 import * as THREE from "three";
 
-
 import type { IRenderer } from "./IRenderer";
 import type { BaseSettings } from "./settings";
 import type { Pose } from "./transforms";

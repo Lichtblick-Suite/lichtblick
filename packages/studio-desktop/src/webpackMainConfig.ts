@@ -8,7 +8,6 @@ import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import path from "path";
 import { Configuration, DefinePlugin, ResolveOptions } from "webpack";
 
-
 import { WebpackConfigParams } from "./WebpackConfigParams";
 
 export const webpackMainConfig =

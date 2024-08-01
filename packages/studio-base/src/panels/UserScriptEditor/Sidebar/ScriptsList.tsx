@@ -8,7 +8,6 @@ import AddIcon from "@mui/icons-material/Add";
 import { Button, List } from "@mui/material";
 import { makeStyles } from "tss-react/mui";
 
-
 import { ScriptListItem } from "./ScriptListItem";
 import { SidebarHeader } from "./SidebarHeader";
 

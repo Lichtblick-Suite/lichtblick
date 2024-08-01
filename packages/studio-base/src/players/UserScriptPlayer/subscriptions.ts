@@ -7,7 +7,6 @@ import { mergeSubscriptions } from "@lichtblick/studio-base/components/MessagePi
 import { SubscribePayload } from "@lichtblick/studio-base/players/types";
 import * as R from "ramda";
 
-
 // A mapping from the subscription to the input topics needed to satisfy
 // that request.
 type SubscriberInputs = [SubscribePayload, readonly string[] | undefined];

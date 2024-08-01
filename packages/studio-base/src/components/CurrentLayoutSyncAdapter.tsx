@@ -16,7 +16,6 @@ import { useEffect, useState } from "react";
 import { useAsync, useMountedState } from "react-use";
 import { useDebounce } from "use-debounce";
 
-
 type UpdatedLayout = NonNullable<LayoutState["selectedLayout"]>;
 
 const log = Logger.getLogger(__filename);

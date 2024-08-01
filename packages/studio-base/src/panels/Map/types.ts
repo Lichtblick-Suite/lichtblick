@@ -5,7 +5,6 @@
 import { MessageEvent } from "@lichtblick/studio";
 import { FoxgloveMessages } from "@lichtblick/studio-base/types/FoxgloveMessages";
 
-
 export type Point = {
   lat: number;
   lon: number;

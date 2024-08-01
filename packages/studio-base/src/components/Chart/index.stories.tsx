@@ -16,7 +16,6 @@ import * as _ from "lodash-es";
 import { useState, useCallback, ComponentProps, useEffect } from "react";
 import TestUtils from "react-dom/test-utils";
 
-
 import ChartComponent, { OnClickArg } from ".";
 
 const dataPoint = {

@@ -10,7 +10,6 @@ import { useMemo, ReactNode } from "react";
 import { FixedSizeList, ListChildComponentProps } from "react-window";
 import { makeStyles } from "tss-react/mui";
 
-
 const Constants = Object.freeze({
   LISTBOX_PADDING: 8,
   ROW_HEIGHT: 26,

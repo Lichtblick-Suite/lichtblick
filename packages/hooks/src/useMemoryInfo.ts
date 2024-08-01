@@ -7,7 +7,6 @@
 import Logger from "@lichtblick/log";
 import { useEffect, useState } from "react";
 
-
 const log = Logger.getLogger(__filename);
 
 type UseMemoryInfoOptions = {

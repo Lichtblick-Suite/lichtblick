@@ -10,7 +10,10 @@ import ExtensionsSettings from "@lichtblick/studio-base/components/ExtensionsSet
 import LichtblickLogoText from "@lichtblick/studio-base/components/LichtblickLogoText";
 import Stack from "@lichtblick/studio-base/components/Stack";
 import { useAppContext } from "@lichtblick/studio-base/context/AppContext";
-import { useWorkspaceStore, WorkspaceContextStore } from "@lichtblick/studio-base/context/Workspace/WorkspaceContext";
+import {
+  useWorkspaceStore,
+  WorkspaceContextStore,
+} from "@lichtblick/studio-base/context/Workspace/WorkspaceContext";
 import { useAppConfigurationValue } from "@lichtblick/studio-base/hooks/useAppConfigurationValue";
 import isDesktopApp from "@lichtblick/studio-base/util/isDesktopApp";
 import CloseIcon from "@mui/icons-material/Close";

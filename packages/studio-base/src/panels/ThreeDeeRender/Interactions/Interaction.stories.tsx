@@ -18,7 +18,6 @@ import { useTheme } from "@mui/material";
 import { StoryFn, StoryObj } from "@storybook/react";
 import { PropsWithChildren } from "react";
 
-
 import Interactions, { OBJECT_TAB_TYPE } from "./Interactions";
 
 const markerObject = {

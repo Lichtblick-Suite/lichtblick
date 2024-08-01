@@ -35,7 +35,6 @@ import { bagConnectionsToDatatypes } from "@lichtblick/studio-base/util/bagConne
 import * as _ from "lodash-es";
 import { v4 as uuidv4 } from "uuid";
 
-
 import roslib from "@foxglove/roslibjs";
 import { parse as parseMessageDefinition } from "@foxglove/rosmsg";
 import { MessageReader as ROS1MessageReader } from "@foxglove/rosmsg-serialization";

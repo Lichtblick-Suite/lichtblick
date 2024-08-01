@@ -17,7 +17,6 @@ import {
 } from "@lichtblick/studio-base/players/UserScriptPlayer/types";
 import ts from "typescript/lib/typescript";
 
-
 const mapCategoryToDiagnosticSeverity = (
   category: ts.DiagnosticCategory,
 ): (typeof DiagnosticSeverity)[keyof typeof DiagnosticSeverity] => {

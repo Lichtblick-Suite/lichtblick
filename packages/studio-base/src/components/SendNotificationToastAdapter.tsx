@@ -15,7 +15,6 @@ import { Link } from "@mui/material";
 import { useSnackbar, VariantType } from "notistack";
 import { useLayoutEffect, useState } from "react";
 
-
 const severityToToastAppearance = (severity: NotificationSeverity): VariantType => {
   switch (severity) {
     case "error":

@@ -10,7 +10,6 @@ import { PanelInfo } from "@lichtblick/studio-base/context/PanelCatalogContext";
 import { List } from "@mui/material";
 import { useCallback, useMemo } from "react";
 
-
 import { PanelListItem, DropDescription } from "./PanelListItem";
 import { PanelSelection } from "./types";
 

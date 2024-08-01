@@ -8,7 +8,6 @@ import { Dialog, DialogTitle, IconButton, Typography } from "@mui/material";
 import { useMemo } from "react";
 import { makeStyles } from "tss-react/mui";
 
-
 const useStyles = makeStyles()((theme) => ({
   container: {
     alignItems: "stretch",

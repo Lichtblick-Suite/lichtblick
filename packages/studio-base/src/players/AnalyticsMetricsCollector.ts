@@ -6,7 +6,6 @@ import Log from "@lichtblick/log";
 import { PlayerMetricsCollectorInterface } from "@lichtblick/studio-base/players/types";
 import IAnalytics, { AppEvent } from "@lichtblick/studio-base/services/IAnalytics";
 
-
 const log = Log.getLogger(__filename);
 
 type EventData = { [key: string]: string | number | boolean };

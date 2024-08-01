@@ -6,7 +6,6 @@ import Logger from "@lichtblick/log";
 import { Layout, layoutIsShared } from "@lichtblick/studio-base/services/ILayoutStorage";
 import { RemoteLayout } from "@lichtblick/studio-base/services/IRemoteLayoutStorage";
 
-
 const log = Logger.getLogger(__filename);
 
 export type SyncOperation =

@@ -2,7 +2,6 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-
 import { useCrash } from "@lichtblick/hooks";
 import { PanelExtensionContext } from "@lichtblick/studio";
 import { CaptureErrorBoundary } from "@lichtblick/studio-base/components/CaptureErrorBoundary";
@@ -12,7 +11,6 @@ import { createSyncRoot } from "@lichtblick/studio-base/panels/createSyncRoot";
 import ThemeProvider from "@lichtblick/studio-base/theme/ThemeProvider";
 import { SaveConfig } from "@lichtblick/studio-base/types/panels";
 import { StrictMode, useMemo } from "react";
-
 
 import { Indicator } from "./Indicator";
 import { Config } from "./types";

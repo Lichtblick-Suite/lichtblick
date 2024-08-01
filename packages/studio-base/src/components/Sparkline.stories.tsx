@@ -14,7 +14,6 @@
 import { Sparkline, SparklinePoint } from "@lichtblick/studio-base/components/Sparkline";
 import { StoryObj } from "@storybook/react";
 
-
 const points: SparklinePoint[] = [
   { value: 5, timestamp: 10 },
   { value: 50, timestamp: 30 },

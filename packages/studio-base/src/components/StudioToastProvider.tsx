@@ -21,7 +21,6 @@ import {
 import { PropsWithChildren, forwardRef } from "react";
 import { makeStyles } from "tss-react/mui";
 
-
 const anchorWithOffset = (origin: "top" | "bottom") => ({
   "&.notistack-SnackbarContainer": {
     top: origin === "top" ? APP_BAR_HEIGHT : undefined,

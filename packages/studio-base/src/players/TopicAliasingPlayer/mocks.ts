@@ -9,7 +9,6 @@ import {
   PlayerStateActiveData,
 } from "@lichtblick/studio-base/players/types";
 
-
 export function mockMessage<T>(message: T, fields?: Partial<MessageEvent<T>>): MessageEvent<T> {
   return {
     topic: "topic",

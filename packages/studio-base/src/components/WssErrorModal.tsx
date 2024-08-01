@@ -9,7 +9,6 @@ import { Dialog, DialogContent, DialogTitle, IconButton, Stack, Typography } fro
 import { useState } from "react";
 import { makeStyles } from "tss-react/mui";
 
-
 import WssErrorModalScreenshot from "./WssErrorModal.png";
 
 const useStyles = makeStyles()({

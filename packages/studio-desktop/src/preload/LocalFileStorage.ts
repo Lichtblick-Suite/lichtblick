@@ -7,7 +7,6 @@ import { ipcRenderer } from "electron";
 import { promises as fs } from "fs";
 import path from "path";
 
-
 import { DATASTORES_DIR_NAME } from "../common/storage";
 import type { Storage, StorageContent } from "../common/types";
 

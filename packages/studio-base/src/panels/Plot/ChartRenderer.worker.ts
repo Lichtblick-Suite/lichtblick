@@ -19,7 +19,6 @@ import {
 import AnnotationPlugin from "chartjs-plugin-annotation";
 import * as Comlink from "comlink";
 
-
 import { ChartRenderer } from "./ChartRenderer";
 
 type InitArgs = {

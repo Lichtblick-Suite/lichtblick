@@ -18,7 +18,6 @@ import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { makeStyles } from "tss-react/mui";
 
-
 import { NodeEditor } from "./NodeEditor";
 import { filterTreeNodes, prepareSettingsNodes } from "./utils";
 

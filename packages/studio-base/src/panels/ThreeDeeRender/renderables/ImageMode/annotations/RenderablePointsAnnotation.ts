@@ -6,7 +6,6 @@ import { PinholeCameraModel } from "@lichtblick/den/image";
 import { RosObject, RosValue } from "@lichtblick/studio-base/players/types";
 import * as THREE from "three";
 
-
 import {
   ANNOTATION_RENDER_ORDER,
   annotationRenderOrderMaterialProps,

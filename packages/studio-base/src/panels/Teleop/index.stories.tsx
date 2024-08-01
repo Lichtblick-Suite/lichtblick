@@ -7,7 +7,6 @@ import PanelSetup from "@lichtblick/studio-base/stories/PanelSetup";
 import { action } from "@storybook/addon-actions";
 import { StoryFn, StoryContext, StoryObj } from "@storybook/react";
 
-
 import TeleopPanel from "./index";
 
 export default {

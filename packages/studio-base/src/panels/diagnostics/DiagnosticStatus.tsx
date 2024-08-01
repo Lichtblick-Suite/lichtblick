@@ -34,7 +34,6 @@ import { createSelector } from "reselect";
 import sanitizeHtml from "sanitize-html";
 import { makeStyles } from "tss-react/mui";
 
-
 import { DiagnosticInfo, KeyValue, DiagnosticStatusMessage, LEVELS } from "./util";
 
 const MIN_SPLIT_FRACTION = 0.1;

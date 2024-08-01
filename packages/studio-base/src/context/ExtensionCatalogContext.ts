@@ -13,7 +13,6 @@ import { ExtensionInfo, ExtensionNamespace } from "@lichtblick/studio-base/types
 import { createContext } from "react";
 import { StoreApi, useStore } from "zustand";
 
-
 export type RegisteredPanel = {
   extensionName: string;
   extensionNamespace?: ExtensionNamespace;

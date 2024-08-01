@@ -11,7 +11,6 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-
 import SendNotificationToastAdapter from "@lichtblick/studio-base/components/SendNotificationToastAdapter";
 import StudioToastProvider from "@lichtblick/studio-base/components/StudioToastProvider";
 import sendNotification from "@lichtblick/studio-base/util/sendNotification";

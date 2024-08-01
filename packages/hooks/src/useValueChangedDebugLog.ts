@@ -5,7 +5,6 @@
 import Logger from "@lichtblick/log";
 import { useRef, useLayoutEffect } from "react";
 
-
 const log = Logger.getLogger(__filename);
 
 const noOpImpl = () => {};

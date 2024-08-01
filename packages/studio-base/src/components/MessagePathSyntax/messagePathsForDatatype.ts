@@ -11,7 +11,6 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-
 import { Immutable } from "@lichtblick/studio";
 import { isTypicalFilterName } from "@lichtblick/studio-base/components/MessagePathSyntax/isTypicalFilterName";
 import { RosDatatypes } from "@lichtblick/studio-base/types/RosDatatypes";
@@ -56,7 +55,6 @@ function isPrimitiveType(type: string): type is PrimitiveType {
     case "string":
       return true;
   }
-
 }
 
 function structureItemIsIntegerPrimitive(item: MessagePathStructureItem) {

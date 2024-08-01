@@ -19,7 +19,6 @@ import {
   useDrop,
 } from "react-dnd";
 
-
 import { MessagePathDragParams } from "./types";
 
 const log = Logger.getLogger(__filename);

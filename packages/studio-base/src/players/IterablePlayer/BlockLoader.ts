@@ -12,7 +12,6 @@ import { MessageBlock, Progress, TopicSelection } from "@lichtblick/studio-base/
 import { simplify } from "intervals-fn";
 import * as _ from "lodash-es";
 
-
 import {
   Time,
   add,

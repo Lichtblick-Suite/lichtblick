@@ -4,7 +4,6 @@
 
 /* eslint-disable @foxglove/no-restricted-imports */
 
-
 import { AppSetting } from "@lichtblick/studio-base/AppSetting";
 import { EventsList } from "@lichtblick/studio-base/components/EventsList";
 import {

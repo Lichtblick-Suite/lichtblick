@@ -4,7 +4,6 @@
 
 /* eslint-disable @foxglove/no-boolean-parameters */
 
-
 import { ArrayMap } from "@lichtblick/den/collection";
 import { ObjectPool } from "@lichtblick/den/collection/ObjectPool";
 import { mat4, quat, vec3, vec4 } from "gl-matrix";

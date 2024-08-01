@@ -7,7 +7,6 @@ import { Topic } from "@lichtblick/studio-base/players/types";
 import PanelSetup from "@lichtblick/studio-base/stories/PanelSetup";
 import { StoryObj } from "@storybook/react";
 
-
 import {
   COLLADA_AXES_MESH_RESOURCE,
   GLTF_AXES_MESH_RESOURCE,

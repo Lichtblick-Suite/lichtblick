@@ -11,7 +11,6 @@ import { useAppConfigurationValue } from "@lichtblick/studio-base/hooks/useAppCo
 import { renderHook } from "@testing-library/react";
 import { PropsWithChildren } from "react";
 
-
 class FakeProvider implements IAppConfiguration {
   public get(key: string): AppConfigurationValue {
     return key;

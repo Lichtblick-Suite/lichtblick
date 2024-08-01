@@ -6,7 +6,6 @@ import { Immutable } from "@lichtblick/studio";
 import { Point } from "@lichtblick/studio-base/components/Chart/datasets";
 import * as R from "ramda";
 
-
 import { calculateIntervals } from "./downsample";
 import type { PlotViewport } from "./types";
 

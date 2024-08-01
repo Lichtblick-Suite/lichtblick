@@ -8,7 +8,6 @@ import {
 } from "@lichtblick/studio-base/context/PanelStateContext";
 import { Fragment, ReactNode, useCallback } from "react";
 
-
 /**
  * Wrapper component used to force-remount the panel when key properties like the tabId
  * or settings sequence number change.

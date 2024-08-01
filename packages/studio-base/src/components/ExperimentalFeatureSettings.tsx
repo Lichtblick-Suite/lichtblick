@@ -11,7 +11,6 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-
 import { AppSetting } from "@lichtblick/studio-base/AppSetting";
 import Stack from "@lichtblick/studio-base/components/Stack";
 import { useAnalytics } from "@lichtblick/studio-base/context/AnalyticsContext";

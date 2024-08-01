@@ -7,7 +7,6 @@ import { Typography } from "@mui/material";
 import { CSSProperties, Fragment, PropsWithChildren } from "react";
 import { makeStyles } from "tss-react/mui";
 
-
 const useStyles = makeStyles()((theme) => ({
   leadingItems: {
     display: "flex",

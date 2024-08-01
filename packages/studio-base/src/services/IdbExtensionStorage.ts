@@ -10,7 +10,6 @@ import {
 import { ExtensionInfo } from "@lichtblick/studio-base/types/Extensions";
 import * as IDB from "idb/with-async-ittr";
 
-
 const log = Log.getLogger(__filename);
 
 const DATABASE_BASE_NAME = "foxglove-extensions";

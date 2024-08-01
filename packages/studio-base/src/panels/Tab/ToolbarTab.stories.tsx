@@ -16,7 +16,6 @@ import { StoryObj } from "@storybook/react";
 import * as _ from "lodash-es";
 import React, { ReactNode } from "react";
 
-
 const baseProps = {
   hidden: false,
   highlight: undefined,

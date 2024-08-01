@@ -11,7 +11,6 @@ import {
 import Stack from "@lichtblick/studio-base/components/Stack";
 import { Meta, StoryFn, StoryObj } from "@storybook/react";
 
-
 import { PanelOverlay } from "./PanelOverlay";
 
 export default {

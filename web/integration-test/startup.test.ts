@@ -8,7 +8,6 @@ import path from "path";
 import { chromium } from "playwright";
 import serveHandler from "serve-handler";
 
-
 const log = Logger.getLogger(__filename);
 
 describe("startup", () => {

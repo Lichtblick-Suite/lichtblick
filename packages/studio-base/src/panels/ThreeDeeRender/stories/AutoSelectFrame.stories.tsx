@@ -7,7 +7,6 @@ import { Topic } from "@lichtblick/studio-base/players/types";
 import PanelSetup from "@lichtblick/studio-base/stories/PanelSetup";
 import { StoryObj } from "@storybook/react";
 
-
 import {
   BASE_LINK_FRAME_ID,
   FIXED_FRAME_ID,

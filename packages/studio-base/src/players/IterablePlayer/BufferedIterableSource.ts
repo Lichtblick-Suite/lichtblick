@@ -9,7 +9,6 @@ import { Time, MessageEvent } from "@lichtblick/studio";
 import { Range } from "@lichtblick/studio-base/util/ranges";
 import EventEmitter from "eventemitter3";
 
-
 import { add as addTime, compare, clampTime } from "@foxglove/rostime";
 
 import { CachingIterableSource } from "./CachingIterableSource";

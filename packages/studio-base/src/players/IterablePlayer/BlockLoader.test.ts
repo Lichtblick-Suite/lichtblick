@@ -7,7 +7,6 @@ import PlayerProblemManager from "@lichtblick/studio-base/players/PlayerProblemM
 import { MessageBlock } from "@lichtblick/studio-base/players/types";
 import { mockTopicSelection } from "@lichtblick/studio-base/test/mocks/mockTopicSelection";
 
-
 import { BlockLoader, MEMORY_INFO_PRELOADED_MSGS } from "./BlockLoader";
 import {
   GetBackfillMessagesArgs,

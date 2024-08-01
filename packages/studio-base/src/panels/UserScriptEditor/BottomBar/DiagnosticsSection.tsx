@@ -16,7 +16,6 @@ import * as _ from "lodash-es";
 import { ReactElement } from "react";
 import { makeStyles } from "tss-react/mui";
 
-
 const severityIcons = {
   Hint: <HelpIcon fontSize="small" />,
   Info: <InfoIcon fontSize="small" color="info" />,

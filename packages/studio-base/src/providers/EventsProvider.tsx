@@ -11,7 +11,6 @@ import { ReactNode, useState } from "react";
 import { AsyncState } from "react-use/lib/useAsyncFn";
 import { createStore } from "zustand";
 
-
 const NO_EVENTS: TimelinePositionedEvent[] = [];
 
 function createEventsStore() {

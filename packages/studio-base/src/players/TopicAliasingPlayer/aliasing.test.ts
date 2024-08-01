@@ -9,7 +9,6 @@ import {
 } from "@lichtblick/studio-base/players/TopicAliasingPlayer/aliasing";
 import { Topic } from "@lichtblick/studio-base/players/types";
 
-
 import { mockPlayerState } from "./mocks";
 
 describe("mapPlayerState", () => {

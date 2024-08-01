@@ -20,7 +20,6 @@ import { Typography } from "@mui/material";
 import { useContext, useMemo, CSSProperties } from "react";
 import { makeStyles } from "tss-react/mui";
 
-
 import { PanelToolbarControls } from "./PanelToolbarControls";
 
 export const PANEL_TOOLBAR_MIN_HEIGHT = 30;

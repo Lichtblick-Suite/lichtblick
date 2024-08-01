@@ -7,7 +7,6 @@ import EventsProvider from "@lichtblick/studio-base/providers/EventsProvider";
 import { StoryObj, StoryFn, Meta } from "@storybook/react";
 import { screen, userEvent } from "@storybook/testing-library";
 
-
 import { CreateEventDialog } from "./CreateEventDialog";
 
 export default {

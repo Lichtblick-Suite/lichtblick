@@ -5,7 +5,6 @@
 import { iterateObjects } from "@lichtblick/studio-base/components/Chart/datasets";
 import * as R from "ramda";
 
-
 import {
   MINIMUM_PIXEL_DISTANCE,
   downsampleTimeseries,

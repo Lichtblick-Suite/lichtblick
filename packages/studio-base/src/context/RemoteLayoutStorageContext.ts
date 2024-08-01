@@ -5,7 +5,6 @@
 import { IRemoteLayoutStorage } from "@lichtblick/studio-base/services/IRemoteLayoutStorage";
 import { createContext, useContext } from "react";
 
-
 const RemoteLayoutStorageContext = createContext<IRemoteLayoutStorage | undefined>(undefined);
 RemoteLayoutStorageContext.displayName = "RemoteLayoutStorageContext";
 

@@ -5,7 +5,6 @@
 import { PinholeCameraModel } from "@lichtblick/den/image";
 import * as THREE from "three";
 
-
 const DEFAULT_CAMERA_STATE = {
   near: 0.001,
   far: 1000,

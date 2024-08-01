@@ -5,7 +5,6 @@
 import delay from "@lichtblick/studio-base/src/util/delay";
 import { BrowserWindow } from "electron";
 
-
 // <input> elements can only be opened on user interaction
 // This fakes a uesr interaction which allows us to invoke input.click() in renderer threads
 export async function simulateUserClick(win: BrowserWindow): Promise<void> {

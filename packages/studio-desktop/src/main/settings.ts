@@ -7,7 +7,6 @@ import { app } from "electron";
 import fs from "fs";
 import path from "path";
 
-
 import {
   DATASTORES_DIR_NAME,
   SETTINGS_DATASTORE_NAME,

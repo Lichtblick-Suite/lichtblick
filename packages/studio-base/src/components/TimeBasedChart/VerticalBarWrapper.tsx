@@ -6,7 +6,6 @@ import { RpcScales } from "@lichtblick/studio-base/components/Chart/types";
 import { CSSProperties, useMemo } from "react";
 import { makeStyles } from "tss-react/mui";
 
-
 const useStyles = makeStyles()(() => ({
   root: {
     top: 0,

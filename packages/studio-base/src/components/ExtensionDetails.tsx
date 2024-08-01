@@ -20,7 +20,6 @@ import { useCallback, useState } from "react";
 import { useAsync, useMountedState } from "react-use";
 import { makeStyles } from "tss-react/mui";
 
-
 type Props = {
   installed: boolean;
   extension: Immutable<ExtensionMarketplaceDetail>;

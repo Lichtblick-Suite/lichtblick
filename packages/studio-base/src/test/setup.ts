@@ -14,7 +14,6 @@
 import setImmediate from "@lichtblick/studio-base/util/setImmediate";
 import util from "util";
 
-
 process.env.WASM_LZ4_ENVIRONMENT = "NODE";
 
 function noOp() {

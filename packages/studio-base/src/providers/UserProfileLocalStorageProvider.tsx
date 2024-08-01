@@ -10,7 +10,6 @@ import {
 import * as _ from "lodash-es";
 import { useCallback, useEffect } from "react";
 
-
 const DEFAULT_PROFILE: UserProfile = {};
 const LOCAL_STORAGE_KEY = "studio.profile-data";
 

@@ -17,7 +17,6 @@ import { useSnackbar } from "notistack";
 import { extname } from "path";
 import { useCallback, useLayoutEffect, useState } from "react";
 
-
 const log = Logger.getLogger(__filename);
 
 type Props = {

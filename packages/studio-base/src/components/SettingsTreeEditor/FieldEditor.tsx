@@ -23,7 +23,6 @@ import {
 import { makeStyles } from "tss-react/mui";
 import { v4 as uuid } from "uuid";
 
-
 import { ColorGradientInput, ColorPickerInput, NumberInput, Vec2Input, Vec3Input } from "./inputs";
 
 /** Used to allow both undefined and empty string in select inputs. */

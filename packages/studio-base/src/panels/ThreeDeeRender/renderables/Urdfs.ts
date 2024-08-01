@@ -3,7 +3,13 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import { filterMap } from "@lichtblick/den/collection";
-import { UrdfGeometryMesh, UrdfRobot, UrdfVisual, parseRobot, UrdfJoint } from "@lichtblick/den/urdf";
+import {
+  UrdfGeometryMesh,
+  UrdfRobot,
+  UrdfVisual,
+  parseRobot,
+  UrdfJoint,
+} from "@lichtblick/den/urdf";
 import Logger from "@lichtblick/log";
 import {
   SettingsTreeAction,
@@ -19,7 +25,6 @@ import i18next from "i18next";
 import * as _ from "lodash-es";
 import * as THREE from "three";
 import { v4 as uuidv4 } from "uuid";
-
 
 import { toNanoSec } from "@foxglove/rostime";
 

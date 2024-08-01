@@ -7,7 +7,6 @@ import { StoryFn, StoryObj } from "@storybook/react";
 import { useSnackbar } from "notistack";
 import { useEffect } from "react";
 
-
 export default {
   title: "components/StudioToastProvider",
   component: StudioToastProvider,

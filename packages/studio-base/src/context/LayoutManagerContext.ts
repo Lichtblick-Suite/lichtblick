@@ -5,7 +5,6 @@
 import { ILayoutManager } from "@lichtblick/studio-base/services/ILayoutManager";
 import { createContext, useContext } from "react";
 
-
 const LayoutManagerContext = createContext<ILayoutManager | undefined>(undefined);
 LayoutManagerContext.displayName = "LayoutManagerContext";
 

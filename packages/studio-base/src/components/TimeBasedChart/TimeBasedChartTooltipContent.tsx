@@ -18,7 +18,6 @@ import * as _ from "lodash-es";
 import { Fragment, PropsWithChildren, useMemo } from "react";
 import { makeStyles } from "tss-react/mui";
 
-
 export type TimeBasedChartTooltipData = {
   configIndex: number;
   value: number | bigint | boolean | string;

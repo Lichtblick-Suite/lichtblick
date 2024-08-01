@@ -9,7 +9,6 @@ import { Button } from "@mui/material";
 import { PropsWithChildren } from "react";
 import { makeStyles } from "tss-react/mui";
 
-
 type ViewProps = {
   onOpen?: () => void;
 };

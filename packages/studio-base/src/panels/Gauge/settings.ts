@@ -8,7 +8,6 @@ import { produce } from "immer";
 import * as _ from "lodash-es";
 import { useMemo } from "react";
 
-
 import type { Config } from "./types";
 
 export function settingsActionReducer(prevConfig: Config, action: SettingsTreeAction): Config {

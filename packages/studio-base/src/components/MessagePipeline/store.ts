@@ -22,7 +22,6 @@ import { MutableRefObject } from "react";
 import shallowequal from "shallowequal";
 import { createStore, StoreApi } from "zustand";
 
-
 import { FramePromise } from "./pauseFrameForPromise";
 import { MessagePipelineContext } from "./types";
 

@@ -5,7 +5,6 @@
 import { ObjectPool } from "@lichtblick/den/collection";
 import { Transform } from "@lichtblick/studio-base/panels/ThreeDeeRender/transforms/Transform";
 
-
 import { AddTransformResult, TransformTree } from "./TransformTree";
 
 const tf = Transform.Identity();

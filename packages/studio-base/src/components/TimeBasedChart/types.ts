@@ -10,7 +10,6 @@ import type {
 } from "@lichtblick/studio-base/components/Chart/types";
 import type { ChartData as AbstractChartData } from "chart.js";
 
-
 // alias types for convenience
 export type ChartDatasets = ChartData["datasets"];
 export type ChartDataset = ChartDatasets[0];

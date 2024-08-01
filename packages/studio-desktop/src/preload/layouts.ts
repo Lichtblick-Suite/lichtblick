@@ -7,7 +7,6 @@ import { existsSync } from "fs";
 import { readdir, readFile } from "fs/promises";
 import { join as pathJoin } from "path";
 
-
 import { DesktopLayout } from "../common/types";
 
 const log = Logger.getLogger(__filename);

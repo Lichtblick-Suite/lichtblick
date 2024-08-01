@@ -11,7 +11,6 @@ import { Container } from "@mui/material";
 import { useCallback } from "react";
 import { makeStyles } from "tss-react/mui";
 
-
 import { PanelGridCard } from "./PanelGridCard";
 import { PanelSelection } from "./types";
 

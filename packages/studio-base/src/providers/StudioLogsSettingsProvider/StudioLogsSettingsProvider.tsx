@@ -7,7 +7,6 @@ import { StudioLogsSettingsContext } from "@lichtblick/studio-base/context/Studi
 import { PropsWithChildren, useEffect, useRef, useState } from "react";
 import { useLocalStorage } from "react-use";
 
-
 import { createStudioLogsSettingsStore } from "./store";
 import { LocalStorageSaveState } from "./types";
 

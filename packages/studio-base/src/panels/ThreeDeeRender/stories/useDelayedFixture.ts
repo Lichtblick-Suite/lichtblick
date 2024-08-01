@@ -5,7 +5,6 @@
 import { Fixture } from "@lichtblick/studio-base/stories/PanelSetup";
 import { useLayoutEffect, useRef, useState } from "react";
 
-
 // useDelayedFixture works around a contract in useMessageReducer which does not re-process an existing
 // frame when topics change.
 //

@@ -13,7 +13,6 @@ import { useMemo } from "react";
 import tinycolor from "tinycolor2";
 import { makeStyles } from "tss-react/mui";
 
-
 type ProgressProps = Immutable<{
   loading: boolean;
   availableRanges?: Range[];

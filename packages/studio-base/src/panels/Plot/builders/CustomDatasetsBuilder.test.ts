@@ -13,7 +13,6 @@ import {
 } from "@lichtblick/studio-base/players/types";
 import * as _ from "lodash-es";
 
-
 import { parseMessagePath } from "@foxglove/message-path";
 
 import { CustomDatasetsBuilder } from "./CustomDatasetsBuilder";

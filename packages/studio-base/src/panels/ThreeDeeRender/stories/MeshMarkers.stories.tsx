@@ -7,7 +7,6 @@ import { Topic } from "@lichtblick/studio-base/players/types";
 import PanelSetup from "@lichtblick/studio-base/stories/PanelSetup";
 import { StoryObj } from "@storybook/react";
 
-
 import { makeColor, OBJ_CUBE_MESH_RESOURCE, QUAT_IDENTITY, STL_CUBE_MESH_RESOURCE } from "./common";
 import useDelayedFixture from "./useDelayedFixture";
 import { DEFAULT_CAMERA_STATE } from "../camera";

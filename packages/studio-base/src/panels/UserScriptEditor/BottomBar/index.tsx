@@ -12,7 +12,6 @@
 //   You may not use this file except in compliance with the License.
 //
 
-
 import Stack from "@lichtblick/studio-base/components/Stack";
 import {
   UserScriptStore,

@@ -20,7 +20,6 @@ import { fireEvent, screen } from "@storybook/testing-library";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
-
 import PanelLayout from "./PanelLayout";
 
 async function openPanelMenu(): Promise<void> {

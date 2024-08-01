@@ -12,7 +12,6 @@ import { Meta, StoryObj } from "@storybook/react";
 import { userEvent, within } from "@storybook/testing-library";
 import * as _ from "lodash-es";
 
-
 import { AppMenu } from "./AppMenu";
 
 type StoryArgs = {

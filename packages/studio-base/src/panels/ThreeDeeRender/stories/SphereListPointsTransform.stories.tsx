@@ -9,7 +9,6 @@ import { SphereListMarker } from "@lichtblick/studio-base/types/Messages";
 import { StoryObj } from "@storybook/react";
 import { DeepWritable } from "ts-essentials";
 
-
 import { makeColor, rad2deg } from "./common";
 import useDelayedFixture from "./useDelayedFixture";
 import ThreeDeePanel from "../index";

@@ -14,7 +14,6 @@ import { MosaicDragType, MosaicPath } from "react-mosaic-component";
 import { MosaicDropTargetPosition } from "react-mosaic-component/lib/internalTypes";
 import { makeStyles } from "tss-react/mui";
 
-
 const useStyles = makeStyles<void, "dragIcon">()((theme, _params, classes) => {
   return {
     listItemButton: {

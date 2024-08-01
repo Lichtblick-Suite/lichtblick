@@ -8,7 +8,6 @@ import { dialog } from "electron";
 import { autoUpdater, UpdateInfo } from "electron-updater";
 import { EventEmitter } from "eventemitter3";
 
-
 import { getAppSetting } from "./settings";
 
 const log = Logger.getLogger(__filename);

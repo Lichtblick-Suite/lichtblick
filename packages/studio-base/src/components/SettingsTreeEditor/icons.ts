@@ -43,7 +43,6 @@ import Cells from "@mui/icons-material/ViewComfy";
 import Cube from "@mui/icons-material/ViewInAr";
 import ImageProjection from "@mui/icons-material/Vrpano";
 
-
 const icons: Record<SettingsIcon, typeof Add> = {
   Add,
   Addchart,

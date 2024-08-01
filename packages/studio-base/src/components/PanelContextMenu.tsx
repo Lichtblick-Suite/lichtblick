@@ -7,7 +7,6 @@ import { PANEL_ROOT_CLASS_NAME } from "@lichtblick/studio-base/components/PanelR
 import { Divider, Menu, MenuItem } from "@mui/material";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-
 /**
  * Types of items that can be included in a context menu. Either a clickable item
  * or a divider.

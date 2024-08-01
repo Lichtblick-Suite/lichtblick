@@ -10,7 +10,6 @@ import { StoryObj } from "@storybook/react";
 import { userEvent, screen } from "@storybook/testing-library";
 import { useEffect, useState } from "react";
 
-
 import { makeColor, QUAT_IDENTITY, rad2deg, SENSOR_FRAME_ID } from "./common";
 import useDelayedFixture from "./useDelayedFixture";
 import ThreeDeePanel from "../index";

@@ -8,7 +8,6 @@ import { PlayerProblem } from "@lichtblick/studio-base/players/types";
 import { createContext } from "react";
 import { StoreApi, useStore } from "zustand";
 
-
 export type SessionProblem = PlayerProblem;
 
 type TaggedProblem = SessionProblem & { tag: string };

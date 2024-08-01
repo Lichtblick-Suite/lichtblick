@@ -31,7 +31,6 @@ import * as _ from "lodash-es";
 import { useMemo, useCallback, useState, useRef } from "react";
 import { makeStyles } from "tss-react/mui";
 
-
 const useStyles = makeStyles<void, "copyButton">()((theme, _params, classes) => ({
   root: {
     "@media (pointer: fine)": {

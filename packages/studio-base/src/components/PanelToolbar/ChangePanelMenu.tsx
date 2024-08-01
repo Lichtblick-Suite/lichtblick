@@ -10,7 +10,6 @@ import { useCallback, useContext } from "react";
 import { MosaicContext, MosaicNode, MosaicWindowContext } from "react-mosaic-component";
 import { makeStyles } from "tss-react/mui";
 
-
 const useStyles = makeStyles()((theme) => ({
   paper: {
     backgroundColor: theme.palette.background.menu,

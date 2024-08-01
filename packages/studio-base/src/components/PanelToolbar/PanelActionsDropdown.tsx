@@ -24,7 +24,6 @@ import { useTranslation } from "react-i18next";
 import { MosaicContext, MosaicNode, MosaicWindowContext } from "react-mosaic-component";
 import { makeStyles } from "tss-react/mui";
 
-
 type Props = {
   isUnknownPanel: boolean;
 };

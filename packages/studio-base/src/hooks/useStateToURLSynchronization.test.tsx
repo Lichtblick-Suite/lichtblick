@@ -12,7 +12,6 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-
 import { useMessagePipeline } from "@lichtblick/studio-base/components/MessagePipeline";
 import { useStateToURLSynchronization } from "@lichtblick/studio-base/hooks/useStateToURLSynchronization";
 import EventsProvider from "@lichtblick/studio-base/providers/EventsProvider";

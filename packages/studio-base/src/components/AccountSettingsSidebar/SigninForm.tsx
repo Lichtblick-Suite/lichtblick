@@ -6,7 +6,6 @@ import { useCurrentUser } from "@lichtblick/studio-base/context/CurrentUserConte
 import { Button, Typography } from "@mui/material";
 import { makeStyles } from "tss-react/mui";
 
-
 import AccountSyncGraphic from "./AccountSyncGraphic";
 
 const useStyles = makeStyles()((theme) => ({

@@ -5,7 +5,6 @@
 import PanelSetup from "@lichtblick/studio-base/stories/PanelSetup";
 import { StoryFn, StoryContext, StoryObj } from "@storybook/react";
 
-
 import GaugePanel from "./index";
 
 export default {

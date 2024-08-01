@@ -5,7 +5,6 @@
 import NotificationModal from "@lichtblick/studio-base/components/NotificationModal";
 import { StoryObj } from "@storybook/react";
 
-
 const fakeError = () => {
   const err = Error("This error is on purpose - it comes from the story");
 

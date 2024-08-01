@@ -16,7 +16,6 @@ import * as _ from "lodash-es";
 import { useState } from "react";
 import { useTimeoutFn } from "react-use";
 
-
 import MapPanel from "./index";
 
 const EMPTY_MESSAGE: NavSatFixMsg = {

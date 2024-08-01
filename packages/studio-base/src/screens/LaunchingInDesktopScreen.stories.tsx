@@ -6,7 +6,6 @@ import { LaunchingInDesktopScreen } from "@lichtblick/studio-base/screens/Launch
 import { StoryObj } from "@storybook/react";
 import { ReactElement } from "react";
 
-
 export default {
   title: "LaunchingInDesktopScreen",
   component: LaunchingInDesktopScreen,

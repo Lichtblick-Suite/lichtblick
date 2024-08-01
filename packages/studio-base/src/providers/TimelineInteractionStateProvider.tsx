@@ -13,7 +13,6 @@ import * as _ from "lodash-es";
 import { ReactNode, useState } from "react";
 import { createStore, StoreApi } from "zustand";
 
-
 function createTimelineInteractionStateStore(): StoreApi<TimelineInteractionStateStore> {
   return createStore((set) => {
     return {

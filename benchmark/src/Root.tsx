@@ -11,7 +11,6 @@ import {
 } from "@lichtblick/studio-base";
 import { useMemo, useState } from "react";
 
-
 import { McapLocalBenchmarkDataSourceFactory, SyntheticDataSourceFactory } from "./dataSources";
 import { LAYOUTS } from "./layouts";
 import {

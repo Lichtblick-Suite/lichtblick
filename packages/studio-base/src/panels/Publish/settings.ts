@@ -2,7 +2,6 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-
 import { Immutable, SettingsTreeAction, SettingsTreeNodes } from "@lichtblick/studio";
 import buildSampleMessage from "@lichtblick/studio-base/panels/Publish/buildSampleMessage";
 import { Topic } from "@lichtblick/studio-base/players/types";
@@ -12,7 +11,6 @@ import { SaveConfig } from "@lichtblick/studio-base/types/panels";
 import { produce } from "immer";
 import * as _ from "lodash-es";
 import { useCallback, useEffect, useMemo } from "react";
-
 
 import { PublishConfig } from "./types";
 

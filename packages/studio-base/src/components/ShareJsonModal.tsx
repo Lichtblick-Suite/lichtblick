@@ -21,7 +21,6 @@ import {
 import { useCallback, useMemo, useState } from "react";
 import { makeStyles } from "tss-react/mui";
 
-
 export type ShareJsonModalProps = {
   onRequestClose: () => void;
   onChange: (value: unknown) => void;

@@ -30,7 +30,6 @@ import { useResizeDetector } from "react-resize-detector";
 import { useLatest } from "react-use";
 import { ModuleResolutionKind } from "typescript";
 
-
 import { themes } from "./theme";
 
 const codeEditorService = StandaloneServices.get(ICodeEditorService);

@@ -2,7 +2,6 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-
 import { StateTransitionConfig } from "@lichtblick/studio-base/panels/StateTransitions/types";
 import { OpenSiblingPanel, PanelConfig } from "@lichtblick/studio-base/types/panels";
 import * as _ from "lodash-es";

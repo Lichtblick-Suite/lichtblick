@@ -14,7 +14,6 @@
 import { PromiseTimeoutError, promiseTimeout } from "@lichtblick/den/async";
 import sendNotification from "@lichtblick/studio-base/util/sendNotification";
 
-
 export type FramePromise = { name: string; promise: Promise<void> };
 
 // Wait longer before erroring if there's no user waiting (in automated run)

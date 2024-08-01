@@ -16,7 +16,6 @@ import {
 import * as _ from "lodash-es";
 import memoizeWeak from "memoize-weak";
 
-
 type TopicAliasMap = Map<string, string[]>;
 type MessageBlocks = readonly (undefined | MessageBlock)[];
 const EmptyAliasMap: Im<TopicAliasMap> = new Map();

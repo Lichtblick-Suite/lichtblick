@@ -20,7 +20,6 @@ import { produce } from "immer";
 import * as _ from "lodash-es";
 import { useCallback, useMemo, useState, useEffect } from "react";
 
-
 export default {
   title: "components/SettingsTreeEditor",
   component: SettingsTreeEditor,

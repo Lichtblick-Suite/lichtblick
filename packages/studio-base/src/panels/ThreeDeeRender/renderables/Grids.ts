@@ -7,7 +7,6 @@ import { SettingsTreeAction, SettingsTreeFields } from "@lichtblick/studio";
 import { t } from "i18next";
 import * as _ from "lodash-es";
 
-
 import { RenderableLineList } from "./markers/RenderableLineList";
 import type { IRenderer } from "../IRenderer";
 import { BaseUserData, Renderable } from "../Renderable";

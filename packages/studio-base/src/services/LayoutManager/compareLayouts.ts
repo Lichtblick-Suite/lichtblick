@@ -5,7 +5,6 @@
 import { LayoutData } from "@lichtblick/studio-base/context/CurrentLayoutContext/actions";
 import { diff } from "just-diff";
 
-
 /**
  * isLayoutEqual compares two LayoutData instances for "equality". If the two instances are
  * considered "equal" then the function returns true. If the two instances are not equal it returns

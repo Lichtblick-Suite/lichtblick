@@ -5,7 +5,6 @@
 import { ExtensionNamespace } from "@lichtblick/studio-base/types/Extensions";
 import { createContext, useContext } from "react";
 
-
 export type ExtensionMarketplaceDetail = {
   id: string;
   name: string;

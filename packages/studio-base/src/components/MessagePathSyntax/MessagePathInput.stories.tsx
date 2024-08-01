@@ -19,7 +19,6 @@ import { StoryObj } from "@storybook/react";
 import { fireEvent, screen, userEvent, waitFor, within } from "@storybook/testing-library";
 import { useState } from "react";
 
-
 import MessagePathInput from "./MessagePathInput";
 import { MessagePathInputStoryFixture } from "./fixture";
 

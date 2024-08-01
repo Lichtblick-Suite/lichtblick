@@ -10,7 +10,6 @@ import { useEffect, useRef, useState } from "react";
 import Tree from "react-json-tree";
 import { makeStyles } from "tss-react/mui";
 
-
 const useStyles = makeStyles()({
   list: {
     height: "100%",

@@ -11,7 +11,6 @@ import path from "path";
 import ReactRefreshTypescript from "react-refresh-typescript";
 import { Configuration, ProvidePlugin } from "webpack";
 
-
 import { WebpackConfigParams } from "./WebpackConfigParams";
 import "webpack-dev-server";
 

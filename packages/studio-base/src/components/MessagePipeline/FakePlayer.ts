@@ -23,7 +23,6 @@ import {
   PlayerPresence,
 } from "@lichtblick/studio-base/players/types";
 
-
 export default class FakePlayer implements Player {
   #listener?: (arg0: PlayerState) => Promise<void>;
   public playerId: string = "test";

@@ -5,7 +5,6 @@
 import { PANEL_ROOT_CLASS_NAME } from "@lichtblick/studio-base/components/PanelRoot";
 import { MutableRefObject, useCallback, useEffect, useState } from "react";
 
-
 /**
  * Tracks the presence of the mouse in the parent panel.
  *

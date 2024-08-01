@@ -8,7 +8,6 @@ import { Bounds } from "@lichtblick/studio-base/types/Bounds";
 import type { Theme } from "@mui/material";
 import * as Comlink from "comlink";
 
-
 import { ChartRenderer, Dataset, HoverElement, Scale, UpdateAction } from "./ChartRenderer";
 import type { Service } from "./ChartRenderer.worker";
 

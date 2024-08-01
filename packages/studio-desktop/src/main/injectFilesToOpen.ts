@@ -4,7 +4,6 @@
 import Logger from "@lichtblick/log";
 import { Debugger, dialog } from "electron";
 
-
 const log = Logger.getLogger(__filename);
 
 /*

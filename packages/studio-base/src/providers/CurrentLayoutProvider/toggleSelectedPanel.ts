@@ -11,7 +11,6 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-
 import { TabPanelConfig } from "@lichtblick/studio-base/types/layouts";
 import { SavedProps } from "@lichtblick/studio-base/types/panels";
 import {

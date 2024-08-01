@@ -13,7 +13,6 @@ import memoizeWeak from "memoize-weak";
 import { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
-
 import { PlotPath, PlotConfig, plotPathDisplayName } from "./config";
 import { plotableRosTypes } from "./plotableRosTypes";
 

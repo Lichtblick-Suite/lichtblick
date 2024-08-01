@@ -7,7 +7,6 @@ import { Button, Dialog, DialogActions, DialogContent, TextField, Typography } f
 import { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useKeyPressEvent } from "react-use";
 
-
 type PromptOptions = {
   title: string;
   subText?: string;

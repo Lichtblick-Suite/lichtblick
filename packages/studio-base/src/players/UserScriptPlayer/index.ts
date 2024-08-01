@@ -11,7 +11,6 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-
 import { MutexLocked } from "@lichtblick/den/async";
 import { filterMap } from "@lichtblick/den/collection";
 import Log from "@lichtblick/log";
@@ -60,7 +59,6 @@ import memoizeWeak from "memoize-weak";
 import ReactDOM from "react-dom";
 import shallowequal from "shallowequal";
 import { v4 as uuidv4 } from "uuid";
-
 
 import { Time, compare } from "@foxglove/rostime";
 

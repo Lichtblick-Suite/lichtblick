@@ -6,7 +6,6 @@ import { SettingsTreeAction, SettingsTreeFields } from "@lichtblick/studio";
 import { t } from "i18next";
 import * as _ from "lodash-es";
 
-
 import type { IRenderer } from "../IRenderer";
 import { DEFAULT_MESH_UP_AXIS } from "../ModelCache";
 import { SceneExtension } from "../SceneExtension";

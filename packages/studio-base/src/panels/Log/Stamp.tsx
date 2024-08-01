@@ -16,7 +16,6 @@ import { TimeDisplayMethod } from "@lichtblick/studio-base/types/panels";
 import { formatTime } from "@lichtblick/studio-base/util/formatTime";
 import * as _ from "lodash-es";
 
-
 // pad the start of `val` with 0's to make the total string length `count` size
 function PadStart(val: unknown, count: number) {
   return _.padStart(`${val}`, count, "0");

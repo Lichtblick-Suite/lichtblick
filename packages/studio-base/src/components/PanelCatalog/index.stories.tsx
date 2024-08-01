@@ -15,7 +15,6 @@ import { userEvent } from "@storybook/testing-library";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
-
 const SamplePanel1 = () => <div />;
 SamplePanel1.panelType = "sample";
 SamplePanel1.defaultConfig = {};

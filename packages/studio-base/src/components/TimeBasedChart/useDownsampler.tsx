@@ -6,7 +6,6 @@ import type { ObjectData, RpcScales } from "@lichtblick/studio-base/components/C
 import React, { useMemo, useCallback, useEffect } from "react";
 import { useDebouncedCallback } from "use-debounce";
 
-
 import { Downsampler } from "./Downsampler";
 import { PlotDataProvider, ProviderStateSetter, PlotViewport, ChartDataset } from "./types";
 import { getBounds } from "./useProvider";

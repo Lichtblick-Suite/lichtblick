@@ -9,7 +9,6 @@ import { Card, CardActionArea, CardContent, CardMedia, Typography } from "@mui/m
 import { useCallback } from "react";
 import { makeStyles } from "tss-react/mui";
 
-
 const useStyles = makeStyles()((theme) => {
   return {
     fullHeight: {

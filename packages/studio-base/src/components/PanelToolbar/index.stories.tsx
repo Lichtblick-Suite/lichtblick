@@ -23,7 +23,6 @@ import { fireEvent, screen } from "@storybook/testing-library";
 import { PropsWithChildren } from "react";
 import { Mosaic, MosaicWindow } from "react-mosaic-component";
 
-
 import PanelToolbar from "./index";
 
 import "react-mosaic-component/react-mosaic-component.css";

@@ -6,7 +6,6 @@ import { SettingsTreeAction, SettingsTreeNode, SettingsTreeNodes } from "@lichtb
 import EventEmitter from "eventemitter3";
 import { produce } from "immer";
 
-
 import { LayerErrors, Path } from "./LayerErrors";
 
 export type ActionHandler = (action: SettingsTreeAction) => void;

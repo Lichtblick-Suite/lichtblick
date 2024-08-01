@@ -8,7 +8,6 @@ import {
 } from "@lichtblick/studio-base/panels/Map/types";
 import { MathNumericType, atan2, eigs, isNumber } from "mathjs";
 
-
 type NumericPair = [MathNumericType, MathNumericType];
 
 /**

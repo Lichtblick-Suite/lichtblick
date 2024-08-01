@@ -7,7 +7,6 @@ import { Topic } from "@lichtblick/studio-base/players/types";
 import PanelSetup from "@lichtblick/studio-base/stories/PanelSetup";
 import { StoryObj } from "@storybook/react";
 
-
 import { makeColor, STL_CUBE_MESH_RESOURCE } from "./common";
 import ThreeDeePanel from "../index";
 

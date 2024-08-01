@@ -14,7 +14,6 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader";
 import { STLLoader } from "three/examples/jsm/loaders/STLLoader";
 
-
 const log = Logger.getLogger(__filename);
 
 export type MeshUpAxis = "y_up" | "z_up";

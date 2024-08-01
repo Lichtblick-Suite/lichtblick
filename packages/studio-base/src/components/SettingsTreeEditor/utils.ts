@@ -5,7 +5,6 @@
 import { Immutable, SettingsTreeNode, SettingsTreeNodes } from "@lichtblick/studio";
 import * as _ from "lodash-es";
 
-
 /**
  * Filters and sorts roots to prepare them for rendering.
  */

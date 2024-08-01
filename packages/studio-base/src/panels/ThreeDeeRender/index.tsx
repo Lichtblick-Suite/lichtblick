@@ -2,7 +2,6 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-
 import { useCrash } from "@lichtblick/hooks";
 import { CaptureErrorBoundary } from "@lichtblick/studio-base/components/CaptureErrorBoundary";
 import {
@@ -21,7 +20,6 @@ import { createSyncRoot } from "@lichtblick/studio-base/panels/createSyncRoot";
 import { SaveConfig } from "@lichtblick/studio-base/types/panels";
 import { StrictMode, useMemo } from "react";
 import { DeepPartial } from "ts-essentials";
-
 
 import { SceneExtensionConfig } from "./SceneExtensionConfig";
 import { ThreeDeeRender } from "./ThreeDeeRender";

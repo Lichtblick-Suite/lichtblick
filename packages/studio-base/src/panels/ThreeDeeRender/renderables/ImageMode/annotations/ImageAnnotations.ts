@@ -15,7 +15,6 @@ import { t } from "i18next";
 import * as THREE from "three";
 import { Opaque } from "ts-essentials";
 
-
 import { ImageAnnotations as FoxgloveImageAnnotations } from "@foxglove/schemas";
 import { LabelPool } from "@foxglove/three-text";
 

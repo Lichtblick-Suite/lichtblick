@@ -9,7 +9,6 @@ import { expect } from "@storybook/jest";
 import { StoryContext, StoryFn, StoryObj } from "@storybook/react";
 import { userEvent, within } from "@storybook/testing-library";
 
-
 import CallServicePanel from "./index";
 import { Config } from "./types";
 

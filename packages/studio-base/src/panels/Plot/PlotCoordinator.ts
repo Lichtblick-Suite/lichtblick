@@ -2,7 +2,6 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-
 import { debouncePromise } from "@lichtblick/den/async";
 import { filterMap } from "@lichtblick/den/collection";
 import { Immutable, Time } from "@lichtblick/studio";
@@ -17,7 +16,6 @@ import delay from "@lichtblick/studio-base/util/delay";
 import { getContrastColor, getLineColor } from "@lichtblick/studio-base/util/plotColors";
 import EventEmitter from "eventemitter3";
 import * as _ from "lodash-es";
-
 
 import { parseMessagePath } from "@foxglove/message-path";
 import { toSec, subtract as subtractTime } from "@foxglove/rostime";

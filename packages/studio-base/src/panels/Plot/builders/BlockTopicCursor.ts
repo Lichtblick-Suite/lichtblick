@@ -5,7 +5,6 @@
 import { Immutable, MessageEvent } from "@lichtblick/studio";
 import { MessageBlock } from "@lichtblick/studio-base/players/types";
 
-
 /**
  * BlockTopicCursor tracks the last seen block messages for a given topic and can produce the next
  * block that has not yet been processed.

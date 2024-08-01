@@ -6,7 +6,6 @@ import { MessageEvent } from "@lichtblick/studio";
 import { mockTopicSelection } from "@lichtblick/studio-base/test/mocks/mockTopicSelection";
 import * as _ from "lodash-es";
 
-
 import { BufferedIterableSource } from "./BufferedIterableSource";
 import {
   GetBackfillMessagesArgs,

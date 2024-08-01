@@ -7,7 +7,6 @@ import { alpha } from "@mui/material";
 import { useCallback, useState } from "react";
 import { makeStyles } from "tss-react/mui";
 
-
 const useStyles = makeStyles<void, "buttonIcon">()((theme, _params, classes) => ({
   svg: {
     label: "DirectionalPad-svg",

@@ -15,7 +15,6 @@ import { PanelConfig, PlaybackConfig, UserScripts } from "@lichtblick/studio-bas
 import { createContext, useCallback, useLayoutEffect, useReducer, useRef, useState } from "react";
 import { getLeaves } from "react-mosaic-component";
 
-
 import {
   AddPanelPayload,
   ChangePanelLayoutPayload,

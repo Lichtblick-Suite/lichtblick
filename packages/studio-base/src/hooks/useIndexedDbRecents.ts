@@ -9,7 +9,6 @@ import { useCallback, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useAsync } from "react-use";
 import { v4 as uuid } from "uuid";
 
-
 const log = Logger.getLogger(__filename);
 
 const IDB_KEY = "recents";

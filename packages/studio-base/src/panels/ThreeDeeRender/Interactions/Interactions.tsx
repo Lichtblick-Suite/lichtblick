@@ -19,7 +19,6 @@ import ExpandingToolbar, {
 } from "@lichtblick/studio-base/components/ExpandingToolbar";
 import { Typography } from "@mui/material";
 
-
 import ObjectDetails from "./ObjectDetails";
 import TopicLink from "./TopicLink";
 import { InteractionData } from "./types";

@@ -14,7 +14,6 @@
 import { TabPanelConfig } from "@lichtblick/studio-base/types/layouts";
 import { getNodeAtPath, MosaicNode, MosaicParent, updateTree } from "react-mosaic-component";
 
-
 import {
   getPanelTypeFromId,
   getSaveConfigsPayloadForAddedPanel,

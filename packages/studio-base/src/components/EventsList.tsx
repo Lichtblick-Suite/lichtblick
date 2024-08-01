@@ -30,7 +30,6 @@ import {
 import { useCallback, useMemo } from "react";
 import { makeStyles } from "tss-react/mui";
 
-
 import { EventView } from "./EventView";
 
 const useStyles = makeStyles()((theme) => ({

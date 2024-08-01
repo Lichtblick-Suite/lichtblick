@@ -14,7 +14,6 @@
 
 /* eslint-disable jest/no-conditional-expect */
 
-
 import AppConfigurationContext from "@lichtblick/studio-base/context/AppConfigurationContext";
 import {
   Player,

@@ -4,7 +4,6 @@
 import { SceneExtension } from "@lichtblick/studio-base/panels/ThreeDeeRender/SceneExtension";
 import * as THREE from "three";
 
-
 import { CameraState } from "../camera";
 
 export interface ICameraHandler extends SceneExtension {

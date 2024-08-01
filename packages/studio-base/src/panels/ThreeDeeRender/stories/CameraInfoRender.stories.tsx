@@ -8,7 +8,6 @@ import PanelSetup from "@lichtblick/studio-base/stories/PanelSetup";
 import { StoryObj } from "@storybook/react";
 import { screen, userEvent } from "@storybook/testing-library";
 
-
 import {
   BASE_LINK_FRAME_ID,
   FIXED_FRAME_ID,

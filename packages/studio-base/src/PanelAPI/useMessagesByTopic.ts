@@ -17,7 +17,6 @@ import concatAndTruncate from "@lichtblick/studio-base/util/concatAndTruncate";
 import * as _ from "lodash-es";
 import { useCallback } from "react";
 
-
 import { useMessageReducer } from "./useMessageReducer";
 
 // Topic types that are not known at compile time

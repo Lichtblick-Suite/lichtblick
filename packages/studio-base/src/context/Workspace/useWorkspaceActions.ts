@@ -2,7 +2,6 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-
 import { useGuaranteedContext } from "@lichtblick/hooks";
 import { AppSettingsTab } from "@lichtblick/studio-base/components/AppSettingsDialog/AppSettingsDialog";
 import { DataSourceDialogItem } from "@lichtblick/studio-base/components/DataSourceDialog";
@@ -23,7 +22,6 @@ import { Draft, produce } from "immer";
 import * as _ from "lodash-es";
 import { Dispatch, SetStateAction, useCallback, useMemo } from "react";
 import { useMountedState } from "react-use";
-
 
 import {
   LeftSidebarItemKey,

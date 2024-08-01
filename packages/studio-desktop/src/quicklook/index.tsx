@@ -9,7 +9,6 @@ import { useState, useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
 import { useAsync } from "react-use";
 
-
 import FileInfoDisplay from "./FileInfoDisplay";
 import Flash from "./Flash";
 import { GlobalStyle } from "./GlobalStyle";

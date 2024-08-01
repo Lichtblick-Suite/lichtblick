@@ -3,7 +3,6 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-
 import { Condvar } from "@lichtblick/den/async";
 import { CurrentLayoutSyncAdapter } from "@lichtblick/studio-base/components/CurrentLayoutSyncAdapter";
 import {
@@ -25,7 +24,6 @@ import { ILayoutManager } from "@lichtblick/studio-base/services/ILayoutManager"
 import { act, renderHook } from "@testing-library/react";
 import { SnackbarProvider } from "notistack";
 import { useEffect } from "react";
-
 
 const TEST_LAYOUT: LayoutData = {
   layout: "ExamplePanel!1",

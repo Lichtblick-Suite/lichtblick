@@ -20,7 +20,6 @@ import TestUtils from "react-dom/test-utils";
 import { useAsync } from "react-use";
 import { useImmer } from "use-immer";
 
-
 import type { Props } from "./index";
 import TimeBasedChart from "./index";
 

@@ -13,7 +13,6 @@ import { useCallback } from "react";
 import { useAsyncFn } from "react-use";
 import { makeStyles } from "tss-react/mui";
 
-
 const log = Logger.getLogger(__filename);
 
 const AVATAR_ICON_SIZE = 42;

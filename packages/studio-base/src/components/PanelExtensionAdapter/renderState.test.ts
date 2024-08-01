@@ -5,7 +5,6 @@
 import { PlayerPresence } from "@lichtblick/studio-base/players/types";
 import { produce } from "immer";
 
-
 import { BuilderRenderStateInput, initRenderStateBuilder } from "./renderState";
 
 function makeInitialState(): BuilderRenderStateInput {

@@ -5,7 +5,6 @@
 import { EDGE_LINE_SEGMENTS_NAME } from "@lichtblick/studio-base/panels/ThreeDeeRender/ModelCache";
 import * as THREE from "three";
 
-
 import { RenderableMarker } from "./RenderableMarker";
 import { makeStandardMaterial } from "./materials";
 import type { IRenderer } from "../../IRenderer";

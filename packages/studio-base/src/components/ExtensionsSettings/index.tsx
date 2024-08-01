@@ -26,7 +26,6 @@ import { useEffect, useMemo, useState } from "react";
 import { useAsyncFn } from "react-use";
 import { makeStyles } from "tss-react/mui";
 
-
 const log = Log.getLogger(__filename);
 
 const useStyles = makeStyles()((theme) => ({

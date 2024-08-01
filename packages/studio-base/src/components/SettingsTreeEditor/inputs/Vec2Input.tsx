@@ -5,7 +5,6 @@
 import Stack from "@lichtblick/studio-base/components/Stack";
 import { useCallback } from "react";
 
-
 import { NumberInput } from "./NumberInput";
 
 type Vec2Props = {

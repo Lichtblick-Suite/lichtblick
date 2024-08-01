@@ -23,7 +23,6 @@ import { IconButtonProps, Tooltip, TooltipProps } from "@mui/material";
 import { useCallback, useMemo, useState, useRef, useEffect } from "react";
 import { withStyles, makeStyles } from "tss-react/mui";
 
-
 import HighlightedValue from "./HighlightedValue";
 import { copyMessageReplacer } from "./copyMessageReplacer";
 import { ValueAction } from "./getValueActionForValue";

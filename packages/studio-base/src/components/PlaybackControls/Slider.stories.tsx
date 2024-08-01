@@ -16,7 +16,6 @@ import { StoryObj } from "@storybook/react";
 import { useState } from "react";
 import { makeStyles } from "tss-react/mui";
 
-
 import Slider from "./Slider";
 
 const useStyles = makeStyles()((theme) => ({

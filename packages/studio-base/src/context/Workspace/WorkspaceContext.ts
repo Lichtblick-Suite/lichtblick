@@ -9,7 +9,6 @@ import { IDataSourceFactory } from "@lichtblick/studio-base/context/PlayerSelect
 import { createContext } from "react";
 import { StoreApi, useStore } from "zustand";
 
-
 export const SidebarItemKeys = [
   "account",
   "add-panel",

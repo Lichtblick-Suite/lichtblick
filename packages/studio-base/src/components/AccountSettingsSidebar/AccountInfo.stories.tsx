@@ -5,7 +5,6 @@
 import { User } from "@lichtblick/studio-base/context/CurrentUserContext";
 import { StoryObj } from "@storybook/react";
 
-
 import AccountInfo from "./AccountInfo";
 
 export default {

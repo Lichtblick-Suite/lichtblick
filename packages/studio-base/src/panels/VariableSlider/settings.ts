@@ -9,7 +9,6 @@ import { produce } from "immer";
 import * as _ from "lodash-es";
 import { useCallback, useEffect } from "react";
 
-
 import { VariableSliderConfig } from "./types";
 
 function buildSettingsTree(config: VariableSliderConfig): SettingsTreeNodes {

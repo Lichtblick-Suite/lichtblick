@@ -19,7 +19,6 @@ import {
 } from "@lichtblick/studio-base";
 import { useMemo, useState } from "react";
 
-
 import LocalStorageAppConfiguration from "./services/LocalStorageAppConfiguration";
 
 const isDevelopment = process.env.NODE_ENV === "development";

@@ -11,7 +11,6 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-
 import { SettingsTreeAction, SettingsTreeNodes } from "@lichtblick/studio";
 import EmptyState from "@lichtblick/studio-base/components/EmptyState";
 import Panel from "@lichtblick/studio-base/components/Panel";
@@ -51,7 +50,6 @@ import {
 import tc from "tinycolor2";
 import { makeStyles } from "tss-react/mui";
 import { v4 as uuidv4 } from "uuid";
-
 
 import Config from "./Config";
 import { Script } from "./script";

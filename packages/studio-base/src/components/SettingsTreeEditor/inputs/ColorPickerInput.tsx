@@ -8,7 +8,6 @@ import { TextField, Popover, IconButton, inputBaseClasses, Tooltip } from "@mui/
 import { useCallback, MouseEvent, useState } from "react";
 import { makeStyles } from "tss-react/mui";
 
-
 import { ColorPickerControl, useColorPickerControl } from "./ColorPickerControl";
 import { ColorSwatch } from "./ColorSwatch";
 

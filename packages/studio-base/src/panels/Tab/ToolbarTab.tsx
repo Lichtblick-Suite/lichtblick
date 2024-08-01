@@ -19,7 +19,6 @@ import React, { Ref as ReactRef, useCallback, useEffect, useMemo, useRef, useSta
 import textMetrics from "text-metrics";
 import { makeStyles } from "tss-react/mui";
 
-
 import { fontSansSerif } from "@foxglove/theme";
 
 const MAX_TAB_WIDTH = 120;

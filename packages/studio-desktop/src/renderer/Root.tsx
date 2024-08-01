@@ -22,7 +22,6 @@ import {
 } from "@lichtblick/studio-base";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
-
 import { DesktopExtensionLoader } from "./services/DesktopExtensionLoader";
 import { DesktopLayoutLoader } from "./services/DesktopLayoutLoader";
 import { NativeAppMenu } from "./services/NativeAppMenu";

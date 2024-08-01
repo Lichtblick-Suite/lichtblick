@@ -5,7 +5,6 @@
 import type { Immutable as Im, MessageEvent } from "@lichtblick/studio";
 import type { MessageBlock } from "@lichtblick/studio-base/players/types";
 
-
 type BlockItem = { inputEvents: Im<MessageEvent[]>; aliased: Record<string, MessageEvent[]> };
 type SparseArray<T> = (T | undefined)[];
 

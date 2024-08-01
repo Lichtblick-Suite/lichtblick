@@ -17,7 +17,6 @@ import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { IconButton, Typography } from "@mui/material";
 
-
 type Props = {
   topic: string;
   addPanel: LayoutActions["addPanel"];

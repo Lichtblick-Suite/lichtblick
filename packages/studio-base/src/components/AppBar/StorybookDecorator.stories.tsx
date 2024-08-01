@@ -4,7 +4,6 @@
 
 /* eslint-disable storybook/story-exports */
 
-
 import MockMessagePipelineProvider from "@lichtblick/studio-base/components/MessagePipeline/MockMessagePipelineProvider";
 import Panel from "@lichtblick/studio-base/components/Panel";
 import PanelCatalogContext, {

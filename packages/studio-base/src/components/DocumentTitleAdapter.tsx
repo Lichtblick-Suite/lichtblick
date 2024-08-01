@@ -8,7 +8,6 @@ import {
 } from "@lichtblick/studio-base/components/MessagePipeline";
 import { useEffect } from "react";
 
-
 const selectPlayerName = (ctx: MessagePipelineContext) => ctx.playerState.name;
 
 /**

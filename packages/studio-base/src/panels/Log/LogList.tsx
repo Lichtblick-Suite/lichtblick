@@ -22,7 +22,6 @@ import { AutoSizer } from "react-virtualized";
 import { VariableSizeList as List } from "react-window";
 import { makeStyles } from "tss-react/mui";
 
-
 import LogMessage from "./LogMessage";
 
 const useStyles = makeStyles()((theme) => ({

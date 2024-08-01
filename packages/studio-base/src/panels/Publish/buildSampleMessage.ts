@@ -14,7 +14,6 @@
 import { Immutable } from "@lichtblick/studio";
 import { RosDatatypes } from "@lichtblick/studio-base/types/RosDatatypes";
 
-
 export const builtinSampleValues: Record<string, unknown> = {
   bool: false,
   int8: 0,

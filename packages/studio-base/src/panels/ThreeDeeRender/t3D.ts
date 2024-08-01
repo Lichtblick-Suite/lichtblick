@@ -5,5 +5,4 @@
 import { threeDee } from "@lichtblick/studio-base/i18n/en";
 import { t } from "i18next";
 
-
 export const t3D = (threeDeeKey: keyof typeof threeDee): string => t(`threeDee:${threeDeeKey}`);

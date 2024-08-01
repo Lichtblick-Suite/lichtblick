@@ -9,7 +9,6 @@ import {
 } from "@lichtblick/studio-base/context/StudioLogsSettingsContext";
 import { createStore, StoreApi } from "zustand";
 
-
 import { LocalStorageSaveState } from "./types";
 
 const log = Log.getLogger(__filename);

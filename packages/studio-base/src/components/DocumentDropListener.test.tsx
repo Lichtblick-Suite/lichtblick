@@ -18,7 +18,6 @@ import { SnackbarProvider } from "notistack";
 import ReactDOM from "react-dom";
 import { act } from "react-dom/test-utils";
 
-
 describe("<DocumentDropListener>", () => {
   let wrapper: HTMLDivElement;
   let windowDragoverHandler: typeof jest.fn;

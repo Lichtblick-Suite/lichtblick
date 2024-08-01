@@ -21,7 +21,6 @@ import {
 import { subscribePayloadFromMessagePath } from "@lichtblick/studio-base/players/subscribePayloadFromMessagePath";
 import { useMemo } from "react";
 
-
 // Given a set of message paths, subscribe to the appropriate topics and return
 // messages with their queried data decoded for each path.
 export default function useMessagesByPath(

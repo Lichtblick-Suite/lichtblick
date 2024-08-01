@@ -7,7 +7,6 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText, Divider } from "@mui/material";
 import { useState } from "react";
 
-
 import { icons } from "./icons";
 
 export function NodeActionsMenu({

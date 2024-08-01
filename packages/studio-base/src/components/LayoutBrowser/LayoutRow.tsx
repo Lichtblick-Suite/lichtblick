@@ -33,7 +33,6 @@ import {
 } from "react";
 import { useMountedState } from "react-use";
 
-
 const StyledListItem = muiStyled(ListItem, {
   shouldForwardProp: (prop) =>
     prop !== "hasModifications" && prop !== "deletedOnServer" && prop !== "editingName",

@@ -12,7 +12,6 @@ import * as _ from "lodash-es";
 import { Fragment } from "react";
 import { makeStyles } from "tss-react/mui";
 
-
 const useStyles = makeStyles<void, "eventMetadata" | "eventSelected">()(
   (theme, _params, classes) => ({
     spacer: {

@@ -14,7 +14,6 @@ import * as _ from "lodash-es";
 import { useEffect } from "react";
 import { useDebounce } from "use-debounce";
 
-
 const selectCanSeek = (ctx: MessagePipelineContext) =>
   ctx.playerState.capabilities.includes(PlayerCapabilities.playbackControl);
 const selectCurrentTime = (ctx: MessagePipelineContext) => ctx.playerState.activeData?.currentTime;

@@ -10,7 +10,6 @@ import HtmlWebpackPlugin from "html-webpack-plugin";
 import path from "path";
 import { Configuration, WebpackPluginInstance } from "webpack";
 
-
 import * as palette from "@foxglove/theme/src/palette";
 
 import { WebpackConfigParams } from "./WebpackConfigParams";

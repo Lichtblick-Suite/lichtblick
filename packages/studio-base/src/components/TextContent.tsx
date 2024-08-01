@@ -18,7 +18,6 @@ import Markdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import { makeStyles } from "tss-react/mui";
 
-
 const useStyles = makeStyles()(({ palette, shape, spacing, typography, shadows }) => {
   return {
     root: {

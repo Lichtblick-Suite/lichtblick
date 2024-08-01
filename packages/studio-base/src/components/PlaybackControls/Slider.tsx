@@ -7,7 +7,6 @@ import * as _ from "lodash-es";
 import { useCallback, useEffect, useRef, ReactNode, useState, useLayoutEffect } from "react";
 import { makeStyles } from "tss-react/mui";
 
-
 export type HoverOverEvent = {
   /** Hovered `fraction` value */
   fraction: number;

@@ -20,7 +20,6 @@ import {
 import { ChangeEvent, useCallback, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useLatest, useUnmount } from "react-use";
 
-
 type UnsavedChangesResolution =
   | { type: "cancel" }
   | { type: "discard" }

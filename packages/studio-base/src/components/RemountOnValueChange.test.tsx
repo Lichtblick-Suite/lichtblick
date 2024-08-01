@@ -7,7 +7,6 @@ import RemountOnValueChange from "@lichtblick/studio-base/components/RemountOnVa
 import { render } from "@testing-library/react";
 import { useLayoutEffect } from "react";
 
-
 describe("RemountOnValueChange", () => {
   it("should render once with an initial value", () => {
     let mountCount = 0;

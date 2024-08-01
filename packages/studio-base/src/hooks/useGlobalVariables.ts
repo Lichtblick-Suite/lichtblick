@@ -18,7 +18,6 @@ import {
   useCurrentLayoutSelector,
 } from "@lichtblick/studio-base/context/CurrentLayoutContext";
 
-
 export type GlobalVariables = { [key: string]: VariableValue };
 
 export const EMPTY_GLOBAL_VARIABLES: GlobalVariables = Object.freeze({});

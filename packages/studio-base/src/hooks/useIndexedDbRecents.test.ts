@@ -6,7 +6,6 @@
 import useIndexedDbRecents from "@lichtblick/studio-base/hooks/useIndexedDbRecents";
 import { act, renderHook } from "@testing-library/react";
 
-
 describe("useIndexedDbRecents", () => {
   it("empty recents on mount", () => {
     const { result, unmount } = renderHook(() => useIndexedDbRecents());

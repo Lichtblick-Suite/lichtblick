@@ -5,7 +5,6 @@
 import { createSyncRoot } from "@lichtblick/studio-base/panels/createSyncRoot";
 import { screen } from "@testing-library/react";
 
-
 describe("createSyncRoot", () => {
   const originalError = console.error;
 

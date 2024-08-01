@@ -7,7 +7,6 @@ import useAddPanel from "@lichtblick/studio-base/hooks/useAddPanel";
 import { Menu, PaperProps, PopoverPosition, PopoverReference } from "@mui/material";
 import { makeStyles } from "tss-react/mui";
 
-
 const useStyles = makeStyles()((theme) => ({
   menuList: {
     minWidth: 270,

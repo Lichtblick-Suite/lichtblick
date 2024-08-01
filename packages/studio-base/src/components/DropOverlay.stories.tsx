@@ -5,7 +5,6 @@
 import DropOverlay from "@lichtblick/studio-base/components/DropOverlay";
 import { StoryObj } from "@storybook/react";
 
-
 export default {
   title: "components/DropOverlay",
   component: DropOverlay,

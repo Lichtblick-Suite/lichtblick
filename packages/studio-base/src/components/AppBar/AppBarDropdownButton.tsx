@@ -10,7 +10,6 @@ import { forwardRef } from "react";
 import tinycolor2 from "tinycolor2";
 import { makeStyles } from "tss-react/mui";
 
-
 import { APP_BAR_HEIGHT } from "./constants";
 
 const useStyles = makeStyles()((theme) => ({

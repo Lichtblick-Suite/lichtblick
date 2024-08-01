@@ -7,7 +7,6 @@ import { Layout } from "@lichtblick/studio-base/services/ILayoutStorage";
 import { Typography, List } from "@mui/material";
 import { MouseEvent } from "react";
 
-
 import LayoutRow from "./LayoutRow";
 
 export default function LayoutSection({

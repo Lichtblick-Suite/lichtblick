@@ -13,7 +13,6 @@
 import { isTypicalFilterName } from "@lichtblick/studio-base/components/MessagePathSyntax/isTypicalFilterName";
 import * as _ from "lodash-es";
 
-
 export const diffArrow = "->";
 export const diffLabels = {
   ADDED: {

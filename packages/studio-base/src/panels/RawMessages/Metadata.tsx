@@ -20,7 +20,6 @@ import { useCallback } from "react";
 import { useLatest } from "react-use";
 import { makeStyles } from "tss-react/mui";
 
-
 import { copyMessageReplacer } from "./copyMessageReplacer";
 import { getMessageDocumentationLink } from "./utils";
 

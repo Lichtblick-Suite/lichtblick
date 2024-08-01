@@ -9,7 +9,6 @@ import { StorybookConfig } from "@storybook/react-webpack5";
 import path from "path";
 import { Configuration } from "webpack";
 
-
 const storybookConfig: StorybookConfig = {
   // Workaround for https://github.com/storybookjs/storybook/issues/19446
   stories: ["../packages/**/!(node_modules)**/*.stories.tsx"],

@@ -8,7 +8,6 @@ import { mkdir, readdir, readFile, rm, writeFile } from "fs/promises";
 import JSZip from "jszip";
 import { dirname, join as pathJoin } from "path";
 
-
 import { DesktopExtension } from "../common/types";
 
 const log = Logger.getLogger(__filename);

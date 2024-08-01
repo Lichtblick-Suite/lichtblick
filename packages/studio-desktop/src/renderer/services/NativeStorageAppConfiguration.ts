@@ -4,7 +4,6 @@
 import { IAppConfiguration, AppConfigurationValue, ChangeHandler } from "@lichtblick/studio-base";
 import { Mutex } from "async-mutex";
 
-
 import { SETTINGS_DATASTORE_NAME, SETTINGS_JSON_DATASTORE_KEY } from "../../common/storage";
 import { Storage } from "../../common/types";
 

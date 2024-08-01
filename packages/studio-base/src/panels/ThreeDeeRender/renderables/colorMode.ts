@@ -7,7 +7,6 @@ import { BaseSettings } from "@lichtblick/studio-base/panels/ThreeDeeRender/sett
 import { t } from "i18next";
 import * as THREE from "three";
 
-
 import { rgbaGradient, rgbaToLinear, SRGBToLinear, stringToRgba } from "../color";
 import { clamp } from "../math";
 import type { ColorRGBA } from "../ros";

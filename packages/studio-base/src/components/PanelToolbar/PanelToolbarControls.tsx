@@ -11,7 +11,6 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-
 import PanelContext from "@lichtblick/studio-base/components/PanelContext";
 import ToolbarIconButton from "@lichtblick/studio-base/components/PanelToolbar/ToolbarIconButton";
 import Stack from "@lichtblick/studio-base/components/Stack";

@@ -15,7 +15,6 @@ import { forwardRef, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { makeStyles } from "tss-react/mui";
 
-
 import { PanelGrid } from "./PanelGrid";
 import { PanelList } from "./PanelList";
 import { PanelSelection } from "./types";

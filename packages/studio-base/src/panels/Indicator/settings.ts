@@ -14,7 +14,6 @@ import * as _ from "lodash-es";
 import memoizeWeak from "memoize-weak";
 import { useMemo } from "react";
 
-
 import { Config, Rule } from "./types";
 
 function ruleToString(rule: Rule): string {

@@ -14,7 +14,6 @@
 import Rpc, { Channel, createLinkedChannels } from "@lichtblick/studio-base/util/Rpc";
 import * as _ from "lodash-es";
 
-
 import { processMessage, registerScript } from "./runtimeWorker/registry";
 import generateRosLib from "./transformerWorker/generateRosLib";
 import transform from "./transformerWorker/transform";

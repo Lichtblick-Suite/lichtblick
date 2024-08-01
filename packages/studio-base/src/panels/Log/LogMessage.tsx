@@ -16,7 +16,6 @@ import { TimeDisplayMethod } from "@lichtblick/studio-base/types/panels";
 import * as _ from "lodash-es";
 import { makeStyles } from "tss-react/mui";
 
-
 import LevelToString from "./LevelToString";
 import Stamp from "./Stamp";
 import { NormalizedLogMessage } from "./types";

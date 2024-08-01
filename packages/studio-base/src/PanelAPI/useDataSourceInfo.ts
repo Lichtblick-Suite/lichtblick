@@ -11,7 +11,6 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-
 import { Immutable, Time } from "@lichtblick/studio";
 import {
   MessagePipelineContext,
@@ -20,7 +19,6 @@ import {
 import { Topic } from "@lichtblick/studio-base/players/types";
 import { RosDatatypes } from "@lichtblick/studio-base/types/RosDatatypes";
 import { useMemo } from "react";
-
 
 function selectDatatypes(ctx: MessagePipelineContext) {
   return ctx.datatypes;

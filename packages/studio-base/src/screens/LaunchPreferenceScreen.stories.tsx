@@ -6,7 +6,6 @@ import { LaunchPreferenceScreen } from "@lichtblick/studio-base/screens/LaunchPr
 import { StoryObj } from "@storybook/react";
 import { ReactElement } from "react";
 
-
 export default {
   title: "LaunchPreferenceScreen",
   component: LaunchPreferenceScreen,

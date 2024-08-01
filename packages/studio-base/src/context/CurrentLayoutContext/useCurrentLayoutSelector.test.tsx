@@ -6,7 +6,6 @@ import MockCurrentLayoutProvider from "@lichtblick/studio-base/providers/Current
 import { act, renderHook } from "@testing-library/react";
 import { useLayoutEffect, useRef } from "react";
 
-
 import { LayoutState, useCurrentLayoutActions, useCurrentLayoutSelector } from "./index";
 
 describe("useCurrentLayoutSelector", () => {

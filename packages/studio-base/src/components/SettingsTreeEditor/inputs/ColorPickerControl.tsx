@@ -11,7 +11,6 @@ import tinycolor from "tinycolor2";
 import { makeStyles } from "tss-react/mui";
 import { useDebouncedCallback } from "use-debounce";
 
-
 const useStyles = makeStyles()((theme) => ({
   picker: {
     "&.react-colorful": {

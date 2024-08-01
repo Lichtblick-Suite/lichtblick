@@ -6,7 +6,6 @@ import { Field } from "@lichtblick/studio-base/context/PlayerSelectionContext";
 import { FormHelperText, TextField } from "@mui/material";
 import { ChangeEvent, useState } from "react";
 
-
 type Props = {
   disabled: boolean;
   field: Field;

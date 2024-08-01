@@ -5,7 +5,6 @@
 import Logger from "@lichtblick/log";
 import EventEmitter from "eventemitter3";
 
-
 export type Path = ReadonlyArray<string>;
 
 const TOPIC_PATH: [string, string] = ["topics", ""];

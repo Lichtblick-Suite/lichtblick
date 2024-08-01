@@ -6,7 +6,6 @@ import { SettingsTreeAction } from "@lichtblick/studio";
 import { t } from "i18next";
 import * as _ from "lodash-es";
 
-
 import { PublishClickType } from "./PublishClickTool";
 import type { IRenderer, RendererConfig } from "../IRenderer";
 import { SceneExtension } from "../SceneExtension";

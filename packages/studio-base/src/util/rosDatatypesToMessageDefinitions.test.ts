@@ -14,7 +14,6 @@
 import { RosDatatypes } from "@lichtblick/studio-base/types/RosDatatypes";
 import * as _ from "lodash-es";
 
-
 import { basicDatatypes } from "./basicDatatypes";
 import rosDatatypesToMessageDefinition from "./rosDatatypesToMessageDefinition";
 

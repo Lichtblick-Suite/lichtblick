@@ -8,7 +8,6 @@ import { Typography } from "@mui/material";
 import { ReactNode } from "react";
 import { makeStyles } from "tss-react/mui";
 
-
 const useStyles = makeStyles()((theme) => ({
   diff: {
     float: "right",

@@ -6,7 +6,6 @@ import { SettingsTreeChildren, SettingsTreeNodes } from "@lichtblick/studio";
 import { Topic } from "@lichtblick/studio-base/players/types";
 import { TFunction } from "i18next";
 
-
 import { LogLevel } from "./types";
 
 // Create the log level options nodes once since they don't change per render.

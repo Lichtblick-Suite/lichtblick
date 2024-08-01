@@ -11,7 +11,6 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-
 import { filterMap } from "@lichtblick/den/collection";
 import {
   AddPanelPayload,
@@ -63,7 +62,6 @@ import {
   updateTree,
 } from "react-mosaic-component";
 import { MarkOptional } from "ts-essentials";
-
 
 import { isTabPanelConfig } from "../../util/layout";
 

@@ -6,7 +6,6 @@ import { PromiseTimeoutError, promiseTimeout } from "@lichtblick/den/async";
 import Logger from "@lichtblick/log";
 import installExtension, { REACT_DEVELOPER_TOOLS } from "electron-devtools-installer";
 
-
 const log = Logger.getLogger(__filename);
 
 export default async function installChromeExtensions(): Promise<void> {

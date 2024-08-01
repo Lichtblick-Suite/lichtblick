@@ -8,7 +8,6 @@ import { StoryObj } from "@storybook/react";
 import { useEffect, useState } from "react";
 import { useAsync } from "react-use";
 
-
 import TopicGraph, { TopicVisibility } from "./index";
 
 export default {

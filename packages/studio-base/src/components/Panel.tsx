@@ -70,7 +70,6 @@ import { Transition } from "react-transition-group";
 import { useMountedState } from "react-use";
 import { makeStyles } from "tss-react/mui";
 
-
 const useStyles = makeStyles()((theme) => ({
   perfInfo: {
     position: "absolute",

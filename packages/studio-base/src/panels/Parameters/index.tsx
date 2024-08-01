@@ -41,7 +41,6 @@ import { ReactElement, useCallback, useEffect, useMemo, useRef, useState } from 
 import { makeStyles } from "tss-react/mui";
 import { useDebouncedCallback } from "use-debounce";
 
-
 // The minimum amount of time to wait between showing the parameter update animation again
 const ANIMATION_RESET_DELAY_MS = 3000;
 

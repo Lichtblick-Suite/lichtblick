@@ -18,7 +18,6 @@ import type { HoverValue } from "@lichtblick/studio-base/types/hoverValue";
 import { createContext, useCallback } from "react";
 import { StoreApi, useStore } from "zustand";
 
-
 /**
  * Represents the global bounds to which synced plots conform, including the id of the
  * component that set those bounds.

@@ -7,7 +7,6 @@ import { Immutable, SettingsTree } from "@lichtblick/studio";
 import { createContext } from "react";
 import { StoreApi, useStore } from "zustand";
 
-
 export type ImmutableSettingsTree = Immutable<SettingsTree>;
 
 export type PanelStateStore = {

@@ -21,7 +21,6 @@ import { useContext } from "react";
 import { useDrag, ConnectDragSource, ConnectDragPreview } from "react-dnd";
 import { MosaicDragType, MosaicNode, MosaicWindowContext } from "react-mosaic-component";
 
-
 type PanelDragObject = {
   deferredHide: number;
   originalLayout: MosaicNode<string> | undefined;

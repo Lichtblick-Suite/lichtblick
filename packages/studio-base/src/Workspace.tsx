@@ -10,7 +10,6 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-
 import Logger from "@lichtblick/log";
 import { AppSetting } from "@lichtblick/studio-base/AppSetting";
 import AccountSettings from "@lichtblick/studio-base/components/AccountSettingsSidebar/AccountSettings";
@@ -86,7 +85,6 @@ import { extname } from "path";
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { makeStyles } from "tss-react/mui";
-
 
 import { useWorkspaceActions } from "./context/Workspace/useWorkspaceActions";
 

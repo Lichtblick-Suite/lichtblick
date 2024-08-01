@@ -37,7 +37,6 @@ import {
 } from "react-mosaic-component";
 import { MosaicDirection, MosaicKey } from "react-mosaic-component/lib/types";
 
-
 const log = Logger.getLogger(__filename);
 
 /** Key injected into panel configs for user-selected title (overrides setDefaultPanelTitle) */

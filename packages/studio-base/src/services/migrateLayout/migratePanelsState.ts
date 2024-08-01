@@ -5,7 +5,6 @@
 import { LayoutData } from "@lichtblick/studio-base/context/CurrentLayoutContext/actions";
 import { MarkOptional } from "ts-essentials";
 
-
 import { migrateLegacyToNew3DPanels } from "./migrateLegacyToNew3DPanels";
 import { migrateLegacyToNewImagePanels } from "./migrateLegacyToNewImagePanels";
 

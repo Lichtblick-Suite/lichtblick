@@ -23,7 +23,6 @@ import { useTranslation } from "react-i18next";
 import { MosaicDragType } from "react-mosaic-component";
 import { makeStyles } from "tss-react/mui";
 
-
 type Props = {
   tabId?: string;
 };

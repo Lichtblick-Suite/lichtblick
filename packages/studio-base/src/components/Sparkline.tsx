@@ -16,7 +16,6 @@ import AutoSizingCanvas from "@lichtblick/studio-base/components/AutoSizingCanva
 import { useCallback } from "react";
 import { makeStyles } from "tss-react/mui";
 
-
 export type SparklinePoint = { value: number; timestamp: number };
 
 type SparklineProps = {

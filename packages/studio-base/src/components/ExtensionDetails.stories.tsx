@@ -11,7 +11,6 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-
 import { ExtensionDetails } from "@lichtblick/studio-base/components/ExtensionDetails";
 import AppConfigurationContext from "@lichtblick/studio-base/context/AppConfigurationContext";
 import ExtensionMarketplaceContext, {

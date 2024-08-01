@@ -11,7 +11,6 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-
 import { EmptyPanelLayout } from "@lichtblick/studio-base/components/EmptyPanelLayout";
 import Panel from "@lichtblick/studio-base/components/Panel";
 import { usePanelContext } from "@lichtblick/studio-base/components/PanelContext";
@@ -25,7 +24,10 @@ import { TabbedToolbar } from "@lichtblick/studio-base/panels/Tab/TabbedToolbar"
 import { TabPanelConfig as Config } from "@lichtblick/studio-base/types/layouts";
 import { SaveConfig } from "@lichtblick/studio-base/types/panels";
 import { TAB_PANEL_TYPE } from "@lichtblick/studio-base/util/globalConstants";
-import { DEFAULT_TAB_PANEL_CONFIG, updateTabPanelLayout } from "@lichtblick/studio-base/util/layout";
+import {
+  DEFAULT_TAB_PANEL_CONFIG,
+  updateTabPanelLayout,
+} from "@lichtblick/studio-base/util/layout";
 import { useCallback, useMemo, useState } from "react";
 import { MosaicNode } from "react-mosaic-component";
 import { makeStyles } from "tss-react/mui";

@@ -2,7 +2,6 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-
 import Log from "@lichtblick/log";
 import { LOCAL_STORAGE_STUDIO_LAYOUT_KEY } from "@lichtblick/studio-base/constants/localStorageKeys";
 import {
@@ -19,7 +18,6 @@ import assert from "assert";
 import { useEffect } from "react";
 import { useAsync } from "react-use";
 import { useDebounce } from "use-debounce";
-
 
 function selectLayoutData(state: LayoutState) {
   return state.selectedLayout?.data;

@@ -11,7 +11,6 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-
 import { filterMap } from "@lichtblick/den/collection";
 import { SettingsTreeAction } from "@lichtblick/studio";
 import { useDataSourceInfo } from "@lichtblick/studio-base/PanelAPI";
@@ -46,7 +45,6 @@ import { CSSProperties, useCallback, useEffect, useMemo } from "react";
 import { AutoSizer } from "react-virtualized";
 import { FixedSizeList as List } from "react-window";
 import { makeStyles } from "tss-react/mui";
-
 
 import { buildSummarySettingsTree } from "./settings";
 import {

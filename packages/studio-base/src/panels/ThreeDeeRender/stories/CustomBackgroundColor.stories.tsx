@@ -5,7 +5,6 @@
 import PanelSetup from "@lichtblick/studio-base/stories/PanelSetup";
 import { StoryObj } from "@storybook/react";
 
-
 import useDelayedFixture from "./useDelayedFixture";
 import ThreeDeePanel from "../index";
 

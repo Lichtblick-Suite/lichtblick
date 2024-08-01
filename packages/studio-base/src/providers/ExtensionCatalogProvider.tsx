@@ -21,7 +21,6 @@ import React, { PropsWithChildren, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { StoreApi, createStore } from "zustand";
 
-
 const log = Logger.getLogger(__filename);
 
 type MessageConverter = RegisterMessageConverterArgs<unknown> & {

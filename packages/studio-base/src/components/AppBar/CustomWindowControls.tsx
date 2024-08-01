@@ -10,7 +10,6 @@ import MinimizeIcon from "@mui/icons-material/Minimize";
 import { IconButton } from "@mui/material";
 import { makeStyles } from "tss-react/mui";
 
-
 export type CustomWindowControlsProps = {
   showCustomWindowControls?: boolean;
   isMaximized?: boolean;

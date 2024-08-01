@@ -6,7 +6,6 @@ import Logger from "@lichtblick/log";
 import { LayoutID } from "@lichtblick/studio-base/context/CurrentLayoutContext";
 import { ILayoutStorage, Layout } from "@lichtblick/studio-base/services/ILayoutStorage";
 
-
 const log = Logger.getLogger(__filename);
 
 /**

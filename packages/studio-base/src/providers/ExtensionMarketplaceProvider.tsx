@@ -8,7 +8,6 @@ import ExtensionMarketplaceContext, {
 } from "@lichtblick/studio-base/context/ExtensionMarketplaceContext";
 import { useCallback } from "react";
 
-
 const MARKETPLACE_URL =
   "https://raw.githubusercontent.com/foxglove/studio-extension-marketplace/main/extensions.json";
 

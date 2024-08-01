@@ -10,7 +10,6 @@ import * as os from "os";
 import * as path from "path";
 import { ConsoleMessage, _electron as electron, ElectronApplication, Page } from "playwright";
 
-
 import { appPath } from "./build";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

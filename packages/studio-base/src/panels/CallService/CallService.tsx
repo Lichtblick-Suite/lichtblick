@@ -11,7 +11,6 @@ import { Button, Palette, TextField, Tooltip, Typography, inputBaseClasses } fro
 import { Dispatch, SetStateAction, useCallback, useEffect, useMemo, useState } from "react";
 import { makeStyles } from "tss-react/mui";
 
-
 import { defaultConfig, settingsActionReducer, useSettingsTree } from "./settings";
 
 const log = Log.getLogger(__dirname);

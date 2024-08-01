@@ -15,7 +15,6 @@ import {
 import * as _ from "lodash-es";
 import memoizeWeak from "memoize-weak";
 
-
 import { BlockTopicProcessor } from "./BlockTopicProcessor";
 import { IStateProcessor } from "./IStateProcessor";
 

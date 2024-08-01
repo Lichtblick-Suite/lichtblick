@@ -19,7 +19,6 @@ import { produce } from "immer";
 import { useEffect, useState } from "react";
 import { makeStyles } from "tss-react/mui";
 
-
 import { PlotConfig } from "./config";
 import Plot from "./index";
 import { fixture } from "./storyFixtures";

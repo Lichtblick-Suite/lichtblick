@@ -16,7 +16,6 @@ import { SyntheticEvent, useCallback, useMemo, useState } from "react";
 import tc from "tinycolor2";
 import { makeStyles } from "tss-react/mui";
 
-
 import { ScriptsList } from "./ScriptsList";
 import { Templates } from "./Templates";
 import { Utilities } from "./Utilities";

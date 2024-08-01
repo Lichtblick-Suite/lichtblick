@@ -16,7 +16,6 @@ import { Meta, StoryFn, StoryObj } from "@storybook/react";
 import { fireEvent, within } from "@storybook/testing-library";
 import * as _ from "lodash-es";
 
-
 import { Autocomplete } from "./Autocomplete";
 
 export default {

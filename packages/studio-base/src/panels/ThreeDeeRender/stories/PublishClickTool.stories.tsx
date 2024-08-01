@@ -9,7 +9,6 @@ import delay from "@lichtblick/studio-base/util/delay";
 import { StoryObj } from "@storybook/react";
 import { userEvent, screen } from "@storybook/testing-library";
 
-
 import { QUAT_IDENTITY, rad2deg } from "./common";
 import useDelayedFixture from "./useDelayedFixture";
 import ThreeDeePanel from "../index";

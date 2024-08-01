@@ -5,7 +5,6 @@
 import Logger from "@lichtblick/log";
 import { useEffect, useState } from "react";
 
-
 const log = Logger.getLogger(__filename);
 
 // Hook to get any files the main thread has told us to open

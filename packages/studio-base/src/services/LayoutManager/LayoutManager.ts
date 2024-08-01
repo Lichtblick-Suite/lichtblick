@@ -28,7 +28,6 @@ import EventEmitter from "eventemitter3";
 import * as _ from "lodash-es";
 import { v4 as uuidv4 } from "uuid";
 
-
 import { NamespacedLayoutStorage } from "./NamespacedLayoutStorage";
 import WriteThroughLayoutCache from "./WriteThroughLayoutCache";
 import { isLayoutEqual } from "./compareLayouts";

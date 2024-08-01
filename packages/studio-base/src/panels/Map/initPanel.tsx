@@ -11,7 +11,6 @@ import LeafletRetinaIconUrl from "leaflet/dist/images/marker-icon-2x.png";
 import LeafletIconUrl from "leaflet/dist/images/marker-icon.png";
 import LeafletShadowIconUrl from "leaflet/dist/images/marker-shadow.png";
 
-
 import MapPanel from "./MapPanel";
 
 import "leaflet/dist/leaflet.css";

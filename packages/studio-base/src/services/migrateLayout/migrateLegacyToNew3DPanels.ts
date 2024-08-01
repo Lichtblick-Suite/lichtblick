@@ -2,7 +2,6 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-
 import { filterMap } from "@lichtblick/den/collection";
 import { LayoutData } from "@lichtblick/studio-base/context/CurrentLayoutContext/actions";
 import type { RendererConfig } from "@lichtblick/studio-base/panels/ThreeDeeRender/IRenderer";
@@ -13,7 +12,6 @@ import {
   getPanelTypeFromId,
 } from "@lichtblick/studio-base/util/layout";
 import * as _ from "lodash-es";
-
 
 import { replacePanel } from "./replacePanel";
 

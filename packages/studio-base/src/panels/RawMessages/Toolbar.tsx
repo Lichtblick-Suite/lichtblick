@@ -14,7 +14,6 @@ import UnfoldMoreIcon from "@mui/icons-material/UnfoldMore";
 import { IconButton, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import { makeStyles } from "tss-react/mui";
 
-
 import { Constants, RawMessagesPanelConfig } from "./types";
 
 type Props = {

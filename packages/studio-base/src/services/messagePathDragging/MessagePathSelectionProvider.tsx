@@ -5,7 +5,6 @@
 import { DraggedMessagePath } from "@lichtblick/studio-base/components/PanelExtensionAdapter";
 import { createContext, useMemo } from "react";
 
-
 type MessagePathSelectionContext = {
   getSelectedItems: () => DraggedMessagePath[];
 };

@@ -11,7 +11,6 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-
 import { useCurrentLayoutActions } from "@lichtblick/studio-base/context/CurrentLayoutContext";
 import NodePlayground from "@lichtblick/studio-base/panels/UserScriptEditor";
 import { generateFoxgloveSchemaDeclarations } from "@lichtblick/studio-base/players/UserScriptPlayer/transformerWorker/typescript/projectConfig";

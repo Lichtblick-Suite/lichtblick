@@ -7,7 +7,6 @@ import { Popover, TextField, useTheme } from "@mui/material";
 import { useCallback, useState } from "react";
 import tinycolor from "tinycolor2";
 
-
 import { ColorPickerControl, useColorPickerControl } from "./ColorPickerControl";
 import { ColorSwatch } from "./ColorSwatch";
 

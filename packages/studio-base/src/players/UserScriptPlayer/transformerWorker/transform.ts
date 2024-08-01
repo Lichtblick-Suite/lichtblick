@@ -11,7 +11,6 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-
 import { filterMap } from "@lichtblick/den/collection";
 import { formatInterfaceName } from "@lichtblick/studio-base/players/UserScriptPlayer/transformerWorker/generateRosLib";
 import {
@@ -36,7 +35,6 @@ import {
 import { Topic } from "@lichtblick/studio-base/players/types";
 import { DEFAULT_STUDIO_SCRIPT_PREFIX } from "@lichtblick/studio-base/util/globalConstants";
 import ts from "typescript/lib/typescript";
-
 
 import { TransformArgs } from "./types";
 import generatedTypesLibSrc from "./typescript/userUtils/generatedTypes.ts?raw";

@@ -16,7 +16,6 @@ import PanelSetup, { Fixture } from "@lichtblick/studio-base/stories/PanelSetup"
 import { StoryObj } from "@storybook/react";
 import * as _ from "lodash-es";
 
-
 const fixture: Fixture = {
   topics: [{ name: "/rosout", schemaName: "rosgraph_msgs/Log" }],
   frame: {

@@ -14,7 +14,6 @@
 import PanelSetup from "@lichtblick/studio-base/stories/PanelSetup";
 import { StoryObj } from "@storybook/react";
 
-
 import PlaybackPerformance from "./index";
 
 export default {

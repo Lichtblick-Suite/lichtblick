@@ -11,7 +11,6 @@ import path from "path";
 import { Configuration, WebpackPluginInstance } from "webpack";
 import type { Configuration as WebpackDevServerConfiguration } from "webpack-dev-server";
 
-
 interface WebpackConfiguration extends Configuration {
   devServer?: WebpackDevServerConfiguration;
 }

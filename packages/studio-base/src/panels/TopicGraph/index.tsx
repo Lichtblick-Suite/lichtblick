@@ -37,7 +37,6 @@ import { useCallback, useMemo, useRef, useState } from "react";
 import textMetrics from "text-metrics";
 import { makeStyles } from "tss-react/mui";
 
-
 import Graph, { GraphMutation } from "./Graph";
 
 const LABEL_MAX_WIDTH = 200;

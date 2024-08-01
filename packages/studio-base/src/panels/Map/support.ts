@@ -7,7 +7,6 @@ import { FoxgloveMessages } from "@lichtblick/studio-base/types/FoxgloveMessages
 import { Feature, FeatureCollection, GeoJsonObject } from "geojson";
 import { PathOptions, geoJSON } from "leaflet";
 
-
 import { MapPanelMessage, NavSatFixMsg, NavSatFixStatus } from "./types";
 
 export type GeoJsonMessage = MessageEvent<FoxgloveMessages["foxglove.GeoJSON"]>;

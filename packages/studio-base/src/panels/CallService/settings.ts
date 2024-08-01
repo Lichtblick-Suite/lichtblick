@@ -8,7 +8,6 @@ import { produce } from "immer";
 import * as _ from "lodash-es";
 import { useMemo } from "react";
 
-
 import { Config } from "./types";
 
 export const defaultConfig: Config = {

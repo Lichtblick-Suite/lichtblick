@@ -4,7 +4,6 @@
 import Log from "@lichtblick/log";
 import { std } from "mathjs";
 
-
 const log = Log.getLogger(__filename);
 
 type Sample = {

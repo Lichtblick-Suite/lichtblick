@@ -10,7 +10,6 @@ import path from "path";
 import { PNG } from "pngjs";
 import UTIF from "utif";
 
-
 import { getAppSetting } from "./settings";
 
 const log = Logger.getLogger(__filename);

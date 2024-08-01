@@ -2,7 +2,6 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-
 import { Immutable, SettingsTreeField, SettingsTreeNode } from "@lichtblick/studio";
 import { AppBarMenuItem } from "@lichtblick/studio-base/components/AppBar/types";
 import { LayoutData } from "@lichtblick/studio-base/context/CurrentLayoutContext";
@@ -12,7 +11,6 @@ import type { Player } from "@lichtblick/studio-base/players/types";
 import { createContext, useContext } from "react";
 import { DeepPartial } from "ts-essentials";
 import { StoreApi } from "zustand";
-
 
 interface IAppContext {
   appBarLayoutButton?: JSX.Element;

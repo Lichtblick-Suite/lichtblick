@@ -9,7 +9,6 @@ import {
 import { StoryObj } from "@storybook/react";
 import { fireEvent, screen } from "@storybook/testing-library";
 
-
 export default {
   title: "components/ShareJsonModal",
 };

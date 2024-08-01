@@ -17,7 +17,6 @@ import { ChartDataset, ChartData } from "chart.js";
 import * as R from "ramda";
 import { useEffect, useMemo, useCallback } from "react";
 
-
 import { PlotDataProvider, ProviderState, Bounds, PlotViewport } from "./types";
 
 type Datasets<T> = ChartDataset<"scatter", T>[];

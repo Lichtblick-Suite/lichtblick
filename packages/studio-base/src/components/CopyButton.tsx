@@ -22,7 +22,6 @@ import {
 } from "@mui/material";
 import { useCallback, useState, PropsWithChildren, useMemo } from "react";
 
-
 function CopyButtonComponent(
   props: PropsWithChildren<{
     getText: () => string;

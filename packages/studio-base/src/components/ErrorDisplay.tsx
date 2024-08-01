@@ -7,7 +7,6 @@ import { Typography, Link, Divider } from "@mui/material";
 import { ErrorInfo, useMemo, useState } from "react";
 import { makeStyles } from "tss-react/mui";
 
-
 const useStyles = makeStyles()((theme) => ({
   grid: {
     display: "grid",

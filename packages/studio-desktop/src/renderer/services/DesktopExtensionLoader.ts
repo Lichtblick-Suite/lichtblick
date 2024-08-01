@@ -5,7 +5,6 @@
 import Logger from "@lichtblick/log";
 import { ExtensionInfo, ExtensionLoader, ExtensionNamespace } from "@lichtblick/studio-base";
 
-
 import { Desktop } from "../../common/types";
 
 const log = Logger.getLogger(__filename);

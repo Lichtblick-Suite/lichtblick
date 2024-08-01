@@ -10,7 +10,6 @@ import showOpenFilePicker from "@lichtblick/studio-base/util/showOpenFilePicker"
 import path from "path";
 import { useCallback, useMemo } from "react";
 
-
 export function useOpenFile(sources: readonly IDataSourceFactory[]): () => Promise<void> {
   const { selectSource } = usePlayerSelection();
 

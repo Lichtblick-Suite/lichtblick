@@ -2,7 +2,6 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-
 import { IdbLayoutStorage } from "@lichtblick/studio-base/IdbLayoutStorage";
 import LayoutStorageContext from "@lichtblick/studio-base/context/LayoutStorageContext";
 import NativeAppMenuContext from "@lichtblick/studio-base/context/NativeAppMenuContext";

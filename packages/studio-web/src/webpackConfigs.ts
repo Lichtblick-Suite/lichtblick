@@ -15,7 +15,6 @@ import type {
   Configuration as WebpackDevServerConfiguration,
 } from "webpack-dev-server";
 
-
 import * as palette from "@foxglove/theme/src/palette";
 
 export interface WebpackConfiguration extends Configuration {

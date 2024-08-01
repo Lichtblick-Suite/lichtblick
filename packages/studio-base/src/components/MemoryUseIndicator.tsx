@@ -8,7 +8,6 @@ import { useAppConfigurationValue } from "@lichtblick/studio-base/hooks";
 import { Tooltip, Typography } from "@mui/material";
 import { makeStyles } from "tss-react/mui";
 
-
 const useStyles = makeStyles()((theme) => ({
   root: {
     display: "flex",

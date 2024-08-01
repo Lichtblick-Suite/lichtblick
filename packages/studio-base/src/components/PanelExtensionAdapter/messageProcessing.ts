@@ -13,7 +13,6 @@ import { ExtensionNamespace } from "@lichtblick/studio-base/types/Extensions";
 import * as _ from "lodash-es";
 import { Opaque } from "ts-essentials";
 
-
 // Branded string to ensure that users go through the `converterKey` function to compute a lookup key
 type ConverterKey = Opaque<string, "ConverterKey">;
 

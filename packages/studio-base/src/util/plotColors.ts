@@ -15,7 +15,6 @@ import { toolsColorScheme } from "@lichtblick/studio-base/util/toolsColorScheme"
 import * as _ from "lodash-es";
 import tinycolor from "tinycolor2";
 
-
 // Inspired by the "light" scheme from https://personal.sron.nl/~pault/#sec:qualitative
 // but using our standard tools colors.
 export const lineColors = [

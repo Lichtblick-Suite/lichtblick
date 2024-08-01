@@ -5,7 +5,6 @@
 import { ILayoutStorage } from "@lichtblick/studio-base/services/ILayoutStorage";
 import { createContext, useContext } from "react";
 
-
 const LayoutStorageContext = createContext<ILayoutStorage | undefined>(undefined);
 LayoutStorageContext.displayName = "LayoutStorageContext";
 
