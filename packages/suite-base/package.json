@@ -1,6 +1,6 @@
 {
   "name": "@lichtblick/suite-base",
-  "description": "Core components of Foxglove Studio",
+  "description": "Core components of Lichtblick Suite",
   "private": true,
   "productName": "Lichtblick",
   "productDescription": "Lichtblick Suite",

@@ -128,13 +128,13 @@ export function main(): void {
     },
     async getExtensions() {
       const homePath = (await ipcRenderer.invoke("getHomePath")) as string;
-      const userExtensionRoot = pathJoin(homePath, ".foxglove-studio", "extensions");
+      const userExtensionRoot = pathJoin(homePath, ".lichtblick-suite", "extensions");
       const userExtensions = await getExtensions(userExtensionRoot);
       return userExtensions;
     },
     async loadExtension(id: string) {
       const homePath = (await ipcRenderer.invoke("getHomePath")) as string;
-      const userExtensionRoot = pathJoin(homePath, ".foxglove-studio", "extensions");
+      const userExtensionRoot = pathJoin(homePath, ".lichtblick-suite", "extensions");
       return await loadExtension(id, userExtensionRoot);
     },
     async fetchLayouts() {
@@ -144,12 +144,12 @@ export function main(): void {
     },
     async installExtension(foxeFileData: Uint8Array) {
       const homePath = (await ipcRenderer.invoke("getHomePath")) as string;
-      const userExtensionRoot = pathJoin(homePath, ".foxglove-studio", "extensions");
+      const userExtensionRoot = pathJoin(homePath, ".lichtblick-suite", "extensions");
       return await installExtension(foxeFileData, userExtensionRoot);
     },
     async uninstallExtension(id: string): Promise<boolean> {
       const homePath = (await ipcRenderer.invoke("getHomePath")) as string;
-      const userExtensionRoot = pathJoin(homePath, ".foxglove-studio", "extensions");
+      const userExtensionRoot = pathJoin(homePath, ".lichtblick-suite", "extensions");
       return await uninstallExtension(id, userExtensionRoot);
     },
     handleTitleBarDoubleClick() {
