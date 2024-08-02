@@ -53,7 +53,7 @@ describe("IdbExtensionLoader", () => {
 
     it("Installs local extensions", async () => {
       const foxe = fs.readFileSync(
-        `${__dirname}/../test/fixtures/foxglove.studio-extension-turtlesim-0.0.1.foxe`,
+        `${__dirname}/../test/fixtures/lichtblick.suite-extension-turtlesim-0.0.1.foxe`,
       );
 
       const expectedInfo = {
@@ -76,7 +76,7 @@ describe("IdbExtensionLoader", () => {
 
     it("Installs private extensions", async () => {
       const foxe = fs.readFileSync(
-        `${__dirname}/../test/fixtures/foxglove.studio-extension-turtlesim-0.0.1.foxe`,
+        `${__dirname}/../test/fixtures/lichtblick.suite-extension-turtlesim-0.0.1.foxe`,
       );
 
       const expectedInfo = {
