@@ -3,7 +3,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import Logger from "@lichtblick/log";
-import { AppSetting } from "@lichtblick/studio-base/src/AppSetting";
+import { AppSetting } from "@lichtblick/suite-base/src/AppSetting";
 import { dialog } from "electron";
 import { autoUpdater, UpdateInfo } from "electron-updater";
 import { EventEmitter } from "eventemitter3";

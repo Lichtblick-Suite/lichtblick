@@ -2,7 +2,7 @@
   "name": "benchmark",
   "private": true,
   "dependencies": {
-    "@lichtblick/studio-base": "workspace:*"
+    "@lichtblick/suite-base": "workspace:*"
   },
   "devDependencies": {
     "@foxglove/rostime": "1.1.2",

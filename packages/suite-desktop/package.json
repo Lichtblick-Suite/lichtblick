@@ -14,7 +14,7 @@
     "@foxglove/tsconfig": "2.0.0",
     "@lichtblick/den": "workspace:*",
     "@lichtblick/log": "workspace:*",
-    "@lichtblick/studio-base": "workspace:*",
+    "@lichtblick/suite-base": "workspace:*",
     "@mcap/core": "1.3.0",
     "@pmmmwh/react-refresh-webpack-plugin": "0.5.11",
     "@storybook/react": "7.6.10",

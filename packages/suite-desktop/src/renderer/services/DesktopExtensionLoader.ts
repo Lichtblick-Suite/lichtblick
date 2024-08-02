@@ -3,7 +3,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import Logger from "@lichtblick/log";
-import { ExtensionInfo, ExtensionLoader, ExtensionNamespace } from "@lichtblick/studio-base";
+import { ExtensionInfo, ExtensionLoader, ExtensionNamespace } from "@lichtblick/suite-base";
 
 import { Desktop } from "../../common/types";
 

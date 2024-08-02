@@ -8,7 +8,7 @@
     "experimentalDecorators": true,
     "useUnknownInCatchVariables": false,
     "paths": {
-      "@lichtblick/studio-base/*": ["../studio-base/src/*"]
+      "@lichtblick/suite-base/*": ["../suite-base/src/*"]
     }
   }
 }

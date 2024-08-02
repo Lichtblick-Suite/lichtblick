@@ -4,10 +4,11 @@
 
 import { filterMap } from "@lichtblick/den/collection";
 import Log from "@lichtblick/log";
-import { GlobalVariables } from "@lichtblick/studio-base/hooks/useGlobalVariables";
-import { BlockLoader } from "@lichtblick/studio-base/players/IterablePlayer/BlockLoader";
-import { IIterableSource } from "@lichtblick/studio-base/players/IterablePlayer/IIterableSource";
-import PlayerProblemManager from "@lichtblick/studio-base/players/PlayerProblemManager";
+import { MessageEvent } from "@lichtblick/suite";
+import { GlobalVariables } from "@lichtblick/suite-base/hooks/useGlobalVariables";
+import { BlockLoader } from "@lichtblick/suite-base/players/IterablePlayer/BlockLoader";
+import { IIterableSource } from "@lichtblick/suite-base/players/IterablePlayer/IIterableSource";
+import PlayerProblemManager from "@lichtblick/suite-base/players/PlayerProblemManager";
 import {
   AdvertiseOptions,
   Player,
@@ -17,9 +18,8 @@ import {
   Progress,
   PublishPayload,
   SubscribePayload,
-} from "@lichtblick/studio-base/players/types";
-import delay from "@lichtblick/studio-base/util/delay";
-import { MessageEvent } from "@lichtblick/suite";
+} from "@lichtblick/suite-base/players/types";
+import delay from "@lichtblick/suite-base/util/delay";
 
 import { toRFC3339String } from "@foxglove/rostime";
 

@@ -13,7 +13,7 @@ import {
   initI18n,
   IDataSourceFactory,
   IAppConfiguration,
-} from "@lichtblick/studio-base";
+} from "@lichtblick/suite-base";
 import { StrictMode, useEffect } from "react";
 import ReactDOM from "react-dom";
 

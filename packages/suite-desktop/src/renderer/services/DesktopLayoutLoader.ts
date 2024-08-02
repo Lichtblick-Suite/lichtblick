@@ -3,7 +3,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import Logger from "@lichtblick/log";
-import { LayoutLoader, LayoutInfo, LayoutData } from "@lichtblick/studio-base";
+import { LayoutLoader, LayoutInfo, LayoutData } from "@lichtblick/suite-base";
 
 import { Desktop } from "../../common/types";
 

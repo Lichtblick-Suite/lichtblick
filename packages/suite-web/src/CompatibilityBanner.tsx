@@ -3,7 +3,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import { Dismiss20Filled, Warning24Filled } from "@fluentui/react-icons";
-import Stack from "@lichtblick/studio-base/components/Stack";
+import Stack from "@lichtblick/suite-base/components/Stack";
 import {
   Button,
   IconButton,

@@ -3,8 +3,8 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import Logger from "@lichtblick/log";
-import type { IDataSourceFactory } from "@lichtblick/studio-base";
-import CssBaseline from "@lichtblick/studio-base/components/CssBaseline";
+import type { IDataSourceFactory } from "@lichtblick/suite-base";
+import CssBaseline from "@lichtblick/suite-base/components/CssBaseline";
 import { StrictMode, useEffect } from "react";
 import ReactDOM from "react-dom";
 
@@ -66,10 +66,10 @@ export async function main(getParams: () => Promise<MainParams> = async () => ({
     return;
   }
 
-  // Use an async import to delay loading the majority of studio-base code until the CompatibilityBanner
+  // Use an async import to delay loading the majority of suite-base code until the CompatibilityBanner
   // can be displayed.
   const { installDevtoolsFormatters, overwriteFetch, waitForFonts, initI18n, StudioApp } =
-    await import("@lichtblick/studio-base");
+    await import("@lichtblick/suite-base");
   installDevtoolsFormatters();
   overwriteFetch();
   // consider moving waitForFonts into App to display an app loading screen

@@ -3,7 +3,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import Logger from "@lichtblick/log";
-import { AppSetting } from "@lichtblick/studio-base/src/AppSetting";
+import { AppSetting } from "@lichtblick/suite-base/src/AppSetting";
 import { app, BrowserWindow, ipcMain, Menu, nativeTheme, session } from "electron";
 import fs from "fs";
 import i18n from "i18next";

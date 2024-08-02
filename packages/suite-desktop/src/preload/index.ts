@@ -3,7 +3,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import Logger from "@lichtblick/log";
-import { NetworkInterface, OsContext } from "@lichtblick/studio-base/src/OsContext";
+import { NetworkInterface, OsContext } from "@lichtblick/suite-base/src/OsContext";
 import { contextBridge, ipcRenderer } from "electron";
 import os from "os";
 import { join as pathJoin } from "path";

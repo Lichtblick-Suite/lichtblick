@@ -2,7 +2,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import delay from "@lichtblick/studio-base/src/util/delay";
+import delay from "@lichtblick/suite-base/src/util/delay";
 import { BrowserWindow } from "electron";
 
 // <input> elements can only be opened on user interaction

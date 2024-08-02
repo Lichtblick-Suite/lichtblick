@@ -19,7 +19,7 @@ import {
   SampleNuscenesDataSourceFactory,
   UlogLocalDataSourceFactory,
   VelodyneDataSourceFactory,
-} from "@lichtblick/studio-base";
+} from "@lichtblick/suite-base";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { DesktopExtensionLoader } from "./services/DesktopExtensionLoader";

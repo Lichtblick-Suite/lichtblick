@@ -5,8 +5,8 @@
 /// <reference types="../typings/i18next" />
 
 import Logger from "@lichtblick/log";
-import { APP_BAR_HEIGHT } from "@lichtblick/studio-base/src/components/AppBar/constants";
-import { NativeAppMenuEvent } from "@lichtblick/studio-base/src/context/NativeAppMenuContext";
+import { APP_BAR_HEIGHT } from "@lichtblick/suite-base/src/components/AppBar/constants";
+import { NativeAppMenuEvent } from "@lichtblick/suite-base/src/context/NativeAppMenuContext";
 import {
   BrowserWindow,
   BrowserWindowConstructorOptions,
