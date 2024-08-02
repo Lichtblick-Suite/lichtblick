@@ -3,7 +3,6 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import Log from "@lichtblick/log";
-import { Immutable } from "@lichtblick/studio";
 import { ExtensionDetails } from "@lichtblick/studio-base/components/ExtensionDetails";
 import Stack from "@lichtblick/studio-base/components/Stack";
 import { useExtensionCatalog } from "@lichtblick/studio-base/context/ExtensionCatalogContext";
@@ -11,6 +10,7 @@ import {
   ExtensionMarketplaceDetail,
   useExtensionMarketplace,
 } from "@lichtblick/studio-base/context/ExtensionMarketplaceContext";
+import { Immutable } from "@lichtblick/suite";
 import {
   Alert,
   AlertTitle,

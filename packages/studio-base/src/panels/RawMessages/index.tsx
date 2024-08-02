@@ -11,7 +11,6 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { Immutable, SettingsTreeAction } from "@lichtblick/studio";
 import { useDataSourceInfo } from "@lichtblick/studio-base/PanelAPI";
 import EmptyState from "@lichtblick/studio-base/components/EmptyState";
 import useGetItemStringWithTimezone from "@lichtblick/studio-base/components/JsonTree/useGetItemStringWithTimezone";
@@ -35,6 +34,7 @@ import { usePanelSettingsTreeUpdate } from "@lichtblick/studio-base/providers/Pa
 import { SaveConfig } from "@lichtblick/studio-base/types/panels";
 import { enumValuesByDatatypeAndField } from "@lichtblick/studio-base/util/enums";
 import { useJsonTreeTheme } from "@lichtblick/studio-base/util/globalConstants";
+import { Immutable, SettingsTreeAction } from "@lichtblick/suite";
 import { Checkbox, FormControlLabel, Typography, useTheme } from "@mui/material";
 import * as _ from "lodash-es";
 import { useCallback, useEffect, useMemo, useState } from "react";

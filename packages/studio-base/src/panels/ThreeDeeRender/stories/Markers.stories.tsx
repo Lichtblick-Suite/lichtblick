@@ -2,10 +2,10 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import { MessageEvent } from "@lichtblick/studio";
 import { Topic } from "@lichtblick/studio-base/players/types";
 import PanelSetup, { Fixture } from "@lichtblick/studio-base/stories/PanelSetup";
 import { useReadySignal } from "@lichtblick/studio-base/stories/ReadySignalContext";
+import { MessageEvent } from "@lichtblick/suite";
 import { StoryObj } from "@storybook/react";
 import { userEvent, screen } from "@storybook/testing-library";
 import { useEffect, useState } from "react";

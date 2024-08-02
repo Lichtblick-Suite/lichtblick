@@ -5,17 +5,6 @@
 import { useSynchronousMountedState, useValueChangedDebugLog } from "@lichtblick/hooks";
 import Logger from "@lichtblick/log";
 import {
-  AppSettingValue,
-  ExtensionPanelRegistration,
-  PanelExtensionContext,
-  ParameterValue,
-  RenderState,
-  SettingsTree,
-  Subscription,
-  Time,
-  VariableValue,
-} from "@lichtblick/studio";
-import {
   MessagePipelineContext,
   useMessagePipeline,
   useMessagePipelineGetter,
@@ -45,6 +34,17 @@ import {
 } from "@lichtblick/studio-base/providers/PanelStateContextProvider";
 import { PanelConfig, SaveConfig } from "@lichtblick/studio-base/types/panels";
 import { assertNever } from "@lichtblick/studio-base/util/assertNever";
+import {
+  AppSettingValue,
+  ExtensionPanelRegistration,
+  PanelExtensionContext,
+  ParameterValue,
+  RenderState,
+  SettingsTree,
+  Subscription,
+  Time,
+  VariableValue,
+} from "@lichtblick/suite";
 import { useTheme } from "@mui/material";
 import { CSSProperties, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useLatest } from "react-use";

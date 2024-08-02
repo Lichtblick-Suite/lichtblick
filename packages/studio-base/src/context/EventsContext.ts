@@ -3,7 +3,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import { useGuaranteedContext } from "@lichtblick/hooks";
-import { Immutable } from "@lichtblick/studio";
+import { Immutable } from "@lichtblick/suite";
 import { createContext } from "react";
 import { AsyncState } from "react-use/lib/useAsyncFn";
 import { StoreApi, useStore } from "zustand";

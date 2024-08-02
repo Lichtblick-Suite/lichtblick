@@ -3,7 +3,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import Logger from "@lichtblick/log";
-import { SettingsTreeAction, SettingsTreeFields } from "@lichtblick/studio";
+import { SettingsTreeAction, SettingsTreeFields } from "@lichtblick/suite";
 import { t } from "i18next";
 import * as _ from "lodash-es";
 

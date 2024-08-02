@@ -4,7 +4,6 @@
 
 import { debouncePromise } from "@lichtblick/den/async";
 import Logger from "@lichtblick/log";
-import { ParameterValue } from "@lichtblick/studio";
 import OsContextSingleton from "@lichtblick/studio-base/OsContextSingleton";
 import PlayerProblemManager from "@lichtblick/studio-base/players/PlayerProblemManager";
 import {
@@ -24,6 +23,7 @@ import {
 } from "@lichtblick/studio-base/players/types";
 import { RosDatatypes } from "@lichtblick/studio-base/types/RosDatatypes";
 import rosDatatypesToMessageDefinition from "@lichtblick/studio-base/util/rosDatatypesToMessageDefinition";
+import { ParameterValue } from "@lichtblick/suite";
 import * as _ from "lodash-es";
 import { v4 as uuidv4 } from "uuid";
 

@@ -2,10 +2,10 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import { SettingsTreeAction, SettingsTreeNode, SettingsTreeNodes } from "@lichtblick/studio";
 import { usePanelSettingsTreeUpdate } from "@lichtblick/studio-base/providers/PanelStateContextProvider";
 import { SaveConfig } from "@lichtblick/studio-base/types/panels";
 import { lineColors } from "@lichtblick/studio-base/util/plotColors";
+import { SettingsTreeAction, SettingsTreeNode, SettingsTreeNodes } from "@lichtblick/suite";
 import { TFunction } from "i18next";
 import { produce } from "immer";
 import * as _ from "lodash-es";

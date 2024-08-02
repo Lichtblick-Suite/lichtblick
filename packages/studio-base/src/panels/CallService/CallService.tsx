@@ -3,10 +3,10 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import Log from "@lichtblick/log";
-import { PanelExtensionContext, SettingsTreeAction } from "@lichtblick/studio";
 import Stack from "@lichtblick/studio-base/components/Stack";
 import { Config } from "@lichtblick/studio-base/panels/CallService/types";
 import ThemeProvider from "@lichtblick/studio-base/theme/ThemeProvider";
+import { PanelExtensionContext, SettingsTreeAction } from "@lichtblick/suite";
 import { Button, Palette, TextField, Tooltip, Typography, inputBaseClasses } from "@mui/material";
 import { Dispatch, SetStateAction, useCallback, useEffect, useMemo, useState } from "react";
 import { makeStyles } from "tss-react/mui";

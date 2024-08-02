@@ -2,7 +2,6 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import { MessageEvent } from "@lichtblick/studio";
 import Stack from "@lichtblick/studio-base/components/Stack";
 import {
   makeCompressedImageAndCalibration,
@@ -11,6 +10,7 @@ import {
 import { Topic } from "@lichtblick/studio-base/players/types";
 import PanelSetup, { Fixture } from "@lichtblick/studio-base/stories/PanelSetup";
 import delay from "@lichtblick/studio-base/util/delay";
+import { MessageEvent } from "@lichtblick/suite";
 import { Meta, StoryObj } from "@storybook/react";
 import { fireEvent, screen, userEvent, waitFor } from "@storybook/testing-library";
 import { useCallback, useMemo, useState } from "react";

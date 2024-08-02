@@ -2,12 +2,12 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import { Immutable } from "@lichtblick/studio";
 import {
   MessagePipelineContext,
   useMessagePipeline,
 } from "@lichtblick/studio-base/components/MessagePipeline";
 import { PlayerCapabilities, TopicStats } from "@lichtblick/studio-base/players/types";
+import { Immutable } from "@lichtblick/suite";
 import { useMemo, useRef } from "react";
 
 import { subtract as subtractTimes, areEqual, fromMillis, Time, toSec } from "@foxglove/rostime";

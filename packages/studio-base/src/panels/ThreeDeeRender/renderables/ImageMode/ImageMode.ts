@@ -5,13 +5,6 @@
 import { filterMap } from "@lichtblick/den/collection";
 import { PinholeCameraModel } from "@lichtblick/den/image";
 import Logger from "@lichtblick/log";
-import {
-  Immutable,
-  MessageEvent,
-  SettingsTreeAction,
-  SettingsTreeFields,
-  Topic,
-} from "@lichtblick/studio";
 import { PanelContextMenuItem } from "@lichtblick/studio-base/components/PanelContextMenu";
 import { DraggedMessagePath } from "@lichtblick/studio-base/components/PanelExtensionAdapter";
 import { HUDItem } from "@lichtblick/studio-base/panels/ThreeDeeRender/HUDItemManager";
@@ -39,6 +32,13 @@ import { t3D } from "@lichtblick/studio-base/panels/ThreeDeeRender/t3D";
 import { makePose } from "@lichtblick/studio-base/panels/ThreeDeeRender/transforms";
 import { AppEvent } from "@lichtblick/studio-base/services/IAnalytics";
 import { downloadFiles } from "@lichtblick/studio-base/util/download";
+import {
+  Immutable,
+  MessageEvent,
+  SettingsTreeAction,
+  SettingsTreeFields,
+  Topic,
+} from "@lichtblick/suite";
 import * as _ from "lodash-es";
 import * as THREE from "three";
 import { Writable } from "ts-essentials";

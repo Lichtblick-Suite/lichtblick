@@ -3,13 +3,6 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import { filterMap } from "@lichtblick/den/collection";
-import {
-  MessageEvent,
-  PanelExtensionContext,
-  SettingsTreeAction,
-  Subscription,
-  Topic,
-} from "@lichtblick/studio";
 import EmptyState from "@lichtblick/studio-base/components/EmptyState";
 import Stack from "@lichtblick/studio-base/components/Stack";
 import FilteredPointLayer, {
@@ -17,6 +10,13 @@ import FilteredPointLayer, {
 } from "@lichtblick/studio-base/panels/Map/FilteredPointLayer";
 import ThemeProvider from "@lichtblick/studio-base/theme/ThemeProvider";
 import { darkColor, lightColor, lineColors } from "@lichtblick/studio-base/util/plotColors";
+import {
+  MessageEvent,
+  PanelExtensionContext,
+  SettingsTreeAction,
+  Subscription,
+  Topic,
+} from "@lichtblick/suite";
 import { Feature } from "geojson";
 import { produce } from "immer";
 import {

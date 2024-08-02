@@ -2,7 +2,6 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import { MessageEvent, Metadata } from "@lichtblick/studio";
 import {
   GetBackfillMessagesArgs,
   IIterableSource,
@@ -13,6 +12,7 @@ import {
 import { estimateObjectSize } from "@lichtblick/studio-base/players/messageMemoryEstimation";
 import { PlayerProblem, Topic, TopicStats } from "@lichtblick/studio-base/players/types";
 import { RosDatatypes } from "@lichtblick/studio-base/types/RosDatatypes";
+import { MessageEvent, Metadata } from "@lichtblick/suite";
 import { McapStreamReader, McapTypes } from "@mcap/core";
 import * as _ from "lodash-es";
 

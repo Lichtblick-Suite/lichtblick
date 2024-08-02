@@ -5,10 +5,10 @@
 import { Condvar } from "@lichtblick/den/async";
 import { filterMap } from "@lichtblick/den/collection";
 import Log from "@lichtblick/log";
-import { Immutable, MessageEvent } from "@lichtblick/studio";
 import { IteratorCursor } from "@lichtblick/studio-base/players/IterablePlayer/IteratorCursor";
 import PlayerProblemManager from "@lichtblick/studio-base/players/PlayerProblemManager";
 import { MessageBlock, Progress, TopicSelection } from "@lichtblick/studio-base/players/types";
+import { Immutable, MessageEvent } from "@lichtblick/suite";
 import { simplify } from "intervals-fn";
 import * as _ from "lodash-es";
 

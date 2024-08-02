@@ -4,7 +4,6 @@
 
 import { debouncePromise } from "@lichtblick/den/async";
 import { filterMap } from "@lichtblick/den/collection";
-import { Immutable } from "@lichtblick/studio";
 import KeyListener from "@lichtblick/studio-base/components/KeyListener";
 import { fillInGlobalVariablesInPath } from "@lichtblick/studio-base/components/MessagePathSyntax/useCachedGetMessagePathDataItems";
 import {
@@ -38,6 +37,7 @@ import { SubscribePayload } from "@lichtblick/studio-base/players/types";
 import { SaveConfig } from "@lichtblick/studio-base/types/panels";
 import { PANEL_TITLE_CONFIG_KEY } from "@lichtblick/studio-base/util/layout";
 import { getLineColor } from "@lichtblick/studio-base/util/plotColors";
+import { Immutable } from "@lichtblick/suite";
 import { Button, Tooltip, Fade, buttonClasses, useTheme } from "@mui/material";
 import Hammer from "hammerjs";
 import * as _ from "lodash-es";

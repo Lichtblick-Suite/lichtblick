@@ -11,8 +11,8 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { Immutable } from "@lichtblick/studio";
 import AutoSizingCanvas from "@lichtblick/studio-base/components/AutoSizingCanvas";
+import { Immutable } from "@lichtblick/suite";
 import { useCallback } from "react";
 import { makeStyles } from "tss-react/mui";
 

@@ -4,9 +4,9 @@
 
 import { minIndexBy, sortedIndexByTuple } from "@lichtblick/den/collection";
 import Log from "@lichtblick/log";
-import { MessageEvent, Time } from "@lichtblick/studio";
 import { TopicSelection } from "@lichtblick/studio-base/players/types";
 import { Range } from "@lichtblick/studio-base/util/ranges";
+import { MessageEvent, Time } from "@lichtblick/suite";
 import EventEmitter from "eventemitter3";
 import * as _ from "lodash-es";
 

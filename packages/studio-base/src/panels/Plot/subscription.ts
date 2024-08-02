@@ -2,11 +2,11 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import type { Immutable } from "@lichtblick/studio";
 import type {
   SubscribePayload,
   SubscriptionPreloadType,
 } from "@lichtblick/studio-base/players/types";
+import type { Immutable } from "@lichtblick/suite";
 
 import type { MessagePathPart, MessagePath } from "@foxglove/message-path";
 

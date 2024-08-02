@@ -3,6 +3,14 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import Logger from "@lichtblick/log";
+import { AppSetting } from "@lichtblick/studio-base/AppSetting";
+import { BuiltinPanelExtensionContext } from "@lichtblick/studio-base/components/PanelExtensionAdapter";
+import { useAnalytics } from "@lichtblick/studio-base/context/AnalyticsContext";
+import {
+  DEFAULT_SCENE_EXTENSION_CONFIG,
+  SceneExtensionConfig,
+} from "@lichtblick/studio-base/panels/ThreeDeeRender/SceneExtensionConfig";
+import ThemeProvider from "@lichtblick/studio-base/theme/ThemeProvider";
 import {
   Immutable,
   LayoutActions,
@@ -13,15 +21,7 @@ import {
   SettingsTreeNodes,
   Subscription,
   Topic,
-} from "@lichtblick/studio";
-import { AppSetting } from "@lichtblick/studio-base/AppSetting";
-import { BuiltinPanelExtensionContext } from "@lichtblick/studio-base/components/PanelExtensionAdapter";
-import { useAnalytics } from "@lichtblick/studio-base/context/AnalyticsContext";
-import {
-  DEFAULT_SCENE_EXTENSION_CONFIG,
-  SceneExtensionConfig,
-} from "@lichtblick/studio-base/panels/ThreeDeeRender/SceneExtensionConfig";
-import ThemeProvider from "@lichtblick/studio-base/theme/ThemeProvider";
+} from "@lichtblick/suite";
 import * as _ from "lodash-es";
 import { useSnackbar } from "notistack";
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";

@@ -51,7 +51,7 @@
     "@lichtblick/den": "workspace:*",
     "@lichtblick/hooks": "workspace:*",
     "@lichtblick/log": "workspace:*",
-    "@lichtblick/studio": "workspace:*",
+    "@lichtblick/suite": "workspace:*",
     "@mcap/core": "2.0.2",
     "@mui/icons-material": "5.15.5",
     "@mui/material": "5.13.5",

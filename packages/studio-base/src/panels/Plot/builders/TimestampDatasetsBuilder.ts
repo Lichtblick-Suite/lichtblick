@@ -3,10 +3,10 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import { ComlinkWrap } from "@lichtblick/den/worker";
-import { Immutable, MessageEvent, Time } from "@lichtblick/studio";
 import { simpleGetMessagePathDataItems } from "@lichtblick/studio-base/components/MessagePathSyntax/simpleGetMessagePathDataItems";
 import { MessageBlock, PlayerState } from "@lichtblick/studio-base/players/types";
 import { TimestampMethod, getTimestampForMessage } from "@lichtblick/studio-base/util/time";
+import { Immutable, MessageEvent, Time } from "@lichtblick/suite";
 import * as Comlink from "comlink";
 
 import { MessagePath } from "@foxglove/message-path";

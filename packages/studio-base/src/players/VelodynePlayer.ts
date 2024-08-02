@@ -4,7 +4,6 @@
 
 import { debouncePromise } from "@lichtblick/den/async";
 import Logger from "@lichtblick/log";
-import { ParameterValue } from "@lichtblick/studio";
 import { GlobalVariables } from "@lichtblick/studio-base/hooks/useGlobalVariables";
 import {
   AdvertiseOptions,
@@ -20,6 +19,7 @@ import {
   TopicStats,
 } from "@lichtblick/studio-base/players/types";
 import { RosDatatypes } from "@lichtblick/studio-base/types/RosDatatypes";
+import { ParameterValue } from "@lichtblick/suite";
 import { v4 as uuidv4 } from "uuid";
 
 import { Sockets, UdpRemoteInfo, UdpSocketRenderer } from "@foxglove/electron-socket/renderer";

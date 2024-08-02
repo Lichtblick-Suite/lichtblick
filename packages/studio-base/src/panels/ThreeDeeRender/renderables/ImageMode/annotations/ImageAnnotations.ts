@@ -4,13 +4,13 @@
 
 import { filterMap } from "@lichtblick/den/collection";
 import { PinholeCameraModel } from "@lichtblick/den/image";
-import { Immutable, MessageEvent, SettingsTreeAction, Topic } from "@lichtblick/studio";
 import { Path } from "@lichtblick/studio-base/panels/ThreeDeeRender/LayerErrors";
 import { onlyLastByTopicMessage } from "@lichtblick/studio-base/panels/ThreeDeeRender/SceneExtension";
 import {
   ImageMarker as RosImageMarker,
   ImageMarkerArray as RosImageMarkerArray,
 } from "@lichtblick/studio-base/types/Messages";
+import { Immutable, MessageEvent, SettingsTreeAction, Topic } from "@lichtblick/suite";
 import { t } from "i18next";
 import * as THREE from "three";
 import { Opaque } from "ts-essentials";

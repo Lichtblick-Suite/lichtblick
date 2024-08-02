@@ -12,11 +12,11 @@
 //   You may not use this file except in compliance with the License.
 
 import { Cursor20Regular } from "@fluentui/react-icons";
-import type { LayoutActions } from "@lichtblick/studio";
 import ExpandingToolbar, {
   ToolGroup,
   ToolGroupFixedSizePane,
 } from "@lichtblick/studio-base/components/ExpandingToolbar";
+import type { LayoutActions } from "@lichtblick/suite";
 import { Typography } from "@mui/material";
 
 import ObjectDetails from "./ObjectDetails";

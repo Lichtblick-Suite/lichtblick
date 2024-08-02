@@ -2,9 +2,9 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import { Immutable } from "@lichtblick/studio";
 import { mergeSubscriptions } from "@lichtblick/studio-base/components/MessagePipeline/subscriptions";
 import { SubscribePayload } from "@lichtblick/studio-base/players/types";
+import { Immutable } from "@lichtblick/suite";
 import * as R from "ramda";
 
 // A mapping from the subscription to the input topics needed to satisfy

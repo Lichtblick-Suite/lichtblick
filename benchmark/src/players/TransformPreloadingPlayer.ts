@@ -3,7 +3,6 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import Log from "@lichtblick/log";
-import { MessageEvent } from "@lichtblick/studio";
 import { GlobalVariables } from "@lichtblick/studio-base/hooks/useGlobalVariables";
 import { normalizeFrameTransform } from "@lichtblick/studio-base/panels/ThreeDeeRender/normalizeMessages";
 import {
@@ -21,6 +20,7 @@ import {
 } from "@lichtblick/studio-base/players/types";
 import { RosDatatypes } from "@lichtblick/studio-base/types/RosDatatypes";
 import delay from "@lichtblick/studio-base/util/delay";
+import { MessageEvent } from "@lichtblick/suite";
 
 import { Time, compare } from "@foxglove/rostime";
 import { FrameTransform, Vector3 } from "@foxglove/schemas";

@@ -3,7 +3,6 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import Log from "@lichtblick/log";
-import { MessageEvent } from "@lichtblick/studio";
 import { GlobalVariables } from "@lichtblick/studio-base/hooks/useGlobalVariables";
 import {
   AdvertiseOptions,
@@ -17,6 +16,7 @@ import {
 } from "@lichtblick/studio-base/players/types";
 import { RosDatatypes } from "@lichtblick/studio-base/types/RosDatatypes";
 import { Quaternion } from "@lichtblick/studio-base/util/geometry";
+import { MessageEvent } from "@lichtblick/suite";
 
 import * as rostime from "@foxglove/rostime";
 import { Time } from "@foxglove/rostime";

@@ -12,7 +12,6 @@
 //   You may not use this file except in compliance with the License.
 
 import { filterMap } from "@lichtblick/den/collection";
-import { SettingsTreeAction } from "@lichtblick/studio";
 import { useDataSourceInfo } from "@lichtblick/studio-base/PanelAPI";
 import EmptyState from "@lichtblick/studio-base/components/EmptyState";
 import Panel from "@lichtblick/studio-base/components/Panel";
@@ -24,6 +23,7 @@ import useStaleTime from "@lichtblick/studio-base/panels/diagnostics/useStaleTim
 import { usePanelSettingsTreeUpdate } from "@lichtblick/studio-base/providers/PanelStateContextProvider";
 import { SaveConfig } from "@lichtblick/studio-base/types/panels";
 import toggle from "@lichtblick/studio-base/util/toggle";
+import { SettingsTreeAction } from "@lichtblick/suite";
 import PushPinIcon from "@mui/icons-material/PushPin";
 import {
   IconButton,

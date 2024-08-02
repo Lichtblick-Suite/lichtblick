@@ -3,7 +3,6 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import { useGuaranteedContext } from "@lichtblick/hooks";
-import { Immutable } from "@lichtblick/studio";
 import { AppSetting } from "@lichtblick/studio-base/AppSetting";
 import CurrentLayoutContext, {
   LayoutState,
@@ -16,6 +15,7 @@ import {
   PlayerState,
   SubscribePayload,
 } from "@lichtblick/studio-base/players/types";
+import { Immutable } from "@lichtblick/suite";
 import * as _ from "lodash-es";
 import {
   createContext,

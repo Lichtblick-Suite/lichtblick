@@ -12,12 +12,6 @@
 //   You may not use this file except in compliance with the License.
 
 import { useShallowMemo } from "@lichtblick/hooks";
-import {
-  MessageEvent,
-  ParameterValue,
-  RegisterMessageConverterArgs,
-  SettingsTree,
-} from "@lichtblick/studio";
 import MockMessagePipelineProvider from "@lichtblick/studio-base/components/MessagePipeline/MockMessagePipelineProvider";
 import SettingsTreeEditor from "@lichtblick/studio-base/components/SettingsTreeEditor";
 import AppConfigurationContext from "@lichtblick/studio-base/context/AppConfigurationContext";
@@ -53,6 +47,12 @@ import WorkspaceContextProvider from "@lichtblick/studio-base/providers/Workspac
 import ThemeProvider from "@lichtblick/studio-base/theme/ThemeProvider";
 import { RosDatatypes } from "@lichtblick/studio-base/types/RosDatatypes";
 import { SavedProps, UserScripts } from "@lichtblick/studio-base/types/panels";
+import {
+  MessageEvent,
+  ParameterValue,
+  RegisterMessageConverterArgs,
+  SettingsTree,
+} from "@lichtblick/suite";
 import { useTheme } from "@mui/material";
 import { TFunction } from "i18next";
 import * as _ from "lodash-es";

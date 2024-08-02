@@ -2,9 +2,9 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import { MessageEvent, PanelExtensionContext, SettingsTreeAction } from "@lichtblick/studio";
 import { simpleGetMessagePathDataItems } from "@lichtblick/studio-base/components/MessagePathSyntax/simpleGetMessagePathDataItems";
 import Stack from "@lichtblick/studio-base/components/Stack";
+import { MessageEvent, PanelExtensionContext, SettingsTreeAction } from "@lichtblick/suite";
 import { Typography } from "@mui/material";
 import * as _ from "lodash-es";
 import { useCallback, useEffect, useLayoutEffect, useMemo, useReducer, useState } from "react";

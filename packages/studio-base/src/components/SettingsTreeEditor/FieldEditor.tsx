@@ -2,10 +2,10 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import { Immutable, SettingsTreeAction, SettingsTreeField } from "@lichtblick/studio";
 import MessagePathInput from "@lichtblick/studio-base/components/MessagePathSyntax/MessagePathInput";
 import Stack from "@lichtblick/studio-base/components/Stack";
 import { useAppContext } from "@lichtblick/studio-base/context/AppContext";
+import { Immutable, SettingsTreeAction, SettingsTreeField } from "@lichtblick/suite";
 import CancelIcon from "@mui/icons-material/Cancel";
 import ErrorIcon from "@mui/icons-material/Error";
 import {

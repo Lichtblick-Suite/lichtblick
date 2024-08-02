@@ -12,8 +12,8 @@
 //   You may not use this file except in compliance with the License.
 
 import { Square12Filled } from "@fluentui/react-icons";
-import { Immutable } from "@lichtblick/studio";
 import Stack from "@lichtblick/studio-base/components/Stack";
+import { Immutable } from "@lichtblick/suite";
 import * as _ from "lodash-es";
 import { Fragment, PropsWithChildren, useMemo } from "react";
 import { makeStyles } from "tss-react/mui";

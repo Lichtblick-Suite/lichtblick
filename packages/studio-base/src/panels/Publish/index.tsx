@@ -11,7 +11,6 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { Immutable } from "@lichtblick/studio";
 import { useDataSourceInfo } from "@lichtblick/studio-base/PanelAPI";
 import {
   MessagePipelineContext,
@@ -25,6 +24,7 @@ import usePublisher from "@lichtblick/studio-base/hooks/usePublisher";
 import { PlayerCapabilities } from "@lichtblick/studio-base/players/types";
 import { useDefaultPanelTitle } from "@lichtblick/studio-base/providers/PanelStateContextProvider";
 import { SaveConfig } from "@lichtblick/studio-base/types/panels";
+import { Immutable } from "@lichtblick/suite";
 import { Button, inputBaseClasses, TextField, Tooltip, Typography } from "@mui/material";
 import { useEffect, useMemo } from "react";
 import { makeStyles } from "tss-react/mui";

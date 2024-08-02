@@ -2,8 +2,8 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import { Immutable } from "@lichtblick/studio";
 import { PANEL_ROOT_CLASS_NAME } from "@lichtblick/studio-base/components/PanelRoot";
+import { Immutable } from "@lichtblick/suite";
 import { Divider, Menu, MenuItem } from "@mui/material";
 import { useCallback, useEffect, useRef, useState } from "react";
 

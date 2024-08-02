@@ -2,7 +2,6 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import { Immutable, SettingsTree, SettingsTreeAction, SettingsTreeField } from "@lichtblick/studio";
 import { useConfigById } from "@lichtblick/studio-base/PanelAPI";
 import { FieldEditor } from "@lichtblick/studio-base/components/SettingsTreeEditor/FieldEditor";
 import Stack from "@lichtblick/studio-base/components/Stack";
@@ -10,6 +9,7 @@ import { useSelectedPanels } from "@lichtblick/studio-base/context/CurrentLayout
 import { usePanelCatalog } from "@lichtblick/studio-base/context/PanelCatalogContext";
 import { usePanelStateStore } from "@lichtblick/studio-base/context/PanelStateContext";
 import { PANEL_TITLE_CONFIG_KEY, getPanelTypeFromId } from "@lichtblick/studio-base/util/layout";
+import { Immutable, SettingsTree, SettingsTreeAction, SettingsTreeField } from "@lichtblick/suite";
 import CancelIcon from "@mui/icons-material/Cancel";
 import SearchIcon from "@mui/icons-material/Search";
 import { IconButton, TextField } from "@mui/material";

@@ -2,7 +2,6 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import { Immutable as Im, MessageEvent } from "@lichtblick/studio";
 import {
   MessageBlock,
   PlayerProblem,
@@ -12,6 +11,7 @@ import {
   Topic,
   TopicStats,
 } from "@lichtblick/studio-base/players/types";
+import { Immutable as Im, MessageEvent } from "@lichtblick/suite";
 import * as _ from "lodash-es";
 import memoizeWeak from "memoize-weak";
 

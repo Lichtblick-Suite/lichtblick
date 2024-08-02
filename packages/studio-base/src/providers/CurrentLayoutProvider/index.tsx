@@ -4,7 +4,6 @@
 
 import { useShallowMemo } from "@lichtblick/hooks";
 import Logger from "@lichtblick/log";
-import { VariableValue } from "@lichtblick/studio";
 import { useAnalytics } from "@lichtblick/studio-base/context/AnalyticsContext";
 import CurrentLayoutContext, {
   ICurrentLayout,
@@ -34,6 +33,7 @@ import { LayoutManagerEventTypes } from "@lichtblick/studio-base/services/ILayou
 import { PanelConfig, PlaybackConfig, UserScripts } from "@lichtblick/studio-base/types/panels";
 import { windowAppURLState } from "@lichtblick/studio-base/util/appURLState";
 import { getPanelTypeFromId } from "@lichtblick/studio-base/util/layout";
+import { VariableValue } from "@lichtblick/suite";
 import * as _ from "lodash-es";
 import { useSnackbar } from "notistack";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";

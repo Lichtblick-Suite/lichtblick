@@ -3,8 +3,8 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import Log, { toLogLevel } from "@lichtblick/log";
-import { SettingsTree, SettingsTreeNode, SettingsTreeNodes } from "@lichtblick/studio";
 import { useStudioLogsSettings } from "@lichtblick/studio-base/context/StudioLogsSettingsContext";
+import { SettingsTree, SettingsTreeNode, SettingsTreeNodes } from "@lichtblick/suite";
 import { extname } from "path";
 import { useMemo } from "react";
 

@@ -4,12 +4,6 @@
 
 import Logger from "@lichtblick/log";
 import {
-  ExtensionContext,
-  ExtensionModule,
-  RegisterMessageConverterArgs,
-  TopicAliasFunction,
-} from "@lichtblick/studio";
-import {
   ExtensionCatalog,
   ExtensionCatalogContext,
   RegisteredPanel,
@@ -17,6 +11,12 @@ import {
 import { TopicAliasFunctions } from "@lichtblick/studio-base/players/TopicAliasingPlayer/aliasing";
 import { ExtensionLoader } from "@lichtblick/studio-base/services/ExtensionLoader";
 import { ExtensionInfo, ExtensionNamespace } from "@lichtblick/studio-base/types/Extensions";
+import {
+  ExtensionContext,
+  ExtensionModule,
+  RegisterMessageConverterArgs,
+  TopicAliasFunction,
+} from "@lichtblick/suite";
 import React, { PropsWithChildren, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { StoreApi, createStore } from "zustand";

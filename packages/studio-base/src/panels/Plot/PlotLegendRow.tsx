@@ -9,11 +9,11 @@ import {
   Square12Filled,
   Square12Regular,
 } from "@fluentui/react-icons";
-import { Immutable } from "@lichtblick/studio";
 import { usePanelContext } from "@lichtblick/studio-base/components/PanelContext";
 import { useSelectedPanels } from "@lichtblick/studio-base/context/CurrentLayoutContext";
 import { useWorkspaceActions } from "@lichtblick/studio-base/context/Workspace/useWorkspaceActions";
 import { getLineColor } from "@lichtblick/studio-base/util/plotColors";
+import { Immutable } from "@lichtblick/suite";
 import { ButtonBase, Checkbox, Tooltip, Typography, buttonBaseClasses } from "@mui/material";
 import { MouseEventHandler } from "react";
 import { useTranslation } from "react-i18next";

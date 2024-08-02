@@ -4,16 +4,6 @@
 
 import { filterMap } from "@lichtblick/den/collection";
 import {
-  AppSettingValue,
-  Immutable,
-  MessageEvent,
-  ParameterValue,
-  RegisterMessageConverterArgs,
-  RenderState,
-  Subscription,
-  Topic,
-} from "@lichtblick/studio";
-import {
   EMPTY_GLOBAL_VARIABLES,
   GlobalVariables,
 } from "@lichtblick/studio-base/hooks/useGlobalVariables";
@@ -23,6 +13,16 @@ import {
   Topic as PlayerTopic,
 } from "@lichtblick/studio-base/players/types";
 import { HoverValue } from "@lichtblick/studio-base/types/hoverValue";
+import {
+  AppSettingValue,
+  Immutable,
+  MessageEvent,
+  ParameterValue,
+  RegisterMessageConverterArgs,
+  RenderState,
+  Subscription,
+  Topic,
+} from "@lichtblick/suite";
 import memoizeWeak from "memoize-weak";
 import { Writable } from "ts-essentials";
 

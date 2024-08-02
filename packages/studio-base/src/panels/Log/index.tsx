@@ -11,7 +11,6 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { SettingsTreeAction } from "@lichtblick/studio";
 import { useDataSourceInfo, useMessagesByTopic } from "@lichtblick/studio-base/PanelAPI";
 import Panel from "@lichtblick/studio-base/components/Panel";
 import PanelToolbar from "@lichtblick/studio-base/components/PanelToolbar";
@@ -20,6 +19,7 @@ import { FilterTagInput } from "@lichtblick/studio-base/panels/Log/FilterTagInpu
 import { usePanelSettingsTreeUpdate } from "@lichtblick/studio-base/providers/PanelStateContextProvider";
 import { SaveConfig } from "@lichtblick/studio-base/types/panels";
 import { mightActuallyBePartial } from "@lichtblick/studio-base/util/mightActuallyBePartial";
+import { SettingsTreeAction } from "@lichtblick/suite";
 import { Divider } from "@mui/material";
 import { produce } from "immer";
 import * as _ from "lodash-es";

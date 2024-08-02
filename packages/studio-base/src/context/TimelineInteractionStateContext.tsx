@@ -12,9 +12,9 @@
 //   You may not use this file except in compliance with the License.
 
 import { useGuaranteedContext } from "@lichtblick/hooks";
-import { Immutable } from "@lichtblick/studio";
 import { TimelinePositionedEvent } from "@lichtblick/studio-base/context/EventsContext";
 import type { HoverValue } from "@lichtblick/studio-base/types/hoverValue";
+import { Immutable } from "@lichtblick/suite";
 import { createContext, useCallback } from "react";
 import { StoreApi, useStore } from "zustand";
 

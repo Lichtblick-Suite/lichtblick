@@ -3,8 +3,8 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import { ComlinkWrap } from "@lichtblick/den/worker";
-import { Immutable } from "@lichtblick/studio";
 import { Bounds } from "@lichtblick/studio-base/types/Bounds";
+import { Immutable } from "@lichtblick/suite";
 import type { Theme } from "@mui/material";
 import * as Comlink from "comlink";
 

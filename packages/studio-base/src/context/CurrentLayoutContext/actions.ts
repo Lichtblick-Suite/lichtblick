@@ -11,7 +11,6 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { VariableValue } from "@lichtblick/studio";
 import { GlobalVariables } from "@lichtblick/studio-base/hooks/useGlobalVariables";
 import { TabLocation } from "@lichtblick/studio-base/types/layouts";
 import {
@@ -21,6 +20,7 @@ import {
   SavedProps,
   UserScripts,
 } from "@lichtblick/studio-base/types/panels";
+import { VariableValue } from "@lichtblick/suite";
 import { MosaicNode, MosaicPath } from "react-mosaic-component";
 
 export type LayoutData = {

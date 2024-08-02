@@ -3,7 +3,6 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import { MutexLocked } from "@lichtblick/den/async";
-import { Immutable, Metadata, ParameterValue } from "@lichtblick/studio";
 import { Asset } from "@lichtblick/studio-base/components/PanelExtensionAdapter";
 import { GlobalVariables } from "@lichtblick/studio-base/hooks/useGlobalVariables";
 import {
@@ -13,6 +12,7 @@ import {
   PublishPayload,
   SubscribePayload,
 } from "@lichtblick/studio-base/players/types";
+import { Immutable, Metadata, ParameterValue } from "@lichtblick/suite";
 import * as _ from "lodash-es";
 
 import { Time } from "@foxglove/rostime";

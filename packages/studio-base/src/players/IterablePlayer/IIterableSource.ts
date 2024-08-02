@@ -2,7 +2,6 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import { Immutable, MessageEvent, Metadata } from "@lichtblick/studio";
 import {
   PlayerProblem,
   Topic,
@@ -10,6 +9,7 @@ import {
   TopicStats,
 } from "@lichtblick/studio-base/players/types";
 import { RosDatatypes } from "@lichtblick/studio-base/types/RosDatatypes";
+import { Immutable, MessageEvent, Metadata } from "@lichtblick/suite";
 
 import { Time } from "@foxglove/rostime";
 

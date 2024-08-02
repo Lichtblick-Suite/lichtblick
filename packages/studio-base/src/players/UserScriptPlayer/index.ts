@@ -14,7 +14,6 @@
 import { MutexLocked } from "@lichtblick/den/async";
 import { filterMap } from "@lichtblick/den/collection";
 import Log from "@lichtblick/log";
-import { Metadata, ParameterValue } from "@lichtblick/studio";
 import { Asset } from "@lichtblick/studio-base/components/PanelExtensionAdapter";
 import {
   IPerformanceRegistry,
@@ -53,6 +52,7 @@ import { RosDatatypes } from "@lichtblick/studio-base/types/RosDatatypes";
 import { UserScript, UserScripts } from "@lichtblick/studio-base/types/panels";
 import Rpc from "@lichtblick/studio-base/util/Rpc";
 import { basicDatatypes } from "@lichtblick/studio-base/util/basicDatatypes";
+import { Metadata, ParameterValue } from "@lichtblick/suite";
 import { Mutex } from "async-mutex";
 import * as _ from "lodash-es";
 import memoizeWeak from "memoize-weak";

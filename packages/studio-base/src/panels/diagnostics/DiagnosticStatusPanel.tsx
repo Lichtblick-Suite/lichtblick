@@ -11,7 +11,6 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { SettingsTreeAction } from "@lichtblick/studio";
 import { useDataSourceInfo } from "@lichtblick/studio-base/PanelAPI";
 import EmptyState from "@lichtblick/studio-base/components/EmptyState";
 import Panel from "@lichtblick/studio-base/components/Panel";
@@ -21,6 +20,7 @@ import Stack from "@lichtblick/studio-base/components/Stack";
 import useStaleTime from "@lichtblick/studio-base/panels/diagnostics/useStaleTime";
 import { usePanelSettingsTreeUpdate } from "@lichtblick/studio-base/providers/PanelStateContextProvider";
 import { SaveConfig } from "@lichtblick/studio-base/types/panels";
+import { SettingsTreeAction } from "@lichtblick/suite";
 import { Autocomplete, TextField } from "@mui/material";
 import { produce } from "immer";
 import * as _ from "lodash-es";

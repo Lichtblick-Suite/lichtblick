@@ -8,7 +8,7 @@ import {
   SettingsTreeNode,
   SettingsTreeNodeAction,
   SettingsTreeNodes,
-} from "@lichtblick/studio";
+} from "@lichtblick/suite";
 import { produce } from "immer";
 import * as _ from "lodash-es";
 import memoizeWeak from "memoize-weak";

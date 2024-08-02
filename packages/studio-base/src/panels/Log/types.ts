@@ -2,8 +2,8 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import { Time, MessageEvent } from "@lichtblick/studio";
 import { Header } from "@lichtblick/studio-base/types/Messages";
+import { Time, MessageEvent } from "@lichtblick/suite";
 
 import { Log as FoxgloveLog } from "@foxglove/schemas";
 

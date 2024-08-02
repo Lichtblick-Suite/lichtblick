@@ -11,7 +11,6 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { Immutable } from "@lichtblick/studio";
 import {
   MessagePipelineContext,
   useMessagePipeline,
@@ -21,6 +20,7 @@ import {
   MessageBlock as PlayerMessageBlock,
   SubscribePayload,
 } from "@lichtblick/studio-base/players/types";
+import { Immutable } from "@lichtblick/suite";
 import memoizeWeak from "memoize-weak";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { v4 as uuidv4 } from "uuid";

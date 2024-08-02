@@ -3311,7 +3311,7 @@ __metadata:
     "@lichtblick/den": "workspace:*"
     "@lichtblick/hooks": "workspace:*"
     "@lichtblick/log": "workspace:*"
-    "@lichtblick/studio": "workspace:*"
+    "@lichtblick/suite": "workspace:*"
     "@mcap/core": 2.0.2
     "@mui/icons-material": 5.15.5
     "@mui/material": 5.13.5
@@ -3445,15 +3445,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@lichtblick/studio@workspace:*, @lichtblick/studio@workspace:packages/studio":
-  version: 0.0.0-use.local
-  resolution: "@lichtblick/studio@workspace:packages/studio"
-  dependencies:
-    "@foxglove/tsconfig": 2.0.0
-    typescript: 5.3.3
-  languageName: unknown
-  linkType: soft
-
 "@lichtblick/suite-desktop@workspace:*, @lichtblick/suite-desktop@workspace:packages/suite-desktop":
   version: 0.0.0-use.local
   resolution: "@lichtblick/suite-desktop@workspace:packages/suite-desktop"
@@ -3530,6 +3521,15 @@ __metadata:
     tss-react: 4.9.3
     webpack: 5.93.0
     webpack-dev-server: 5.0.4
+  languageName: unknown
+  linkType: soft
+
+"@lichtblick/suite@workspace:*, @lichtblick/suite@workspace:packages/suite":
+  version: 0.0.0-use.local
+  resolution: "@lichtblick/suite@workspace:packages/suite"
+  dependencies:
+    "@foxglove/tsconfig": 2.0.0
+    typescript: 5.3.3
   languageName: unknown
   linkType: soft
 
@@ -8978,8 +8978,8 @@ __metadata:
     "@foxglove/tsconfig": 2.0.0
     "@lichtblick/den": "workspace:*"
     "@lichtblick/log": "workspace:*"
-    "@lichtblick/studio": "workspace:*"
     "@lichtblick/studio-base": "workspace:*"
+    "@lichtblick/suite": "workspace:*"
     "@pmmmwh/react-refresh-webpack-plugin": 0.5.11
     "@types/react": 18.2.56
     "@types/react-dom": 18.2.7
@@ -16224,7 +16224,7 @@ __metadata:
     "@foxglove/tsconfig": 2.0.0
     "@lichtblick/hooks": "workspace:*"
     "@lichtblick/log": "workspace:*"
-    "@lichtblick/studio": "workspace:*"
+    "@lichtblick/suite": "workspace:*"
     "@mui/material": 5.13.5
     "@octokit/rest": 20.0.2
     "@storybook/addon-actions": 7.6.10

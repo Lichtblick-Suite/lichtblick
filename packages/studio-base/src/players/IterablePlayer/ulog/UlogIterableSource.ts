@@ -3,7 +3,6 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import Logger from "@lichtblick/log";
-import { MessageEvent, ParameterValue } from "@lichtblick/studio";
 import {
   MessageDefinitionsByTopic,
   ParsedMessageDefinitionsByTopic,
@@ -12,6 +11,7 @@ import {
   PlayerProblem,
 } from "@lichtblick/studio-base/players/types";
 import { RosDatatypes } from "@lichtblick/studio-base/types/RosDatatypes";
+import { MessageEvent, ParameterValue } from "@lichtblick/suite";
 
 import { ros1 } from "@foxglove/rosmsg-msgs-common";
 import { Time, fromMicros, isTimeInRangeInclusive, toMicroSec } from "@foxglove/rostime";

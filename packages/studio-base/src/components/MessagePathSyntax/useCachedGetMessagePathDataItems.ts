@@ -13,7 +13,6 @@
 
 import { filterMap } from "@lichtblick/den/collection";
 import { useDeepMemo, useShallowMemo } from "@lichtblick/hooks";
-import { Immutable } from "@lichtblick/studio";
 import * as PanelAPI from "@lichtblick/studio-base/PanelAPI";
 import useGlobalVariables, {
   GlobalVariables,
@@ -24,6 +23,7 @@ import {
   enumValuesByDatatypeAndField,
   extractTypeFromStudioEnumAnnotation,
 } from "@lichtblick/studio-base/util/enums";
+import { Immutable } from "@lichtblick/suite";
 import * as _ from "lodash-es";
 import { useCallback, useMemo } from "react";
 

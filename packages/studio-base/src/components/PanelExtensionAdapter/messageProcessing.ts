@@ -2,14 +2,14 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { Topic as PlayerTopic } from "@lichtblick/studio-base/players/types";
+import { ExtensionNamespace } from "@lichtblick/studio-base/types/Extensions";
 import {
   Immutable,
   MessageEvent,
   RegisterMessageConverterArgs,
   Subscription,
-} from "@lichtblick/studio";
-import { Topic as PlayerTopic } from "@lichtblick/studio-base/players/types";
-import { ExtensionNamespace } from "@lichtblick/studio-base/types/Extensions";
+} from "@lichtblick/suite";
 import * as _ from "lodash-es";
 import { Opaque } from "ts-essentials";
 

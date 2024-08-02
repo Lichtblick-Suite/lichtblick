@@ -4,9 +4,9 @@
 
 import { keyframes } from "@emotion/react";
 import { filterMap } from "@lichtblick/den/collection";
-import { Immutable } from "@lichtblick/studio";
 import Stack from "@lichtblick/studio-base/components/Stack";
 import { Range } from "@lichtblick/studio-base/util/ranges";
+import { Immutable } from "@lichtblick/suite";
 import { simplify } from "intervals-fn";
 import * as _ from "lodash-es";
 import { useMemo } from "react";

@@ -5,8 +5,8 @@
 import { MultiMap, filterMap } from "@lichtblick/den/collection";
 import { PinholeCameraModel } from "@lichtblick/den/image";
 import Logger from "@lichtblick/log";
-import { SettingsTreeAction, SettingsTreeFields } from "@lichtblick/studio";
 import { ALL_SUPPORTED_IMAGE_SCHEMAS } from "@lichtblick/studio-base/panels/ThreeDeeRender/renderables/ImageMode/ImageMode";
+import { SettingsTreeAction, SettingsTreeFields } from "@lichtblick/suite";
 import { t } from "i18next";
 import { assert } from "ts-essentials";
 

@@ -11,9 +11,9 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { Time } from "@lichtblick/studio";
 import { TimeDisplayMethod } from "@lichtblick/studio-base/types/panels";
 import { formatTime } from "@lichtblick/studio-base/util/formatTime";
+import { Time } from "@lichtblick/suite";
 import * as _ from "lodash-es";
 
 // pad the start of `val` with 0's to make the total string length `count` size

@@ -3,13 +3,13 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import { useGuaranteedContext } from "@lichtblick/hooks";
+import { TopicAliasFunctions } from "@lichtblick/studio-base/players/TopicAliasingPlayer/TopicAliasingPlayer";
+import { ExtensionInfo, ExtensionNamespace } from "@lichtblick/studio-base/types/Extensions";
 import {
   ExtensionPanelRegistration,
   Immutable,
   RegisterMessageConverterArgs,
-} from "@lichtblick/studio";
-import { TopicAliasFunctions } from "@lichtblick/studio-base/players/TopicAliasingPlayer/TopicAliasingPlayer";
-import { ExtensionInfo, ExtensionNamespace } from "@lichtblick/studio-base/types/Extensions";
+} from "@lichtblick/suite";
 import { createContext } from "react";
 import { StoreApi, useStore } from "zustand";
 

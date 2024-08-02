@@ -13,7 +13,6 @@
 
 import { useWarnImmediateReRender } from "@lichtblick/hooks";
 import Logger from "@lichtblick/log";
-import { Immutable } from "@lichtblick/studio";
 import { MessagePipelineProvider } from "@lichtblick/studio-base/components/MessagePipeline";
 import { useAnalytics } from "@lichtblick/studio-base/context/AnalyticsContext";
 import {
@@ -43,6 +42,7 @@ import {
 import UserScriptPlayer from "@lichtblick/studio-base/players/UserScriptPlayer";
 import { Player } from "@lichtblick/studio-base/players/types";
 import { UserScripts } from "@lichtblick/studio-base/types/panels";
+import { Immutable } from "@lichtblick/suite";
 import { useSnackbar } from "notistack";
 import {
   PropsWithChildren,

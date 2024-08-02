@@ -2,7 +2,6 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import { Immutable, MessageEvent, Metadata, ParameterValue } from "@lichtblick/studio";
 import { BuiltinPanelExtensionContext } from "@lichtblick/studio-base/components/PanelExtensionAdapter";
 import {
   AdvertiseOptions,
@@ -12,6 +11,7 @@ import {
   Topic,
 } from "@lichtblick/studio-base/players/types";
 import { RosDatatypes } from "@lichtblick/studio-base/types/RosDatatypes";
+import { Immutable, MessageEvent, Metadata, ParameterValue } from "@lichtblick/suite";
 
 import { Time } from "@foxglove/rostime";
 

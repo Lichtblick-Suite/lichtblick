@@ -3,7 +3,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import { useShallowMemo } from "@lichtblick/hooks";
-import { SettingsTreeAction, SettingsTreeNodes } from "@lichtblick/studio";
+import { SettingsTreeAction, SettingsTreeNodes } from "@lichtblick/suite";
 import { produce } from "immer";
 import * as _ from "lodash-es";
 import { useMemo } from "react";

@@ -5,8 +5,8 @@
 import { Condvar } from "@lichtblick/den/async";
 import { VecQueue } from "@lichtblick/den/collection";
 import Log from "@lichtblick/log";
-import { Time, MessageEvent } from "@lichtblick/studio";
 import { Range } from "@lichtblick/studio-base/util/ranges";
+import { Time, MessageEvent } from "@lichtblick/suite";
 import EventEmitter from "eventemitter3";
 
 import { add as addTime, compare, clampTime } from "@foxglove/rostime";

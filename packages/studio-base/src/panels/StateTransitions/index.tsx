@@ -12,7 +12,6 @@
 //   You may not use this file except in compliance with the License.
 
 import { filterMap } from "@lichtblick/den/collection";
-import { Immutable } from "@lichtblick/studio";
 import { useBlocksSubscriptions } from "@lichtblick/studio-base/PanelAPI";
 import {
   MessageAndData,
@@ -36,6 +35,7 @@ import { subscribePayloadFromMessagePath } from "@lichtblick/studio-base/players
 import { SubscribePayload } from "@lichtblick/studio-base/players/types";
 import { Bounds } from "@lichtblick/studio-base/types/Bounds";
 import { SaveConfig } from "@lichtblick/studio-base/types/panels";
+import { Immutable } from "@lichtblick/suite";
 import { ChartOptions, ScaleOptions } from "chart.js";
 import * as _ from "lodash-es";
 import * as R from "ramda";

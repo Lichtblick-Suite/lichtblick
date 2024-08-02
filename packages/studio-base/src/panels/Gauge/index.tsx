@@ -3,13 +3,13 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import { useCrash } from "@lichtblick/hooks";
-import { PanelExtensionContext } from "@lichtblick/studio";
 import { CaptureErrorBoundary } from "@lichtblick/studio-base/components/CaptureErrorBoundary";
 import Panel from "@lichtblick/studio-base/components/Panel";
 import { PanelExtensionAdapter } from "@lichtblick/studio-base/components/PanelExtensionAdapter";
 import { createSyncRoot } from "@lichtblick/studio-base/panels/createSyncRoot";
 import ThemeProvider from "@lichtblick/studio-base/theme/ThemeProvider";
 import { SaveConfig } from "@lichtblick/studio-base/types/panels";
+import { PanelExtensionContext } from "@lichtblick/suite";
 import { StrictMode, useMemo } from "react";
 
 import { Gauge } from "./Gauge";

@@ -2,7 +2,6 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import { Immutable, MessageEvent } from "@lichtblick/studio";
 import {
   HUDItem,
   HUDItemManager,
@@ -23,6 +22,7 @@ import {
   ImageMarker as RosImageMarker,
   ImageMarkerArray as RosImageMarkerArray,
 } from "@lichtblick/studio-base/types/Messages";
+import { Immutable, MessageEvent } from "@lichtblick/suite";
 import * as _ from "lodash-es";
 
 import { AVLTree } from "@foxglove/avl";

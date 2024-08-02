@@ -3,16 +3,16 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import Logger from "@lichtblick/log";
+import { MessagePathInputStoryFixture } from "@lichtblick/studio-base/components/MessagePathSyntax/fixture";
+import SettingsTreeEditor from "@lichtblick/studio-base/components/SettingsTreeEditor";
+import Stack from "@lichtblick/studio-base/components/Stack";
+import PanelSetup from "@lichtblick/studio-base/stories/PanelSetup";
 import {
   SettingsTreeNode,
   SettingsTreeNodes,
   SettingsTreeFieldValue,
   SettingsTreeAction,
-} from "@lichtblick/studio";
-import { MessagePathInputStoryFixture } from "@lichtblick/studio-base/components/MessagePathSyntax/fixture";
-import SettingsTreeEditor from "@lichtblick/studio-base/components/SettingsTreeEditor";
-import Stack from "@lichtblick/studio-base/components/Stack";
-import PanelSetup from "@lichtblick/studio-base/stories/PanelSetup";
+} from "@lichtblick/suite";
 import { useTheme } from "@mui/material";
 import { StoryObj } from "@storybook/react";
 import { userEvent, within } from "@storybook/testing-library";

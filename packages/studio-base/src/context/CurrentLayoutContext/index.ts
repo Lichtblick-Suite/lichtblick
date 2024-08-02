@@ -8,10 +8,10 @@ import {
   useShallowMemo,
 } from "@lichtblick/hooks";
 import Logger from "@lichtblick/log";
-import { RenderState, VariableValue } from "@lichtblick/studio";
 import useShouldNotChangeOften from "@lichtblick/studio-base/hooks/useShouldNotChangeOften";
 import toggleSelectedPanel from "@lichtblick/studio-base/providers/CurrentLayoutProvider/toggleSelectedPanel";
 import { PanelConfig, PlaybackConfig, UserScripts } from "@lichtblick/studio-base/types/panels";
+import { RenderState, VariableValue } from "@lichtblick/suite";
 import { createContext, useCallback, useLayoutEffect, useReducer, useRef, useState } from "react";
 import { getLeaves } from "react-mosaic-component";
 

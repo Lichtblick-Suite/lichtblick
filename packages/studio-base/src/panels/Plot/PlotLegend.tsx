@@ -10,8 +10,8 @@ import {
   TextBulletListLtr20Filled,
   ArrowMinimize20Filled,
 } from "@fluentui/react-icons";
-import { Immutable } from "@lichtblick/studio";
 import { SaveConfig } from "@lichtblick/studio-base/types/panels";
+import { Immutable } from "@lichtblick/suite";
 import { IconButton } from "@mui/material";
 import * as _ from "lodash-es";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";

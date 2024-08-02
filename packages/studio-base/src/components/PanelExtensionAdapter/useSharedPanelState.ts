@@ -2,7 +2,6 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import { Immutable } from "@lichtblick/studio";
 import { usePanelContext } from "@lichtblick/studio-base/components/PanelContext";
 import {
   LayoutState,
@@ -11,6 +10,7 @@ import {
   useCurrentLayoutSelector,
 } from "@lichtblick/studio-base/context/CurrentLayoutContext";
 import { getPanelTypeFromId } from "@lichtblick/studio-base/util/layout";
+import { Immutable } from "@lichtblick/suite";
 import { useCallback, useMemo } from "react";
 
 const EmptySharedPanelState: Record<string, SharedPanelState> = Object.freeze({});

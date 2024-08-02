@@ -130,7 +130,7 @@
   "dependencies": {
     "@lichtblick/hooks": "workspace:*",
     "@lichtblick/log": "workspace:*",
-    "@lichtblick/studio": "workspace:*",
+    "@lichtblick/suite": "workspace:*",
     "@mui/material": "5.13.5",
     "react-use": "17.5.1",
     "rehype-raw": "6.1.1",

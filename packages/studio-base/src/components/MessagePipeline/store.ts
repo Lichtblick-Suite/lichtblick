@@ -3,7 +3,6 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import { Condvar } from "@lichtblick/den/async";
-import { Immutable, MessageEvent } from "@lichtblick/studio";
 import {
   makeSubscriptionMemoizer,
   mergeSubscriptions,
@@ -17,6 +16,7 @@ import {
   SubscribePayload,
 } from "@lichtblick/studio-base/players/types";
 import isDesktopApp from "@lichtblick/studio-base/util/isDesktopApp";
+import { Immutable, MessageEvent } from "@lichtblick/suite";
 import * as _ from "lodash-es";
 import { MutableRefObject } from "react";
 import shallowequal from "shallowequal";

@@ -2,7 +2,6 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import { Immutable, Time } from "@lichtblick/studio";
 import {
   MAX_POINTS,
   downsampleScatter,
@@ -10,6 +9,7 @@ import {
 } from "@lichtblick/studio-base/components/TimeBasedChart/downsample";
 import { Bounds1D } from "@lichtblick/studio-base/components/TimeBasedChart/types";
 import { extendBounds1D } from "@lichtblick/studio-base/types/Bounds";
+import { Immutable, Time } from "@lichtblick/suite";
 
 import { CsvDataset, SeriesConfigKey, SeriesItem, Viewport } from "./IDatasetsBuilder";
 import type { Dataset } from "../ChartRenderer";

@@ -3,7 +3,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import { ComlinkWrap } from "@lichtblick/den/worker";
-import { Immutable, MessageEvent, Time } from "@lichtblick/studio";
+import { Immutable, MessageEvent, Time } from "@lichtblick/suite";
 import * as Comlink from "comlink";
 
 import { abortSignalTransferHandler } from "@foxglove/comlink-transfer-handlers";

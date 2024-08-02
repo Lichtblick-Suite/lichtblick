@@ -2,11 +2,11 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import { Immutable } from "@lichtblick/studio";
 import { MessagePathDataItem } from "@lichtblick/studio-base/components/MessagePathSyntax/useCachedGetMessagePathDataItems";
 import { MessageEvent } from "@lichtblick/studio-base/players/types";
 import { PANEL_TITLE_CONFIG_KEY } from "@lichtblick/studio-base/util/layout";
 import { TimestampMethod } from "@lichtblick/studio-base/util/time";
+import { Immutable } from "@lichtblick/suite";
 
 import { Time } from "@foxglove/rostime";
 

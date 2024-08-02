@@ -2,7 +2,6 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import { VariableValue } from "@lichtblick/studio";
 import CopyButton from "@lichtblick/studio-base/components/CopyButton";
 import JsonInput from "@lichtblick/studio-base/components/JsonInput";
 import Stack from "@lichtblick/studio-base/components/Stack";
@@ -11,6 +10,7 @@ import useGlobalVariables, {
   GlobalVariables,
 } from "@lichtblick/studio-base/hooks/useGlobalVariables";
 import { AppEvent } from "@lichtblick/studio-base/services/IAnalytics";
+import { VariableValue } from "@lichtblick/suite";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ErrorIcon from "@mui/icons-material/Error";
 import MoreVertIcon from "@mui/icons-material/MoreVert";

@@ -4,8 +4,8 @@
 
 import { PinholeCameraModel } from "@lichtblick/den/image";
 import Logger from "@lichtblick/log";
-import { SettingsTreeAction, SettingsTreeFields } from "@lichtblick/studio";
 import type { RosValue } from "@lichtblick/studio-base/players/types";
+import { SettingsTreeAction, SettingsTreeFields } from "@lichtblick/suite";
 import { t } from "i18next";
 
 import { toNanoSec } from "@foxglove/rostime";

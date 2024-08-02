@@ -4,13 +4,13 @@
 
 import { unwrap } from "@lichtblick/den/monads";
 import { makeComlinkWorkerMock } from "@lichtblick/den/testing";
-import { MessageEvent } from "@lichtblick/studio";
 import {
   MessageBlock,
   PlayerPresence,
   PlayerState,
   PlayerStateActiveData,
 } from "@lichtblick/studio-base/players/types";
+import { MessageEvent } from "@lichtblick/suite";
 import * as _ from "lodash-es";
 
 import { parseMessagePath } from "@foxglove/message-path";

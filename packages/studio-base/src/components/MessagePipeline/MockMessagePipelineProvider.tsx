@@ -12,7 +12,6 @@
 //   You may not use this file except in compliance with the License.
 
 import { Condvar } from "@lichtblick/den/async";
-import { Metadata, ParameterValue } from "@lichtblick/studio";
 import {
   FramePromise,
   pauseFrameForPromises,
@@ -35,6 +34,7 @@ import {
   TopicStats,
 } from "@lichtblick/studio-base/players/types";
 import { RosDatatypes } from "@lichtblick/studio-base/types/RosDatatypes";
+import { Metadata, ParameterValue } from "@lichtblick/suite";
 import { Immutable } from "immer";
 import * as _ from "lodash-es";
 import { MutableRefObject, useEffect, useMemo, useRef, useState } from "react";

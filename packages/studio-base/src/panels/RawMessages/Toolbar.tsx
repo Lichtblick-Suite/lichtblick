@@ -2,11 +2,11 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import { Topic } from "@lichtblick/studio";
 import MessagePathInput from "@lichtblick/studio-base/components/MessagePathSyntax/MessagePathInput";
 import PanelToolbar from "@lichtblick/studio-base/components/PanelToolbar";
 import Stack from "@lichtblick/studio-base/components/Stack";
 import { SaveConfig } from "@lichtblick/studio-base/types/panels";
+import { Topic } from "@lichtblick/suite";
 import DiffIcon from "@mui/icons-material/Difference";
 import DiffOutlinedIcon from "@mui/icons-material/DifferenceOutlined";
 import UnfoldLessIcon from "@mui/icons-material/UnfoldLess";

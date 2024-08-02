@@ -3,15 +3,15 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import { filterMap } from "@lichtblick/den/collection";
+import { HighlightedText } from "@lichtblick/studio-base/components/HighlightedText";
+import Stack from "@lichtblick/studio-base/components/Stack";
+import { useAppContext } from "@lichtblick/studio-base/context/AppContext";
 import {
   Immutable,
   SettingsTreeAction,
   SettingsTreeNode,
   SettingsTreeNodeActionItem,
-} from "@lichtblick/studio";
-import { HighlightedText } from "@lichtblick/studio-base/components/HighlightedText";
-import Stack from "@lichtblick/studio-base/components/Stack";
-import { useAppContext } from "@lichtblick/studio-base/context/AppContext";
+} from "@lichtblick/suite";
 import ArrowDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import CheckIcon from "@mui/icons-material/Check";

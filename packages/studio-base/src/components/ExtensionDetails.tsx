@@ -2,7 +2,6 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import { Immutable } from "@lichtblick/studio";
 import Stack from "@lichtblick/studio-base/components/Stack";
 import TextContent from "@lichtblick/studio-base/components/TextContent";
 import { useAnalytics } from "@lichtblick/studio-base/context/AnalyticsContext";
@@ -13,6 +12,7 @@ import {
 } from "@lichtblick/studio-base/context/ExtensionMarketplaceContext";
 import { AppEvent } from "@lichtblick/studio-base/services/IAnalytics";
 import isDesktopApp from "@lichtblick/studio-base/util/isDesktopApp";
+import { Immutable } from "@lichtblick/suite";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { Button, Link, Tab, Tabs, Typography, Divider } from "@mui/material";
 import { useSnackbar } from "notistack";

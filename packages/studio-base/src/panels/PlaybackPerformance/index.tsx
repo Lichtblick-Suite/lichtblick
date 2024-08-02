@@ -11,13 +11,13 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { Immutable } from "@lichtblick/studio";
 import { useMessagePipeline } from "@lichtblick/studio-base/components/MessagePipeline";
 import Panel from "@lichtblick/studio-base/components/Panel";
 import PanelToolbar from "@lichtblick/studio-base/components/PanelToolbar";
 import { Sparkline, SparklinePoint } from "@lichtblick/studio-base/components/Sparkline";
 import Stack from "@lichtblick/studio-base/components/Stack";
 import { PlayerStateActiveData } from "@lichtblick/studio-base/players/types";
+import { Immutable } from "@lichtblick/suite";
 import { Typography } from "@mui/material";
 import * as _ from "lodash-es";
 import { ReactElement } from "react";

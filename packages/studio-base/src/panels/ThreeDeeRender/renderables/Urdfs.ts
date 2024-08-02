@@ -11,15 +11,15 @@ import {
   UrdfJoint,
 } from "@lichtblick/den/urdf";
 import Logger from "@lichtblick/log";
+import { makeRgba, stringToRgba } from "@lichtblick/studio-base/panels/ThreeDeeRender/color";
+import { eulerToQuaternion } from "@lichtblick/studio-base/util/geometry";
+import isDesktopApp from "@lichtblick/studio-base/util/isDesktopApp";
 import {
   SettingsTreeAction,
   SettingsTreeChildren,
   SettingsTreeField,
   SettingsTreeFields,
-} from "@lichtblick/studio";
-import { makeRgba, stringToRgba } from "@lichtblick/studio-base/panels/ThreeDeeRender/color";
-import { eulerToQuaternion } from "@lichtblick/studio-base/util/geometry";
-import isDesktopApp from "@lichtblick/studio-base/util/isDesktopApp";
+} from "@lichtblick/suite";
 import { vec3 } from "gl-matrix";
 import i18next from "i18next";
 import * as _ from "lodash-es";

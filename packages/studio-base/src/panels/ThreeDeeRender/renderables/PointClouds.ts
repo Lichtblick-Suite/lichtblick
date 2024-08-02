@@ -2,7 +2,6 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import { SettingsTreeAction, MessageEvent } from "@lichtblick/studio";
 import { DynamicBufferGeometry } from "@lichtblick/studio-base/panels/ThreeDeeRender/DynamicBufferGeometry";
 import {
   createGeometry,
@@ -18,6 +17,7 @@ import {
   PointsRenderable,
 } from "@lichtblick/studio-base/panels/ThreeDeeRender/renderables/pointExtensionUtils";
 import type { RosObject, RosValue } from "@lichtblick/studio-base/players/types";
+import { SettingsTreeAction, MessageEvent } from "@lichtblick/suite";
 import * as _ from "lodash-es";
 import * as THREE from "three";
 

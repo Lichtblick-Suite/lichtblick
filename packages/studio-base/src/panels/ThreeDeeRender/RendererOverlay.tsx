@@ -3,7 +3,6 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import { Ruler20Filled, Ruler20Regular } from "@fluentui/react-icons";
-import { LayoutActions } from "@lichtblick/studio";
 import {
   PanelContextMenu,
   PanelContextMenuItem,
@@ -13,6 +12,7 @@ import PublishPointIcon from "@lichtblick/studio-base/components/PublishPointIco
 import PublishPoseEstimateIcon from "@lichtblick/studio-base/components/PublishPoseEstimateIcon";
 import { usePanelMousePresence } from "@lichtblick/studio-base/hooks/usePanelMousePresence";
 import { HUD } from "@lichtblick/studio-base/panels/ThreeDeeRender/HUD";
+import { LayoutActions } from "@lichtblick/suite";
 import {
   Button,
   IconButton,

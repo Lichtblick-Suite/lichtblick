@@ -4,7 +4,6 @@
 
 import { filterMap } from "@lichtblick/den/collection";
 import Log from "@lichtblick/log";
-import { MessageEvent } from "@lichtblick/studio";
 import { GlobalVariables } from "@lichtblick/studio-base/hooks/useGlobalVariables";
 import { BlockLoader } from "@lichtblick/studio-base/players/IterablePlayer/BlockLoader";
 import { IIterableSource } from "@lichtblick/studio-base/players/IterablePlayer/IIterableSource";
@@ -20,6 +19,7 @@ import {
   SubscribePayload,
 } from "@lichtblick/studio-base/players/types";
 import delay from "@lichtblick/studio-base/util/delay";
+import { MessageEvent } from "@lichtblick/suite";
 
 import { toRFC3339String } from "@foxglove/rostime";
 

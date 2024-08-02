@@ -11,11 +11,11 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { Immutable } from "@lichtblick/studio";
 import { isTypicalFilterName } from "@lichtblick/studio-base/components/MessagePathSyntax/isTypicalFilterName";
 import { RosDatatypes } from "@lichtblick/studio-base/types/RosDatatypes";
 import { assertNever } from "@lichtblick/studio-base/util/assertNever";
 import naturalSort from "@lichtblick/studio-base/util/naturalSort";
+import { Immutable } from "@lichtblick/suite";
 import * as _ from "lodash-es";
 
 import {

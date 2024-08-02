@@ -4,7 +4,6 @@
 
 import { debouncePromise } from "@lichtblick/den/async";
 import { filterMap } from "@lichtblick/den/collection";
-import { Immutable, Time } from "@lichtblick/studio";
 import { simpleGetMessagePathDataItems } from "@lichtblick/studio-base/components/MessagePathSyntax/simpleGetMessagePathDataItems";
 import { stringifyMessagePath } from "@lichtblick/studio-base/components/MessagePathSyntax/stringifyRosPath";
 import { fillInGlobalVariablesInPath } from "@lichtblick/studio-base/components/MessagePathSyntax/useCachedGetMessagePathDataItems";
@@ -14,6 +13,7 @@ import { MessageBlock, PlayerState } from "@lichtblick/studio-base/players/types
 import { Bounds } from "@lichtblick/studio-base/types/Bounds";
 import delay from "@lichtblick/studio-base/util/delay";
 import { getContrastColor, getLineColor } from "@lichtblick/studio-base/util/plotColors";
+import { Immutable, Time } from "@lichtblick/suite";
 import EventEmitter from "eventemitter3";
 import * as _ from "lodash-es";
 

@@ -11,7 +11,6 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { ParameterValue } from "@lichtblick/studio";
 import CopyButton from "@lichtblick/studio-base/components/CopyButton";
 import EmptyState from "@lichtblick/studio-base/components/EmptyState";
 import JsonInput from "@lichtblick/studio-base/components/JsonInput";
@@ -23,6 +22,7 @@ import Panel from "@lichtblick/studio-base/components/Panel";
 import PanelToolbar from "@lichtblick/studio-base/components/PanelToolbar";
 import Stack from "@lichtblick/studio-base/components/Stack";
 import { PlayerCapabilities } from "@lichtblick/studio-base/players/types";
+import { ParameterValue } from "@lichtblick/suite";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
 import {

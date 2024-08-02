@@ -14,7 +14,6 @@
 import { debouncePromise } from "@lichtblick/den/async";
 import { filterMap } from "@lichtblick/den/collection";
 import Log from "@lichtblick/log";
-import { ParameterValue } from "@lichtblick/studio";
 import PlayerProblemManager from "@lichtblick/studio-base/players/PlayerProblemManager";
 import {
   AdvertiseOptions,
@@ -32,6 +31,7 @@ import {
 } from "@lichtblick/studio-base/players/types";
 import { RosDatatypes } from "@lichtblick/studio-base/types/RosDatatypes";
 import { bagConnectionsToDatatypes } from "@lichtblick/studio-base/util/bagConnectionsHelper";
+import { ParameterValue } from "@lichtblick/suite";
 import * as _ from "lodash-es";
 import { v4 as uuidv4 } from "uuid";
 

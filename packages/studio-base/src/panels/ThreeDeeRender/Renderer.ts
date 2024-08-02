@@ -4,17 +4,6 @@
 
 import { ObjectPool } from "@lichtblick/den/collection";
 import Logger from "@lichtblick/log";
-import {
-  Immutable,
-  MessageEvent,
-  ParameterValue,
-  SettingsIcon,
-  SettingsTreeAction,
-  SettingsTreeNodeActionItem,
-  SettingsTreeNodes,
-  Topic,
-  VariableValue,
-} from "@lichtblick/studio";
 import { PanelContextMenuItem } from "@lichtblick/studio-base/components/PanelContextMenu";
 import {
   Asset,
@@ -26,6 +15,17 @@ import { HUDItemManager } from "@lichtblick/studio-base/panels/ThreeDeeRender/HU
 import { LayerErrors } from "@lichtblick/studio-base/panels/ThreeDeeRender/LayerErrors";
 import { ICameraHandler } from "@lichtblick/studio-base/panels/ThreeDeeRender/renderables/ICameraHandler";
 import IAnalytics from "@lichtblick/studio-base/services/IAnalytics";
+import {
+  Immutable,
+  MessageEvent,
+  ParameterValue,
+  SettingsIcon,
+  SettingsTreeAction,
+  SettingsTreeNodeActionItem,
+  SettingsTreeNodes,
+  Topic,
+  VariableValue,
+} from "@lichtblick/suite";
 import EventEmitter from "eventemitter3";
 import { quat, vec3 } from "gl-matrix";
 import i18next from "i18next";

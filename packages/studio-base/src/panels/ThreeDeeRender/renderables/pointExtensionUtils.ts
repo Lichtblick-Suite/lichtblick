@@ -2,7 +2,6 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import { SettingsTreeNode, Topic } from "@lichtblick/studio";
 import { DynamicBufferGeometry } from "@lichtblick/studio-base/panels/ThreeDeeRender/DynamicBufferGeometry";
 import { IRenderer } from "@lichtblick/studio-base/panels/ThreeDeeRender/IRenderer";
 import { BaseUserData, Renderable } from "@lichtblick/studio-base/panels/ThreeDeeRender/Renderable";
@@ -14,6 +13,7 @@ import {
 import { BaseSettings } from "@lichtblick/studio-base/panels/ThreeDeeRender/settings";
 import { MAX_DURATION } from "@lichtblick/studio-base/panels/ThreeDeeRender/transforms";
 import { updatePose } from "@lichtblick/studio-base/panels/ThreeDeeRender/updatePose";
+import { SettingsTreeNode, Topic } from "@lichtblick/suite";
 import { t } from "i18next";
 import * as THREE from "three";
 

@@ -4,7 +4,6 @@
 
 import { pickFields } from "@lichtblick/den/records";
 import Logger from "@lichtblick/log";
-import { MessageEvent, Metadata } from "@lichtblick/studio";
 import {
   GetBackfillMessagesArgs,
   IIterableSource,
@@ -20,6 +19,7 @@ import {
   TopicStats,
 } from "@lichtblick/studio-base/players/types";
 import { RosDatatypes } from "@lichtblick/studio-base/types/RosDatatypes";
+import { MessageEvent, Metadata } from "@lichtblick/suite";
 import { McapIndexedReader, McapTypes } from "@mcap/core";
 
 import { ParsedChannel, parseChannel } from "@foxglove/mcap-support";
