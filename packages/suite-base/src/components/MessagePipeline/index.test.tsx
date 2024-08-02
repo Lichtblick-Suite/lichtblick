@@ -302,16 +302,16 @@ describe("MessagePipelineProvider/useMessagePipeline", () => {
     });
 
     act(() => {
-      result.current.setSubscriptions("test", [{ topic: "/studio/test" }]);
+      result.current.setSubscriptions("test", [{ topic: "/suite/test" }]);
     });
-    expect(result.current.subscriptions).toEqual([{ topic: "/studio/test" }]);
+    expect(result.current.subscriptions).toEqual([{ topic: "/suite/test" }]);
 
     act(() => {
-      result.current.setSubscriptions("bar", [{ topic: "/studio/test2" }]);
+      result.current.setSubscriptions("bar", [{ topic: "/suite/test2" }]);
     });
     expect(result.current.subscriptions).toEqual([
-      { topic: "/studio/test" },
-      { topic: "/studio/test2" },
+      { topic: "/suite/test" },
+      { topic: "/suite/test2" },
     ]);
     const lastSubscriptions = result.current.subscriptions;
     // cause the player to emit a frame outside the render loop to trigger another render
@@ -629,18 +629,18 @@ describe("MessagePipelineProvider/useMessagePipeline", () => {
     const { result } = renderHook(Hook, { wrapper: Wrapper });
 
     act(() => {
-      result.current.setPublishers("test", [{ topic: "/studio/test", schemaName: "test" }]);
+      result.current.setPublishers("test", [{ topic: "/suite/test", schemaName: "test" }]);
     });
     expect(player.publishers).toEqual<typeof player.publishers>([
-      { topic: "/studio/test", schemaName: "test" },
+      { topic: "/suite/test", schemaName: "test" },
     ]);
 
     act(() => {
-      result.current.setPublishers("bar", [{ topic: "/studio/test2", schemaName: "test2" }]);
+      result.current.setPublishers("bar", [{ topic: "/suite/test2", schemaName: "test2" }]);
     });
     expect(player.publishers).toEqual<typeof player.publishers>([
-      { topic: "/studio/test", schemaName: "test" },
-      { topic: "/studio/test2", schemaName: "test2" },
+      { topic: "/suite/test", schemaName: "test" },
+      { topic: "/suite/test2", schemaName: "test2" },
     ]);
 
     const lastPublishers = player.publishers;
