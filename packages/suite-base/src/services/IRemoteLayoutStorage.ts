@@ -4,10 +4,7 @@
 
 import { LayoutID } from "@lichtblick/suite-base/context/CurrentLayoutContext";
 import { LayoutData } from "@lichtblick/suite-base/context/CurrentLayoutContext/actions";
-import {
-  ISO8601Timestamp,
-  LayoutPermission,
-} from "@lichtblick/suite-base/services/ILayoutStorage";
+import { ISO8601Timestamp, LayoutPermission } from "@lichtblick/suite-base/services/ILayoutStorage";
 
 /**
  * A panel layout stored on a remote server.

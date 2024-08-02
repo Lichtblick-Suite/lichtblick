@@ -24,10 +24,7 @@ import { TabbedToolbar } from "@lichtblick/suite-base/panels/Tab/TabbedToolbar";
 import { TabPanelConfig as Config } from "@lichtblick/suite-base/types/layouts";
 import { SaveConfig } from "@lichtblick/suite-base/types/panels";
 import { TAB_PANEL_TYPE } from "@lichtblick/suite-base/util/globalConstants";
-import {
-  DEFAULT_TAB_PANEL_CONFIG,
-  updateTabPanelLayout,
-} from "@lichtblick/suite-base/util/layout";
+import { DEFAULT_TAB_PANEL_CONFIG, updateTabPanelLayout } from "@lichtblick/suite-base/util/layout";
 import { useCallback, useMemo, useState } from "react";
 import { MosaicNode } from "react-mosaic-component";
 import { makeStyles } from "tss-react/mui";
