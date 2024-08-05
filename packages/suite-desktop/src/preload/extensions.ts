@@ -21,7 +21,7 @@ type ExtensionPackageJson = { name: string; version: string; main: string; publi
  *
  * This method will throw if any required fields are missing or invalid.
  * @param pkgJson Parsed package.json file
- * @returns An identifier string such as "foxglove.studio-extension-turtlesim"
+ * @returns An identifier string such as "lichtblick.suite-extension-turtlesim"
  */
 function getPackageId(pkgJson: undefined | ExtensionPackageJson): string {
   if (pkgJson == undefined) {
@@ -52,7 +52,7 @@ function getPackageId(pkgJson: undefined | ExtensionPackageJson): string {
 /**
  * Get the directory name to use for an installed extension
  * @param pkgJson Parsed package.json file
- * @returns A directory name such as "foxglove.studio-extension-turtlesim-1.0.0"
+ * @returns A directory name such as "lichtblick.suite-extension-turtlesim-1.0.0"
  */
 function getPackageDirname(pkgJson: ExtensionPackageJson): string {
   const pkgId = getPackageId(pkgJson);

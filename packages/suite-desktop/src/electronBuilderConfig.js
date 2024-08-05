@@ -12,7 +12,7 @@ const path = require("path");
 function makeElectronBuilderConfig(params) {
   return {
     electronVersion,
-    appId: "dev.foxglove.studio",
+    appId: "dev.lichtblick.suite",
     npmRebuild: false,
     asar: true,
     directories: {
@@ -172,10 +172,10 @@ function makeElectronBuilderConfig(params) {
       applicationId: "FoxgloveStudio",
       backgroundColor: "#f7def6",
       displayName: "Lichtblick",
-      identityName: "Foxglove.Studio",
+      identityName: "Lichtblick.Suite",
       publisher:
-        "CN=Foxglove Technologies, O=Foxglove Technologies, L=San Francisco, S=California, C=US",
-      publisherDisplayName: "Foxglove Technologies",
+        "CN=Lichtblick, O=Lichtblick, L=San Francisco, S=California, C=US",
+      publisherDisplayName: "Lichtblick",
       languages: ["en-US"],
       addAutoLaunchExtension: false,
       showNameOnTiles: false,

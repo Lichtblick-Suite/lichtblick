@@ -16,7 +16,7 @@ import Stack from "@lichtblick/suite-base/components/Stack";
 import { useCurrentLayoutActions } from "@lichtblick/suite-base/context/CurrentLayoutContext";
 import { MosaicDropResult } from "@lichtblick/suite-base/types/panels";
 import { getPanelIdForType } from "@lichtblick/suite-base/util/layout";
-import { Link, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { useCallback } from "react";
 import { useDrop } from "react-dnd";
 import { useTranslation } from "react-i18next";
