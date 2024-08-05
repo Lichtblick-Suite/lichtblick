@@ -173,8 +173,7 @@ function makeElectronBuilderConfig(params) {
       backgroundColor: "#f7def6",
       displayName: "Lichtblick",
       identityName: "Lichtblick.Suite",
-      publisher:
-        "CN=Lichtblick, O=Lichtblick, L=San Francisco, S=California, C=US",
+      publisher: "CN=Lichtblick, O=Lichtblick, L=San Francisco, S=California, C=US",
       publisherDisplayName: "Lichtblick",
       languages: ["en-US"],
       addAutoLaunchExtension: false,
