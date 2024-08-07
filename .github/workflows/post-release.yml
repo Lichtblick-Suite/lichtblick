@@ -36,10 +36,6 @@ jobs:
         uses: octokit/request-action@v2.x
         with:
           route: POST /repos/{owner}/{repo}/merges
-          owner: lichtblick-suite
-          repo: lichtblick
-          base: main
-          head: release/${{ github.event.release.tag_name }}
         env:
           GITHUB_TOKEN: ${{ secrets.LICHTBLICK_GITHUB_TOKEN }}
 
