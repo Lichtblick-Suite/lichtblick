@@ -37,14 +37,14 @@ jobs:
       - name: Bump version in root package.json
         run: yarn version patch
 
-      - name: Bump version in subdirectory package.json
-        working-directory: packages/studio
+      - name: Bump version in packages/suite
+        working-directory: packages/suite
         run: yarn version patch
 
       - name: Commit version bumps
         run: |
-          git add package.json yarn.lock packages/studio/package.json
-          git commit -m "chore: bump versions in root and studio package.json"
+          git add package.json yarn.lock packages/suite/package.json
+          git commit -m "chore: bump versions in root and suite package.json"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
