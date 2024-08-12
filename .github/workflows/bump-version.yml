@@ -46,10 +46,10 @@ jobs:
           git add package.json yarn.lock packages/suite/package.json
           git commit -m "chore: bump versions in root and suite package.json"
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.LICHTBLICK_GITHUB_TOKEN }}
 
       - name: Push changes
         run: |
           git push origin main
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.LICHTBLICK_GITHUB_TOKEN }}
