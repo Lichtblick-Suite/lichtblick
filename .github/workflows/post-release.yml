@@ -39,7 +39,7 @@ jobs:
       packages: write
 
     steps:
-      - name: Checkout  ${{ github.event.release.tag_name }}
+      - name: Checkout ${{ github.event.release.tag_name }}
         uses: actions/checkout@v4.1.1
         with:
           ref: ${{ github.event.release.tag_name }}
