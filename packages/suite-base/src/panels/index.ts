@@ -192,4 +192,10 @@ export const getBuiltin: (t: TFunction<"panels">) => PanelInfo[] = (t) => [
     description: t("dataRecorderTriggerPanelDescription"),
     module: async () => await import("./DataRecorderTriggerPanel"),
   },
+  {
+    title: t("sensorIndicatorsPanel"),
+    type: "sensorIndicatorsPanel",
+    description: t("sensorIndicatorsPanelDescription"),
+    module: async () => await import("./SensorIndicatorsPanel"),
+  },
 ];

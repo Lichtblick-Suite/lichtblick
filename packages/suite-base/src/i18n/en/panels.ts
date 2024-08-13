@@ -35,6 +35,8 @@ export const panels = {
     "Display ROS DiagnosticArray messages for a specific hardware_id.",
   ROSDiagnosticSummary: "Diagnostics – Summary (ROS)",
   ROSDiagnosticSummaryDescription: "Display a summary of all ROS DiagnosticArray messages.",
+  sensorIndicatorsPanel: "Sensor Indicators Panel",
+  sensorIndicatorsPanelDescription: "Display colorized sensor status",
   stateTransitions: "State Transitions",
   stateTransitionsDescription: "Track when values change over time.",
   studioPlaybackPerformance: "Studio - Playback Performance",
