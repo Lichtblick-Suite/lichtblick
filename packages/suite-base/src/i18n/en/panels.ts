@@ -7,6 +7,9 @@ export const panels = {
   "3DPanelDescription": "Display markers, camera images, meshes, URDFs, and more in a 3D scene.",
   callService: "Service Call",
   callServiceDescription: "Call a service and view the service call result",
+  dataRecorderTriggerPanel: "Data Recorder Trigger Panel",
+  dataRecorderTriggerPanelDescription:
+    "Trigger button to start/stop recording with metadata inputs",
   dataSourceInfo: "Data Source Info",
   dataSourceInfoDescription: "View details like topics and timestamps for the current data source.",
   gauge: "Gauge",

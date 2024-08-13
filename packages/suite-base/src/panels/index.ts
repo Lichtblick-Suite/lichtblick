@@ -186,4 +186,11 @@ export const getBuiltin: (t: TFunction<"panels">) => PanelInfo[] = (t) => [
     description: t("studioPlaybackPerformanceDescription"),
     module: async () => await import("./PlaybackPerformance"),
   },
+  {
+    title: t("dataRecorderTriggerPanel"),
+    type: "DataRecorderTriggerPanel",
+    description: t("dataRecorderTriggerPanelDescription"),
+    thumbnail: tableThumbnail,
+    module: async () => await import("./DataRecorderTriggerPanel"),
+  },
 ];
