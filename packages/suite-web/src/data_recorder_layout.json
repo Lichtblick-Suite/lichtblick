@@ -5,22 +5,9 @@
         "distance": 20,
         "perspective": true,
         "phi": 60,
-        "target": [
-          0,
-          0,
-          0
-        ],
-        "targetOffset": [
-          0,
-          0,
-          0
-        ],
-        "targetOrientation": [
-          0,
-          0,
-          0,
-          1
-        ],
+        "target": [0, 0, 0],
+        "targetOffset": [0, 0, 0],
+        "targetOrientation": [0, 0, 0, 1],
         "thetaOffset": 45,
         "fovy": 45,
         "near": 0.5,
@@ -53,10 +40,7 @@
       "maxValue": 1,
       "colorMap": "red-yellow-green",
       "colorMode": "colormap",
-      "gradient": [
-        "#0000ff",
-        "#ff00ff"
-      ],
+      "gradient": ["#0000ff", "#ff00ff"],
       "reverse": true
     },
     "uploadTablePanel!3k4328j": {},
