@@ -198,4 +198,10 @@ export const getBuiltin: (t: TFunction<"panels">) => PanelInfo[] = (t) => [
     description: t("sensorIndicatorsPanelDescription"),
     module: async () => await import("./SensorIndicatorsPanel"),
   },
+  {
+    title: t("uploadTablePanel"),
+    type: "uploadTablePanel",
+    description: t("uploadTablePanelDescription"),
+    module: async () => await import("./UploadTablePanel"),
+  },
 ];
