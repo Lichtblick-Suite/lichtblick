@@ -7,6 +7,9 @@ export const panels = {
   "3DPanelDescription": "Display markers, camera images, meshes, URDFs, and more in a 3D scene.",
   callService: "Service Call",
   callServiceDescription: "Call a service and view the service call result",
+  dataRecorderTriggerPanel: "Data Recorder Trigger Panel",
+  dataRecorderTriggerPanelDescription:
+    "Trigger button to start/stop recording with metadata inputs",
   dataSourceInfo: "Data Source Info",
   dataSourceInfoDescription: "View details like topics and timestamps for the current data source.",
   gauge: "Gauge",
@@ -32,6 +35,8 @@ export const panels = {
     "Display ROS DiagnosticArray messages for a specific hardware_id.",
   ROSDiagnosticSummary: "Diagnostics – Summary (ROS)",
   ROSDiagnosticSummaryDescription: "Display a summary of all ROS DiagnosticArray messages.",
+  sensorIndicatorsPanel: "Sensor Indicators Panel",
+  sensorIndicatorsPanelDescription: "Display colorized sensor status",
   stateTransitions: "State Transitions",
   stateTransitionsDescription: "Track when values change over time.",
   studioPlaybackPerformance: "Studio - Playback Performance",
@@ -45,6 +50,9 @@ export const panels = {
   teleopDescription: "Teleoperate a robot over a live connection.",
   topicGraph: "Topic Graph",
   topicGraphDescription: "Display a graph of active nodes, topics, and services.",
+  uploadTablePanel: "Upload Table",
+  uploadTablePanelDescription:
+    "Manage and monitor the status of file uploads, including sorting, and deleting files.",
   userScripts: "User Scripts",
   userScriptsDescription:
     "Write custom data transformations in TypeScript. Previously known as Node Playground.",

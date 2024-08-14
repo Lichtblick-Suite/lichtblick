@@ -2,6 +2,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import fs from "fs";
 import type { WebpackArgv } from "@lichtblick/suite-base/WebpackArgv";
 import { makeConfig } from "@lichtblick/suite-base/webpack";
 import ReactRefreshPlugin from "@pmmmwh/react-refresh-webpack-plugin";
@@ -16,6 +17,17 @@ import type {
 } from "webpack-dev-server";
 
 import * as palette from "@foxglove/theme/src/palette";
+
+const layoutPath = path.resolve(__dirname, "data_recorder_layout.json");
+let layoutContent = "";
+
+// Read the content of data_recorder_layout.json
+try {
+  layoutContent = fs.readFileSync(layoutPath, "utf-8");
+} catch (error) {
+  console.error("Could not read data_recorder_layout.json:", error);
+  layoutContent = "{}"; // Provide a default empty object if the file is not found
+}
 
 export interface WebpackConfiguration extends Configuration {
   devServer?: WebpackDevServerConfiguration;
@@ -172,7 +184,7 @@ export const mainConfig =
     </head>
     <script>
       global = globalThis;
-      globalThis.LICHTBLICK_SUITE_DEFAULT_LAYOUT = [/*LICHTBLICK_SUITE_DEFAULT_LAYOUT_PLACEHOLDER*/][0];
+      globalThis.LICHTBLICK_SUITE_DEFAULT_LAYOUT = ${layoutContent};
     </script>
     <body>
       <div id="root"></div>

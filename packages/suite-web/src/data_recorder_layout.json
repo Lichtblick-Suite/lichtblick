@@ -1,0 +1,79 @@
+{
+  "configById": {
+    "Image!15i6twb": {
+      "cameraState": {
+        "distance": 20,
+        "perspective": true,
+        "phi": 60,
+        "target": [0, 0, 0],
+        "targetOffset": [0, 0, 0],
+        "targetOrientation": [0, 0, 0, 1],
+        "thetaOffset": 45,
+        "fovy": 45,
+        "near": 0.5,
+        "far": 5000
+      },
+      "followMode": "follow-pose",
+      "scene": {},
+      "transforms": {},
+      "topics": {},
+      "layers": {},
+      "publish": {
+        "type": "point",
+        "poseTopic": "/move_base_simple/goal",
+        "pointTopic": "/clicked_point",
+        "poseEstimateTopic": "/initialpose",
+        "poseEstimateXDeviation": 0.5,
+        "poseEstimateYDeviation": 0.5,
+        "poseEstimateThetaDeviation": 0.26179939
+      },
+      "imageMode": {
+        "imageTopic": "/front_stereo_camera/preview/image_compressed",
+        "calibrationTopic": "/front_stereo_camera/preview/camera_info"
+      }
+    },
+    "DataRecorderTriggerPanel!bvzx3e": {},
+    "sensorIndicatorsPanel!3ruuf5v": {},
+    "Gauge!3bw3ths": {
+      "path": "/directory_info.used",
+      "minValue": 0,
+      "maxValue": 1,
+      "colorMap": "red-yellow-green",
+      "colorMode": "colormap",
+      "gradient": ["#0000ff", "#ff00ff"],
+      "reverse": true
+    },
+    "uploadTablePanel!3k4328j": {},
+    "Tab!13v6wi9": {
+      "activeTabIdx": 0,
+      "tabs": [
+        {
+          "title": "1",
+          "layout": {
+            "first": {
+              "first": "Image!15i6twb",
+              "second": "DataRecorderTriggerPanel!bvzx3e",
+              "direction": "row"
+            },
+            "second": {
+              "first": "sensorIndicatorsPanel!3ruuf5v",
+              "second": "Gauge!3bw3ths",
+              "direction": "row"
+            },
+            "direction": "column"
+          }
+        },
+        {
+          "title": "2",
+          "layout": "uploadTablePanel!3k4328j"
+        }
+      ]
+    }
+  },
+  "globalVariables": {},
+  "userNodes": {},
+  "playbackConfig": {
+    "speed": 1
+  },
+  "layout": "Tab!13v6wi9"
+}

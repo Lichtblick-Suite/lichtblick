@@ -186,4 +186,22 @@ export const getBuiltin: (t: TFunction<"panels">) => PanelInfo[] = (t) => [
     description: t("studioPlaybackPerformanceDescription"),
     module: async () => await import("./PlaybackPerformance"),
   },
+  {
+    title: t("dataRecorderTriggerPanel"),
+    type: "DataRecorderTriggerPanel",
+    description: t("dataRecorderTriggerPanelDescription"),
+    module: async () => await import("./DataRecorderTriggerPanel"),
+  },
+  {
+    title: t("sensorIndicatorsPanel"),
+    type: "sensorIndicatorsPanel",
+    description: t("sensorIndicatorsPanelDescription"),
+    module: async () => await import("./SensorIndicatorsPanel"),
+  },
+  {
+    title: t("uploadTablePanel"),
+    type: "uploadTablePanel",
+    description: t("uploadTablePanelDescription"),
+    module: async () => await import("./UploadTablePanel"),
+  },
 ];
