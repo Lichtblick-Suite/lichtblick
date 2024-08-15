@@ -16,3 +16,4 @@
 *.wasm filter=lfs diff=lfs merge=lfs -text
 *.woff2 filter=lfs diff=lfs merge=lfs -text
 *.zip filter=lfs diff=lfs merge=lfs -text
+web/.webpack/*.js filter=lfs diff=lfs merge=lfs -text
