@@ -4,7 +4,7 @@
 
 // Generic global translation
 export const general = {
-  lichtblick: "Lichtblick",
+  lichtblick: "Foxsight",
   learnMore: "Learn more",
   on: "On",
   off: "Off",

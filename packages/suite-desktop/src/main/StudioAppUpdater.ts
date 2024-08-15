@@ -67,7 +67,7 @@ class StudioAppUpdater extends EventEmitter<EventTypes> {
     };
     const onNotAvailable = (info: UpdateInfo) => {
       void dialog.showMessageBox({
-        message: `Lichtblick is up to date (version ${info.version}).`,
+        message: `Foxsight is up to date (version ${info.version}).`,
       });
     };
     const onError = (error: Error) => {

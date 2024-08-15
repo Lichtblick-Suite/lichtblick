@@ -4,15 +4,15 @@
 
 export const openDialog = {
   canBeShared: "Share data files, visualization layouts, and custom extensions with teammates",
-  collaborateTitle: "Accelerate development with Lichtblick",
+  collaborateTitle: "Accelerate development with Foxsight",
   convenientWebInterface:
     "Use a convenient web interface to tag, search, and retrieve data at lightning speed",
   createAFreeAccount: "Create a free account",
   exploreSampleData: "Explore sample data",
   learnMore: "Learn more",
   needHelp: "Need help?",
-  needHelpDescription: "View our documentation, or check out the tutorials on the Lichtblick blog.",
-  newToLichtblick: "New to Lichtblick?",
+  needHelpDescription: "View our documentation, or check out the tutorials on the Foxsight blog.",
+  newToLichtblick: "New to Foxsight?",
   newToLichtblickDescription:
     "Start by exploring a sample dataset or checking out our documentation.",
   openAGitHubIssue: "Open a GitHub issue",
@@ -22,14 +22,14 @@ export const openDialog = {
   openLocalFile: "Open local file",
   openLocalFileDescription: "Visualize data directly from your local filesystem.",
   openUrl: "Upload and share data",
-  openUrlDescription: "Use Lichtblick to share data with your team.",
+  openUrlDescription: "Use Foxsight to share data with your team.",
   recentDataSources: "Recent data sources",
   secureStorageOfData: "Securely store petabytes of ROS or custom data",
   seeTutorials: "See tutorials",
   shareLayouts: "Share layouts",
   signIn: "Sign in",
-  startCollaborating: "Start collaborating with your Lichtblick organization",
+  startCollaborating: "Start collaborating with your Foxsight organization",
   startCollaboratingDescription:
-    "Make the most of your Lichtblick account – whether you want to dive deep on your data or share tools with your teammates.",
+    "Make the most of your Foxsight account – whether you want to dive deep on your data or share tools with your teammates.",
   uploadToDataPlatform: "Upload to Data Platform",
 };

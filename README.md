@@ -1,4 +1,4 @@
-<h1 align="center">Lichtblick</h1>
+<h1 align="center">Foxsight</h1>
 
 <div align="center">
   <a href="https://github.com/bmw-software-engineering/lichtblick/stargazers"><img src="https://img.shields.io/github/stars/bmw-software-engineering/lichtblick" alt="Stars Badge"/></a>
@@ -11,10 +11,10 @@
 
   <br />
 <p  align="center">
-Lichtblick is an integrated visualization and diagnosis tool for robotics, available in your browser or as a desktop app on Linux, Windows, and macOS.
+Foxsight is an integrated visualization and diagnosis tool for robotics, available in your browser or as a desktop app on Linux, Windows, and macOS.
 </p>
   <p align="center">
-    <img alt="Lichtblick screenshot" src="resources/screenshot.png">
+    <img alt="Foxsight screenshot" src="resources/screenshot.png">
   </p>
 </div>
 
@@ -64,7 +64,7 @@ $ yarn desktop:start        # launch electron
 $ yarn run web:serve        # it will be avaiable in http://localhost:8080
 ```
 
-## :hammer_and_wrench: Building Lichtblick
+## :hammer_and_wrench: Building Foxsight
 
 Build the application for production using these commands:
 
@@ -91,12 +91,12 @@ $ yarn run clean
 
 ## :pencil: License (Open Source)
 
-Lichtblick follows an open core licensing model. Most functionality is available in this repository, and can be reproduced or modified per the terms of the [Mozilla Public License v2.0](/LICENSE).
+Foxsight follows an open core licensing model. Most functionality is available in this repository, and can be reproduced or modified per the terms of the [Mozilla Public License v2.0](/LICENSE).
 
 ## :handshake: Contributing
 
-Contributions are welcome! Lichtblick is primarily built in TypeScript and ReactJS. All potential contributors must agree to the Contributor License Agreement outlined in [CONTRIBUTING.md](CONTRIBUTING.md).
+Contributions are welcome! Foxsight is primarily built in TypeScript and ReactJS. All potential contributors must agree to the Contributor License Agreement outlined in [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## :star: Credits
 
-Lichtblick originally began as a fork of [FoxGlove Studio](https://github.com/foxglove/studio), an open source project developed by [Foxglove](https://app.foxglove.dev/).
+Foxsight originally began as a fork of [FoxGlove Studio](https://github.com/foxglove/studio), an open source project developed by [Foxglove](https://app.foxglove.dev/).

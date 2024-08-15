@@ -48,7 +48,7 @@ function makeElectronBuilderConfig(params) {
         },
         {
           ext: "foxe",
-          name: "Lichtblick Extension",
+          name: "Foxsight Extension",
           mimeType: "application/zip",
         },
       ],
@@ -74,7 +74,7 @@ function makeElectronBuilderConfig(params) {
         },
         {
           ext: "foxe",
-          name: "Lichtblick Extension",
+          name: "Foxsight Extension",
           mimeType: "application/zip",
         },
       ],
@@ -125,7 +125,7 @@ function makeElectronBuilderConfig(params) {
           {
             CFBundleTypeExtensions: ["foxe"],
             CFBundleTypeIconFile: "FoxeIcon",
-            CFBundleTypeName: "Lichtblick Extension File",
+            CFBundleTypeName: "Foxsight Extension File",
             CFBundleTypeRole: "Viewer",
             LSHandlerRank: "Owner",
             CFBundleTypeIconSystemGenerated: 1,
@@ -149,7 +149,7 @@ function makeElectronBuilderConfig(params) {
           },
           {
             UTTypeConformsTo: ["public.data", "public.archive", "public.zip-archive"],
-            UTTypeDescription: "Lichtblick Extension File",
+            UTTypeDescription: "Foxsight Extension File",
             UTTypeIcons: { UTTypeIconText: "foxe" },
             UTTypeIdentifier: "dev.foxglove.extension",
             UTTypeTagSpecification: { "public.filename-extension": "foxe" },
@@ -171,10 +171,10 @@ function makeElectronBuilderConfig(params) {
     appx: {
       applicationId: "LichtblickSuite",
       backgroundColor: "#f7def6",
-      displayName: "Lichtblick",
-      identityName: "Lichtblick.Suite",
-      publisher: "CN=Lichtblick, O=Lichtblick, L=San Francisco, S=California, C=US",
-      publisherDisplayName: "Lichtblick",
+      displayName: "Foxsight",
+      identityName: "Foxsight.Suite",
+      publisher: "CN=Foxsight, O=Foxsight, L=San Francisco, S=California, C=US",
+      publisherDisplayName: "Foxsight",
       languages: ["en-US"],
       addAutoLaunchExtension: false,
       showNameOnTiles: false,

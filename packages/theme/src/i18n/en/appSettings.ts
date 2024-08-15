@@ -8,7 +8,7 @@ export const appSettings = {
   askEachTime: "Ask each time",
   colorScheme: "Color scheme",
   dark: "Dark",
-  debugModeDescription: "Enable panels and features for debugging Lichtblick",
+  debugModeDescription: "Enable panels and features for debugging Foxsight",
   desktopApp: "Desktop app",
   displayTimestampsIn: "Display timestamps in",
   experimentalFeatures: "Experimental features",

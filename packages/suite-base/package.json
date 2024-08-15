@@ -1,16 +1,16 @@
 {
   "name": "@lichtblick/suite-base",
-  "description": "Core components of Lichtblick Suite",
+  "description": "Core components of Foxsight Suite",
   "private": true,
-  "productName": "Lichtblick",
-  "productDescription": "Lichtblick Suite",
+  "productName": "Foxsight",
+  "productDescription": "Foxsight Suite",
   "license": "MPL-2.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/bmw-software-engineering/lichtblick/tree/main/packages/suite-base"
   },
   "author": {
-    "name": "Lichtblick",
+    "name": "Foxsight",
     "email": "lichtblick@bmwgroup.com"
   },
   "homepage": "https://github.com/bmw-software-engineering",
