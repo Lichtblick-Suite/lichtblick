@@ -1,3 +1,3 @@
-# Lichtblick Extension API
+# Foxsight Extension API
 
-This package contains type definitions for writing Lichtblick extensions.
+This package contains type definitions for writing Foxsight extensions.

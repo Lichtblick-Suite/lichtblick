@@ -287,9 +287,7 @@ export function AppSettingsDialog(
                 <LichtblickLogoText color="primary" className={classes.logo} />
               </header>
               <Stack direction="row" alignItems="center" gap={1}>
-                <Typography variant="body2">
-                  Lichtblick version {LICHTBLICK_SUITE_VERSION}
-                </Typography>
+                <Typography variant="body2">Foxsight version {LICHTBLICK_SUITE_VERSION}</Typography>
                 <CopyButton
                   size="small"
                   getText={() => LICHTBLICK_SUITE_VERSION?.toString() ?? ""}
