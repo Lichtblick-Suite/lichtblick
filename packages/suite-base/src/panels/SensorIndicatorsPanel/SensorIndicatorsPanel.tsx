@@ -17,7 +17,7 @@ export function SensorIndicatorsPanel({
 }): JSX.Element {
   const [sensors, setSensors] = useState<SensorStatus[]>([]);
   const [renderDone, setRenderDone] = useState<(() => void) | undefined>();
-  const [isSummaryView, setIsSummaryView] = useState<boolean>(false);
+  const [isSummaryView, setIsSummaryView] = useState<boolean>(true);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const { tooltip, handleMouseEnter, handleMouseMove, handleMouseLeave } = useTooltip(context);
 
