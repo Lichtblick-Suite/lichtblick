@@ -182,6 +182,7 @@ export default function DocumentDropListener(props: Props): JSX.Element {
     <>
       <input // Expose a hidden input for Puppeteer to use to drop a file in.
         type="file"
+        data-testid="file-input-drag-n-drop"
         style={{ display: "none" }}
         onChange={(event) => {
           if (event.target.files) {
