@@ -14,7 +14,7 @@ describe("menus", () => {
     await closeDataSourceDialogAfterAppLaunch(app);
     await app.renderer.getByTestId("layouts-left").click();
     await app.renderer.getByTestId("layout-list-item").click();
-}
+  }
 
   it("should open 3D panel when clicking on Layouts > default", async () => {
     await using app = await launchApp();
@@ -27,8 +27,7 @@ describe("menus", () => {
     );
   }, 15_000);
 
-
-   it("should open Image panel when clicking on Layouts > default", async () => {
+  it("should open Image panel when clicking on Layouts > default", async () => {
     await using app = await launchApp();
     await accessLayout(app);
 
@@ -44,18 +43,19 @@ describe("menus", () => {
     await accessLayout(app);
     const rawMessagesSettingsIcon = app.renderer.getByTestId("SettingsIcon").nth(2);
     await rawMessagesSettingsIcon.click();
-    await expect(app.renderer.getByText("Raw Messages panel", { exact: true }).innerText()).resolves.toBe(
-      "Raw Messages panel",
-    );
+    await expect(
+      app.renderer.getByText("Raw Messages panel", { exact: true }).innerText(),
+    ).resolves.toBe("Raw Messages panel");
   }, 15_000);
 
-  it("should create a new layout Layouts > default > new Layout", async () => {
+  it("should create a new layout by accessing Layouts > default > new Layout", async () => {
     await using app = await launchApp();
     await closeDataSourceDialogAfterAppLaunch(app);
     await app.renderer.getByTestId("layouts-left").click();
-
-    await expect(app.renderer.getByText("Raw Messages panel", { exact: true }).innerText()).resolves.toBe(
-      "Raw Messages panel",
-    );
+    await app.renderer.getByText("Create new layout").click();
+    await app.renderer.getByTestId("panel-grid-card Diagnostics – Detail (ROS)").click();
+    await expect(
+      app.renderer.getByText("Unnamed layout", { exact: false }).innerText(),
+    ).resolves.toContain("Unnamed layout");
   }, 15_000);
 });
