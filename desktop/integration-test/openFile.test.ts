@@ -1,8 +1,9 @@
 // SPDX-FileCopyrightText: Copyright (C) 2023-2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)<lichtblick@bmwgroup.com>
 // SPDX-License-Identifier: MPL-2.0
 
-import { AppType, launchApp } from "./launchApp";
 import path from "path";
+
+import { AppType, launchApp } from "./launchApp";
 
 describe("menus", () => {
   const closeDataSourceDialogAfterAppLaunch = async (app: AppType) => {
@@ -11,7 +12,7 @@ describe("menus", () => {
     await expect(app.renderer.getByTestId("DataSourceDialog").isVisible()).resolves.toBe(false);
   };
 
-it("should open the rosbag file when dragging and dropping it", async () => {
+  it("should open the rosbag file when dragging and dropping it", async () => {
     await using app = await launchApp();
     await closeDataSourceDialogAfterAppLaunch(app);
 
@@ -27,11 +28,12 @@ it("should open the rosbag file when dragging and dropping it", async () => {
     ).resolves.toBe("No data source");
 
     //Drag and drop file
-    const fileInput= app.renderer.locator('[data-puppeteer-file-upload]');
+    const fileInput = app.renderer.locator("[data-puppeteer-file-upload]");
     await fileInput.setInputFiles(filePath);
 
     //Expect that the file is being shown
-    await expect(
-      app.renderer.getByText("example.bag", { exact: true }).innerText(),
-    ).resolves.toBe("example.bag");}, 20_000);
+    await expect(app.renderer.getByText("example.bag", { exact: true }).innerText()).resolves.toBe(
+      "example.bag",
+    );
+  }, 20_000);
 });
