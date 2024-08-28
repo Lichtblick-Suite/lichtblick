@@ -7,7 +7,7 @@ import { launchApp } from "./launchApp";
 
 describe("websocket connection", () => {
   it("should import .foxe extension correctly", async () => {
-    const app = await launchApp();
+    await using app = await launchApp();
 
     await app.renderer.getByTestId("DataSourceDialog").getByTestId("CloseIcon").click();
 
@@ -25,7 +25,5 @@ describe("websocket connection", () => {
     await app.renderer.getByText("Turtle [local]").click();
 
     await expect(app.renderer.getByText("Turtle", { exact: true }).count()).resolves.toBe(1);
-
-    await app.main.close();
   });
 });
