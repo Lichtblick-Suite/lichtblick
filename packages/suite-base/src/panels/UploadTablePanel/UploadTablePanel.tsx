@@ -78,6 +78,7 @@ export function UploadTablePanel({ context }: { context: PanelExtensionContext }
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [filesToDelete, setFilesToDelete] = useState<RosbagInfo[]>([]);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const [bucket, setBucket] = useState<string>("");
 
   const handleCheckboxChange = (rosbag: string) => {
     setSelectedFiles((prevSelectedFiles) => {
@@ -144,6 +145,29 @@ export function UploadTablePanel({ context }: { context: PanelExtensionContext }
     }
   };
 
+  const fetchBucketParameter = () => {
+    if (context.callService) {
+      context
+        .callService("/rosbag_uploader/get_parameters", { names: ["bucket"] })
+        .then((response: any) => {
+          if (response?.values && response.values.length > 0) {
+            const stringValue = response.values[0].string_value;
+            setBucket(stringValue); // Update the bucket state
+          } else {
+            console.warn("No string_value found in the response.");
+            setBucket(""); // Set bucket to empty string if not found
+          }
+        })
+        .catch((error: Error) => {
+          console.error("Error fetching bucket parameter:", error);
+          setBucket(""); // Set bucket to empty string if there is an error
+        });
+    } else {
+      console.error("callService is not available in the context.");
+      setBucket(""); // Set bucket to empty string if service is not available
+    }
+  };
+
   const handleUploadClick = () => {
     Array.from(selectedFiles).forEach((rosbag) => {
       callUploadService(rosbag);
@@ -204,6 +228,8 @@ export function UploadTablePanel({ context }: { context: PanelExtensionContext }
   };
 
   useLayoutEffect(() => {
+    fetchBucketParameter();
+
     context.onRender = (renderState, done) => {
       setRenderDone(() => done);
 
@@ -298,6 +324,14 @@ export function UploadTablePanel({ context }: { context: PanelExtensionContext }
   const mergeStyles = (...styles: React.CSSProperties[]): React.CSSProperties =>
     Object.assign({}, ...styles);
 
+  const uploadAllMessage = !bucket ? "No S3 bucket found." : "";
+  const uploadMessage = !bucket
+    ? "No S3 bucket found."
+    : selectedFiles.size === 0
+      ? "No files selected."
+      : "";
+  const deleteMessage = selectedFiles.size === 0 ? "No files selected." : "";
+
   return (
     <div style={{ padding: "1rem" }}>
       <h2>Upload Files Table</h2>
@@ -346,15 +380,39 @@ export function UploadTablePanel({ context }: { context: PanelExtensionContext }
           </tbody>
         </table>
       </div>
-      <button onClick={handleUploadAllClick} style={{ margin: "1rem" }}>
-        Upload All
-      </button>
-      <button onClick={handleUploadClick} style={{ margin: "1rem" }}>
-        Upload
-      </button>
-      <button onClick={handleDeleteClick} style={{ margin: "1rem" }}>
-        Delete
-      </button>
+
+      <div style={buttonContainerStyle}>
+        <div style={buttonWrapperStyle}>
+          <button onClick={handleUploadAllClick} style={buttonStyle} disabled={!bucket}>
+            Upload All
+          </button>
+          <div style={messageContainerStyle}>
+            {uploadAllMessage && <div>{uploadAllMessage}</div>}
+          </div>
+        </div>
+
+        <div style={buttonWrapperStyle}>
+          <button
+            onClick={handleUploadClick}
+            style={buttonStyle}
+            disabled={!bucket || selectedFiles.size === 0}
+          >
+            Upload
+          </button>
+          <div style={messageContainerStyle}>{uploadMessage && <div>{uploadMessage}</div>}</div>
+        </div>
+
+        <div style={buttonWrapperStyle}>
+          <button
+            onClick={handleDeleteClick}
+            style={buttonStyle}
+            disabled={selectedFiles.size === 0}
+          >
+            Delete
+          </button>
+          <div style={messageContainerStyle}>{deleteMessage && <div>{deleteMessage}</div>}</div>
+        </div>
+      </div>
 
       {showDeleteConfirmation && (
         <div style={confirmationDialogStyle}>
@@ -376,6 +434,31 @@ export function UploadTablePanel({ context }: { context: PanelExtensionContext }
     </div>
   );
 }
+
+const buttonContainerStyle: React.CSSProperties = {
+  display: "flex",
+  justifyContent: "flex-start",
+  alignItems: "center",
+  marginTop: "1rem",
+};
+
+const buttonWrapperStyle: React.CSSProperties = {
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  marginRight: "1rem",
+};
+
+const buttonStyle: React.CSSProperties = {
+  marginBottom: "0.5rem",
+};
+
+const messageContainerStyle: React.CSSProperties = {
+  height: "1.2rem",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+};
 
 const tableHeaderCellStyle: React.CSSProperties = {
   border: "1px solid black",
