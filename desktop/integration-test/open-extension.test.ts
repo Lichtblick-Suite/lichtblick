@@ -16,8 +16,7 @@ describe("websocket connection", () => {
       "../../packages/suite-base/src/test/fixtures/lichtblick.suite-extension-turtlesim-0.0.1.foxe",
     );
 
-    const fileInput = app.renderer.getByTestId("file-input-drag-n-drop");
-
+    const fileInput = app.renderer.locator("[data-puppeteer-file-upload]");
     await fileInput.setInputFiles(extensionPath);
 
     // Add turtlesim extension
