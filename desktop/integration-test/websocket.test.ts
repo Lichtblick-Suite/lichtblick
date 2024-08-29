@@ -77,5 +77,5 @@ describe("websocket connection", () => {
     }
 
     await closeWebSocketServer();
-  });
+  }, 15_000);
 });

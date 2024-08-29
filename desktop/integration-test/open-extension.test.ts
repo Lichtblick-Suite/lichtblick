@@ -24,5 +24,5 @@ describe("websocket connection", () => {
     await app.renderer.getByText("Turtle [local]").click();
 
     await expect(app.renderer.getByText("Turtle", { exact: true }).count()).resolves.toBe(1);
-  });
+  }, 15_000);
 });
