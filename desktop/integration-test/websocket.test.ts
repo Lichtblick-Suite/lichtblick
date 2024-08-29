@@ -5,7 +5,7 @@ import { launchApp } from "./launchApp";
 import { launchWebsocketTest } from "./launchWebsocketTest";
 
 describe("websocket connection", () => {
-  it("should show correct attributes using sysmon ws and raw messages panel", async () => {
+  it("should show correct attributes using custom test and raw messages panel", async () => {
     const websocketServer = launchWebsocketTest();
 
     const app = await launchApp();
@@ -13,7 +13,7 @@ describe("websocket connection", () => {
     await app.renderer.getByText("Open connection").click();
     await app.renderer.getByText("Open", { exact: true }).click();
 
-    // Show connection to "ws://localhost:8765 sysmon", it is located on top bar
+    // Show connection to "ws://localhost:8765 websocket-test-server", it is located on top bar
     await expect(
       app.renderer.getByText("ws://localhost:8765 websocket-test-server").innerHTML(),
     ).resolves.toBeDefined();
