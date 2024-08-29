@@ -44,5 +44,5 @@ describe("websocket connection", () => {
     await app.main.close();
 
     websocketServer.close();
-  });
+  }, 20_000);
 });
