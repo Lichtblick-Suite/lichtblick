@@ -1,48 +1,26 @@
 // SPDX-FileCopyrightText: Copyright (C) 2023-2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)<lichtblick@bmwgroup.com>
 // SPDX-License-Identifier: MPL-2.0
 
-import { spawn, ChildProcess } from "child_process";
-
 import { launchApp } from "./launchApp";
+import { launchWebsocketTest } from "./launchWebsocketTest";
 
 describe("websocket connection", () => {
-  let sysmonProcess: ChildProcess;
-
-  // Start the sysmon process using npx
-  function startWebSocketServer() {
-    sysmonProcess = spawn("npx", ["@foxglove/ws-protocol-examples@latest", "sysmon"]);
-  }
-
-  async function closeWebSocketServer() {
-    return await new Promise((resolve) => {
-      // Close all channels to ensure that there is not any async leak
-      sysmonProcess.stdin?.end();
-      sysmonProcess.stdout?.destroy();
-      sysmonProcess.stderr?.destroy();
-
-      // Kill the process
-      sysmonProcess.kill();
-
-      resolve(1);
-    });
-  }
-
   it("should show correct attributes using sysmon ws and raw messages panel", async () => {
-    startWebSocketServer();
+    const websocketServer = launchWebsocketTest();
 
-    await using app = await launchApp();
+    const app = await launchApp();
 
     await app.renderer.getByText("Open connection").click();
     await app.renderer.getByText("Open", { exact: true }).click();
 
     // Show connection to "ws://localhost:8765 sysmon", it is located on top bar
     await expect(
-      app.renderer.getByText("ws://localhost:8765 sysmon").innerHTML(),
+      app.renderer.getByText("ws://localhost:8765 websocket-test-server").innerHTML(),
     ).resolves.toBeDefined();
 
     // Check if system is listed on topics menu
     await app.renderer.getByText("Topics", { exact: true }).click();
-    await expect(app.renderer.getByText("system_stats").innerHTML()).resolves.toBeDefined();
+    await expect(app.renderer.getByText("/websocket_test").innerHTML()).resolves.toBeDefined();
 
     // Add raw messages panel to check messages
     await app.renderer.getByLabel("Add panel button").click();
@@ -55,19 +33,7 @@ describe("websocket connection", () => {
     const rawMessagesPanel = app.renderer.getByTestId(/RawMessages/);
 
     // Check if message is correctly beeing displayed
-    const attributesToCheck = [
-      "hostname",
-      "platform",
-      "type",
-      "arch",
-      "version",
-      "release",
-      "endianness",
-      "uptime",
-      "freemem",
-      "totalmem",
-      "cpus",
-    ];
+    const attributesToCheck = ["hello", '"world"', "foo", "42"];
 
     for (const attribute of attributesToCheck) {
       await expect(
@@ -75,6 +41,8 @@ describe("websocket connection", () => {
       ).resolves.toBe(attribute);
     }
 
-    await closeWebSocketServer();
-  }, 15_000);
+    await app.main.close();
+
+    websocketServer.close();
+  });
 });
