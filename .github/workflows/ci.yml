@@ -98,6 +98,14 @@ jobs:
 
       - run: yarn install --immutable
 
+      # add 'Xvfb' because some e2e tests require a display enviornment
+      # this is only necessary to ubuntu
+      - name: Install Xvfb
+        run: sudo apt-get install -y xvfb
+
+      - name: Start Xvfb
+        run: Xvfb :99 -screen 0 1920x1080x24 &
+
       - name: test:integration
         if: matrix.os == 'ubuntu-20.04'
         uses: GabrielBB/xvfb-action@v1.6
