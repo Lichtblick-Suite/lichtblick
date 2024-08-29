@@ -104,7 +104,11 @@ jobs:
         run: sudo apt-get install -y xvfb
 
       - name: Start Xvfb
-        run: Xvfb :99 -screen 0 1920x1080x24 &
+        run: |
+          echo "Starting Xvfb..."
+          Xvfb :99 -screen 0 1920x1080x24 &
+          export DISPLAY=:99
+          echo "Xvfb started"
 
       - name: test:integration
         if: matrix.os == 'ubuntu-20.04'
