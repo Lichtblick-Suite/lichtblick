@@ -43,6 +43,6 @@ describe("websocket connection", () => {
 
     await app.main.close();
 
-    websocketServer.close();
+    void websocketServer.close();
   }, 20_000);
 });

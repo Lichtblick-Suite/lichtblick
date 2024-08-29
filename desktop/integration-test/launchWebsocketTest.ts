@@ -94,17 +94,17 @@ export function launchWebsocketTest(): WebsocketTest {
       client.terminate(); // Forcefully close all client connections
     });
 
-    return new Promise((resolve, reject) => {
+    return await new Promise((resolve, reject) => {
       ws.close((err) => {
         if (err) {
           log.error("Error closing WebSocket server: %o", err);
-          return reject(err);
+          reject(err);
+          return;
         }
         resolve(undefined);
       });
     });
   }
-
 
   return {
     close,
