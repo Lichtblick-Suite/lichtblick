@@ -7,7 +7,7 @@ import { WebSocketServer } from "ws";
 import Logger from "@lichtblick/log";
 
 export type WebsocketTest = {
-  close: () => void;
+  close: () => Promise<unknown>;
 };
 
 const log = Logger.getLogger(__filename);
@@ -86,10 +86,25 @@ export function launchWebsocketTest(): WebsocketTest {
     );
   }, 500);
 
-  function close() {
+  async function close() {
     clearInterval(intervalId);
-    ws.close();
+
+    // Close all active connections
+    ws.clients.forEach((client) => {
+      client.terminate(); // Forcefully close all client connections
+    });
+
+    return new Promise((resolve, reject) => {
+      ws.close((err) => {
+        if (err) {
+          log.error("Error closing WebSocket server: %o", err);
+          return reject(err);
+        }
+        resolve(undefined);
+      });
+    });
   }
+
 
   return {
     close,
