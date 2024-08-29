@@ -5,7 +5,7 @@ import path from "path";
 
 import { launchApp } from "./launchApp";
 
-describe("websocket connection", () => {
+describe("open extension", () => {
   it("should import .foxe extension correctly", async () => {
     await using app = await launchApp();
 
