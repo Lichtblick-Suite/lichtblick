@@ -15,16 +15,15 @@ describe("websocket connection", () => {
 
   async function closeWebSocketServer() {
     return await new Promise((resolve) => {
-
       // Close all channels to ensure that there is not any async leak
       sysmonProcess.stdin?.end();
       sysmonProcess.stdout?.destroy();
       sysmonProcess.stderr?.destroy();
 
       // Kill the process
-      sysmonProcess.kill('SIGINT');
+      sysmonProcess.kill();
 
-      resolve(1)
+      resolve(1);
     });
   }
 
