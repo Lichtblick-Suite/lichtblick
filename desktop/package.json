@@ -9,7 +9,7 @@
     "@lichtblick/suite-base": "workspace:*",
     "@lichtblick/suite-desktop": "workspace:*",
     "@types/ws": "^8",
-    "electron": "25.8.4",
+    "electron": "32.0.1",
     "playwright": "1.37.1",
     "webpack": "5.93.0",
     "ws": "8.18.0"
