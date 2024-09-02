@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: MPL-2.0
 
 import { launchApp } from "./launchApp";
-import { launchWebsocketTest } from "./launchWebsocketTest";
+import { launchWebsocket } from "./launchWebsocket";
 
 describe("websocket connection", () => {
   it("should show correct attributes using custom test and raw messages panel", async () => {
-    const websocketServer = launchWebsocketTest();
+    const websocketServer = launchWebsocket();
 
     const app = await launchApp();
 
@@ -44,5 +44,5 @@ describe("websocket connection", () => {
     await app.main.close();
 
     void websocketServer.close();
-  }, 20_000);
+  }, 15_000);
 });

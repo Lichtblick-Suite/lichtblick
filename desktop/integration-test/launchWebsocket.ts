@@ -17,7 +17,7 @@ const log = Logger.getLogger(__filename);
  *
  * @returns A close function to exit the websocket server.
  */
-export function launchWebsocketTest(): WebsocketTest {
+export function launchWebsocket(): WebsocketTest {
   function getTimestamp() {
     const now = Date.now();
     return {
