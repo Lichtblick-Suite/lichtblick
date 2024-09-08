@@ -11,8 +11,7 @@ import { createSyncRoot } from "@lichtblick/suite-base/panels/createSyncRoot";
 import ThemeProvider from "@lichtblick/suite-base/theme/ThemeProvider";
 import { SaveConfig } from "@lichtblick/suite-base/types/panels";
 import { StrictMode, useMemo } from "react";
-
-import { UploadTablePanel } from "./UploadTablePanel";
+import { UploadTablePanel } from "./components/UploadTablePanel";
 
 type Config = {};
 
