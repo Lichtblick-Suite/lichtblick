@@ -33,7 +33,7 @@ async function main() {
   }
 
   const root = createRoot(rootEl);
-  root.render(<Root />)
+  root.render(<Root />);
 }
 
 void main();

@@ -62,7 +62,7 @@ export async function main(getParams: () => Promise<MainParams> = async () => ({
     root.render(
       <LogAfterRender>
         <CssBaseline>{banner}</CssBaseline>
-      </LogAfterRender>
+      </LogAfterRender>,
     );
     return;
   }
@@ -90,6 +90,6 @@ export async function main(getParams: () => Promise<MainParams> = async () => ({
     <LogAfterRender>
       {banner}
       {rootElement}
-    </LogAfterRender>
+    </LogAfterRender>,
   );
 }

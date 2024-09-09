@@ -134,6 +134,6 @@ export function main(): void {
     <>
       <GlobalStyle />
       <Root />
-    </>
+    </>,
   );
 }

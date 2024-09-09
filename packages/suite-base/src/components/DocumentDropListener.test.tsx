@@ -33,7 +33,7 @@ describe("<DocumentDropListener>", () => {
     wrapper = document.createElement("div");
     document.body.appendChild(wrapper);
 
-    const root = createRoot(wrapper)
+    const root = createRoot(wrapper);
     root.render(
       <div>
         <SnackbarProvider>
@@ -41,7 +41,7 @@ describe("<DocumentDropListener>", () => {
             <DocumentDropListener allowedExtensions={[]} />
           </ThemeProvider>
         </SnackbarProvider>
-      </div>
+      </div>,
     );
 
     (console.error as jest.Mock).mockClear();

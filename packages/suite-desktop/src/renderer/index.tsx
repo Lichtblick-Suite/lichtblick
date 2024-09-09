@@ -69,6 +69,6 @@ export async function main(params: MainParams): Promise<void> {
         extraProviders={params.extraProviders}
         dataSources={params.dataSources}
       />
-    </LogAfterRender>
+    </LogAfterRender>,
   );
 }

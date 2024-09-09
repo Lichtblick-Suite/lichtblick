@@ -12,7 +12,7 @@ import { createSyncRoot } from "@lichtblick/suite-base/panels/createSyncRoot";
 
 describe("createSyncRoot", () => {
   afterEach(() => {
-    document.body.innerHTML = '';
+    document.body.innerHTML = "";
   });
 
   it("should mount the component", async () => {
