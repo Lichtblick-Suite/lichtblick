@@ -6,7 +6,8 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 import { screen } from "@testing-library/react";
-import { act } from "react-dom/test-utils";
+import { act } from "@testing-library/react";
+// import { act } from "react-dom/test-utils";
 
 import { createSyncRoot } from "@lichtblick/suite-base/panels/createSyncRoot";
 
@@ -36,8 +37,10 @@ describe("createSyncRoot", () => {
     const text = "Unmount Component Test";
     const TestComponent = () => <div>{text}</div>;
     act(() => {
-      const unmount = createSyncRoot(<TestComponent />, container);
-      unmount();
+      setTimeout(() => {
+        const unmount = createSyncRoot(<TestComponent />, container);
+        unmount();
+      }, 0)
     });
 
     expect(container.innerHTML).not.toContain(text);
