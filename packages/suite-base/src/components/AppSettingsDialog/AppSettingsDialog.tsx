@@ -62,7 +62,7 @@ const useStyles = makeStyles()((theme) => ({
     },
   },
   logo: {
-    width: 212,
+    width: 320,
     height: "auto",
     marginLeft: theme.spacing(-1),
   },
