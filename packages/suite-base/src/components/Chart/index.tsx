@@ -162,7 +162,7 @@ function Chart(props: Props): JSX.Element {
 
     return () => {
       log.info(`Unregister chart ${id}`);
-      sendWrapper("destroy").catch(() => { }); // may fail if worker is torn down
+      sendWrapper("destroy").catch(() => {}); // may fail if worker is torn down
       rpcSendRef.current = undefined;
       sendWrapperRef.current = undefined;
       initialized.current = false;
@@ -308,7 +308,9 @@ function Chart(props: Props): JSX.Element {
       // Using queueMicrotask to ensure the canvas is completely inserted into the DOM
       // before sending the initialization request to the worker.
       queueMicrotask(async () => {
-        if (!sendWrapperRef.current) { return }
+        if (!sendWrapperRef.current) {
+          return;
+        }
         const scales = await sendWrapperRef.current<RpcScales>(
           "initialize",
           {
@@ -342,7 +344,7 @@ function Chart(props: Props): JSX.Element {
         await flushUpdates(sendWrapperRef.current);
         // once we are initialized, we can allow other handlers to send to the rpc endpoint
         rpcSendRef.current = sendWrapperRef.current;
-      })
+      });
     },
     [maybeUpdateScales, onFinishRender, onStartRender, type, flushUpdates],
   );
