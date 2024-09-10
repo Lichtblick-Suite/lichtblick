@@ -5,22 +5,9 @@
         "distance": 20,
         "perspective": true,
         "phi": 60,
-        "target": [
-          0,
-          0,
-          0
-        ],
-        "targetOffset": [
-          0,
-          0,
-          0
-        ],
-        "targetOrientation": [
-          0,
-          0,
-          0,
-          1
-        ],
+        "target": [0, 0, 0],
+        "targetOffset": [0, 0, 0],
+        "targetOrientation": [0, 0, 0, 1],
         "thetaOffset": 45,
         "fovy": 45,
         "near": 0.5,
@@ -53,13 +40,43 @@
       "maxValue": 1,
       "colorMap": "red-yellow-green",
       "colorMode": "colormap",
-      "gradient": [
-        "#0000ff",
-        "#ff00ff"
-      ],
+      "gradient": ["#0000ff", "#ff00ff"],
       "reverse": true
     },
     "uploadTablePanel!3k4328j": {},
+    "DiagnosticStatusPanel!eju4t0": {
+      "topicToRender": "/diagnostics_agg"
+    },
+    "DiagnosticSummary!4hzf6zv": {
+      "minLevel": 0,
+      "pinnedIds": [],
+      "hardwareIdFilter": "",
+      "topicToRender": "/diagnostics_agg",
+      "sortByLevel": true
+    },
+    "DiagnosticStatusPanel!3c317kt": {
+      "selectedHardwareId": "nvidia",
+      "selectedName": "/sensors/hawk/hawk front_stereo_camera left camera_info",
+      "topicToRender": "/diagnostics_agg",
+      "collapsedSections": []
+    },
+    "StateTransitions!3ucbjnx": {
+      "paths": [
+        {
+          "value": "/diagnostics_agg.status[:]{hardware_id==\"\"}{name==\"/sensors/bmi\"}.message",
+          "timestampMethod": "receiveTime"
+        },
+        {
+          "value": "/diagnostics_agg.status[:]{hardware_id==\"\"}{name==\"/sensors/hawk\"}.message",
+          "timestampMethod": "receiveTime"
+        },
+        {
+          "value": "/diagnostics_agg.status[:]{hardware_id==\"\"}{name==\"/sensors/owl\"}.message",
+          "timestampMethod": "receiveTime"
+        }
+      ],
+      "isSynced": true
+    },
     "Tab!13v6wi9": {
       "activeTabIdx": 0,
       "tabs": [
@@ -82,6 +99,23 @@
         {
           "title": "Upload",
           "layout": "uploadTablePanel!3k4328j"
+        },
+        {
+          "title": "Diagnostics",
+          "layout": {
+            "direction": "row",
+            "first": {
+              "first": "DiagnosticStatusPanel!eju4t0",
+              "second": "DiagnosticSummary!4hzf6zv",
+              "direction": "row"
+            },
+            "second": {
+              "first": "StateTransitions!3ucbjnx",
+              "second": "DiagnosticStatusPanel!3c317kt",
+              "direction": "column"
+            },
+            "splitPercentage": 41.52260638297872
+          }
         }
       ]
     }
