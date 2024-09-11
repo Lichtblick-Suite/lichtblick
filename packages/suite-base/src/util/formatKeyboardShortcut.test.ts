@@ -29,4 +29,9 @@ describe("formatKeyboardShortcut", () => {
     userAgent.mockReturnValue("Mac");
     expect(formatKeyboardShortcut("O", ["Shift", "Meta"])).toBe("⇧⌘O");
   });
+
+  it("formats shortcuts correctly Mac second test", () => {
+    userAgent.mockReturnValue("Mac");
+    expect(formatKeyboardShortcut("O", ["Alt", "Control"])).toBe("⌥⌘O")
+  })
 });

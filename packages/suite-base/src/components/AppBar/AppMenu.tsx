@@ -17,9 +17,12 @@ import {
   useWorkspaceStore,
 } from "@lichtblick/suite-base/context/Workspace/WorkspaceContext";
 import { useWorkspaceActions } from "@lichtblick/suite-base/context/Workspace/useWorkspaceActions";
+import { formatKeyboardShortcut } from "@lichtblick/suite-base/util/formatKeyboardShortcut";
 
 import { NestedMenuItem } from "./NestedMenuItem";
 import { AppBarMenuItem } from "./types";
+
+
 
 
 export type AppMenuProps = {
@@ -57,9 +60,6 @@ export function AppMenu(props: AppMenuProps): JSX.Element {
   const rightSidebarOpen = useWorkspaceStore(selectRightSidebarOpen);
   const { sidebarActions, dialogActions, layoutActions } = useWorkspaceActions();
 
-  const isMac: boolean = process.platform === "darwin";
-  const ctrlOrCommand: string = isMac ? "Cmd" : "Ctrl";
-
   const handleNestedMenuClose = useCallback(() => {
     setNestedMenu(undefined);
     handleClose();
@@ -87,7 +87,7 @@ export function AppMenu(props: AppMenuProps): JSX.Element {
         type: "item",
         label: t("openLocalFile"),
         key: "open-file",
-        shortcut: ctrlOrCommand + " + O",
+        shortcut: formatKeyboardShortcut("O", ["Meta"]),
         dataTestId: "menu-item-open-local-file",
         onClick: () => {
           handleNestedMenuClose();
@@ -98,7 +98,7 @@ export function AppMenu(props: AppMenuProps): JSX.Element {
         type: "item",
         label: t("openConnection"),
         key: "open-connection",
-        shortcut: ctrlOrCommand + " + Shift + O",
+        shortcut: formatKeyboardShortcut("O", ["Meta", "Shift"]),
         dataTestId: "menu-item-open-connection",
         onClick: () => {
           dialogActions.dataSource.open("connection");
@@ -129,7 +129,6 @@ export function AppMenu(props: AppMenuProps): JSX.Element {
     handleNestedMenuClose,
     recentSources,
     selectRecent,
-    ctrlOrCommand,
     t,
   ]);
 
