@@ -21,7 +21,7 @@ export function createSyncRoot(component: JSX.Element, panelElement: HTMLDivElem
   const root: Root = createRoot(panelElement);
   root.render(component);
   return () => {
-    // Use queueMicrotask to ensure that the onmount occurs after the render cycle
+    // Use queueMicrotask to ensure that the unmount occurs after the render cycle
     queueMicrotask(() => {
       root.unmount();
       panelElement.remove();

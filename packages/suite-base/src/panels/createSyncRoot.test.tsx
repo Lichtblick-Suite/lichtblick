@@ -5,7 +5,7 @@
 // This Source Code Form is subject to the terms of the Mozilla Public
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
-import { act, screen } from "@testing-library/react";
+import { act, screen, waitFor } from "@testing-library/react";
 
 import { createSyncRoot } from "@lichtblick/suite-base/panels/createSyncRoot";
 
@@ -35,13 +35,15 @@ describe("createSyncRoot", () => {
     const text = "Unmount Component Test";
     const TestComponent = () => <div>{text}</div>;
     act(() => {
-      setTimeout(() => {
-        const unmount = createSyncRoot(<TestComponent />, container);
+      const unmount = createSyncRoot(<TestComponent />, container);
+      queueMicrotask(() => {
         unmount();
-      }, 0);
+      });
     });
 
-    expect(container.innerHTML).not.toContain(text);
-    expect(screen.queryByText(text)).toBeNull();
+    await waitFor(() => {
+      expect(container.innerHTML).not.toContain(text);
+      expect(screen.queryByText(text)).toBeNull();
+    });
   });
 });
