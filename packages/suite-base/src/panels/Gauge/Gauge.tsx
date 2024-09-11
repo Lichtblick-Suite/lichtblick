@@ -291,6 +291,14 @@ export function Gauge({ context }: Props): JSX.Element {
         padding: 8,
       }}
     >
+      {/* Display the numbers (min, max, and current value) above the gauge */}
+      <div style={{ textAlign: "center", marginBottom: 10 }}>
+        <div>Min: {minValue}</div>
+        <div style={{ fontSize: "24px", fontWeight: "bold" }}>
+          Value: {Number.isFinite(rawValue) ? rawValue.toFixed(2) : "N/A"}
+        </div>
+        <div>Max: {maxValue}</div>
+      </div>
       <div style={{ width: "100%", overflow: "hidden" }}>
         <div
           style={{
