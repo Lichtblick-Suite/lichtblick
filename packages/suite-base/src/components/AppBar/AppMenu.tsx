@@ -22,9 +22,6 @@ import { formatKeyboardShortcut } from "@lichtblick/suite-base/util/formatKeyboa
 import { NestedMenuItem } from "./NestedMenuItem";
 import { AppBarMenuItem } from "./types";
 
-
-
-
 export type AppMenuProps = {
   handleClose: () => void;
   anchorEl?: HTMLElement;
