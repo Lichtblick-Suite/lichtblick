@@ -32,6 +32,6 @@ describe("formatKeyboardShortcut", () => {
 
   it("formats shortcuts correctly Mac second test", () => {
     userAgent.mockReturnValue("Mac");
-    expect(formatKeyboardShortcut("O", ["Alt", "Control"])).toBe("⌥⌘O");
+    expect(formatKeyboardShortcut("O", ["Alt", "Meta"])).toBe("⌥⌘O");
   });
 });
