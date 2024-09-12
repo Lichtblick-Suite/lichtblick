@@ -8,7 +8,7 @@ import { UploadTable } from "../components/UploadTable";
 import { UploadActions } from "../components/UploadActions";
 import { useRosbags } from "../hooks/useRosbags";
 import { PanelExtensionContext } from "@lichtblick/suite";
-
+import { confirmationDialogStyle } from "../styles/styles";
 export function UploadTablePanel({ context }: { context: PanelExtensionContext }): JSX.Element {
   const [bucket, setBucket] = useState<string>(""); // State to hold the S3 bucket name
   const [sortOrder, setSortOrder] = useState<{ key: string; order: "asc" | "desc" }>({
@@ -23,6 +23,9 @@ export function UploadTablePanel({ context }: { context: PanelExtensionContext }
     handleUpload,
     handleUploadAll,
     handleDelete,
+    confirmDelete,
+    cancelDelete,
+    showDeleteConfirmation,
   } = useRosbags(context);
 
   // useEffect to fetch the S3 bucket name when the panel is first rendered
@@ -64,6 +67,18 @@ export function UploadTablePanel({ context }: { context: PanelExtensionContext }
         onUploadAll={handleUploadAll}
         onDelete={handleDelete}
       />
+      {showDeleteConfirmation && (
+        <div style={confirmationDialogStyle}>
+          <h3>Confirm Delete</h3>
+          <p>Are you sure you want to delete the selected files?</p>
+          <button onClick={confirmDelete} style={{ margin: "1rem" }}>
+            Delete
+          </button>
+          <button onClick={cancelDelete} style={{ margin: "1rem" }}>
+            Cancel
+          </button>
+        </div>
+      )}
     </div>
   );
 }
