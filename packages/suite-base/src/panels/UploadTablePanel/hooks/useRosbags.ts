@@ -16,6 +16,8 @@ import { PanelExtensionContext } from "@lichtblick/suite";
 export function useRosbags(context: PanelExtensionContext | undefined) {
   const [rosbags, setRosbags] = useState<RosbagInfo[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<Set<string>>(new Set());
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [filesToDelete, setFilesToDelete] = useState<RosbagInfo[]>([]);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Clears the timeout and resets it to clear the rosbag list after 5 seconds
@@ -194,22 +196,36 @@ export function useRosbags(context: PanelExtensionContext | undefined) {
   const handleDelete = useCallback(() => {
     if (!context || !context.callService) return;
 
-    Array.from(selectedFiles).forEach((rosbag) => {
+    const selectedRosbags = rosbags.filter((rosbag) => selectedFiles.has(rosbag.rosbag));
+    setFilesToDelete(selectedRosbags); // Set the files to delete
+    setShowDeleteConfirmation(true); // Show delete confirmation modal
+  }, [context, selectedFiles, rosbags]);
+
+  const confirmDelete = useCallback(() => {
+    filesToDelete.forEach((rosbag) => {
+      if (!context || !context.callService) return;
       context
-        .callService?.("/delete_rosbag", { rosbag })
+        .callService("/delete_rosbag", { rosbag: rosbag.rosbag })
         .then((response: unknown) => {
           const res = response as UploadFileResponse;
           if (res.success) {
-            console.log(`File ${rosbag} deleted successfully.`);
+            console.log(`File ${rosbag.rosbag} deleted successfully.`);
           } else {
-            console.error(`Failed to delete file ${rosbag}: ${res.message}`);
+            console.error(`Failed to delete file ${rosbag.rosbag}: ${res.message}`);
           }
         })
-        .catch((error: Error) => console.error(`Error calling service for file ${rosbag}:`, error));
+        .catch((error: Error) =>
+          console.error(`Error calling service for file ${rosbag.rosbag}:`, error),
+        );
     });
 
-    clearSelectedFiles();
-  }, [context, selectedFiles]);
+    setShowDeleteConfirmation(false); // Hide the confirmation modal after deletion
+    clearSelectedFiles(); // Clear selected files after deletion
+  }, [context, filesToDelete]);
+
+  const cancelDelete = useCallback(() => {
+    setShowDeleteConfirmation(false); // Hide the confirmation modal
+  }, []);
 
   const clearSelectedFiles = () => {
     setSelectedFiles(new Set());
@@ -222,6 +238,9 @@ export function useRosbags(context: PanelExtensionContext | undefined) {
     handleUpload,
     handleUploadAll,
     handleDelete,
+    confirmDelete, // Expose the confirm delete function
+    cancelDelete, // Expose the cancel delete function
+    showDeleteConfirmation, // Track if the delete confirmation is shown
     clearSelectedFiles,
   };
 }

@@ -49,3 +49,14 @@ export const fixedStatusColumnStyle: React.CSSProperties = {
   width: "100px",
   textAlign: "center",
 };
+
+export const confirmationDialogStyle: React.CSSProperties = {
+  position: "fixed",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  backgroundColor: "white",
+  border: "1px solid black",
+  padding: "1rem",
+  zIndex: 1000,
+};
