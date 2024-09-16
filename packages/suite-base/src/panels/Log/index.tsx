@@ -14,6 +14,7 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
+import { Copy20Filled } from "@fluentui/react-icons";
 import { Divider } from "@mui/material";
 import { produce } from "immer";
 import * as _ from "lodash-es";
@@ -29,6 +30,7 @@ import { FilterTagInput } from "@lichtblick/suite-base/panels/Log/FilterTagInput
 import { usePanelSettingsTreeUpdate } from "@lichtblick/suite-base/providers/PanelStateContextProvider";
 import { SaveConfig } from "@lichtblick/suite-base/types/panels";
 import { mightActuallyBePartial } from "@lichtblick/suite-base/util/mightActuallyBePartial";
+import ToolbarIconButton from "@lichtblick/suite-base/components/PanelToolbar/ToolbarIconButton";
 
 import LogList from "./LogList";
 import { normalizedLogMessage } from "./conversion";
@@ -191,9 +193,15 @@ const LogPanel = React.memo(({ config, saveConfig }: Props) => {
     [filteredMessages],
   );
 
+  const copyLogIcon = (
+      <ToolbarIconButton title="Copy Logs">
+        <Copy20Filled />
+      </ToolbarIconButton>
+  );
+
   return (
     <Stack fullHeight>
-      <PanelToolbar />
+      <PanelToolbar additionalIcons={copyLogIcon} />
       <Stack flexGrow={0} padding={0.5}>
         <FilterBar
           searchTerms={searchTermsSet}
