@@ -14,15 +14,13 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import * as _ from "lodash-es";
-
 import { NormalizedLogMessage } from "@lichtblick/suite-base/panels/Log/types";
 import { formatTime } from "@lichtblick/suite-base/util/formatTime";
 
 import LevelToString from "./LevelToString";
 
 const formattedMessage = (item: NormalizedLogMessage): string => {
-  return `[${LevelToString(item.level)}] [${formatTime(item.stamp)}] ${!_.isEmpty(item.name) ? `[${item.name}]` : ""} ${item.message}`;
+  return `[${LevelToString(item.level)}] [${formatTime(item.stamp)}] [${item.name}] ${item.message}`;
 };
 
 export default function FormatMessages(items: NormalizedLogMessage[]): string[] {

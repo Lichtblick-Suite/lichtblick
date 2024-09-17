@@ -105,7 +105,7 @@ function LogList({ items }: Props): JSX.Element {
       scrollOffset: number;
       scrollUpdateWasRequested: boolean;
     }) => {
-        try {
+      try {
         const isAtEnd =
           scrollOffset + (outerRef.current?.offsetHeight ?? 0) === outerRef.current?.scrollHeight;
         if (!scrollUpdateWasRequested && scrollDirection === "backward" && !isAtEnd) {
@@ -114,7 +114,7 @@ function LogList({ items }: Props): JSX.Element {
           setAutoscrollToEnd(true);
         }
       } catch (error) {
-        console.error("error on scroll", error)
+        console.error("error on scroll", error);
       }
     },
     [],

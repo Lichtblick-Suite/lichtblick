@@ -193,14 +193,17 @@ const LogPanel = React.memo(({ config, saveConfig }: Props) => {
   );
 
   const normalizedMessages = useMemo(
-    () => filteredMessages.map((logMessage) => normalizedLogMessage(logMessage.schemaName, logMessage["message"])),
+    () =>
+      filteredMessages.map((logMessage) =>
+        normalizedLogMessage(logMessage.schemaName, logMessage["message"]),
+      ),
     [filteredMessages],
   );
 
   const handleCopy = useCallback(async () => {
     const messagesToCopy: string[] = FormatMessages(normalizedMessages);
     if (messagesToCopy.length === 0) {
-      enqueueSnackbar(t("nothingToCopy"), { variant: "warning", autoHideDuration: 1500 });
+      enqueueSnackbar(t("nothingToCopy"), { variant: "warning" });
       return;
     }
 
@@ -209,10 +212,7 @@ const LogPanel = React.memo(({ config, saveConfig }: Props) => {
     } catch (error) {
       console.warn(error);
     }
-    enqueueSnackbar(t("logsCopied"), {
-      variant: "success",
-      autoHideDuration: 2000,
-    });
+    enqueueSnackbar(t("logsCopied"), { variant: "success" });
   }, [enqueueSnackbar, normalizedMessages, t]);
 
   const copyLogIcon = (

@@ -71,7 +71,7 @@ export default React.memo(function LogMessage(props: {
         <span>
           [<Stamp stamp={stamp} timestampFormat={timestampFormat} timeZone={timeZone} />]
         </span>
-        {!_.isEmpty(msg.name) && <span>[{msg.name}]:</span>}
+        {msg.name != undefined && <span>[{msg.name}]:</span>}
         <span>&nbsp;</span>
         <span>{lines[0]}</span>
       </div>
