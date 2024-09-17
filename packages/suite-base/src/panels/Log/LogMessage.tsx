@@ -49,7 +49,6 @@ export default React.memo(function LogMessage(props: {
   const { classes, cx } = useStyles();
   const { classes: logClasses } = useLogStyles();
 
-  const altStr = `${msg.file}:${msg.line}`;
   const strLevel = LevelToString(msg.level);
   const stamp = msg.stamp;
 
@@ -59,7 +58,6 @@ export default React.memo(function LogMessage(props: {
 
   return (
     <div
-      title={altStr}
       className={cx(classes.root, {
         [logClasses.fatal]: strLevel === "FATAL",
         [logClasses.error]: strLevel === "ERROR",
@@ -73,7 +71,7 @@ export default React.memo(function LogMessage(props: {
         <span>
           [<Stamp stamp={stamp} timestampFormat={timestampFormat} timeZone={timeZone} />]
         </span>
-        {msg.name != undefined && <span>[{msg.name}]:</span>}
+        {!_.isEmpty(msg.name) && <span>[{msg.name}]:</span>}
         <span>&nbsp;</span>
         <span>{lines[0]}</span>
       </div>

@@ -37,6 +37,9 @@ import { normalizedLogMessage } from "./conversion";
 import filterMessages from "./filterMessages";
 import { buildSettingsTree } from "./settings";
 import { Config, LogMessageEvent } from "./types";
+import FormatMessages from "./FormatMessages";
+import clipboard from "@lichtblick/suite-base/util/clipboard";
+import { useSnackbar } from "notistack";
 
 type FilterBarProps = {
   searchTerms: Set<string>;
@@ -76,6 +79,7 @@ const SUPPORTED_DATATYPES = [
 ];
 
 const LogPanel = React.memo(({ config, saveConfig }: Props) => {
+  const { enqueueSnackbar } = useSnackbar();
   const { topics } = useDataSourceInfo();
   const { minLogLevel, searchTerms, nameFilter } = config;
 
@@ -193,10 +197,33 @@ const LogPanel = React.memo(({ config, saveConfig }: Props) => {
     [filteredMessages],
   );
 
+  const handleCopy = useCallback(async () => {
+    const messages: string[] = FormatMessages(normalizedMessages);
+    console.log(messages);
+    if (!messages?.length) {
+      enqueueSnackbar(t("nothingToCopy"), { variant: "warning", autoHideDuration: 1500 });
+      return;
+    }
+    //clipboard.copy(messages.join("\n")).catch((err) => {
+    //  console.warn(err);
+    //});
+
+    try {
+      await clipboard.copy(messages.join("\n"))
+    } catch (error) {
+      console.warn(error);
+    }
+
+    enqueueSnackbar(t("logsCopied"), {
+      variant: "success",
+      autoHideDuration: 2000,
+    });
+  }, [normalizedMessages]);
+
   const copyLogIcon = (
-      <ToolbarIconButton title="Copy Logs">
-        <Copy20Filled />
-      </ToolbarIconButton>
+    <ToolbarIconButton title={t("copyLogs")} onClick={handleCopy}>
+      <Copy20Filled />
+    </ToolbarIconButton>
   );
 
   return (

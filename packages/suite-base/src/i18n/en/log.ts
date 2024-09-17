@@ -12,4 +12,7 @@ export const log = {
   showAll: "Show all",
   topic: "Topic",
   topicError: "Topic {{topic}} is not available",
+  copyLogs: "Copy Logs",
+  logsCopied: "Logs copied",
+  nothingToCopy: "Nothing to copy",
 };
