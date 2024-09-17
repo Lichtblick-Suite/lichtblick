@@ -18,6 +18,7 @@ import { Copy20Filled } from "@fluentui/react-icons";
 import { Divider } from "@mui/material";
 import { produce } from "immer";
 import * as _ from "lodash-es";
+import { useSnackbar } from "notistack";
 import { useCallback, useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -25,21 +26,20 @@ import { SettingsTreeAction } from "@lichtblick/suite";
 import { useDataSourceInfo, useMessagesByTopic } from "@lichtblick/suite-base/PanelAPI";
 import Panel from "@lichtblick/suite-base/components/Panel";
 import PanelToolbar from "@lichtblick/suite-base/components/PanelToolbar";
+import ToolbarIconButton from "@lichtblick/suite-base/components/PanelToolbar/ToolbarIconButton";
 import Stack from "@lichtblick/suite-base/components/Stack";
 import { FilterTagInput } from "@lichtblick/suite-base/panels/Log/FilterTagInput";
 import { usePanelSettingsTreeUpdate } from "@lichtblick/suite-base/providers/PanelStateContextProvider";
 import { SaveConfig } from "@lichtblick/suite-base/types/panels";
+import clipboard from "@lichtblick/suite-base/util/clipboard";
 import { mightActuallyBePartial } from "@lichtblick/suite-base/util/mightActuallyBePartial";
-import ToolbarIconButton from "@lichtblick/suite-base/components/PanelToolbar/ToolbarIconButton";
 
+import FormatMessages from "./FormatMessages";
 import LogList from "./LogList";
 import { normalizedLogMessage } from "./conversion";
 import filterMessages from "./filterMessages";
 import { buildSettingsTree } from "./settings";
 import { Config, LogMessageEvent } from "./types";
-import FormatMessages from "./FormatMessages";
-import clipboard from "@lichtblick/suite-base/util/clipboard";
-import { useSnackbar } from "notistack";
 
 type FilterBarProps = {
   searchTerms: Set<string>;
@@ -193,32 +193,27 @@ const LogPanel = React.memo(({ config, saveConfig }: Props) => {
   );
 
   const normalizedMessages = useMemo(
-    () => filteredMessages.map((msg) => normalizedLogMessage(msg.schemaName, msg["message"])),
+    () => filteredMessages.map((logMessage) => normalizedLogMessage(logMessage.schemaName, logMessage["message"])),
     [filteredMessages],
   );
 
   const handleCopy = useCallback(async () => {
-    const messages: string[] = FormatMessages(normalizedMessages);
-    console.log(messages);
-    if (!messages?.length) {
+    const messagesToCopy: string[] = FormatMessages(normalizedMessages);
+    if (messagesToCopy.length === 0) {
       enqueueSnackbar(t("nothingToCopy"), { variant: "warning", autoHideDuration: 1500 });
       return;
     }
-    //clipboard.copy(messages.join("\n")).catch((err) => {
-    //  console.warn(err);
-    //});
 
     try {
-      await clipboard.copy(messages.join("\n"))
+      await clipboard.copy(messagesToCopy.join("\n"));
     } catch (error) {
       console.warn(error);
     }
-
     enqueueSnackbar(t("logsCopied"), {
       variant: "success",
       autoHideDuration: 2000,
     });
-  }, [normalizedMessages]);
+  }, [enqueueSnackbar, normalizedMessages, t]);
 
   const copyLogIcon = (
     <ToolbarIconButton title={t("copyLogs")} onClick={handleCopy}>

@@ -114,7 +114,7 @@ function LogList({ items }: Props): JSX.Element {
           setAutoscrollToEnd(true);
         }
       } catch (error) {
-        console.log("error on scroll", error)
+        console.error("error on scroll", error)
       }
     },
     [],
