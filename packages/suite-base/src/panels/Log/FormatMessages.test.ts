@@ -15,7 +15,7 @@
 //   You may not use this file except in compliance with the License.
 
 import { Time } from "@lichtblick/suite";
-import formatMessages from "@lichtblick/suite-base/panels/Log/FormatMessages";
+import formatMessages from "@lichtblick/suite-base/panels/Log/formatMessages";
 import { NormalizedLogMessage } from "@lichtblick/suite-base/panels/Log/types";
 import { formatTime } from "@lichtblick/suite-base/util/formatTime";
 

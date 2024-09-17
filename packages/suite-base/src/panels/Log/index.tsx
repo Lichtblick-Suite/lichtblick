@@ -30,7 +30,7 @@ import ToolbarIconButton from "@lichtblick/suite-base/components/PanelToolbar/To
 import Stack from "@lichtblick/suite-base/components/Stack";
 import { useAppTimeFormat } from "@lichtblick/suite-base/hooks/useAppTimeFormat";
 import { FilterTagInput } from "@lichtblick/suite-base/panels/Log/FilterTagInput";
-import formatMessages from "@lichtblick/suite-base/panels/Log/FormatMessages";
+import formatMessages from "@lichtblick/suite-base/panels/Log/formatMessages";
 import { usePanelSettingsTreeUpdate } from "@lichtblick/suite-base/providers/PanelStateContextProvider";
 import { SaveConfig } from "@lichtblick/suite-base/types/panels";
 import clipboard from "@lichtblick/suite-base/util/clipboard";
