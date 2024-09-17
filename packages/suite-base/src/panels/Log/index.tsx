@@ -28,13 +28,14 @@ import Panel from "@lichtblick/suite-base/components/Panel";
 import PanelToolbar from "@lichtblick/suite-base/components/PanelToolbar";
 import ToolbarIconButton from "@lichtblick/suite-base/components/PanelToolbar/ToolbarIconButton";
 import Stack from "@lichtblick/suite-base/components/Stack";
+import { useAppTimeFormat } from "@lichtblick/suite-base/hooks/useAppTimeFormat";
 import { FilterTagInput } from "@lichtblick/suite-base/panels/Log/FilterTagInput";
+import formatMessages from "@lichtblick/suite-base/panels/Log/FormatMessages";
 import { usePanelSettingsTreeUpdate } from "@lichtblick/suite-base/providers/PanelStateContextProvider";
 import { SaveConfig } from "@lichtblick/suite-base/types/panels";
 import clipboard from "@lichtblick/suite-base/util/clipboard";
 import { mightActuallyBePartial } from "@lichtblick/suite-base/util/mightActuallyBePartial";
 
-import FormatMessages from "./FormatMessages";
 import LogList from "./LogList";
 import { normalizedLogMessage } from "./conversion";
 import filterMessages from "./filterMessages";
@@ -200,8 +201,10 @@ const LogPanel = React.memo(({ config, saveConfig }: Props) => {
     [filteredMessages],
   );
 
+  const { timeZone } = useAppTimeFormat();
+
   const handleCopy = useCallback(async () => {
-    const messagesToCopy: string[] = FormatMessages(normalizedMessages);
+    const messagesToCopy: string[] = formatMessages(normalizedMessages, timeZone);
     if (messagesToCopy.length === 0) {
       enqueueSnackbar(t("nothingToCopy"), { variant: "warning" });
       return;
@@ -213,7 +216,7 @@ const LogPanel = React.memo(({ config, saveConfig }: Props) => {
       console.warn(error);
     }
     enqueueSnackbar(t("logsCopied"), { variant: "success" });
-  }, [enqueueSnackbar, normalizedMessages, t]);
+  }, [enqueueSnackbar, normalizedMessages, t, timeZone]);
 
   const copyLogIcon = (
     <ToolbarIconButton title={t("copyLogs")} onClick={handleCopy}>

@@ -15,25 +15,9 @@
 //   You may not use this file except in compliance with the License.
 
 import { Time } from "@lichtblick/suite";
-import FormatMessages from "@lichtblick/suite-base/panels/Log/FormatMessages";
-
-enum LogLevel {
-  UNKNOWN = 0,
-  DEBUG = 1,
-  INFO = 2,
-  WARN = 3,
-  ERROR = 4,
-  FATAL = 5,
-}
-
-type NormalizedLogMessage = {
-  stamp: Time;
-  level: LogLevel;
-  message: string;
-  name?: string;
-  file?: string;
-  line?: number;
-};
+import formatMessages from "@lichtblick/suite-base/panels/Log/FormatMessages";
+import { NormalizedLogMessage } from "@lichtblick/suite-base/panels/Log/types";
+import { formatTime } from "@lichtblick/suite-base/util/formatTime";
 
 describe("formatMessages", () => {
   beforeEach(() => {
@@ -41,38 +25,36 @@ describe("formatMessages", () => {
   });
 
   it("should format a log message correctly", () => {
-    const timeStamp: Time = {
+    const stamp: Time = {
       sec: 1672531200,
       nsec: 0,
     };
 
     const item: NormalizedLogMessage = {
       level: 2,
-      stamp: timeStamp,
+      stamp,
       name: "TestLogger",
       message: "This is a test message",
     };
-
-    const formatted = FormatMessages([item]);
-
-    expect(formatted).toEqual(["[INFO] [12:00:00.000 AM WET] [TestLogger] This is a test message"]);
+    const formattedTime = formatTime(stamp);
+    const formatted = formatMessages([item]);
+    expect(formatted).toEqual([`[INFO] [${formattedTime}] [${item.name}] ${item.message}`]);
   });
 
   it("should format a log message without name attribute", () => {
-    const timeStamp: Time = {
+    const stamp: Time = {
       sec: 1672531200,
       nsec: 0,
     };
 
     const item: NormalizedLogMessage = {
       level: 4,
-      stamp: timeStamp,
+      stamp,
       name: "",
-      message: "This is a log message",
+      message: "This is a test message with no name",
     };
-
-    const formatted = FormatMessages([item]);
-
-    expect(formatted).toEqual(["[ERROR] [12:00:00.000 AM WET] [] This is a log message"]);
+    const formattedTime = formatTime(stamp);
+    const formatted = formatMessages([item]);
+    expect(formatted).toEqual([`[ERROR] [${formattedTime}] [] ${item.message}`]);
   });
 });
