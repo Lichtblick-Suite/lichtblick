@@ -6,7 +6,6 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import { Time } from "@lichtblick/rostime";
-
 import { Immutable, MessageEvent, Metadata } from "@lichtblick/suite";
 import {
   PlayerProblem,

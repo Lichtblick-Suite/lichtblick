@@ -15,7 +15,6 @@
 //   You may not use this file except in compliance with the License.
 
 import { Time } from "@lichtblick/rostime";
-
 import { AppSetting } from "@lichtblick/suite-base/AppSetting";
 import {
   MessagePipelineContext,

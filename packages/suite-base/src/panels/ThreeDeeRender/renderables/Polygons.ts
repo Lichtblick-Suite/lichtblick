@@ -6,7 +6,6 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import { toNanoSec } from "@lichtblick/rostime";
-
 import { SettingsTreeAction, SettingsTreeFields } from "@lichtblick/suite";
 import type { RosValue } from "@lichtblick/suite-base/players/types";
 

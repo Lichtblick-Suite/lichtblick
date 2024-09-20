@@ -6,7 +6,6 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import { compare } from "@lichtblick/rostime";
-
 import { Immutable, Time } from "@lichtblick/suite";
 import { downsampleScatter } from "@lichtblick/suite-base/components/TimeBasedChart/downsample";
 import { Bounds1D } from "@lichtblick/suite-base/components/TimeBasedChart/types";

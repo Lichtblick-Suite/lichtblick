@@ -6,7 +6,6 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import type { Time } from "@lichtblick/rostime";
-
 import type { Color, Point2D } from "@lichtblick/suite-base/types/Messages";
 
 export type PathKey = string | number;

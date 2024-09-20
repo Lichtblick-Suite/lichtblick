@@ -6,6 +6,9 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import { loadDecompressHandlers, parseChannel, ParsedChannel } from "@foxglove/mcap-support";
+import { McapStreamReader, McapTypes } from "@mcap/core";
+import * as _ from "lodash-es";
+
 import {
   Time,
   isLessThan,
@@ -17,9 +20,6 @@ import {
   toRFC3339String,
   compare,
 } from "@lichtblick/rostime";
-import { McapStreamReader, McapTypes } from "@mcap/core";
-import * as _ from "lodash-es";
-
 import { MessageEvent, Metadata } from "@lichtblick/suite";
 import {
   GetBackfillMessagesArgs,

@@ -6,7 +6,6 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import { compare, add as addTime } from "@lichtblick/rostime";
-
 import { Time } from "@lichtblick/suite";
 
 import type { IMessageCursor, IteratorResult } from "./IIterableSource";

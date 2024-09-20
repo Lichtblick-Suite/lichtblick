@@ -5,6 +5,13 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import assert from "assert";
+import * as _ from "lodash-es";
+import { v4 as uuidv4 } from "uuid";
+
+import { debouncePromise } from "@lichtblick/den/async";
+import { filterMap } from "@lichtblick/den/collection";
+import Log from "@lichtblick/log";
 import {
   Time,
   add,
@@ -15,13 +22,6 @@ import {
   toRFC3339String,
   toString,
 } from "@lichtblick/rostime";
-import assert from "assert";
-import * as _ from "lodash-es";
-import { v4 as uuidv4 } from "uuid";
-
-import { debouncePromise } from "@lichtblick/den/async";
-import { filterMap } from "@lichtblick/den/collection";
-import Log from "@lichtblick/log";
 import { Immutable, MessageEvent, Metadata, ParameterValue } from "@lichtblick/suite";
 import { freezeMetadata } from "@lichtblick/suite-base/players/IterablePlayer/freezeMetadata";
 import NoopMetricsCollector from "@lichtblick/suite-base/players/NoopMetricsCollector";
