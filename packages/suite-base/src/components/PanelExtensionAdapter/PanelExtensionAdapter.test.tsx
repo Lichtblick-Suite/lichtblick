@@ -9,7 +9,7 @@
 
 /* eslint-disable jest/no-done-callback */
 
-import { Time } from "@foxglove/rostime";
+import { Time } from "@lichtblick/rostime";
 import { render } from "@testing-library/react";
 import { act } from "react-dom/test-utils";
 

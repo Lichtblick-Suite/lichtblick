@@ -5,7 +5,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import { fromDate } from "@foxglove/rostime";
+import { fromDate } from "@lichtblick/rostime";
 import { useTheme } from "@mui/material";
 import { StoryFn, StoryObj } from "@storybook/react";
 import { useEffect } from "react";
