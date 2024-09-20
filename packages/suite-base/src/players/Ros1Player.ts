@@ -5,7 +5,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import { Sockets } from "@foxglove/electron-socket/renderer";
+import { Sockets } from "@lichtblick/electron-socket/renderer";
 import { RosNode, TcpSocket } from "@foxglove/ros1";
 import { Time, fromMillis, isGreaterThan, toSec } from "@foxglove/rostime";
 import { HttpServer } from "@foxglove/xmlrpc";
