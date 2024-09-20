@@ -6,7 +6,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import { parseMessagePath } from "@foxglove/message-path";
-import { add as addTimes, fromSec, isTime, toSec } from "@foxglove/rostime";
+import { add as addTimes, fromSec, isTime, toSec } from "@lichtblick/rostime";
 import { Button, Tooltip, Fade, buttonClasses, useTheme } from "@mui/material";
 import Hammer from "hammerjs";
 import * as _ from "lodash-es";

@@ -14,7 +14,7 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { add as addTimes, fromSec, subtract as subtractTimes, toSec } from "@foxglove/rostime";
+import { add as addTimes, fromSec, subtract as subtractTimes, toSec } from "@lichtblick/rostime";
 import { fontMonospace } from "@foxglove/theme";
 import { ChartOptions, ScaleOptions } from "chart.js";
 import * as _ from "lodash-es";

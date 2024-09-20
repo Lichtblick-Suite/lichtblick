@@ -18,7 +18,7 @@ import roslib from "@foxglove/roslibjs";
 import { parse as parseMessageDefinition } from "@foxglove/rosmsg";
 import { MessageReader as ROS1MessageReader } from "@foxglove/rosmsg-serialization";
 import { MessageReader as ROS2MessageReader } from "@foxglove/rosmsg2-serialization";
-import { Time, fromMillis, toSec } from "@foxglove/rostime";
+import { Time, fromMillis, toSec } from "@lichtblick/rostime";
 import * as _ from "lodash-es";
 import { v4 as uuidv4 } from "uuid";
 

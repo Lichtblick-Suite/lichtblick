@@ -14,7 +14,7 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { Time } from "@foxglove/rostime";
+import { Time } from "@lichtblick/rostime";
 
 import { MessageDefinition } from "@lichtblick/message-definition";
 import type { MessageEvent, Metadata, ParameterValue } from "@lichtblick/suite";

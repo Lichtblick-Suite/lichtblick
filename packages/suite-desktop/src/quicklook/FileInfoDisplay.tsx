@@ -7,7 +7,7 @@
 
 /// <reference types="./extensions" />
 
-import { Time, toDate } from "@foxglove/rostime";
+import { Time, toDate } from "@lichtblick/rostime";
 import { useEffect, useMemo } from "react";
 import { makeStyles } from "tss-react/mui";
 

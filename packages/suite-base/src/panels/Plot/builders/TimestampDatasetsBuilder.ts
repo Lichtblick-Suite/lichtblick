@@ -6,7 +6,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import { MessagePath } from "@foxglove/message-path";
-import { toSec, subtract as subtractTime } from "@foxglove/rostime";
+import { toSec, subtract as subtractTime } from "@lichtblick/rostime";
 import * as Comlink from "comlink";
 
 import { ComlinkWrap } from "@lichtblick/den/worker";

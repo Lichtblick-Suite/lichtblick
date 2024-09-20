@@ -5,7 +5,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import { add, fromSec, toSec } from "@foxglove/rostime";
+import { add, fromSec, toSec } from "@lichtblick/rostime";
 import { Tooltip } from "@mui/material";
 import { useMemo } from "react";
 import { useResizeDetector } from "react-resize-detector";

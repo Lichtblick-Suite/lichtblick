@@ -6,7 +6,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import { parseMessagePath } from "@foxglove/message-path";
-import { toSec, subtract as subtractTime } from "@foxglove/rostime";
+import { toSec, subtract as subtractTime } from "@lichtblick/rostime";
 import EventEmitter from "eventemitter3";
 import * as _ from "lodash-es";
 

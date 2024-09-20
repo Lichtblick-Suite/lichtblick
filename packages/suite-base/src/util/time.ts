@@ -15,7 +15,7 @@
 //   You may not use this file except in compliance with the License.
 
 // No time functions that require `moment` should live in this file.
-import { Time } from "@foxglove/rostime";
+import { Time } from "@lichtblick/rostime";
 
 import log from "@lichtblick/log";
 import { MessageEvent } from "@lichtblick/suite-base/players/types";

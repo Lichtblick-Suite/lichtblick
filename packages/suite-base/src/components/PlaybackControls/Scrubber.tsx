@@ -11,7 +11,7 @@ import {
   toSec,
   fromSec,
   Time,
-} from "@foxglove/rostime";
+} from "@lichtblick/rostime";
 import { Fade, PopperProps, Tooltip } from "@mui/material";
 import type { Instance } from "@popperjs/core";
 import { useCallback, useEffect, useMemo, useState } from "react";

@@ -6,7 +6,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import { crc32 } from "@foxglove/crc";
-import { toNanoSec } from "@foxglove/rostime";
+import { toNanoSec } from "@lichtblick/rostime";
 import { ModelPrimitive, SceneEntity } from "@foxglove/schemas";
 import * as THREE from "three";
 

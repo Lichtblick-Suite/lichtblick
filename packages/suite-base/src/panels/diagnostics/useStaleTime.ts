@@ -5,7 +5,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import { Time, clampTime, subtract } from "@foxglove/rostime";
+import { Time, clampTime, subtract } from "@lichtblick/rostime";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 import {

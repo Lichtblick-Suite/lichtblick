@@ -12,7 +12,7 @@ import {
   toNanoSec,
   compare as compareTime,
   isLessThan,
-} from "@foxglove/rostime";
+} from "@lichtblick/rostime";
 import {
   CompressedImage,
   RawImage,

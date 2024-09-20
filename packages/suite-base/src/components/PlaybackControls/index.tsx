@@ -27,7 +27,7 @@ import {
   Previous20Filled,
   Previous20Regular,
 } from "@fluentui/react-icons";
-import { Time, compare } from "@foxglove/rostime";
+import { Time, compare } from "@lichtblick/rostime";
 import { Tooltip } from "@mui/material";
 import { useCallback, useMemo, useState } from "react";
 import { makeStyles } from "tss-react/mui";

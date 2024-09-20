@@ -5,7 +5,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import { Time, subtract as subtractTimes, toSec } from "@foxglove/rostime";
+import { Time, subtract as subtractTimes, toSec } from "@lichtblick/rostime";
 import stringHash from "string-hash";
 
 import { MessageAndData } from "@lichtblick/suite-base/components/MessagePathSyntax/useCachedGetMessagePathDataItems";

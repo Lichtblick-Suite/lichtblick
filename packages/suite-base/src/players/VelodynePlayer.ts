@@ -5,7 +5,8 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import { Time, fromMillis, add as addTimes, toDate, fromDate, fromMicros } from "@foxglove/rostime";
+import { Sockets, UdpRemoteInfo, UdpSocketRenderer } from "@foxglove/electron-socket/renderer";
+import { Time, fromMillis, add as addTimes, toDate, fromDate, fromMicros } from "@lichtblick/rostime";
 import { Model, RawPacket, ReturnMode, packetRate } from "@foxglove/velodyne-cloud";
 import { v4 as uuidv4 } from "uuid";
 

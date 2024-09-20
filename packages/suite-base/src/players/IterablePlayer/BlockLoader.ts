@@ -12,7 +12,7 @@ import {
   fromNanoSec,
   subtract as subtractTimes,
   toNanoSec,
-} from "@foxglove/rostime";
+} from "@lichtblick/rostime";
 import { simplify } from "intervals-fn";
 import * as _ from "lodash-es";
 

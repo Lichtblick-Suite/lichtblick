@@ -6,7 +6,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import { ParsedChannel, parseChannel } from "@foxglove/mcap-support";
-import { Time, fromNanoSec, toNanoSec, compare } from "@foxglove/rostime";
+import { Time, fromNanoSec, toNanoSec, compare } from "@lichtblick/rostime";
 import { McapIndexedReader, McapTypes } from "@mcap/core";
 
 import { pickFields } from "@lichtblick/den/records";

@@ -14,7 +14,7 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { compare } from "@foxglove/rostime";
+import { compare } from "@lichtblick/rostime";
 import { Autocomplete, TextField } from "@mui/material";
 import { produce } from "immer";
 import * as _ from "lodash-es";

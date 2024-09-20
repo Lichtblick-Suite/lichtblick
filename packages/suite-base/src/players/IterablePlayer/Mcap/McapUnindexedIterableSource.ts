@@ -16,7 +16,7 @@ import {
   toSec,
   toRFC3339String,
   compare,
-} from "@foxglove/rostime";
+} from "@lichtblick/rostime";
 import { McapStreamReader, McapTypes } from "@mcap/core";
 import * as _ from "lodash-es";
 

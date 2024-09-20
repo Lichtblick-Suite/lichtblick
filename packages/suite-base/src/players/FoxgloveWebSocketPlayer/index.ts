@@ -9,7 +9,7 @@ import { parseChannel, ParsedChannel } from "@foxglove/mcap-support";
 import CommonRosTypes from "@foxglove/rosmsg-msgs-common";
 import { MessageWriter as Ros1MessageWriter } from "@foxglove/rosmsg-serialization";
 import { MessageWriter as Ros2MessageWriter } from "@foxglove/rosmsg2-serialization";
-import { fromMillis, fromNanoSec, isGreaterThan, isLessThan, Time } from "@foxglove/rostime";
+import { fromMillis, fromNanoSec, isGreaterThan, isLessThan, Time } from "@lichtblick/rostime";
 import {
   Channel,
   ChannelId,

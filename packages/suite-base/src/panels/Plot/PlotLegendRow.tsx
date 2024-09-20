@@ -12,7 +12,7 @@ import {
   Square12Filled,
   Square12Regular,
 } from "@fluentui/react-icons";
-import { isTime, toSec } from "@foxglove/rostime";
+import { isTime, toSec } from "@lichtblick/rostime";
 import { ButtonBase, Checkbox, Tooltip, Typography, buttonBaseClasses } from "@mui/material";
 import { MouseEventHandler } from "react";
 import { useTranslation } from "react-i18next";

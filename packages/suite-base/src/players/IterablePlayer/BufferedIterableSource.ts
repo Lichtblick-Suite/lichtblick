@@ -5,7 +5,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import { add as addTime, compare, clampTime } from "@foxglove/rostime";
+import { add as addTime, compare, clampTime } from "@lichtblick/rostime";
 import EventEmitter from "eventemitter3";
 
 import { Condvar } from "@lichtblick/den/async";

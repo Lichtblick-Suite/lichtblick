@@ -14,7 +14,7 @@ import {
   fromNanoSec,
   toRFC3339String,
   toString,
-} from "@foxglove/rostime";
+} from "@lichtblick/rostime";
 import assert from "assert";
 import * as _ from "lodash-es";
 import { v4 as uuidv4 } from "uuid";
