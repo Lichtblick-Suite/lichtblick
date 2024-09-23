@@ -2673,13 +2673,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@foxglove/velodyne-cloud@npm:1.0.1":
-  version: 1.0.1
-  resolution: "@foxglove/velodyne-cloud@npm:1.0.1"
-  checksum: 3f461bdc2e36c4f8bcbd295f4337fe600f259465987bedcd21e8a7a03817f409fc3346d3b68ca8b52a6e8c42dfe6e148532cca06224868d50cad1f903e108d70
-  languageName: node
-  linkType: hard
-
 "@foxglove/wasm-bz2@npm:0.1.1":
   version: 0.1.1
   resolution: "@foxglove/wasm-bz2@npm:0.1.1"
@@ -3317,7 +3310,6 @@ __metadata:
     "@foxglove/three-text": 0.2.2
     "@foxglove/tsconfig": 2.0.0
     "@foxglove/typescript-transformers": "workspace:*"
-    "@foxglove/velodyne-cloud": 1.0.1
     "@foxglove/wasm-bz2": 0.1.1
     "@foxglove/wasm-lz4": 1.0.2
     "@foxglove/ws-protocol": 0.7.2
@@ -3330,6 +3322,7 @@ __metadata:
     "@lichtblick/rostime": 1.0.0
     "@lichtblick/suite": "workspace:*"
     "@lichtblick/ulog": 1.0.0
+    "@lichtblick/velodyne-cloud": 1.0.0
     "@mcap/core": 2.0.2
     "@mui/icons-material": 5.15.5
     "@mui/material": 5.13.5
@@ -3555,6 +3548,13 @@ __metadata:
   version: 1.0.0
   resolution: "@lichtblick/ulog@npm:1.0.0"
   checksum: c320a0b38bbfbfd11c0379a568b7edee3eaf7e4937f31441eeb29244722544710592a7c4d68791a38ac0ee2502ab5271a866a6dee1fd3acee1b16c55b3a17f88
+  languageName: node
+  linkType: hard
+
+"@lichtblick/velodyne-cloud@npm:1.0.0":
+  version: 1.0.0
+  resolution: "@lichtblick/velodyne-cloud@npm:1.0.0"
+  checksum: 7c5d78a33b3f1f3d54f45dd2395677388997219364a672a1b4a2a65a12216956fae054dcf001692832420d1d6bb2f2ee8687cb0705c1919e357918446b69e95c
   languageName: node
   linkType: hard
 
