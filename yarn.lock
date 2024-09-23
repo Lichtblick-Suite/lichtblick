@@ -2315,6 +2315,14 @@ __metadata:
   linkType: hard
 
 "@foxglove/cdr@npm:^3.0.0, @foxglove/cdr@npm:^3.2.1":
+"@foxglove/avl@npm:1.0.0":
+  version: 1.0.0
+  resolution: "@foxglove/avl@npm:1.0.0"
+  checksum: 6d25573e0ce50dc9217a13fcb88ac07acdf3d2d6fcf570f268b449d3e010a1bab133c0dc604b102ebfbf31c55215726b34b0aa794d2b43b2451828f4010eaf1c
+  languageName: node
+  linkType: hard
+
+"@foxglove/cdr@npm:^3.0.0":
   version: 3.3.0
   resolution: "@foxglove/cdr@npm:3.3.0"
   checksum: f1c5479474bbd94a9992f788b52092d9938095014df4983eb6099741dc390c2168ff77c5e8431a8fa3bbf437b34cb74f2c73a0a97331166c837788711f5d501d
@@ -2351,9 +2359,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@foxglove/mcap-support@workspace:packages/mcap-support"
   dependencies:
-    "@foxglove/omgidl-parser": 1.0.3
-    "@foxglove/omgidl-serialization": 1.0.3
-    "@foxglove/ros2idl-parser": 0.3.2
     "@foxglove/rosmsg": 4.2.2
     "@foxglove/rosmsg-serialization": 2.0.2
     "@foxglove/rosmsg2-serialization": 2.0.3
@@ -2362,6 +2367,9 @@ __metadata:
     "@lichtblick/message-definition": 1.0.0
     "@lichtblick/wasm-bz2": 1.0.0
     "@lichtblick/wasm-lz4": 1.0.0
+    "@lichtblick/omgidl-parser": 1.0.0
+    "@lichtblick/omgidl-serialization": 1.0.0
+    "@lichtblick/ros2idl-parser": 1.0.0
     "@lichtblick/wasm-zstd": 1.0.0
     "@mcap/core": 2.0.2
     "@protobufjs/base64": 1.1.2
@@ -2398,25 +2406,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@foxglove/omgidl-parser@npm:1.0.3":
-  version: 1.0.3
-  resolution: "@foxglove/omgidl-parser@npm:1.0.3"
-  dependencies:
-    tslib: ^2
-  checksum: ec40f681bee1ff677569176dfa1ad04db5683932c055b70f8e09a757c7ef0cf454f2a07afe18d34dc5418bb68b960e0034636f578e1236c3430e378f6ccd27c3
-  languageName: node
-  linkType: hard
-
-"@foxglove/omgidl-serialization@npm:1.0.3":
-  version: 1.0.3
-  resolution: "@foxglove/omgidl-serialization@npm:1.0.3"
-  dependencies:
-    "@foxglove/cdr": ^3.2.1
-    "@foxglove/message-definition": ^0.3.1
-  checksum: 68bbc957f7186a875ee90923f7619fb69b943ee89b2a9862460cc4841d0ad94aa62c9bd5ab8f953fb1389a01a4aebead1be379bf402dc90e64133c70a4b20176
-  languageName: node
-  linkType: hard
-
 "@foxglove/ros1@npm:3.0.0":
   version: 3.0.0
   resolution: "@foxglove/ros1@npm:3.0.0"
@@ -2430,17 +2419,6 @@ __metadata:
   bin:
     roscore: dist/nodejs/roscore.js
   checksum: 8fc81db65d042339302653e15ee3cde11ded6adc7ab2535da977c96cadbc3e15d26f4e000475b146dbb155c5347d751b8deb76fcda577b1b1f70d3fe043219cb
-  languageName: node
-  linkType: hard
-
-"@foxglove/ros2idl-parser@npm:0.3.2":
-  version: 0.3.2
-  resolution: "@foxglove/ros2idl-parser@npm:0.3.2"
-  dependencies:
-    "@foxglove/message-definition": ^0.3.1
-    "@foxglove/omgidl-parser": 1.0.3
-    md5-typescript: ^1.0.5
-  checksum: 9ad981467a441798142106eca23d32d3da11878141f59379d66c01e6d1a61c79e0d47e776b0864fa281193b64c6eaf8752df502d0fdea9aac0a89982f0061594
   languageName: node
   linkType: hard
 
@@ -3172,6 +3150,10 @@ __metadata:
   version: 1.0.0
   resolution: "@lichtblick/crc@npm:1.0.0"
   checksum: 1e41587edde77f95701f7e0e0a80de1bc370ab17f1057242587da27911fb6348cc42455ef41e60cf0eeb1c2cd56a2f959053c597ccd18136e39c89ade87b9e2b
+"@lichtblick/cdr@npm:1.0.1":
+  version: 1.0.1
+  resolution: "@lichtblick/cdr@npm:1.0.1"
+  checksum: ec5db4914bb4d1ae7b3d8f29b936e4ee933c7b7984d075428d7c0906cfac06a06b50cf12c6753e71de01bf2c2f70c89d16a2322f6d287c43bc40a539d06e05fd
   languageName: node
   linkType: hard
 
@@ -3253,10 +3235,40 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@lichtblick/message-definition@npm:1.0.0":
+"@lichtblick/message-definition@npm:1.0.0, @lichtblick/message-definition@npm:^1.0.0":
   version: 1.0.0
   resolution: "@lichtblick/message-definition@npm:1.0.0"
   checksum: 2046b4fd7781cd088aeebb84e9e3b742868df9d79fc915ee484ed027e48b306a5c8151c327e2e205124c23fd1dd90d8f007d87e22fe363e79db3602d4d2a06b4
+  languageName: node
+  linkType: hard
+
+"@lichtblick/omgidl-parser@npm:1.0.0":
+  version: 1.0.0
+  resolution: "@lichtblick/omgidl-parser@npm:1.0.0"
+  dependencies:
+    tslib: ^2
+  checksum: d6c3fd628c9b7abe20a180fa3d092c69c56679a629577c72da6c98217e965d721ef32c3f48399372122b12863b0b17762fbb6b32297210171284dc10cf578fb8
+  languageName: node
+  linkType: hard
+
+"@lichtblick/omgidl-serialization@npm:1.0.0":
+  version: 1.0.0
+  resolution: "@lichtblick/omgidl-serialization@npm:1.0.0"
+  dependencies:
+    "@lichtblick/cdr": 1.0.1
+    "@lichtblick/message-definition": ^1.0.0
+  checksum: 8ccd7e38b994474522e60a5707201f0b580061031f04649135dbc8f4ba1b7f6774dcf920170ed69143a08b7e69e0b0d2caac11301b02eb9b0a5673227b2dc926
+  languageName: node
+  linkType: hard
+
+"@lichtblick/ros2idl-parser@npm:1.0.0":
+  version: 1.0.0
+  resolution: "@lichtblick/ros2idl-parser@npm:1.0.0"
+  dependencies:
+    "@lichtblick/message-definition": ^1.0.0
+    "@lichtblick/omgidl-parser": 1.0.0
+    md5-typescript: ^1.0.5
+  checksum: a3c08dfe2ce05c498e271608b8979d0f0cb4dddb4fd845aae1d265ba1667e51aba2cc095b2e349b954b8d1a183b4d221e1a498bff3fcfb09f8bebb7ebe149418
   languageName: node
   linkType: hard
 
@@ -16252,6 +16264,9 @@ __metadata:
     "@lichtblick/eslint-plugin-suite": "workspace:*"
     "@lichtblick/hooks": "workspace:*"
     "@lichtblick/log": "workspace:*"
+    "@lichtblick/omgidl-parser": 1.0.0
+    "@lichtblick/omgidl-serialization": 1.0.0
+    "@lichtblick/ros2idl-parser": 1.0.0
     "@lichtblick/suite": "workspace:*"
     "@mui/material": 5.13.5
     "@octokit/rest": 20.0.2
