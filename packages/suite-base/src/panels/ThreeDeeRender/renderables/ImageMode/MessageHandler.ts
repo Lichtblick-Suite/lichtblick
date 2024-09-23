@@ -6,13 +6,6 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import {
-  Time,
-  fromNanoSec,
-  toNanoSec,
-  compare as compareTime,
-  isLessThan,
-} from "@foxglove/rostime";
-import {
   CompressedImage,
   RawImage,
   ImageAnnotations as FoxgloveImageAnnotations,
@@ -20,6 +13,13 @@ import {
 import * as _ from "lodash-es";
 
 import { AVLTree } from "@lichtblick/avl";
+import {
+  Time,
+  fromNanoSec,
+  toNanoSec,
+  compare as compareTime,
+  isLessThan,
+} from "@lichtblick/rostime";
 import { Immutable, MessageEvent } from "@lichtblick/suite";
 import {
   HUDItem,
