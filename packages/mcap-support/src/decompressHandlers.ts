@@ -19,7 +19,7 @@ async function _loadDecompressHandlers(): Promise<McapTypes.DecompressHandlers> 
       await mod.isLoaded;
       return mod.decompress;
     }),
-    import("@foxglove/wasm-lz4").then(async (mod) => {
+    import("@lichtblick/wasm-lz4").then(async (mod) => {
       await mod.default.isLoaded;
       return mod.default;
     }),
