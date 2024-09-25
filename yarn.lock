@@ -2408,13 +2408,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@foxglove/cdr@npm:^3.0.0":
-  version: 3.3.0
-  resolution: "@foxglove/cdr@npm:3.3.0"
-  checksum: f1c5479474bbd94a9992f788b52092d9938095014df4983eb6099741dc390c2168ff77c5e8431a8fa3bbf437b34cb74f2c73a0a97331166c837788711f5d501d
-  languageName: node
-  linkType: hard
-
 "@foxglove/comlink-transfer-handlers@workspace:*, @foxglove/comlink-transfer-handlers@workspace:packages/comlink-transfer-handlers":
   version: 0.0.0-use.local
   resolution: "@foxglove/comlink-transfer-handlers@workspace:packages/comlink-transfer-handlers"
@@ -2508,29 +2501,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@foxglove/rosbag2-web@npm:4.1.1":
-  version: 4.1.1
-  resolution: "@foxglove/rosbag2-web@npm:4.1.1"
-  dependencies:
-    "@foxglove/rosbag2": ^5.0.1
-    "@foxglove/sql.js": ^0.0.4
-  checksum: 24a8d5495f109481636e2188ed1faf51dfc99137477b9aaae9f384edc0577637de8498901ea825af5755ec73468b22c4eafacd2d2127b56f861b4b305ff5e7a1
-  languageName: node
-  linkType: hard
-
-"@foxglove/rosbag2@npm:^5.0.1":
-  version: 5.0.1
-  resolution: "@foxglove/rosbag2@npm:5.0.1"
-  dependencies:
-    "@foxglove/rosmsg-msgs-common": ^3.0.0
-    "@foxglove/rosmsg2-serialization": ^2.0.0
-    "@foxglove/rostime": ^1.1.2
-    "@foxglove/schemas": ^1.3.1
-    js-yaml: ^4.1.0
-  checksum: ff9f11834451b676d5a9c4fb257e701c3e742ea8770d3489a4bf307e19fdcc109162c3b485c90a9fa5f59da274cf8eb66547863881fbb6b8bb3bb199f84acc95
-  languageName: node
-  linkType: hard
-
 "@foxglove/rosbag@npm:0.4.1":
   version: 0.4.1
   resolution: "@foxglove/rosbag@npm:0.4.1"
@@ -2571,17 +2541,6 @@ __metadata:
   dependencies:
     "@foxglove/message-definition": ^0.2.0
   checksum: d2ad60e625e819b6373fe32216118e510858decddb65b14590191cea3ba114a6f0941d445a048e8f6a3c0cbdb69a977b7e2ecb910166eecbece1666c57b932a3
-  languageName: node
-  linkType: hard
-
-"@foxglove/rosmsg2-serialization@npm:^2.0.0":
-  version: 2.0.4
-  resolution: "@foxglove/rosmsg2-serialization@npm:2.0.4"
-  dependencies:
-    "@foxglove/cdr": ^3.0.0
-    "@foxglove/message-definition": ^0.2.0
-    "@foxglove/rostime": ^1.1.2
-  checksum: 8da2f996d9f05feaa9d647015fb95d6c22ccc3347634c1eb3da109454419a9f79c8818651fc3f86288de25b4ec290bb6cebb6677ef64e56ec2fb240ebb1cdc01
   languageName: node
   linkType: hard
 
@@ -3184,7 +3143,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lichtblick/cdr@npm:1.0.1":
+"@lichtblick/cdr@npm:1.0.1, @lichtblick/cdr@npm:^1.0.1":
   version: 1.0.1
   resolution: "@lichtblick/cdr@npm:1.0.1"
   checksum: ec5db4914bb4d1ae7b3d8f29b936e4ee933c7b7984d075428d7c0906cfac06a06b50cf12c6753e71de01bf2c2f70c89d16a2322f6d287c43bc40a539d06e05fd
@@ -3324,6 +3283,31 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@lichtblick/rosbag2-web@npm:1.0.0":
+  version: 1.0.0
+  resolution: "@lichtblick/rosbag2-web@npm:1.0.0"
+  dependencies:
+    "@foxglove/sql.js": ^0.0.4
+    "@lichtblick/cdr": ^1.0.1
+    "@lichtblick/rosbag2": 1.0.0
+    "@lichtblick/rostime": ^1.0.0
+  checksum: bde486540e0039b2f7348c5b806ded3b92e2238ea426d2a2ec008f3b8c57b1d9b2fb544b836dd988902e6258fa8c36ceb90d256a568d26f5c16c0790d2f8f757
+  languageName: node
+  linkType: hard
+
+"@lichtblick/rosbag2@npm:1.0.0":
+  version: 1.0.0
+  resolution: "@lichtblick/rosbag2@npm:1.0.0"
+  dependencies:
+    "@foxglove/schemas": ^1.3.1
+    "@lichtblick/rosmsg-msgs-common": 1.0.1
+    "@lichtblick/rosmsg2-serialization": 1.0.0
+    "@lichtblick/rostime": 1.0.0
+    js-yaml: ^4.1.0
+  checksum: 981a10b36c8d3da2b3b4b20c6adacf649e98397af6efb13b0e47e3a3d62aa5ffc41592704787b110c5ee3c867ba0277f3628b8647bdd716990d9aad6bfaaca66
+  languageName: node
+  linkType: hard
+
 "@lichtblick/rosmsg-msgs-common@npm:1.0.1":
   version: 1.0.1
   resolution: "@lichtblick/rosmsg-msgs-common@npm:1.0.1"
@@ -3357,7 +3341,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lichtblick/rostime@npm:1.0.0":
+"@lichtblick/rostime@npm:1.0.0, @lichtblick/rostime@npm:^1.0.0":
   version: 1.0.0
   resolution: "@lichtblick/rostime@npm:1.0.0"
   checksum: 3999c0ee61758ed5e04a2fb5b3c186c2a61c94d51d80bb949487f3e5acbdba462b4558f942726f6032bc54eae23e47ae3344ba83085ca8e7d891fce0219999d0
@@ -3377,7 +3361,6 @@ __metadata:
     "@foxglove/message-path": "workspace:*"
     "@foxglove/ros1": 3.0.0
     "@foxglove/rosbag": 0.4.1
-    "@foxglove/rosbag2-web": 4.1.1
     "@foxglove/roslibjs": 0.0.3
     "@foxglove/schemas": 1.6.3
     "@foxglove/theme": "workspace:*"
@@ -3393,6 +3376,7 @@ __metadata:
     "@lichtblick/hooks": "workspace:*"
     "@lichtblick/log": "workspace:*"
     "@lichtblick/message-definition": 1.0.0
+    "@lichtblick/rosbag2-web": 1.0.0
     "@lichtblick/rosmsg": 1.0.0
     "@lichtblick/rosmsg-msgs-common": 1.0.1
     "@lichtblick/rosmsg-serialization": 1.0.0
