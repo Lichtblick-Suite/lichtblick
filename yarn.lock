@@ -3415,11 +3415,11 @@ __metadata:
     "@testing-library/react": 16.0.0
     "@types/base16": ^1.0.5
     "@types/cytoscape": ^3.19.16
-    "@types/foxglove__roslibjs": "workspace:*"
     "@types/geojson": 7946.0.11
     "@types/gl-matrix": 3.2.0
     "@types/hammerjs": 2.0.45
     "@types/leaflet": 1.9.7
+    "@types/lichtblick__roslibjs": "workspace:*"
     "@types/memoize-weak": "workspace:*"
     "@types/moment-duration-format": 2.2.6
     "@types/nearley": 2.11.5
@@ -6827,12 +6827,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/foxglove__roslibjs@workspace:*, @types/foxglove__roslibjs@workspace:packages/@types/foxglove__roslibjs":
-  version: 0.0.0-use.local
-  resolution: "@types/foxglove__roslibjs@workspace:packages/@types/foxglove__roslibjs"
-  languageName: unknown
-  linkType: soft
-
 "@types/foxglove__web@workspace:*, @types/foxglove__web@workspace:packages/@types/foxglove__web":
   version: 0.0.0-use.local
   resolution: "@types/foxglove__web@workspace:packages/@types/foxglove__web"
@@ -7046,6 +7040,12 @@ __metadata:
   checksum: 9446f2ed96dae685b9a0e018a5b5bf12ffba4aa59aaa4383f18158a9614f2f129612e6655b4419add12d388c5ee5cb2795e4bfbefecaafd1b4d5d701b7c06173
   languageName: node
   linkType: hard
+
+"@types/lichtblick__roslibjs@workspace:*, @types/lichtblick__roslibjs@workspace:packages/@types/lichtblick__roslibjs":
+  version: 0.0.0-use.local
+  resolution: "@types/lichtblick__roslibjs@workspace:packages/@types/lichtblick__roslibjs"
+  languageName: unknown
+  linkType: soft
 
 "@types/lodash-es@npm:^4":
   version: 4.17.12
