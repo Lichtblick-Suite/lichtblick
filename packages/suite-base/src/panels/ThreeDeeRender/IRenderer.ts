@@ -99,6 +99,7 @@ export type ImageModeConfig = Partial<ColorModeSettings> & {
   minValue?: number;
   /** Maximum (white) value for single-channel images */
   maxValue?: number;
+  cameraSelection?: string;
 };
 
 export type RendererConfig = {
@@ -237,6 +238,7 @@ export interface IRenderer extends EventEmitter<RendererEvents> {
   input: Input;
   readonly outlineMaterial: THREE.LineBasicMaterial;
   readonly instancedOutlineMaterial: InstancedLineMaterial;
+  readonly context: BuiltinPanelExtensionContext;
 
   measurementTool: MeasurementTool;
   publishClickTool: PublishClickTool;

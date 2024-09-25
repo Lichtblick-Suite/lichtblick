@@ -243,6 +243,7 @@ export class Renderer extends EventEmitter<RendererEvents> implements IRenderer 
   /** Options passed for local testing and storybook. */
   public readonly testOptions: TestOptions;
   public analytics?: IAnalytics;
+  public readonly context: BuiltinPanelExtensionContext;
 
   public constructor(args: {
     canvas: HTMLCanvasElement;
@@ -252,11 +253,14 @@ export class Renderer extends EventEmitter<RendererEvents> implements IRenderer 
     fetchAsset: BuiltinPanelExtensionContext["unstable_fetchAsset"];
     displayTemporaryError?: (message: string) => void;
     testOptions: TestOptions;
+    context: BuiltinPanelExtensionContext;
   }) {
     super();
     this.displayTemporaryError = args.displayTemporaryError;
     // NOTE: Global side effect
     THREE.Object3D.DEFAULT_UP = new THREE.Vector3(0, 0, 1);
+
+    this.context = args.context;
 
     const interfaceMode = (this.interfaceMode = args.interfaceMode);
     const canvas = (this.#canvas = args.canvas);

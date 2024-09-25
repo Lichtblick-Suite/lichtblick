@@ -153,6 +153,7 @@ export function ThreeDeeRender(props: {
           ),
           displayTemporaryError,
           testOptions,
+          context,
         })
       : undefined;
     setRenderer(newRenderer);
@@ -170,6 +171,7 @@ export function ThreeDeeRender(props: {
     fetchAsset,
     testOptions,
     displayTemporaryError,
+    context,
   ]);
 
   useEffect(() => {

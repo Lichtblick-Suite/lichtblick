@@ -152,6 +152,9 @@ export class ImageMode
   #dragStartMouseCoords = new THREE.Vector2();
   #hasModifiedView = false;
 
+  private cameras: string[] = [];
+  private selectedCamera: string | undefined;
+
   public constructor(renderer: IRenderer, name: string = ImageMode.extensionId) {
     super(name, renderer);
 
@@ -228,7 +231,88 @@ export class ImageMode
 
     this.renderer.on("topicsChanged", this.#handleTopicsChanged);
     this.#handleTopicsChanged();
+    this.fetchAvailableCameras();
   }
+
+  private fetchAvailableCameras(): void {
+    const context = this.renderer.context;
+
+    if (context.callService && context.dataSourceProfile === "ros2") {
+      const callService = context.callService;
+
+      // Fetch the list of cameras
+      callService(
+        "/preview/camera_multiplexer/get_parameters",
+        { names: ["cameras"] },
+      )
+        .then((response: any) => {
+          const camerasParam = response?.values?.[0]?.string_array_value || "";
+
+          this.cameras = camerasParam;
+
+          // Fetch the currently selected camera
+          return callService(
+            "/preview/camera_multiplexer/get_parameters",
+            { names: ["select"] },
+          );
+        })
+        .then((response: any) => {
+          const selectParam = response?.values?.[0]?.string_value || "";
+          this.selectedCamera = selectParam;
+
+          // Update the settings tree to reflect new options
+          this.updateSettingsTree();
+          // Re-render the panel to reflect changes
+          this.renderer.queueAnimationFrame();
+        })
+        .catch((error: Error) => {
+          log.error("Error fetching cameras:", error);
+          if (this.renderer.displayTemporaryError) {
+            this.renderer.displayTemporaryError(`Error fetching cameras: ${error.message}`);
+          }
+        });
+    } else {
+      log.warn("ROS 2 service calls are not supported in the current data source profile.");
+    }
+  }
+
+  private setSelectedCamera(selectedCamera: string): void {
+    const context = this.renderer.context;
+
+    if (context.callService && context.dataSourceProfile === "ros2") {
+      const callService = context.callService;
+      const request = {
+        parameters: [
+          {
+            name: "select",
+            value: {
+              type: 4, // Type 4 corresponds to string_value
+              string_value: selectedCamera,
+            },
+          },
+        ],
+      };
+      callService(
+        "/preview/camera_multiplexer/set_parameters",
+        request,
+      )
+        .then((response: any) => {
+          log.info("Successfully set selected camera:", response);
+          if (this.renderer.displayTemporaryError) {
+            this.renderer.displayTemporaryError(`Camera switched to ${selectedCamera}`);
+          }
+        })
+        .catch((error: Error) => {
+          log.error("Error setting camera parameter:", error);
+          if (this.renderer.displayTemporaryError) {
+            this.renderer.displayTemporaryError(`Error setting camera parameter: ${error.message}`);
+          }
+        });
+    } else {
+      log.warn("ROS 2 service calls are not supported in the current data source profile.");
+    }
+  }
+
 
   protected initMessageHandler(config: Immutable<ConfigWithDefaults>): IMessageHandler {
     return new MessageHandler(config, this.hud);
@@ -521,6 +605,12 @@ export class ImageMode
         { label: "270°", value: 270 },
       ],
     };
+    fields.cameraSelection = {
+      label: "Select Camera",
+      input: "select",
+      value: this.selectedCamera,
+      options: this.cameras.map((camera) => ({ label: camera, value: camera })),
+    };
 
     const imageTopic =
       imageTopicName != undefined ? this.renderer.topicsByName?.get(imageTopicName) : undefined;
@@ -571,6 +661,14 @@ export class ImageMode
     const value = action.payload.value;
 
     if (category !== "imageMode") {
+      return;
+    }
+
+    if (path[1] === "cameraSelection") {
+      const selectedCamera = value as string;
+      this.selectedCamera = selectedCamera;
+      this.saveSetting(path, selectedCamera);
+      this.setSelectedCamera(selectedCamera);
       return;
     }
 
@@ -847,7 +945,9 @@ export class ImageMode
 
     // Ensures that no required fields are left undefined
     // rightmost values are applied last and have the most precedence
-    return _.merge({}, DEFAULT_CONFIG, { colorMode }, config);
+    return _.merge({}, DEFAULT_CONFIG, { colorMode }, config, {
+      cameraSelection: this.selectedCamera,
+    });
   }
 
   /**
