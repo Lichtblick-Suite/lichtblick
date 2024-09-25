@@ -28,8 +28,8 @@
         "poseEstimateThetaDeviation": 0.26179939
       },
       "imageMode": {
-        "imageTopic": "/front_stereo_camera/preview/image_compressed",
-        "calibrationTopic": "/front_stereo_camera/preview/camera_info"
+        "imageTopic": "/preview/image_compressed",
+        "cameraSelection": "/front_stereo_camera/left"
       }
     },
     "DataRecorderTriggerPanel!bvzx3e": {},
