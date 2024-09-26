@@ -198,6 +198,10 @@ export default React.memo<MessagePathInputBaseProps>(function MessagePathInput(
 
   const onChangeProp = props.onChange;
   useEffect(() => {
+    if (props.index == undefined) {
+      return;
+    }
+
     onChangeProp(debouncedPath, props.index);
   }, [debouncedPath, onChangeProp, props.index]);
 
