@@ -243,7 +243,9 @@ export default React.memo<MessagePathInputBaseProps>(function MessagePathInput(
         autocompleteType === "topicName" && !messageIsValidType && !isSimpleField;
       const value = keepGoingAfterTopicName ? rawValue + "." : rawValue;
 
-      onChangeProp(completeStart + value + completeEnd, props.index);
+      const finalPath = completeStart + value + completeEnd;
+      onChangeProp(finalPath, props.index);
+      setCurrentPath(finalPath);
 
       // We want to continue typing if we're dealing with a topic name,
       // or if we just autocompleted something with a filter (because we might want to
