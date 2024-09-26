@@ -218,10 +218,10 @@ export default React.memo<MessagePathInputBaseProps>(function MessagePathInput(
           target.setSelectionRange(newCursorPosition, newCursorPosition);
         });
       }
+      onChangeProp(value, props.index);
       setCurrentPath(value);
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [props.index],
+    [onChangeProp, props.index],
   );
 
   const onSelect = useCallback(
