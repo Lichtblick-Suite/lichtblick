@@ -22,8 +22,9 @@ import {
 } from "@foxglove/message-path";
 import { TextFieldProps } from "@mui/material";
 import * as _ from "lodash-es";
-import { CSSProperties, useCallback, useMemo } from "react";
+import { CSSProperties, useCallback, useEffect, useMemo, useState } from "react";
 import { makeStyles } from "tss-react/mui";
+import { useDebounce } from "use-debounce";
 
 import { filterMap } from "@lichtblick/den/collection";
 import * as PanelAPI from "@lichtblick/suite-base/PanelAPI";
@@ -192,7 +193,14 @@ export default React.memo<MessagePathInputBaseProps>(function MessagePathInput(
     [messagePathStructuresForDataype, noMultiSlices, topics, validTypes],
   );
 
+  const [currentPath, setCurrentPath] = useState<string>(path);
+  const [debouncedPath] = useDebounce(currentPath, 100, { maxWait: 100 });
+
   const onChangeProp = props.onChange;
+  useEffect(() => {
+    onChangeProp(debouncedPath, props.index);
+  }, [debouncedPath, onChangeProp, props.index]);
+
   const onChange = useCallback(
     (event: React.SyntheticEvent, rawValue: string) => {
       // When typing a "{" character, also  insert a "}", so you get an
@@ -206,9 +214,10 @@ export default React.memo<MessagePathInputBaseProps>(function MessagePathInput(
           target.setSelectionRange(newCursorPosition, newCursorPosition);
         });
       }
-      onChangeProp(value, props.index);
+      setCurrentPath(value);
     },
-    [onChangeProp, props.index],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [props.index],
   );
 
   const onSelect = useCallback(
