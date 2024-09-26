@@ -194,7 +194,7 @@ export default React.memo<MessagePathInputBaseProps>(function MessagePathInput(
   );
 
   const [currentPath, setCurrentPath] = useState<string>(path);
-  const [debouncedPath] = useDebounce(currentPath, 100, { maxWait: 100 });
+  const [debouncedPath] = useDebounce(currentPath, 250, { maxWait: 250 });
 
   const onChangeProp = props.onChange;
   useEffect(() => {
