@@ -89,7 +89,9 @@ export function SensorIndicatorsPanel({
           ? "ERROR"
           : group.some((sensor) => sensor.status === "WARN")
             ? "WARN"
-            : "OK";
+            : group.some((sensor) => sensor.status === "STALE")
+              ? "STALE"
+              : "OK";
         return (
           <label
             key={key}
