@@ -196,10 +196,10 @@ export default React.memo<MessagePathInputBaseProps>(function MessagePathInput(
   const [currentPath, setCurrentPath] = useState<string>(path);
   const [debouncedPath] = useDebounce(currentPath, 250, { maxWait: 250 });
 
-  const onChangeProp = props.onChange;
   useEffect(() => {
-    onChangeProp(debouncedPath, props.index);
-  }, [debouncedPath, onChangeProp, props]);
+    props.onChange(debouncedPath, props.index);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedPath]);
 
   const onChange = useCallback(
     (event: React.SyntheticEvent, rawValue: string) => {
