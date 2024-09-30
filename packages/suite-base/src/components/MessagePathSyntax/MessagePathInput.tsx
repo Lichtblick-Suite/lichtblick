@@ -198,12 +198,8 @@ export default React.memo<MessagePathInputBaseProps>(function MessagePathInput(
 
   const onChangeProp = props.onChange;
   useEffect(() => {
-    if (props.index == undefined) {
-      return;
-    }
-
     onChangeProp(debouncedPath, props.index);
-  }, [debouncedPath, onChangeProp, props.index]);
+  }, [debouncedPath, onChangeProp, props]);
 
   const onChange = useCallback(
     (event: React.SyntheticEvent, rawValue: string) => {
@@ -218,10 +214,11 @@ export default React.memo<MessagePathInputBaseProps>(function MessagePathInput(
           target.setSelectionRange(newCursorPosition, newCursorPosition);
         });
       }
-      onChangeProp(value, props.index);
       setCurrentPath(value);
     },
-    [onChangeProp, props.index],
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [props.index],
   );
 
   const onSelect = useCallback(
@@ -231,8 +228,8 @@ export default React.memo<MessagePathInputBaseProps>(function MessagePathInput(
       autocompleteType: ("topicName" | "messagePath" | "globalVariables") | undefined,
       autocompleteRange: { start: number; end: number },
     ) => {
-      const completeStart = path.slice(0, autocompleteRange.start);
-      const completeEnd = path.slice(autocompleteRange.end);
+      const completeStart = currentPath.slice(0, autocompleteRange.start);
+      const completeEnd = currentPath.slice(autocompleteRange.end);
 
       // Check if accepting this completion would result in a path to a non-complex field.
       const completedPath = completeStart + rawValue + completeEnd;
@@ -247,9 +244,7 @@ export default React.memo<MessagePathInputBaseProps>(function MessagePathInput(
         autocompleteType === "topicName" && !messageIsValidType && !isSimpleField;
       const value = keepGoingAfterTopicName ? rawValue + "." : rawValue;
 
-      const finalPath = completeStart + value + completeEnd;
-      onChangeProp(finalPath, props.index);
-      setCurrentPath(finalPath);
+      setCurrentPath(completeStart + value + completeEnd);
 
       // We want to continue typing if we're dealing with a topic name,
       // or if we just autocompleted something with a filter (because we might want to
@@ -264,7 +259,7 @@ export default React.memo<MessagePathInputBaseProps>(function MessagePathInput(
         autocomplete.blur();
       }
     },
-    [onChangeProp, path, props.index, allStructureItemsByPath, validTypes],
+    [currentPath, allStructureItemsByPath, validTypes, path],
   );
 
   const rosPath = useMemo(() => parseMessagePath(path), [path]);
