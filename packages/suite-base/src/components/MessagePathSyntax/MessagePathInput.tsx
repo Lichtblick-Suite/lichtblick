@@ -22,6 +22,7 @@ import {
 } from "@foxglove/message-path";
 import { TextFieldProps } from "@mui/material";
 import * as _ from "lodash-es";
+import * as R from "ramda";
 import { CSSProperties, useCallback, useEffect, useMemo, useState } from "react";
 import { makeStyles } from "tss-react/mui";
 import { useDebounce } from "use-debounce";
@@ -194,12 +195,12 @@ export default React.memo<MessagePathInputBaseProps>(function MessagePathInput(
   );
 
   const [currentPath, setCurrentPath] = useState<string>(path);
-  const [debouncedPath] = useDebounce(currentPath, 250, { maxWait: 250 });
+  const [debouncedPath] = useDebounce(currentPath, 250);
 
   useEffect(() => {
     props.onChange(debouncedPath, props.index);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedPath]);
+  }, [debouncedPath, props.index]);
 
   const onChange = useCallback(
     (event: React.SyntheticEvent, rawValue: string) => {
@@ -216,7 +217,6 @@ export default React.memo<MessagePathInputBaseProps>(function MessagePathInput(
       }
       setCurrentPath(value);
     },
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [props.index],
   );
@@ -394,13 +394,13 @@ export default React.memo<MessagePathInputBaseProps>(function MessagePathInput(
             structure == undefined
               ? []
               : filterMap(
-                  messagePathsForStructure(structure, {
-                    validTypes,
-                    noMultiSlices,
-                    messagePath: rosPath.messagePath,
-                  }),
-                  (item) => item.path,
-                ),
+                messagePathsForStructure(structure, {
+                  validTypes,
+                  noMultiSlices,
+                  messagePath: rosPath.messagePath,
+                }),
+                (item) => item.path,
+              ),
 
           autocompleteRange: {
             start: rosPath.topicNameRepr.length + initialFilterLength,
