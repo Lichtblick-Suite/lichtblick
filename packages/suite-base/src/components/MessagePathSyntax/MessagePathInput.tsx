@@ -22,7 +22,6 @@ import {
 } from "@foxglove/message-path";
 import { TextFieldProps } from "@mui/material";
 import * as _ from "lodash-es";
-import * as R from "ramda";
 import { CSSProperties, useCallback, useEffect, useMemo, useState } from "react";
 import { makeStyles } from "tss-react/mui";
 import { useDebounce } from "use-debounce";
