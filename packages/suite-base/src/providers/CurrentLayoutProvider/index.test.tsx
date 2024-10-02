@@ -106,7 +106,7 @@ function renderTest({
           <SnackbarProvider>
             <LayoutManagerContext.Provider value={mockLayoutManager}>
               <UserProfileStorageContext.Provider value={mockUserProfile}>
-                <CurrentLayoutProvider>
+                <CurrentLayoutProvider loaders={[]}>
                   {children}
                   <CurrentLayoutSyncAdapter />
                 </CurrentLayoutProvider>
@@ -119,6 +119,7 @@ function renderTest({
   );
   return { result, all };
 }
+
 describe("CurrentLayoutProvider", () => {
   it("uses currentLayoutId from UserProfile to load from LayoutStorage", async () => {
     const expectedState: LayoutData = {
