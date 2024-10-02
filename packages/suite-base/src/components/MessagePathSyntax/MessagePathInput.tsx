@@ -393,11 +393,11 @@ export default React.memo<MessagePathInputBaseProps>(function MessagePathInput(
             structure == undefined
               ? []
               : filterMap(
-                messagePathsForStructure(structure, {
-                  validTypes,
-                  noMultiSlices,
-                  messagePath: rosPath.messagePath,
-                }),
+                  messagePathsForStructure(structure, {
+                    validTypes,
+                    noMultiSlices,
+                    messagePath: rosPath.messagePath,
+                  }),
                 (item) => item.path,
               ),
 
