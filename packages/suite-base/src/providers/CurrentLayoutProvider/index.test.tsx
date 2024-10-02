@@ -56,8 +56,8 @@ function makeMockLayoutManager() {
     off: jest.fn(/*noop*/),
     setError: jest.fn(/*noop*/),
     setOnline: jest.fn(/*noop*/),
-    getLayouts: jest.fn().mockImplementation(mockThrow("getLayouts")),
-    getLayout: jest.fn().mockImplementation(mockThrow("getLayout")),
+    getLayouts: jest.fn(),
+    getLayout: jest.fn(),
     saveNewLayout: jest.fn().mockImplementation(mockThrow("saveNewLayout")),
     updateLayout: jest.fn().mockImplementation(mockThrow("updateLayout")),
     deleteLayout: jest.fn().mockImplementation(mockThrow("deleteLayout")),
@@ -154,6 +154,13 @@ describe("CurrentLayoutProvider", () => {
       { selectedLayout: undefined },
       {
         selectedLayout: {
+          data: undefined,
+          id: "example",
+          loading: true,
+        },
+      },
+      {
+        selectedLayout: {
           loading: false,
           id: "example",
           data: expectedState,
@@ -197,6 +204,13 @@ describe("CurrentLayoutProvider", () => {
     expect(mockLayoutManager.getLayout.mock.calls).toEqual([["example"], ["example"]]);
     expect(all.map((item) => (item instanceof Error ? undefined : item.layoutState))).toEqual([
       { selectedLayout: undefined },
+      {
+        selectedLayout: {
+          data: undefined,
+          id: "example",
+          loading: true,
+        },
+      },
       { selectedLayout: undefined },
     ]);
     (console.warn as jest.Mock).mockClear();
