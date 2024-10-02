@@ -104,7 +104,7 @@ function getExamplePrimitive(primitiveType: PrimitiveType) {
   }
 }
 
-type MessagePathInputBaseProps = {
+export type MessagePathInputBaseProps = {
   supportsMathModifiers?: boolean;
   path: string; // A path of the form `/topic.some_field[:]{id==42}.x`
   index?: number; // Optional index field which gets passed to `onChange` (so you don't have to create anonymous functions)
@@ -398,8 +398,8 @@ export default React.memo<MessagePathInputBaseProps>(function MessagePathInput(
                     noMultiSlices,
                     messagePath: rosPath.messagePath,
                   }),
-                (item) => item.path,
-              ),
+                  (item) => item.path,
+                ),
 
           autocompleteRange: {
             start: rosPath.topicNameRepr.length + initialFilterLength,
