@@ -33,7 +33,6 @@ import MessagePathInput, {
   MessagePathInputBaseProps,
 } from "./MessagePathInput";
 
-jest.mock("@lichtblick/hooks");
 jest.mock("@lichtblick/suite-base/hooks/useGlobalVariables");
 jest.mock("@lichtblick/suite-base/components/MessagePipeline");
 jest.mock("@lichtblick/suite-base/context/UserProfileStorageContext");
