@@ -16,8 +16,8 @@
 //   You may not use this file except in compliance with the License.
 
 import { MessagePath } from "@foxglove/message-path";
+import { userEvent } from "@storybook/testing-library";
 import { render, screen, fireEvent } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 import React from "react";
 import { useDebounce } from "use-debounce";
 
