@@ -286,7 +286,8 @@ export default function CurrentLayoutProvider({
       });
       await setSelectedLayoutId(newLayout.id);
     }
-  }, [getUserProfile, layoutManager, loaders, setSelectedLayoutId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [getUserProfile, layoutManager, setSelectedLayoutId]);
 
   const actions: ICurrentLayout["actions"] = useMemo(
     () => ({
