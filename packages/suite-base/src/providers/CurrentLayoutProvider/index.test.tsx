@@ -57,7 +57,7 @@ function makeMockLayoutManager() {
     setError: jest.fn(/*noop*/),
     setOnline: jest.fn(/*noop*/),
     getLayouts: jest.fn(),
-    getLayout: jest.fn().mockImplementation(mockThrow("getLayouts")),
+    getLayout: jest.fn().mockImplementation(mockThrow("getLayout")),
     saveNewLayout: jest.fn().mockImplementation(mockThrow("saveNewLayout")),
     updateLayout: jest.fn().mockImplementation(mockThrow("updateLayout")),
     deleteLayout: jest.fn().mockImplementation(mockThrow("deleteLayout")),
