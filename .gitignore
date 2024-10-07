@@ -21,5 +21,4 @@ coverage/
 *.foxe
 
 # SonarQube files
-sonar-project.properties
 .sonar_lock
