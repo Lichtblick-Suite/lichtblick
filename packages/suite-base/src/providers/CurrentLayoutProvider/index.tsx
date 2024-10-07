@@ -273,19 +273,25 @@ export default function CurrentLayoutProvider({
     // or we can't load it then save and select a default layout.
     const { currentLayoutId } = await getUserProfile();
     const layout = currentLayoutId ? await layoutManager.getLayout(currentLayoutId) : undefined;
-    const layouts = await layoutManager.getLayouts();
+
     if (layout) {
       await setSelectedLayoutId(currentLayoutId, { saveToProfile: false });
-    } else if (layouts[0]) {
-      await setSelectedLayoutId(layouts[0].id);
-    } else {
-      const newLayout = await layoutManager.saveNewLayout({
-        name: "Default",
-        data: defaultLayout,
-        permission: "CREATOR_WRITE",
-      });
-      await setSelectedLayoutId(newLayout.id);
+      return;
     }
+
+    const layouts = await layoutManager.getLayouts();
+    if (layouts[0]) {
+      await setSelectedLayoutId(layouts[0].id);
+      return;
+    }
+
+    const newLayout = await layoutManager.saveNewLayout({
+      name: "Default",
+      data: defaultLayout,
+      permission: "CREATOR_WRITE",
+    });
+    await setSelectedLayoutId(newLayout.id);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getUserProfile, layoutManager, setSelectedLayoutId]);
 
