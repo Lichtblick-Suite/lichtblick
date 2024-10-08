@@ -17,6 +17,14 @@ jobs:
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4.0.3
+        with:
+          node-version: 16.17
+
+      - name: Enable corepack
+        run: corepack enable yarn
+
       - name: Install dependencies
         run: yarn install --immutable
 
