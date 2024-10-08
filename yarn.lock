@@ -2424,32 +2424,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@foxglove/mcap-support@workspace:*, @foxglove/mcap-support@workspace:packages/mcap-support":
-  version: 0.0.0-use.local
-  resolution: "@foxglove/mcap-support@workspace:packages/mcap-support"
-  dependencies:
-    "@foxglove/schemas": 1.6.3
-    "@lichtblick/message-definition": 1.0.0
-    "@lichtblick/omgidl-parser": 1.0.0
-    "@lichtblick/omgidl-serialization": 1.0.0
-    "@lichtblick/ros2idl-parser": 1.0.0
-    "@lichtblick/rosmsg": 1.0.0
-    "@lichtblick/rosmsg-serialization": 1.0.0
-    "@lichtblick/rosmsg2-serialization": 1.0.0
-    "@lichtblick/tsconfig": 1.0.0
-    "@lichtblick/wasm-bz2": 1.0.0
-    "@lichtblick/wasm-lz4": 1.0.0
-    "@lichtblick/wasm-zstd": 1.0.0
-    "@mcap/core": 2.0.2
-    "@protobufjs/base64": 1.1.2
-    "@types/protobufjs": "workspace:*"
-    flatbuffers: 23.5.26
-    flatbuffers_reflection: 0.0.7
-    protobufjs: "patch:protobufjs@7.2.5#../../patches/protobufjs.patch"
-    typescript: 5.3.3
-  languageName: unknown
-  linkType: soft
-
 "@foxglove/message-definition@npm:^0.3.1":
   version: 0.3.1
   resolution: "@foxglove/message-definition@npm:0.3.1"
@@ -3107,6 +3081,32 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@lichtblick/mcap-support@workspace:*, @lichtblick/mcap-support@workspace:packages/mcap-support":
+  version: 0.0.0-use.local
+  resolution: "@lichtblick/mcap-support@workspace:packages/mcap-support"
+  dependencies:
+    "@foxglove/schemas": 1.6.3
+    "@lichtblick/message-definition": 1.0.0
+    "@lichtblick/omgidl-parser": 1.0.0
+    "@lichtblick/omgidl-serialization": 1.0.0
+    "@lichtblick/ros2idl-parser": 1.0.0
+    "@lichtblick/rosmsg": 1.0.0
+    "@lichtblick/rosmsg-serialization": 1.0.0
+    "@lichtblick/rosmsg2-serialization": 1.0.0
+    "@lichtblick/tsconfig": 1.0.0
+    "@lichtblick/wasm-bz2": 1.0.0
+    "@lichtblick/wasm-lz4": 1.0.0
+    "@lichtblick/wasm-zstd": 1.0.0
+    "@mcap/core": 2.0.2
+    "@protobufjs/base64": 1.1.2
+    "@types/protobufjs": "workspace:*"
+    flatbuffers: 23.5.26
+    flatbuffers_reflection: 0.0.7
+    protobufjs: "patch:protobufjs@7.2.5#../../patches/protobufjs.patch"
+    typescript: 5.3.3
+  languageName: unknown
+  linkType: soft
+
 "@lichtblick/message-definition@npm:1.0.0, @lichtblick/message-definition@npm:^1.0.0":
   version: 1.0.0
   resolution: "@lichtblick/message-definition@npm:1.0.0"
@@ -3265,7 +3265,6 @@ __metadata:
     "@emotion/react": 11.13.0
     "@emotion/styled": 11.13.0
     "@fluentui/react-icons": 2.0.224
-    "@foxglove/mcap-support": "workspace:*"
     "@foxglove/schemas": 1.6.3
     "@foxglove/ws-protocol": 0.7.2
     "@lichtblick/avl": 1.0.0
@@ -3276,6 +3275,7 @@ __metadata:
     "@lichtblick/electron-socket": 1.0.0
     "@lichtblick/hooks": "workspace:*"
     "@lichtblick/log": "workspace:*"
+    "@lichtblick/mcap-support": "workspace:*"
     "@lichtblick/message-definition": 1.0.0
     "@lichtblick/message-path": "workspace:*"
     "@lichtblick/ros1": 1.0.0
@@ -3436,10 +3436,10 @@ __metadata:
   dependencies:
     "@actions/exec": 1.1.1
     "@actions/tool-cache": 2.0.1
-    "@foxglove/mcap-support": "workspace:*"
     "@lichtblick/den": "workspace:*"
     "@lichtblick/electron-socket": 1.0.0
     "@lichtblick/log": "workspace:*"
+    "@lichtblick/mcap-support": "workspace:*"
     "@lichtblick/rosbag": 1.0.0
     "@lichtblick/rostime": 1.0.0
     "@lichtblick/suite-base": "workspace:*"
@@ -18939,9 +18939,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"protobufjs@patch:protobufjs@7.2.5#../../patches/protobufjs.patch::locator=%40foxglove%2Fmcap-support%40workspace%3Apackages%2Fmcap-support":
+"protobufjs@patch:protobufjs@7.2.5#../../patches/protobufjs.patch::locator=%40lichtblick%2Fmcap-support%40workspace%3Apackages%2Fmcap-support":
   version: 7.2.5
-  resolution: "protobufjs@patch:protobufjs@npm%3A7.2.5#../../patches/protobufjs.patch::version=7.2.5&hash=b342bd&locator=%40foxglove%2Fmcap-support%40workspace%3Apackages%2Fmcap-support"
+  resolution: "protobufjs@patch:protobufjs@npm%3A7.2.5#../../patches/protobufjs.patch::version=7.2.5&hash=b342bd&locator=%40lichtblick%2Fmcap-support%40workspace%3Apackages%2Fmcap-support"
   dependencies:
     "@protobufjs/aspromise": ^1.1.2
     "@protobufjs/base64": ^1.1.2

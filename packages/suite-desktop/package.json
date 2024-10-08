@@ -6,10 +6,10 @@
   "devDependencies": {
     "@actions/exec": "1.1.1",
     "@actions/tool-cache": "2.0.1",
-    "@foxglove/mcap-support": "workspace:*",
     "@lichtblick/den": "workspace:*",
     "@lichtblick/electron-socket": "1.0.0",
     "@lichtblick/log": "workspace:*",
+    "@lichtblick/mcap-support": "workspace:*",
     "@lichtblick/rosbag": "1.0.0",
     "@lichtblick/rostime": "1.0.0",
     "@lichtblick/suite-base": "workspace:*",
