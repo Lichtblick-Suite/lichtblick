@@ -14,7 +14,7 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { fontMonospace } from "@foxglove/theme";
+import { fontMonospace } from "@lichtblick/theme";
 import { ChartOptions, ScaleOptions } from "chart.js";
 import * as _ from "lodash-es";
 import * as R from "ramda";

@@ -14,7 +14,7 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { fontSansSerif } from "@foxglove/theme";
+import { fontSansSerif } from "@lichtblick/theme";
 import CloseIcon from "@mui/icons-material/Close";
 import { IconButton, InputBase } from "@mui/material";
 import React, { Ref as ReactRef, useCallback, useEffect, useMemo, useRef, useState } from "react";

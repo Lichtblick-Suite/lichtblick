@@ -5,7 +5,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import { fontMonospace } from "@foxglove/theme";
+import { fontMonospace } from "@lichtblick/theme";
 import { Chart, ChartDataset, ChartOptions, ScatterDataPoint } from "chart.js";
 import { AnnotationOptions } from "chartjs-plugin-annotation";
 import EventEmitter from "eventemitter3";

@@ -6,7 +6,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import type { FrameTransform, FrameTransforms, SceneUpdate } from "@foxglove/schemas";
-import { palette, fontMonospace } from "@foxglove/theme";
+import { palette, fontMonospace } from "@lichtblick/theme";
 import EventEmitter from "eventemitter3";
 import { quat, vec3 } from "gl-matrix";
 import i18next from "i18next";

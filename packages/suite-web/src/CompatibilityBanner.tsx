@@ -6,7 +6,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import { Dismiss20Filled, Warning24Filled } from "@fluentui/react-icons";
-import { createMuiTheme } from "@foxglove/theme";
+import { createMuiTheme } from "@lichtblick/theme";
 import {
   Button,
   IconButton,

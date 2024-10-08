@@ -7,7 +7,7 @@
 
 /// <reference types="../typings/i18next" />
 
-import { palette } from "@foxglove/theme";
+import { palette } from "@lichtblick/theme";
 import {
   BrowserWindow,
   BrowserWindowConstructorOptions,
