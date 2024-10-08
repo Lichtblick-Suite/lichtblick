@@ -12,5 +12,5 @@
     "json",
     "xml"
   ],
-  "coverageDirectory": "<caminho_para_o_diretorio_de_cobertura>"
+  "coverageDirectory": "coverage"
 }
