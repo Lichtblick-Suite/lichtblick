@@ -2457,17 +2457,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@foxglove/message-path@workspace:*, @foxglove/message-path@workspace:packages/message-path":
-  version: 0.0.0-use.local
-  resolution: "@foxglove/message-path@workspace:packages/message-path"
-  dependencies:
-    "@lichtblick/tsconfig": 1.0.0
-    "@types/nearley": 2.11.5
-    nearley: 2.20.1
-    typescript: 5.3.3
-  languageName: unknown
-  linkType: soft
-
 "@foxglove/rosmsg-msgs-common@npm:^3.0.0":
   version: 3.2.1
   resolution: "@foxglove/rosmsg-msgs-common@npm:3.2.1"
@@ -3125,6 +3114,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@lichtblick/message-path@workspace:*, @lichtblick/message-path@workspace:packages/message-path":
+  version: 0.0.0-use.local
+  resolution: "@lichtblick/message-path@workspace:packages/message-path"
+  dependencies:
+    "@lichtblick/tsconfig": 1.0.0
+    "@types/nearley": 2.11.5
+    nearley: 2.20.1
+    typescript: 5.3.3
+  languageName: unknown
+  linkType: soft
+
 "@lichtblick/omgidl-parser@npm:1.0.0":
   version: 1.0.0
   resolution: "@lichtblick/omgidl-parser@npm:1.0.0"
@@ -3266,7 +3266,6 @@ __metadata:
     "@emotion/styled": 11.13.0
     "@fluentui/react-icons": 2.0.224
     "@foxglove/mcap-support": "workspace:*"
-    "@foxglove/message-path": "workspace:*"
     "@foxglove/schemas": 1.6.3
     "@foxglove/ws-protocol": 0.7.2
     "@lichtblick/avl": 1.0.0
@@ -3278,6 +3277,7 @@ __metadata:
     "@lichtblick/hooks": "workspace:*"
     "@lichtblick/log": "workspace:*"
     "@lichtblick/message-definition": 1.0.0
+    "@lichtblick/message-path": "workspace:*"
     "@lichtblick/ros1": 1.0.0
     "@lichtblick/rosbag": 1.0.0
     "@lichtblick/rosbag2-web": 1.0.0
