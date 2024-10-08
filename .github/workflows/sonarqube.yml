@@ -17,26 +17,6 @@ jobs:
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4.0.3
-        with:
-          node-version: 16.17
-
-      - name: Enable corepack
-        run: corepack enable yarn
-
-      - name: Install dependencies
-        run: yarn install --immutable
-
-      - name: Restore cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            .yarn/cache
-            **/node_modules
-          key: v5-${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: v5-${{ runner.os }}-yarn-
-
       - name: Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
