@@ -2,12 +2,11 @@ name: SonarCloud
 
 on:
   push:
-    branches:
-      - main
-      - sonarqube-integration
+    branches: ["main", "sonarqube*"]
+  pull_request:
+    branches: ["main"]
+    types: [opened, synchronize, reopened]
   workflow_dispatch:
-  # pull_request:
-  #   types: [opened, synchronize, reopened]
 
 jobs:
   build:
