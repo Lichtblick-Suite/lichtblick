@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    name: SonarCloud Scan
+    name: SonarCloud
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.1.1
@@ -23,10 +23,16 @@ jobs:
         with:
           node-version: 16.17
 
-      - run: corepack enable yarn
-      - run: yarn install
+      - name: Enable corepack
+        run: corepack enable yarn
 
-      - name: Scan
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Test and coverage
+        run: yarn test:coverage
+
+      - name: ScanCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

@@ -38,6 +38,7 @@
     "lint:unused-exports": "ts-node ./ci/lint-unused-exports.ts",
     "lint:dependencies": "ts-node ./ci/lint-dependencies.ts .",
     "test": "jest",
+    "test:coverage": "jest --coverage",
     "test:debug": "cross-env NODE_OPTIONS='--inspect-brk' jest",
     "test:watch": "jest --watch",
     "test:integration": "jest --forceExit --projects desktop/integration-test",
