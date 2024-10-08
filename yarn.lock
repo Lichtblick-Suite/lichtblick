@@ -2515,15 +2515,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@foxglove/typescript-transformers@workspace:*, @foxglove/typescript-transformers@workspace:packages/typescript-transformers":
-  version: 0.0.0-use.local
-  resolution: "@foxglove/typescript-transformers@workspace:packages/typescript-transformers"
-  dependencies:
-    "@lichtblick/tsconfig": 1.0.0
-    typescript: 5.3.3
-  languageName: unknown
-  linkType: soft
-
 "@foxglove/ws-protocol@npm:0.7.2":
   version: 0.7.2
   resolution: "@foxglove/ws-protocol@npm:0.7.2"
@@ -3277,7 +3268,6 @@ __metadata:
     "@foxglove/mcap-support": "workspace:*"
     "@foxglove/message-path": "workspace:*"
     "@foxglove/schemas": 1.6.3
-    "@foxglove/typescript-transformers": "workspace:*"
     "@foxglove/ws-protocol": 0.7.2
     "@lichtblick/avl": 1.0.0
     "@lichtblick/chartjs-plugin-zoom": 1.0.0
@@ -3301,6 +3291,7 @@ __metadata:
     "@lichtblick/theme": "workspace:*"
     "@lichtblick/three-text": 1.0.0
     "@lichtblick/tsconfig": 1.0.0
+    "@lichtblick/typescript-transformers": "workspace:*"
     "@lichtblick/ulog": 1.0.0
     "@lichtblick/velodyne-cloud": 1.0.0
     "@lichtblick/wasm-bz2": 1.0.0
@@ -3565,6 +3556,15 @@ __metadata:
   checksum: f3215bb523b8c84643332bfc12dc9d392d273b1beab0674999c730ebaee246c29aec788140d5ba4aefe493d4488bbef5b31d50ba7abf0dd869a06ab00ef42add
   languageName: node
   linkType: hard
+
+"@lichtblick/typescript-transformers@workspace:*, @lichtblick/typescript-transformers@workspace:packages/typescript-transformers":
+  version: 0.0.0-use.local
+  resolution: "@lichtblick/typescript-transformers@workspace:packages/typescript-transformers"
+  dependencies:
+    "@lichtblick/tsconfig": 1.0.0
+    typescript: 5.3.3
+  languageName: unknown
+  linkType: soft
 
 "@lichtblick/ulog@npm:1.0.0":
   version: 1.0.0
