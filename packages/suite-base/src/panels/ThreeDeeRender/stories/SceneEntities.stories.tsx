@@ -806,6 +806,7 @@ function LineLoops(): JSX.Element {
 
   useEffect(() => {
     let timeOutID2: NodeJS.Timeout;
+    const timeout = 100;
 
     const timeOutID = setTimeout(() => {
       setFixture((oldFixture) => {
@@ -821,7 +822,7 @@ function LineLoops(): JSX.Element {
       });
       timeOutID2 = setTimeout(() => {
         readySignal();
-      }, 100);
+      }, timeout);
     }, 500);
 
     return () => {
