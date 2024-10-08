@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - sonarqube-integration
+  workflow_dispatch:
   # pull_request:
   #   types: [opened, synchronize, reopened]
 
