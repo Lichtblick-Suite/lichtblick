@@ -28,6 +28,15 @@ jobs:
       - name: Install dependencies
         run: yarn install --immutable
 
+      - name: Restore cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            .yarn/cache
+            **/node_modules
+          key: v5-${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: v5-${{ runner.os }}-yarn-
+
       - name: Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
