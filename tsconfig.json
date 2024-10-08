@@ -2,7 +2,7 @@
 // Do not "extend" from this file, use @lichtblick/tsconfig/base instead.
 // Do not "include" files here if they are already included by another tsconfig.json.
 {
-  "extends": "@lichtblick/tsconfig/base",
+  "extends": "@lichtblick/tsconfig/base.json",
   "include": [
     "./*.ts",
     "./*.js",
