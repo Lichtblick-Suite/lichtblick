@@ -5,8 +5,8 @@ on:
     branches:
       - main
       - sonarqube-integration
-  pull_request:
-    types: [opened, synchronize, reopened]
+  # pull_request:
+  #   types: [opened, synchronize, reopened]
 
 jobs:
   build:
