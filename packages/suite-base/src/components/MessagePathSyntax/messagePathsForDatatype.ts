@@ -281,7 +281,7 @@ export const traverseStructure = (
         return { valid: false, msgPathPart, structureItem };
       }
       structureItem = structureItem.next;
-    //eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      //eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     } else if (msgPathPart.type === "filter") {
       if (
         structureItem.structureType !== "message" ||
