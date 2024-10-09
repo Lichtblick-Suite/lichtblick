@@ -281,7 +281,7 @@ export const traverseStructure = (
         return { valid: false, msgPathPart, structureItem };
       }
       structureItem = structureItem.next;
-       
+
     } else if (msgPathPart.type === "filter") {
       if (
         structureItem.structureType !== "message" ||
@@ -303,7 +303,7 @@ export const traverseStructure = (
     } else {
       assertNever(
         msgPathPart,
-        `Invalid msgPathPart.type: ${(msgPathPart ).type}`,
+        `Invalid msgPathPart.type: ${(msgPathPart as MessagePathPart).type} `,
       );
     }
   }
