@@ -8,7 +8,6 @@
 import Log from "@lichtblick/log";
 import { MessageDefinitionMap } from "@lichtblick/mcap-support/src/types";
 
-
 const log = Log.getLogger(__filename);
 /**
  * Values of the contants below are a (more or less) informed guesses and not guaranteed to be accurate.
