@@ -29,6 +29,9 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
+      - name: Lint and report
+        run: yarn lint:ci:report
+
       - name: Test and coverage
         run: yarn test:coverage
 
