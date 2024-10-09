@@ -1,6 +1,10 @@
 // SPDX-FileCopyrightText: Copyright (C) 2023-2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)<lichtblick@bmwgroup.com>
 // SPDX-License-Identifier: MPL-2.0
 
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at http://mozilla.org/MPL/2.0/
+
 import React, { useState, useEffect } from 'react';
 
 type Props = {
@@ -10,8 +14,9 @@ type Props = {
 const ProblematicComponent: React.FC<Props> = ({ userName }) => {
   const [count, setCount] = useState<number>(0);
   const [data, setData] = useState<any>(null);
+  const [unnusedData,] = useState<any>(null); // unnused var
 
-  // Problema de complexidade - lógica de ramificação excessiva
+  // Complexity issue - bad logic
   const handleClick = () => {
     if (count === 0) {
       setCount(count + 1);
@@ -24,15 +29,15 @@ const ProblematicComponent: React.FC<Props> = ({ userName }) => {
     }
   };
 
-  // Uso de "any", falta de tratamento de erro
+
   useEffect(() => {
     fetch('/api/data')
       .then(async (response) => await response.json())
-      .then((result: any) => {
+      .then((result: any) => { // Using "any"
         setData(result);
       })
       .catch((error) => {
-        console.log('Erro:', error); // Código que não lida adequadamente com o erro
+        console.log('Error:', error);
       });
   }, []);
 
@@ -41,7 +46,6 @@ const ProblematicComponent: React.FC<Props> = ({ userName }) => {
       <h1>Hello, {userName}</h1>
       <p>Counter: {count}</p>
       <button onClick={handleClick}>Increment</button>
-      {/* Renderização condicional sem verificação adequada */}
       {data ? <div>{data.name}</div> : <p>Loading...</p>}
     </div>
   );
