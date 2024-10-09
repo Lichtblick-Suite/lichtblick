@@ -5,9 +5,22 @@
         "distance": 20,
         "perspective": true,
         "phi": 60,
-        "target": [0, 0, 0],
-        "targetOffset": [0, 0, 0],
-        "targetOrientation": [0, 0, 0, 1],
+        "target": [
+          0,
+          0,
+          0
+        ],
+        "targetOffset": [
+          0,
+          0,
+          0
+        ],
+        "targetOrientation": [
+          0,
+          0,
+          0,
+          1
+        ],
         "thetaOffset": 45,
         "fovy": 45,
         "near": 0.5,
@@ -28,7 +41,7 @@
         "poseEstimateThetaDeviation": 0.26179939
       },
       "imageMode": {
-        "imageTopic": "/preview/image_compressed",
+        "imageTopic": "/preview/video_compressed",
         "cameraSelection": "/front_stereo_camera/left"
       }
     },
@@ -40,7 +53,10 @@
       "maxValue": 1,
       "colorMap": "red-yellow-green",
       "colorMode": "colormap",
-      "gradient": ["#0000ff", "#ff00ff"],
+      "gradient": [
+        "#0000ff",
+        "#ff00ff"
+      ],
       "reverse": true
     },
     "uploadTablePanel!3k4328j": {},
@@ -53,12 +69,6 @@
       "hardwareIdFilter": "",
       "topicToRender": "/diagnostics_agg",
       "sortByLevel": true
-    },
-    "DiagnosticStatusPanel!3c317kt": {
-      "selectedHardwareId": "nvidia",
-      "selectedName": "/sensors/hawk/hawk front_stereo_camera left camera_info",
-      "topicToRender": "/diagnostics_agg",
-      "collapsedSections": []
     },
     "StateTransitions!3ucbjnx": {
       "paths": [
@@ -76,6 +86,12 @@
         }
       ],
       "isSynced": true
+    },
+    "DiagnosticStatusPanel!3c317kt": {
+      "selectedHardwareId": "nvidia",
+      "selectedName": "/sensors/hawk/hawk front_stereo_camera left camera_info",
+      "topicToRender": "/diagnostics_agg",
+      "collapsedSections": []
     },
     "Tab!13v6wi9": {
       "activeTabIdx": 0,
