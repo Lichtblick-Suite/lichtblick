@@ -2,7 +2,7 @@ name: SonarCloud
 
 on:
   push:
-    branches: ["main", "sonarqube*"]
+    branches: ["main"]
   pull_request:
     branches: ["main"]
     types: [opened, synchronize, reopened]
