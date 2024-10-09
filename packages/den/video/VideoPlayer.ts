@@ -4,7 +4,7 @@
 
 import { Mutex } from "async-mutex";
 import EventEmitter from "eventemitter3";
-import Logger from "@foxglove/log";
+import Logger from "@lichtblick/log";
 
 // foxglove-depcheck-used: @types/dom-webcodecs
 
@@ -71,7 +71,9 @@ export class VideoPlayer extends EventEmitter<VideoPlayerEventTypes> {
 
       let support = await VideoDecoder.isConfigSupported(modifiedConfig);
       if (support.supported !== true) {
-        log.warn(`VideoDecoder does not support configuration ${JSON.stringify(modifiedConfig)}. Trying without 'prefer-hardware'`);
+        log.warn(
+          `VideoDecoder does not support configuration ${JSON.stringify(modifiedConfig)}. Trying without 'prefer-hardware'`,
+        );
         // If 'prefer-hardware' is not supported, try without it
         modifiedConfig = { ...decoderConfig };
         support = await VideoDecoder.isConfigSupported(modifiedConfig);
