@@ -48,11 +48,18 @@ export function isVideoKeyframe(frameMsg: CompressedVideo): boolean {
 export function getVideoDecoderConfig(frameMsg: CompressedVideo): VideoDecoderConfig | undefined {
   switch (frameMsg.format) {
     case "h264": {
-      // Search for an SPS NAL unit to initialize the decoder. This should precede each keyframe
-      return H264.ParseDecoderConfig(frameMsg.data);
+      const decoderConfig = H264.ParseDecoderConfig(frameMsg.data);
+
+      if (decoderConfig) {
+        decoderConfig.codec = "avc1.42E01E"; // Baseline profile
+        decoderConfig.optimizeForLatency = true;
+
+        return decoderConfig;
+      } else {
+        return undefined;
+      }
     }
   }
-
   return undefined;
 }
 
