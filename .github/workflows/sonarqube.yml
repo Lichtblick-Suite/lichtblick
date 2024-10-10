@@ -37,6 +37,9 @@ jobs:
       - name: Test and coverage
         run: yarn test:coverage
 
+      - name: LS
+        run: ls -la
+
       - name: ScanCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
