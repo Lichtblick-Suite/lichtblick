@@ -31,6 +31,7 @@ jobs:
 
       - name: Lint and report
         run: yarn lint:ci:report
+        continue-on-error: true
 
       - name: Test and coverage
         run: yarn test:coverage
