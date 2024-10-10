@@ -48,9 +48,6 @@ jobs:
       - name: Path
         run: pwd
 
-      - name: Test
-        run: sed -i 's+/home/runner/work/***+/github/workspace+g' eslint-report.json
-
       - name: ScanCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
