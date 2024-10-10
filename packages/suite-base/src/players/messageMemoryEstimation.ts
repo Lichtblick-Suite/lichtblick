@@ -256,10 +256,10 @@ export function estimateObjectSize(obj: unknown): number {
         // adapted from
         // medium.com/@bpmxmqd/v8-engine-jsobject-structure-analysis-and-memory-optimization-ideas-be30cfcdcd16
         const propertiesDictSize =
-          16 + 5 * 8 + 2 ** Math.ceil(Math.log2((numProps + 2) * 1.5)) * 3 * 4;
+          16 + 5 * 8 + 2 ** Math.ceil(Math.log2((numProps + 2) * 1.5)) * 3 * 8;
         // In return, properties are no longer stored in the properties array, so we subtract that.
         propertiesSize = propertiesDictSize - numProps * COMPRESSED_POINTER_SIZE;
-      }
+    }
 
       const valuesSize = Object.values(obj).reduce((acc, val) => acc + estimateObjectSize(val), 0);
       return OBJECT_BASE_SIZE + propertiesSize + valuesSize;
