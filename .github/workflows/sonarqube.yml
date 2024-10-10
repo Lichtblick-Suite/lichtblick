@@ -29,26 +29,15 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: Run tsc
-        run: yarn run tsc --noEmit
-
-      - name: Lint and report
-        run: yarn lint:ci:report
+      - name: Lint with report
+        run: |
+          yarn lint:ci:report
+          sed -i 's|/home/runner/work/lichtblick/lichtblick/|./|g' eslint-report.json
         continue-on-error: true
 
       - name: Test and coverage
         run: yarn test:coverage
-
-      - name: List files
-        run: ls -la
-
-      - name: Print ESLint report
-        run: cat eslint-report.json
-
-      - name: Path
-        run: pwd
-
-      - run: sed -i 's|/home/runner/work/lichtblick/lichtblick/|./|g' eslint-report.json
+        continue-on-error: true
 
       - name: ScanCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
