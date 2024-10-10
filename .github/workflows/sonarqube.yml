@@ -48,6 +48,8 @@ jobs:
       - name: Path
         run: pwd
 
+      - run: sed -i 's|/home/runner/work/lichtblick/lichtblick/|./|g' eslint-report.json
+
       - name: ScanCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
