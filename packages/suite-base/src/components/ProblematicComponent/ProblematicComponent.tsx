@@ -12,11 +12,7 @@ type Props = {
 };
 
 const ProblematicComponent: React.FC<Props> = ({ userName }) => {
-  return (
-    <div>
-      {userName}
-    </div>
-  );
+  return <div>{userName}</div>;
 };
 
 export default ProblematicComponent;
