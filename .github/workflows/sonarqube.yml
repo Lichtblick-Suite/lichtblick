@@ -29,16 +29,21 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
+      - name: Run tsc
+        run: yarn run tsc --noEmit
+
       - name: Lint and report
         run: yarn lint:ci:report
         continue-on-error: true
 
-      - run: yarn run tsc --noEmit
       - name: Test and coverage
         run: yarn test:coverage
 
-      - name: LS
+      - name: List files
         run: ls -la
+
+      - name: Print ESLint report
+        run: cat eslint-report.json
 
       - name: ScanCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
