@@ -29,7 +29,7 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: Lint with report
+      - name: Generates lint report and file path formatting
         run: |
           yarn lint:ci:report
           sed -i 's|/home/runner/work/lichtblick/lichtblick/|./|g' eslint-report.json

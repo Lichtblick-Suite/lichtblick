@@ -43,7 +43,6 @@ import {
   useMessagePipeline,
 } from "@lichtblick/suite-base/components/MessagePipeline";
 import PlaybackSpeedControls from "@lichtblick/suite-base/components/PlaybackSpeedControls";
-import ProblematicComponent from "@lichtblick/suite-base/components/ProblematicComponent/ProblematicComponent";
 import Stack from "@lichtblick/suite-base/components/Stack";
 import { useCurrentUser } from "@lichtblick/suite-base/context/BaseUserContext";
 import { EventsStore, useEvents } from "@lichtblick/suite-base/context/EventsContext";
@@ -191,7 +190,6 @@ export default function PlaybackControls(props: {
 
   return (
     <>
-      <ProblematicComponent userName=""></ProblematicComponent>
       <RepeatAdapter play={play} seek={seek} repeatEnabled={repeat} />
       <KeyListener global keyDownHandlers={keyDownHandlers} />
       <div className={classes.root}>
