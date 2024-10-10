@@ -35,7 +35,7 @@
     "license-check": "ts-node ci/license-check.ts",
     "lint": "TIMING=1 eslint --report-unused-disable-directives --fix .",
     "lint:ci": "TIMING=1 eslint --report-unused-disable-directives --config .eslintrc.ci.yaml .",
-    "lint:ci:report": "yarn lint:ci -f json -o eslint-report.json",
+    "lint:ci:report": "yarn lint:ci -f json -o eslint-report.json --quiet",
     "lint:unused-exports": "ts-node ./ci/lint-unused-exports.ts",
     "lint:dependencies": "ts-node ./ci/lint-dependencies.ts .",
     "test": "jest",
