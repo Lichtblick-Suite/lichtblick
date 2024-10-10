@@ -33,6 +33,7 @@ jobs:
         run: yarn lint:ci:report
         continue-on-error: true
 
+      - run: yarn run tsc --noEmit
       - name: Test and coverage
         run: yarn test:coverage
 
