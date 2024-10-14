@@ -35,8 +35,16 @@ jobs:
           sed -i 's|/home/runner/work/lichtblick/lichtblick/|./|g' eslint-report.json
         continue-on-error: true
 
-      - name: Test and coverage
+      - name: General tests and coverage
         run: yarn test:coverage
+        continue-on-error: true
+
+      - name: Desktop integration tests and coverage
+        run: yarn test:integration:coverage
+        continue-on-error: true
+
+      - name: Web integration tests and coverage
+        run: yarn test:web-integration:coverage
         continue-on-error: true
 
       - name: ScanCloud Scan
