@@ -36,7 +36,9 @@ jobs:
         continue-on-error: true
 
       - name: Test and coverage
-        run: yarn test:coverage
+        run: |
+          yarn test:coverage
+          sed -i 's|/home/runner/work/lichtblick/lichtblick/|./|g' coverage/lcov.info
         continue-on-error: true
 
       - name: ScanCloud Scan
