@@ -121,6 +121,10 @@ function renderTest({
 }
 
 describe("CurrentLayoutProvider", () => {
+  afterEach(() => {
+    (console.warn as jest.Mock).mockClear();
+  });
+
   it("uses currentLayoutId from UserProfile to load from LayoutStorage", async () => {
     const expectedState: LayoutData = {
       layout: "Foo!bar",
@@ -161,7 +165,6 @@ describe("CurrentLayoutProvider", () => {
         },
       },
     ]);
-    (console.warn as jest.Mock).mockClear();
   });
 
   it("refuses to load an incompatible layout", async () => {
@@ -199,7 +202,6 @@ describe("CurrentLayoutProvider", () => {
       { selectedLayout: undefined },
       { selectedLayout: undefined },
     ]);
-    (console.warn as jest.Mock).mockClear();
   });
 
   it("keeps identity of action functions when modifying layout", async () => {
@@ -238,7 +240,6 @@ describe("CurrentLayoutProvider", () => {
     });
 
     expect(result.current.actions.savePanelConfigs).toBe(actions.savePanelConfigs);
-    (console.warn as jest.Mock).mockClear();
   });
 
   it("selects the first layout in alphabetic order, when there is no selected layout", async () => {
@@ -276,7 +277,5 @@ describe("CurrentLayoutProvider", () => {
 
     expect(selectedLayout).toBeDefined();
     expect(selectedLayout).toBe("layout2");
-
-    (console.warn as jest.Mock).mockClear();
   });
 });
