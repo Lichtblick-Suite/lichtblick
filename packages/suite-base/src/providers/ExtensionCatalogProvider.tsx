@@ -14,7 +14,6 @@ import Logger from "@lichtblick/log";
 import {
   ExtensionContext,
   ExtensionModule,
-  PanelSettings,
   RegisterMessageConverterArgs,
   TopicAliasFunction,
 } from "@lichtblick/suite";
@@ -37,7 +36,6 @@ type ContributionPoints = {
   panels: Record<string, RegisteredPanel>;
   messageConverters: MessageConverter[];
   topicAliasFunctions: TopicAliasFunctions;
-  panelSettings: Record<string, Record<string, PanelSettings<unknown>>>;
 };
 
 function activateExtension(
@@ -49,8 +47,6 @@ function activateExtension(
   const panels: Record<string, RegisteredPanel> = {};
 
   const messageConverters: RegisterMessageConverterArgs<unknown>[] = [];
-
-  const panelSettings: Record<string, Record<string, PanelSettings<unknown>>> = {};
 
   const topicAliasFunctions: ContributionPoints["topicAliasFunctions"] = [];
 
@@ -95,12 +91,6 @@ function activateExtension(
         ...args,
         extensionNamespace: extension.namespace,
       } as MessageConverter);
-
-      const converterSettings = _.mapValues(args.panelSettings, (settings) => ({
-        [args.fromSchemaName]: settings,
-      }));
-
-      _.merge(panelSettings, converterSettings);
     },
 
     registerTopicAliases: (aliasFunction: TopicAliasFunction) => {
@@ -125,7 +115,6 @@ function activateExtension(
     panels,
     messageConverters,
     topicAliasFunctions,
-    panelSettings,
   };
 }
 
@@ -160,7 +149,6 @@ function createExtensionRegistryStore(
         panels: {},
         messageConverters: [],
         topicAliasFunctions: [],
-        panelSettings: {},
       };
       for (const loader of loaders) {
         try {
@@ -170,7 +158,6 @@ function createExtensionRegistryStore(
               const unwrappedExtensionSource = await loader.loadExtension(extension.id);
               const contributionPoints = activateExtension(extension, unwrappedExtensionSource);
               Object.assign(allContributionPoints.panels, contributionPoints.panels);
-              _.merge(allContributionPoints.panelSettings, contributionPoints.panelSettings);
               allContributionPoints.messageConverters.push(...contributionPoints.messageConverters);
               allContributionPoints.topicAliasFunctions.push(
                 ...contributionPoints.topicAliasFunctions,
@@ -191,7 +178,6 @@ function createExtensionRegistryStore(
         installedPanels: allContributionPoints.panels,
         installedMessageConverters: allContributionPoints.messageConverters,
         installedTopicAliasFunctions: allContributionPoints.topicAliasFunctions,
-        panelSettings: allContributionPoints.panelSettings,
       });
     },
 
@@ -203,13 +189,6 @@ function createExtensionRegistryStore(
     installedMessageConverters: mockMessageConverters ?? [],
 
     installedTopicAliasFunctions: [],
-
-    panelSettings: _.merge(
-      {},
-      ...(mockMessageConverters ?? []).map(({ fromSchemaName, panelSettings }) =>
-        _.mapValues(panelSettings, (settings) => ({ [fromSchemaName]: settings })),
-      ),
-    ),
 
     uninstallExtension: async (namespace: ExtensionNamespace, id: string) => {
       const namespacedLoader = loaders.find((loader) => loader.namespace === namespace);

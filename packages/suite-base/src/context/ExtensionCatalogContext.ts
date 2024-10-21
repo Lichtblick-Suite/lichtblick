@@ -12,7 +12,6 @@ import { useGuaranteedContext } from "@lichtblick/hooks";
 import {
   ExtensionPanelRegistration,
   Immutable,
-  PanelSettings,
   RegisterMessageConverterArgs,
 } from "@lichtblick/suite";
 import { TopicAliasFunctions } from "@lichtblick/suite-base/players/TopicAliasingPlayer/TopicAliasingPlayer";
@@ -35,11 +34,8 @@ export type ExtensionCatalog = Immutable<{
 
   installedExtensions: undefined | ExtensionInfo[];
   installedPanels: undefined | Record<string, RegisteredPanel>;
-  installedMessageConverters:
-    | undefined
-    | Omit<RegisterMessageConverterArgs<unknown>, "panelSettings">[];
+  installedMessageConverters: undefined | RegisterMessageConverterArgs<unknown>[];
   installedTopicAliasFunctions: undefined | TopicAliasFunctions;
-  panelSettings: undefined | Record<string, Record<string, PanelSettings<unknown>>>;
 }>;
 
 export const ExtensionCatalogContext = createContext<undefined | StoreApi<ExtensionCatalog>>(
@@ -49,10 +45,4 @@ export const ExtensionCatalogContext = createContext<undefined | StoreApi<Extens
 export function useExtensionCatalog<T>(selector: (registry: ExtensionCatalog) => T): T {
   const context = useGuaranteedContext(ExtensionCatalogContext);
   return useStore(context, selector);
-}
-
-export function getExtensionPanelSettings(
-  reg: ExtensionCatalog,
-): Record<string, Record<string, PanelSettings<unknown>>> {
-  return reg.panelSettings ?? {};
 }

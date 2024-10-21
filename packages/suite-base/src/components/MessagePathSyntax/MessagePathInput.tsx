@@ -18,7 +18,7 @@ import { TextFieldProps } from "@mui/material";
 import * as _ from "lodash-es";
 import { CSSProperties, useCallback, useEffect, useMemo, useState } from "react";
 import { makeStyles } from "tss-react/mui";
-import { useDebounce } from "use-debounce";
+// import { useDebounce } from "use-debounce";
 
 import { filterMap } from "@lichtblick/den/collection";
 import {
@@ -194,12 +194,12 @@ export default React.memo<MessagePathInputBaseProps>(function MessagePathInput(
   );
 
   const [currentPath, setCurrentPath] = useState<string>(path);
-  const [debouncedPath] = useDebounce(currentPath, 250);
+  // const [debouncedPath] = useDebounce(currentPath, 250);
 
   useEffect(() => {
-    props.onChange(debouncedPath, props.index);
+    props.onChange(currentPath, props.index);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedPath, props.index]);
+  }, [currentPath, props.index]);
 
   const onChange = useCallback(
     (event: React.SyntheticEvent, rawValue: string) => {

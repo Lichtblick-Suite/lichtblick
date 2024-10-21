@@ -58,7 +58,6 @@ export function convertMessage(
       message: convertedMessage,
       originalMessageEvent: messageEvent,
       sizeInBytes: messageEvent.sizeInBytes,
-      topicConfig: messageEvent.topicConfig,
     });
   }
 }

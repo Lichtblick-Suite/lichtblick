@@ -6,7 +6,6 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import { useTheme } from "@mui/material";
-import { produce } from "immer";
 import { CSSProperties, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useLatest } from "react-use";
 import { v4 as uuid } from "uuid";
@@ -21,7 +20,6 @@ import {
   ParameterValue,
   RenderState,
   SettingsTree,
-  SettingsTreeAction,
   Subscription,
   Time,
   VariableValue,
@@ -36,7 +34,6 @@ import PanelToolbar from "@lichtblick/suite-base/components/PanelToolbar";
 import { useAppConfiguration } from "@lichtblick/suite-base/context/AppConfigurationContext";
 import {
   ExtensionCatalog,
-  getExtensionPanelSettings,
   useExtensionCatalog,
 } from "@lichtblick/suite-base/context/ExtensionCatalogContext";
 import {
@@ -119,7 +116,7 @@ function PanelExtensionAdapter(
   //
   // We store the config in a ref to avoid re-initializing the panel when the react config
   // changes.
-  const initialState = useLatest(maybeCast<RenderStateConfig>(config));
+  const initialState = useLatest(config);
 
   const messagePipelineContext = useMessagePipeline(selectContext);
 
@@ -128,7 +125,7 @@ function PanelExtensionAdapter(
 
   const { capabilities, profile: dataSourceProfile, presence: playerPresence } = playerState;
 
-  const { openSiblingPanel, setMessagePathDropConfig, type: panelName } = usePanelContext();
+  const { openSiblingPanel, setMessagePathDropConfig } = usePanelContext();
 
   const [panelId] = useState(() => uuid());
   const isMounted = useSynchronousMountedState();
@@ -244,7 +241,6 @@ function PanelExtensionAdapter(
       sortedTopics,
       subscriptions: localSubscriptions,
       watchedFields,
-      config: undefined,
     });
 
     if (!renderState) {
@@ -293,12 +289,9 @@ function PanelExtensionAdapter(
     sharedPanelState,
     sortedTopics,
     watchedFields,
-    initialState,
   ]);
 
   const updatePanelSettingsTree = usePanelSettingsTreeUpdate();
-
-  const extensionsSettings = useExtensionCatalog(getExtensionPanelSettings);
 
   type PartialPanelExtensionContext = Omit<BuiltinPanelExtensionContext, "panelElement">;
 
@@ -320,21 +313,6 @@ function PanelExtensionAdapter(
             assertNever(position, `Unsupported position for addPanel: ${position}`);
         }
       },
-    };
-
-    const extensionSettingsActionHandler = (action: SettingsTreeAction) => {
-      const {
-        payload: { path },
-      } = action;
-
-      saveConfig(
-        produce<{ topics: Record<string, unknown> }>((draft) => {
-          const [category, topicName] = path;
-          if (category === "topics" && topicName != undefined) {
-            extensionsSettings[panelName]?.[topicName]?.handler(action, draft.topics[topicName]);
-          }
-        }),
-      );
     };
 
     return {
@@ -528,11 +506,7 @@ function PanelExtensionAdapter(
         if (!isMounted()) {
           return;
         }
-        const actionHandler: typeof settings.actionHandler = (action) => {
-          settings.actionHandler(action);
-          extensionSettingsActionHandler(action);
-        };
-        updatePanelSettingsTree({ ...settings, actionHandler });
+        updatePanelSettingsTree(settings);
       },
 
       setDefaultPanelTitle: (title: string) => {
@@ -557,8 +531,6 @@ function PanelExtensionAdapter(
     isMounted,
     openSiblingPanel,
     saveConfig,
-    extensionsSettings,
-    panelName,
     getMessagePipelineContext,
     setGlobalVariables,
     clearHoverValue,
