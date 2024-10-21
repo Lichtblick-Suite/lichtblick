@@ -206,7 +206,9 @@ export class BlockLoader {
     const { progress } = args;
     let totalBlockSizeBytes = this.#cacheSize();
 
+    log.debug("STARTING BLOCK LOADING: (BLOCK.LENGHT)", this.#blocks.length);
     for (let blockId = 0; blockId < this.#blocks.length; ++blockId) {
+      log.debug("STARTING BLOCK LOADING:", blockId);
       // Topics we will fetch for this range
       let topicsToFetch: Immutable<TopicSelection>;
 
@@ -259,9 +261,11 @@ export class BlockLoader {
           this.#abortController.signal,
         );
 
-      log.debug("Loading range", { blockId, endBlockId });
+      log.debug("[BLOCK LOADING:] Loading range", { blockId, endBlockId });
       // Loop through the blocks corresponding to the range of our cursor
       for (let currentBlockId = blockId; currentBlockId <= endBlockId; ++currentBlockId) {
+        log.debug("[BLOCK LOADING:] currentBlockId", currentBlockId);
+
         // Until time is the end time of the current block, we want all the messages from the cursor
         // until (inclusive) of the end of of the block
         const untilTime = clampTime(this.#blockIdToEndTime(currentBlockId), this.#start, this.#end);
@@ -376,10 +380,14 @@ export class BlockLoader {
         totalBlockSizeBytes -= overridenBlockMessagesSize;
 
         progress(this.#calculateProgress(topics, totalBlockSizeBytes));
+
+        log.debug("[BLOCK LOADING:] currentBlockId", currentBlockId);
       }
 
       await cursor.end();
       blockId = endBlockId;
+
+      log.debug("ENDING BLOCK LOADING:", blockId);
     }
   }
 

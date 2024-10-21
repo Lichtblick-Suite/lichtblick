@@ -16,11 +16,11 @@ import { McapIndexedIterableSource } from "./McapIndexedIterableSource";
 import { McapUnindexedIterableSource } from "./McapUnindexedIterableSource";
 import { RemoteFileReadable } from "./RemoteFileReadable";
 import {
-  IIterableSource,
-  IteratorResult,
-  Initalization,
-  MessageIteratorArgs,
   GetBackfillMessagesArgs,
+  ISerializedIterableSource,
+  Initalization,
+  IteratorResult,
+  MessageIteratorArgs,
 } from "../IIterableSource";
 
 const log = Log.getLogger(__filename);
@@ -46,13 +46,15 @@ async function tryCreateIndexedReader(readable: McapTypes.IReadable) {
   }
 }
 
-export class McapIterableSource implements IIterableSource {
+export class McapIterableSource implements ISerializedIterableSource {
   #source: McapSource;
-  #sourceImpl: IIterableSource | undefined;
+  #sourceImpl: ISerializedIterableSource | undefined;
 
   public constructor(source: McapSource) {
     this.#source = source;
   }
+
+  public readonly sourceType = "serialized";
 
   public async initialize(): Promise<Initalization> {
     const source = this.#source;
@@ -106,7 +108,7 @@ export class McapIterableSource implements IIterableSource {
 
   public messageIterator(
     opt: MessageIteratorArgs,
-  ): AsyncIterableIterator<Readonly<IteratorResult>> {
+  ): AsyncIterableIterator<Readonly<IteratorResult<Uint8Array>>> {
     if (!this.#sourceImpl) {
       throw new Error("Invariant: uninitialized");
     }
@@ -114,7 +116,9 @@ export class McapIterableSource implements IIterableSource {
     return this.#sourceImpl.messageIterator(opt);
   }
 
-  public async getBackfillMessages(args: GetBackfillMessagesArgs): Promise<MessageEvent[]> {
+  public async getBackfillMessages(
+    args: GetBackfillMessagesArgs,
+  ): Promise<MessageEvent<Uint8Array>[]> {
     if (!this.#sourceImpl) {
       throw new Error("Invariant: uninitialized");
     }
