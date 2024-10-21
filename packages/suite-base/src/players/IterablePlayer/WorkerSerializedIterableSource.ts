@@ -1,25 +1,23 @@
-// SPDX-FileCopyrightText: Copyright (C) 2023-2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)<lichtblick@bmwgroup.com>
-// SPDX-License-Identifier: MPL-2.0
-
 // This Source Code Form is subject to the terms of the Mozilla Public
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import * as Comlink from "@lichtblick/comlink";
-import { abortSignalTransferHandler } from "@lichtblick/comlink-transfer-handlers";
-import { ComlinkWrap } from "@lichtblick/den/worker";
-import { Immutable, MessageEvent, Time } from "@lichtblick/suite";
+import * as Comlink from "comlink";
+
+import { abortSignalTransferHandler } from "@foxglove/comlink-transfer-handlers";
+import { ComlinkWrap } from "@foxglove/den/worker";
+import { Immutable, MessageEvent, Time } from "@foxglove/studio";
 
 import type {
   GetBackfillMessagesArgs,
   IMessageCursor,
-  Initalization,
   IteratorResult,
   MessageIteratorArgs,
   IterableSourceInitializeArgs,
-  IDeserializedIterableSource,
+  ISerializedIterableSource,
+  Initalization,
 } from "./IIterableSource";
-import type { WorkerIterableSourceWorker } from "./WorkerIterableSourceWorker";
+import type { WorkerSerializedIterableSourceWorker } from "./WorkerSerializedIterableSourceWorker";
 
 Comlink.transferHandlers.set("abortsignal", abortSignalTransferHandler);
 
@@ -28,13 +26,12 @@ type ConstructorArgs = {
   initArgs: IterableSourceInitializeArgs;
 };
 
-export class WorkerIterableSource implements IDeserializedIterableSource {
+export class WorkerSerializedIterableSource implements ISerializedIterableSource {
   readonly #args: ConstructorArgs;
 
-  #sourceWorkerRemote?: Comlink.Remote<WorkerIterableSourceWorker>;
+  #sourceWorkerRemote?: Comlink.Remote<WorkerSerializedIterableSourceWorker>;
   #disposeRemote?: () => void;
-
-  public readonly sourceType = "deserialized";
+  public readonly sourceType = "serialized";
 
   public constructor(args: ConstructorArgs) {
     this.#args = args;
@@ -48,7 +45,7 @@ export class WorkerIterableSource implements IDeserializedIterableSource {
 
     const { remote: initializeWorker, dispose } =
       ComlinkWrap<
-        (args: IterableSourceInitializeArgs) => Comlink.Remote<WorkerIterableSourceWorker>
+        (args: IterableSourceInitializeArgs) => Comlink.Remote<WorkerSerializedIterableSourceWorker>
       >(worker);
 
     this.#disposeRemote = dispose;
@@ -58,7 +55,7 @@ export class WorkerIterableSource implements IDeserializedIterableSource {
 
   public async *messageIterator(
     args: MessageIteratorArgs,
-  ): AsyncIterableIterator<Readonly<IteratorResult>> {
+  ): AsyncIterableIterator<Readonly<IteratorResult<Uint8Array>>> {
     if (this.#sourceWorkerRemote == undefined) {
       throw new Error(`WorkerIterableSource is not initialized`);
     }
@@ -81,7 +78,9 @@ export class WorkerIterableSource implements IDeserializedIterableSource {
     }
   }
 
-  public async getBackfillMessages(args: GetBackfillMessagesArgs): Promise<MessageEvent[]> {
+  public async getBackfillMessages(
+    args: GetBackfillMessagesArgs,
+  ): Promise<MessageEvent<Uint8Array>[]> {
     if (this.#sourceWorkerRemote == undefined) {
       throw new Error(`WorkerIterableSource is not initialized`);
     }
@@ -95,7 +94,7 @@ export class WorkerIterableSource implements IDeserializedIterableSource {
 
   public getMessageCursor(
     args: Immutable<MessageIteratorArgs & { abort?: AbortSignal }>,
-  ): IMessageCursor {
+  ): IMessageCursor<Uint8Array> {
     if (this.#sourceWorkerRemote == undefined) {
       throw new Error(`WorkerIterableSource is not initialized`);
     }
@@ -106,7 +105,7 @@ export class WorkerIterableSource implements IDeserializedIterableSource {
     const { abort, ...rest } = args;
     const messageCursorPromise = this.#sourceWorkerRemote.getMessageCursor(rest, abort);
 
-    const cursor: IMessageCursor = {
+    const cursor: IMessageCursor<Uint8Array> = {
       async next() {
         const messageCursor = await messageCursorPromise;
         return await messageCursor.next();

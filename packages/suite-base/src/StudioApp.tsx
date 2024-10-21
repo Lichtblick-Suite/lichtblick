@@ -62,7 +62,6 @@ export function StudioApp(): JSX.Element {
   const providers = [
     /* eslint-disable react/jsx-key */
     <TimelineInteractionStateProvider />,
-    <ExtensionMarketplaceProvider />,
     <ExtensionCatalogProvider loaders={extensionLoaders} />,
     <UserScriptStateProvider />,
     <PlayerManager playerSources={dataSources} />,
