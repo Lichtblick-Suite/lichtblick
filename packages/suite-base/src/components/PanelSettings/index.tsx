@@ -159,28 +159,42 @@ export default function PanelSettings({
   const topicToSchemaNameMap = useMessagePipeline(getTopicToSchemaNameMap);
 
   const settingsTree = usePanelStateStore((state) => {
-    if (selectedPanelId) {
-      const set = state.settingsTrees[selectedPanelId];
-      if (set && panelType) {
-        const topics = Object.keys(set.nodes.topics?.children ?? {});
-        const topicsConfig = maybeCast<{ topics: Record<string, unknown> }>(config)?.topics;
-        const topicsSettings = _.merge(
-          {},
-          ...topics.map((topic) => {
-            const schemaName = topicToSchemaNameMap[topic];
-            if (schemaName == undefined) {
-              return {};
-            }
-            return {
-              [topic]: extensionSettings[panelType]?.[schemaName]?.settings(topicsConfig?.[topic]),
-            };
-          }),
-        );
-
-        return { ...set, nodes: _.merge({}, set.nodes, { topics: { children: topicsSettings } }) };
-      }
+    if (!selectedPanelId || !panelType) {
+      return undefined;
     }
-    return undefined;
+
+    const set = state.settingsTrees[selectedPanelId];
+    if (!set) {
+      return undefined;
+    }
+
+    const topics = Object.keys(set.nodes.topics?.children ?? {});
+    const topicsConfig = maybeCast<{ topics: Record<string, unknown> }>(config)?.topics;
+    const topicsSettings = _.merge(
+      {},
+      ...topics.map((topic) => {
+        const schemaName = topicToSchemaNameMap[topic];
+        if (schemaName == undefined) {
+          return {};
+        }
+        return {
+          [topic]: extensionSettings[panelType]?.[schemaName]?.settings(topicsConfig?.[topic]),
+        };
+      }),
+    );
+
+    return {
+      ...set,
+      nodes: {
+        ...set.nodes,
+        topics: {
+          children: {
+            ...set.nodes.topics?.children,
+            ...topicsSettings
+          },
+        },
+      },
+    };
   });
 
   const resetToDefaults = useCallback(() => {
