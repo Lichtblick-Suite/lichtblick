@@ -190,7 +190,7 @@ export default function PanelSettings({
         topics: {
           children: {
             ...set.nodes.topics?.children,
-            ...topicsSettings
+            ...topicsSettings,
           },
         },
       },
