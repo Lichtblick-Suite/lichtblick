@@ -5117,7 +5117,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/babel__core@npm:^7.1.14, @types/babel__core@npm:^7.18.0, @types/babel__core@npm:^7.20.3":
+"@types/babel__core@npm:*, @types/babel__core@npm:^7.1.14, @types/babel__core@npm:^7.18.0, @types/babel__core@npm:^7.20.3":
   version: 7.20.5
   resolution: "@types/babel__core@npm:7.20.5"
   dependencies:
@@ -5740,6 +5740,16 @@ __metadata:
   resolution: "@types/react-hover-observer@workspace:packages/@types/react-hover-observer"
   languageName: unknown
   linkType: soft
+
+"@types/react-refresh@npm:^0":
+  version: 0.14.6
+  resolution: "@types/react-refresh@npm:0.14.6"
+  dependencies:
+    "@types/babel__core": "*"
+    csstype: ^3.0.2
+  checksum: 352331d47915913151e6895abebf73461e42baab0377ded19d57b9ea1c33be74019d57fd70b7dc974b1049de430077d00e581eba29d10c9fbbb374bae447ed70
+  languageName: node
+  linkType: hard
 
 "@types/react-transition-group@npm:^4.4.6, @types/react-transition-group@npm:^4.4.8":
   version: 4.4.11
@@ -7259,6 +7269,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"assert@npm:2.1.0":
+  version: 2.1.0
+  resolution: "assert@npm:2.1.0"
+  dependencies:
+    call-bind: ^1.0.2
+    is-nan: ^1.3.2
+    object-is: ^1.1.5
+    object.assign: ^4.1.4
+    util: ^0.12.5
+  checksum: 1ed1cabba9abe55f4109b3f7292b4e4f3cf2953aad8dc148c0b3c3bd676675c31b1abb32ef563b7d5a19d1715bf90d1e5f09fad2a4ee655199468902da80f7c2
+  languageName: node
+  linkType: hard
+
 "assertion-error@npm:^2.0.1":
   version: 2.0.1
   resolution: "assertion-error@npm:2.0.1"
@@ -7993,7 +8016,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"call-bind@npm:^1.0.2, call-bind@npm:^1.0.5, call-bind@npm:^1.0.6, call-bind@npm:^1.0.7":
+"call-bind@npm:^1.0.0, call-bind@npm:^1.0.2, call-bind@npm:^1.0.5, call-bind@npm:^1.0.6, call-bind@npm:^1.0.7":
   version: 1.0.7
   resolution: "call-bind@npm:1.0.7"
   dependencies:
@@ -9290,7 +9313,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"define-properties@npm:^1.2.0, define-properties@npm:^1.2.1":
+"define-properties@npm:^1.1.3, define-properties@npm:^1.2.0, define-properties@npm:^1.2.1":
   version: 1.2.1
   resolution: "define-properties@npm:1.2.1"
   dependencies:
@@ -13053,6 +13076,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"is-nan@npm:^1.3.2":
+  version: 1.3.2
+  resolution: "is-nan@npm:1.3.2"
+  dependencies:
+    call-bind: ^1.0.0
+    define-properties: ^1.1.3
+  checksum: 5dfadcef6ad12d3029d43643d9800adbba21cf3ce2ec849f734b0e14ee8da4070d82b15fdb35138716d02587c6578225b9a22779cab34888a139cc43e4e3610a
+  languageName: node
+  linkType: hard
+
 "is-negative-zero@npm:^2.0.3":
   version: 2.0.3
   resolution: "is-negative-zero@npm:2.0.3"
@@ -14329,9 +14362,11 @@ __metadata:
     "@types/case-sensitive-paths-webpack-plugin": 2.1.9
     "@types/jest": 29.5.12
     "@types/license-checker": ^25.0.6
+    "@types/react-refresh": ^0
     "@types/semver": ^7.5.3
     "@typescript-eslint/eslint-plugin": 6.10.0
     "@typescript-eslint/parser": 6.10.0
+    assert: 2.1.0
     babel-plugin-transform-import-meta: 2.2.1
     cross-env: 7.0.3
     depcheck: 1.4.7
@@ -14354,6 +14389,7 @@ __metadata:
     jest-environment-jsdom: 29.7.0
     license-checker: 25.0.1
     prettier: 3.3.2
+    react-refresh: 0.14.2
     react-use: 17.5.1
     rehype-raw: 6.1.1
     rimraf: 5.0.5
@@ -17321,6 +17357,13 @@ __metadata:
     react-refresh: 0.10.x || 0.11.x || 0.12.x || 0.13.x || 0.14.x
     typescript: ^4.8 || ^5.0
   checksum: 7690d8abe8c2886ced1e354d48c61323839a373cb55b51abb5669c41721e8f0b2d9332cd2290b4661faf551c0cbc95f142368fdfcbcd82b17f66bb97b4b8ac73
+  languageName: node
+  linkType: hard
+
+"react-refresh@npm:0.14.2":
+  version: 0.14.2
+  resolution: "react-refresh@npm:0.14.2"
+  checksum: d80db4bd40a36dab79010dc8aa317a5b931f960c0d83c4f3b81f0552cbcf7f29e115b84bb7908ec6a1eb67720fff7023084eff73ece8a7ddc694882478464382
   languageName: node
   linkType: hard
 
