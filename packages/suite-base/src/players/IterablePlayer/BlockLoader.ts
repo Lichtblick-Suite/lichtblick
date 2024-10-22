@@ -11,26 +11,24 @@ import * as _ from "lodash-es";
 import { Condvar } from "@lichtblick/den/async";
 import { filterMap } from "@lichtblick/den/collection";
 import Log from "@lichtblick/log";
-import {
-  Time,
-  add,
-  clampTime,
-  fromNanoSec,
-  subtract as subtractTimes,
-  toNanoSec,
-} from "@lichtblick/rostime";
-import { Immutable, MessageEvent } from "@lichtblick/suite";
-import { IteratorCursor } from "@lichtblick/suite-base/players/IterablePlayer/IteratorCursor";
+import { Time, add, fromNanoSec, subtract as subtractTimes, toNanoSec } from "@lichtblick/rostime";
+import { Immutable, MessageEvent as MessageEventLichtblick } from "@lichtblick/suite";
+import { PossibleBlockLoaderWorkerMessages } from "@lichtblick/suite-base/players/IterablePlayer/BlockLoader.worker";
 import PlayerProblemManager from "@lichtblick/suite-base/players/PlayerProblemManager";
-import { MessageBlock, Progress, TopicSelection } from "@lichtblick/suite-base/players/types";
+import {
+  MessageBlock,
+  Progress,
+  SubscribePayload,
+  TopicSelection,
+} from "@lichtblick/suite-base/players/types";
 
-import { IIterableSource, MessageIteratorArgs } from "./IIterableSource";
+import { IIterableSource } from "./IIterableSource";
 
 const log = Log.getLogger(__filename);
 
 export const MEMORY_INFO_PRELOADED_MSGS = "Preloaded messages";
 
-type BlockLoaderArgs = {
+export type BlockLoaderArgs = {
   cacheSizeBytes: number;
   source: IIterableSource;
   start: Time;
@@ -40,13 +38,13 @@ type BlockLoaderArgs = {
   problemManager: PlayerProblemManager;
 };
 
-type CacheBlock = MessageBlock & {
+export type CacheBlock = MessageBlock & {
   needTopics: Immutable<TopicSelection>;
 };
 
-type Blocks = (CacheBlock | undefined)[];
+export type Blocks = (CacheBlock | undefined)[];
 
-type LoadArgs = {
+export type LoadArgs = {
   progress: (progress: Progress) => void;
 };
 
@@ -130,7 +128,7 @@ export class BlockLoader {
       const block = this.#blocks[i];
       if (block) {
         let blockBytesRemoved = 0;
-        const newMessagesByTopic: Record<string, MessageEvent[]> = {
+        const newMessagesByTopic: Record<string, MessageEventLichtblick[]> = {
           ...block.messagesByTopic,
         };
         const blockTopics = Object.keys(newMessagesByTopic);
@@ -203,184 +201,244 @@ export class BlockLoader {
 
     log.debug("loading blocks", { topics });
 
-    const { progress } = args;
-    let totalBlockSizeBytes = this.#cacheSize();
+    // const { progress } = args;
+    // const totalBlockSizeBytes = this.#cacheSize();
 
-    for (let blockId = 0; blockId < this.#blocks.length; ++blockId) {
-      // Topics we will fetch for this range
-      let topicsToFetch: Immutable<TopicSelection>;
+    const blockLoaderWorker = new Worker(new URL("./BlockLoader.worker.ts", import.meta.url), {
+      type: "module",
+    });
 
-      // Keep looking for a block that needs loading
-      {
-        const existingBlock = this.#blocks[blockId];
+    function mapToObject(map: Map<string, SubscribePayload>): Record<string, SubscribePayload> {
+      const obj: Record<string, SubscribePayload> = {};
+      map.forEach((value, key) => {
+        obj[key] = value;
+      });
+      return obj;
+    }
 
-        // The current block has everything, so we can move to the next block
-        if (existingBlock?.needTopics.size === 0) {
-          continue;
+    blockLoaderWorker.postMessage({
+      // args: { args, progress: undefined },
+      blocks: this.#blocks,
+      topics: mapToObject(topics),
+      cacheSize: this.#cacheSize(),
+      start: this.#start,
+      end: this.#end,
+      source: this.#source,
+      maxCacheSize: this.#maxCacheSize,
+      blockDurationNanos: this.#blockDurationNanos,
+    });
+
+    await new Promise<void>((resolve, reject) => {
+      blockLoaderWorker.onmessage = (event: MessageEvent) => {
+        const data = event.data as PossibleBlockLoaderWorkerMessages;
+
+        switch (data.type) {
+          case "progress":
+            args.progress(data.progress);
+            break;
+
+          case "done":
+            blockLoaderWorker.terminate();
+            resolve();
+            break;
+
+          case "error":
+            blockLoaderWorker.terminate();
+            reject(new Error(data.message));
+            break;
+
+          case "block": {
+            console.log("block", data);
+            const { currentBlockId, block } = data;
+            this.#blocks[currentBlockId] = { ...block, needTopics: new Map() };
+            break;
+          }
+
+          default:
+            reject(new Error("Unknown message type"));
         }
-
-        // The current block needs some topics so those will be come the topics we need to fetch
-        topicsToFetch = existingBlock?.needTopics ?? topics;
-      }
-
-      // blockId is the first block that needs loading
-      // Now we look for the last block. We do this by finding blocks that need the same topics to fetch.
-      // This creates a continuous span of the same topics to fetch
-      let endBlockId = blockId;
-      for (let endIdx = blockId + 1; endIdx < this.#blocks.length; ++endIdx) {
-        // if needtopics is undefined cause there's no block, then needTopics is all topics
-        const needTopics = this.#blocks[endIdx]?.needTopics ?? topics;
-
-        // The topics we need to fetch no longer match the topics we need so we stop the range
-        if (!_.isEqual(topicsToFetch, needTopics)) {
-          break;
-        }
-
-        endBlockId = endIdx;
-      }
-
-      // Compute the cursor start/end time from the range of blocks we need to load
-      const cursorStartTime = this.#blockIdToStartTime(blockId);
-      const cursorEndTime = clampTime(this.#blockIdToEndTime(endBlockId), this.#start, this.#end);
-
-      const iteratorArgs: Immutable<MessageIteratorArgs> = {
-        topics: topicsToFetch,
-        start: cursorStartTime,
-        end: cursorEndTime,
-        consumptionType: "full",
       };
 
-      // If the source provides a message cursor we use its message cursor, otherwise we make one
-      // using the source's message iterator.
-      const cursor =
-        this.#source.getMessageCursor?.({ ...iteratorArgs, abort: this.#abortController.signal }) ??
-        new IteratorCursor(
-          this.#source.messageIterator(iteratorArgs),
-          this.#abortController.signal,
-        );
+      blockLoaderWorker.onerror = (error) => {
+        reject(error);
+      };
+    });
 
-      log.debug("Loading range", { blockId, endBlockId });
-      // Loop through the blocks corresponding to the range of our cursor
-      for (let currentBlockId = blockId; currentBlockId <= endBlockId; ++currentBlockId) {
-        // Until time is the end time of the current block, we want all the messages from the cursor
-        // until (inclusive) of the end of of the block
-        const untilTime = clampTime(this.#blockIdToEndTime(currentBlockId), this.#start, this.#end);
+    // for (let blockId = 0; blockId < this.#blocks.length; ++blockId) {
+    //   // Topics we will fetch for this range
+    //   let topicsToFetch: Immutable<TopicSelection>;
 
-        const results = await cursor.readUntil(untilTime);
-        // No results means cursor aborted or eof
-        if (!results) {
-          await cursor.end();
-          return;
-        }
+    //   // Keep looking for a block that needs loading
+    //   {
+    //     const existingBlock = this.#blocks[blockId];
 
-        // While we were waiting for cursor data the topics we need to be loading may have changed.
-        // Check whether the topics are changed and abort this loading instance because the results
-        // may no longer be valid for the data we should be loading.
-        if (!_.isEqual(topics, this.#topics)) {
-          return;
-        }
+    //     // The current block has everything, so we can move to the next block
+    //     if (existingBlock?.needTopics.size === 0) {
+    //       continue;
+    //     }
 
-        const messagesByTopic: Record<string, MessageEvent[]> = {};
+    //     // The current block needs some topics so those will be come the topics we need to fetch
+    //     topicsToFetch = existingBlock?.needTopics ?? topics;
+    //   }
 
-        // Set all topics to empty arrays. Since our cursor requested all the topicsToFetch we either will
-        // have message on the topic or we don't have message on the topic. Either way the topic entry
-        // starts as an empty array.
-        for (const topic of topicsToFetch.keys()) {
-          messagesByTopic[topic] = [];
-        }
+    //   // blockId is the first block that needs loading
+    //   // Now we look for the last block. We do this by finding blocks that need the same topics to fetch.
+    //   // This creates a continuous span of the same topics to fetch
+    //   let endBlockId = blockId;
+    //   for (let endIdx = blockId + 1; endIdx < this.#blocks.length; ++endIdx) {
+    //     // if needtopics is undefined cause there's no block, then needTopics is all topics
+    //     const needTopics = this.#blocks[endIdx]?.needTopics ?? topics;
 
-        let sizeInBytes = 0;
-        for (const iterResult of results) {
-          if (iterResult.type === "problem") {
-            this.#problemManager.addProblem(
-              `connid-${iterResult.connectionId}`,
-              iterResult.problem,
-            );
-            continue;
-          }
+    //     // The topics we need to fetch no longer match the topics we need so we stop the range
+    //     if (!_.isEqual(topicsToFetch, needTopics)) {
+    //       break;
+    //     }
 
-          if (iterResult.type !== "message-event") {
-            continue;
-          }
+    //     endBlockId = endIdx;
+    //   }
 
-          const msgTopic = iterResult.msgEvent.topic;
-          const arr = messagesByTopic[msgTopic];
+    //   // Compute the cursor start/end time from the range of blocks we need to load
+    //   const cursorStartTime = this.#blockIdToStartTime(blockId);
+    //   const cursorEndTime = clampTime(this.#blockIdToEndTime(endBlockId), this.#start, this.#end);
 
-          // Because we initialized all the topicsToFetch earlier we expect to have an array for each message
-          // topic in our results. If we don't, thats a problem.
-          const problemKey = `unexpected-topic-${msgTopic}`;
-          if (!arr) {
-            this.#problemManager.addProblem(problemKey, {
-              severity: "error",
-              message: `Received a message on an unexpected topic: ${msgTopic}.`,
-            });
+    //   const iteratorArgs: Immutable<MessageIteratorArgs> = {
+    //     topics: topicsToFetch,
+    //     start: cursorStartTime,
+    //     end: cursorEndTime,
+    //     consumptionType: "full",
+    //   };
 
-            continue;
-          }
-          this.#problemManager.removeProblem(problemKey);
+    //   // If the source provides a message cursor we use its message cursor, otherwise we make one
+    //   // using the source's message iterator.
+    //   const cursor =
+    //     this.#source.getMessageCursor?.({ ...iteratorArgs, abort: this.#abortController.signal }) ??
+    //     new IteratorCursor(
+    //       this.#source.messageIterator(iteratorArgs),
+    //       this.#abortController.signal,
+    //     );
 
-          const messageSizeInBytes = iterResult.msgEvent.sizeInBytes;
-          totalBlockSizeBytes += messageSizeInBytes;
-          arr.push(iterResult.msgEvent);
+    //   log.debug("Loading range", { blockId, endBlockId });
+    //   // Loop through the blocks corresponding to the range of our cursor
+    //   for (let currentBlockId = blockId; currentBlockId <= endBlockId; ++currentBlockId) {
+    //     // Until time is the end time of the current block, we want all the messages from the cursor
+    //     // until (inclusive) of the end of of the block
+    //     const untilTime = clampTime(this.#blockIdToEndTime(currentBlockId), this.#start, this.#end);
 
-          sizeInBytes += messageSizeInBytes;
+    //     const results = await cursor.readUntil(untilTime);
+    //     // No results means cursor aborted or eof
+    //     if (!results) {
+    //       await cursor.end();
+    //       return;
+    //     }
 
-          if (totalBlockSizeBytes < this.#maxCacheSize) {
-            this.#problemManager.removeProblem("cache-full");
-            continue;
-          }
-          // cache over capacity, try removing unused topics
-          const removedSize = this.#removeUnusedBlockTopics();
-          totalBlockSizeBytes -= removedSize;
-          if (totalBlockSizeBytes > this.#maxCacheSize) {
-            this.#problemManager.addProblem("cache-full", {
-              severity: "error",
-              message: `Cache is full. Preloading for topics [${Array.from(
-                topicsToFetch.keys(),
-              ).join(", ")}] has stopped on block ${currentBlockId + 1}/${this.#blocks.length}.`,
-              tip: "Try reducing the number of topics that require preloading at a given time (e.g. in plots), or try to reduce the time range of the file.",
-            });
-            // We need to emit progress here so the player will emit a new state
-            // containing the problem.
-            progress(this.#calculateProgress(topics, totalBlockSizeBytes));
-            return;
-          }
-        }
+    //     // While we were waiting for cursor data the topics we need to be loading may have changed.
+    //     // Check whether the topics are changed and abort this loading instance because the results
+    //     // may no longer be valid for the data we should be loading.
+    //     if (!_.isEqual(topics, this.#topics)) {
+    //       return;
+    //     }
 
-        const existingBlock = this.#blocks[currentBlockId];
+    //     const messagesByTopic: Record<string, MessageEventLichtblick[]> = {};
 
-        // Calculate size of messages in the existing block that will be overridden.
-        // These have to be taken into account when calculating the size of the new block.
-        let overridenBlockMessagesSize = 0;
-        for (const topic of Object.keys(messagesByTopic)) {
-          const messages = existingBlock?.messagesByTopic[topic];
-          if (messages) {
-            overridenBlockMessagesSize += messages.reduce((acc, msg) => acc + msg.sizeInBytes, 0);
-          }
-        }
-        const newBlockSizeInBytes =
-          (existingBlock?.sizeInBytes ?? 0) - overridenBlockMessagesSize + sizeInBytes;
+    //     // Set all topics to empty arrays. Since our cursor requested all the topicsToFetch we either will
+    //     // have message on the topic or we don't have message on the topic. Either way the topic entry
+    //     // starts as an empty array.
+    //     for (const topic of topicsToFetch.keys()) {
+    //       messagesByTopic[topic] = [];
+    //     }
 
-        this.#blocks[currentBlockId] = {
-          needTopics: new Map(),
-          messagesByTopic: {
-            ...existingBlock?.messagesByTopic,
-            // Any new topics override the same previous topic
-            ...messagesByTopic,
-          },
-          sizeInBytes: newBlockSizeInBytes,
-        };
+    //     let sizeInBytes = 0;
+    //     for (const iterResult of results) {
+    //       if (iterResult.type === "problem") {
+    //         this.#problemManager.addProblem(
+    //           `connid-${iterResult.connectionId}`,
+    //           iterResult.problem,
+    //         );
+    //         continue;
+    //       }
 
-        // Subtract the size of overridden messages from the the total size of all blocks.
-        // (The size of new messages is already added above).
-        totalBlockSizeBytes -= overridenBlockMessagesSize;
+    //       if (iterResult.type !== "message-event") {
+    //         continue;
+    //       }
 
-        progress(this.#calculateProgress(topics, totalBlockSizeBytes));
-      }
+    //       const msgTopic = iterResult.msgEvent.topic;
+    //       const arr = messagesByTopic[msgTopic];
 
-      await cursor.end();
-      blockId = endBlockId;
-    }
+    //       // Because we initialized all the topicsToFetch earlier we expect to have an array for each message
+    //       // topic in our results. If we don't, thats a problem.
+    //       const problemKey = `unexpected-topic-${msgTopic}`;
+    //       if (!arr) {
+    //         this.#problemManager.addProblem(problemKey, {
+    //           severity: "error",
+    //           message: `Received a message on an unexpected topic: ${msgTopic}.`,
+    //         });
+
+    //         continue;
+    //       }
+    //       this.#problemManager.removeProblem(problemKey);
+
+    //       const messageSizeInBytes = iterResult.msgEvent.sizeInBytes;
+    //       totalBlockSizeBytes += messageSizeInBytes;
+    //       arr.push(iterResult.msgEvent);
+
+    //       sizeInBytes += messageSizeInBytes;
+
+    //       if (totalBlockSizeBytes < this.#maxCacheSize) {
+    //         this.#problemManager.removeProblem("cache-full");
+    //         continue;
+    //       }
+    //       // cache over capacity, try removing unused topics
+    //       const removedSize = this.#removeUnusedBlockTopics();
+    //       totalBlockSizeBytes -= removedSize;
+    //       if (totalBlockSizeBytes > this.#maxCacheSize) {
+    //         this.#problemManager.addProblem("cache-full", {
+    //           severity: "error",
+    //           message: `Cache is full. Preloading for topics [${Array.from(
+    //             topicsToFetch.keys(),
+    //           ).join(", ")}] has stopped on block ${currentBlockId + 1}/${this.#blocks.length}.`,
+    //           tip: "Try reducing the number of topics that require preloading at a given time (e.g. in plots), or try to reduce the time range of the file.",
+    //         });
+    //         // We need to emit progress here so the player will emit a new state
+    //         // containing the problem.
+    //         progress(this.#calculateProgress(topics, totalBlockSizeBytes));
+    //         return;
+    //       }
+    //     }
+
+    //     const existingBlock = this.#blocks[currentBlockId];
+
+    //     // Calculate size of messages in the existing block that will be overridden.
+    //     // These have to be taken into account when calculating the size of the new block.
+    //     let overridenBlockMessagesSize = 0;
+    //     for (const topic of Object.keys(messagesByTopic)) {
+    //       const messages = existingBlock?.messagesByTopic[topic];
+    //       if (messages) {
+    //         overridenBlockMessagesSize += messages.reduce((acc, msg) => acc + msg.sizeInBytes, 0);
+    //       }
+    //     }
+    //     const newBlockSizeInBytes =
+    //       (existingBlock?.sizeInBytes ?? 0) - overridenBlockMessagesSize + sizeInBytes;
+
+    //     this.#blocks[currentBlockId] = {
+    //       needTopics: new Map(),
+    //       messagesByTopic: {
+    //         ...existingBlock?.messagesByTopic,
+    //         // Any new topics override the same previous topic
+    //         ...messagesByTopic,
+    //       },
+    //       sizeInBytes: newBlockSizeInBytes,
+    //     };
+
+    //     // Subtract the size of overridden messages from the the total size of all blocks.
+    //     // (The size of new messages is already added above).
+    //     totalBlockSizeBytes -= overridenBlockMessagesSize;
+
+    //     progress(this.#calculateProgress(topics, totalBlockSizeBytes));
+    //   }
+
+    //   await cursor.end();
+    //   blockId = endBlockId;
+    // }
   }
 
   #calculateProgress(topics: TopicSelection, currentCacheSize: number): Progress {
@@ -429,12 +487,12 @@ export class BlockLoader {
     }, 0);
   }
 
-  #blockIdToStartTime(id: number): Time {
+  #blockIdToStartTime = (id: number): Time => {
     return add(this.#start, fromNanoSec(BigInt(id) * BigInt(this.#blockDurationNanos)));
-  }
+  };
 
   // The end time of a block is the start time of the next block minus 1 nanosecond
-  #blockIdToEndTime(id: number): Time {
+  #blockIdToEndTime = (id: number): Time => {
     return add(this.#start, fromNanoSec(BigInt(id + 1) * BigInt(this.#blockDurationNanos) - 1n));
-  }
+  };
 }
