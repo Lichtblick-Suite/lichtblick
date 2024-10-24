@@ -20,7 +20,7 @@ jest.mock("react-i18next", () => ({
 
 describe("ActionMenu", () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    jest.spyOn(console, "error").mockImplementation(() => {});
   });
 
   const renderComponent = (propsOverride: Partial<ActionMenuProps> = {}) => {
