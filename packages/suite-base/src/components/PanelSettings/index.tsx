@@ -57,7 +57,7 @@ const EMPTY_SETTINGS_TREE: SettingsTree = Object.freeze({
 export type PanelSettingsProps = React.PropsWithChildren<{
   disableToolbar?: boolean;
   selectedPanelIdsForTests?: readonly string[];
-}>
+}>;
 
 export default function PanelSettings({
   disableToolbar = false,
@@ -139,14 +139,16 @@ export default function PanelSettings({
   const [config] = useConfigById(selectedPanelId);
   const extensionSettings = useExtensionCatalog(getExtensionPanelSettings);
   const topicToSchemaNameMap = useMessagePipeline(getTopicToSchemaNameMap);
-  const settingsTree = usePanelStateStore((state) => buildSettingsTree({
-    config,
-    extensionSettings,
-    panelType,
-    selectedPanelId,
-    state,
-    topicToSchemaNameMap,
-  }));
+  const settingsTree = usePanelStateStore((state) =>
+    buildSettingsTree({
+      config,
+      extensionSettings,
+      panelType,
+      selectedPanelId,
+      state,
+      topicToSchemaNameMap,
+    }),
+  );
 
   const resetToDefaults = useCallback(() => {
     if (selectedPanelId) {

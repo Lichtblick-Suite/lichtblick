@@ -12,37 +12,36 @@ import "@testing-library/jest-dom";
 
 import { EmptyWrapper, EmptyWrapperProps } from "./EmptyWrapper";
 
-
 jest.mock("react-i18next", () => ({
-    useTranslation: () => ({
-        t: (key: string) => key,
-    }),
+  useTranslation: () => ({
+    t: (key: string) => key,
+  }),
 }));
 
 describe("EmptyWrapper", () => {
-    const childrenContent = "<div>Test Content</div>";
+  const childrenContent = "<div>Test Content</div>";
 
-    const renderComponent = (propsOverride: Partial<EmptyWrapperProps> = {}) => {
-        const props: EmptyWrapperProps = {
-            children: childrenContent,
-            enableNewTopNav: false,
-            ...propsOverride,
-        };
-
-        return render(<EmptyWrapper {...props} />);
+  const renderComponent = (propsOverride: Partial<EmptyWrapperProps> = {}) => {
+    const props: EmptyWrapperProps = {
+      children: childrenContent,
+      enableNewTopNav: false,
+      ...propsOverride,
     };
 
-    it("should render children inside EmptyState when enableNewTopNav is true", () => {
-        renderComponent({ enableNewTopNav: true });
+    return render(<EmptyWrapper {...props} />);
+  };
 
-        expect(screen.getByText(childrenContent)).toBeInTheDocument();
-        expect(screen.queryByText("panelSettings")).not.toBeInTheDocument();
-    });
+  it("should render children inside EmptyState when enableNewTopNav is true", () => {
+    renderComponent({ enableNewTopNav: true });
 
-    it("should render children inside SidebarContent when enableNewTopNav is false", () => {
-        renderComponent({ enableNewTopNav: false });
+    expect(screen.getByText(childrenContent)).toBeInTheDocument();
+    expect(screen.queryByText("panelSettings")).not.toBeInTheDocument();
+  });
 
-        expect(screen.getByText(childrenContent)).toBeInTheDocument();
-        expect(screen.getByText("panelSettings")).toBeInTheDocument();
-    });
+  it("should render children inside SidebarContent when enableNewTopNav is false", () => {
+    renderComponent({ enableNewTopNav: false });
+
+    expect(screen.getByText(childrenContent)).toBeInTheDocument();
+    expect(screen.getByText("panelSettings")).toBeInTheDocument();
+  });
 });
