@@ -54,7 +54,7 @@ const EMPTY_SETTINGS_TREE: SettingsTree = Object.freeze({
   nodes: {},
 });
 
-export type PanelSettingsProps = React.PropsWithChildren<{
+type PanelSettingsProps = React.PropsWithChildren<{
   disableToolbar?: boolean;
   selectedPanelIdsForTests?: readonly string[];
 }>;
