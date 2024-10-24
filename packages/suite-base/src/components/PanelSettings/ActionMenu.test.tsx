@@ -12,71 +12,68 @@ import React from "react";
 
 import { ActionMenu, ActionMenuProps } from "./ActionMenu";
 
-
 jest.mock("react-i18next", () => ({
-    useTranslation: () => ({
-        t: (key: string) => key,
-    }),
+  useTranslation: () => ({
+    t: (key: string) => key,
+  }),
 }));
 
 describe("ActionMenu", () => {
-    beforeEach(() => {
-        jest.clearAllMocks();
-    });
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
 
-    const renderComponent = (propsOverride: Partial<ActionMenuProps> = {}) => {
-        const props: ActionMenuProps = {
-            allowShare: true,
-            onReset: jest.fn(),
-            onShare: jest.fn(),
-            ...propsOverride,
-        };
-
-        const ui: React.ReactElement = (
-            <ActionMenu {...props} />
-        );
-
-        return {
-            ...render(ui),
-            props,
-            user: userEvent.setup(),
-        };
+  const renderComponent = (propsOverride: Partial<ActionMenuProps> = {}) => {
+    const props: ActionMenuProps = {
+      allowShare: true,
+      onReset: jest.fn(),
+      onShare: jest.fn(),
+      ...propsOverride,
     };
 
-    it("should render the button and open the menu when clicked", async () => {
-        const { user } = renderComponent();
+    const ui: React.ReactElement = <ActionMenu {...props} />;
 
-        await user.click(screen.getByTestId("basic-button"));
+    return {
+      ...render(ui),
+      props,
+      user: userEvent.setup(),
+    };
+  };
 
-        expect(screen.getByRole("menu")).toBeTruthy();
-    });
+  it("should render the button and open the menu when clicked", async () => {
+    const { user } = renderComponent();
 
-    it("should call onShare when clicking the share item", async () => {
-        const { user, props } = renderComponent();
+    await user.click(screen.getByTestId("basic-button"));
 
-        await user.click(screen.getByTestId("basic-button"));
-        await user.click(screen.getByText("importOrExportSettingsWithEllipsis"));
+    expect(screen.getByRole("menu")).toBeTruthy();
+  });
 
-        expect(props.onShare).toHaveBeenCalled();
-    });
+  it("should call onShare when clicking the share item", async () => {
+    const { user, props } = renderComponent();
 
-    it("should call onReset when clicking the reset item", async () => {
-        const { user, props } = renderComponent();
+    await user.click(screen.getByTestId("basic-button"));
+    await user.click(screen.getByText("importOrExportSettingsWithEllipsis"));
 
-        await user.click(screen.getByTestId("basic-button"));
-        await user.click(screen.getByText("resetToDefaults"));
+    expect(props.onShare).toHaveBeenCalled();
+  });
 
-        expect(props.onReset).toHaveBeenCalled();
-    });
+  it("should call onReset when clicking the reset item", async () => {
+    const { user, props } = renderComponent();
 
+    await user.click(screen.getByTestId("basic-button"));
+    await user.click(screen.getByText("resetToDefaults"));
 
-    it("should disable the share item if allowShare is false", async () => {
-        const { user, props } = renderComponent({ allowShare: false });
+    expect(props.onReset).toHaveBeenCalled();
+  });
 
-        await user.click(screen.getByTestId("basic-button"));
-        const shareItem = screen.getByText("importOrExportSettingsWithEllipsis");
-        await user.click(shareItem).catch(() => { }); // ignore error if click is not possible
+  it("should disable the share item if allowShare is false", async () => {
+    const { user, props } = renderComponent({ allowShare: false });
 
-        expect(props.onShare).not.toHaveBeenCalled();
-    });
+    await user.click(screen.getByTestId("basic-button"));
+    const shareItem = screen.getByText("importOrExportSettingsWithEllipsis");
+    // Ignore error if click is not possible
+    await user.click(shareItem).catch(() => {});
+
+    expect(props.onShare).not.toHaveBeenCalled();
+  });
 });

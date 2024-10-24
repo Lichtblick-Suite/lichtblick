@@ -12,22 +12,22 @@ import EmptyState from "@lichtblick/suite-base/components/EmptyState";
 import { SidebarContent } from "@lichtblick/suite-base/components/SidebarContent";
 
 export type EmptyWrapperProps = {
-    children: React.ReactNode;
-    enableNewTopNav: boolean;
-}
+  children: React.ReactNode;
+  enableNewTopNav: boolean;
+};
 
 export const EmptyWrapper = ({ children, enableNewTopNav }: EmptyWrapperProps): JSX.Element => {
-    const { t } = useTranslation("panelSettings");
+  const { t } = useTranslation("panelSettings");
 
-    if (enableNewTopNav) {
-        return <EmptyState>{children}</EmptyState>;
-    }
+  if (enableNewTopNav) {
+    return <EmptyState>{children}</EmptyState>;
+  }
 
-    return (
-        <SidebarContent title={t("panelSettings")}>
-            <Typography variant="body2" color="text.secondary">
-                {children}
-            </Typography>
-        </SidebarContent>
-    );
+  return (
+    <SidebarContent title={t("panelSettings")}>
+      <Typography variant="body2" color="text.secondary">
+        {children}
+      </Typography>
+    </SidebarContent>
+  );
 };
