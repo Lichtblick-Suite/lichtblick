@@ -21,7 +21,7 @@ import { ros1 } from "@lichtblick/rosmsg-msgs-common";
 import { diffLabels, DiffObject } from "@lichtblick/suite-base/panels/RawMessages/getDiff";
 
 import type { NodeExpansion } from "./types";
-import { NodeState } from "./types";
+import { NodeState, PATH_NAME_AGGREGATOR } from "./types";
 
 export const DATA_ARRAY_PREVIEW_LIMIT = 20;
 const ROS1_COMMON_MSG_PACKAGES = new Set(Object.keys(ros1).map((key) => key.split("/")[0]!));
@@ -52,8 +52,8 @@ export function toggleExpansion(
     const next = state === "all" ? NodeState.Expanded : NodeState.Collapsed;
     const nextState: NodeExpansion = {};
     for (const leaf of paths) {
-      // Implicitly expand all descendants when toggling collapsed root node
-      if (next === NodeState.Collapsed && leaf.endsWith(key)) {
+      // Implicitly all descendents are collapsed
+      if (next === NodeState.Collapsed && leaf.startsWith(key + PATH_NAME_AGGREGATOR)) {
         continue;
       }
       nextState[leaf] = leaf === key ? invert(next) : next;
@@ -72,7 +72,7 @@ export function toggleExpansion(
 /**
  * Recursively traverses all keypaths in obj, for use in JSON tree expansion.
  */
-export function generateDeepKeyPaths(obj: unknown, maxArrayLength: number): Set<string> {
+export function generateDeepKeyPaths(obj: unknown): Set<string> {
   const keys = new Set<string>();
   const recurseMapKeys = (path: string[], nestedObj: unknown) => {
     if (nestedObj == undefined) {
@@ -83,16 +83,12 @@ export function generateDeepKeyPaths(obj: unknown, maxArrayLength: number): Set<
       return;
     }
 
-    if (Array.isArray(nestedObj) && nestedObj.length > maxArrayLength) {
-      return;
-    }
-
     if (isTypedArray(nestedObj)) {
       return;
     }
 
     if (path.length > 0) {
-      keys.add(path.join("~"));
+      keys.add(path.join(PATH_NAME_AGGREGATOR));
     }
 
     for (const key of Object.getOwnPropertyNames(nestedObj)) {

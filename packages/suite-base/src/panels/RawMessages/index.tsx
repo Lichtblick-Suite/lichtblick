@@ -57,7 +57,7 @@ import {
   getStructureItemForPath,
   getValueActionForValue,
 } from "./getValueActionForValue";
-import { Constants, NodeState, RawMessagesPanelConfig } from "./types";
+import { Constants, NodeState, RawMessagesPanelConfig, PATH_NAME_AGGREGATOR } from "./types";
 import { DATA_ARRAY_PREVIEW_LIMIT, generateDeepKeyPaths, toggleExpansion } from "./utils";
 
 type Props = {
@@ -165,7 +165,7 @@ function RawMessages(props: Props) {
   const nodes = useMemo(() => {
     if (baseItem) {
       const data = dataWithoutWrappingArray(baseItem.queriedData.map(({ value }) => value));
-      return generateDeepKeyPaths(data, 5);
+      return generateDeepKeyPaths(data);
     } else {
       return new Set<string>();
     }
@@ -188,9 +188,13 @@ function RawMessages(props: Props) {
     }
   }, [expansion]);
 
+  useEffect(() => {
+      setExpansion("none");
+  }, [topicPath]);
+
   const onTopicPathChange = useCallback(
     (newTopicPath: string) => {
-      setExpansion(undefined);
+      setExpansion('none');
       saveConfig({ topicPath: newTopicPath });
     },
     [saveConfig],
@@ -213,7 +217,7 @@ function RawMessages(props: Props) {
 
   const onLabelClick = useCallback(
     (keypath: (string | number)[]) => {
-      setExpansion((old) => toggleExpansion(old ?? "all", nodes, keypath.join("~")));
+      setExpansion((old) => toggleExpansion(old ?? "all", nodes, keypath.join(PATH_NAME_AGGREGATOR)));
     },
     [nodes],
   );
@@ -363,7 +367,7 @@ function RawMessages(props: Props) {
         return false;
       }
 
-      const joinedPath = keypath.join("~");
+      const joinedPath = keypath.join(PATH_NAME_AGGREGATOR);
       if (expansion && expansion[joinedPath] === NodeState.Collapsed) {
         return false;
       }

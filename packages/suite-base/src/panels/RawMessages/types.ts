@@ -11,6 +11,8 @@ export enum NodeState {
   Expanded = "e",
 }
 
+export const PATH_NAME_AGGREGATOR = '~';
+
 export type NodeExpansion = "all" | "none" | Record<string, NodeState>;
 
 export type RawMessagesPanelConfig = {
