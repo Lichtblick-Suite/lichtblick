@@ -25,6 +25,8 @@ import {
 } from "@lichtblick/suite-base/testing/builders/types";
 import { defaults } from "@lichtblick/suite-base/testing/builders/utilities";
 
+type SamplePropertyKey = string | symbol | number;
+
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export default class BasicBuilder {
   public static date(
@@ -147,12 +149,12 @@ export default class BasicBuilder {
     );
   }
 
-  public static sample<T extends string | symbol | number, K>(
+  public static sample<T extends SamplePropertyKey, K>(
     input: Record<T, K> | K[],
     count: number,
   ): K[];
-  public static sample<T extends string | symbol | number, K>(input: Record<T, K> | K[]): K;
-  public static sample<T extends string | symbol | number, K>(
+  public static sample<T extends SamplePropertyKey, K>(input: Record<T, K> | K[]): K;
+  public static sample<T extends SamplePropertyKey, K>(
     input: Record<T, K> | K[],
     count?: number,
   ): K | K[] {
