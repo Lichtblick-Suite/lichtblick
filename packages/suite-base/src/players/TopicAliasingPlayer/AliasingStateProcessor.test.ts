@@ -25,7 +25,7 @@ describe("StateProcessor", () => {
     const aliasMap = new Map(
       Object.entries({
         "/absent_topic": ["renamed_absent_topic"],
-        [topics[0]?.name as string]: ["/renamedTopic"],
+        [topics[0]!.name]: ["/renamedTopic"],
       }),
     );
     const processor = new AliasingStateProcessor(aliasMap);
