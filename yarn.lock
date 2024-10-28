@@ -1587,7 +1587,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/preset-react@npm:^7.18.6":
+"@babel/preset-react@npm:7.25.9, @babel/preset-react@npm:^7.18.6":
   version: 7.25.9
   resolution: "@babel/preset-react@npm:7.25.9"
   dependencies:
@@ -3214,6 +3214,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@lichtblick/suite-base@workspace:packages/suite-base"
   dependencies:
+    "@babel/preset-react": 7.25.9
     "@emotion/cache": 11.13.1
     "@emotion/react": 11.13.0
     "@emotion/styled": 11.13.0
