@@ -36,3 +36,5 @@ export async function initI18n(options?: { context?: "browser" | "electron-main"
     },
   });
 }
+
+export const sharedI18nObject = i18n;
