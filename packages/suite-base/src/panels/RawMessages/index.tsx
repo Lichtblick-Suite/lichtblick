@@ -191,7 +191,7 @@ function RawMessages(props: Props) {
 
   const onTopicPathChange = useCallback(
     (newTopicPath: string) => {
-      setExpansion('none');
+      setExpansion("none");
       saveConfig({ topicPath: newTopicPath });
     },
     [saveConfig],
@@ -214,7 +214,9 @@ function RawMessages(props: Props) {
 
   const onLabelClick = useCallback(
     (keypath: (string | number)[]) => {
-      setExpansion((old) => toggleExpansion(old ?? "none", nodes, keypath.join(PATH_NAME_AGGREGATOR)));
+      setExpansion((old) =>
+        toggleExpansion(old ?? "none", nodes, keypath.join(PATH_NAME_AGGREGATOR)),
+      );
     },
     [nodes],
   );

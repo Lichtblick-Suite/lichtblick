@@ -6,7 +6,10 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import { NodeExpansion, NodeState } from "@lichtblick/suite-base/panels/RawMessages/types";
-import { getMessageDocumentationLink, toggleExpansion } from "@lichtblick/suite-base/panels/RawMessages/utils";
+import {
+  getMessageDocumentationLink,
+  toggleExpansion,
+} from "@lichtblick/suite-base/panels/RawMessages/utils";
 
 describe("getMessageDocumentationLink", () => {
   it("links to ROS and Foxglove docs", () => {
