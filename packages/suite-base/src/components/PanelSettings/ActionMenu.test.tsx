@@ -23,6 +23,10 @@ describe("ActionMenu", () => {
     jest.spyOn(console, "error").mockImplementation(() => {});
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   const renderComponent = (propsOverride: Partial<ActionMenuProps> = {}) => {
     const props: ActionMenuProps = {
       allowShare: true,
