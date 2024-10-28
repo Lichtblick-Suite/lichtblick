@@ -3072,6 +3072,7 @@ __metadata:
   dependencies:
     "@lichtblick/tsconfig": 1.0.0
     "@types/nearley": 2.11.5
+    babel-jest: 29.7.0
     nearley: 2.20.1
     typescript: 5.3.3
   languageName: unknown
