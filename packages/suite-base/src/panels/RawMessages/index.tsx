@@ -113,6 +113,7 @@ function RawMessages(props: Props) {
         const path = paths[0];
         if (path) {
           saveConfig({ topicPath: path.path });
+          setExpansion("none");
         }
       },
     });
@@ -188,10 +189,6 @@ function RawMessages(props: Props) {
     }
   }, [expansion]);
 
-  useEffect(() => {
-      setExpansion("none");
-  }, [topicPath]);
-
   const onTopicPathChange = useCallback(
     (newTopicPath: string) => {
       setExpansion('none');
@@ -217,7 +214,7 @@ function RawMessages(props: Props) {
 
   const onLabelClick = useCallback(
     (keypath: (string | number)[]) => {
-      setExpansion((old) => toggleExpansion(old ?? "all", nodes, keypath.join(PATH_NAME_AGGREGATOR)));
+      setExpansion((old) => toggleExpansion(old ?? "none", nodes, keypath.join(PATH_NAME_AGGREGATOR)));
     },
     [nodes],
   );
