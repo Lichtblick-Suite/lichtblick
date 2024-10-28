@@ -12,6 +12,7 @@ import path from "path";
 
 import Logger from "@lichtblick/log";
 import { AppSetting } from "@lichtblick/suite-base/src/AppSetting";
+import { initI18n } from "@lichtblick/suite-base/src/i18n";
 
 import StudioAppUpdater from "./StudioAppUpdater";
 import StudioWindow from "./StudioWindow";
@@ -60,8 +61,8 @@ async function updateLanguage() {
 }
 
 export async function main(): Promise<void> {
-  // await initI18n({ context: "electron-main" });
-  // await updateLanguage();
+  await initI18n({ context: "electron-main" });
+  await updateLanguage();
 
   // Allow integration tests to override the userData directory
   const userDataOverride = process.argv.find((arg) => arg.startsWith("--user-data-dir="));
