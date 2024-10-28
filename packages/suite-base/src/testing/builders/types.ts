@@ -34,3 +34,5 @@ export enum Capitalization {
   LOWERCASE = "lowercase",
   UPPERCASE = "uppercase",
 }
+
+export type SamplePropertyKey = string | symbol | number;

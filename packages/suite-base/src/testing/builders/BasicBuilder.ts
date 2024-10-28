@@ -22,10 +22,9 @@ import {
   StringBuilder,
   Capitalization,
   MapBuilder,
+  SamplePropertyKey,
 } from "@lichtblick/suite-base/testing/builders/types";
 import { defaults } from "@lichtblick/suite-base/testing/builders/utilities";
-
-type SamplePropertyKey = string | symbol | number;
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export default class BasicBuilder {
