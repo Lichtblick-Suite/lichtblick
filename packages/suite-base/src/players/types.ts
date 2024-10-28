@@ -103,7 +103,7 @@ export type PlayerState = {
   presence: PlayerPresence;
 
   // Show some sort of progress indication in the playback bar; see `type Progress` for more details.
-  progress?: Progress;
+  progress: Progress;
 
   // Capabilities of this particular `Player`, which are not shared across all players.
   // See `const PlayerCapabilities` for more details.

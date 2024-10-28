@@ -14,9 +14,23 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import * as _ from "lodash-es";
+export type NumberBuilder = {
+  min: number;
+  max: number;
+};
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function defaults<T extends Record<string, any>>(props: Partial<T>, fallbackProps: T): T {
-  return _.defaults<Partial<T>, T>({ ...props }, fallbackProps);
+export type StringBuilder = {
+  capitalization?: Capitalization;
+  charset: "alphanumeric" | "alphabetic" | "numeric";
+  count?: number;
+  length: number;
+};
+
+export type MapBuilder = StringBuilder & {
+  count?: number;
+};
+
+export enum Capitalization {
+  LOWERCASE = "lowercase",
+  UPPERCASE = "uppercase",
 }

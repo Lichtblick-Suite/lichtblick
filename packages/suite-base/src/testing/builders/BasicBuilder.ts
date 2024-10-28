@@ -14,38 +14,28 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-// eslint-disable-next-line @lichtblick/suite/lodash-ramda-imports
-import { map, random, sample, sampleSize, toLower, toUpper } from "lodash-es";
+import * as _ from "lodash-es";
 import randomString from "randomstring";
 
-type NumberBuilder = {
-  min: number;
-  max: number;
-};
-
-type StringBuilder = {
-  length: number;
-  charset: "alphanumeric" | "alphabetic" | "numeric";
-  capitalization?: Capitalization;
-};
-
-enum Capitalization {
-  LOWERCASE = "lowercase",
-  UPPERCASE = "uppercase",
-}
+import {
+  NumberBuilder,
+  StringBuilder,
+  Capitalization,
+  MapBuilder,
+} from "@lichtblick/suite-base/testing/builders/types";
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export default class BasicBuilder {
   public static boolean(): boolean {
-    return Boolean(random(0, 1));
+    return Boolean(_.random(0, 1));
   }
 
   public static number({ min = 1, max = 20 }: Partial<NumberBuilder> = {}): number {
-    return random(min, max);
+    return _.random(min, max);
   }
 
   public static float(min = 1, max = 20): number {
-    return random(min, max, true);
+    return _.random(min, max, true);
   }
 
   public static string({
@@ -56,8 +46,8 @@ export default class BasicBuilder {
     let casingFunction = (input: string) => input;
     if (capitalization != undefined) {
       casingFunction = {
-        [Capitalization.UPPERCASE]: toUpper,
-        [Capitalization.LOWERCASE]: toLower,
+        [Capitalization.UPPERCASE]: _.toUpper,
+        [Capitalization.LOWERCASE]: _.toLower,
       }[capitalization];
     }
 
@@ -69,8 +59,49 @@ export default class BasicBuilder {
     );
   }
 
+  public static stringMap({
+    count = 3,
+    length = 6,
+    charset = "alphabetic",
+    capitalization,
+  }: Partial<MapBuilder> = {}): Map<string, string> {
+    const entries: [string, string][] = BasicBuilder.multiple(
+      () => [
+        BasicBuilder.string({ length, charset, capitalization }),
+        BasicBuilder.string({ length, charset, capitalization }),
+      ],
+      count,
+    );
+
+    return new Map(entries);
+  }
+
+  public static genericMap<T>(
+    valueGenerator: () => T,
+    { count = 3, length = 6, charset = "alphabetic", capitalization }: Partial<MapBuilder> = {},
+  ): Map<string, T> {
+    const entries: [string, T][] = BasicBuilder.multiple(
+      () => [BasicBuilder.string({ length, charset, capitalization }), valueGenerator()],
+      count,
+    );
+
+    return new Map(entries);
+  }
+
+  public static genericDictionary<T>(
+    valueGenerator: () => T,
+    { count = 3, length = 6, charset = "alphabetic", capitalization }: Partial<MapBuilder> = {},
+  ): Record<string, T> {
+    return _.fromPairs(
+      BasicBuilder.multiple(
+        () => [BasicBuilder.string({ length, charset, capitalization }), valueGenerator()],
+        count,
+      ),
+    );
+  }
+
   public static multiple<T>(factory: () => T, count = 3): T[] {
-    return map(new Array(count), factory);
+    return _.map(new Array(count), factory);
   }
 
   public static numbers(count = 3): number[] {
@@ -102,6 +133,6 @@ export default class BasicBuilder {
     input: Record<T, K> | K[],
     count?: number,
   ): K | K[] {
-    return count == undefined ? sample(input)! : sampleSize(input, count);
+    return count == undefined ? _.sample(input)! : _.sampleSize(input, count);
   }
 }
