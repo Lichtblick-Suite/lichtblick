@@ -23,9 +23,32 @@ import {
   Capitalization,
   MapBuilder,
 } from "@lichtblick/suite-base/testing/builders/types";
+import { defaults } from "@lichtblick/suite-base/testing/builders/utilities";
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export default class BasicBuilder {
+  public static date(
+    props: Partial<{
+      year: number;
+      month: string;
+      day: string;
+      hours: string;
+      minutes: string;
+      seconds: string;
+    }> = {},
+  ): string {
+    const { year, month, day, hours, minutes, seconds } = defaults(props, {
+      year: BasicBuilder.number({ min: 2000, max: 2021 }),
+      month: BasicBuilder.number({ min: 1, max: 12 }).toString().padStart(2, "0"),
+      day: BasicBuilder.number({ min: 1, max: 28 }).toString().padStart(2, "0"),
+      hours: BasicBuilder.number({ min: 0, max: 23 }).toString().padStart(2, "0"),
+      minutes: BasicBuilder.number({ min: 0, max: 59 }).toString().padStart(2, "0"),
+      seconds: BasicBuilder.number({ min: 0, max: 59 }).toString().padStart(2, "0"),
+    });
+
+    return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.926536Z`;
+  }
+
   public static boolean(): boolean {
     return Boolean(_.random(0, 1));
   }

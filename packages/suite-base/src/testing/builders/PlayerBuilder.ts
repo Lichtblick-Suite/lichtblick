@@ -20,12 +20,16 @@ import {
   PlayerCapabilities,
   PlayerPresence,
   PlayerState,
+  PlayerStateActiveData,
   Progress,
   SubscribePayload,
   SubscriptionPreloadType,
+  Topic,
   TopicSelection,
+  TopicStats,
 } from "@lichtblick/suite-base/players/types";
 import BasicBuilder from "@lichtblick/suite-base/testing/builders/BasicBuilder";
+import RosDatatypesBuilder from "@lichtblick/suite-base/testing/builders/RosDatatypesBuilder";
 import RosTimeBuilder from "@lichtblick/suite-base/testing/builders/RosTimeBuilder";
 import { defaults } from "@lichtblick/suite-base/testing/builders/utilities";
 import { Range } from "@lichtblick/suite-base/util/ranges";
@@ -98,8 +102,45 @@ class PlayerBuilder {
     });
   }
 
+  public static topic(props: Partial<Topic> = {}): Topic {
+    return defaults<Topic>(props, {
+      aliasedFromName: BasicBuilder.string(),
+      name: `/${BasicBuilder.string()}`,
+      schemaName: BasicBuilder.string(),
+    });
+  }
+
+  public static topics(count = 3): Topic[] {
+    return BasicBuilder.multiple(PlayerBuilder.topic, count);
+  }
+
+  public static topicStats(props: Partial<TopicStats> = {}): TopicStats {
+    return defaults<TopicStats>(props, {
+      firstMessageTime: RosTimeBuilder.time(),
+      lastMessageTime: RosTimeBuilder.time(),
+      numMessages: BasicBuilder.number(),
+    });
+  }
+
+  public static activeData(props: Partial<PlayerStateActiveData> = {}): PlayerStateActiveData {
+    return defaults<PlayerStateActiveData>(props, {
+      currentTime: RosTimeBuilder.time(),
+      datatypes: BasicBuilder.genericMap(RosDatatypesBuilder.optionalMessageDefinition),
+      endTime: RosTimeBuilder.time(),
+      isPlaying: BasicBuilder.boolean(),
+      lastSeekTime: BasicBuilder.number(),
+      messages: PlayerBuilder.messageEvents(),
+      speed: BasicBuilder.number(),
+      startTime: RosTimeBuilder.time(),
+      topics: PlayerBuilder.topics(),
+      topicStats: BasicBuilder.genericMap(PlayerBuilder.topicStats),
+      totalBytesReceived: BasicBuilder.number(),
+    });
+  }
+
   public static playerState(props: Partial<PlayerState> = {}): PlayerState {
     return defaults<PlayerState>(props, {
+      activeData: PlayerBuilder.activeData(),
       capabilities: BasicBuilder.sample(PlayerCapabilities, 3),
       name: BasicBuilder.string(),
       playerId: BasicBuilder.string(),

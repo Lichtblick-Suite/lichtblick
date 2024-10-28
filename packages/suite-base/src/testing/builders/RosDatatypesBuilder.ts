@@ -13,16 +13,19 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-import { Time } from "@lichtblick/rostime";
 import BasicBuilder from "@lichtblick/suite-base/testing/builders/BasicBuilder";
+import MessageDefinitionBuilder from "@lichtblick/suite-base/testing/builders/MessageDefinitionBuilder";
 import { defaults } from "@lichtblick/suite-base/testing/builders/utilities";
+import { OptionalMessageDefinition } from "@lichtblick/suite-base/types/RosDatatypes";
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
-export default class RosTimeBuilder {
-  public static time(props: Partial<Time> = {}): Time {
-    return defaults<Time>(props, {
-      nsec: BasicBuilder.number(),
-      sec: BasicBuilder.number(),
+export default class RosDatatypesBuilder {
+  public static optionalMessageDefinition(
+    props: Partial<OptionalMessageDefinition> = {},
+  ): OptionalMessageDefinition {
+    return defaults<OptionalMessageDefinition>(props, {
+      definitions: MessageDefinitionBuilder.messageDefinitionFields(),
+      name: BasicBuilder.string(),
     });
   }
 }
