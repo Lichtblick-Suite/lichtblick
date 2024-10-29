@@ -3214,7 +3214,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@lichtblick/suite-base@workspace:packages/suite-base"
   dependencies:
-    "@babel/preset-react": 7.25.9
     "@emotion/cache": 11.13.1
     "@emotion/react": 11.13.0
     "@emotion/styled": 11.13.0
@@ -14409,6 +14408,7 @@ __metadata:
     "@babel/plugin-proposal-decorators": 7.24.7
     "@babel/plugin-proposal-explicit-resource-management": 7.24.7
     "@babel/preset-env": 7.25.3
+    "@babel/preset-react": 7.25.9
     "@babel/preset-typescript": 7.24.7
     "@lichtblick/eslint-plugin": 1.0.1
     "@lichtblick/eslint-plugin-suite": "workspace:*"
