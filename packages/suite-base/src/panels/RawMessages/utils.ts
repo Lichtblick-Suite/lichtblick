@@ -20,8 +20,9 @@ import * as _ from "lodash-es";
 import { ros1 } from "@lichtblick/rosmsg-msgs-common";
 import { diffLabels, DiffObject } from "@lichtblick/suite-base/panels/RawMessages/getDiff";
 
+import { PATH_NAME_AGGREGATOR } from "./constants";
 import type { NodeExpansion } from "./types";
-import { NodeState, PATH_NAME_AGGREGATOR } from "./types";
+import { NodeState } from "./types";
 
 export const DATA_ARRAY_PREVIEW_LIMIT = 20;
 const ROS1_COMMON_MSG_PACKAGES = new Set(Object.keys(ros1).map((key) => key.split("/")[0]!));
