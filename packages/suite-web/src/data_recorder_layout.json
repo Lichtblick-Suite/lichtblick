@@ -41,7 +41,7 @@
         "poseEstimateThetaDeviation": 0.26179939
       },
       "imageMode": {
-        "imageTopic": "/preview/video_compressed",
+        "imageTopic": "/preview/image_compressed",
         "cameraSelection": "/front_stereo_camera/left"
       }
     },

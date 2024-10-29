@@ -17,7 +17,7 @@ import { assert } from "ts-essentials";
 
 import { toNanoSec } from "@foxglove/rostime";
 
-import { AnyImage, CompressedVideo } from "./ImageTypes";
+import { AnyImage } from "./ImageTypes";
 import {
   decodeCompressedImageToBitmap,
   decodeCompressedVideoToBitmap,
@@ -246,7 +246,7 @@ export class ImageRenderable extends Renderable<ImageUserData> {
   ): Promise<ImageBitmap | ImageData> {
     if ("format" in image) {
       if (VIDEO_FORMATS.has(image.format)) {
-        const frameMsg = image as CompressedVideo;
+        const frameMsg = image as CompressedImage;
 
         if (frameMsg.data.byteLength === 0) {
           const error = "Empty video frame";
