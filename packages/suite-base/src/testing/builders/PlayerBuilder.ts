@@ -27,7 +27,7 @@ class PlayerBuilder {
   public static subscribePayload(props: Partial<SubscribePayload> = {}): SubscribePayload {
     return defaults<SubscribePayload>(props, {
       fields: BasicBuilder.strings(),
-      preloadType: BasicBuilder.sample(["full", "partial"] as SubscriptionPreloadType[]),
+      preloadType: BasicBuilder.sample<SubscriptionPreloadType>(["full", "partial"]),
       topic: BasicBuilder.string(),
     });
   }

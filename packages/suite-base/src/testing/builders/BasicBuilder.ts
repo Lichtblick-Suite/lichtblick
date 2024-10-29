@@ -135,6 +135,7 @@ export default class BasicBuilder {
     );
   }
 
+  public static sample<T>(input: T[]): T;
   public static sample<T extends SamplePropertyKey, K>(
     input: Record<T, K> | K[],
     count: number,
