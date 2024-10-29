@@ -1,6 +1,8 @@
 // SPDX-FileCopyrightText: Copyright (C) 2023-2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)<lichtblick@bmwgroup.com>
 // SPDX-License-Identifier: MPL-2.0
 
+import * as _ from "lodash-es";
+
 import { Immutable, PanelSettings, SettingsTree, SettingsTreeNode } from "@lichtblick/suite";
 import { PanelStateStore } from "@lichtblick/suite-base/context/PanelStateContext";
 import { maybeCast } from "@lichtblick/suite-base/util/maybeCast";
@@ -49,6 +51,7 @@ export const buildSettingsTree = ({
     nodes: {
       ...set.nodes,
       topics: {
+        ...set.nodes.topics,
         children: {
           ...set.nodes.topics?.children,
           ...topicsSettings,
