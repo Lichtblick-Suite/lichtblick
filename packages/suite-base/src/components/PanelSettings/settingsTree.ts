@@ -52,10 +52,7 @@ export const buildSettingsTree = ({
       ...set.nodes,
       topics: {
         ...set.nodes.topics,
-        children: {
-          ...set.nodes.topics?.children,
-          ...topicsSettings,
-        },
+        children: _.merge({}, set.nodes.topics?.children, topicsSettings),
       },
     },
   };

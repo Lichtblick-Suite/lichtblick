@@ -24,37 +24,43 @@ describe("buildSettingsTree", () => {
     };
     (maybeCast as jest.Mock).mockReturnValue(config);
 
-    return {
-      state: {
-        settingsTrees: {
-          panel1: {
-            nodes: {
-              topics: {
-                children: {
-                  topic1: {},
-                },
+    const state = {
+      settingsTrees: {
+        panel1: {
+          nodes: {
+            topics: {
+              children: {
+                topic1: {},
               },
             },
           },
         },
-      } as unknown as PanelStateStore,
-      extensionSettings: {
-        myPanelType: {
-          schema1: {
-            settings: jest.fn(
-              (_config): SettingsTreeNode => ({
-                label: "valueFromExtension",
-                children: {},
-              }),
-            ),
-            handler: jest.fn(),
-          },
+      },
+    };
+
+    const extensionSettings = {
+      myPanelType: {
+        schema1: {
+          settings: jest.fn(
+            (_config): SettingsTreeNode => ({
+              label: "valueFromExtension",
+              children: {},
+            }),
+          ),
+          handler: jest.fn(),
         },
       },
-      topicToSchemaNameMap: {
-        topic1: "schema1",
-        topic2: "schema2",
-      },
+    };
+
+    const topicToSchemaNameMap = {
+      topic1: "schema1",
+      topic2: "schema2",
+    };
+
+    return {
+      state: state as unknown as PanelStateStore,
+      extensionSettings,
+      topicToSchemaNameMap,
       config,
     };
   }
