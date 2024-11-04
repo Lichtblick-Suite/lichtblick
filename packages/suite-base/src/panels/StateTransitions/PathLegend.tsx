@@ -16,7 +16,10 @@ import { useWorkspaceActions } from "@lichtblick/suite-base/context/Workspace/us
 import { DEFAULT_PATH } from "@lichtblick/suite-base/panels/Plot/settings";
 import useStyles from "@lichtblick/suite-base/panels/StateTransitions/PathLegend.style";
 import { stateTransitionPathDisplayName } from "@lichtblick/suite-base/panels/StateTransitions/shared";
-import { PathLegendProps } from "@lichtblick/suite-base/panels/StateTransitions/types";
+import {
+  PathLegendProps,
+  StateTransitionPath,
+} from "@lichtblick/suite-base/panels/StateTransitions/types";
 
 export const PathLegend = React.memo(function PathLegend(props: PathLegendProps) {
   const { t } = useTranslation("stateTransitions");
@@ -54,45 +57,47 @@ export const PathLegend = React.memo(function PathLegend(props: PathLegendProps)
 
   return (
     <Stack className={classes.chartOverlay} position="absolute" paddingTop={0.5}>
-      {(paths.length === 0 ? [DEFAULT_PATH] : paths).map((path, index) => (
-        <div
-          data-testid={`row-${index}`}
-          className={classes.row}
-          key={index}
-          style={{ height: heightPerTopic }}
-        >
-          <ButtonGroup
-            size="small"
-            color="inherit"
-            variant="contained"
-            className={classes.buttonGroup}
+      {(paths.length === 0 ? [DEFAULT_PATH] : paths).map(
+        (path: StateTransitionPath, index: number) => (
+          <div
+            data-testid={`row-${index}`}
+            className={classes.row}
+            key={index}
+            style={{ height: heightPerTopic }}
           >
-            <Button
-              data-testid={`edit-topic-button-${index}`}
-              endIcon={paths.length === 0 && <Add16Regular />}
-              onClick={() => {
-                handleEditTopic(index);
-              }}
+            <ButtonGroup
+              size="small"
+              color="inherit"
+              variant="contained"
+              className={classes.buttonGroup}
             >
-              {paths.length === 0
-                ? t("addSeriesButton")
-                : stateTransitionPathDisplayName(path, index)}
-            </Button>
-            {paths.length > 0 && (
               <Button
-                data-testid={`delete-topic-button-${index}`}
-                className={classes.dismissIcon}
-                size="small"
-                onClick={(event) => {
-                  handleDeletePath(event, index);
+                data-testid={`edit-topic-button-${index}`}
+                endIcon={paths.length === 0 && <Add16Regular />}
+                onClick={() => {
+                  handleEditTopic(index);
                 }}
               >
-                <Dismiss12Regular />
+                {paths.length === 0
+                  ? t("addSeriesButton")
+                  : stateTransitionPathDisplayName(path, index)}
               </Button>
-            )}
-          </ButtonGroup>
-        </div>
-      ))}
+              {paths.length > 0 && (
+                <Button
+                  data-testid={`delete-topic-button-${index}`}
+                  className={classes.dismissIcon}
+                  size="small"
+                  onClick={(event) => {
+                    handleDeletePath(event, index);
+                  }}
+                >
+                  <Dismiss12Regular />
+                </Button>
+              )}
+            </ButtonGroup>
+          </div>
+        ),
+      )}
     </Stack>
   );
 });
