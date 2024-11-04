@@ -8,6 +8,7 @@
 import { Add16Regular, Dismiss12Regular } from "@fluentui/react-icons";
 import { Button, ButtonGroup, Stack, buttonClasses } from "@mui/material";
 import { MouseEvent, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import tinycolor from "tinycolor2";
 import { makeStyles } from "tss-react/mui";
 
@@ -22,27 +23,36 @@ import {
 } from "@lichtblick/suite-base/panels/StateTransitions/types";
 import { SaveConfig } from "@lichtblick/suite-base/types/panels";
 
+
+export type PathLegendProps = {
+  paths: StateTransitionPath[];
+  heightPerTopic: number;
+  setFocusedPath: (value: string[] | undefined) => void;
+  saveConfig: SaveConfig<StateTransitionConfig>;
+}
+
 const useStyles = makeStyles()((theme) => ({
   chartOverlay: {
-    top: 0,
     left: 0,
-    right: 0,
+    paddingTop: 0.5,
     pointerEvents: "none",
+    position: "absolute",
+    right: 0,
+    top: 0,
   },
   row: {
     paddingInline: theme.spacing(1, 0.5),
     pointerEvents: "none",
   },
-  dismissIcon: {
-    paddingInline: theme.spacing(0.5),
-    minWidth: "auto !important",
-  },
   buttonGroup: {
-    minWidth: "auto",
-    textAlign: "left",
-    pointerEvents: "auto",
+    color: "inherit",
     fontWeight: "normal",
     maxWidth: "100%",
+    minWidth: "auto",
+    pointerEvents: "auto",
+    size: "small",
+    textAlign: "left",
+    variant: "contained",
 
     [`.${buttonClasses.root}`]: {
       backgroundColor: tinycolor(theme.palette.background.paper).setAlpha(0.67).toString(),
@@ -59,14 +69,15 @@ const useStyles = makeStyles()((theme) => ({
       marginRight: theme.spacing(-0.75),
     },
   },
+  button: {
+    minWidth: "auto !important",
+    paddingInline: theme.spacing(0.5),
+    size: "small",
+  },
 }));
 
-export const PathLegend = React.memo(function PathLegend(props: {
-  paths: StateTransitionPath[];
-  heightPerTopic: number;
-  setFocusedPath: (value: string[] | undefined) => void;
-  saveConfig: SaveConfig<StateTransitionConfig>;
-}) {
+export const PathLegend = React.memo(function PathLegend(props: PathLegendProps) {
+  const { t } = useTranslation("stateTransitions");
   const { paths, heightPerTopic, setFocusedPath, saveConfig } = props;
   const { setSelectedPanelIds } = useSelectedPanels();
   const { id: panelId } = usePanelContext();
@@ -90,33 +101,34 @@ export const PathLegend = React.memo(function PathLegend(props: {
     [paths, saveConfig],
   );
 
+  const handleEditTopic = useCallback((index: number) => {
+    setSelectedPanelIds([panelId]);
+    openPanelSettings();
+    setFocusedPath(["paths", String(index)]);
+  }, [openPanelSettings, panelId, setFocusedPath, setSelectedPanelIds]);
+
   return (
-    <Stack className={classes.chartOverlay} position="absolute" paddingTop={0.5}>
+    <Stack className={classes.chartOverlay}>
       {(paths.length === 0 ? [DEFAULT_PATH] : paths).map((path, index) => (
-        <div className={classes.row} key={index} style={{ height: heightPerTopic }}>
+        <div data-testid={`row-${index}`} className={classes.row} key={index} style={{ height: heightPerTopic }}>
           <ButtonGroup
-            size="small"
-            color="inherit"
-            variant="contained"
             className={classes.buttonGroup}
           >
             <Button
-              data-testid="edit-topic-button"
+              data-testid={`edit-topic-button-${index}`}
               endIcon={paths.length === 0 && <Add16Regular />}
               onClick={() => {
-                setSelectedPanelIds([panelId]);
-                openPanelSettings();
-                setFocusedPath(["paths", String(index)]);
+                handleEditTopic(index);
               }}
             >
               {paths.length === 0
-                ? "Click to add a series"
+                ? t("addSeriesButton")
                 : stateTransitionPathDisplayName(path, index)}
             </Button>
             {paths.length > 0 && (
               <Button
-                className={classes.dismissIcon}
-                size="small"
+                data-testid={`delete-topic-button-${index}`}
+                className={classes.button}
                 onClick={(event) => {
                   handleDeletePath(event, index);
                 }}
