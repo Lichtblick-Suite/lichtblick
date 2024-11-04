@@ -7,9 +7,10 @@ import { render, screen } from "@testing-library/react";
 import MockPanelContextProvider from "@lichtblick/suite-base/components/MockPanelContextProvider";
 import { useSelectedPanels } from "@lichtblick/suite-base/context/CurrentLayoutContext";
 import { useWorkspaceActions } from "@lichtblick/suite-base/context/Workspace/useWorkspaceActions";
+import { PathLegendProps } from "@lichtblick/suite-base/panels/StateTransitions/types";
 import BasicBuilder from "@lichtblick/suite-base/testing/builders/BasicBuilder";
 
-import { PathLegend, PathLegendProps } from "./PathLegend";
+import { PathLegend } from "./PathLegend";
 
 jest.mock("@lichtblick/suite-base/context/CurrentLayoutContext");
 jest.mock("@lichtblick/suite-base/context/Workspace/useWorkspaceActions");

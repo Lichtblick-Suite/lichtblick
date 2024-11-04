@@ -17,18 +17,7 @@ import { useSelectedPanels } from "@lichtblick/suite-base/context/CurrentLayoutC
 import { useWorkspaceActions } from "@lichtblick/suite-base/context/Workspace/useWorkspaceActions";
 import { DEFAULT_PATH } from "@lichtblick/suite-base/panels/Plot/settings";
 import { stateTransitionPathDisplayName } from "@lichtblick/suite-base/panels/StateTransitions/shared";
-import {
-  StateTransitionConfig,
-  StateTransitionPath,
-} from "@lichtblick/suite-base/panels/StateTransitions/types";
-import { SaveConfig } from "@lichtblick/suite-base/types/panels";
-
-export type PathLegendProps = {
-  paths: StateTransitionPath[];
-  heightPerTopic: number;
-  setFocusedPath: (value: string[] | undefined) => void;
-  saveConfig: SaveConfig<StateTransitionConfig>;
-};
+import { PathLegendProps } from "@lichtblick/suite-base/panels/StateTransitions/types";
 
 const useStyles = makeStyles()((theme) => ({
   chartOverlay: {
