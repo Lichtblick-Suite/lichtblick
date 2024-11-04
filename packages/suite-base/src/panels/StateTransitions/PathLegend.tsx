@@ -23,13 +23,12 @@ import {
 } from "@lichtblick/suite-base/panels/StateTransitions/types";
 import { SaveConfig } from "@lichtblick/suite-base/types/panels";
 
-
 export type PathLegendProps = {
   paths: StateTransitionPath[];
   heightPerTopic: number;
   setFocusedPath: (value: string[] | undefined) => void;
   saveConfig: SaveConfig<StateTransitionConfig>;
-}
+};
 
 const useStyles = makeStyles()((theme) => ({
   chartOverlay: {
