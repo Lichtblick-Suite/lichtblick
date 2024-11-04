@@ -25,6 +25,11 @@ export type StateTransitionConfig = {
   showPoints?: boolean;
 };
 
+export type StateTransitionPanelProps = {
+  config: StateTransitionConfig;
+  saveConfig: SaveConfig<StateTransitionConfig>;
+};
+
 export type PathLegendProps = {
   paths: StateTransitionPath[];
   heightPerTopic: number;
