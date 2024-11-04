@@ -100,19 +100,25 @@ export const PathLegend = React.memo(function PathLegend(props: PathLegendProps)
     [paths, saveConfig],
   );
 
-  const handleEditTopic = useCallback((index: number) => {
-    setSelectedPanelIds([panelId]);
-    openPanelSettings();
-    setFocusedPath(["paths", String(index)]);
-  }, [openPanelSettings, panelId, setFocusedPath, setSelectedPanelIds]);
+  const handleEditTopic = useCallback(
+    (index: number) => {
+      setSelectedPanelIds([panelId]);
+      openPanelSettings();
+      setFocusedPath(["paths", String(index)]);
+    },
+    [openPanelSettings, panelId, setFocusedPath, setSelectedPanelIds],
+  );
 
   return (
     <Stack className={classes.chartOverlay}>
       {(paths.length === 0 ? [DEFAULT_PATH] : paths).map((path, index) => (
-        <div data-testid={`row-${index}`} className={classes.row} key={index} style={{ height: heightPerTopic }}>
-          <ButtonGroup
-            className={classes.buttonGroup}
-          >
+        <div
+          data-testid={`row-${index}`}
+          className={classes.row}
+          key={index}
+          style={{ height: heightPerTopic }}
+        >
+          <ButtonGroup className={classes.buttonGroup}>
             <Button
               data-testid={`edit-topic-button-${index}`}
               endIcon={paths.length === 0 && <Add16Regular />}
