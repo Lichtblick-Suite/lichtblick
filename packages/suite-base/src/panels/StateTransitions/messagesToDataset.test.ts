@@ -1,14 +1,16 @@
 // SPDX-FileCopyrightText: Copyright (C) 2023-2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)<lichtblick@bmwgroup.com>
 // SPDX-License-Identifier: MPL-2.0
 
+import * as _ from "lodash-es";
+
 import { MessageEvent } from "@lichtblick/suite";
 import { MessageAndData } from "@lichtblick/suite-base/components/MessagePathSyntax/useCachedGetMessagePathDataItems";
 import BasicBuilder from "@lichtblick/suite-base/testing/builders/BasicBuilder";
 import MessageEventBuilder from "@lichtblick/suite-base/testing/builders/MessageEventBuilder";
-import { getTimestampForMessageEvent } from "@lichtblick/suite-base/util/time";
+import RosTimeBuilder from "@lichtblick/suite-base/testing/builders/RosTimeBuilder";
+import { TimestampMethod } from "@lichtblick/suite-base/util/time";
 
 import {
-  getTimestampForMessage,
   extractQueriedData,
   isValueNotANumberOrString,
   isValidValue,
@@ -17,11 +19,7 @@ import {
   baseColors,
   messagesToDataset,
 } from "./messagesToDataset";
-import { StateTransitionPath } from "./types";
-
-jest.mock("@lichtblick/suite-base/util/time", () => ({
-  getTimestampForMessageEvent: jest.fn(),
-}));
+import { MessageDatasetArgs, StateTransitionPath } from "./types";
 
 const messageEventMock = MessageEventBuilder.messageEvent({
   message: {
@@ -42,7 +40,8 @@ const messageEventMock = MessageEventBuilder.messageEvent({
 const mockMessageEvent: MessageEvent = {
   topic: "/test/message_topic_test",
   schemaName: "Unit.test.SchemaName",
-  receiveTime: { nsec: 234857428, sec: 37628636 },
+  // receiveTime: { nsec: 234857428, sec: 37628636 },
+  receiveTime: RosTimeBuilder.time(),
   sizeInBytes: 152,
   message: messageEventMock,
 };
@@ -50,8 +49,20 @@ const mockMessageEvent: MessageEvent = {
 const mockPath: StateTransitionPath = {
   label: "Test Label",
   value: "/test/debug/unitTest.",
-  timestampMethod: "receiveTime",
+  timestampMethod: BasicBuilder.sample(["receiveTime", "headerStamp"] as TimestampMethod[]),
 };
+
+function MessageAndDataBuilder(
+  messageEvent: MessageEvent,
+  value: number,
+  path: string,
+  constantName: string,
+): MessageAndData {
+  return {
+    messageEvent,
+    queriedData: [{ value, path, constantName }],
+  };
+}
 
 const item: MessageAndData = {
   messageEvent: mockMessageEvent,
@@ -61,33 +72,6 @@ const item: MessageAndData = {
 describe("messagesToDataset helper functions", () => {
   beforeEach(() => {
     jest.clearAllMocks();
-  });
-
-  // unit tests for getTimestampForMessage
-
-  it("should return undefined when getTimestampForMessageEvent returns undefined", () => {
-    (getTimestampForMessageEvent as jest.Mock).mockReturnValueOnce(undefined);
-
-    const result = getTimestampForMessage(item, mockPath);
-
-    expect(result).toBe(undefined);
-    expect(getTimestampForMessageEvent).toHaveBeenCalledWith(
-      mockMessageEvent,
-      mockPath.timestampMethod,
-    );
-  });
-
-  it("should return a valid timestamp when getTimestampForMessageEvent returns a timestamp", () => {
-    const mockTimestamp = new Date().getMilliseconds();
-    (getTimestampForMessageEvent as jest.Mock).mockReturnValue(mockTimestamp);
-
-    const result = getTimestampForMessage(item, mockPath);
-
-    expect(result).toBe(mockTimestamp);
-    expect(getTimestampForMessageEvent).toHaveBeenCalledWith(
-      mockMessageEvent,
-      mockPath.timestampMethod,
-    );
   });
 
   // unit tests for extractQueriedData
@@ -284,6 +268,32 @@ describe("messagesToDataset", () => {
   });
 
   it("should add data points when blocks contain valid messages", () => {
+    const queriedDataValue = BasicBuilder.number();
+    const queriedDataName = BasicBuilder.string();
+    const queriedDataPath = BasicBuilder.string();
+    //forcing path.timestampMethod to be receiveTime for this specific unit test, headerStamp wont work here
+    const argsDataset: MessageDatasetArgs = {
+      ...mockArgs,
+      path: { ...mockArgs.path, timestampMethod: "receiveTime" },
+    };
+    const blocks: MessageAndData[][] = [
+      [MessageAndDataBuilder(messageEventMock, queriedDataValue, queriedDataPath, queriedDataName)],
+    ];
+    _.merge(argsDataset, { blocks });
+
+    const result = messagesToDataset(argsDataset);
+
+    expect(result.data[0]).toStrictEqual({
+      x: expect.any(Number),
+      y: 50,
+      label: `${queriedDataName} (${queriedDataValue})`,
+      labelColor: expect.any(String),
+      value: queriedDataValue,
+      constantName: queriedDataName,
+    });
+  });
+
+  it("should push lastDatum to dataset.data if isNewSegment is true", () => {
     const randomValue = BasicBuilder.number();
     const randomConst = BasicBuilder.string();
 
@@ -298,15 +308,12 @@ describe("messagesToDataset", () => {
       ],
     ];
 
-    const result = messagesToDataset({ ...mockArgs, blocks: mockBlocks });
-
-    expect(result.data[0]).toStrictEqual({
-      x: expect.any(Number),
-      y: 50,
-      label: `${randomConst} (${randomValue})`,
-      labelColor: expect.any(String),
-      value: randomValue,
-      constantName: randomConst,
+    const result = messagesToDataset({
+      ...mockArgs,
+      blocks: mockBlocks,
+      path: { ...mockArgs.path, timestampMethod: "receiveTime" },
     });
+
+    expect(result.data[0]).toEqual(expect.objectContaining({ value: randomValue }));
   });
 });

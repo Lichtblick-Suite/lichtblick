@@ -7,7 +7,7 @@
 
 import stringHash from "string-hash";
 
-import { Time, subtract as subtractTimes, toSec } from "@lichtblick/rostime";
+import { subtract as subtractTimes, toSec } from "@lichtblick/rostime";
 import {
   MessageAndData,
   MessagePathDataItem,
@@ -19,7 +19,6 @@ import { grey } from "@lichtblick/suite-base/util/toolsColorScheme";
 
 import positiveModulo from "./positiveModulo";
 import { MessageDatasetArgs, ValidQueriedDataValue } from "./types";
-import { StateTransitionPath } from "./types";
 
 export const baseColors = [...expandedLineColors];
 const baseColorsLength = Object.values(baseColors).length;
@@ -52,7 +51,7 @@ export function messagesToDataset(args: MessageDatasetArgs): ChartDataset {
     }
 
     for (const itemByPath of messages) {
-      const timestamp = getTimestampForMessage(itemByPath, path);
+      const timestamp = getTimestampForMessageEvent(itemByPath.messageEvent, path.timestampMethod);
       if (!timestamp) {
         continue;
       }
@@ -104,13 +103,6 @@ export function messagesToDataset(args: MessageDatasetArgs): ChartDataset {
   }
 
   return dataset;
-}
-
-export function getTimestampForMessage(
-  item: MessageAndData,
-  path: StateTransitionPath,
-): Time | undefined {
-  return getTimestampForMessageEvent(item.messageEvent, path.timestampMethod) ?? undefined;
 }
 
 export function extractQueriedData(itemByPath: MessageAndData): MessagePathDataItem | undefined {
