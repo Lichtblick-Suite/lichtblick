@@ -8,32 +8,27 @@
 import stringHash from "string-hash";
 
 import { Time, subtract as subtractTimes, toSec } from "@lichtblick/rostime";
-import { MessageAndData } from "@lichtblick/suite-base/components/MessagePathSyntax/useCachedGetMessagePathDataItems";
+import {
+  MessageAndData,
+  MessagePathDataItem,
+} from "@lichtblick/suite-base/components/MessagePathSyntax/useCachedGetMessagePathDataItems";
 import { ChartDataset } from "@lichtblick/suite-base/components/TimeBasedChart/types";
 import { expandedLineColors } from "@lichtblick/suite-base/util/plotColors";
 import { getTimestampForMessageEvent } from "@lichtblick/suite-base/util/time";
 import { grey } from "@lichtblick/suite-base/util/toolsColorScheme";
 
 import positiveModulo from "./positiveModulo";
+import { MessageDatasetArgs, ValidQueriedDataValue } from "./types";
 import { StateTransitionPath } from "./types";
 
-const baseColors = [...expandedLineColors];
+export const baseColors = [...expandedLineColors];
 const baseColorsLength = Object.values(baseColors).length;
-
-type Args = {
-  path: StateTransitionPath;
-  startTime: Time;
-  y: number;
-  pathIndex: number;
-  blocks: readonly (readonly MessageAndData[] | undefined)[];
-  showPoints: boolean;
-};
 
 /**
  * Processes messages into datasets. For performance reasons all values are condensed into a single
  * dataset with different labels and colors applied per-point.
  */
-export function messagesToDataset(args: Args): ChartDataset {
+export function messagesToDataset(args: MessageDatasetArgs): ChartDataset {
   const { path, startTime, y, blocks, showPoints } = args;
 
   const dataset: ChartDataset = {
@@ -57,40 +52,29 @@ export function messagesToDataset(args: Args): ChartDataset {
     }
 
     for (const itemByPath of messages) {
-      const timestamp = getTimestampForMessageEvent(itemByPath.messageEvent, path.timestampMethod);
+      const timestamp = getTimestampForMessage(itemByPath, path);
       if (!timestamp) {
         continue;
       }
 
-      const queriedData = itemByPath.queriedData[0];
-      if (itemByPath.queriedData.length !== 1 || !queriedData) {
+      const queriedData = extractQueriedData(itemByPath);
+      if (!queriedData) {
         continue;
       }
 
       const { constantName, value } = queriedData;
 
-      // Skip anything that cannot be cast to a number or is a string.
-      if (Number.isNaN(value) && typeof value !== "string") {
+      if (isValueNotANumberOrString(value)) {
         continue;
       }
 
-      if (
-        typeof value !== "number" &&
-        typeof value !== "bigint" &&
-        typeof value !== "boolean" &&
-        typeof value !== "string"
-      ) {
+      if (!isValidValue(value)) {
         continue;
       }
 
-      const valueForColor =
-        typeof value === "string" ? stringHash(value) : Math.round(Number(value));
-      const color = baseColors[positiveModulo(valueForColor, baseColorsLength)] ?? grey;
-
+      const color = getColor(value);
       const x = toSec(subtractTimes(timestamp, startTime));
-
-      const label =
-        constantName != undefined ? `${constantName} (${String(value)})` : String(value);
+      const label = createLabel(constantName, value);
 
       const isNewSegment = lastValue !== value;
 
@@ -120,4 +104,38 @@ export function messagesToDataset(args: Args): ChartDataset {
   }
 
   return dataset;
+}
+
+export function getTimestampForMessage(
+  item: MessageAndData,
+  path: StateTransitionPath,
+): Time | undefined {
+  return getTimestampForMessageEvent(item.messageEvent, path.timestampMethod) ?? undefined;
+}
+
+export function extractQueriedData(itemByPath: MessageAndData): MessagePathDataItem | undefined {
+  if (itemByPath.queriedData.length === 1) {
+    return itemByPath.queriedData[0];
+  }
+  return undefined;
+}
+
+export function isValidValue(value: unknown): value is ValidQueriedDataValue {
+  return ["number", "string", "bigint", "boolean"].includes(typeof value);
+}
+
+export function isValueNotANumberOrString(value: unknown): value is number | string {
+  return Number.isNaN(value) && typeof value !== "string";
+}
+
+export function getColor(value: ValidQueriedDataValue): string {
+  const valueForColor = typeof value === "string" ? stringHash(value) : Math.round(Number(value));
+  return baseColors[positiveModulo(valueForColor, baseColorsLength)] ?? grey;
+}
+
+export function createLabel(
+  constantName: string | undefined,
+  value: ValidQueriedDataValue,
+): string {
+  return constantName != undefined ? `${constantName} (${String(value)})` : String(value);
 }
