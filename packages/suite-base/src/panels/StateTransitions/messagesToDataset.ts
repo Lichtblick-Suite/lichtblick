@@ -15,7 +15,6 @@ import {
 import { ChartDataset } from "@lichtblick/suite-base/components/TimeBasedChart/types";
 import { expandedLineColors } from "@lichtblick/suite-base/util/plotColors";
 import { getTimestampForMessageEvent } from "@lichtblick/suite-base/util/time";
-import { grey } from "@lichtblick/suite-base/util/toolsColorScheme";
 
 import positiveModulo from "./positiveModulo";
 import { MessageDatasetArgs, ValidQueriedDataValue } from "./types";
@@ -63,10 +62,6 @@ export function messagesToDataset(args: MessageDatasetArgs): ChartDataset {
 
       const { constantName, value } = queriedData;
 
-      if (isValueNotANumberOrString(value)) {
-        continue;
-      }
-
       if (!isValidValue(value)) {
         continue;
       }
@@ -112,17 +107,19 @@ export function extractQueriedData(itemByPath: MessageAndData): MessagePathDataI
   return undefined;
 }
 
-export function isValidValue(value: unknown): value is ValidQueriedDataValue {
-  return ["number", "string", "bigint", "boolean"].includes(typeof value);
-}
-
-export function isValueNotANumberOrString(value: unknown): value is number | string {
-  return Number.isNaN(value) && typeof value !== "string";
+export function isValidValue(value: unknown): value is number | string | bigint | boolean {
+  // Check if the type of `value` is one of the desired types and that it's not `NaN`
+  return (
+    (typeof value === "number" && !Number.isNaN(value)) ||
+    typeof value === "string" ||
+    typeof value === "bigint" ||
+    typeof value === "boolean"
+  );
 }
 
 export function getColor(value: ValidQueriedDataValue): string {
   const valueForColor = typeof value === "string" ? stringHash(value) : Math.round(Number(value));
-  return baseColors[positiveModulo(valueForColor, baseColorsLength)] ?? grey;
+  return baseColors[positiveModulo(valueForColor, baseColorsLength)]!;
 }
 
 export function createLabel(

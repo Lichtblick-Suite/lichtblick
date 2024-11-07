@@ -1,18 +1,14 @@
 // SPDX-FileCopyrightText: Copyright (C) 2023-2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)<lichtblick@bmwgroup.com>
 // SPDX-License-Identifier: MPL-2.0
 
-import * as _ from "lodash-es";
-
 import { MessageEvent } from "@lichtblick/suite";
 import { MessageAndData } from "@lichtblick/suite-base/components/MessagePathSyntax/useCachedGetMessagePathDataItems";
 import BasicBuilder from "@lichtblick/suite-base/testing/builders/BasicBuilder";
 import MessageEventBuilder from "@lichtblick/suite-base/testing/builders/MessageEventBuilder";
-import RosTimeBuilder from "@lichtblick/suite-base/testing/builders/RosTimeBuilder";
 import { TimestampMethod } from "@lichtblick/suite-base/util/time";
 
 import {
   extractQueriedData,
-  isValueNotANumberOrString,
   isValidValue,
   getColor,
   createLabel,
@@ -21,7 +17,9 @@ import {
 } from "./messagesToDataset";
 import { MessageDatasetArgs, StateTransitionPath } from "./types";
 
-const messageEventMock = MessageEventBuilder.messageEvent({
+const messageEvent = MessageEventBuilder.messageEvent({
+  topic: "/test/message_topic_test",
+  schemaName: "Unit.test.SchemaName",
   message: {
     test_property1: false,
     test_property2: undefined,
@@ -37,15 +35,6 @@ const messageEventMock = MessageEventBuilder.messageEvent({
   },
 });
 
-const mockMessageEvent: MessageEvent = {
-  topic: "/test/message_topic_test",
-  schemaName: "Unit.test.SchemaName",
-  // receiveTime: { nsec: 234857428, sec: 37628636 },
-  receiveTime: RosTimeBuilder.time(),
-  sizeInBytes: 152,
-  message: messageEventMock,
-};
-
 const mockPath: StateTransitionPath = {
   label: "Test Label",
   value: "/test/debug/unitTest.",
@@ -53,19 +42,19 @@ const mockPath: StateTransitionPath = {
 };
 
 function MessageAndDataBuilder(
-  messageEvent: MessageEvent,
+  messageEventInput: MessageEvent,
   value: number,
   path: string,
   constantName: string,
 ): MessageAndData {
   return {
-    messageEvent,
+    messageEvent: messageEventInput,
     queriedData: [{ value, path, constantName }],
   };
 }
 
 const item: MessageAndData = {
-  messageEvent: mockMessageEvent,
+  messageEvent,
   queriedData: [{ value: BasicBuilder.number(), path: BasicBuilder.string() }],
 };
 
@@ -84,7 +73,7 @@ describe("messagesToDataset helper functions", () => {
 
   it("should return undefined when queriedData's argument has an empty array", () => {
     const mockMessageAndDataWithEmptyQueriedData: MessageAndData = {
-      messageEvent: mockMessageEvent,
+      messageEvent,
       queriedData: [],
     };
 
@@ -95,7 +84,7 @@ describe("messagesToDataset helper functions", () => {
 
   it("should return undefined when queriedData's argument has more than one item", () => {
     const mockMessageAndDataWithMultipleItemsOnQueriedData: MessageAndData = {
-      messageEvent: mockMessageEvent,
+      messageEvent,
       queriedData: [
         { value: BasicBuilder.number(), path: BasicBuilder.string() },
         { value: BasicBuilder.number(), path: BasicBuilder.string() },
@@ -105,28 +94,6 @@ describe("messagesToDataset helper functions", () => {
     const result = extractQueriedData(mockMessageAndDataWithMultipleItemsOnQueriedData);
 
     expect(result).toEqual(undefined);
-  });
-
-  // unit tests for isValueNotANumberOrString
-
-  it("should return true for NaN", () => {
-    const value = NaN;
-    expect(isValueNotANumberOrString(value)).toBe(true);
-  });
-
-  it("should return false for string", () => {
-    const value = BasicBuilder.string();
-    expect(isValueNotANumberOrString(value)).toBe(false);
-  });
-
-  it("should return false for number", () => {
-    const value = BasicBuilder.number();
-    expect(isValueNotANumberOrString(value)).toBe(false);
-  });
-
-  it("should return false for undefined", () => {
-    const value = undefined;
-    expect(isValueNotANumberOrString(value)).toBe(false);
   });
 
   // unit tests for isValidValue
@@ -157,6 +124,16 @@ describe("messagesToDataset helper functions", () => {
 
   it("should return false for undefined, not a valid value", () => {
     const value = undefined;
+    expect(isValidValue(value)).toBe(false);
+  });
+
+  it("should return false for NaN, not a valid value", () => {
+    const value = NaN;
+    expect(isValidValue(value)).toBe(false);
+  });
+
+  it("should return false for an object, not a valid value", () => {
+    const value = {};
     expect(isValidValue(value)).toBe(false);
   });
 
@@ -234,7 +211,7 @@ describe("messagesToDataset helper functions", () => {
 });
 
 describe("messagesToDataset", () => {
-  const mockArgs = {
+  const args = {
     path: mockPath,
     startTime: { nsec: 234857428, sec: 37628636 },
     y: 50,
@@ -245,7 +222,7 @@ describe("messagesToDataset", () => {
   };
 
   it("should initialize dataset with default properties", () => {
-    const result = messagesToDataset(mockArgs);
+    const result = messagesToDataset(args);
 
     expect(result).toEqual(
       expect.objectContaining({
@@ -263,7 +240,7 @@ describe("messagesToDataset", () => {
   });
 
   it("should return an empty data array if blocks are empty", () => {
-    const result = messagesToDataset({ ...mockArgs, blocks: [] });
+    const result = messagesToDataset({ ...args, blocks: [] });
     expect(result.data).toEqual([]);
   });
 
@@ -272,14 +249,14 @@ describe("messagesToDataset", () => {
     const queriedDataName = BasicBuilder.string();
     const queriedDataPath = BasicBuilder.string();
     //forcing path.timestampMethod to be receiveTime for this specific unit test, headerStamp wont work here
-    const argsDataset: MessageDatasetArgs = {
-      ...mockArgs,
-      path: { ...mockArgs.path, timestampMethod: "receiveTime" },
-    };
     const blocks: MessageAndData[][] = [
-      [MessageAndDataBuilder(messageEventMock, queriedDataValue, queriedDataPath, queriedDataName)],
+      [MessageAndDataBuilder(messageEvent, queriedDataValue, queriedDataPath, queriedDataName)],
     ];
-    _.merge(argsDataset, { blocks });
+    const argsDataset: MessageDatasetArgs = {
+      ...args,
+      path: { ...args.path, timestampMethod: "receiveTime" },
+      blocks,
+    };
 
     const result = messagesToDataset(argsDataset);
 
@@ -293,27 +270,246 @@ describe("messagesToDataset", () => {
     });
   });
 
-  it("should push lastDatum to dataset.data if isNewSegment is true", () => {
-    const randomValue = BasicBuilder.number();
-    const randomConst = BasicBuilder.string();
+  it("should return undefined because getTimestampForMessageEvent will return undefined", () => {
+    const queriedDataValue = BasicBuilder.number();
+    const queriedDataName = BasicBuilder.string();
+    const queriedDataPath = BasicBuilder.string();
+    //forcing path.timestampMethod to be headerStamp without headers in the message
+    //so getTimestampForMessageEvent returns undefined
 
-    const mockBlocks = [
+    const blocks: MessageAndData[][] = [
+      [
+        MessageAndDataBuilder(
+          { ...messageEvent, message: { header: undefined } },
+          queriedDataValue,
+          queriedDataPath,
+          queriedDataName,
+        ),
+      ],
+    ];
+    const argsDataset: MessageDatasetArgs = {
+      ...args,
+      path: { ...args.path, timestampMethod: "headerStamp" },
+      blocks,
+    };
+
+    const result = messagesToDataset(argsDataset);
+
+    expect(result.data.length).toBe(0);
+  });
+
+  it("should return dataset with 1 item on data[] because getTimestampForMessageEvent is called with headerStamp with header", () => {
+    const queriedDataValue = BasicBuilder.number();
+    const queriedDataName = BasicBuilder.string();
+    const queriedDataPath = BasicBuilder.string();
+    //forcing path.timestampMethod to be headerStamp with header in the message
+    //so getTimestampForMessageEvent returns a stamp and therefore a item is added to data[] inisde the ChartDataset object returned
+    const blocks: MessageAndData[][] = [
+      [
+        MessageAndDataBuilder(
+          { ...messageEvent, message: { header: { stamp: { sec: 1, nsec: 20 } } } },
+          queriedDataValue,
+          queriedDataPath,
+          queriedDataName,
+        ),
+      ],
+    ];
+    const argsDataset: MessageDatasetArgs = {
+      ...args,
+      path: { ...args.path, timestampMethod: "headerStamp", label: undefined },
+      blocks,
+    };
+
+    const result = messagesToDataset(argsDataset);
+
+    expect(result.data.length).toBe(1);
+    expect(result.label).toBe(args.path.value);
+  });
+
+  it("should return dataset with no data since blocks doesn't have any message", () => {
+    //forcing path.timestampMethod to be receiveTime for this specific unit test, headerStamp wont work here
+    const argsDataset: MessageDatasetArgs = {
+      ...args,
+      path: { ...args.path, timestampMethod: "receiveTime" },
+      blocks: [],
+    };
+
+    const result = messagesToDataset(argsDataset);
+    expect(result.data.length).toBe(0);
+  });
+
+  it("should return dataset with no data since queriedData is empty and therefore extractQueriedData will return undefined", () => {
+    const blocks: MessageAndData[][] = [
       [
         {
-          messageEvent: mockMessageEvent,
+          messageEvent,
+          queriedData: [],
+        },
+      ],
+    ];
+    const argsDataset: MessageDatasetArgs = {
+      ...args,
+      path: { ...args.path, timestampMethod: "receiveTime" },
+      blocks,
+    };
+
+    const result = messagesToDataset(argsDataset);
+
+    expect(result.data.length).toBe(0);
+  });
+
+  it("should return dataset with no data since queriedData has more than one item and therefore extractQueriedData will return undefined", () => {
+    const queriedDataValue = BasicBuilder.number();
+    const queriedDataPath = BasicBuilder.string();
+    const blocks: MessageAndData[][] = [
+      [
+        {
+          messageEvent,
           queriedData: [
-            { value: randomValue, path: BasicBuilder.string(), constantName: randomConst },
+            { value: queriedDataValue, path: queriedDataPath },
+            { value: queriedDataValue, path: queriedDataPath },
           ],
+        },
+      ],
+    ];
+    const argsDataset: MessageDatasetArgs = {
+      ...args,
+      path: { ...args.path, timestampMethod: "receiveTime" },
+      blocks,
+    };
+
+    const result = messagesToDataset(argsDataset);
+
+    expect(result.data.length).toBe(0);
+  });
+
+  it("should return dataset with no data since queriedData.value is typeof NaN", () => {
+    const queriedDataPath = BasicBuilder.string();
+    const blocks: MessageAndData[][] = [
+      [
+        {
+          messageEvent,
+          queriedData: [{ value: NaN, path: queriedDataPath }],
+        },
+      ],
+    ];
+    const argsDataset: MessageDatasetArgs = {
+      ...args,
+      path: { ...args.path, timestampMethod: "receiveTime" },
+      blocks,
+    };
+
+    const result = messagesToDataset(argsDataset);
+
+    expect(result.data.length).toBe(0);
+  });
+
+  it("should not assign a label to repeated consecutive data points", () => {
+    const queriedDataValue = BasicBuilder.number();
+    const queriedDataPath = BasicBuilder.string();
+    const messageAndData = {
+      messageEvent,
+      queriedData: [{ value: queriedDataValue, path: queriedDataPath }],
+    };
+
+    const blocks: MessageAndData[][] = [[messageAndData, messageAndData]];
+
+    const result = messagesToDataset({
+      ...args,
+      blocks,
+      path: { ...args.path, timestampMethod: "receiveTime" },
+    });
+
+    expect(result.data[1]?.label).toBeUndefined();
+  });
+
+  it("should push lastDatum to dataset.data if isNewSegment is true but showPoints false and result.pointRadius to be 0", () => {
+    const queriedDataValue = BasicBuilder.number();
+    const queriedDataPath = BasicBuilder.string();
+
+    const blocks = [
+      undefined,
+      [
+        {
+          messageEvent,
+          queriedData: [{ value: queriedDataValue, path: queriedDataPath }],
         },
       ],
     ];
 
     const result = messagesToDataset({
-      ...mockArgs,
-      blocks: mockBlocks,
-      path: { ...mockArgs.path, timestampMethod: "receiveTime" },
+      ...args,
+      blocks,
+      path: { ...args.path, timestampMethod: "receiveTime" },
     });
 
-    expect(result.data[0]).toEqual(expect.objectContaining({ value: randomValue }));
+    expect(result.data.length).toBe(1);
+    expect(result.data[0]).toEqual(expect.objectContaining({ value: queriedDataValue }));
+    expect(result.pointRadius).toBe(0);
+  });
+
+  it("should push lastDatum to dataset.data if isNewSegment is false but showPoints true meaning the label on the second object on result.data is undefined", () => {
+    const queriedDataValue = BasicBuilder.number();
+    const queriedDataPath = BasicBuilder.string();
+
+    const blocks = [
+      [
+        {
+          messageEvent,
+          queriedData: [{ value: queriedDataValue, path: queriedDataPath }],
+        },
+      ],
+    ];
+
+    const result = messagesToDataset({
+      ...args,
+      blocks,
+      path: { ...args.path, timestampMethod: "receiveTime" },
+      showPoints: true,
+    });
+
+    expect(result.data[1]?.label).toBe(undefined);
+  });
+
+  it("should keep lastDatum undefined", () => {
+    const queriedDataPath = BasicBuilder.string();
+
+    const blocks = [
+      [
+        {
+          messageEvent,
+          queriedData: [{ value: undefined, path: queriedDataPath }],
+        },
+      ],
+    ];
+
+    const result = messagesToDataset({
+      ...args,
+      blocks,
+      path: { ...args.path, timestampMethod: "receiveTime" },
+    });
+
+    expect(result.data.length).toBe(0);
+  });
+
+  it("should only add the first and last messages to result.data with showPoints is false", () => {
+    const queriedDataValue = BasicBuilder.number();
+    const queriedDataPath = BasicBuilder.string();
+    const messageAndData = {
+      messageEvent,
+      queriedData: [{ value: queriedDataValue, path: queriedDataPath }],
+    };
+
+    const blocks = [[messageAndData, messageAndData, messageAndData, messageAndData]];
+
+    const result = messagesToDataset({
+      ...args,
+      blocks,
+      path: { ...args.path, timestampMethod: "receiveTime" },
+      showPoints: false,
+    });
+
+    expect(result.data.length).toBe(2);
+    //expect(result.data[0]).toEqual(expect.objectContaining({ value: queriedDataValue }));
   });
 });

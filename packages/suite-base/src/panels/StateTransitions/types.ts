@@ -38,6 +38,7 @@ export type PathLegendProps = {
   setFocusedPath: (value: string[] | undefined) => void;
   saveConfig: SaveConfig<StateTransitionConfig>;
 };
+
 export type MessageDatasetArgs = {
   path: StateTransitionPath;
   startTime: Time;
