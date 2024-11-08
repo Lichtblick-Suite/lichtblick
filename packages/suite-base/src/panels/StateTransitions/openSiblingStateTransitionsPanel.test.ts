@@ -19,17 +19,16 @@ describe("openSiblingStateTransitionsPanel", () => {
 
   it("should call openSiblingPanel with correct parameters", () => {
     openSiblingStateTransitionsPanel(mockOpenSiblingPanel, topicName);
+    const config: StateTransitionConfig = { paths: [], isSynced: false };
+    const siblingConfigCreator = (mockOpenSiblingPanel as jest.Mock).mock.calls[0][0]
+    .siblingConfigCreator;
+    const newConfig = siblingConfigCreator(config);
+
     expect(mockOpenSiblingPanel).toHaveBeenCalledWith({
       panelType: "StateTransitions",
       updateIfExists: true,
       siblingConfigCreator: expect.any(Function),
     });
-
-    const config: StateTransitionConfig = { paths: [], isSynced: false };
-    const siblingConfigCreator = (mockOpenSiblingPanel as jest.Mock).mock.calls[0][0]
-      .siblingConfigCreator;
-    const newConfig = siblingConfigCreator(config);
-
     expect(newConfig.paths).toEqual([{ value: topicName, timestampMethod: "receiveTime" }]);
   });
 
@@ -42,6 +41,7 @@ describe("openSiblingStateTransitionsPanel", () => {
     const siblingConfigCreator = (mockOpenSiblingPanel as jest.Mock).mock.calls[0][0]
       .siblingConfigCreator;
     const newConfig = siblingConfigCreator(config);
+
     expect(newConfig.paths).toEqual([{ value: topicName, timestampMethod: "receiveTime" }]);
   });
 });
