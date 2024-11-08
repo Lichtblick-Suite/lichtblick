@@ -7,7 +7,7 @@ import { OpenSiblingPanel } from "@lichtblick/suite-base/types/panels";
 
 import { openSiblingStateTransitionsPanel } from "./openSiblingStateTransitionsPanel";
 
-type IOpenSiblingStateTransisiontsPanelSetup = {
+type IOpenSiblingStateTransitionsPanelSetup = {
   topicName: string;
   config: Partial<StateTransitionConfig>;
 };
@@ -20,14 +20,15 @@ describe("openSiblingStateTransitionsPanel", () => {
     mockOpenSiblingPanel = jest.fn();
   });
 
-  function setup({ config = {} }: Partial<IOpenSiblingStateTransisiontsPanelSetup> = {}) {
-    const topicNameDefault: string = topicName;
-    const configDefault: StateTransitionConfig = {
-      paths: [],
-      isSynced: false,
-      ...config,
+  function setup({ config = {} }: Partial<IOpenSiblingStateTransitionsPanelSetup> = {}) {
+    return {
+      topicName,
+      config: {
+        paths: [],
+        isSynced: false,
+        ...config,
+      }
     };
-    return { topicName: topicNameDefault, config: configDefault };
   }
 
   it("should call openSiblingPanel with correct parameters", () => {
