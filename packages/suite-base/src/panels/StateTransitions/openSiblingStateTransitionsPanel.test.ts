@@ -7,6 +7,10 @@ import { OpenSiblingPanel } from "@lichtblick/suite-base/types/panels";
 
 import { openSiblingStateTransitionsPanel } from "./openSiblingStateTransitionsPanel";
 
+type IOpenSiblingStateTransisiontsPanelSetup = {
+  topicName: string,
+  config:Partial<StateTransitionConfig>
+}
 describe("openSiblingStateTransitionsPanel", () => {
   let mockOpenSiblingPanel: OpenSiblingPanel;
   let topicName: string;
@@ -17,9 +21,19 @@ describe("openSiblingStateTransitionsPanel", () => {
     topicName = BasicBuilder.string();
   });
 
+  function setup({topicName = undefined, config = {}}: Partial<IOpenSiblingStateTransisiontsPanelSetup> = {}) {
+    const topicNameDefault: string = topicName ?? BasicBuilder.string();
+    const configDefault: StateTransitionConfig = {
+      paths: [],
+      isSynced: false,
+      ...config
+    };
+    return {topicName: topicNameDefault, config: configDefault};
+  }
+
   it("should call openSiblingPanel with correct parameters", () => {
+    const { config, topicName} = setup();
     openSiblingStateTransitionsPanel(mockOpenSiblingPanel, topicName);
-    const config: StateTransitionConfig = { paths: [], isSynced: false };
     const siblingConfigCreator = (mockOpenSiblingPanel as jest.Mock).mock.calls[0][0]
     .siblingConfigCreator;
     const newConfig = siblingConfigCreator(config);
@@ -33,11 +47,15 @@ describe("openSiblingStateTransitionsPanel", () => {
   });
 
   it("should not duplicate paths in the config", () => {
+    const topicName = BasicBuilder.string();
+    const { config } = setup({
+      topicName,
+      config: {
+        paths: [{ value: topicName , timestampMethod: "receiveTime" }],
+        isSynced: false,
+      }
+    });
     openSiblingStateTransitionsPanel(mockOpenSiblingPanel, topicName);
-    const config: StateTransitionConfig = {
-      paths: [{ value: topicName, timestampMethod: "receiveTime" }],
-      isSynced: false,
-    };
     const siblingConfigCreator = (mockOpenSiblingPanel as jest.Mock).mock.calls[0][0]
       .siblingConfigCreator;
     const newConfig = siblingConfigCreator(config);
