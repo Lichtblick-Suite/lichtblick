@@ -27,7 +27,7 @@ describe("openSiblingStateTransitionsPanel", () => {
         paths: [],
         isSynced: false,
         ...config,
-      }
+      },
     };
   }
 
