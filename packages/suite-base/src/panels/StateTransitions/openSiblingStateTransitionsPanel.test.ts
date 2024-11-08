@@ -32,8 +32,8 @@ describe("openSiblingStateTransitionsPanel", () => {
 
   it("should call openSiblingPanel with correct parameters", () => {
     const config: StateTransitionConfig = { paths: [], isSynced: false };
-    openSiblingStateTransitionsPanel(mockOpenSiblingPanel, topicName);
 
+    openSiblingStateTransitionsPanel(mockOpenSiblingPanel, topicName);
     const siblingConfigCreator = (mockOpenSiblingPanel as jest.Mock).mock.calls[0][0]
       .siblingConfigCreator;
     const newConfig = siblingConfigCreator(config);
