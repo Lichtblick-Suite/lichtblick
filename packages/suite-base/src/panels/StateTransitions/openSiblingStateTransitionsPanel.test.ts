@@ -11,19 +11,16 @@ type IOpenSiblingStateTransisiontsPanelSetup = {
   topicName: string;
   config: Partial<StateTransitionConfig>;
 };
-
 describe("openSiblingStateTransitionsPanel", () => {
   let mockOpenSiblingPanel: OpenSiblingPanel;
-  let topicName = BasicBuilder.string();
+  const topicName = BasicBuilder.string();
 
   beforeEach(() => {
     jest.clearAllMocks();
     mockOpenSiblingPanel = jest.fn();
   });
 
-  function setup({
-    config = {},
-  }: Partial<IOpenSiblingStateTransisiontsPanelSetup> = {}) {
+  function setup({ config = {} }: Partial<IOpenSiblingStateTransisiontsPanelSetup> = {}) {
     const topicNameDefault: string = topicName;
     const configDefault: StateTransitionConfig = {
       paths: [],
@@ -33,6 +30,21 @@ describe("openSiblingStateTransitionsPanel", () => {
     return { topicName: topicNameDefault, config: configDefault };
   }
 
+  it("should call openSiblingPanel with correct parameters", () => {
+    const config: StateTransitionConfig = { paths: [], isSynced: false };
+    openSiblingStateTransitionsPanel(mockOpenSiblingPanel, topicName);
+
+    const siblingConfigCreator = (mockOpenSiblingPanel as jest.Mock).mock.calls[0][0]
+      .siblingConfigCreator;
+    const newConfig = siblingConfigCreator(config);
+
+    expect(mockOpenSiblingPanel).toHaveBeenCalledWith({
+      panelType: "StateTransitions",
+      updateIfExists: true,
+      siblingConfigCreator: expect.any(Function),
+    });
+    expect(newConfig.paths).toEqual([{ value: topicName, timestampMethod: "receiveTime" }]);
+  });
 
   it("should not duplicate paths in the config", () => {
     const { config } = setup({
@@ -41,6 +53,7 @@ describe("openSiblingStateTransitionsPanel", () => {
         isSynced: false,
       },
     });
+
     openSiblingStateTransitionsPanel(mockOpenSiblingPanel, topicName);
     const siblingConfigCreator = (mockOpenSiblingPanel as jest.Mock).mock.calls[0][0]
       .siblingConfigCreator;
