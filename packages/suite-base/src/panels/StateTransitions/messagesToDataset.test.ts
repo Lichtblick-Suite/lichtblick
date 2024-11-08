@@ -58,9 +58,15 @@ const item: MessageAndData = {
   queriedData: [{ value: BasicBuilder.number(), path: BasicBuilder.string() }],
 };
 
+let queriedDataValue: number;
+let queriedDataName: string;
+let queriedDataPath: string;
+let constName: string | undefined;
+
 describe("messagesToDataset helper functions", () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    constName = BasicBuilder.string();
   });
 
   // unit tests for extractQueriedData
@@ -83,8 +89,8 @@ describe("messagesToDataset helper functions", () => {
   });
 
   it("should return undefined when queriedData's argument has more than one item", () => {
-    const queriedDataValue = BasicBuilder.number();
-    const queriedDataPath = BasicBuilder.string();
+    queriedDataValue = BasicBuilder.number();
+    queriedDataPath = BasicBuilder.string();
     const messageAndDataWithMultipleItemsOnQueriedData: MessageAndData = {
       messageEvent,
       queriedData: [
@@ -92,7 +98,6 @@ describe("messagesToDataset helper functions", () => {
         { value: queriedDataValue, path: queriedDataPath },
       ],
     };
-
     const result = extractQueriedData(messageAndDataWithMultipleItemsOnQueriedData);
 
     expect(result).toEqual(undefined);
@@ -172,43 +177,39 @@ describe("messagesToDataset helper functions", () => {
   // unit tests for createLabel
 
   it("should return the label with constant name and value when constantName is string type", () => {
-    const stringConst = BasicBuilder.string();
     const value = BasicBuilder.number();
-    const result = createLabel(stringConst, value);
+    const result = createLabel(constName, value);
 
-    expect(result).toBe(`${stringConst} (${String(value)})`);
+    expect(result).toBe(`${constName} (${String(value)})`);
   });
 
   it("should return the label only with value when constantName is undefined", () => {
-    const stringConst = undefined;
+    constName = undefined;
     const value = BasicBuilder.number();
-    const result = createLabel(stringConst, value);
+    const result = createLabel(constName, value);
 
     expect(result).toBe(String(value));
   });
 
   it("should return the label with constant name and value when constantName is boolean type", () => {
-    const stringConst = BasicBuilder.string();
     const value = BasicBuilder.boolean();
-    const result = createLabel(stringConst, value);
+    const result = createLabel(constName, value);
 
-    expect(result).toBe(`${stringConst} (${String(value)})`);
+    expect(result).toBe(`${constName} (${String(value)})`);
   });
 
   it("should return the label with constant name and value when constantName is number type", () => {
-    const stringConst = BasicBuilder.string();
     const value = BasicBuilder.number();
-    const result = createLabel(stringConst, value);
+    const result = createLabel(constName, value);
 
-    expect(result).toBe(`${stringConst} (${String(value)})`);
+    expect(result).toBe(`${constName} (${String(value)})`);
   });
 
   it("should return the label with constant name and value when constantName is bigInt type", () => {
-    const stringConst = BasicBuilder.string();
     const value = BasicBuilder.bigInt();
-    const result = createLabel(stringConst, value);
+    const result = createLabel(constName, value);
 
-    expect(result).toBe(`${stringConst} (${String(value)})`);
+    expect(result).toBe(`${constName} (${String(value)})`);
   });
 });
 
@@ -222,6 +223,12 @@ describe("messagesToDataset", () => {
     showPoints: false,
     timestampMethod: path,
   };
+
+  beforeEach(() => {
+    queriedDataValue = BasicBuilder.number();
+    queriedDataName = BasicBuilder.string();
+    queriedDataPath = BasicBuilder.string();
+  });
 
   it("should initialize dataset with default properties", () => {
     const result = messagesToDataset(args);
@@ -247,9 +254,6 @@ describe("messagesToDataset", () => {
   });
 
   it("should add data points when blocks contain valid messages", () => {
-    const queriedDataValue = BasicBuilder.number();
-    const queriedDataName = BasicBuilder.string();
-    const queriedDataPath = BasicBuilder.string();
     //forcing path.timestampMethod to be receiveTime for this specific unit test, headerStamp wont work here
     const blocks: MessageAndData[][] = [
       [MessageAndDataBuilder(messageEvent, queriedDataValue, queriedDataPath, queriedDataName)],
@@ -273,12 +277,8 @@ describe("messagesToDataset", () => {
   });
 
   it("should return undefined because getTimestampForMessageEvent will return undefined", () => {
-    const queriedDataValue = BasicBuilder.number();
-    const queriedDataName = BasicBuilder.string();
-    const queriedDataPath = BasicBuilder.string();
     //forcing path.timestampMethod to be headerStamp without headers in the message
     //so getTimestampForMessageEvent returns undefined
-
     const blocks: MessageAndData[][] = [
       [
         MessageAndDataBuilder(
@@ -301,9 +301,6 @@ describe("messagesToDataset", () => {
   });
 
   it("should return dataset with 1 item on data[] because getTimestampForMessageEvent is called with headerStamp with header", () => {
-    const queriedDataValue = BasicBuilder.number();
-    const queriedDataName = BasicBuilder.string();
-    const queriedDataPath = BasicBuilder.string();
     //forcing path.timestampMethod to be headerStamp with header in the message
     //so getTimestampForMessageEvent returns a stamp and therefore a item is added to data[] inisde the ChartDataset object returned
     const blocks: MessageAndData[][] = [
@@ -361,8 +358,6 @@ describe("messagesToDataset", () => {
   });
 
   it("should return dataset with no data since queriedData has more than one item and therefore extractQueriedData will return undefined", () => {
-    const queriedDataValue = BasicBuilder.number();
-    const queriedDataPath = BasicBuilder.string();
     const blocks: MessageAndData[][] = [
       [
         {
@@ -386,7 +381,6 @@ describe("messagesToDataset", () => {
   });
 
   it("should return dataset with no data since queriedData.value is typeof NaN", () => {
-    const queriedDataPath = BasicBuilder.string();
     const blocks: MessageAndData[][] = [
       [
         {
@@ -407,8 +401,6 @@ describe("messagesToDataset", () => {
   });
 
   it("should not assign a label to repeated consecutive data points", () => {
-    const queriedDataValue = BasicBuilder.number();
-    const queriedDataPath = BasicBuilder.string();
     const messageAndData = {
       messageEvent,
       queriedData: [{ value: queriedDataValue, path: queriedDataPath }],
@@ -426,9 +418,6 @@ describe("messagesToDataset", () => {
   });
 
   it("should push lastDatum to dataset.data if isNewSegment is true but showPoints false and result.pointRadius to be 0", () => {
-    const queriedDataValue = BasicBuilder.number();
-    const queriedDataPath = BasicBuilder.string();
-
     const blocks = [
       undefined,
       [
@@ -451,9 +440,6 @@ describe("messagesToDataset", () => {
   });
 
   it("should push lastDatum to dataset.data if isNewSegment is false but showPoints true meaning the label on the second object on result.data is undefined", () => {
-    const queriedDataValue = BasicBuilder.number();
-    const queriedDataPath = BasicBuilder.string();
-
     const blocks = [
       [
         {
@@ -474,8 +460,6 @@ describe("messagesToDataset", () => {
   });
 
   it("should keep lastDatum undefined", () => {
-    const queriedDataPath = BasicBuilder.string();
-
     const blocks = [
       [
         {
@@ -495,8 +479,6 @@ describe("messagesToDataset", () => {
   });
 
   it("should only add the first and last messages to result.data with showPoints is false", () => {
-    const queriedDataValue = BasicBuilder.number();
-    const queriedDataPath = BasicBuilder.string();
     const messageAndData = {
       messageEvent,
       queriedData: [{ value: queriedDataValue, path: queriedDataPath }],

@@ -55,7 +55,6 @@ export default class BasicBuilder {
     return min + randomBigInt;
   }
 
-
   public static string({
     length = 6,
     charset = "alphabetic",
