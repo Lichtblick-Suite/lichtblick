@@ -35,7 +35,7 @@ const messageEvent = MessageEventBuilder.messageEvent({
   },
 });
 
-const mockPath: StateTransitionPath = {
+const path: StateTransitionPath = {
   label: "Test Label",
   value: "/test/debug/unitTest.",
   timestampMethod: BasicBuilder.sample(["receiveTime", "headerStamp"] as TimestampMethod[]),
@@ -44,12 +44,12 @@ const mockPath: StateTransitionPath = {
 function MessageAndDataBuilder(
   messageEventInput: MessageEvent,
   value: number,
-  path: string,
+  pathInput: string,
   constantName: string,
 ): MessageAndData {
   return {
     messageEvent: messageEventInput,
-    queriedData: [{ value, path, constantName }],
+    queriedData: [{ value, path: pathInput, constantName }],
   };
 }
 
@@ -72,26 +72,28 @@ describe("messagesToDataset helper functions", () => {
   });
 
   it("should return undefined when queriedData's argument has an empty array", () => {
-    const mockMessageAndDataWithEmptyQueriedData: MessageAndData = {
+    const messageAndDataWithEmptyQueriedData: MessageAndData = {
       messageEvent,
       queriedData: [],
     };
 
-    const result = extractQueriedData(mockMessageAndDataWithEmptyQueriedData);
+    const result = extractQueriedData(messageAndDataWithEmptyQueriedData);
 
     expect(result).toEqual(undefined);
   });
 
   it("should return undefined when queriedData's argument has more than one item", () => {
-    const mockMessageAndDataWithMultipleItemsOnQueriedData: MessageAndData = {
+    const queriedDataValue = BasicBuilder.number();
+    const queriedDataPath = BasicBuilder.string();
+    const messageAndDataWithMultipleItemsOnQueriedData: MessageAndData = {
       messageEvent,
       queriedData: [
-        { value: BasicBuilder.number(), path: BasicBuilder.string() },
-        { value: BasicBuilder.number(), path: BasicBuilder.string() },
+        { value: queriedDataValue, path: queriedDataPath },
+        { value: queriedDataValue, path: queriedDataPath },
       ],
     };
 
-    const result = extractQueriedData(mockMessageAndDataWithMultipleItemsOnQueriedData);
+    const result = extractQueriedData(messageAndDataWithMultipleItemsOnQueriedData);
 
     expect(result).toEqual(undefined);
   });
@@ -167,7 +169,7 @@ describe("messagesToDataset helper functions", () => {
     expect(baseColors).toContain(result);
   });
 
-  // unit tests for getColorForValue
+  // unit tests for createLabel
 
   it("should return the label with constant name and value when constantName is string type", () => {
     const stringConst = BasicBuilder.string();
@@ -212,13 +214,13 @@ describe("messagesToDataset helper functions", () => {
 
 describe("messagesToDataset", () => {
   const args = {
-    path: mockPath,
+    path,
     startTime: { nsec: 234857428, sec: 37628636 },
     y: 50,
     pathIndex: 40,
     blocks: [],
     showPoints: false,
-    timestampMethod: mockPath,
+    timestampMethod: path,
   };
 
   it("should initialize dataset with default properties", () => {
@@ -510,6 +512,5 @@ describe("messagesToDataset", () => {
     });
 
     expect(result.data.length).toBe(2);
-    //expect(result.data[0]).toEqual(expect.objectContaining({ value: queriedDataValue }));
   });
 });
