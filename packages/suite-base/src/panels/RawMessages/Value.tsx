@@ -19,7 +19,7 @@ import { withStyles, makeStyles } from "tss-react/mui";
 import HoverableIconButton from "@lichtblick/suite-base/components/HoverableIconButton";
 import Stack from "@lichtblick/suite-base/components/Stack";
 import { openSiblingPlotPanel } from "@lichtblick/suite-base/panels/Plot/openSiblingPlotPanel";
-import { plotableRosTypes } from "@lichtblick/suite-base/panels/Plot/plotableRosTypes";
+import { PLOTABLE_ROS_TYPES } from "@lichtblick/suite-base/panels/Plot/plotableRosTypes";
 import {
   openSiblingStateTransitionsPanel,
   transitionableRosTypes,
@@ -137,7 +137,7 @@ function Value(props: ValueProps): JSX.Element {
       });
     }
     if (valueAction != undefined) {
-      const isPlotableType = plotableRosTypes.includes(valueAction.primitiveType);
+      const isPlotableType = PLOTABLE_ROS_TYPES.includes(valueAction.primitiveType);
       const isTransitionalType = transitionableRosTypes.includes(valueAction.primitiveType);
       const isMultiSlicePath = valueAction.multiSlicePath === valueAction.singleSlicePath;
 

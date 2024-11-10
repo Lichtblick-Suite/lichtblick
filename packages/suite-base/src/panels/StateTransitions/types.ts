@@ -5,6 +5,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { SettingsTreeAction, SettingsTreeNodeActionItem } from "@lichtblick/suite";
 import { SaveConfig } from "@lichtblick/suite-base/types/panels";
 import { TimestampMethod } from "@lichtblick/suite-base/util/time";
 
@@ -36,3 +37,26 @@ export type PathLegendProps = {
   setFocusedPath: (value: string[] | undefined) => void;
   saveConfig: SaveConfig<StateTransitionConfig>;
 };
+
+export interface IUsePanelSettings {
+  actionHandler: (action: SettingsTreeAction) => void;
+}
+
+export type PathState = {
+  path: StateTransitionPath;
+  // Whether the data the path refers to resolves to more than one value
+  isArray: boolean;
+};
+
+export type AxisTreeField = {
+  value: number | undefined;
+  label: string;
+  error?: string | undefined;
+};
+
+export type SeriesAction = Pick<SettingsTreeNodeActionItem, "label" | "icon" | "id">;
+
+export enum SeriesActionID {
+  ADD = "add-series",
+  DELETE = "delete-series",
+}
