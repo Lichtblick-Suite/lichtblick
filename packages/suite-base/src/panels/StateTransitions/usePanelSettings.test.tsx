@@ -342,7 +342,7 @@ describe("usePanelSettings", () => {
     };
   };
 
-  it("should call saveConfig when isSynced changes", () => {
+  it("should update config when isSynced changes", () => {
     const { config } = setup();
 
     act(() => {
@@ -354,7 +354,7 @@ describe("usePanelSettings", () => {
     });
   });
 
-  it("should call saveConfig with updated config for action 'update' - isSynced", () => {
+  it("should update config with updated config for action 'update' - isSynced", () => {
     const { render } = setup({
       config: {
         isSynced: false,
@@ -381,7 +381,7 @@ describe("usePanelSettings", () => {
     });
   });
 
-  it("should call saveConfig with updated config for action 'update' - showPoints", () => {
+  it("should update config with updated config for action 'update' - showPoints", () => {
     const { render } = setup({
       config: {
         showPoints: false,
@@ -408,7 +408,7 @@ describe("usePanelSettings", () => {
     });
   });
 
-  it("should call saveConfig with xAxisRange reseted when xAxisMinValue or xAxisMaxValue are updated", () => {
+  it("should update config with xAxisRange reseted when xAxisMinValue or xAxisMaxValue are updated", () => {
     const { render, config } = setup();
     const settings: SettingsTreeAction = {
       action: "update",
@@ -440,7 +440,39 @@ describe("usePanelSettings", () => {
     );
   });
 
-  it("should call saveConfig with xAxisMinValue and xAxisMaxValue reseted when xAxisRange is updated", () => {
+  it("should update config with xAxisRange reseted when xAxisMaxValue is updated", () => {
+    const { render, config } = setup();
+    const settings: SettingsTreeAction = {
+      action: "update",
+      payload: {
+        input: "number",
+        path: ["xAxis", "xAxisMaxValue"],
+        value: BasicBuilder.number(),
+      },
+    };
+    const { actionHandler } = render.result.current;
+
+    act(() => {
+      actionHandler(settings);
+    });
+
+    expect(saveConfig).toHaveBeenCalledTimes(1);
+    expect(saveConfig).toHaveBeenCalledWith(expect.any(Function));
+    expect(
+      produce(
+        config,
+        (saveConfig as jest.Mock).mock.calls[0][0] as (draft: StateTransitionConfig) => void,
+      ),
+    ).toEqual(
+      expect.objectContaining({
+        xAxisMaxValue: settings.payload.value,
+        xAxisMinValue: config.xAxisMinValue,
+        xAxisRange: undefined,
+      }),
+    );
+  });
+
+  it("should update config with xAxisMinValue and xAxisMaxValue reseted when xAxisRange is updated", () => {
     const { render, config } = setup();
     const settings: SettingsTreeAction = {
       action: "update",
@@ -470,6 +502,56 @@ describe("usePanelSettings", () => {
         xAxisRange: settings.payload.value,
       }),
     );
+  });
+
+  it("should update config when there is no path", () => {
+    const { render, config } = setup({ paths: [] });
+    const settings: SettingsTreeAction = {
+      action: "update",
+      payload: {
+        input: "number",
+        path: [],
+        value: BasicBuilder.number(),
+      },
+    };
+    const { actionHandler } = render.result.current;
+
+    act(() => {
+      actionHandler(settings);
+    });
+
+    const updatedConfig = produce(
+      config,
+      (saveConfig as jest.Mock).mock.calls[0][0] as (draft: StateTransitionConfig) => void,
+    );
+    expect(saveConfig).toHaveBeenCalledTimes(1);
+    expect(saveConfig).toHaveBeenCalledWith(expect.any(Function));
+    expect(updatedConfig.paths).toEqual([DEFAULT_STATE_TRANSITION_PATH]);
+  });
+
+  it("should update config when there are paths", () => {
+    const { render, config } = setup();
+    const settings: SettingsTreeAction = {
+      action: "update",
+      payload: {
+        input: "number",
+        path: [],
+        value: BasicBuilder.number(),
+      },
+    };
+    const { actionHandler } = render.result.current;
+
+    act(() => {
+      actionHandler(settings);
+    });
+
+    const updatedConfig = produce(
+      config,
+      (saveConfig as jest.Mock).mock.calls[0][0] as (draft: StateTransitionConfig) => void,
+    );
+    expect(saveConfig).toHaveBeenCalledTimes(1);
+    expect(saveConfig).toHaveBeenCalledWith(expect.any(Function));
+    expect(updatedConfig.paths).toEqual(config.paths);
   });
 
   it.each<{ paths: StateTransitionPath[] }>([
