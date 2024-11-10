@@ -27,7 +27,7 @@ import clipboard from "@lichtblick/suite-base/util/clipboard";
 import HighlightedValue from "./HighlightedValue";
 import { copyMessageReplacer } from "./copyMessageReplacer";
 import { ValueAction } from "./getValueActionForValue";
-import { transitionableRosTypes } from "../StateTransitions/constants";
+import { TRANSITIONABLE_ROS_TYPES } from "../StateTransitions/constants";
 
 const StyledIconButton = withStyles(HoverableIconButton, (theme) => ({
   root: {
@@ -136,7 +136,7 @@ function Value(props: ValueProps): JSX.Element {
     }
     if (valueAction != undefined) {
       const isPlotableType = PLOTABLE_ROS_TYPES.includes(valueAction.primitiveType);
-      const isTransitionalType = transitionableRosTypes.includes(valueAction.primitiveType);
+      const isTransitionalType = TRANSITIONABLE_ROS_TYPES.includes(valueAction.primitiveType);
       const isMultiSlicePath = valueAction.multiSlicePath === valueAction.singleSlicePath;
 
       if (valueAction.filterPath.length > 0) {
