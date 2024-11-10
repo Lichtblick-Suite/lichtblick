@@ -15,7 +15,7 @@ import {
   IUsePanelSettings,
   PathState,
   SeriesAction,
-  SeriesActionID,
+  SeriesActionId,
   StateTransitionConfig,
   StateTransitionPath,
 } from "@lichtblick/suite-base/panels/StateTransitions/types";
@@ -99,7 +99,7 @@ describe("makeSeriesNode", () => {
       {
         display: "inline",
         icon: "Clear",
-        id: SeriesActionID.DELETE,
+        id: SeriesActionId.DELETE,
         label: "labels.deleteSeries",
         type: "action",
       },
@@ -178,7 +178,7 @@ describe("makeRootSeriesNode", () => {
       {
         display: "inline",
         icon: "Addchart",
-        id: SeriesActionID.ADD,
+        id: SeriesActionId.ADD,
         label: "labels.addSeries",
         type: "action",
       },
@@ -483,7 +483,7 @@ describe("usePanelSettings", () => {
 
     const settings: SettingsTreeAction = {
       action: "perform-node-action",
-      payload: { id: SeriesActionID.ADD, path: [] },
+      payload: { id: SeriesActionId.ADD, path: [] },
     };
 
     actionHandler(settings);
@@ -508,7 +508,7 @@ describe("usePanelSettings", () => {
 
     const settings: SettingsTreeAction = {
       action: "perform-node-action",
-      payload: { id: SeriesActionID.DELETE, path: ["", "2"] },
+      payload: { id: SeriesActionId.DELETE, path: ["", "2"] },
     };
 
     actionHandler(settings);

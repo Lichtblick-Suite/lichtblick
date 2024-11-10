@@ -30,7 +30,7 @@ import {
   IUsePanelSettings,
   PathState,
   SeriesAction,
-  SeriesActionID,
+  SeriesActionId,
   StateTransitionConfig,
 } from "./types";
 
@@ -56,7 +56,7 @@ export const makeSeriesNode = memoizeWeak(
   ): SettingsTreeNode => {
     const action = setSeriesAction({
       label: t("labels.deleteSeries"),
-      id: SeriesActionID.DELETE,
+      id: SeriesActionId.DELETE,
       icon: "Clear",
     });
     return {
@@ -126,7 +126,7 @@ export const makeRootSeriesNode = memoizeWeak(
       actions: [
         setSeriesAction({
           label: t("labels.addSeries"),
-          id: SeriesActionID.ADD,
+          id: SeriesActionId.ADD,
           icon: "Addchart",
         }),
       ],
@@ -224,7 +224,7 @@ export function usePanelSettings(
       }
 
       if (action === "perform-node-action") {
-        if (payload.id === SeriesActionID.ADD) {
+        if (payload.id === SeriesActionId.ADD) {
           saveConfig(
             produce((draft: StateTransitionConfig) => {
               if (draft.paths.length === 0) {
@@ -233,7 +233,7 @@ export function usePanelSettings(
               draft.paths.push({ ...DEFAULT_STATE_TRANSITION_PATH });
             }),
           );
-        } else if (payload.id === SeriesActionID.DELETE) {
+        } else if (payload.id === SeriesActionId.DELETE) {
           const index = payload.path[1];
           saveConfig(
             produce((draft) => {

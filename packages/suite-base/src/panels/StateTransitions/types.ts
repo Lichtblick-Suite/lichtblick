@@ -56,7 +56,7 @@ export type AxisTreeField = {
 
 export type SeriesAction = Pick<SettingsTreeNodeActionItem, "label" | "icon" | "id">;
 
-export enum SeriesActionID {
+export enum SeriesActionId {
   ADD = "add-series",
   DELETE = "delete-series",
 }
