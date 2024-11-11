@@ -30,13 +30,19 @@ describe("useDecodedBlocks", () => {
         timestampMethod: "receiveTime",
         value: "/unit/test1",
         enabled: true,
-        label: "EventDataQualifier (PositionOnMap::PoseEstimate)",
+        label: "test 1",
       },
       {
         timestampMethod: "receiveTime",
         value: "/unit/test2",
         enabled: true,
-        label: "Status",
+        label: "test 2",
+      },
+      {
+        timestampMethod: "headerStamp",
+        value: "/unit/test2",
+        enabled: true,
+        label: "test with headerstamp",
       },
     ];
 
