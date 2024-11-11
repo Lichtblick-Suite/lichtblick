@@ -408,7 +408,7 @@ describe("usePanelSettings", () => {
     });
   });
 
-  it("should update config with xAxisRange reseted when xAxisMinValue or xAxisMaxValue are updated", () => {
+  it("should update config with xAxisRange reseted when xAxisMinValue is updated", () => {
     const { render, config } = setup();
     const settings: SettingsTreeAction = {
       action: "update",
