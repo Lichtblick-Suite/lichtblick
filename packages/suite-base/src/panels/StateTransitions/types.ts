@@ -5,7 +5,9 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { Time } from "@lichtblick/rostime";
 import { SettingsTreeAction, SettingsTreeNodeActionItem } from "@lichtblick/suite";
+import { MessageAndData } from "@lichtblick/suite-base/components/MessagePathSyntax/useCachedGetMessagePathDataItems";
 import { SaveConfig } from "@lichtblick/suite-base/types/panels";
 import { TimestampMethod } from "@lichtblick/suite-base/util/time";
 
@@ -60,3 +62,14 @@ export enum SeriesActionId {
   ADD = "add-series",
   DELETE = "delete-series",
 }
+
+export type MessageDatasetArgs = {
+  path: StateTransitionPath;
+  startTime: Time;
+  y: number;
+  pathIndex: number;
+  blocks: readonly (readonly MessageAndData[] | undefined)[];
+  showPoints: boolean;
+};
+
+export type ValidQueriedDataValue = number | string | boolean | bigint;
