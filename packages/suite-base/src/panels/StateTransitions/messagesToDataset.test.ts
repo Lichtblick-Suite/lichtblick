@@ -5,6 +5,7 @@ import { MessageEvent } from "@lichtblick/suite";
 import { MessageAndData } from "@lichtblick/suite-base/components/MessagePathSyntax/useCachedGetMessagePathDataItems";
 import BasicBuilder from "@lichtblick/suite-base/testing/builders/BasicBuilder";
 import MessageEventBuilder from "@lichtblick/suite-base/testing/builders/MessageEventBuilder";
+import RosTimeBuilder from "@lichtblick/suite-base/testing/builders/RosTimeBuilder";
 import { TimestampMethod } from "@lichtblick/suite-base/util/time";
 
 import {
@@ -16,7 +17,6 @@ import {
   messagesToDataset,
 } from "./messagesToDataset";
 import { MessageDatasetArgs, StateTransitionPath } from "./types";
-import RosTimeBuilder from "@lichtblick/suite-base/testing/builders/RosTimeBuilder";
 
 const messageEvent = MessageEventBuilder.messageEvent({
   topic: "/test/message_topic_test",
