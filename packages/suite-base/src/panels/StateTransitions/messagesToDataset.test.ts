@@ -16,6 +16,7 @@ import {
   messagesToDataset,
 } from "./messagesToDataset";
 import { MessageDatasetArgs, StateTransitionPath } from "./types";
+import RosTimeBuilder from "@lichtblick/suite-base/testing/builders/RosTimeBuilder";
 
 const messageEvent = MessageEventBuilder.messageEvent({
   topic: "/test/message_topic_test",
@@ -216,9 +217,9 @@ describe("messagesToDataset helper functions", () => {
 describe("messagesToDataset", () => {
   const args = {
     path,
-    startTime: { nsec: 234857428, sec: 37628636 },
-    y: 50,
-    pathIndex: 40,
+    startTime: RosTimeBuilder.time(),
+    y: BasicBuilder.number(),
+    pathIndex: BasicBuilder.number(),
     blocks: [],
     showPoints: false,
     timestampMethod: path,
@@ -237,7 +238,7 @@ describe("messagesToDataset", () => {
       expect.objectContaining({
         borderWidth: 10,
         data: [],
-        label: "Test Label",
+        label: args.path.label,
         pointBackgroundColor: "rgba(0, 0, 0, 0.4)",
         pointBorderColor: "transparent",
         pointHoverRadius: 3,
@@ -268,7 +269,7 @@ describe("messagesToDataset", () => {
 
     expect(result.data[0]).toStrictEqual({
       x: expect.any(Number),
-      y: 50,
+      y: args.y,
       label: `${queriedDataName} (${queriedDataValue})`,
       labelColor: expect.any(String),
       value: queriedDataValue,
@@ -306,7 +307,7 @@ describe("messagesToDataset", () => {
     const blocks: MessageAndData[][] = [
       [
         MessageAndDataBuilder(
-          { ...messageEvent, message: { header: { stamp: { sec: 1, nsec: 20 } } } },
+          { ...messageEvent, message: { header: { stamp: RosTimeBuilder.time() } } },
           queriedDataValue,
           queriedDataPath,
           queriedDataName,
