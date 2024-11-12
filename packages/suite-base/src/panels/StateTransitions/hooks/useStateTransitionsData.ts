@@ -7,9 +7,11 @@ import { Time } from "@lichtblick/rostime";
 import { MessageDataItemsByPath } from "@lichtblick/suite-base/components/MessagePathSyntax/useCachedGetMessagePathDataItems";
 import { ChartDatasets } from "@lichtblick/suite-base/components/TimeBasedChart/types";
 import { messagesToDataset } from "@lichtblick/suite-base/panels/StateTransitions/messagesToDataset";
-import { PathState } from "@lichtblick/suite-base/panels/StateTransitions/settings";
 import { datasetContainsArray } from "@lichtblick/suite-base/panels/StateTransitions/shared";
-import { StateTransitionPath } from "@lichtblick/suite-base/panels/StateTransitions/types";
+import {
+  PathState,
+  StateTransitionPath,
+} from "@lichtblick/suite-base/panels/StateTransitions/types";
 
 type UseStateTransitionsData = {
   pathState: PathState[];
