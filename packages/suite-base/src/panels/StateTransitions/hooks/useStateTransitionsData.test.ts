@@ -10,6 +10,7 @@ import { MessageDataItemsByPath } from "@lichtblick/suite-base/components/Messag
 import { messagesToDataset } from "@lichtblick/suite-base/panels/StateTransitions/messagesToDataset";
 import { datasetContainsArray } from "@lichtblick/suite-base/panels/StateTransitions/shared";
 import { StateTransitionPath } from "@lichtblick/suite-base/panels/StateTransitions/types";
+import RosTimeBuilder from "@lichtblick/suite-base/testing/builders/RosTimeBuilder";
 
 import useStateTransitionsData from "./useStateTransitionsData";
 
@@ -39,7 +40,7 @@ describe("useStateTransitionsData", () => {
       { value: "path1", timestampMethod: "receiveTime" },
       { value: "path2", timestampMethod: "receiveTime" },
     ];
-    const startTime: Readonly<Time> = { sec: 0, nsec: 0 };
+    const startTime: Readonly<Time> = RosTimeBuilder.time();
     const itemsByPath: MessageDataItemsByPath = {
       path1: [],
       path2: [],
@@ -64,7 +65,7 @@ describe("useStateTransitionsData", () => {
 
   it("should handle undefined items in itemsByPath", () => {
     const paths: StateTransitionPath[] = [{ value: "path1", timestampMethod: "receiveTime" }];
-    const startTime: Readonly<Time> = { sec: 0, nsec: 0 };
+    const startTime: Readonly<Time> = RosTimeBuilder.time();
     const itemsByPath: MessageDataItemsByPath = {};
     const decodedBlocks: MessageDataItemsByPath[] = [];
     const showPoints = true;

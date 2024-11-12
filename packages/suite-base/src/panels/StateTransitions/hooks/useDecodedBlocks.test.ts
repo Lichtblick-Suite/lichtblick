@@ -5,6 +5,7 @@
 
 import { renderHook } from "@testing-library/react";
 
+import { MessageEvent } from "@lichtblick/suite";
 import { useBlocksSubscriptions } from "@lichtblick/suite-base/PanelAPI";
 import { MessageBlock } from "@lichtblick/suite-base/PanelAPI/useBlocksSubscriptions";
 import { useDecodeMessagePathsForMessagesByTopic } from "@lichtblick/suite-base/components/MessagePathSyntax/useCachedGetMessagePathDataItems";
@@ -24,66 +25,40 @@ describe("useDecodedBlocks", () => {
     jest.clearAllMocks();
   });
 
+  function buildMessageEvent(): MessageEvent {
+    return {
+      message: BasicBuilder.string(),
+      receiveTime: RosTimeBuilder.time(),
+      schemaName: BasicBuilder.string(),
+      sizeInBytes: BasicBuilder.number(),
+      topic: BasicBuilder.string(),
+    };
+  }
+
+  function buildStateTransitionPath(
+    overrideProps: Partial<StateTransitionPath> = {},
+  ): StateTransitionPath {
+    return {
+      timestampMethod: BasicBuilder.sample(["receiveTime", "headerStamp"]),
+      value: BasicBuilder.string(),
+      enabled: true,
+      label: BasicBuilder.string(),
+      ...overrideProps,
+    };
+  }
+
   it("should return decoded blocks", () => {
     const paths: StateTransitionPath[] = [
-      {
-        timestampMethod: "receiveTime",
-        value: "/unit/test1",
-        enabled: true,
-        label: "test 1",
-      },
-      {
-        timestampMethod: "receiveTime",
-        value: "/unit/test2",
-        enabled: true,
-        label: "test 2",
-      },
-      {
-        timestampMethod: "headerStamp",
-        value: "/unit/test2",
-        enabled: true,
-        label: "test with headerstamp",
-      },
+      buildStateTransitionPath(),
+      buildStateTransitionPath(),
+      buildStateTransitionPath({ timestampMethod: "headerStamp" }),
     ];
 
     const mockBlocks: MessageBlock[] = [
-      {
-        topic1: [
-          {
-            message: BasicBuilder.string(),
-            receiveTime: RosTimeBuilder.time(),
-            schemaName: BasicBuilder.string(),
-            sizeInBytes: BasicBuilder.number(),
-            topic: BasicBuilder.string(),
-          },
-          {
-            message: BasicBuilder.string(),
-            receiveTime: RosTimeBuilder.time(),
-            schemaName: BasicBuilder.string(),
-            sizeInBytes: BasicBuilder.number(),
-            topic: BasicBuilder.string(),
-          },
-        ],
-      },
-      {
-        topic2: [
-          {
-            message: BasicBuilder.string(),
-            receiveTime: RosTimeBuilder.time(),
-            schemaName: BasicBuilder.string(),
-            sizeInBytes: BasicBuilder.number(),
-            topic: BasicBuilder.string(),
-          },
-          {
-            message: BasicBuilder.string(),
-            receiveTime: RosTimeBuilder.time(),
-            schemaName: BasicBuilder.string(),
-            sizeInBytes: BasicBuilder.number(),
-            topic: BasicBuilder.string(),
-          },
-        ],
-      },
+      { topic1: BasicBuilder.multiple(buildMessageEvent) },
+      { topic2: BasicBuilder.multiple(buildMessageEvent) },
     ];
+
     const mockDecodeMessagePathsForMessagesByTopic = jest.fn().mockImplementation((blocks) => {
       return blocks;
     });
