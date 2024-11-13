@@ -16,12 +16,10 @@ import {
   SMALL_INTEGER_SIZE,
   HEAP_NUMBER_SIZE,
   FIELD_SIZE_BY_PRIMITIVE,
-  MAX_NUM_FAST_PROPERTIES
-
+  MAX_NUM_FAST_PROPERTIES,
 } from "./constants";
 
 const log = Log.getLogger(__filename);
-
 
 /**
  * Estimates the memory size of a deserialized message object based on the schema definition.
