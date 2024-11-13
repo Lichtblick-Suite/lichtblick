@@ -8,35 +8,20 @@
 import Log from "@lichtblick/log";
 import { MessageDefinitionMap } from "@lichtblick/mcap-support/src/types";
 
+import {
+  COMPRESSED_POINTER_SIZE,
+  OBJECT_BASE_SIZE,
+  ARRAY_BASE_SIZE,
+  TYPED_ARRAY_BASE_SIZE,
+  SMALL_INTEGER_SIZE,
+  HEAP_NUMBER_SIZE,
+  FIELD_SIZE_BY_PRIMITIVE,
+  MAX_NUM_FAST_PROPERTIES
+
+} from "./constants";
+
 const log = Log.getLogger(__filename);
-/**
- * Values of the contants below are a (more or less) informed guesses and not guaranteed to be accurate.
- */
-const COMPRESSED_POINTER_SIZE = 4; // Pointers use 4 bytes (also on 64-bit systems) due to pointer compression
-export const OBJECT_BASE_SIZE = 3 * COMPRESSED_POINTER_SIZE; // 3 compressed pointers
-// Arrays have an additional length property (1 pointer) and a backing store header (2 pointers)
-// See https://stackoverflow.com/a/70550693.
-const ARRAY_BASE_SIZE = OBJECT_BASE_SIZE + 3 * COMPRESSED_POINTER_SIZE;
-const TYPED_ARRAY_BASE_SIZE = 25 * COMPRESSED_POINTER_SIZE; // byteLength, byteOffset, ..., see https://stackoverflow.com/a/45808835
-const SMALL_INTEGER_SIZE = COMPRESSED_POINTER_SIZE; // Small integers (up to 31 bits), pointer tagging
-const HEAP_NUMBER_SIZE = 8 + 2 * COMPRESSED_POINTER_SIZE; // 4-byte map pointer + 8-byte payload + property pointer
-const FIELD_SIZE_BY_PRIMITIVE: Record<string, number> = {
-  bool: SMALL_INTEGER_SIZE,
-  int8: SMALL_INTEGER_SIZE,
-  uint8: SMALL_INTEGER_SIZE,
-  int16: SMALL_INTEGER_SIZE,
-  uint16: SMALL_INTEGER_SIZE,
-  int32: SMALL_INTEGER_SIZE,
-  uint32: SMALL_INTEGER_SIZE,
-  float32: HEAP_NUMBER_SIZE,
-  float64: HEAP_NUMBER_SIZE,
-  int64: HEAP_NUMBER_SIZE,
-  uint64: HEAP_NUMBER_SIZE,
-  time: OBJECT_BASE_SIZE + 2 * HEAP_NUMBER_SIZE + COMPRESSED_POINTER_SIZE,
-  duration: OBJECT_BASE_SIZE + 2 * HEAP_NUMBER_SIZE + COMPRESSED_POINTER_SIZE,
-  string: 20, // we don't know the length upfront, assume a fixed length
-};
-const MAX_NUM_FAST_PROPERTIES = 1020;
+
 
 /**
  * Estimates the memory size of a deserialized message object based on the schema definition.
