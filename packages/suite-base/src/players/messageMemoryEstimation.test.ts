@@ -157,18 +157,17 @@ describe("memoryEstimationByObject", () => {
     for (let i = 0; i < numProps; i++) {
       if (i % 3 === 0) {
         largeObject[`field${i}`] = i;
-        valueSize = valueSize + 4;
+        valueSize += 4;
       } else if (i % 3 === 1) {
         largeObject[`field${i}`] = true;
-        valueSize = valueSize + 4;
+        valueSize += 4;
       } else {
         largeObject[`field${i}`] = 1.23;
-        valueSize = valueSize + 16;
+        valueSize += 16;
       }
     }
     const expectedSize = 12 + valueSize + propertiesDictSize - numProps * 4;
     const sizeInBytes = estimateObjectSize(largeObject);
-    // const expectedSize = 12 + numSMI + numBooleans + numHeapNumbers; // 12 (base size) + 4 (smi) + 4 (boolean) + 16 (heap number)
     expect(sizeInBytes).toEqual(expectedSize);
   });
 

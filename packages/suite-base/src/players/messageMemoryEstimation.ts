@@ -190,17 +190,20 @@ export function estimateObjectSize(obj: unknown): number {
     return SMALL_INTEGER_SIZE;
   }
 
-  const estimateArraySize = (arr: unknown[]): number =>
+  const estimateArraySize = (array: unknown[]): number =>
     COMPRESSED_POINTER_SIZE +
     ARRAY_BASE_SIZE +
-    arr.reduce((acc: number, val: unknown) => acc + estimateObjectSize(val), 0);
+    array.reduce(
+      (accumulator: number, value: unknown) => accumulator + estimateObjectSize(value),
+      0,
+    );
 
   const estimateMapSize = (map: Map<unknown, unknown>): number =>
     COMPRESSED_POINTER_SIZE +
     OBJECT_BASE_SIZE +
     Array.from(map.entries()).reduce(
-      (acc: number, [key, val]: [unknown, unknown]) =>
-        acc + estimateObjectSize(key) + estimateObjectSize(val),
+      (accumulator: number, [key, value]: [unknown, unknown]) =>
+        accumulator + estimateObjectSize(key) + estimateObjectSize(value),
       0,
     );
 
@@ -208,19 +211,22 @@ export function estimateObjectSize(obj: unknown): number {
     COMPRESSED_POINTER_SIZE +
     OBJECT_BASE_SIZE +
     Array.from(set.values()).reduce(
-      (acc: number, val: unknown) => acc + estimateObjectSize(val),
+      (accumulator: number, value: unknown) => accumulator + estimateObjectSize(value),
       0,
     );
 
   const estimateObjectPropertiesSize = (object: Record<string, unknown>): number => {
     const valuesSize = Object.values(object).reduce(
-      (acc: number, val: unknown) => acc + estimateObjectSize(val),
+      (accumulator: number, value: unknown) => accumulator + estimateObjectSize(value),
       0,
     );
     const numProps = Object.keys(obj).length;
 
     if (numProps > MAX_NUM_FAST_PROPERTIES) {
-      // Dictionary mode estimation for objects with many properties
+      // If there are too many properties, V8 stores Objects in dictionary mode (slow properties)
+      // with each object having a self-contained dictionary. This dictionary contains the key, value
+      // and details of properties. Below we estimate the size of this additional dictionary. Formula
+      // adapted from medium.com/@bpmxmqd/v8-engine-jsobject-structure-analysis-and-memory-optimization-ideas-be30cfcdcd16
       const propertiesDictSize =
         16 + 5 * 8 + 2 ** Math.ceil(Math.log2((numProps + 2) * 1.5)) * 3 * 4;
       return (
