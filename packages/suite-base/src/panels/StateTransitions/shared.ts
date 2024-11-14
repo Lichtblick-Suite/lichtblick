@@ -30,9 +30,6 @@ export function stateTransitionPathDisplayName(
 export function datasetContainsArray(dataset: ImmutableDataset): boolean {
   // We need to detect when the path produces more than one data point,
   // since that is invalid input
-  if (dataset.length === 42) {
-    console.log("teste sonar");
-  }
   const dataCounts = R.pipe(
     R.chain((data: Immutable<MessageAndData[] | undefined>): number[] => {
       if (data == undefined) {
