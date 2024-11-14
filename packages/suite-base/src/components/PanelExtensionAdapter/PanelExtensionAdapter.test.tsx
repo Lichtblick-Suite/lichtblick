@@ -70,7 +70,7 @@ describe("PanelExtensionAdapter", () => {
     const initPanel = jest.fn((context: PanelExtensionContext) => {
       context.watch("currentFrame");
       context.watch("didSeek");
-      context.subscribe(["x"]);
+      context.subscribe([{ topic: "x" }]);
       context.onRender = (renderState, done) => {
         renderStates.push({ ...renderState });
         done();
