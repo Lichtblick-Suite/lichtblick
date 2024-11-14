@@ -1,9 +1,11 @@
 // SPDX-FileCopyrightText: Copyright (C) 2023-2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)<lichtblick@bmwgroup.com>
 // SPDX-License-Identifier: MPL-2.0
 
-import { Immutable } from "@lichtblick/suite";
 import { MessageAndData } from "@lichtblick/suite-base/components/MessagePathSyntax/useCachedGetMessagePathDataItems";
-import { StateTransitionPath } from "@lichtblick/suite-base/panels/StateTransitions/types";
+import {
+  ImmutableDataset,
+  StateTransitionPath,
+} from "@lichtblick/suite-base/panels/StateTransitions/types";
 import BasicBuilder from "@lichtblick/suite-base/testing/builders/BasicBuilder";
 import MessageEventBuilder from "@lichtblick/suite-base/testing/builders/MessageEventBuilder";
 
@@ -59,43 +61,37 @@ describe("datasetContainsArray", () => {
   });
 
   it("should return false for an empty dataset", () => {
-    const dataset: Immutable<(MessageAndData[] | undefined)[]> = [];
+    const dataset: ImmutableDataset = [];
     expect(datasetContainsArray(dataset)).toBe(false);
   });
 
   it("should return false when all elements are undefined", () => {
-    const dataset: Immutable<(MessageAndData[] | undefined)[]> = [undefined, undefined];
+    const dataset: ImmutableDataset = [undefined, undefined];
     expect(datasetContainsArray(dataset)).toBe(false);
   });
 
   it("should return false when the dataset contains mixed undefined and empty arrays", () => {
-    const dataset: Immutable<(MessageAndData[] | undefined)[]> = [undefined, []];
+    const dataset: ImmutableDataset = [undefined, []];
     expect(datasetContainsArray(dataset)).toBe(false);
   });
 
   it("should return false for a single MessageAndData[] element with queriedData of length 1", () => {
-    const dataset: Immutable<(MessageAndData[] | undefined)[]> = [[createMessageAndData(1)]];
+    const dataset: ImmutableDataset = [[createMessageAndData(1)]];
     expect(datasetContainsArray(dataset)).toBe(false);
   });
 
   it("should return true for a single MessageAndData[] element with queriedData of length greater than 1", () => {
-    const dataset: Immutable<(MessageAndData[] | undefined)[]> = [[createMessageAndData(2)]];
+    const dataset: ImmutableDataset = [[createMessageAndData(2)]];
     expect(datasetContainsArray(dataset)).toBe(true);
   });
 
   it("should return true for multiple MessageAndData[] elements with consistent queriedData lengths greater than 1", () => {
-    const dataset: Immutable<(MessageAndData[] | undefined)[]> = [
-      [createMessageAndData(2)],
-      [createMessageAndData(2)],
-    ];
+    const dataset: ImmutableDataset = [[createMessageAndData(2)], [createMessageAndData(2)]];
     expect(datasetContainsArray(dataset)).toBe(true);
   });
 
   it("should return false for multiple MessageAndData[] elements with mixed queriedData lengths, including lengths less than or equal to 1", () => {
-    const dataset: Immutable<(MessageAndData[] | undefined)[]> = [
-      [createMessageAndData(2)],
-      [createMessageAndData(1)],
-    ];
+    const dataset: ImmutableDataset = [[createMessageAndData(2)], [createMessageAndData(1)]];
     expect(datasetContainsArray(dataset)).toBe(false);
   });
 });
