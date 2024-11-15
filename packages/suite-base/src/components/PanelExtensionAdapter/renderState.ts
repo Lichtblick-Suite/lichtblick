@@ -91,6 +91,18 @@ function initRenderStateBuilder(): BuildRenderStateFn {
 
   const prevRenderState: Writable<Immutable<RenderState>> = {};
 
+  function updateRenderStateField<T>(
+    field: keyof RenderState,
+    newValue: T,
+    prevValue: T,
+    shouldRender: { value: boolean },
+  ): void {
+    if (newValue !== prevValue) {
+      (prevRenderState[field] as T) = newValue;
+      shouldRender.value = true;
+    }
+  }
+
   return function buildRenderState(input: BuilderRenderStateInput) {
     const {
       appSettings,
@@ -113,7 +125,7 @@ function initRenderStateBuilder(): BuildRenderStateFn {
     );
 
     // Should render indicates whether any fields of render state are updated
-    let shouldRender = false;
+    const shouldRender = { value: false };
 
     // Hoisted active data to shorten some of the code below that repeatedly uses active data
     const activeData = playerState?.activeData;
@@ -138,33 +150,36 @@ function initRenderStateBuilder(): BuildRenderStateFn {
     }
 
     if (watchedFields.has("didSeek")) {
-      const didSeek = prevSeekTime !== activeData?.lastSeekTime;
-      if (didSeek !== renderState.didSeek) {
-        renderState.didSeek = didSeek;
-        shouldRender = true;
-      }
+      updateRenderStateField(
+        "didSeek",
+        prevSeekTime !== activeData?.lastSeekTime,
+        renderState.didSeek,
+        shouldRender,
+      );
       prevSeekTime = activeData?.lastSeekTime;
     }
 
     if (watchedFields.has("parameters")) {
-      const parameters = activeData?.parameters ?? EmptyParameters;
-      if (parameters !== renderState.parameters) {
-        shouldRender = true;
-        renderState.parameters = parameters;
-      }
+      updateRenderStateField(
+        "parameters",
+        activeData?.parameters ?? EmptyParameters,
+        renderState.parameters,
+        shouldRender,
+      );
     }
 
     if (watchedFields.has("sharedPanelState")) {
-      if (sharedPanelState !== prevSharedPanelState) {
-        shouldRender = true;
-        prevSharedPanelState = sharedPanelState;
-        renderState.sharedPanelState = sharedPanelState;
-      }
+      updateRenderStateField(
+        "sharedPanelState",
+        sharedPanelState,
+        prevSharedPanelState,
+        shouldRender,
+      );
     }
 
     if (watchedFields.has("variables")) {
       if (globalVariables !== prevVariables) {
-        shouldRender = true;
+        shouldRender.value = true;
         prevVariables = globalVariables;
         renderState.variables = new Map(Object.entries(globalVariables));
       }
@@ -172,7 +187,7 @@ function initRenderStateBuilder(): BuildRenderStateFn {
 
     if (watchedFields.has("topics")) {
       if (sortedTopics !== prevSortedTopics || prevMessageConverters !== messageConverters) {
-        shouldRender = true;
+        shouldRender.value = true;
 
         const topics = sortedTopics.map((topic): Topic => {
           const newTopic: Topic = {
@@ -228,7 +243,7 @@ function initRenderStateBuilder(): BuildRenderStateFn {
           lastMessageByTopic.set(messageEvent.topic, messageEvent);
         }
         renderState.currentFrame = postProcessedFrame;
-        shouldRender = true;
+        shouldRender.value = true;
       } else if (conversionsChanged) {
         // If we don't have a new frame but our conversions have changed, run
         // only the new conversions on our most recent message on each topic.
@@ -244,12 +259,12 @@ function initRenderStateBuilder(): BuildRenderStateFn {
           }
         }
         renderState.currentFrame = postProcessedFrame;
-        shouldRender = true;
+        shouldRender.value = true;
       } else if (currentFrame !== prevCurrentFrame) {
         // Otherwise if we're replacing a non-empty frame with an empty frame and
         // conversions haven't changed, include the empty frame in the new render state.
         renderState.currentFrame = currentFrame;
-        shouldRender = true;
+        shouldRender.value = true;
       }
 
       prevCurrentFrame = currentFrame;
@@ -259,7 +274,7 @@ function initRenderStateBuilder(): BuildRenderStateFn {
       // Rebuild allFrames if we have new blocks or if our conversions have changed.
       const newBlocks = playerState?.progress.messageCache?.blocks;
       if ((newBlocks != undefined && prevBlocks !== newBlocks) || conversionsChanged) {
-        shouldRender = true;
+        shouldRender.value = true;
         const blocksToProcess = newBlocks ?? prevBlocks ?? [];
         const frames: MessageEvent[] = (renderState.allFrames = []);
         // only populate allFrames with topics that the panel wants to preload
@@ -308,21 +323,21 @@ function initRenderStateBuilder(): BuildRenderStateFn {
     if (watchedFields.has("currentTime")) {
       if (renderState.currentTime !== activeData?.currentTime) {
         renderState.currentTime = activeData?.currentTime;
-        shouldRender = true;
+        shouldRender.value = true;
       }
     }
 
     if (watchedFields.has("startTime")) {
       if (renderState.startTime !== activeData?.startTime) {
         renderState.startTime = activeData?.startTime;
-        shouldRender = true;
+        shouldRender.value = true;
       }
     }
 
     if (watchedFields.has("endTime")) {
       if (renderState.endTime !== activeData?.endTime) {
         renderState.endTime = activeData?.endTime;
-        shouldRender = true;
+        shouldRender.value = true;
       }
     }
 
@@ -332,12 +347,12 @@ function initRenderStateBuilder(): BuildRenderStateFn {
       if (startTime != undefined && hoverValue != undefined) {
         const stamp = toSec(startTime) + hoverValue.value;
         if (stamp !== renderState.previewTime) {
-          shouldRender = true;
+          shouldRender.value = true;
         }
         renderState.previewTime = stamp;
       } else {
         if (renderState.previewTime != undefined) {
-          shouldRender = true;
+          shouldRender.value = true;
         }
         renderState.previewTime = undefined;
       }
@@ -345,14 +360,14 @@ function initRenderStateBuilder(): BuildRenderStateFn {
 
     if (watchedFields.has("colorScheme")) {
       if (colorScheme !== renderState.colorScheme) {
-        shouldRender = true;
+        shouldRender.value = true;
         renderState.colorScheme = colorScheme;
       }
     }
 
     if (watchedFields.has("appSettings")) {
       if (renderState.appSettings !== appSettings) {
-        shouldRender = true;
+        shouldRender.value = true;
         renderState.appSettings = appSettings;
       }
     }
@@ -362,7 +377,7 @@ function initRenderStateBuilder(): BuildRenderStateFn {
     prevMessageConverters = messageConverters;
     prevCollatedConversions = collatedConversions;
 
-    if (!shouldRender) {
+    if (!shouldRender.value) {
       return undefined;
     }
 
