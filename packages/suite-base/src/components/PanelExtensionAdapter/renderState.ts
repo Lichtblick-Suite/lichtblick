@@ -318,24 +318,15 @@ function initRenderStateBuilder(): BuildRenderStateFn {
     }
 
     if (watchedFields.has("currentTime")) {
-      if (renderState.currentTime !== activeData?.currentTime) {
-        renderState.currentTime = activeData?.currentTime;
-        shouldRender.value = true;
-      }
+      updateRenderStateField("currentTime", activeData?.currentTime, renderState.currentTime, shouldRender);
     }
 
     if (watchedFields.has("startTime")) {
-      if (renderState.startTime !== activeData?.startTime) {
-        renderState.startTime = activeData?.startTime;
-        shouldRender.value = true;
-      }
+     updateRenderStateField("startTime", activeData?.startTime, renderState.startTime, shouldRender);
     }
 
     if (watchedFields.has("endTime")) {
-      if (renderState.endTime !== activeData?.endTime) {
-        renderState.endTime = activeData?.endTime;
-        shouldRender.value = true;
-      }
+      updateRenderStateField("endTime", activeData?.endTime, renderState.endTime, shouldRender);
     }
 
     if (watchedFields.has("previewTime")) {
