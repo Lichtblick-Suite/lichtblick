@@ -39,6 +39,7 @@ import {
   mapDifference,
   TopicSchemaConversions,
 } from "./messageProcessing";
+import { update } from "ramda";
 
 const EmptyParameters = new Map<string, ParameterValue>();
 
@@ -331,33 +332,23 @@ function initRenderStateBuilder(): BuildRenderStateFn {
 
     if (watchedFields.has("previewTime")) {
       const startTime = activeData?.startTime;
-
-      if (startTime != undefined && hoverValue != undefined) {
-        const stamp = toSec(startTime) + hoverValue.value;
-        if (stamp !== renderState.previewTime) {
-          shouldRender.value = true;
-        }
-        renderState.previewTime = stamp;
-      } else {
-        if (renderState.previewTime != undefined) {
-          shouldRender.value = true;
-        }
-        renderState.previewTime = undefined;
-      }
+      const newPreviewTime = startTime != undefined && hoverValue != undefined
+      ? toSec(startTime) + hoverValue.value
+      : undefined;
+     updateRenderStateField(
+      "previewTime",
+      newPreviewTime,
+      renderState.previewTime,
+      shouldRender,
+    );
     }
 
     if (watchedFields.has("colorScheme")) {
-      if (colorScheme !== renderState.colorScheme) {
-        shouldRender.value = true;
-        renderState.colorScheme = colorScheme;
-      }
+      updateRenderStateField("colorScheme", colorScheme, renderState.colorScheme, shouldRender);
     }
 
     if (watchedFields.has("appSettings")) {
-      if (renderState.appSettings !== appSettings) {
-        shouldRender.value = true;
-        renderState.appSettings = appSettings;
-      }
+      updateRenderStateField("appSettings", appSettings, renderState.appSettings, shouldRender);
     }
 
     // Update the prev fields with the latest values at the end of all the watch steps
