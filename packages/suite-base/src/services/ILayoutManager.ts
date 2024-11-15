@@ -13,8 +13,7 @@ import { Layout, LayoutPermission } from "@lichtblick/suite-base/services/ILayou
 
 export type LayoutManagerChangeEvent =
   | { type: "delete"; updatedLayout?: undefined; layoutId: LayoutID }
-  | { type: "change"; updatedLayout: Layout | undefined }
-  | { type: "revert"; updatedLayout: Layout | undefined };
+  | { type: "change" | "revert"; updatedLayout: Layout | undefined };
 
 export type LayoutManagerEventTypes = {
   /**
