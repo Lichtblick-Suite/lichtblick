@@ -296,9 +296,23 @@ export default function CurrentLayoutProvider({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getUserProfile, layoutManager, setSelectedLayoutId]);
 
+  const updateSharedPanelState = useCallback<ICurrentLayout["actions"]["updateSharedPanelState"]>(
+    (type, newSharedState) => {
+      if (layoutStateRef.current.selectedLayout?.data == undefined) {
+        return;
+      }
+
+      setLayoutState({
+        ...layoutStateRef.current,
+        sharedPanelState: { ...layoutStateRef.current.sharedPanelState, [type]: newSharedState },
+      });
+    },
+    [setLayoutState],
+  );
+
   const actions: ICurrentLayout["actions"] = useMemo(
     () => ({
-      updateSharedPanelState: () => {},
+      updateSharedPanelState,
       setCurrentLayout: () => {},
       setSelectedLayoutId,
       getCurrentLayoutState: () => layoutStateRef.current,
@@ -389,7 +403,7 @@ export default function CurrentLayoutProvider({
         performAction({ type: "END_DRAG", payload });
       },
     }),
-    [analytics, performAction, setSelectedLayoutId, setSelectedPanelIds],
+    [analytics, performAction, setSelectedLayoutId, setSelectedPanelIds, updateSharedPanelState],
   );
 
   const value: ICurrentLayout = useShallowMemo({
