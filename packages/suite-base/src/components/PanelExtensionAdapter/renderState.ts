@@ -39,7 +39,6 @@ import {
   mapDifference,
   TopicSchemaConversions,
 } from "./messageProcessing";
-import { update } from "ramda";
 
 const EmptyParameters = new Map<string, ParameterValue>();
 
@@ -319,11 +318,21 @@ function initRenderStateBuilder(): BuildRenderStateFn {
     }
 
     if (watchedFields.has("currentTime")) {
-      updateRenderStateField("currentTime", activeData?.currentTime, renderState.currentTime, shouldRender);
+      updateRenderStateField(
+        "currentTime",
+        activeData?.currentTime,
+        renderState.currentTime,
+        shouldRender,
+      );
     }
 
     if (watchedFields.has("startTime")) {
-     updateRenderStateField("startTime", activeData?.startTime, renderState.startTime, shouldRender);
+      updateRenderStateField(
+        "startTime",
+        activeData?.startTime,
+        renderState.startTime,
+        shouldRender,
+      );
     }
 
     if (watchedFields.has("endTime")) {
@@ -332,15 +341,11 @@ function initRenderStateBuilder(): BuildRenderStateFn {
 
     if (watchedFields.has("previewTime")) {
       const startTime = activeData?.startTime;
-      const newPreviewTime = startTime != undefined && hoverValue != undefined
-      ? toSec(startTime) + hoverValue.value
-      : undefined;
-     updateRenderStateField(
-      "previewTime",
-      newPreviewTime,
-      renderState.previewTime,
-      shouldRender,
-    );
+      const newPreviewTime =
+        startTime != undefined && hoverValue != undefined
+          ? toSec(startTime) + hoverValue.value
+          : undefined;
+      updateRenderStateField("previewTime", newPreviewTime, renderState.previewTime, shouldRender);
     }
 
     if (watchedFields.has("colorScheme")) {
