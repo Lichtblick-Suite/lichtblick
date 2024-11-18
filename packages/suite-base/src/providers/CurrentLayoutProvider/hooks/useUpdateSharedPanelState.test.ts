@@ -49,9 +49,9 @@ describe("useUpdateSharedPanelState", () => {
       configById: {},
       layout: undefined,
       globalVariables: {},
-      playbackConfig: { speed: 1 },
+      playbackConfig: { speed: BasicBuilder.number() },
       userNodes: {},
-      version: 1,
+      version: BasicBuilder.number(),
     };
 
     const { result } = renderHook(() => useUpdateSharedPanelState(layoutStateRef, setLayoutState));
