@@ -12,39 +12,60 @@ import BasicBuilder from "@lichtblick/suite-base/testing/builders/BasicBuilder";
 import useUpdateSharedPanelState from "./useUpdateSharedPanelState";
 
 describe("useUpdateSharedPanelState", () => {
-  let mockLayoutStateRef: MutableRefObject<LayoutState>;
-  let mockSetLayoutState: jest.Mock;
+  const panelType = BasicBuilder.string();
+  const keyTest = BasicBuilder.string();
+  const valueTest = BasicBuilder.string();
+  const layoutStateRef: MutableRefObject<Readonly<LayoutState>> = {
+    current: {
+      sharedPanelState: {},
+      selectedLayout: {
+        id: BasicBuilder.string() as LayoutID,
+        loading: BasicBuilder.boolean(),
+        data: undefined,
+        name: BasicBuilder.string(),
+        edited: BasicBuilder.boolean(),
+      },
+    },
+  };
+
+  let setLayoutState: jest.Mock;
 
   beforeEach(() => {
-    // Set up the initial layout state ref and the mock function for setLayoutState
-    mockSetLayoutState = jest.fn();
-
-    mockLayoutStateRef = {
-      current: {
-        sharedPanelState: {},
-        selectedLayout: {
-          id: BasicBuilder.string() as LayoutID,
-          loading: BasicBuilder.boolean(),
-          data: undefined,
-          name: BasicBuilder.string(),
-          edited: BasicBuilder.boolean(),
-        },
-      },
-    };
+    setLayoutState = jest.fn();
   });
 
   it("does not update state if selectedLayout.data is undefined", () => {
+    const { result } = renderHook(() => useUpdateSharedPanelState(layoutStateRef, setLayoutState));
 
-    const { result } = renderHook(() =>
-      useUpdateSharedPanelState(mockLayoutStateRef, mockSetLayoutState),
-    );
-
-    // Call updateSharedPanelState with sample data
     act(() => {
-      result.current.updateSharedPanelState("testType", { someKey: "someValue" });
+      result.current.updateSharedPanelState(panelType, { [keyTest]: valueTest });
     });
 
-    // Expect setLayoutState not to have been called because selectedLayout.data is undefined
-    expect(mockSetLayoutState).not.toHaveBeenCalled();
+    expect(setLayoutState).not.toHaveBeenCalled();
+  });
+
+  it("updates state when selectedLayout.data is defined", () => {
+    layoutStateRef.current.selectedLayout!.data = {
+      configById: {},
+      layout: undefined,
+      globalVariables: {},
+      playbackConfig: { speed: 1 },
+      userNodes: {},
+      version: 1,
+    };
+
+    const { result } = renderHook(() => useUpdateSharedPanelState(layoutStateRef, setLayoutState));
+
+    act(() => {
+      result.current.updateSharedPanelState(panelType, { [keyTest]: valueTest });
+    });
+
+    expect(setLayoutState).toHaveBeenCalledWith({
+      ...layoutStateRef.current,
+      sharedPanelState: {
+        ...layoutStateRef.current.sharedPanelState,
+        [panelType]: { [keyTest]: valueTest },
+      },
+    });
   });
 });
