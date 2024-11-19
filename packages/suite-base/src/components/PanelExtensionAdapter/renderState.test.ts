@@ -1045,6 +1045,7 @@ describe("renderState", () => {
     expect(checkRenderedConfig).toHaveBeenCalled();
     expect(checkRenderedConfig.mock.calls.at(-1)).toEqual([{ test: false }]);
   });
+
   it("should update renderStateField when watchedFields contains parameters", async () => {
     const buildRenderState = initRenderStateBuilder();
     const stableConversionInputs = {
