@@ -1122,4 +1122,29 @@ describe("renderState", () => {
       sharedPanelState: {},
     });
   });
+
+  it("should update renderStateField when watchedFields contains colorscheme", async () => {
+    const buildRenderState = initRenderStateBuilder();
+    const stableConversionInputs = {
+      sortedTopics: [],
+      subscriptions: [{ topic: "test" }],
+      messageConverters: [],
+    };
+
+    const state = buildRenderState({
+      watchedFields: new Set(["colorScheme"]),
+      playerState: undefined,
+      appSettings: undefined,
+      currentFrame: undefined,
+      colorScheme: "dark",
+      globalVariables: {},
+      hoverValue: undefined,
+      sharedPanelState: {},
+      ...stableConversionInputs,
+    });
+
+    expect(state).toEqual({
+      colorScheme: "dark",
+    });
+  });
 });
