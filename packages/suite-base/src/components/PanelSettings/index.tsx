@@ -13,7 +13,7 @@ import { useUnmount } from "react-use";
 import { SettingsTree } from "@lichtblick/suite";
 import { AppSetting } from "@lichtblick/suite-base/AppSetting";
 import { useConfigById } from "@lichtblick/suite-base/PanelAPI";
-import { useMessagePipeline } from "@lichtblick/suite-base/components/MessagePipeline";
+import { useMessagePipelineGetter } from "@lichtblick/suite-base/components/MessagePipeline";
 import { getTopicToSchemaNameMap } from "@lichtblick/suite-base/components/MessagePipeline/selectors";
 import { ActionMenu } from "@lichtblick/suite-base/components/PanelSettings/ActionMenu";
 import { EmptyWrapper } from "@lichtblick/suite-base/components/PanelSettings/EmptyWrapper";
@@ -28,10 +28,6 @@ import {
   useCurrentLayoutSelector,
   useSelectedPanels,
 } from "@lichtblick/suite-base/context/CurrentLayoutContext";
-import {
-  getExtensionPanelSettings,
-  useExtensionCatalog,
-} from "@lichtblick/suite-base/context/ExtensionCatalogContext";
 import { usePanelCatalog } from "@lichtblick/suite-base/context/PanelCatalogContext";
 import {
   PanelStateStore,
@@ -136,9 +132,10 @@ export default function PanelSettings({
     t,
   ]);
 
-  const [config] = useConfigById(selectedPanelId);
-  const extensionSettings = useExtensionCatalog(getExtensionPanelSettings);
-  const topicToSchemaNameMap = useMessagePipeline(getTopicToSchemaNameMap);
+  const [config, , extensionSettings] = useConfigById(selectedPanelId);
+  const messagePipelineState = useMessagePipelineGetter();
+  const topicToSchemaNameMap = getTopicToSchemaNameMap(messagePipelineState());
+
   const settingsTree = usePanelStateStore((state) =>
     buildSettingsTree({
       config,
