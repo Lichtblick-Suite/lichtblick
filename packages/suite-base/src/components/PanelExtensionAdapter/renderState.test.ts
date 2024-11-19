@@ -1147,4 +1147,28 @@ describe("renderState", () => {
       colorScheme: "dark",
     });
   });
+  it("should update renderStateField when watchedFields contains appSettings", async () => {
+    const buildRenderState = initRenderStateBuilder();
+    const stableConversionInputs = {
+      sortedTopics: [],
+      subscriptions: [{ topic: "test" }],
+      messageConverters: [],
+    };
+
+    const state = buildRenderState({
+      watchedFields: new Set(["appSettings"]),
+      playerState: undefined,
+      appSettings: new Map(),
+      currentFrame: undefined,
+      colorScheme: "dark",
+      globalVariables: {},
+      hoverValue: undefined,
+      sharedPanelState: {},
+      ...stableConversionInputs,
+    });
+
+    expect(state).toEqual({
+      appSettings: new Map(),
+    });
+  });
 });
