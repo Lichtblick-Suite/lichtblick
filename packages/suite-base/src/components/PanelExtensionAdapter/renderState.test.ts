@@ -8,12 +8,12 @@
 import { produce } from "immer";
 
 import { PanelSettings } from "@lichtblick/suite";
+import { RosTime } from "@lichtblick/suite-base/panels/ThreeDeeRender/ros";
 import { PlayerPresence } from "@lichtblick/suite-base/players/types";
 import BasicBuilder from "@lichtblick/suite-base/testing/builders/BasicBuilder";
 import PlayerStateBuilder from "@lichtblick/suite-base/testing/builders/PlayerStateBuilder";
 
 import { BuilderRenderStateInput, initRenderStateBuilder } from "./renderState";
-import { RosTime } from "@lichtblick/suite-base/panels/ThreeDeeRender/ros";
 
 function makeInitialState(): BuilderRenderStateInput {
   return {
@@ -84,13 +84,13 @@ function makeInitialState(): BuilderRenderStateInput {
 }
 
 describe("renderState", () => {
-  function makeBlock(topic:string, receiveTime: RosTime): any {
+  function makeBlock(topic: string, receiveTime: RosTime): any {
     return {
       topic,
       schemaName: "schema",
       receiveTime,
       sizeInBytes: 1,
-      message:{from: "allFrames"},
+      message: { from: "allFrames" },
     };
   }
   it("should include convertibleTo when there are message converters", () => {
@@ -140,7 +140,6 @@ describe("renderState", () => {
       topics: [{ name: "test", schemaName: "schema", datatype: "schema" }],
     });
   });
-
 
   it("should provide stable time values", () => {
     const buildRenderState = initRenderStateBuilder();
@@ -1120,7 +1119,7 @@ describe("renderState", () => {
     });
 
     expect(state).toEqual({
-      sharedPanelState:{},
+      sharedPanelState: {},
     });
   });
 });
