@@ -120,6 +120,28 @@ describe("renderState", () => {
     });
   });
 
+  it("should not include convertibleTo when there are no message converters", () => {
+    const buildRenderState = initRenderStateBuilder();
+    const state = buildRenderState({
+      watchedFields: new Set(["topics"]),
+      playerState: undefined,
+      appSettings: undefined,
+      currentFrame: undefined,
+      colorScheme: undefined,
+      globalVariables: {},
+      hoverValue: undefined,
+      sharedPanelState: {},
+      sortedTopics: [{ name: "test", schemaName: "schema" }],
+      subscriptions: [],
+      messageConverters: [],
+    });
+
+    expect(state).toEqual({
+      topics: [{ name: "test", schemaName: "schema", datatype: "schema" }],
+    });
+  });
+
+
   it("should provide stable time values", () => {
     const buildRenderState = initRenderStateBuilder();
     const playerState = PlayerStateBuilder.playerState();
@@ -1074,6 +1096,31 @@ describe("renderState", () => {
 
     expect(state).toEqual({
       parameters: activeData.parameters,
+    });
+  });
+
+  it("should update renderStateField when watchedFields contains sharedPanelState", async () => {
+    const buildRenderState = initRenderStateBuilder();
+    const stableConversionInputs = {
+      sortedTopics: [],
+      subscriptions: [{ topic: "test" }],
+      messageConverters: [],
+    };
+
+    const state = buildRenderState({
+      watchedFields: new Set(["sharedPanelState"]),
+      playerState: undefined,
+      appSettings: undefined,
+      currentFrame: undefined,
+      colorScheme: undefined,
+      globalVariables: {},
+      hoverValue: undefined,
+      sharedPanelState: {},
+      ...stableConversionInputs,
+    });
+
+    expect(state).toEqual({
+      sharedPanelState:{},
     });
   });
 });
