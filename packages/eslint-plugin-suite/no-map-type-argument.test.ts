@@ -9,15 +9,18 @@ import { RuleTester } from "@typescript-eslint/rule-tester";
 import { TSESLint } from "@typescript-eslint/utils";
 import path from "path";
 
- 
 const rule = require("./no-map-type-argument") as TSESLint.RuleModule<"preferReturnTypeAnnotation">;
 
 const ruleTester = new RuleTester({
-  parser: "@typescript-eslint/parser",
-  parserOptions: {
-    ecmaVersion: 2020,
-    tsconfigRootDir: path.join(__dirname, "fixture"),
-    project: "tsconfig.json",
+  languageOptions: {
+    parserOptions: {
+      ecmaVersion: 2020,
+      tsconfigRootDir: path.join(__dirname, "fixture"),
+      project: "tsconfig.json",
+    },
+  },
+  linterOptions: {
+    reportUnusedDisableDirectives: true,
   },
 });
 
