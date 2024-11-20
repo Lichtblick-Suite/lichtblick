@@ -11,7 +11,7 @@ import { PanelSettings } from "@lichtblick/suite";
 import { RosTime } from "@lichtblick/suite-base/panels/ThreeDeeRender/ros";
 import { PlayerPresence } from "@lichtblick/suite-base/players/types";
 import BasicBuilder from "@lichtblick/suite-base/testing/builders/BasicBuilder";
-import PlayerStateBuilder from "@lichtblick/suite-base/testing/builders/PlayerStateBuilder";
+import PlayerBuilder from "@lichtblick/suite-base/testing/builders/PlayerBuilder";
 
 import { BuilderRenderStateInput, initRenderStateBuilder } from "./renderState";
 
@@ -143,7 +143,7 @@ describe("renderState", () => {
 
   it("should provide stable time values", () => {
     const buildRenderState = initRenderStateBuilder();
-    const playerState = PlayerStateBuilder.playerState();
+    const playerState = PlayerBuilder.playerState();
 
     playerState.activeData!.currentTime = { sec: 33, nsec: 1 };
     playerState.activeData!.startTime = { sec: 1, nsec: 1 };
@@ -278,7 +278,7 @@ describe("renderState", () => {
 
   it("should make allFrames sorted receive time across sorted messagesInTopic", () => {
     const buildRenderState = initRenderStateBuilder();
-    const playerState = PlayerStateBuilder.playerState();
+    const playerState = PlayerBuilder.playerState();
     playerState.progress = {
       messageCache: {
         startTime: { sec: 0, nsec: 0 },
@@ -1078,10 +1078,10 @@ describe("renderState", () => {
       subscriptions: [{ topic: "test" }],
       messageConverters: [],
     };
-    const activeData = PlayerStateBuilder.activeData({
+    const activeData = PlayerBuilder.activeData({
       parameters: BasicBuilder.genericMap<string>(BasicBuilder.string),
     });
-    const playerState = PlayerStateBuilder.playerState({ activeData });
+    const playerState = PlayerBuilder.playerState({ activeData });
     const state = buildRenderState({
       watchedFields: new Set(["parameters"]),
       playerState,
