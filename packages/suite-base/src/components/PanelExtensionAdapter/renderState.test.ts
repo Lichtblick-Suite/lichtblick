@@ -85,7 +85,7 @@ function makeInitialState(): BuilderRenderStateInput {
 }
 const setup = (inputOverride: Partial<BuilderRenderStateInput> = {}) => {
   const buildRenderState = initRenderStateBuilder();
-  const input:BuilderRenderStateInput = {
+  const input: BuilderRenderStateInput = {
     appSettings: undefined,
     colorScheme: undefined,
     currentFrame: undefined,
@@ -119,11 +119,13 @@ describe("renderState", () => {
     const { buildRenderState, input } = setup();
     _.merge(input, {
       globalVariables: {},
-      messageConverters: [{
-        fromSchemaName: "schema",
-        toSchemaName: "more",
-        converter: () => {},
-      },],
+      messageConverters: [
+        {
+          fromSchemaName: "schema",
+          toSchemaName: "more",
+          converter: () => {},
+        },
+      ],
       sortedTopics: [{ name: "test", schemaName: "schema" }],
       watchedFields: new Set(["topics"]),
     });
@@ -1096,7 +1098,6 @@ describe("renderState", () => {
     expect(state).toEqual({
       sharedPanelState: {},
     });
-
   });
 
   it("should update renderStateField when watchedFields contains colorscheme", async () => {
@@ -1111,7 +1112,6 @@ describe("renderState", () => {
     expect(state).toEqual({
       colorScheme: "dark",
     });
-
   });
   it("should update renderStateField when watchedFields contains appSettings", async () => {
     const { buildRenderState, input } = setup();
