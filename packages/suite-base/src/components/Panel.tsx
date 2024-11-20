@@ -605,7 +605,6 @@ export default function Panel<
           _baseDuration,
           _startTime,
           _commitTime,
-          _interactions,
         ) => {
           if (perfInfo.current) {
             perfInfo.current.innerText = `${++renderCount.current}\n${actualDuration.toFixed(1)}ms`;
