@@ -28,10 +28,10 @@ describe("useUpdateSharedPanelState", () => {
     },
   };
 
-  let setLayoutState: jest.Mock;
+  const setLayoutState = jest.fn();
 
   beforeEach(() => {
-    setLayoutState = jest.fn();
+    jest.clearAllMocks();
   });
 
   it("does not update state if selectedLayout.data is undefined", () => {
