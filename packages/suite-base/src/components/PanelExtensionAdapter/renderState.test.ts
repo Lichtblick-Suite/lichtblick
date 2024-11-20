@@ -13,6 +13,7 @@ import { PlayerPresence } from "@lichtblick/suite-base/players/types";
 import BasicBuilder from "@lichtblick/suite-base/testing/builders/BasicBuilder";
 import PlayerBuilder from "@lichtblick/suite-base/testing/builders/PlayerBuilder";
 
+import _ from "lodash";
 import { BuilderRenderStateInput, initRenderStateBuilder } from "./renderState";
 
 function makeInitialState(): BuilderRenderStateInput {
@@ -82,6 +83,27 @@ function makeInitialState(): BuilderRenderStateInput {
     ],
   };
 }
+const setup = (inputOverride: Partial<BuilderRenderStateInput> = {}) => {
+  const buildRenderState = initRenderStateBuilder();
+  const input:BuilderRenderStateInput = {
+    appSettings: undefined,
+    colorScheme: undefined,
+    currentFrame: undefined,
+    globalVariables: {},
+    hoverValue: undefined,
+    playerState: undefined,
+    sharedPanelState: {},
+    watchedFields: new Set(BasicBuilder.strings()),
+    sortedTopics: [],
+    subscriptions: [],
+    ...inputOverride,
+  };
+
+  return {
+    buildRenderState,
+    input,
+  };
+};
 
 describe("renderState", () => {
   function makeBlock(topic: string, receiveTime: RosTime): any {
@@ -1047,52 +1069,33 @@ describe("renderState", () => {
   });
 
   it("should update renderStateField when watchedFields contains parameters", async () => {
-    const buildRenderState = initRenderStateBuilder();
-    const stableConversionInputs = {
-      sortedTopics: [],
-      subscriptions: [{ topic: "test" }],
+    const { buildRenderState, input } = setup();
+    _.merge(input, {
       messageConverters: [],
-    };
-
-    const state = buildRenderState({
+      sortedTopics: [],
+      subscriptions: [BasicBuilder.genericMap],
       watchedFields: new Set(["parameters"]),
-      playerState: undefined,
-      appSettings: undefined,
-      currentFrame: undefined,
-      colorScheme: undefined,
-      globalVariables: {},
-      hoverValue: undefined,
-      sharedPanelState: {},
-      ...stableConversionInputs,
     });
-
+    const state = buildRenderState(input);
     expect(state).toEqual({
       parameters: new Map(),
     });
   });
 
   it("should renderStateField when activeData contains parameters", async () => {
-    const buildRenderState = initRenderStateBuilder();
-    const stableConversionInputs = {
-      sortedTopics: [],
-      subscriptions: [{ topic: "test" }],
-      messageConverters: [],
-    };
+    const { buildRenderState, input } = setup();
     const activeData = PlayerBuilder.activeData({
       parameters: BasicBuilder.genericMap<string>(BasicBuilder.string),
     });
     const playerState = PlayerBuilder.playerState({ activeData });
-    const state = buildRenderState({
-      watchedFields: new Set(["parameters"]),
+    _.merge(input, {
+      messageConverters: [],
       playerState,
-      appSettings: undefined,
-      currentFrame: undefined,
-      colorScheme: undefined,
-      globalVariables: {},
-      hoverValue: undefined,
-      sharedPanelState: {},
-      ...stableConversionInputs,
+      sortedTopics: [],
+      subscriptions: [BasicBuilder.genericMap],
+      watchedFields: new Set(["parameters"]),
     });
+    const state = buildRenderState(input);
 
     expect(state).toEqual({
       parameters: activeData.parameters,
