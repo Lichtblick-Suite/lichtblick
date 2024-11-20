@@ -116,26 +116,18 @@ describe("renderState", () => {
     };
   }
   it("should include convertibleTo when there are message converters", () => {
-    const buildRenderState = initRenderStateBuilder();
-    const state = buildRenderState({
-      watchedFields: new Set(["topics"]),
-      playerState: undefined,
-      appSettings: undefined,
-      currentFrame: undefined,
-      colorScheme: undefined,
+    const { buildRenderState, input } = setup();
+    _.merge(input, {
       globalVariables: {},
-      hoverValue: undefined,
-      sharedPanelState: {},
+      messageConverters: [{
+        fromSchemaName: "schema",
+        toSchemaName: "more",
+        converter: () => {},
+      },],
       sortedTopics: [{ name: "test", schemaName: "schema" }],
-      subscriptions: [],
-      messageConverters: [
-        {
-          fromSchemaName: "schema",
-          toSchemaName: "more",
-          converter: () => {},
-        },
-      ],
+      watchedFields: new Set(["topics"]),
     });
+    const state = buildRenderState(input);
 
     expect(state).toEqual({
       topics: [{ name: "test", schemaName: "schema", datatype: "schema", convertibleTo: ["more"] }],
@@ -143,20 +135,15 @@ describe("renderState", () => {
   });
 
   it("should not include convertibleTo when there are no message converters", () => {
-    const buildRenderState = initRenderStateBuilder();
-    const state = buildRenderState({
-      watchedFields: new Set(["topics"]),
-      playerState: undefined,
-      appSettings: undefined,
-      currentFrame: undefined,
-      colorScheme: undefined,
-      globalVariables: {},
-      hoverValue: undefined,
-      sharedPanelState: {},
+    const { buildRenderState, input } = setup();
+    const playerState = PlayerBuilder.playerState();
+    _.merge(input, {
+      playerState,
       sortedTopics: [{ name: "test", schemaName: "schema" }],
-      subscriptions: [],
-      messageConverters: [],
+      subscriptions: [BasicBuilder.genericMap],
+      watchedFields: new Set(["topics"]),
     });
+    const state = buildRenderState(input);
 
     expect(state).toEqual({
       topics: [{ name: "test", schemaName: "schema", datatype: "schema" }],
@@ -1071,8 +1058,6 @@ describe("renderState", () => {
   it("should update renderStateField when watchedFields contains parameters", async () => {
     const { buildRenderState, input } = setup();
     _.merge(input, {
-      messageConverters: [],
-      sortedTopics: [],
       subscriptions: [BasicBuilder.genericMap],
       watchedFields: new Set(["parameters"]),
     });
@@ -1089,9 +1074,7 @@ describe("renderState", () => {
     });
     const playerState = PlayerBuilder.playerState({ activeData });
     _.merge(input, {
-      messageConverters: [],
       playerState,
-      sortedTopics: [],
       subscriptions: [BasicBuilder.genericMap],
       watchedFields: new Set(["parameters"]),
     });
@@ -1104,11 +1087,7 @@ describe("renderState", () => {
 
   it("should update renderStateField when watchedFields contains sharedPanelState", async () => {
     const { buildRenderState, input } = setup();
-    const playerState = PlayerBuilder.playerState();
     _.merge(input, {
-      messageConverters: [],
-      playerState,
-      sortedTopics: [],
       subscriptions: [BasicBuilder.genericMap],
       watchedFields: new Set(["sharedPanelState"]),
     });
@@ -1122,12 +1101,8 @@ describe("renderState", () => {
 
   it("should update renderStateField when watchedFields contains colorscheme", async () => {
     const { buildRenderState, input } = setup();
-    const playerState = PlayerBuilder.playerState();
     _.merge(input, {
       colorScheme: "dark",
-      messageConverters: [],
-      playerState,
-      sortedTopics: [],
       subscriptions: [BasicBuilder.genericMap],
       watchedFields: new Set(["colorScheme"]),
     });
@@ -1140,12 +1115,8 @@ describe("renderState", () => {
   });
   it("should update renderStateField when watchedFields contains appSettings", async () => {
     const { buildRenderState, input } = setup();
-    const playerState = PlayerBuilder.playerState();
     _.merge(input, {
       appSettings: new Map(),
-      messageConverters: [],
-      playerState,
-      sortedTopics: [],
       subscriptions: [BasicBuilder.genericMap],
       watchedFields: new Set(["appSettings"]),
     });
