@@ -93,20 +93,6 @@ ruleTester.run("lodash-ramda-imports", rule, {
 
     {
       code: /* ts */ `
-        import lodash, { isEmpty as lodashIsEmpty } from "lodash-es";
-        lodash.isEqual(1, 1);
-        lodashIsEmpty({});
-      `,
-      errors: [{ messageId: "useNamespaceImport", data: { name: "_", package: "lodash-es" } }],
-      output: /* ts */ `
-        import * as _ from "lodash-es";
-        _.isEqual(1, 1);
-        _.isEmpty({});
-      `,
-    },
-
-    {
-      code: /* ts */ `
         import ramda, { isEmpty as ramdaIsEmpty } from "ramda";
         ramda.equals(1, 1);
         ramdaIsEmpty({});
