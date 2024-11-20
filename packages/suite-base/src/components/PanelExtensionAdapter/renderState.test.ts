@@ -6,6 +6,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import { produce } from "immer";
+import * as _ from "lodash-es";
 
 import { PanelSettings } from "@lichtblick/suite";
 import { RosTime } from "@lichtblick/suite-base/panels/ThreeDeeRender/ros";
@@ -13,7 +14,6 @@ import { PlayerPresence } from "@lichtblick/suite-base/players/types";
 import BasicBuilder from "@lichtblick/suite-base/testing/builders/BasicBuilder";
 import PlayerBuilder from "@lichtblick/suite-base/testing/builders/PlayerBuilder";
 
-import _ from "lodash";
 import { BuilderRenderStateInput, initRenderStateBuilder } from "./renderState";
 
 function makeInitialState(): BuilderRenderStateInput {
@@ -1103,73 +1103,53 @@ describe("renderState", () => {
   });
 
   it("should update renderStateField when watchedFields contains sharedPanelState", async () => {
-    const buildRenderState = initRenderStateBuilder();
-    const stableConversionInputs = {
-      sortedTopics: [],
-      subscriptions: [{ topic: "test" }],
+    const { buildRenderState, input } = setup();
+    const playerState = PlayerBuilder.playerState();
+    _.merge(input, {
       messageConverters: [],
-    };
-
-    const state = buildRenderState({
+      playerState,
+      sortedTopics: [],
+      subscriptions: [BasicBuilder.genericMap],
       watchedFields: new Set(["sharedPanelState"]),
-      playerState: undefined,
-      appSettings: undefined,
-      currentFrame: undefined,
-      colorScheme: undefined,
-      globalVariables: {},
-      hoverValue: undefined,
-      sharedPanelState: {},
-      ...stableConversionInputs,
     });
+    const state = buildRenderState(input);
 
     expect(state).toEqual({
       sharedPanelState: {},
     });
+
   });
 
   it("should update renderStateField when watchedFields contains colorscheme", async () => {
-    const buildRenderState = initRenderStateBuilder();
-    const stableConversionInputs = {
-      sortedTopics: [],
-      subscriptions: [{ topic: "test" }],
-      messageConverters: [],
-    };
-
-    const state = buildRenderState({
-      watchedFields: new Set(["colorScheme"]),
-      playerState: undefined,
-      appSettings: undefined,
-      currentFrame: undefined,
+    const { buildRenderState, input } = setup();
+    const playerState = PlayerBuilder.playerState();
+    _.merge(input, {
       colorScheme: "dark",
-      globalVariables: {},
-      hoverValue: undefined,
-      sharedPanelState: {},
-      ...stableConversionInputs,
+      messageConverters: [],
+      playerState,
+      sortedTopics: [],
+      subscriptions: [BasicBuilder.genericMap],
+      watchedFields: new Set(["colorScheme"]),
     });
+    const state = buildRenderState(input);
 
     expect(state).toEqual({
       colorScheme: "dark",
     });
+
   });
   it("should update renderStateField when watchedFields contains appSettings", async () => {
-    const buildRenderState = initRenderStateBuilder();
-    const stableConversionInputs = {
-      sortedTopics: [],
-      subscriptions: [{ topic: "test" }],
-      messageConverters: [],
-    };
-
-    const state = buildRenderState({
-      watchedFields: new Set(["appSettings"]),
-      playerState: undefined,
+    const { buildRenderState, input } = setup();
+    const playerState = PlayerBuilder.playerState();
+    _.merge(input, {
       appSettings: new Map(),
-      currentFrame: undefined,
-      colorScheme: "dark",
-      globalVariables: {},
-      hoverValue: undefined,
-      sharedPanelState: {},
-      ...stableConversionInputs,
+      messageConverters: [],
+      playerState,
+      sortedTopics: [],
+      subscriptions: [BasicBuilder.genericMap],
+      watchedFields: new Set(["appSettings"]),
     });
+    const state = buildRenderState(input);
 
     expect(state).toEqual({
       appSettings: new Map(),
