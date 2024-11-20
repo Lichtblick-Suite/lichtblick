@@ -18,6 +18,11 @@ import ts from "typescript/lib/typescript";
 
 import { MessageDefinitionField } from "@lichtblick/message-definition";
 import {
+  DiagnosticSeverity,
+  Sources,
+  ErrorCodes,
+} from "@lichtblick/suite-base/players/UserScriptPlayer/constants";
+import {
   noFuncError,
   nonFuncError,
   badTypeReturnError,
@@ -33,12 +38,7 @@ import {
   limitedUnionsError,
   noNestedAny,
 } from "@lichtblick/suite-base/players/UserScriptPlayer/transformerWorker/typescript/errors";
-import {
-  DiagnosticSeverity,
-  Sources,
-  ErrorCodes,
-  Diagnostic,
-} from "@lichtblick/suite-base/players/UserScriptPlayer/types";
+import { Diagnostic } from "@lichtblick/suite-base/players/UserScriptPlayer/types";
 import type { RosDatatypes } from "@lichtblick/suite-base/types/RosDatatypes";
 
 type TypeParam = {

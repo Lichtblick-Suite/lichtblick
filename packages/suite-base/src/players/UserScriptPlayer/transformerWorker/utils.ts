@@ -16,10 +16,8 @@
 
 import ts from "typescript/lib/typescript";
 
-import {
-  DiagnosticSeverity,
-  Diagnostic,
-} from "@lichtblick/suite-base/players/UserScriptPlayer/types";
+import { DiagnosticSeverity } from "@lichtblick/suite-base/players/UserScriptPlayer/constants";
+import { Diagnostic } from "@lichtblick/suite-base/players/UserScriptPlayer/types";
 
 const mapCategoryToDiagnosticSeverity = (
   category: ts.DiagnosticCategory,

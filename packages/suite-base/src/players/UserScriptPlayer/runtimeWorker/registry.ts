@@ -18,12 +18,14 @@ import path from "path";
 
 import { GlobalVariables } from "@lichtblick/suite-base/hooks/useGlobalVariables";
 import {
-  Diagnostic,
   DiagnosticSeverity,
+  Sources,
   ErrorCodes,
+} from "@lichtblick/suite-base/players/UserScriptPlayer/constants";
+import {
+  Diagnostic,
   ProcessMessageOutput,
   RegistrationOutput,
-  Sources,
   UserScriptLog,
 } from "@lichtblick/suite-base/players/UserScriptPlayer/types";
 import { DEFAULT_STUDIO_SCRIPT_PREFIX } from "@lichtblick/suite-base/util/globalConstants";

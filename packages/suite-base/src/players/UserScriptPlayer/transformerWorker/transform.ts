@@ -17,6 +17,11 @@
 import ts from "typescript/lib/typescript";
 
 import { filterMap } from "@lichtblick/den/collection";
+import {
+  DiagnosticSeverity,
+  Sources,
+  ErrorCodes,
+} from "@lichtblick/suite-base/players/UserScriptPlayer/constants";
 import { formatInterfaceName } from "@lichtblick/suite-base/players/UserScriptPlayer/transformerWorker/generateRosLib";
 import {
   constructDatatypes,
@@ -31,11 +36,8 @@ import {
 } from "@lichtblick/suite-base/players/UserScriptPlayer/transformerWorker/utils";
 import {
   Diagnostic,
-  DiagnosticSeverity,
-  ErrorCodes,
   ScriptData,
   ScriptDataTransformer,
-  Sources,
 } from "@lichtblick/suite-base/players/UserScriptPlayer/types";
 import { Topic } from "@lichtblick/suite-base/players/types";
 import { DEFAULT_STUDIO_SCRIPT_PREFIX } from "@lichtblick/suite-base/util/globalConstants";

@@ -32,8 +32,8 @@ import delay from "@lichtblick/suite-base/util/delay";
 import { DEFAULT_STUDIO_SCRIPT_PREFIX } from "@lichtblick/suite-base/util/globalConstants";
 
 import UserScriptPlayer from ".";
+import { DiagnosticSeverity, Sources, ErrorCodes } from "./constants";
 import exampleDatatypes from "./transformerWorker/fixtures/example-datatypes";
-import { DiagnosticSeverity, ErrorCodes, Sources } from "./types";
 
 const nodeId = "nodeId";
 

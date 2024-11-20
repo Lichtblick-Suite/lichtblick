@@ -37,13 +37,10 @@ import { generateTypesLib } from "@lichtblick/suite-base/players/UserScriptPlaye
 import { TransformArgs } from "@lichtblick/suite-base/players/UserScriptPlayer/transformerWorker/types";
 import {
   Diagnostic,
-  DiagnosticSeverity,
-  ErrorCodes,
   ScriptData,
   ScriptRegistration,
   ProcessMessageOutput,
   RegistrationOutput,
-  Sources,
   UserScriptLog,
 } from "@lichtblick/suite-base/players/UserScriptPlayer/types";
 import { hasTransformerErrors } from "@lichtblick/suite-base/players/UserScriptPlayer/utils";
@@ -65,6 +62,7 @@ import { UserScript, UserScripts } from "@lichtblick/suite-base/types/panels";
 import Rpc from "@lichtblick/suite-base/util/Rpc";
 import { basicDatatypes } from "@lichtblick/suite-base/util/basicDatatypes";
 
+import { DiagnosticSeverity, Sources, ErrorCodes } from "./constants";
 import { remapVirtualSubscriptions, getPreloadTypes } from "./subscriptions";
 
 const log = Log.getLogger(__filename);

@@ -16,6 +16,11 @@
 
 /* eslint-disable jest/no-conditional-expect */
 
+import {
+  DiagnosticSeverity,
+  Sources,
+  ErrorCodes,
+} from "@lichtblick/suite-base/players/UserScriptPlayer/constants";
 import exampleDatatypes from "@lichtblick/suite-base/players/UserScriptPlayer/transformerWorker/fixtures/example-datatypes";
 import generateRosLib from "@lichtblick/suite-base/players/UserScriptPlayer/transformerWorker/generateRosLib";
 import {
@@ -31,12 +36,7 @@ import {
   compose,
   getInputTopics,
 } from "@lichtblick/suite-base/players/UserScriptPlayer/transformerWorker/transform";
-import {
-  DiagnosticSeverity,
-  ErrorCodes,
-  Sources,
-  ScriptData,
-} from "@lichtblick/suite-base/players/UserScriptPlayer/types";
+import { ScriptData } from "@lichtblick/suite-base/players/UserScriptPlayer/types";
 import { RosDatatypes } from "@lichtblick/suite-base/types/RosDatatypes";
 import { basicDatatypes } from "@lichtblick/suite-base/util/basicDatatypes";
 import { DEFAULT_STUDIO_SCRIPT_PREFIX } from "@lichtblick/suite-base/util/globalConstants";

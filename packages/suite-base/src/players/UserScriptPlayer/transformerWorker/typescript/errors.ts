@@ -17,7 +17,7 @@ import {
   DiagnosticSeverity,
   Sources,
   ErrorCodes,
-} from "@lichtblick/suite-base/players/UserScriptPlayer/types";
+} from "@lichtblick/suite-base/players/UserScriptPlayer/constants";
 
 export const noFuncError = {
   severity: DiagnosticSeverity.Error,

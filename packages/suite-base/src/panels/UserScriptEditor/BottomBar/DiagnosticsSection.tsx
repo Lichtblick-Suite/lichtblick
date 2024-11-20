@@ -15,10 +15,8 @@ import { ReactElement } from "react";
 import { makeStyles } from "tss-react/mui";
 
 import Stack from "@lichtblick/suite-base/components/Stack";
-import {
-  Diagnostic,
-  DiagnosticSeverity,
-} from "@lichtblick/suite-base/players/UserScriptPlayer/types";
+import { DiagnosticSeverity } from "@lichtblick/suite-base/players/UserScriptPlayer/constants";
+import { Diagnostic } from "@lichtblick/suite-base/players/UserScriptPlayer/types";
 
 const severityIcons = {
   Hint: <HelpIcon fontSize="small" />,
