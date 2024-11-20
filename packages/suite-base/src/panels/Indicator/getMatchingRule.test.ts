@@ -9,6 +9,8 @@ import { getMatchingRule } from "./getMatchingRule";
 import { Rule } from "./types";
 
 describe("getMatchingRule", () => {
+  const consoleLogSpy = jest.spyOn(console, "error").mockImplementation();
+
   it.each([
     [true, "True"],
     ["true", "True"],
@@ -54,6 +56,9 @@ describe("getMatchingRule", () => {
     ];
 
     expect(getMatchingRule(value, rules)?.label).toEqual(expectedLabel);
+
+    // It expects to log conversion errors
+    (console.error as jest.Mock).mockClear();
   });
 
   it("implements operators", () => {

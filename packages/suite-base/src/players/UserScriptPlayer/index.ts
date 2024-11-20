@@ -992,7 +992,8 @@ export default class UserScriptPlayer implements Player {
 
       // clear any previous problem we had from making a new player state
       this.#problemStore.delete("player-state-update");
-    } catch (err) {
+    } catch (e: unknown) {
+      const err = e as Error;
       this.#problemStore.set("player-state-update", {
         severity: "error",
         message: err.message,
@@ -1048,7 +1049,7 @@ export default class UserScriptPlayer implements Player {
       .runExclusive(async (state) => {
         this.#setSubscriptionsUnlocked(subscriptions, state);
       })
-      .catch((err) => {
+      .catch((err: unknown) => {
         log.error(err);
         reportError(err as Error);
       });

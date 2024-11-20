@@ -176,8 +176,8 @@ export default class CachedFilelike implements Filelike {
           this.#readRequests.push({ range, resolve, reject, requestTime: Date.now() });
           this.#updateState();
         })
-        .catch((err) => {
-          reject(err);
+        .catch((err: unknown) => {
+          reject(err as Error);
         });
     });
   }

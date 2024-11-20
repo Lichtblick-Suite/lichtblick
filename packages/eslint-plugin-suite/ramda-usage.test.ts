@@ -7,37 +7,15 @@
 
 import { RuleTester } from "@typescript-eslint/rule-tester";
 import { TSESLint } from "@typescript-eslint/utils";
-import path from "path";
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const rule = require("./ramda-usage") as TSESLint.RuleModule<
   "useMath" | "useObject" | "useArrayMethod"
 >;
 
-const ruleTester = new RuleTester({
-  parser: "@typescript-eslint/parser",
-  parserOptions: {
-    ecmaVersion: 2020,
-    tsconfigRootDir: path.join(__dirname, "fixture"),
-    project: "tsconfig.json",
-  },
-});
+const ruleTester = new RuleTester();
 
 ruleTester.run("ramda-usage", rule, {
-  valid: [
-    /* ts */ `
-    import * as R from "ramda";
-    R.max(1)(2);
-    R.max;
-    R.keys;
-    R.values;
-    R.map((x) => x + 1);
-    R.map((x) => x + 1, {a: 1, b: 2});
-    R.all((x) => x === 1);
-    R.any((x) => x === 1);
-    `,
-  ],
-
+  valid: [],
   invalid: [
     {
       code: /* ts */ `

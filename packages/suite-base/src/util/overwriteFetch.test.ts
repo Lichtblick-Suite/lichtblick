@@ -34,7 +34,7 @@ describe("overwriteFetch", () => {
     let error;
     try {
       await fetch("url");
-    } catch (err) {
+    } catch (err: unknown) {
       error = err;
     }
     // We should have replaced the original error with our new error.
@@ -52,7 +52,7 @@ describe("overwriteFetch", () => {
     let error;
     try {
       await fetch("url");
-    } catch (err) {
+    } catch (err: unknown) {
       error = err;
     }
     // We should have kept the original error.

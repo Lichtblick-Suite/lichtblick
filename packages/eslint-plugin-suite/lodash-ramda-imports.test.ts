@@ -9,7 +9,6 @@ import { RuleTester } from "@typescript-eslint/rule-tester";
 import { TSESLint } from "@typescript-eslint/utils";
 import path from "path";
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const rule = require("./lodash-ramda-imports") as TSESLint.RuleModule<
   "useDifferentPackage" | "useNamespaceImport"
 >;

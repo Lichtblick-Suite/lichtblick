@@ -151,6 +151,7 @@ export default class VirtualLRUBuffer {
       // via the `VirtualLRUBuffer#slice` method.
       const deleteIndex = this.#lastAccessedBlockIndices.shift();
       if (deleteIndex != undefined) {
+        // eslint-disable-next-line @typescript-eslint/no-array-delete
         delete this.#blocks[deleteIndex];
         // Remove the range that we evicted from `_rangesWithData`, since the range doesn't have data now.
         this.#rangesWithData = simplify(

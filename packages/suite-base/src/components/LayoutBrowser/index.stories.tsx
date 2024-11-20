@@ -112,7 +112,7 @@ async function selectAllAction() {
   layouts.forEach((layout) => fireEvent.click(layout, { ctrlKey: true }));
 }
 
-function WithSetup(Child: StoryFn, ctx: StoryContext): JSX.Element {
+function WithSetup(Child: StoryFn, ctx: StoryContext): React.JSX.Element {
   const storage = useMemo(
     () =>
       new MockLayoutStorage(

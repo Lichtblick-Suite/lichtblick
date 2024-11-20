@@ -91,7 +91,7 @@ function getDraggedMessagePath(treeItem: TopicListItem): DraggedMessagePath {
   }
 }
 
-export function TopicList(): JSX.Element {
+export function TopicList(): React.JSX.Element {
   const { t } = useTranslation("topicList");
   const { classes } = useStyles();
   const [undebouncedFilterText, setFilterText] = useState<string>("");
