@@ -12,12 +12,12 @@ import { Time, compare } from "@lichtblick/rostime";
 import { MessageEvent } from "@lichtblick/suite";
 import { GlobalVariables } from "@lichtblick/suite-base/hooks/useGlobalVariables";
 import { normalizeFrameTransform } from "@lichtblick/suite-base/panels/ThreeDeeRender/normalizeMessages";
+import { PlayerCapabilities } from "@lichtblick/suite-base/players/constants";
 import {
   AdvertiseOptions,
   BlockCache,
   MessageBlock,
   Player,
-  PlayerCapabilities,
   PlayerPresence,
   PlayerState,
   PublishPayload,

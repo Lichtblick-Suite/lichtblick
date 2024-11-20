@@ -45,9 +45,9 @@ import {
   useSetHoverValue,
 } from "@lichtblick/suite-base/context/TimelineInteractionStateContext";
 import useGlobalVariables from "@lichtblick/suite-base/hooks/useGlobalVariables";
+import { PlayerCapabilities } from "@lichtblick/suite-base/players/constants";
 import {
   AdvertiseOptions,
-  PlayerCapabilities,
   PlayerPresence,
   SubscribePayload,
 } from "@lichtblick/suite-base/players/types";

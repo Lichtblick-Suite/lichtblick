@@ -16,7 +16,8 @@ import { Condvar, signal } from "@lichtblick/den/async";
 import { Time } from "@lichtblick/rostime";
 import { PanelExtensionContext, RenderState, MessageEvent, Immutable } from "@lichtblick/suite";
 import MockPanelContextProvider from "@lichtblick/suite-base/components/MockPanelContextProvider";
-import { AdvertiseOptions, PlayerCapabilities } from "@lichtblick/suite-base/players/types";
+import { PlayerCapabilities } from "@lichtblick/suite-base/players/constants";
+import { AdvertiseOptions } from "@lichtblick/suite-base/players/types";
 import PanelSetup, { Fixture } from "@lichtblick/suite-base/stories/PanelSetup";
 import ThemeProvider from "@lichtblick/suite-base/theme/ThemeProvider";
 

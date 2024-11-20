@@ -13,7 +13,8 @@ import {
   MessagePipelineContext,
   useMessagePipeline,
 } from "@lichtblick/suite-base/components/MessagePipeline";
-import { PlayerCapabilities, TopicStats } from "@lichtblick/suite-base/players/types";
+import { PlayerCapabilities } from "@lichtblick/suite-base/players/constants";
+import { TopicStats } from "@lichtblick/suite-base/players/types";
 
 const EMPTY_TOPIC_STATS = new Map<string, TopicStats>();
 

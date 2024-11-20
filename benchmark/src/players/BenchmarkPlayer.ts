@@ -13,10 +13,10 @@ import { GlobalVariables } from "@lichtblick/suite-base/hooks/useGlobalVariables
 import { BlockLoader } from "@lichtblick/suite-base/players/IterablePlayer/BlockLoader";
 import { IIterableSource } from "@lichtblick/suite-base/players/IterablePlayer/IIterableSource";
 import PlayerProblemManager from "@lichtblick/suite-base/players/PlayerProblemManager";
+import { PlayerCapabilities } from "@lichtblick/suite-base/players/constants";
 import {
   AdvertiseOptions,
   Player,
-  PlayerCapabilities,
   PlayerPresence,
   PlayerState,
   Progress,

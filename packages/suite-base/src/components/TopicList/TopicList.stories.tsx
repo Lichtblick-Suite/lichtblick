@@ -13,7 +13,8 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 
 import { ros2humble } from "@lichtblick/rosmsg-msgs-common";
 import MockMessagePipelineProvider from "@lichtblick/suite-base/components/MessagePipeline/MockMessagePipelineProvider";
-import { PlayerCapabilities, TopicStats } from "@lichtblick/suite-base/players/types";
+import { PlayerCapabilities } from "@lichtblick/suite-base/players/constants";
+import { TopicStats } from "@lichtblick/suite-base/players/types";
 
 import { TopicList } from "./TopicList";
 

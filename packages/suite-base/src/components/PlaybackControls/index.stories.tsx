@@ -24,8 +24,8 @@ import AppConfigurationContext, {
 } from "@lichtblick/suite-base/context/AppConfigurationContext";
 import { useEvents } from "@lichtblick/suite-base/context/EventsContext";
 import { useSetHoverValue } from "@lichtblick/suite-base/context/TimelineInteractionStateContext";
+import { PlayerCapabilities } from "@lichtblick/suite-base/players/constants";
 import {
-  PlayerCapabilities,
   PlayerPresence,
   PlayerState,
   PlayerStateActiveData,

@@ -22,12 +22,8 @@ import { PropsWithChildren, useCallback, useState } from "react";
 import { DeepPartial } from "ts-essentials";
 
 import AppConfigurationContext from "@lichtblick/suite-base/context/AppConfigurationContext";
-import {
-  Player,
-  PlayerCapabilities,
-  PlayerPresence,
-  TopicStats,
-} from "@lichtblick/suite-base/players/types";
+import { PlayerCapabilities } from "@lichtblick/suite-base/players/constants";
+import { Player, PlayerPresence, TopicStats } from "@lichtblick/suite-base/players/types";
 import MockCurrentLayoutProvider from "@lichtblick/suite-base/providers/CurrentLayoutProvider/MockCurrentLayoutProvider";
 import delay from "@lichtblick/suite-base/util/delay";
 import { makeMockAppConfiguration } from "@lichtblick/suite-base/util/makeMockAppConfiguration";

@@ -11,7 +11,7 @@ import { Meta, StoryObj } from "@storybook/react";
 import { userEvent, within } from "@storybook/testing-library";
 
 import Publish from "@lichtblick/suite-base/panels/Publish";
-import { PlayerCapabilities } from "@lichtblick/suite-base/players/types";
+import { PlayerCapabilities } from "@lichtblick/suite-base/players/constants";
 import PanelSetup, { Fixture } from "@lichtblick/suite-base/stories/PanelSetup";
 
 import { PublishConfig } from "./types";

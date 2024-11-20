@@ -26,10 +26,10 @@ import { Immutable, MessageEvent, Metadata, ParameterValue } from "@lichtblick/s
 import { freezeMetadata } from "@lichtblick/suite-base/players/IterablePlayer/freezeMetadata";
 import NoopMetricsCollector from "@lichtblick/suite-base/players/NoopMetricsCollector";
 import PlayerProblemManager from "@lichtblick/suite-base/players/PlayerProblemManager";
+import { PlayerCapabilities } from "@lichtblick/suite-base/players/constants";
 import {
   AdvertiseOptions,
   Player,
-  PlayerCapabilities,
   PlayerMetricsCollectorInterface,
   PlayerPresence,
   PlayerState,

@@ -16,10 +16,10 @@ import {
   makeSubscriptionMemoizer,
   mergeSubscriptions,
 } from "@lichtblick/suite-base/components/MessagePipeline/subscriptions";
+import { PlayerCapabilities } from "@lichtblick/suite-base/players/constants";
 import {
   AdvertiseOptions,
   Player,
-  PlayerCapabilities,
   PlayerPresence,
   PlayerState,
   SubscribePayload,

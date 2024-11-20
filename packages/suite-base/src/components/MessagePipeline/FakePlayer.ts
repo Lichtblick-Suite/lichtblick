@@ -16,8 +16,8 @@
 
 import { Metadata, ParameterValue } from "@lichtblick/suite";
 import { freezeMetadata } from "@lichtblick/suite-base/players/IterablePlayer/freezeMetadata";
+import { PlayerCapabilities } from "@lichtblick/suite-base/players/constants";
 import {
-  PlayerCapabilities,
   PlayerStateActiveData,
   PlayerState,
   Player,

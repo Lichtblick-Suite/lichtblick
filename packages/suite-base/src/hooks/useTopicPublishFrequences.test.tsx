@@ -10,7 +10,8 @@ import { renderHook } from "@testing-library/react";
 
 import MockMessagePipelineProvider from "@lichtblick/suite-base/components/MessagePipeline/MockMessagePipelineProvider";
 import { useTopicPublishFrequencies } from "@lichtblick/suite-base/hooks/useTopicPublishFrequences";
-import { PlayerCapabilities, PlayerState } from "@lichtblick/suite-base/players/types";
+import { PlayerCapabilities } from "@lichtblick/suite-base/players/constants";
+import { PlayerState } from "@lichtblick/suite-base/players/types";
 
 describe("useTopicPublishFrequencies", () => {
   it("calculates frequences for a static source", () => {

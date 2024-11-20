@@ -30,10 +30,10 @@ import {
 } from "@lichtblick/suite-base/components/MessagePipeline/pauseFrameForPromise";
 import { BuiltinPanelExtensionContext } from "@lichtblick/suite-base/components/PanelExtensionAdapter";
 import { freezeMetadata } from "@lichtblick/suite-base/players/IterablePlayer/freezeMetadata";
+import { PlayerCapabilities } from "@lichtblick/suite-base/players/constants";
 import {
   AdvertiseOptions,
   MessageEvent,
-  PlayerCapabilities,
   PlayerPresence,
   PlayerProblem,
   PlayerState,

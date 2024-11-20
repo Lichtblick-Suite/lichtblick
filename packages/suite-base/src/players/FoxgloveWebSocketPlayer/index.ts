@@ -36,12 +36,12 @@ import { fromMillis, fromNanoSec, isGreaterThan, isLessThan, Time } from "@licht
 import { ParameterValue } from "@lichtblick/suite";
 import { Asset } from "@lichtblick/suite-base/components/PanelExtensionAdapter";
 import PlayerProblemManager from "@lichtblick/suite-base/players/PlayerProblemManager";
+import { PlayerCapabilities } from "@lichtblick/suite-base/players/constants";
 import { estimateObjectSize } from "@lichtblick/suite-base/players/messageMemoryEstimation";
 import {
   AdvertiseOptions,
   MessageEvent,
   Player,
-  PlayerCapabilities,
   PlayerMetricsCollectorInterface,
   PlayerPresence,
   PlayerProblem,

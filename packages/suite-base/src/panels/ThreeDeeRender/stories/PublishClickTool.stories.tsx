@@ -9,7 +9,8 @@ import { StoryObj } from "@storybook/react";
 import { userEvent, screen } from "@storybook/testing-library";
 
 import { MessageEvent } from "@lichtblick/suite";
-import { PlayerCapabilities, Topic } from "@lichtblick/suite-base/players/types";
+import { PlayerCapabilities } from "@lichtblick/suite-base/players/constants";
+import { Topic } from "@lichtblick/suite-base/players/types";
 import PanelSetup from "@lichtblick/suite-base/stories/PanelSetup";
 import delay from "@lichtblick/suite-base/util/delay";
 

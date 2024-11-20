@@ -9,7 +9,7 @@ import { StoryObj } from "@storybook/react";
 import { useState } from "react";
 
 import { ParameterValue } from "@lichtblick/suite";
-import { PlayerCapabilities } from "@lichtblick/suite-base/players/types";
+import { PlayerCapabilities } from "@lichtblick/suite-base/players/constants";
 import PanelSetup from "@lichtblick/suite-base/stories/PanelSetup";
 
 import Parameters from "./index";
