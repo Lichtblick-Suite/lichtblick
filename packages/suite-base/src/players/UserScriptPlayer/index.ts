@@ -324,10 +324,12 @@ export default class UserScriptPlayer implements Player {
             );
             if (outputMessage) {
               // https://github.com/typescript-eslint/typescript-eslint/issues/6632
-              if (!messagesByTopic[outTopic]) {
-                messagesByTopic[outTopic] = [];
+              let messages = messagesByTopic[outTopic];
+              if (!messages) {
+                messages = [];
               }
-              messagesByTopic[outTopic].push(outputMessage);
+              messages.push(outputMessage);
+              messagesByTopic[outTopic]! = messages;
             }
           }
         }
