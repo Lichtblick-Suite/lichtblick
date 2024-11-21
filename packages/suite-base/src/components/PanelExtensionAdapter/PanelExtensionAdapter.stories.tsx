@@ -7,7 +7,6 @@
 
 import { StoryObj } from "@storybook/react";
 import { ReactElement, useLayoutEffect, useState } from "react";
-import ReactDOM from "react-dom";
 import { createRoot } from "react-dom/client";
 
 import { toSec } from "@lichtblick/rostime";
