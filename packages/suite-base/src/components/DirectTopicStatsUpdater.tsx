@@ -14,7 +14,7 @@ import {
   useMessagePipeline,
 } from "@lichtblick/suite-base/components/MessagePipeline";
 import { useTopicPublishFrequencies } from "@lichtblick/suite-base/hooks/useTopicPublishFrequences";
-import { PlayerCapabilities } from "@lichtblick/suite-base/players/constants";
+import { PLAYER_CAPABILITIES } from "@lichtblick/suite-base/players/constants";
 import { TopicStats } from "@lichtblick/suite-base/players/types";
 
 const EM_DASH = "\u2014";
@@ -53,7 +53,7 @@ export function DirectTopicStatsUpdater({ interval = 1 }: { interval?: number })
   const latestFrequenciesByTopic = useLatest(frequenciesByTopic);
 
   const playerIsStaticSource = useMemo(
-    () => playerCapabilities.includes(PlayerCapabilities.playbackControl),
+    () => playerCapabilities.includes(PLAYER_CAPABILITIES.playbackControl),
     [playerCapabilities],
   );
 

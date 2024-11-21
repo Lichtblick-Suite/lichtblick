@@ -13,7 +13,7 @@ import {
   MessagePipelineContext,
   useMessagePipeline,
 } from "@lichtblick/suite-base/components/MessagePipeline";
-import { PlayerCapabilities } from "@lichtblick/suite-base/players/constants";
+import { PLAYER_CAPABILITIES } from "@lichtblick/suite-base/players/constants";
 import { TopicStats } from "@lichtblick/suite-base/players/types";
 
 const EMPTY_TOPIC_STATS = new Map<string, TopicStats>();
@@ -99,7 +99,7 @@ export function useTopicPublishFrequencies(): Immutable<FrequenciesByTopic> {
   const samplesByTopic = useRef<Record<string, StatSample>>({});
 
   const playerIsStaticSource = useMemo(
-    () => playerCapabilities.includes(PlayerCapabilities.playbackControl),
+    () => playerCapabilities.includes(PLAYER_CAPABILITIES.playbackControl),
     [playerCapabilities],
   );
 

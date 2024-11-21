@@ -18,9 +18,9 @@ import ts from "typescript/lib/typescript";
 
 import { MessageDefinitionField } from "@lichtblick/message-definition";
 import {
-  DiagnosticSeverity,
-  Sources,
-  ErrorCodes,
+  DIAGNOSTIC_SEVERITY,
+  SOURCES,
+  ERROR_CODES,
 } from "@lichtblick/suite-base/players/UserScriptPlayer/constants";
 import {
   noFuncError,
@@ -560,10 +560,10 @@ export const constructDatatypes = (
         const symbol = locationType.symbol as ts.Symbol | undefined;
         if (symbol == undefined) {
           throw new DatatypeExtractionError({
-            severity: DiagnosticSeverity.Error,
+            severity: DIAGNOSTIC_SEVERITY.Error,
             message: `Unsupported type for member '${name}'.`,
-            source: Sources.DatatypeExtraction,
-            code: ErrorCodes.DatatypeExtraction.BAD_TYPE_RETURN,
+            source: SOURCES.DatatypeExtraction,
+            code: ERROR_CODES.DatatypeExtraction.BAD_TYPE_RETURN,
           });
         }
         const declaration = symbol.declarations?.[0];
@@ -580,30 +580,30 @@ export const constructDatatypes = (
   const rosMsgFields = members.map((member) => {
     if (!member.name) {
       throw new DatatypeExtractionError({
-        severity: DiagnosticSeverity.Error,
+        severity: DIAGNOSTIC_SEVERITY.Error,
         message: `Encountered type member with no name in ${interfaceName ?? currentDatatype}`,
-        source: Sources.DatatypeExtraction,
-        code: ErrorCodes.DatatypeExtraction.INVALID_PROPERTY,
+        source: SOURCES.DatatypeExtraction,
+        code: ERROR_CODES.DatatypeExtraction.INVALID_PROPERTY,
       });
     }
     if (!ts.isPropertySignature(member)) {
       throw new DatatypeExtractionError({
-        severity: DiagnosticSeverity.Error,
+        severity: DIAGNOSTIC_SEVERITY.Error,
         message: `Unexpected type member (kind ${member.kind}) in ${
           interfaceName ?? currentDatatype
         }`,
-        source: Sources.DatatypeExtraction,
-        code: ErrorCodes.DatatypeExtraction.INVALID_PROPERTY,
+        source: SOURCES.DatatypeExtraction,
+        code: ERROR_CODES.DatatypeExtraction.INVALID_PROPERTY,
       });
     }
     if (!member.type) {
       throw new DatatypeExtractionError({
-        severity: DiagnosticSeverity.Error,
+        severity: DIAGNOSTIC_SEVERITY.Error,
         message: `Member ${member.name.getText()} has no type in ${
           interfaceName ?? currentDatatype
         }`,
-        source: Sources.DatatypeExtraction,
-        code: ErrorCodes.DatatypeExtraction.INVALID_PROPERTY,
+        source: SOURCES.DatatypeExtraction,
+        code: ERROR_CODES.DatatypeExtraction.INVALID_PROPERTY,
       });
     }
     return getRosMsgField(

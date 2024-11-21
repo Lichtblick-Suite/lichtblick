@@ -20,7 +20,7 @@ import type { MessageEvent, Metadata, ParameterValue } from "@lichtblick/suite";
 import { Immutable } from "@lichtblick/suite";
 import { Asset } from "@lichtblick/suite-base/components/PanelExtensionAdapter";
 import { GlobalVariables } from "@lichtblick/suite-base/hooks/useGlobalVariables";
-import { PlayerCapabilities } from "@lichtblick/suite-base/players/constants";
+import { PLAYER_CAPABILITIES } from "@lichtblick/suite-base/players/constants";
 import { RosDatatypes } from "@lichtblick/suite-base/types/RosDatatypes";
 import { Range } from "@lichtblick/suite-base/util/ranges";
 import { NotificationSeverity } from "@lichtblick/suite-base/util/sendNotification";
@@ -108,7 +108,7 @@ export type PlayerState = {
 
   // Capabilities of this particular `Player`, which are not shared across all players.
   // See `const PlayerCapabilities` for more details.
-  capabilities: (typeof PlayerCapabilities)[keyof typeof PlayerCapabilities][];
+  capabilities: (typeof PLAYER_CAPABILITIES)[keyof typeof PLAYER_CAPABILITIES][];
 
   /**
    * Identifies the semantics of the data being played back, such as which topics or parameters are

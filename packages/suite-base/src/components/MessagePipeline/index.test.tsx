@@ -22,7 +22,7 @@ import { PropsWithChildren, useCallback, useState } from "react";
 import { DeepPartial } from "ts-essentials";
 
 import AppConfigurationContext from "@lichtblick/suite-base/context/AppConfigurationContext";
-import { PlayerCapabilities } from "@lichtblick/suite-base/players/constants";
+import { PLAYER_CAPABILITIES } from "@lichtblick/suite-base/players/constants";
 import { Player, PlayerPresence, TopicStats } from "@lichtblick/suite-base/players/types";
 import MockCurrentLayoutProvider from "@lichtblick/suite-base/providers/CurrentLayoutProvider/MockCurrentLayoutProvider";
 import delay from "@lichtblick/suite-base/util/delay";
@@ -707,7 +707,7 @@ describe("MessagePipelineProvider/useMessagePipeline", () => {
     expect(result.current.setPlaybackSpeed).toBeUndefined();
     expect(result.current.seekPlayback).toBeUndefined();
 
-    player.setCapabilities([PlayerCapabilities.playbackControl]);
+    player.setCapabilities([PLAYER_CAPABILITIES.playbackControl]);
 
     await doubleAct(async () => {
       await player.emit();
@@ -728,7 +728,7 @@ describe("MessagePipelineProvider/useMessagePipeline", () => {
     expect(player.pausePlayback).toHaveBeenCalledTimes(1);
     expect(player.seekPlayback).toHaveBeenCalledWith({ sec: 1, nsec: 0 });
 
-    player.setCapabilities([PlayerCapabilities.playbackControl, PlayerCapabilities.setSpeed]);
+    player.setCapabilities([PLAYER_CAPABILITIES.playbackControl, PLAYER_CAPABILITIES.setSpeed]);
 
     await doubleAct(async () => {
       await player.emit();

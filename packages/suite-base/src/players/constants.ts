@@ -31,7 +31,7 @@ export const FIELD_SIZE_BY_PRIMITIVE: Record<string, number> = {
 export const MAX_NUM_FAST_PROPERTIES = 1020;
 
 // Capabilities that are not shared by all players.
-export const PlayerCapabilities = {
+export const PLAYER_CAPABILITIES = {
   // Publishing messages. Need to be connected to some sort of live robotics system (e.g. ROS).
   advertise: "advertise",
 

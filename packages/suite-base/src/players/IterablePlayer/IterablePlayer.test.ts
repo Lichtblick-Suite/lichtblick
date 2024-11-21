@@ -10,7 +10,7 @@ import * as _ from "lodash-es";
 
 import { signal } from "@lichtblick/den/async";
 import { fromSec } from "@lichtblick/rostime";
-import { PlayerCapabilities } from "@lichtblick/suite-base/players/constants";
+import { PLAYER_CAPABILITIES } from "@lichtblick/suite-base/players/constants";
 import { MessageEvent, PlayerPresence, PlayerState } from "@lichtblick/suite-base/players/types";
 import { mockTopicSelection } from "@lichtblick/suite-base/test/mocks/mockTopicSelection";
 
@@ -138,7 +138,7 @@ describe("IterablePlayer", () => {
         publishedTopics: new Map<string, Set<string>>(),
       },
       problems: [],
-      capabilities: [PlayerCapabilities.setSpeed, PlayerCapabilities.playbackControl],
+      capabilities: [PLAYER_CAPABILITIES.setSpeed, PLAYER_CAPABILITIES.playbackControl],
       profile: undefined,
       presence: PlayerPresence.INITIALIZING,
       progress: {},
@@ -245,7 +245,7 @@ describe("IterablePlayer", () => {
         publishedTopics: new Map<string, Set<string>>(),
       },
       problems: [],
-      capabilities: [PlayerCapabilities.setSpeed, PlayerCapabilities.playbackControl],
+      capabilities: [PLAYER_CAPABILITIES.setSpeed, PLAYER_CAPABILITIES.playbackControl],
       profile: undefined,
       presence: PlayerPresence.PRESENT,
       progress: {
@@ -334,7 +334,7 @@ describe("IterablePlayer", () => {
         publishedTopics: new Map<string, Set<string>>(),
       },
       problems: [],
-      capabilities: [PlayerCapabilities.setSpeed, PlayerCapabilities.playbackControl],
+      capabilities: [PLAYER_CAPABILITIES.setSpeed, PLAYER_CAPABILITIES.playbackControl],
       profile: undefined,
       presence: PlayerPresence.PRESENT,
       progress: {
@@ -626,7 +626,7 @@ describe("IterablePlayer", () => {
         publishedTopics: new Map<string, Set<string>>(),
       },
       problems: [],
-      capabilities: [PlayerCapabilities.setSpeed, PlayerCapabilities.playbackControl],
+      capabilities: [PLAYER_CAPABILITIES.setSpeed, PLAYER_CAPABILITIES.playbackControl],
       profile: undefined,
       presence: PlayerPresence.PRESENT,
       progress: {

@@ -17,7 +17,7 @@ import { Time, fromMillis, isGreaterThan, toSec } from "@lichtblick/rostime";
 import { ParameterValue } from "@lichtblick/suite";
 import OsContextSingleton from "@lichtblick/suite-base/OsContextSingleton";
 import PlayerProblemManager from "@lichtblick/suite-base/players/PlayerProblemManager";
-import { PlayerCapabilities } from "@lichtblick/suite-base/players/constants";
+import { PLAYER_CAPABILITIES } from "@lichtblick/suite-base/players/constants";
 import {
   AdvertiseOptions,
   MessageEvent,
@@ -40,9 +40,9 @@ const log = Logger.getLogger(__filename);
 const rosLog = Logger.getLogger("ROS1");
 
 const CAPABILITIES = [
-  PlayerCapabilities.advertise,
-  PlayerCapabilities.getParameters,
-  PlayerCapabilities.setParameters,
+  PLAYER_CAPABILITIES.advertise,
+  PLAYER_CAPABILITIES.getParameters,
+  PLAYER_CAPABILITIES.setParameters,
 ];
 
 enum Problem {

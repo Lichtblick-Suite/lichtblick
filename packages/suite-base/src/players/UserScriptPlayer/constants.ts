@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: MPL-2.0
 
 // make sure to use import type to avoid bringing in the actual implementations to the bundle
-export const DiagnosticSeverity = {
+export const DIAGNOSTIC_SEVERITY = {
   Hint: 1,
   Info: 2,
   Warning: 4,
   Error: 8,
 };
 
-export const Sources = {
+export const SOURCES = {
   Typescript: "Typescript",
   DatatypeExtraction: "DatatypeExtraction",
   InputTopicsChecker: "InputTopicsChecker",
@@ -17,7 +17,7 @@ export const Sources = {
   Runtime: "Runtime",
 };
 
-export const ErrorCodes = {
+export const ERROR_CODES = {
   RUNTIME: 1,
   DatatypeExtraction: {
     NO_DEFAULT_EXPORT: 1,

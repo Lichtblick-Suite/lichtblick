@@ -20,12 +20,12 @@ import { GlobalVariables } from "@lichtblick/suite-base/hooks/useGlobalVariables
 import { MessageEvent, Topic } from "@lichtblick/suite-base/players/types";
 import { RosDatatypes } from "@lichtblick/suite-base/types/RosDatatypes";
 
-import { DiagnosticSeverity, Sources } from "./constants";
+import { DIAGNOSTIC_SEVERITY, SOURCES } from "./constants";
 
 export type Diagnostic = {
-  severity: (typeof DiagnosticSeverity)[keyof typeof DiagnosticSeverity];
+  severity: (typeof DIAGNOSTIC_SEVERITY)[keyof typeof DIAGNOSTIC_SEVERITY];
   message: string;
-  source: (typeof Sources)[keyof typeof Sources];
+  source: (typeof SOURCES)[keyof typeof SOURCES];
   startLineNumber?: number;
   startColumn?: number;
   endLineNumber?: number;
