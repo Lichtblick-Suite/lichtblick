@@ -219,6 +219,7 @@ function Chart(props: Props): React.JSX.Element {
     }
 
     if (prev.data !== data) {
+      // @ts-expect-error that's the original code, with nem eslint it is pointing out that data is not defined
       prev.data = out.data = data;
     }
     if (prev.typedData !== typedData) {

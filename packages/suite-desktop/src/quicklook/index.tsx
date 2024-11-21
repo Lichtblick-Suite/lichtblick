@@ -97,11 +97,11 @@ export function main(): void {
 
     const fileStats = state.value?.fileStats;
     const fileInfo = moreInfo.value ?? state.value?.fileInfo;
-    const fileError = moreInfo.error ?? state.value?.error;
+    const fileError = moreInfo.error ?? (state.value?.error as Error | undefined);
 
     return (
       <div>
-        {state.loading && "Loading…"}
+        {state.loading && "Loading..."}
         {state.error && <Flash color="error">{state.error.toString()}</Flash>}
         {fileStats && (
           <FileInfoDisplay fileStats={fileStats} fileInfo={fileInfo} error={fileError} />
