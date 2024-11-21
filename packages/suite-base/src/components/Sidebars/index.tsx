@@ -24,12 +24,13 @@ import { HelpMenu } from "@lichtblick/suite-base/components/AppBar/HelpMenu";
 import { BuiltinIcon } from "@lichtblick/suite-base/components/BuiltinIcon";
 import ErrorBoundary from "@lichtblick/suite-base/components/ErrorBoundary";
 import { MemoryUseIndicator } from "@lichtblick/suite-base/components/MemoryUseIndicator";
+import { NewSidebarItem } from "@lichtblick/suite-base/components/Sidebars/types";
 import Stack from "@lichtblick/suite-base/components/Stack";
 import { useAppConfigurationValue } from "@lichtblick/suite-base/hooks";
 import isDesktopApp from "@lichtblick/suite-base/util/isDesktopApp";
 
 import "react-mosaic-component/react-mosaic-component.css";
-import { NewSidebar, NewSidebarItem } from "./NewSidebar";
+import { NewSidebar } from "./NewSidebar";
 import { TabSpacer } from "./TabSpacer";
 
 function Noop(): ReactNull {

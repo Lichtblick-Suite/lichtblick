@@ -49,7 +49,7 @@ import { ProblemsList } from "@lichtblick/suite-base/components/ProblemsList";
 import RemountOnValueChange from "@lichtblick/suite-base/components/RemountOnValueChange";
 import { SidebarContent } from "@lichtblick/suite-base/components/SidebarContent";
 import Sidebars, { SidebarItem } from "@lichtblick/suite-base/components/Sidebars";
-import { NewSidebarItem } from "@lichtblick/suite-base/components/Sidebars/NewSidebar";
+import { NewSidebarItem } from "@lichtblick/suite-base/components/Sidebars/types";
 import Stack from "@lichtblick/suite-base/components/Stack";
 import {
   StudioLogsSettings,
