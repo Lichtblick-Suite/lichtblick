@@ -14,7 +14,6 @@ import { SettingsTree } from "@lichtblick/suite";
 import { AppSetting } from "@lichtblick/suite-base/AppSetting";
 import { useConfigById } from "@lichtblick/suite-base/PanelAPI";
 import { useMessagePipelineGetter } from "@lichtblick/suite-base/components/MessagePipeline";
-import { getTopicToSchemaNameMap } from "@lichtblick/suite-base/components/MessagePipeline/selectors";
 import { ActionMenu } from "@lichtblick/suite-base/components/PanelSettings/ActionMenu";
 import { EmptyWrapper } from "@lichtblick/suite-base/components/PanelSettings/EmptyWrapper";
 import { buildSettingsTree } from "@lichtblick/suite-base/components/PanelSettings/settingsTree";
@@ -134,8 +133,6 @@ export default function PanelSettings({
 
   const [config, , extensionSettings] = useConfigById(selectedPanelId);
   const messagePipelineState = useMessagePipelineGetter();
-  const topicToSchemaNameMap = getTopicToSchemaNameMap(messagePipelineState());
-
   const settingsTree = usePanelStateStore((state) =>
     buildSettingsTree({
       config,
@@ -143,7 +140,7 @@ export default function PanelSettings({
       panelType,
       selectedPanelId,
       state,
-      topicToSchemaNameMap,
+      messagePipelineState,
     }),
   );
 

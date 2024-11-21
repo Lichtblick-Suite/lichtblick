@@ -2,12 +2,13 @@
 // SPDX-FileCopyrightText: Copyright (C) 2023-2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)<lichtblick@bmwgroup.com>
 // SPDX-License-Identifier: MPL-2.0
 
-import { SettingsTreeNode } from "@lichtblick/suite";
-import {
-  buildSettingsTree,
-  BuildSettingsTreeProps,
-} from "@lichtblick/suite-base/components/PanelSettings/settingsTree";
+import { SettingsTreeNode, SettingsTreeNodes } from "@lichtblick/suite";
+import { MessagePipelineContext } from "@lichtblick/suite-base/components/MessagePipeline/types";
+import { buildSettingsTree } from "@lichtblick/suite-base/components/PanelSettings/settingsTree";
+import { BuildSettingsTreeProps } from "@lichtblick/suite-base/components/PanelSettings/types";
 import { PanelStateStore } from "@lichtblick/suite-base/context/PanelStateContext";
+import BasicBuilder from "@lichtblick/suite-base/testing/builders/BasicBuilder";
+import PlayerBuilder from "@lichtblick/suite-base/testing/builders/PlayerBuilder";
 import { maybeCast } from "@lichtblick/suite-base/util/maybeCast";
 
 jest.mock("@lichtblick/suite-base/util/maybeCast");
@@ -15,8 +16,8 @@ jest.mock("@lichtblick/suite-base/util/maybeCast");
 describe("buildSettingsTree", () => {
   function setup(): Pick<
     BuildSettingsTreeProps,
-    "state" | "extensionSettings" | "topicToSchemaNameMap" | "config"
-  > {
+    "state" | "extensionSettings" | "messagePipelineState" | "config"
+  > & { settingsTreeNodes: SettingsTreeNodes } {
     const config: Record<string, unknown> | undefined = {
       topics: {
         topic1: { someConfig: "valueFromConfig" },
@@ -24,16 +25,17 @@ describe("buildSettingsTree", () => {
     };
     (maybeCast as jest.Mock).mockReturnValue(config);
 
+    const settingsTreeNodes: SettingsTreeNodes = {
+      topics: {
+        children: {
+          topic1: {},
+        },
+      },
+    };
     const state = {
       settingsTrees: {
         panel1: {
-          nodes: {
-            topics: {
-              children: {
-                topic1: {},
-              },
-            },
-          },
+          nodes: settingsTreeNodes,
         },
       },
     };
@@ -43,7 +45,7 @@ describe("buildSettingsTree", () => {
         schema1: {
           settings: jest.fn(
             (_config): SettingsTreeNode => ({
-              label: "valueFromExtension",
+              label: BasicBuilder.string(),
               children: {},
             }),
           ),
@@ -52,16 +54,16 @@ describe("buildSettingsTree", () => {
       },
     };
 
-    const topicToSchemaNameMap = {
-      topic1: "schema1",
-      topic2: "schema2",
-    };
+    const messagePipelineState = jest.fn().mockReturnValue({
+      sortedTopics: PlayerBuilder.topics(),
+    } as Pick<MessagePipelineContext, "sortedTopics">);
 
     return {
       state: state as unknown as PanelStateStore,
       extensionSettings,
-      topicToSchemaNameMap,
+      messagePipelineState,
       config,
+      settingsTreeNodes,
     };
   }
 
@@ -75,7 +77,7 @@ describe("buildSettingsTree", () => {
   ])(
     "should return undefined if selectedPanelId or panelType is undefined",
     ({ panelType, selectedPanelId }) => {
-      const { config, extensionSettings, state, topicToSchemaNameMap } = setup();
+      const { config, extensionSettings, state, messagePipelineState } = setup();
 
       const result = buildSettingsTree({
         config,
@@ -83,14 +85,14 @@ describe("buildSettingsTree", () => {
         panelType,
         selectedPanelId,
         state,
-        topicToSchemaNameMap,
+        messagePipelineState,
       });
       expect(result).toBeUndefined();
     },
   );
 
   it("should return undefined if selected panel is not found in state", () => {
-    const { config, extensionSettings, state, topicToSchemaNameMap } = setup();
+    const { config, extensionSettings, state, messagePipelineState } = setup();
 
     const result = buildSettingsTree({
       config,
@@ -98,13 +100,14 @@ describe("buildSettingsTree", () => {
       panelType: "myPanelType",
       selectedPanelId: "invalidPanel",
       state,
-      topicToSchemaNameMap,
+      messagePipelineState,
     });
+
     expect(result).toBeUndefined();
   });
 
   it("should return the correct settingsTree when valid panelId and panelType are provided", () => {
-    const { config, extensionSettings, state, topicToSchemaNameMap } = setup();
+    const { config, extensionSettings, state, messagePipelineState, settingsTreeNodes } = setup();
 
     const result = buildSettingsTree({
       config,
@@ -112,23 +115,16 @@ describe("buildSettingsTree", () => {
       panelType: "myPanelType",
       selectedPanelId: "panel1",
       state,
-      topicToSchemaNameMap,
+      messagePipelineState,
     });
 
     expect(result).toEqual({
-      nodes: {
-        topics: {
-          children: {
-            topic1: { label: "valueFromExtension", children: {} },
-          },
-        },
-      },
+      nodes: settingsTreeNodes,
     });
   });
 
   it("should return the settingsTree even if topics are empty", () => {
-    const { config, extensionSettings, topicToSchemaNameMap } = setup();
-
+    const { config, extensionSettings, messagePipelineState } = setup();
     const emptyState = {
       settingsTrees: {
         panel1: {
@@ -147,20 +143,15 @@ describe("buildSettingsTree", () => {
       panelType: "myPanelType",
       selectedPanelId: "panel1",
       state: emptyState,
-      topicToSchemaNameMap,
+      messagePipelineState,
     });
 
-    expect(result).toEqual({
-      nodes: {
-        topics: {
-          children: {},
-        },
-      },
-    });
+    expect(result).toEqual(emptyState.settingsTrees.panel1);
   });
 
   it("should merge topicsSettings with existing children in the settingsTree", () => {
-    const { config, extensionSettings, state, topicToSchemaNameMap } = setup();
+    const { config, extensionSettings, state, messagePipelineState, settingsTreeNodes } = setup();
+    const { children: expectedChildren } = settingsTreeNodes.topics!;
 
     const result = buildSettingsTree({
       config,
@@ -168,11 +159,9 @@ describe("buildSettingsTree", () => {
       panelType: "myPanelType",
       selectedPanelId: "panel1",
       state,
-      topicToSchemaNameMap,
+      messagePipelineState,
     });
 
-    expect(result?.nodes.topics?.children).toEqual({
-      topic1: { label: "valueFromExtension", children: {} },
-    });
+    expect(result?.nodes.topics?.children).toEqual(expectedChildren);
   });
 });

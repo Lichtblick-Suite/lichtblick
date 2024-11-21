@@ -3,18 +3,10 @@
 
 import * as _ from "lodash-es";
 
-import { Immutable, PanelSettings, SettingsTree, SettingsTreeNode } from "@lichtblick/suite";
-import { PanelStateStore } from "@lichtblick/suite-base/context/PanelStateContext";
+import { Immutable, SettingsTree, SettingsTreeNode } from "@lichtblick/suite";
+import { getTopicToSchemaNameMap } from "@lichtblick/suite-base/components/MessagePipeline/selectors";
+import { BuildSettingsTreeProps } from "@lichtblick/suite-base/components/PanelSettings/types";
 import { maybeCast } from "@lichtblick/suite-base/util/maybeCast";
-
-export type BuildSettingsTreeProps = {
-  config: Record<string, unknown> | undefined;
-  extensionSettings: Record<string, Record<string, PanelSettings<unknown>>>;
-  panelType: string | undefined;
-  selectedPanelId: string | undefined;
-  state: PanelStateStore;
-  topicToSchemaNameMap: Record<string, string | undefined>;
-};
 
 export const buildSettingsTree = ({
   config,
@@ -22,7 +14,7 @@ export const buildSettingsTree = ({
   panelType,
   selectedPanelId,
   state,
-  topicToSchemaNameMap,
+  messagePipelineState,
 }: BuildSettingsTreeProps): Immutable<SettingsTree> | undefined => {
   if (selectedPanelId == undefined || panelType == undefined) {
     return undefined;
@@ -33,6 +25,7 @@ export const buildSettingsTree = ({
     return undefined;
   }
 
+  const topicToSchemaNameMap = getTopicToSchemaNameMap(messagePipelineState());
   const topics = Object.keys(set.nodes.topics?.children ?? {});
   const topicsConfig = maybeCast<{ topics: Record<string, unknown> }>(config)?.topics;
   const topicsSettings = topics.reduce<Record<string, SettingsTreeNode | undefined>>(
