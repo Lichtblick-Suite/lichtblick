@@ -73,6 +73,7 @@ const useStyles = makeStyles()((theme) => ({
     overflow: "auto",
   },
 }));
+
 export type NewSidebarItem = {
   title: string;
   component: React.ComponentType;
