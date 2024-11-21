@@ -13,7 +13,7 @@ import { GlobalVariables } from "@lichtblick/suite-base/hooks/useGlobalVariables
 import { BlockLoader } from "@lichtblick/suite-base/players/IterablePlayer/BlockLoader";
 import { IIterableSource } from "@lichtblick/suite-base/players/IterablePlayer/IIterableSource";
 import PlayerProblemManager from "@lichtblick/suite-base/players/PlayerProblemManager";
-import { PlayerCapabilities } from "@lichtblick/suite-base/players/constants";
+import { PLAYER_CAPABILITIES } from "@lichtblick/suite-base/players/constants";
 import {
   AdvertiseOptions,
   Player,
@@ -30,7 +30,7 @@ const log = Log.getLogger(__filename);
 const DEFAULT_CACHE_SIZE_BYTES = 1.0e9;
 const MIN_MEM_CACHE_BLOCK_SIZE_NS = 0.1e9;
 const MAX_BLOCKS = 400;
-const CAPABILITIES: string[] = [PlayerCapabilities.playbackControl];
+const CAPABILITIES: string[] = [PLAYER_CAPABILITIES.playbackControl];
 
 class BenchmarkPlayer implements Player {
   #source: IIterableSource;
