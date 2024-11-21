@@ -204,7 +204,7 @@ export function forEachSortedArrays<Item>(
       break;
     }
     const minItem = arrays[minCursorIndex]![cursors[minCursorIndex]!];
-    if (minItem != undefined) {
+    if (minItem != undefined && minCursorIndex != undefined) {
       forEach(minItem);
       cursors[minCursorIndex]++;
     } else {
