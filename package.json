@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/lichtblick-suite",
   "engines": {
-    "node": ">=16"
+    "node": ">=18"
   },
   "scripts": {
     "clean": "bash ci/clean-build.sh",
