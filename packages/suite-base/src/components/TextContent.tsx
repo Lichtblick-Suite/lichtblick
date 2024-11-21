@@ -17,9 +17,9 @@
 import { Link } from "@mui/material";
 import { CSSProperties, PropsWithChildren, useCallback, useContext } from "react";
 import Markdown from "react-markdown";
+import { PluggableList } from "react-markdown/lib";
 import rehypeRaw from "rehype-raw";
 import { makeStyles } from "tss-react/mui";
-
 
 import LinkHandlerContext from "@lichtblick/suite-base/context/LinkHandlerContext";
 
@@ -169,7 +169,7 @@ export default function TextContent(
   const handleLink = useContext(LinkHandlerContext);
 
   const linkRenderer = useCallback(
-    (linkProps: { href?: string; children: React.ReactNode }) => {
+    (linkProps: React.AnchorHTMLAttributes<HTMLAnchorElement>) => {
       return (
         <Link
           color="primary"
@@ -181,6 +181,7 @@ export default function TextContent(
             handleLink(event, linkProps.href ?? "");
           }}
           target="_blank"
+          title = {linkProps.title}
         >
           {linkProps.children}
         </Link>
@@ -193,9 +194,8 @@ export default function TextContent(
     <div className={classes.root} style={style}>
       {typeof children === "string" ? (
         <Markdown
-        /* eslint-disable @typescript-eslint/no-explicit-any */
-          rehypePlugins={allowMarkdownHtml === true ? [rehypeRaw] : ([] as any)}
-          components={{ a: linkRenderer } as any}
+          rehypePlugins={allowMarkdownHtml === true ? ([rehypeRaw] as PluggableList) : []}
+          components={{ a: linkRenderer }}
         >
           {children}
         </Markdown>
