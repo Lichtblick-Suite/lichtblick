@@ -7,6 +7,7 @@
     "jsx": "react-jsx",
     "lib": ["dom", "dom.iterable", "es2022", "webworker", "ESNext.Disposable"],
     "declarationMap": false,
+    "strictNullChecks": false,
     "sourceMap": false,
     "paths": {
       "@lichtblick/suite-base/*": ["./*"]
