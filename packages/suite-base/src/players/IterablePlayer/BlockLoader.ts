@@ -137,7 +137,10 @@ export class BlockLoader {
         for (const topic of blockTopics) {
           // remove topics that are no longer requested to be preloaded and topics that will
           // be re-loaded (due to different subscription parameters)
-          if ((!topics.has(topic) || block.needTopics.has(topic)) && newMessagesByTopic[topic]) {
+          if (
+            (!topics.has(topic) || block.needTopics.has(topic)) &&
+            newMessagesByTopic[topic] != undefined
+          ) {
             for (const msg of newMessagesByTopic[topic]) {
               blockBytesRemoved += msg.sizeInBytes;
             }
