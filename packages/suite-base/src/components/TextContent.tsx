@@ -19,7 +19,7 @@ import { CSSProperties, PropsWithChildren, useCallback, useContext } from "react
 import Markdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import { makeStyles } from "tss-react/mui";
-import { PluggableList } from 'unified';
+
 
 import LinkHandlerContext from "@lichtblick/suite-base/context/LinkHandlerContext";
 
