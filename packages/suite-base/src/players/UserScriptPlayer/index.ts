@@ -329,7 +329,7 @@ export default class UserScriptPlayer implements Player {
                 messages = [];
               }
               messages.push(outputMessage);
-              messagesByTopic[outTopic]! = messages;
+              messagesByTopic[outTopic] = messages;
             }
           }
         }
