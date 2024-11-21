@@ -118,7 +118,7 @@ export function TopicList(): React.JSX.Element {
   const getSelectedItemsAsDraggedMessagePaths = useCallback(() => {
     return filterMap(Array.from(getSelectedIndexes()).sort(), (index) =>
       latestTreeItems.current[index]
-        ? getDraggedMessagePath(latestTreeItems.current[index]!)
+        ? getDraggedMessagePath(latestTreeItems.current[index])
         : undefined,
     );
   }, [getSelectedIndexes, latestTreeItems]);

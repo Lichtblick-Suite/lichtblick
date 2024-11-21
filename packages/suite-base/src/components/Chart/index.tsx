@@ -519,6 +519,7 @@ function Chart(props: Props): React.JSX.Element {
 
       // Check mouse presence again in case the mouse has left the canvas while we
       // were waiting for the RPC call.
+
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       if (isMounted() && mousePresentRef.current) {
         onHover(elements);

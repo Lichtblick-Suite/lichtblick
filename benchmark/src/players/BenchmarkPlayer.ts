@@ -277,7 +277,11 @@ class BenchmarkPlayer implements Player {
         const endFrame = performance.now();
         seekFramesMs.push(endFrame - startFrame);
       }
-      seekFramesMs.forEach((ms, i) => (seekFramesMsTotals[i] += ms));
+      seekFramesMs.forEach((ms, i) => {
+        if (seekFramesMsTotals[i] != undefined) {
+          seekFramesMsTotals[i] += ms;
+        }
+      });
     }
 
     log.info(
