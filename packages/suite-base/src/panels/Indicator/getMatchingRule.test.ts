@@ -9,8 +9,6 @@ import { getMatchingRule } from "./getMatchingRule";
 import { Rule } from "./types";
 
 describe("getMatchingRule", () => {
-  const consoleLogSpy = jest.spyOn(console, "error").mockImplementation();
-
   it.each([
     [true, "True"],
     ["true", "True"],

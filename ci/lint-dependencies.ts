@@ -114,7 +114,7 @@ async function getAllWorkspacePackages(roots: string[]) {
   const results: { name: string; path: string }[] = [];
   const workspacePackages: string[] = [];
   for (const workspaceRoot of roots) {
-    const workspaceInfo = require(path.resolve(process.cwd(), workspaceRoot, "package.json"));
+    const workspaceInfo = await import(path.resolve(process.cwd(), workspaceRoot, "package.json"));
     const patterns: string[] = Array.isArray(workspaceInfo.workspaces)
       ? workspaceInfo.workspaces
       : Array.isArray(workspaceInfo.workspaces?.packages)
@@ -128,7 +128,7 @@ async function getAllWorkspacePackages(roots: string[]) {
   }
   for (const packagePath of workspacePackages) {
     try {
-      const packageInfo = require(path.join(packagePath, "package.json"));
+      const packageInfo = await import(path.join(packagePath, "package.json"));
       const name = packageInfo.name;
       if (typeof name !== "string") {
         warning(`No name in package.json at ${packagePath}`);
