@@ -141,6 +141,7 @@ export class BlockLoader {
             for (const msg of newMessagesByTopic[topic]) {
               blockBytesRemoved += msg.sizeInBytes;
             }
+
             delete newMessagesByTopic[topic];
           }
         }
