@@ -119,13 +119,13 @@ function getLayoutWithNewPanelIds(
     return undefined;
   }
   const newLayout: Record<string, unknown> = {};
-  for (const key in layout) {
-    if (typeof layout[key] === "object" && !Array.isArray(layout[key])) {
-      newLayout[key] = getLayoutWithNewPanelIds(layout[key] as IndexableMosaic, panelIdMap);
-    } else if (typeof layout[key] === "string" && panelIdMap[layout[key]] != undefined) {
-      newLayout[key] = panelIdMap[layout[key]];
+  for (const key in layout as IndexableMosaic) {
+    if (typeof (layout as IndexableMosaic)[key] === "object" && !Array.isArray((layout as IndexableMosaic)[key])) {
+      newLayout[key] = getLayoutWithNewPanelIds((layout as IndexableMosaic)[key] as IndexableMosaic, panelIdMap);
+    } else if (typeof (layout as IndexableMosaic)[key] === "string" && panelIdMap[(layout as IndexableMosaic)[key] as string] != undefined) {
+      newLayout[key] = panelIdMap[(layout as IndexableMosaic)[key] as string];
     } else {
-      newLayout[key] = layout[key];
+      newLayout[key] = (layout as IndexableMosaic)[key];
     }
   }
   return newLayout as unknown as MosaicNode<string>;
