@@ -16,7 +16,9 @@ import path from "path";
 import plist, { PlistObject } from "plist";
 
 async function getKeychainFile(context: AfterPackContext): Promise<string | undefined> {
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
   const macPackager = context.packager as unknown as MacPackager;
+
   if ((macPackager as Partial<typeof macPackager>).codeSigningInfo == undefined) {
     log.error("No code signing info available.");
     return;
