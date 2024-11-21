@@ -171,6 +171,8 @@ export default function PanelSettings({
   const title = panelInfo?.title ?? t("unknown");
   const isSettingTreeDefined = settingsTree != undefined;
 
+  const MemoizedSettingsTreeEditor = React.memo(SettingsTreeEditor);
+
   return (
     <SidebarContent
       disablePadding={enableNewTopNav || isSettingTreeDefined}
@@ -213,7 +215,7 @@ export default function PanelSettings({
             </>
           )}
           {settingsTree || showTitleField ? (
-            <SettingsTreeEditor
+            <MemoizedSettingsTreeEditor
               key={selectedPanelId}
               settings={settingsTree ?? EMPTY_SETTINGS_TREE}
               variant="log"
