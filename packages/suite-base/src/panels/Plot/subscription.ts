@@ -21,7 +21,9 @@ export function pathToSubscribePayload(
   const { messagePath: parts, topicName: topic } = path;
 
   const firstField = parts.find(typeIsName);
-  if (firstField == undefined || firstField.name.length === 0) {
+
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+  if (firstField == undefined || firstField.type !== "name" || firstField.name.length === 0) {
     return undefined;
   }
 
