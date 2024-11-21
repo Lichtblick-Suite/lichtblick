@@ -104,7 +104,6 @@ class StudioAppUpdater extends EventEmitter<EventTypes> {
       // The user may have changed the app update setting so we load it again
       const appUpdatesEnabled = getAppSetting<boolean>(AppSetting.UPDATES_ENABLED);
 
-       
       if (appUpdatesEnabled ?? true) {
         log.info("Checking for updates");
         await autoUpdater.checkForUpdatesAndNotify();
