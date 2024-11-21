@@ -19,6 +19,7 @@ import { CSSProperties, PropsWithChildren, useCallback, useContext } from "react
 import Markdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import { makeStyles } from "tss-react/mui";
+import { PluggableList } from 'unified';
 
 import LinkHandlerContext from "@lichtblick/suite-base/context/LinkHandlerContext";
 
@@ -192,8 +193,9 @@ export default function TextContent(
     <div className={classes.root} style={style}>
       {typeof children === "string" ? (
         <Markdown
-          rehypePlugins={allowMarkdownHtml === true ? [rehypeRaw] : []}
-          components={{ a: linkRenderer }}
+        /* eslint-disable @typescript-eslint/no-explicit-any */
+          rehypePlugins={allowMarkdownHtml === true ? [rehypeRaw] : ([] as any)}
+          components={{ a: linkRenderer } as any}
         >
           {children}
         </Markdown>
