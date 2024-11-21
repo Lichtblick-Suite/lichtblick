@@ -1,6 +1,9 @@
 // SPDX-FileCopyrightText: Copyright (C) 2023-2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)<lichtblick@bmwgroup.com>
 // SPDX-License-Identifier: MPL-2.0
 
+// SPDX-FileCopyrightText: Copyright (C) 2023-2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)<lichtblick@bmwgroup.com>
+// SPDX-License-Identifier: MPL-2.0
+
 // This Source Code Form is subject to the terms of the Mozilla Public
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
@@ -9,6 +12,7 @@ import * as _ from "lodash-es";
 import { useCallback } from "react";
 import { DeepPartial } from "ts-essentials";
 
+import { PanelSettings } from "@lichtblick/suite";
 import { useMessagePipeline } from "@lichtblick/suite-base/components/MessagePipeline";
 import {
   LayoutState,
@@ -30,7 +34,11 @@ import { getPanelTypeFromId } from "../util/layout";
  */
 export default function useConfigById<Config extends Record<string, unknown>>(
   panelId: string | undefined,
-): [Config | undefined, SaveConfig<Config>] {
+): [
+  Config | undefined,
+  SaveConfig<Config>,
+  Record<string, Record<string, PanelSettings<unknown>>>,
+] {
   const { getCurrentLayoutState, savePanelConfigs } = useCurrentLayoutActions();
   const extensionSettings = useExtensionCatalog(getExtensionPanelSettings);
   const sortedTopics = useMessagePipeline((state) => state.sortedTopics);
@@ -104,5 +112,5 @@ export default function useConfigById<Config extends Record<string, unknown>>(
     [getCurrentLayoutState, panelId, savePanelConfigs],
   );
 
-  return [config, saveConfig];
+  return [config, saveConfig, extensionSettings];
 }
