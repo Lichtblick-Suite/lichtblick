@@ -22,7 +22,7 @@ export function pathToSubscribePayload(
 
   const firstField = parts.find(typeIsName);
 
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+  // eslint-disable-next-line
   if (firstField == undefined || firstField.type !== "name" || firstField.name.length === 0) {
     return undefined;
   }
