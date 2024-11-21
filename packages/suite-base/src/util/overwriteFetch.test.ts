@@ -31,11 +31,11 @@ describe("overwriteFetch", () => {
     };
 
     overwriteFetch();
-    let error;
+    let error: Error | undefined;
     try {
       await fetch("url");
     } catch (err: unknown) {
-      error = err;
+      error = err as Error | undefined;
     }
     // We should have replaced the original error with our new error.
     expect(error).not.toBe(originalError);

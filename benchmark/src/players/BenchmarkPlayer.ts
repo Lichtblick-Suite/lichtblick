@@ -147,7 +147,8 @@ class BenchmarkPlayer implements Player {
         minBlockDurationNs: MIN_MEM_CACHE_BLOCK_SIZE_NS,
         problemManager: this.#problemManager,
       });
-    } catch (err: unknown) {
+    } catch (e: unknown) {
+      const err = e as Error;
       log.error(err);
 
       const startStr = toRFC3339String(startTime);
