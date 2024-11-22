@@ -8,8 +8,7 @@ import { PanelStateStore } from "@lichtblick/suite-base/context/PanelStateContex
 export type BuildSettingsTreeProps = {
   config: Record<string, unknown> | undefined;
   extensionSettings: Record<string, Record<string, PanelSettings<unknown>>>;
+  messagePipelineState: () => MessagePipelineContext;
   panelType: string | undefined;
   selectedPanelId: string | undefined;
-  state: PanelStateStore;
-  messagePipelineState: () => MessagePipelineContext;
-};
+} & Pick<PanelStateStore, "settingsTrees">;

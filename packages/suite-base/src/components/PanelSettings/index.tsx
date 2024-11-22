@@ -17,6 +17,7 @@ import { useMessagePipelineGetter } from "@lichtblick/suite-base/components/Mess
 import { ActionMenu } from "@lichtblick/suite-base/components/PanelSettings/ActionMenu";
 import { EmptyWrapper } from "@lichtblick/suite-base/components/PanelSettings/EmptyWrapper";
 import { buildSettingsTree } from "@lichtblick/suite-base/components/PanelSettings/settingsTree";
+import { BuildSettingsTreeProps } from "@lichtblick/suite-base/components/PanelSettings/types";
 import SettingsTreeEditor from "@lichtblick/suite-base/components/SettingsTreeEditor";
 import { ShareJsonModal } from "@lichtblick/suite-base/components/ShareJsonModal";
 import { SidebarContent } from "@lichtblick/suite-base/components/SidebarContent";
@@ -133,16 +134,45 @@ export default function PanelSettings({
 
   const [config, , extensionSettings] = useConfigById(selectedPanelId);
   const messagePipelineState = useMessagePipelineGetter();
-  const settingsTree = usePanelStateStore((state) =>
-    buildSettingsTree({
-      config,
-      extensionSettings,
-      panelType,
-      selectedPanelId,
-      state,
-      messagePipelineState,
-    }),
-  );
+  // const settingsTree = usePanelStateStore(({settingsTrees}) =>
+  //   buildSettingsTree({
+  //     config,
+  //     extensionSettings,
+  //     panelType,
+  //     selectedPanelId,
+  //     settingsTrees,
+  //     messagePipelineState,
+  //   }),
+  // );
+
+  // const settingsTree = usePanelStateStore(({ settingsTrees }) =>
+  //   // eslint-disable-next-line react-hooks/rules-of-hooks
+  //   useMemo(() => {
+  //     return buildSettingsTree({
+  //       config,
+  //       extensionSettings,
+  //       messagePipelineState,
+  //       panelType,
+  //       selectedPanelId,
+  //       settingsTrees,
+  //     });
+  //   }, [settingsTrees]),
+  // );
+
+  const useMemoizedSettingsTree = (props: BuildSettingsTreeProps) =>
+    useMemo(() => buildSettingsTree(props), [props]);
+
+  const storedSettingsTrees = usePanelStateStore(({ settingsTrees }) => settingsTrees);
+  const memoizedStoredSettingsTrees = useMemo(() => storedSettingsTrees, [storedSettingsTrees]);
+
+  const settingsTree = useMemoizedSettingsTree({
+    config,
+    extensionSettings,
+    messagePipelineState,
+    panelType,
+    selectedPanelId,
+    settingsTrees: memoizedStoredSettingsTrees,
+  });
 
   const resetToDefaults = useCallback(() => {
     if (selectedPanelId) {

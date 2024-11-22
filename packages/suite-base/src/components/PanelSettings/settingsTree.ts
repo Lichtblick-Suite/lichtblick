@@ -11,16 +11,16 @@ import { maybeCast } from "@lichtblick/suite-base/util/maybeCast";
 export const buildSettingsTree = ({
   config,
   extensionSettings,
+  messagePipelineState,
   panelType,
   selectedPanelId,
-  state,
-  messagePipelineState,
+  settingsTrees,
 }: BuildSettingsTreeProps): Immutable<SettingsTree> | undefined => {
   if (selectedPanelId == undefined || panelType == undefined) {
     return undefined;
   }
 
-  const set = state.settingsTrees[selectedPanelId];
+  const set = settingsTrees[selectedPanelId];
   if (!set) {
     return undefined;
   }
