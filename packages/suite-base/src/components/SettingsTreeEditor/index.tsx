@@ -95,6 +95,20 @@ export default function SettingsTreeEditor({
     setFilterText(event.target.value);
   }, []);
 
+  const memoizedNodes = useMemo(
+    () =>
+      definedNodes.map(([key, root]) => ({
+        key,
+        actionHandler,
+        defaultOpen: root.defaultExpansionState !== "collapsed",
+        filter: filterText,
+        focusedPath,
+        path: makeStablePath(key),
+        settings: root,
+      })),
+    [definedNodes, actionHandler, filterText, focusedPath],
+  );
+
   return (
     <Stack fullHeight>
       {settings.enableFilter === true && (
@@ -154,6 +168,9 @@ export default function SettingsTreeEditor({
             path={makeStablePath(key)}
             settings={root}
           />
+        ))}
+        {memoizedNodes.map((nodeProps) => (
+          <NodeEditor {...nodeProps} key={nodeProps.key} />
         ))}
       </div>
     </Stack>
