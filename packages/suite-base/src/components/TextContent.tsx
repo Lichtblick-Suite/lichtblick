@@ -181,7 +181,6 @@ export default function TextContent(
             handleLink(event, linkProps.href ?? "");
           }}
           target="_blank"
-          title={linkProps.title}
         >
           {linkProps.children}
         </Link>
