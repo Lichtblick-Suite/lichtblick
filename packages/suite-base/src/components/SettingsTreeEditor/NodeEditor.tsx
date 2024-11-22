@@ -150,17 +150,6 @@ function NodeEditorComponent(props: NodeEditorProps): JSX.Element {
 
   const rootRef = useRef<HTMLDivElement>(ReactNull);
 
-  // const fieldEditors = filterMap(Object.entries(fields ?? {}), ([key, field]) => {
-  //   return field ? (
-  //     <FieldEditor
-  //       key={key}
-  //       field={field}
-  //       path={makeStablePath(props.path, key)}
-  //       actionHandler={actionHandler}
-  //     />
-  //   ) : undefined;
-  // });
-
   const entries = useMemo(() => Object.entries(fields ?? {}), [fields]);
 
   const renderFieldEditor = useCallback(
@@ -180,26 +169,6 @@ function NodeEditorComponent(props: NodeEditorProps): JSX.Element {
       entries.filter(([, field]) => field).map(([key, field]) => renderFieldEditor(key, field!)),
     [entries, renderFieldEditor],
   );
-
-  // const filterFn =
-  //   state.visibilityFilter === "visible"
-  //     ? showVisibleFilter
-  //     : state.visibilityFilter === "invisible"
-  //       ? showInvisibleFilter
-  //       : undefined;
-  // const childNodes = filterMap(prepareSettingsNodes(children ?? {}), ([key, child]) => {
-  //   return !filterFn || filterFn(child) ? (
-  //     <NodeEditor
-  //       actionHandler={actionHandler}
-  //       defaultOpen={child.defaultExpansionState === "collapsed" ? false : true}
-  //       filter={filter}
-  //       focusedPath={focusedPath}
-  //       key={key}
-  //       settings={child}
-  //       path={makeStablePath(props.path, key)}
-  //     />
-  //   ) : undefined;
-  // });
 
   const filterFn = useMemo(() => {
     if (state.visibilityFilter === "visible") {
