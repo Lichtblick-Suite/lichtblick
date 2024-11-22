@@ -7,7 +7,7 @@
 
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText, Divider } from "@mui/material";
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 import { SettingsTreeNodeAction } from "@lichtblick/suite";
 
@@ -23,16 +23,22 @@ export function NodeActionsMenu({
   const [anchorEl, setAnchorEl] = useState<undefined | HTMLButtonElement>(undefined);
   const open = Boolean(anchorEl);
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
-  };
+  }, []);
 
-  const handleClose = (id: string) => {
-    onSelectAction(id);
-    setAnchorEl(undefined);
-  };
+  const handleClose = useCallback(
+    (id: string) => {
+      onSelectAction(id);
+      setAnchorEl(undefined);
+    },
+    [onSelectAction],
+  );
 
-  const anyItemHasIcon = actions.some((action) => action.type === "action" && action.icon);
+  const anyItemHasIcon = useMemo(
+    () => actions.some((action) => action.type === "action" && action.icon),
+    [actions],
+  );
 
   return (
     <>
