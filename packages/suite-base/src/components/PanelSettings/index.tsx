@@ -134,45 +134,33 @@ export default function PanelSettings({
 
   const [config, , extensionSettings] = useConfigById(selectedPanelId);
   const messagePipelineState = useMessagePipelineGetter();
-  // const settingsTree = usePanelStateStore(({settingsTrees}) =>
-  //   buildSettingsTree({
-  //     config,
-  //     extensionSettings,
-  //     panelType,
-  //     selectedPanelId,
-  //     settingsTrees,
-  //     messagePipelineState,
-  //   }),
-  // );
-
-  // const settingsTree = usePanelStateStore(({ settingsTrees }) =>
-  //   // eslint-disable-next-line react-hooks/rules-of-hooks
-  //   useMemo(() => {
-  //     return buildSettingsTree({
-  //       config,
-  //       extensionSettings,
-  //       messagePipelineState,
-  //       panelType,
-  //       selectedPanelId,
-  //       settingsTrees,
-  //     });
-  //   }, [settingsTrees]),
-  // );
-
-  const useMemoizedSettingsTree = (props: BuildSettingsTreeProps) =>
-    useMemo(() => buildSettingsTree(props), [props]);
 
   const storedSettingsTrees = usePanelStateStore(({ settingsTrees }) => settingsTrees);
-  const memoizedStoredSettingsTrees = useMemo(() => storedSettingsTrees, [storedSettingsTrees]);
-
-  const settingsTree = useMemoizedSettingsTree({
-    config,
-    extensionSettings,
-    messagePipelineState,
-    panelType,
-    selectedPanelId,
-    settingsTrees: memoizedStoredSettingsTrees,
-  });
+  const settingsTree = useMemo(
+    () =>
+      buildSettingsTree({
+        config,
+        extensionSettings,
+        messagePipelineState,
+        panelType,
+        selectedPanelId,
+        settingsTrees: storedSettingsTrees,
+      }),
+    [
+      config,
+      extensionSettings,
+      messagePipelineState,
+      panelType,
+      selectedPanelId,
+      /**
+       * The core issue is that settingsTrees object in the PanelStateStore is being
+       * mutated on each render, leading to unnecessary calls to buildSettingsTree
+       * To address this, we need to ensure that settingsTrees remains
+       * referentially stable unless its actual content changes.
+       */
+      storedSettingsTrees,
+    ],
+  );
 
   const resetToDefaults = useCallback(() => {
     if (selectedPanelId) {
