@@ -46,7 +46,18 @@ export default function SettingsTreeEditor({
     return settings.nodes;
   }, [settings.nodes, filterText]);
 
-  const definedNodes = useMemo(() => prepareSettingsNodes(filteredNodes), [filteredNodes]);
+  const memoizedNodes = useMemo(() => {
+    const preparedNodes = prepareSettingsNodes(filteredNodes);
+    return preparedNodes.map(([key, root]) => ({
+      key,
+      actionHandler,
+      defaultOpen: root.defaultExpansionState !== "collapsed",
+      filter: filterText,
+      focusedPath,
+      path: makeStablePath(key),
+      settings: root,
+    }));
+  }, [filteredNodes, actionHandler, filterText, focusedPath]);
 
   const { selectedPanelIds } = useSelectedPanels();
   const selectedPanelId = useMemo(
@@ -94,20 +105,6 @@ export default function SettingsTreeEditor({
   const handleFilterChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     setFilterText(event.target.value);
   }, []);
-
-  const memoizedNodes = useMemo(
-    () =>
-      definedNodes.map(([key, root]) => ({
-        key,
-        actionHandler,
-        defaultOpen: root.defaultExpansionState !== "collapsed",
-        filter: filterText,
-        focusedPath,
-        path: makeStablePath(key),
-        settings: root,
-      })),
-    [definedNodes, actionHandler, filterText, focusedPath],
-  );
 
   return (
     <Stack fullHeight>
@@ -158,17 +155,6 @@ export default function SettingsTreeEditor({
             />
           </>
         )}
-        {definedNodes.map(([key, root]) => (
-          <NodeEditor
-            key={key}
-            actionHandler={actionHandler}
-            defaultOpen={root.defaultExpansionState === "collapsed" ? false : true}
-            filter={filterText}
-            focusedPath={focusedPath}
-            path={makeStablePath(key)}
-            settings={root}
-          />
-        ))}
         {memoizedNodes.map((nodeProps) => (
           <NodeEditor {...nodeProps} key={nodeProps.key} />
         ))}
