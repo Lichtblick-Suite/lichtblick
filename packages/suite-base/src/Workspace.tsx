@@ -48,8 +48,8 @@ import PlaybackControls from "@lichtblick/suite-base/components/PlaybackControls
 import { ProblemsList } from "@lichtblick/suite-base/components/ProblemsList";
 import RemountOnValueChange from "@lichtblick/suite-base/components/RemountOnValueChange";
 import { SidebarContent } from "@lichtblick/suite-base/components/SidebarContent";
-import Sidebars, { SidebarItem } from "@lichtblick/suite-base/components/Sidebars";
-import { NewSidebarItem } from "@lichtblick/suite-base/components/Sidebars/NewSidebar";
+import Sidebars from "@lichtblick/suite-base/components/Sidebars";
+import { SidebarItem } from "@lichtblick/suite-base/components/Sidebars/types";
 import Stack from "@lichtblick/suite-base/components/Stack";
 import {
   StudioLogsSettings,
@@ -440,7 +440,7 @@ function WorkspaceContent(props: WorkspaceProps): JSX.Element {
   const showEventsTab = currentUserType !== "unauthenticated" && eventsSupported;
 
   const leftSidebarItems = useMemo(() => {
-    const items = new Map<LeftSidebarItemKey, NewSidebarItem>([
+    const items = new Map<LeftSidebarItemKey, SidebarItem>([
       ["panel-settings", { title: "Panel", component: PanelSettingsSidebar }],
       ["topics", { title: "Topics", component: TopicList }],
       [
@@ -463,7 +463,7 @@ function WorkspaceContent(props: WorkspaceProps): JSX.Element {
   }, [PanelSettingsSidebar, playerProblems]);
 
   const rightSidebarItems = useMemo(() => {
-    const items = new Map<RightSidebarItemKey, NewSidebarItem>([
+    const items = new Map<RightSidebarItemKey, SidebarItem>([
       [
         "variables",
         {
