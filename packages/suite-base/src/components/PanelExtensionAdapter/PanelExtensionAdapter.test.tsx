@@ -613,7 +613,7 @@ describe("PanelExtensionAdapter", () => {
       { variables: new Map([["foo", true]]) },
       { variables: new Map([["foo", { nested: [1, 2, 3] }]]) },
       { variables: new Map() },
-     ]);
+    ]);
     mockRAF.mockRestore();
   });
 
