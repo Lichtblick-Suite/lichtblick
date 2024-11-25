@@ -2,12 +2,19 @@
 // SPDX-License-Identifier: MPL-2.0
 
 import { BadgeProps } from "@mui/material";
+import { ComponentProps } from "react";
 
-export type NewSidebarItem = {
+import { BuiltinIcon } from "@lichtblick/suite-base/components/BuiltinIcon";
+
+export type SidebarItemBadge = {
+  color?: BadgeProps["color"];
+  count: number;
+};
+
+export type SidebarItem = {
+  badge?: SidebarItemBadge;
+  component?: React.ComponentType;
+  iconName?: ComponentProps<typeof BuiltinIcon>["name"];
   title: string;
-  component: React.ComponentType;
-  badge?: {
-    color: BadgeProps["color"];
-    count: number;
-  };
+  url?: string;
 };

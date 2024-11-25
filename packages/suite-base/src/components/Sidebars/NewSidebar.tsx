@@ -10,7 +10,7 @@ import { Badge, Divider, IconButton, Tab, Tabs } from "@mui/material";
 import { useCallback, useMemo } from "react";
 
 import { useStyles } from "@lichtblick/suite-base/components/Sidebars/NewSidebar.style";
-import { NewSidebarItem } from "@lichtblick/suite-base/components/Sidebars/types";
+import { SidebarItem } from "@lichtblick/suite-base/components/Sidebars/types";
 import Stack from "@lichtblick/suite-base/components/Stack";
 
 function Noop(): JSX.Element | undefined {
@@ -24,7 +24,7 @@ export function NewSidebar<K extends string>({
   activeTab,
   setActiveTab,
 }: {
-  items: Map<K, NewSidebarItem>;
+  items: Map<K, SidebarItem>;
   anchor: "right" | "left";
   onClose: () => void;
   activeTab: K | undefined;
