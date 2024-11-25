@@ -16,8 +16,8 @@ jest.mock("@lichtblick/suite-base/util/maybeCast");
 describe("buildSettingsTree", () => {
   function setup(): Pick<
     BuildSettingsTreeProps,
-    "state" | "extensionSettings" | "messagePipelineState" | "config"
-  > & { settingsTreeNodes: SettingsTreeNodes } {
+    "extensionSettings" | "messagePipelineState" | "config"
+  > & { settingsTreeNodes: SettingsTreeNodes; state: PanelStateStore } {
     const config: Record<string, unknown> | undefined = {
       topics: {
         topic1: { someConfig: "valueFromConfig" },
@@ -84,7 +84,7 @@ describe("buildSettingsTree", () => {
         extensionSettings,
         panelType,
         selectedPanelId,
-        state,
+        settingsTrees: state.settingsTrees,
         messagePipelineState,
       });
       expect(result).toBeUndefined();
@@ -99,7 +99,7 @@ describe("buildSettingsTree", () => {
       extensionSettings,
       panelType: "myPanelType",
       selectedPanelId: "invalidPanel",
-      state,
+      settingsTrees: state.settingsTrees,
       messagePipelineState,
     });
 
@@ -114,7 +114,7 @@ describe("buildSettingsTree", () => {
       extensionSettings,
       panelType: "myPanelType",
       selectedPanelId: "panel1",
-      state,
+      settingsTrees: state.settingsTrees,
       messagePipelineState,
     });
 
@@ -125,7 +125,7 @@ describe("buildSettingsTree", () => {
 
   it("should return the settingsTree even if topics are empty", () => {
     const { config, extensionSettings, messagePipelineState } = setup();
-    const emptyState = {
+    const { settingsTrees }: Pick<PanelStateStore, "settingsTrees"> = {
       settingsTrees: {
         panel1: {
           nodes: {
@@ -133,20 +133,21 @@ describe("buildSettingsTree", () => {
               children: {},
             },
           },
+          actionHandler: jest.fn(),
         },
       },
-    } as unknown as PanelStateStore;
+    };
 
     const result = buildSettingsTree({
       config,
       extensionSettings,
       panelType: "myPanelType",
       selectedPanelId: "panel1",
-      state: emptyState,
+      settingsTrees,
       messagePipelineState,
     });
 
-    expect(result).toEqual(emptyState.settingsTrees.panel1);
+    expect(result).toEqual(settingsTrees.panel1);
   });
 
   it("should merge topicsSettings with existing children in the settingsTree", () => {
@@ -156,10 +157,10 @@ describe("buildSettingsTree", () => {
     const result = buildSettingsTree({
       config,
       extensionSettings,
+      messagePipelineState,
       panelType: "myPanelType",
       selectedPanelId: "panel1",
-      state,
-      messagePipelineState,
+      settingsTrees: state.settingsTrees,
     });
 
     expect(result?.nodes.topics?.children).toEqual(expectedChildren);
