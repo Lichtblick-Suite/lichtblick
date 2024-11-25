@@ -163,6 +163,7 @@ export default class VirtualLRUBuffer {
     }
     const block = this.#blocks[index];
 
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition, @typescript-eslint/strict-boolean-expressions
     if (!block) {
       throw new Error("invariant violation - no block at index");
     }
