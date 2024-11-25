@@ -3518,6 +3518,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@lichtblick/tsconfig@npm:1.0.2":
+  version: 1.0.2
+  resolution: "@lichtblick/tsconfig@npm:1.0.2"
+  checksum: 67278b0d2089be3f488a5514d6d26af0f20f1597ca679ca323f153e4b093eec3f69a3094484cd4e448429a8a6d13cb690ab9054fab8655b61b65a8ee60f36a69
+  languageName: node
+  linkType: hard
+
 "@lichtblick/typescript-transformers@workspace:*, @lichtblick/typescript-transformers@workspace:packages/typescript-transformers":
   version: 0.0.0-use.local
   resolution: "@lichtblick/typescript-transformers@workspace:packages/typescript-transformers"
@@ -14391,7 +14398,7 @@ __metadata:
     "@lichtblick/omgidl-serialization": 1.0.0
     "@lichtblick/ros2idl-parser": 1.0.0
     "@lichtblick/suite": "workspace:*"
-    "@lichtblick/tsconfig": 1.0.0
+    "@lichtblick/tsconfig": 1.0.2
     "@mui/material": 5.13.5
     "@octokit/rest": 20.0.2
     "@storybook/addon-actions": 8.4.0
@@ -14444,7 +14451,7 @@ __metadata:
     ts-node: 10.9.2
     ts-unused-exports: 10.0.1
     tslib: 2.6.2
-    typescript: 5.3.3
+    typescript: 5.6.3
     vm-browserify: 1.1.2
     webpack: 5.96.1
     webpack-cli: 5.1.4
@@ -20005,7 +20012,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^4 || ^5, typescript@npm:^5.3.3":
+"typescript@npm:5.6.3, typescript@npm:^4 || ^5, typescript@npm:^5.3.3":
   version: 5.6.3
   resolution: "typescript@npm:5.6.3"
   bin:
@@ -20025,7 +20032,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^4 || ^5#~builtin<compat/typescript>, typescript@patch:typescript@^5.3.3#~builtin<compat/typescript>":
+"typescript@patch:typescript@5.6.3#~builtin<compat/typescript>, typescript@patch:typescript@^4 || ^5#~builtin<compat/typescript>, typescript@patch:typescript@^5.3.3#~builtin<compat/typescript>":
   version: 5.6.3
   resolution: "typescript@patch:typescript@npm%3A5.6.3#~builtin<compat/typescript>::version=5.6.3&hash=f3b441"
   bin:
