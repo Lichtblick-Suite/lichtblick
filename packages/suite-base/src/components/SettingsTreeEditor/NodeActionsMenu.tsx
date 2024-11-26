@@ -9,17 +9,11 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText, Divider } from "@mui/material";
 import { useCallback, useMemo, useState } from "react";
 
-import { SettingsTreeNodeAction } from "@lichtblick/suite";
+import { NodeActionsMenuProps } from "@lichtblick/suite-base/components/SettingsTreeEditor/types";
 
 import { icons } from "./icons";
 
-export function NodeActionsMenu({
-  actions,
-  onSelectAction,
-}: {
-  actions: readonly SettingsTreeNodeAction[];
-  onSelectAction: (actionId: string) => void;
-}): JSX.Element {
+export function NodeActionsMenu({ actions, onSelectAction }: NodeActionsMenuProps): JSX.Element {
   const [anchorEl, setAnchorEl] = useState<undefined | HTMLButtonElement>(undefined);
   const open = Boolean(anchorEl);
 
@@ -68,19 +62,24 @@ export function NodeActionsMenu({
         {actions.map((action, index) => {
           if (action.type === "divider") {
             return (
-              <Divider variant={anyItemHasIcon ? "inset" : "fullWidth"} key={`divider_${index}`} />
+              <Divider
+                data-testid="node-actions-menu-divider"
+                variant={anyItemHasIcon ? "inset" : "fullWidth"}
+                key={`divider_${index}`}
+              />
             );
           }
           const Icon = action.icon ? icons[action.icon] : undefined;
           return (
             <MenuItem
+              data-testid={`node-actions-menu-item-${action.id}`}
               key={action.id}
               onClick={() => {
                 handleClose(action.id);
               }}
             >
               {Icon && (
-                <ListItemIcon>
+                <ListItemIcon data-testid={`node-actions-menu-item-icon-${action.id}`}>
                   <Icon fontSize="small" />
                 </ListItemIcon>
               )}
