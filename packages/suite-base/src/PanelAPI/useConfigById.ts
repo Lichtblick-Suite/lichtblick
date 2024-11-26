@@ -9,10 +9,10 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import * as _ from "lodash-es";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { DeepPartial } from "ts-essentials";
 
-import { PanelSettings } from "@lichtblick/suite";
+import { PanelSettings, Topic } from "@lichtblick/suite";
 import { useMessagePipeline } from "@lichtblick/suite-base/components/MessagePipeline";
 import {
   LayoutState,
@@ -42,6 +42,27 @@ export default function useConfigById<Config extends Record<string, unknown>>(
   const { getCurrentLayoutState, savePanelConfigs } = useCurrentLayoutActions();
   const extensionSettings = useExtensionCatalog(getExtensionPanelSettings);
   const sortedTopics = useMessagePipeline((state) => state.sortedTopics);
+  const customSettingsByTopic: Topic[] = useMemo(() => {
+    if (!panelId) {
+      return {};
+    }
+
+    const panelType = getPanelTypeFromId(panelId);
+
+    return _.merge(
+      {},
+      ...sortedTopics.map(({ name: topic, schemaName }) => {
+        if (schemaName == undefined) {
+          return {};
+        }
+        const defaultConfig = extensionSettings[panelType]?.[schemaName]?.defaultConfig;
+        if (defaultConfig == undefined) {
+          return {};
+        }
+        return { [topic]: defaultConfig };
+      }),
+    );
+  }, [sortedTopics, extensionSettings, panelId]);
 
   const configSelector = useCallback(
     (state: DeepPartial<LayoutState>) => {
@@ -50,28 +71,11 @@ export default function useConfigById<Config extends Record<string, unknown>>(
       }
 
       const stateConfig = maybeCast<Config>(state.selectedLayout?.data?.configById?.[panelId]);
-      const panelType = getPanelTypeFromId(panelId);
-
-      // Create the customSettingsByTopic object manually without hooks
-      const newCustomSettingsByTopic: Record<string, unknown> = _.merge(
-        {},
-        ...sortedTopics.map(({ name: topic, schemaName }) => {
-          if (schemaName == undefined) {
-            return {};
-          }
-          const defaultConfig = extensionSettings[panelType]?.[schemaName]?.defaultConfig;
-          if (defaultConfig == undefined) {
-            return {};
-          }
-          return { [topic]: defaultConfig };
-        }),
-        stateConfig?.topics,
-      );
+      const customSettings = _.merge({}, customSettingsByTopic, stateConfig?.topics);
 
       // Avoid returning a new object if nothing has changed
       const hasCustomSettingsChanged =
-        Object.keys(newCustomSettingsByTopic).length !== 0 &&
-        !_.isEqual(newCustomSettingsByTopic, stateConfig?.topics);
+        Object.keys(customSettings).length !== 0 && !_.isEqual(customSettings, stateConfig?.topics);
 
       // If custom settings haven't changed, return the existing stateConfig
       if (!hasCustomSettingsChanged) {
@@ -79,9 +83,9 @@ export default function useConfigById<Config extends Record<string, unknown>>(
       }
 
       // Only return a new object if there's a change
-      return maybeCast<Config>({ ...stateConfig, topics: newCustomSettingsByTopic });
+      return maybeCast<Config>({ ...stateConfig, topics: customSettings });
     },
-    [panelId, extensionSettings, sortedTopics],
+    [panelId, customSettingsByTopic],
   );
 
   const config = useCurrentLayoutSelector(configSelector);
