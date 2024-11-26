@@ -7,6 +7,7 @@
 
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText, Divider } from "@mui/material";
+import { nanoid } from "nanoid";
 import { useCallback, useMemo, useState } from "react";
 
 import { NodeActionsMenuProps } from "@lichtblick/suite-base/components/SettingsTreeEditor/types";
@@ -62,13 +63,13 @@ export function NodeActionsMenu({
           dense: true,
         }}
       >
-        {actions.map((action, index) => {
+        {actions.map((action) => {
           if (action.type === "divider") {
             return (
               <Divider
                 data-testid="node-actions-menu-divider"
                 variant={anyItemHasIcon ? "inset" : "fullWidth"}
-                key={`divider_${index}`}
+                key={`${nanoid()}`}
               />
             );
           }
