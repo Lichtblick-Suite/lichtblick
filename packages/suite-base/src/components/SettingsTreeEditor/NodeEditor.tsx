@@ -46,7 +46,7 @@ type NodeEditorProps = {
   settings?: Immutable<SettingsTreeNode>;
 };
 
-function ExpansionArrow({ expanded }: { expanded: boolean }): JSX.Element {
+function ExpansionArrow({ expanded }: { expanded: boolean }): React.JSX.Element {
   const { classes } = useStyles();
 
   const Component = expanded ? ArrowDownIcon : ArrowRightIcon;

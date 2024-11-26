@@ -13,7 +13,10 @@ import { NodeActionsMenuProps } from "@lichtblick/suite-base/components/Settings
 
 import { icons } from "./icons";
 
-export function NodeActionsMenu({ actions, onSelectAction }: NodeActionsMenuProps): JSX.Element {
+export function NodeActionsMenu({
+  actions,
+  onSelectAction,
+}: NodeActionsMenuProps): React.JSX.Element {
   const [anchorEl, setAnchorEl] = useState<undefined | HTMLButtonElement>(undefined);
   const open = Boolean(anchorEl);
 

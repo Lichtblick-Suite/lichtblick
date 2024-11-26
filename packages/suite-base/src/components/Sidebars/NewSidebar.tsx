@@ -13,7 +13,7 @@ import { useStyles } from "@lichtblick/suite-base/components/Sidebars/NewSidebar
 import { SidebarItem } from "@lichtblick/suite-base/components/Sidebars/types";
 import Stack from "@lichtblick/suite-base/components/Stack";
 
-function Noop(): JSX.Element | undefined {
+function Noop(): React.JSX.Element | undefined {
   return undefined;
 }
 
