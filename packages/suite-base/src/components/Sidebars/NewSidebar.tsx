@@ -29,7 +29,7 @@ export function NewSidebar<K extends string>({
   onClose: () => void;
   activeTab: K | undefined;
   setActiveTab: (newValue: K) => void;
-}): JSX.Element {
+}): React.JSX.Element {
   const { classes, cx } = useStyles();
 
   const handleTabChange = useCallback(

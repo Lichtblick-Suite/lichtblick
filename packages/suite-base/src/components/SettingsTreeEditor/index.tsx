@@ -33,7 +33,7 @@ export default function SettingsTreeEditor({
 }: {
   variant: "panel" | "log";
   settings: Immutable<SettingsTree>;
-}): JSX.Element {
+}): React.JSX.Element {
   const { classes } = useStyles();
   const { actionHandler, focusedPath } = settings;
   const [filterText, setFilterText] = useState<string>("");

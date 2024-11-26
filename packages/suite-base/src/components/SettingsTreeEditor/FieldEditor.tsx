@@ -42,7 +42,7 @@ function FieldInput({
   actionHandler: (action: SettingsTreeAction) => void;
   field: Immutable<SettingsTreeField>;
   path: readonly string[];
-}): JSX.Element {
+}): React.JSX.Element {
   const { classes, cx } = useStyles();
 
   switch (field.input) {
@@ -339,7 +339,7 @@ function FieldInput({
   }
 }
 
-function FieldLabel({ field }: { field: Immutable<SettingsTreeField> }): JSX.Element {
+function FieldLabel({ field }: { field: Immutable<SettingsTreeField> }): React.JSX.Element {
   const { classes } = useStyles();
 
   if (field.input === "vec2") {
@@ -425,7 +425,7 @@ function FieldEditorComponent({
   actionHandler: (action: SettingsTreeAction) => void;
   field: Immutable<SettingsTreeField>;
   path: readonly string[];
-}): JSX.Element {
+}): React.JSX.Element {
   const indent = Math.min(path.length, 4);
   const paddingLeft = 0.75 + 2 * (indent - 1);
   const { classes, cx } = useStyles();

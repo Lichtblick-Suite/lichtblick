@@ -91,7 +91,7 @@ type State = {
   visibilityFilter: SelectVisibilityFilterValue;
 };
 
-function NodeEditorComponent(props: NodeEditorProps): JSX.Element {
+function NodeEditorComponent(props: NodeEditorProps): React.JSX.Element {
   const { actionHandler, defaultOpen = true, filter, focusedPath, settings = {} } = props;
   const [state, setState] = useImmer<State>({
     editing: false,
