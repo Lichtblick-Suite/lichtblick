@@ -38,6 +38,13 @@ export function NodeActionsMenu({
     [actions],
   );
 
+  const actionsWithUniqueIds = useMemo(() => {
+    return actions.map((action) => ({
+      ...action,
+      uniqueId: action.type === "divider" ? nanoid() : undefined,
+    }));
+  }, [actions]);
+
   return (
     <>
       <IconButton
@@ -63,13 +70,13 @@ export function NodeActionsMenu({
           dense: true,
         }}
       >
-        {actions.map((action) => {
+        {actionsWithUniqueIds.map((action) => {
           if (action.type === "divider") {
             return (
               <Divider
                 data-testid="node-actions-menu-divider"
                 variant={anyItemHasIcon ? "inset" : "fullWidth"}
-                key={`${nanoid()}`}
+                key={`${action.uniqueId}`}
               />
             );
           }
