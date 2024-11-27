@@ -171,8 +171,9 @@ describe("NewSidebar", () => {
         },
       }),
     );
-    renderComponent({ items, activeTab: undefined });
     const expectedItem = items.get(key)!;
+
+    renderComponent({ items, activeTab: undefined });
 
     expect(screen.getByText(expectedItem.title)).toBeDefined();
     expect(screen.getByText(expectedItem.badge!.count)).toBeDefined();
