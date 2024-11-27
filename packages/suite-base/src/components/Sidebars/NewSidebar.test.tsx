@@ -1,18 +1,20 @@
 /** @jest-environment jsdom */
-
 // SPDX-FileCopyrightText: Copyright (C) 2023-2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)<lichtblick@bmwgroup.com>
 // SPDX-License-Identifier: MPL-2.0
 
-import { render } from "@testing-library/react";
+import { userEvent } from "@storybook/testing-library";
+import { render, screen } from "@testing-library/react";
 
-import { NewSidebar } from "@lichtblick/suite-base/components/Sidebars/NewSidebar";
+import { NewSidebar, NewSidebarProps } from "@lichtblick/suite-base/components/Sidebars/NewSidebar";
 import { SidebarItem } from "@lichtblick/suite-base/components/Sidebars/types";
 import BasicBuilder from "@lichtblick/suite-base/testing/builders/BasicBuilder";
 
 describe("NewSidebar", () => {
-  function makeSideBarItem(props: Partial<SidebarItem> = {}): SidebarItem {
+  function sidebarItem(props: Partial<SidebarItem> = {}): SidebarItem {
+    const title = BasicBuilder.string();
     return {
-      title: BasicBuilder.string(),
+      title,
+      component: () => <div>Component of {title}</div>,
       ...props,
     };
   }
@@ -25,7 +27,7 @@ describe("NewSidebar", () => {
     for (let i = 1; i < n + 1; i++) {
       items.set(
         `item${i}`,
-        makeSideBarItem({
+        sidebarItem({
           title: `Title ${i}`,
           component: () => <div>Component {i}</div>,
           ...sidebarItemProps,
@@ -35,132 +37,145 @@ describe("NewSidebar", () => {
     return items;
   }
 
-  it("should render the title and component of the sidebarItem", () => {
-    const items = makeNSidebarItems(1);
+  function buildSidebarItems(): {
+    tabs: string[];
+    items: Map<string, SidebarItem>;
+    sidebarItems: SidebarItem[];
+  } {
+    const tabs = BasicBuilder.strings();
+    const items = new Map<string, SidebarItem>();
+    tabs.forEach((tab) => {
+      items.set(tab, sidebarItem());
+    });
+    const sidebarItems = tabs.map((tab) => items.get(tab)!);
 
-    const { getByText } = render(
-      <NewSidebar
-        items={items}
-        anchor="left"
-        onClose={jest.fn()}
-        activeTab="item1"
-        setActiveTab={jest.fn()}
-      />,
-    );
-    expect(getByText("Title 1")).toBeDefined();
-    expect(getByText("Component 1")).toBeDefined();
+    return {
+      tabs,
+      items,
+      sidebarItems,
+    };
+  }
+
+  const renderComponent = (propsOverride: Partial<NewSidebarProps<string>> = {}) => {
+    const { tabs, items, sidebarItems } = buildSidebarItems();
+    const props: NewSidebarProps<string> = {
+      activeTab: tabs[0],
+      anchor: "left",
+      items,
+      onClose: jest.fn(),
+      setActiveTab: jest.fn(),
+      ...propsOverride,
+    };
+
+    const ui: React.ReactElement = <NewSidebar {...props} />;
+
+    return {
+      ...render(ui),
+      props,
+      sidebarItems,
+      tabs,
+      user: userEvent.setup(),
+    };
+  };
+
+  it("should render the title and component of the sidebarItem", () => {
+    const activeTab = BasicBuilder.string();
+    const items = new Map<string, SidebarItem>();
+    items.set(activeTab, sidebarItem());
+
+    renderComponent({ items, activeTab });
+
+    const item = items.get(activeTab)!;
+    expect(screen.getByText(item.title)).toBeDefined();
+    expect(screen.getByText(`Component of ${item.title}`)).toBeDefined();
   });
 
   it("should render the all titles, but only the selected component", () => {
-    const items = makeNSidebarItems(3);
-
-    const { getByText, rerender } = render(
-      <NewSidebar
-        items={items}
-        anchor="left"
-        onClose={jest.fn()}
-        activeTab="item1"
-        setActiveTab={jest.fn()}
-      />,
-    );
+    const { rerender, tabs, sidebarItems, props } = renderComponent();
 
     // All titles are in the screen
-    expect(getByText("Title 1")).toBeDefined();
-    expect(getByText("Title 2")).toBeDefined();
-    expect(getByText("Title 3")).toBeDefined();
+    expect(screen.getByText(sidebarItems[0]!.title)).toBeDefined();
+    expect(screen.getByText(sidebarItems[1]!.title)).toBeDefined();
+    expect(screen.getByText(sidebarItems[2]!.title)).toBeDefined();
 
     // Only the first component is rendered
-    expect(getByText("Component 1")).toBeDefined();
-    expect(() => getByText("Component 2")).toThrow();
-    expect(() => getByText("Component 3")).toThrow();
+    expect(screen.getByText(`Component of ${sidebarItems[0]!.title}`)).toBeDefined();
+    expect(() => screen.getByText(`Component of ${sidebarItems[1]!.title}`)).toThrow();
+    expect(() => screen.getByText(`Component of ${sidebarItems[2]!.title}`)).toThrow();
 
     // Switch to the second tab
     rerender(
       <NewSidebar
-        items={items}
+        items={props.items}
         anchor="left"
         onClose={jest.fn()}
-        activeTab="item2"
+        activeTab={tabs[1]}
         setActiveTab={jest.fn()}
       />,
     );
 
     // All titles are in the screen again
-    expect(getByText("Title 1")).toBeDefined();
-    expect(getByText("Title 2")).toBeDefined();
-    expect(getByText("Title 3")).toBeDefined();
+    expect(screen.getByText(sidebarItems[0]!.title)).toBeDefined();
+    expect(screen.getByText(sidebarItems[1]!.title)).toBeDefined();
+    expect(screen.getByText(sidebarItems[2]!.title)).toBeDefined();
 
     // Only the second component is rendered
-    expect(() => getByText("Component 1")).toThrow();
-    expect(getByText("Component 2")).toBeDefined();
-    expect(() => getByText("Component 3")).toThrow();
+    expect(() => screen.getByText(`Component of ${sidebarItems[0]!.title}`)).toThrow();
+    expect(screen.getByText(`Component of ${sidebarItems[1]!.title}`)).toBeDefined();
+    expect(() => screen.getByText(`Component of ${sidebarItems[2]!.title}`)).toThrow();
 
     // Switch to the third tab
     rerender(
       <NewSidebar
-        items={items}
+        items={props.items}
         anchor="left"
         onClose={jest.fn()}
-        activeTab="item3"
+        activeTab={tabs[2]}
         setActiveTab={jest.fn()}
       />,
     );
 
     // All titles are in the screen again
-    expect(getByText("Title 1")).toBeDefined();
-    expect(getByText("Title 2")).toBeDefined();
-    expect(getByText("Title 3")).toBeDefined();
+    expect(screen.getByText(sidebarItems[0]!.title)).toBeDefined();
+    expect(screen.getByText(sidebarItems[1]!.title)).toBeDefined();
+    expect(screen.getByText(sidebarItems[2]!.title)).toBeDefined();
 
     // Only the third component is rendered
-    expect(() => getByText("Component 1")).toThrow();
-    expect(() => getByText("Component 2")).toThrow();
-    expect(getByText("Component 3")).toBeDefined();
+    expect(() => screen.getByText(`Component of ${sidebarItems[0]!.title}`)).toThrow();
+    expect(() => screen.getByText(`Component of ${sidebarItems[1]!.title}`)).toThrow();
+    expect(screen.getByText(`Component of ${sidebarItems[2]!.title}`)).toBeDefined();
   });
 
   it("should not render any component when activetab is undefined", () => {
-    const items = makeNSidebarItems(3);
-
-    const { getByText } = render(
-      <NewSidebar
-        items={items}
-        anchor="left"
-        onClose={jest.fn()}
-        activeTab={undefined}
-        setActiveTab={jest.fn()}
-      />,
-    );
+    const { sidebarItems } = renderComponent({ activeTab: undefined });
 
     // All titles are in the screen
-    expect(getByText("Title 1")).toBeDefined();
-    expect(getByText("Title 2")).toBeDefined();
-    expect(getByText("Title 3")).toBeDefined();
+    expect(screen.getByText(sidebarItems[0]!.title)).toBeDefined();
+    expect(screen.getByText(sidebarItems[1]!.title)).toBeDefined();
+    expect(screen.getByText(sidebarItems[2]!.title)).toBeDefined();
 
     // Will not find any component content
-    expect(() => getByText("Component 1")).toThrow();
-    expect(() => getByText("Component 2")).toThrow();
-    expect(() => getByText("Component 3")).toThrow();
+    expect(() => screen.getByText(`Component of ${sidebarItems[0]!.title}`)).toThrow();
+    expect(() => screen.getByText(`Component of ${sidebarItems[1]!.title}`)).toThrow();
+    expect(() => screen.getByText(`Component of ${sidebarItems[2]!.title}`)).toThrow();
   });
 
   it("should render the badge content", () => {
-    const items = makeNSidebarItems(1, {
-      badge: {
-        count: 5,
-        color: "primary",
-      },
-    });
-
-    const { getByText } = render(
-      <NewSidebar
-        items={items}
-        anchor="left"
-        onClose={jest.fn()}
-        activeTab="item1"
-        setActiveTab={jest.fn()}
-      />,
+    const { items } = buildSidebarItems();
+    const key = "withBadge";
+    items.set(
+      key,
+      sidebarItem({
+        badge: {
+          count: BasicBuilder.number(),
+        },
+      }),
     );
+    renderComponent({ items, activeTab: undefined });
+    const expectedItem = items.get(key)!;
 
-    expect(getByText("Title 1")).toBeDefined();
-    expect(getByText("5")).toBeDefined();
+    expect(screen.getByText(expectedItem.title)).toBeDefined();
+    expect(screen.getByText(expectedItem.badge!.count)).toBeDefined();
   });
 
   it("should call setActiveTab when a tab is clicked", () => {
@@ -202,7 +217,7 @@ describe("NewSidebar", () => {
   it("should call onClose when the close button is clicked", () => {
     const items = makeNSidebarItems(1);
 
-    const anchor = BasicBuilder.sample(["left", "right"]) as "left" | "right";
+    const anchor = BasicBuilder.sample(["left", "right"]);
 
     const onClose = jest.fn();
     const { getByTestId } = render(
