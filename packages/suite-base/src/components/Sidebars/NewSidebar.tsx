@@ -78,6 +78,7 @@ export function NewSidebar<K extends string>({
       flexShrink={0}
       overflow="hidden"
       data-tourid={`sidebar-${anchor}`}
+      data-testid={`sidebar-${anchor}`}
     >
       <Stack direction="row" justifyContent="space-between" alignItems="center">
         <Tabs
