@@ -18,3 +18,11 @@ export type SidebarItem = {
   title: string;
   url?: string;
 };
+
+export type NewSidebarProps<K> = {
+  items: Map<K, SidebarItem>;
+  anchor: "right" | "left";
+  onClose: () => void;
+  activeTab: K | undefined;
+  setActiveTab: (newValue: K) => void;
+};

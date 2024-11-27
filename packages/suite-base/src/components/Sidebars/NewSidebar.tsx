@@ -10,7 +10,7 @@ import { Badge, Divider, IconButton, Tab, Tabs } from "@mui/material";
 import { useCallback, useMemo } from "react";
 
 import { useStyles } from "@lichtblick/suite-base/components/Sidebars/NewSidebar.style";
-import { SidebarItem } from "@lichtblick/suite-base/components/Sidebars/types";
+import { NewSidebarProps } from "@lichtblick/suite-base/components/Sidebars/types";
 import Stack from "@lichtblick/suite-base/components/Stack";
 
 function Noop(): React.JSX.Element | undefined {
@@ -23,13 +23,7 @@ export function NewSidebar<K extends string>({
   onClose,
   activeTab,
   setActiveTab,
-}: {
-  items: Map<K, SidebarItem>;
-  anchor: "right" | "left";
-  onClose: () => void;
-  activeTab: K | undefined;
-  setActiveTab: (newValue: K) => void;
-}): React.JSX.Element {
+}: NewSidebarProps<K>): React.JSX.Element {
   const { classes, cx } = useStyles();
 
   const handleTabChange = useCallback(
