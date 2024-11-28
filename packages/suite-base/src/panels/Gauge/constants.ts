@@ -42,7 +42,7 @@ export const COLOR_MAPS: Record<ColorMapConfig | ColorModeConfig, ColorStops[]> 
     { color: "#0ff", location: 2 / 5 },
     { color: "#0f0", location: 3 / 5 },
     { color: "#ff0", location: 4 / 5 },
-    { color: "#f00", location: 5 / 5 },
+    { color: "#f00", location: 1 },
   ],
   [ColorMapConfig.TURBO]: [],
   [ColorModeConfig.COLORMAP]: [],
