@@ -8,105 +8,103 @@
 import { produce } from "immer";
 import * as _ from "lodash-es";
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 
 import { useShallowMemo } from "@lichtblick/hooks";
 import { SettingsTreeAction, SettingsTreeNode, SettingsTreeNodes } from "@lichtblick/suite";
+import { DATA_TYPES } from "@lichtblick/suite-base/panels/Gauge/constants";
 
-import type { Config } from "./types";
+import { ColorMapConfig, ColorModeConfig, type Config } from "./types";
 
-export function settingsActionReducer(prevConfig: Config, action: SettingsTreeAction): Config {
+export function settingsActionReducer(
+  prevConfig: Config,
+  { action, payload }: SettingsTreeAction,
+): Config {
   return produce(prevConfig, (draft) => {
-    switch (action.action) {
+    switch (action) {
       case "perform-node-action":
-        throw new Error(`Unhandled node action: ${action.payload.id}`);
+        throw new Error(`Unhandled node action: ${payload.id}`);
       case "update":
-        switch (action.payload.path[0]) {
+        switch (payload.path[0]) {
           case "general":
-            _.set(draft, [action.payload.path[1]!], action.payload.value);
+            _.set(draft, [payload.path[1]!], payload.value);
             break;
           default:
-            throw new Error(`Unexpected payload.path[0]: ${action.payload.path[0]}`);
+            throw new Error(`Unexpected payload.path[0]: ${payload.path[0]}`);
         }
         break;
     }
   });
 }
 
-const supportedDataTypes = [
-  "int8",
-  "uint8",
-  "int16",
-  "uint16",
-  "int32",
-  "uint32",
-  "float32",
-  "float64",
-  "string",
-];
-
 export function useSettingsTree(
-  config: Config,
+  { colorMap, colorMode, gradient, maxValue, minValue, path, reverse }: Config,
   pathParseError: string | undefined,
   error: string | undefined,
 ): SettingsTreeNodes {
+  const { t } = useTranslation("gauge");
   const generalSettings = useMemo(
     (): SettingsTreeNode => ({
       error,
       fields: {
         path: {
-          label: "Message path",
+          label: t("messagePath.label"),
           input: "messagepath",
-          value: config.path,
+          value: path,
           error: pathParseError,
-          validTypes: supportedDataTypes,
+          validTypes: DATA_TYPES,
         },
         minValue: {
-          label: "Min",
+          label: t("minValue.label"),
           input: "number",
-          value: config.minValue,
+          value: minValue,
         },
         maxValue: {
-          label: "Max",
+          label: t("maxValue.label"),
           input: "number",
-          value: config.maxValue,
+          value: maxValue,
         },
         colorMode: {
-          label: "Color mode",
+          label: t("colorMode.label"),
           input: "select",
-          value: config.colorMode,
+          value: colorMode,
           options: [
-            { label: "Color map", value: "colormap" },
-            { label: "Gradient", value: "gradient" },
+            { label: t("colorMode.options.colorMap"), value: ColorModeConfig.COLORMAP },
+            { label: "Gradient", value: ColorModeConfig.GRADIENT },
           ],
         },
-        ...(config.colorMode === "colormap" && {
+        ...(colorMode === ColorModeConfig.COLORMAP && {
           colorMap: {
-            label: "Color map",
+            label: t("colorMode.options.colorMap"),
             input: "select",
-            value: config.colorMap,
+            value: colorMap,
             options: [
-              { label: "Red to green", value: "red-yellow-green" },
-              { label: "Rainbow", value: "rainbow" },
-              { label: "Turbo", value: "turbo" },
+              {
+                label: t("colorMap.options.redYellowGreen"),
+                value: ColorMapConfig.RED_YELLOW_GREEN,
+              },
+              { label: t("colorMap.options.rainbow"), value: ColorMapConfig.RAINBOW },
+              { label: t("colorMap.options.turbo"), value: ColorMapConfig.TURBO },
             ],
           },
         }),
-        ...(config.colorMode === "gradient" && {
+        ...(colorMode === ColorModeConfig.GRADIENT && {
           gradient: {
-            label: "Gradient",
-            input: "gradient",
-            value: config.gradient,
+            label: t("colorMode.options.gradient"),
+            input: ColorModeConfig.GRADIENT,
+            value: gradient,
           },
         }),
         reverse: {
-          label: "Reverse",
+          label: t("reverse.label"),
           input: "boolean",
-          value: config.reverse,
+          value: reverse,
         },
       },
     }),
-    [error, config, pathParseError],
+    [error, t, path, minValue, maxValue, colorMode, colorMap, gradient, reverse, pathParseError],
   );
+
   return useShallowMemo({
     general: generalSettings,
   });
