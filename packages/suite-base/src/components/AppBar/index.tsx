@@ -39,6 +39,9 @@ import { AppMenu } from "./AppMenu";
 import { CustomWindowControls, CustomWindowControlsProps } from "./CustomWindowControls";
 import { DataSource } from "./DataSource";
 import { SettingsMenu } from "./SettingsMenu";
+import { useAppConfigurationValue } from "@lichtblick/suite-base/hooks";
+import { AppSetting } from "@lichtblick/suite-base/AppSetting";
+import { MemoryUseIndicator } from "@lichtblick/suite-base/components/MemoryUseIndicator";
 
 const useStyles = makeStyles<{ debugDragRegion?: boolean }, "avatar">()((
   theme,
@@ -175,6 +178,9 @@ export function AppBar(props: AppBarProps): React.JSX.Element {
   const { t } = useTranslation("appBar");
 
   const { appBarLayoutButton } = useAppContext();
+  const [enableMemoryUseIndicator = false] = useAppConfigurationValue<boolean>(
+    AppSetting.ENABLE_MEMORY_USE_INDICATOR,
+  );
 
   const hasCurrentLayout = useCurrentLayoutSelector(selectHasCurrentLayout);
 
@@ -251,6 +257,7 @@ export function AppBar(props: AppBarProps): React.JSX.Element {
 
           <div className={classes.end}>
             <div className={classes.endInner}>
+              {enableMemoryUseIndicator && <MemoryUseIndicator />}
               {appBarLayoutButton}
               <Stack direction="row" alignItems="center" data-tourid="sidebar-button-group">
                 <AppBarIconButton
