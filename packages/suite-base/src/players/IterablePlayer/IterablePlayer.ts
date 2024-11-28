@@ -195,7 +195,7 @@ export class IterablePlayer implements Player {
     this.#urlParams = urlParams;
     this.#metricsCollector = metricsCollector ?? new NoopMetricsCollector();
     this.#metricsCollector.playerConstructed();
-    this.#enablePreload = enablePreload ?? true;
+    this.#enablePreload = false;
     this.#sourceId = sourceId;
 
     this.isClosed = new Promise((resolveClose) => {

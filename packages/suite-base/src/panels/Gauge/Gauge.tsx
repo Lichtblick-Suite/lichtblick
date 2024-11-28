@@ -16,8 +16,9 @@ import { DEFAULT_CONFIG } from "@lichtblick/suite-base/panels/Gauge/constants";
 import { GaugeAndIndicatorState } from "@lichtblick/suite-base/panels/types";
 import { gaugeAndIndicatorReducer } from "@lichtblick/suite-base/panels/utils";
 
-import { settingsActionReducer, useSettingsTree } from "./settings";
+import { settingsActionReducer } from "./settingsActionReducer";
 import { GaugeConfig, GaugeProps } from "./types";
+import { useSettingsTree } from "./useSettingsTree";
 
 export function Gauge({ context }: GaugeProps): React.JSX.Element {
   const { classes } = useStyles();
