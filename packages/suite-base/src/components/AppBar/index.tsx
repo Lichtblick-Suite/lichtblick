@@ -19,7 +19,9 @@ import { useTranslation } from "react-i18next";
 import tc from "tinycolor2";
 import { makeStyles } from "tss-react/mui";
 
+import { AppSetting } from "@lichtblick/suite-base/AppSetting";
 import { LichtblickLogo } from "@lichtblick/suite-base/components/LichtblickLogo";
+import { MemoryUseIndicator } from "@lichtblick/suite-base/components/MemoryUseIndicator";
 import Stack from "@lichtblick/suite-base/components/Stack";
 import { useAppContext } from "@lichtblick/suite-base/context/AppContext";
 import {
@@ -31,6 +33,7 @@ import {
   useWorkspaceStore,
 } from "@lichtblick/suite-base/context/Workspace/WorkspaceContext";
 import { useWorkspaceActions } from "@lichtblick/suite-base/context/Workspace/useWorkspaceActions";
+import { useAppConfigurationValue } from "@lichtblick/suite-base/hooks";
 
 import { AddPanelMenu } from "./AddPanelMenu";
 import { AppBarContainer } from "./AppBarContainer";
@@ -39,9 +42,6 @@ import { AppMenu } from "./AppMenu";
 import { CustomWindowControls, CustomWindowControlsProps } from "./CustomWindowControls";
 import { DataSource } from "./DataSource";
 import { SettingsMenu } from "./SettingsMenu";
-import { useAppConfigurationValue } from "@lichtblick/suite-base/hooks";
-import { AppSetting } from "@lichtblick/suite-base/AppSetting";
-import { MemoryUseIndicator } from "@lichtblick/suite-base/components/MemoryUseIndicator";
 
 const useStyles = makeStyles<{ debugDragRegion?: boolean }, "avatar">()((
   theme,
