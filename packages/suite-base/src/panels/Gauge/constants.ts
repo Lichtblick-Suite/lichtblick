@@ -5,7 +5,7 @@ import {
   ColorMapConfig,
   ColorModeConfig,
   ColorStops,
-  Config,
+  GaugeConfig,
 } from "@lichtblick/suite-base/panels/Gauge/types";
 
 export const DATA_TYPES = [
@@ -20,7 +20,7 @@ export const DATA_TYPES = [
   "uint8",
 ];
 
-export const DEFAULT_CONFIG: Config = {
+export const DEFAULT_CONFIG: GaugeConfig = {
   colorMap: ColorMapConfig.RED_YELLOW_GREEN,
   colorMode: ColorModeConfig.COLORMAP,
   gradient: ["#0000ff", "#ff00ff"],

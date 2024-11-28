@@ -6,13 +6,13 @@ import {
   BuildConicGradientProps,
   ColorMapConfig,
   ColorModeConfig,
-  Config,
+  GaugeConfig,
 } from "@lichtblick/suite-base/panels/Gauge/types";
 import { turboColorString } from "@lichtblick/suite-base/util/colorUtils";
 
 import { buildConicGradient } from "./buildConicGradient";
 
-type ConicGradientConfig = Pick<Config, "colorMap" | "colorMode" | "gradient" | "reverse">;
+type ConicGradientConfig = Pick<GaugeConfig, "colorMap" | "colorMode" | "gradient" | "reverse">;
 
 describe("buildConicGradient", () => {
   function setup(
@@ -33,7 +33,7 @@ describe("buildConicGradient", () => {
       height: 100,
       width: 200,
       gaugeAngle: Math.PI / 4,
-      config: config as Config,
+      config: config as GaugeConfig,
       ...propsOverride,
     };
     return { props };

@@ -11,17 +11,19 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
 import { useShallowMemo } from "@lichtblick/hooks";
-import { SettingsTreeAction, SettingsTreeNode, SettingsTreeNodes } from "@lichtblick/suite";
+import { SettingsTreeNode, SettingsTreeNodes } from "@lichtblick/suite";
 import { DATA_TYPES } from "@lichtblick/suite-base/panels/Gauge/constants";
 
-import { ColorMapConfig, ColorModeConfig, type Config } from "./types";
+import { ColorMapConfig, ColorModeConfig, SettingsActionReducerProps, GaugeConfig } from "./types";
 
-export function settingsActionReducer(
-  prevConfig: Config,
-  { action, payload }: SettingsTreeAction,
-): Config {
+export function settingsActionReducer({
+  prevConfig,
+  action,
+}: SettingsActionReducerProps): GaugeConfig {
+  const { action: settingsTreeAction, payload } = action;
+
   return produce(prevConfig, (draft) => {
-    switch (action) {
+    switch (settingsTreeAction) {
       case "perform-node-action":
         throw new Error(`Unhandled node action: ${payload.id}`);
       case "update":
@@ -38,7 +40,7 @@ export function settingsActionReducer(
 }
 
 export function useSettingsTree(
-  { colorMap, colorMode, gradient, maxValue, minValue, path, reverse }: Config,
+  { colorMap, colorMode, gradient, maxValue, minValue, path, reverse }: GaugeConfig,
   pathParseError: string | undefined,
   error: string | undefined,
 ): SettingsTreeNodes {
