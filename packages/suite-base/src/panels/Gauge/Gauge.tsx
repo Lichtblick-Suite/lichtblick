@@ -79,7 +79,11 @@ export function Gauge({ context }: GaugeProps): React.JSX.Element {
     [setConfig],
   );
 
-  const settingsTree = useSettingsTree(config, state.pathParseError, state.error?.message);
+  const settingsTree = useSettingsTree({
+    config,
+    pathParseError: state.pathParseError,
+    error: state.error?.message,
+  });
   useEffect(() => {
     context.updatePanelSettingsEditor({
       actionHandler: settingsActionHandler,

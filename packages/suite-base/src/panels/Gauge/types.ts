@@ -53,3 +53,9 @@ export type SettingsActionReducerProps = {
   prevConfig: GaugeConfig;
   action: SettingsTreeAction;
 };
+
+export type SettingsTreeNodesProps = {
+  config: GaugeConfig;
+  pathParseError: string | undefined;
+  error: string | undefined;
+};

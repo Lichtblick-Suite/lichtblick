@@ -11,10 +11,16 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
 import { useShallowMemo } from "@lichtblick/hooks";
-import { SettingsTreeNode, SettingsTreeNodes } from "@lichtblick/suite";
+import { SettingsTreeNode } from "@lichtblick/suite";
 import { DATA_TYPES } from "@lichtblick/suite-base/panels/Gauge/constants";
 
-import { ColorMapConfig, ColorModeConfig, SettingsActionReducerProps, GaugeConfig } from "./types";
+import {
+  ColorMapConfig,
+  ColorModeConfig,
+  SettingsActionReducerProps,
+  GaugeConfig,
+  SettingsTreeNodesProps,
+} from "./types";
 
 export function settingsActionReducer({
   prevConfig,
@@ -39,12 +45,14 @@ export function settingsActionReducer({
   });
 }
 
-export function useSettingsTree(
-  { colorMap, colorMode, gradient, maxValue, minValue, path, reverse }: GaugeConfig,
-  pathParseError: string | undefined,
-  error: string | undefined,
-): SettingsTreeNodes {
+export function useSettingsTree({
+  config,
+  pathParseError,
+  error,
+}: SettingsTreeNodesProps): Record<"general", SettingsTreeNode> {
+  const { colorMap, colorMode, gradient, maxValue, minValue, path, reverse } = config;
   const { t } = useTranslation("gauge");
+
   const generalSettings = useMemo(
     (): SettingsTreeNode => ({
       error,
