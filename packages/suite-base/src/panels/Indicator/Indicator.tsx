@@ -12,13 +12,9 @@ import { makeStyles } from "tss-react/mui";
 
 import { parseMessagePath } from "@lichtblick/message-path";
 import { PanelExtensionContext, SettingsTreeAction } from "@lichtblick/suite";
-import { simpleGetMessagePathDataItems } from "@lichtblick/suite-base/components/MessagePathSyntax/simpleGetMessagePathDataItems";
 import Stack from "@lichtblick/suite-base/components/Stack";
-import { getSingleDataItem } from "@lichtblick/suite-base/panels/shared/gaugeAndIndicatorStateReducer";
-import {
-  GaugeAndIndicatorAction,
-  GaugeAndIndicatorState,
-} from "@lichtblick/suite-base/panels/types";
+import { stateReducer } from "@lichtblick/suite-base/panels/shared/gaugeAndIndicatorStateReducer";
+import { GaugeAndIndicatorState } from "@lichtblick/suite-base/panels/types";
 
 import { getMatchingRule } from "./getMatchingRule";
 import { settingsActionReducer, useSettingsTree } from "./settings";
@@ -50,79 +46,6 @@ const useStyles = makeStyles()({
   },
 });
 
-function reducer(
-  state: GaugeAndIndicatorState,
-  action: GaugeAndIndicatorAction,
-): GaugeAndIndicatorState {
-  try {
-    switch (action.type) {
-      case "frame": {
-        if (state.pathParseError != undefined) {
-          return { ...state, latestMessage: _.last(action.messages), error: undefined };
-        }
-        let latestMatchingQueriedData = state.latestMatchingQueriedData;
-        let latestMessage = state.latestMessage;
-        if (state.parsedPath) {
-          for (const message of action.messages) {
-            if (message.topic !== state.parsedPath.topicName) {
-              continue;
-            }
-            const data = getSingleDataItem(
-              simpleGetMessagePathDataItems(message, state.parsedPath),
-            );
-            if (data != undefined) {
-              latestMatchingQueriedData = data;
-              latestMessage = message;
-            }
-          }
-        }
-        return { ...state, latestMessage, latestMatchingQueriedData, error: undefined };
-      }
-      case "path": {
-        const newPath = parseMessagePath(action.path);
-        let pathParseError: string | undefined;
-        if (
-          newPath?.messagePath.some(
-            (part) =>
-              (part.type === "filter" && typeof part.value === "object") ||
-              (part.type === "slice" &&
-                (typeof part.start === "object" || typeof part.end === "object")),
-          ) === true
-        ) {
-          pathParseError = "Message paths using variables are not currently supported";
-        }
-        let latestMatchingQueriedData: unknown;
-        let error: Error | undefined;
-        try {
-          latestMatchingQueriedData =
-            newPath && pathParseError == undefined && state.latestMessage
-              ? getSingleDataItem(simpleGetMessagePathDataItems(state.latestMessage, newPath))
-              : undefined;
-        } catch (err: unknown) {
-          error = err as Error;
-        }
-        return {
-          ...state,
-          path: action.path,
-          parsedPath: newPath,
-          latestMatchingQueriedData,
-          error,
-          pathParseError,
-        };
-      }
-      case "seek":
-        return {
-          ...state,
-          latestMessage: undefined,
-          latestMatchingQueriedData: undefined,
-          error: undefined,
-        };
-    }
-  } catch (error) {
-    return { ...state, latestMatchingQueriedData: undefined, error };
-  }
-}
-
 export function Indicator({ context }: Props): React.JSX.Element {
   // panel extensions must notify when they've completed rendering
   // onRender will setRenderDone to a done callback which we can invoke after we've rendered
@@ -140,7 +63,7 @@ export function Indicator({ context }: Props): React.JSX.Element {
   }));
 
   const [state, dispatch] = useReducer(
-    reducer,
+    stateReducer,
     config,
     ({ path }): GaugeAndIndicatorState => ({
       path,
