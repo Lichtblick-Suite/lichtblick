@@ -10,10 +10,15 @@ import * as _ from "lodash-es";
 import { useCallback, useEffect, useLayoutEffect, useMemo, useReducer, useState } from "react";
 import { makeStyles } from "tss-react/mui";
 
-import { MessagePath, parseMessagePath } from "@lichtblick/message-path";
-import { MessageEvent, PanelExtensionContext, SettingsTreeAction } from "@lichtblick/suite";
+import { parseMessagePath } from "@lichtblick/message-path";
+import { PanelExtensionContext, SettingsTreeAction } from "@lichtblick/suite";
 import { simpleGetMessagePathDataItems } from "@lichtblick/suite-base/components/MessagePathSyntax/simpleGetMessagePathDataItems";
 import Stack from "@lichtblick/suite-base/components/Stack";
+import { getSingleDataItem } from "@lichtblick/suite-base/panels/shared/gaugeAndIndicatorStateReducer";
+import {
+  GaugeAndIndicatorAction,
+  GaugeAndIndicatorState,
+} from "@lichtblick/suite-base/panels/types";
 
 import { getMatchingRule } from "./getMatchingRule";
 import { settingsActionReducer, useSettingsTree } from "./settings";
@@ -45,28 +50,10 @@ const useStyles = makeStyles()({
   },
 });
 
-type State = {
-  path: string;
-  parsedPath: MessagePath | undefined;
-  latestMessage: MessageEvent | undefined;
-  latestMatchingQueriedData: unknown;
-  error: Error | undefined;
-  pathParseError: string | undefined;
-};
-
-type Action =
-  | { type: "frame"; messages: readonly MessageEvent[] }
-  | { type: "path"; path: string }
-  | { type: "seek" };
-
-function getSingleDataItem(results: unknown[]) {
-  if (results.length <= 1) {
-    return results[0];
-  }
-  throw new Error("Message path produced multiple results");
-}
-
-function reducer(state: State, action: Action): State {
+function reducer(
+  state: GaugeAndIndicatorState,
+  action: GaugeAndIndicatorAction,
+): GaugeAndIndicatorState {
   try {
     switch (action.type) {
       case "frame": {
@@ -155,7 +142,7 @@ export function Indicator({ context }: Props): React.JSX.Element {
   const [state, dispatch] = useReducer(
     reducer,
     config,
-    ({ path }): State => ({
+    ({ path }): GaugeAndIndicatorState => ({
       path,
       parsedPath: parseMessagePath(path),
       latestMessage: undefined,

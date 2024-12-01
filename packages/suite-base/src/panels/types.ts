@@ -13,7 +13,7 @@ export type GaugeAndIndicatorState = {
   pathParseError: string | undefined;
 };
 
-export type GaugeAndIndicatorAction =
-  | { type: "frame"; messages: readonly MessageEvent[] }
-  | { type: "path"; path: string }
-  | { type: "seek" };
+export type FrameAction = { type: "frame"; messages: readonly MessageEvent[] };
+export type PathAction = { type: "path"; path: string };
+export type SeekAction = { type: "seek" };
+export type GaugeAndIndicatorAction = FrameAction | PathAction | SeekAction;
