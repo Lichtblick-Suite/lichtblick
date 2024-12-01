@@ -21,12 +21,10 @@ export function settingsActionReducer({
       case "perform-node-action":
         throw new Error(`Unhandled node action: ${payload.id}`);
       case "update":
-        switch (payload.path[0]) {
-          case "general":
-            _.set(draft, [payload.path[1]!], payload.value);
-            break;
-          default:
-            throw new Error(`Unexpected payload.path[0]: ${payload.path[0]}`);
+        if (payload.path[0] === "general") {
+          _.set(draft, [payload.path[1]!], payload.value);
+        } else {
+          throw new Error(`Unexpected payload.path[0]: ${payload.path[0]}`);
         }
         break;
     }
