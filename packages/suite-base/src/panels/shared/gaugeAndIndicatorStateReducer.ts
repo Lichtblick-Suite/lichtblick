@@ -26,24 +26,24 @@ export function stateReducer(
         if (state.pathParseError != undefined) {
           return { ...state, latestMessage: _.last(action.messages), error: undefined };
         }
+        if (!state.parsedPath) {
+          return { ...state, error: undefined };
+        }
+
         let latestMatchingQueriedData = state.latestMatchingQueriedData;
         let latestMessage = state.latestMessage;
-        if (state.parsedPath) {
-          for (const message of action.messages) {
-            if (message.topic !== state.parsedPath.topicName) {
-              continue;
-            }
+        for (const message of action.messages) {
+          if (message.topic !== state.parsedPath.topicName) {
+            continue;
+          }
 
-            const data = getSingleDataItem(
-              simpleGetMessagePathDataItems(message, state.parsedPath),
-            );
-
-            if (data != undefined) {
-              latestMatchingQueriedData = data;
-              latestMessage = message;
-            }
+          const data = getSingleDataItem(simpleGetMessagePathDataItems(message, state.parsedPath));
+          if (data != undefined) {
+            latestMatchingQueriedData = data;
+            latestMessage = message;
           }
         }
+
         return { ...state, latestMessage, latestMatchingQueriedData, error: undefined };
       }
       case "path": {
