@@ -107,6 +107,20 @@ describe("stateReducer", () => {
     };
   }
 
+  it("should return the state when throw an error", () => {
+    const { state } = setup();
+
+    const { pathParseError, error, latestMatchingQueriedData, latestMessage, parsedPath, path } =
+      stateReducer(state, undefined as unknown as GaugeAndIndicatorAction);
+
+    expect(error).not.toBeUndefined();
+    expect(latestMatchingQueriedData).toBeUndefined();
+    expect(latestMessage).toEqual(state.latestMessage);
+    expect(parsedPath).toEqual(state.parsedPath);
+    expect(path).toEqual(state.path);
+    expect(pathParseError).toEqual(state.pathParseError);
+  });
+
   describe("stateReducer when frame action", () => {
     it("should handle latestMessage and latestMatchingQueriedData", () => {
       const topicName = BasicBuilder.string();
