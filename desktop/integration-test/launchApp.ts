@@ -16,7 +16,6 @@ import Logger from "@lichtblick/log";
 
 import { appPath } from "../../integration-test-build";
 
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 (Symbol as any).dispose ??= Symbol("Symbol.dispose");
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
