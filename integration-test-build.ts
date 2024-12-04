@@ -7,6 +7,7 @@
 
 import path from "path";
 import webpack from "webpack";
+
 import webpackConfigDesktop from "./desktop/webpack.config";
 import webpackConfigWeb from "./web/webpack.config";
 

@@ -13,6 +13,7 @@ import { ConsoleMessage, _electron as electron, ElectronApplication, Page } from
 
 import { signal } from "@lichtblick/den/async";
 import Logger from "@lichtblick/log";
+
 import { appPath } from "../../integration-test-build";
 
 
