@@ -10,7 +10,7 @@
     "@lichtblick/tsconfig": "1.0.0",
     "@types/ws": "^8",
     "electron": "33.2.1",
-    "playwright": "1.37.1",
+    "playwright": "1.49.1",
     "ws": "8.18.0"
   }
 }
