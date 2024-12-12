@@ -5,9 +5,8 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search";
-import { IconButton, List, ListItem, ListItemText, PopoverPosition, Skeleton } from "@mui/material";
+import { List, ListItem, ListItemText, PopoverPosition, Skeleton } from "@mui/material";
 import { MouseEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLatest } from "react-use";
@@ -54,9 +53,6 @@ const useStyles = makeStyles()((theme) => ({
     position: "sticky",
     backgroundColor: theme.palette.background.paper,
   },
-  filterStartAdornment: {
-    display: "flex",
-  },
   skeletonText: {
     marginTop: theme.spacing(0.5),
     marginBottom: theme.spacing(0.5),
@@ -89,6 +85,9 @@ export function TopicList(): React.JSX.Element {
   const { classes } = useStyles();
   const [undebouncedFilterText, setFilterText] = useState<string>("");
   const [debouncedFilterText] = useDebounce(undebouncedFilterText, 50);
+  const onClear = () => {
+    setFilterText("");
+  };
 
   const playerPresence = useMessagePipeline(selectPlayerPresence);
   const { topics, datatypes } = useDataSourceInfo();
@@ -231,38 +230,17 @@ export function TopicList(): React.JSX.Element {
   return (
     <MessagePathSelectionProvider getSelectedItems={getSelectedItemsAsDraggedMessagePaths}>
       <div className={classes.root}>
-        <header className={classes.filterBar}>
-          <SearchBar
-            id="topic-filter"
-            placeholder={t("searchBarPlaceholder")}
-            disabled={playerPresence !== PlayerPresence.PRESENT}
-            onChange={(event) => {
-              setFilterText(event.target.value);
-            }}
-            value={undebouncedFilterText}
-            InputProps={{
-              inputProps: { "data-testid": "topic-filter" },
-              size: "small",
-              startAdornment: (
-                <label className={classes.filterStartAdornment} htmlFor="topic-filter">
-                  <SearchIcon fontSize="small" />
-                </label>
-              ),
-              endAdornment: undebouncedFilterText && (
-                <IconButton
-                  size="small"
-                  title={t("clearFilter")}
-                  onClick={() => {
-                    setFilterText("");
-                  }}
-                  edge="end"
-                >
-                  <ClearIcon fontSize="small" />
-                </IconButton>
-              ),
-            }}
-          />
-        </header>
+        <SearchBar
+          id="topic-filter"
+          placeholder={t("searchBarPlaceholder")}
+          disabled={playerPresence !== PlayerPresence.PRESENT}
+          onChange={(event) => {
+            setFilterText(event.target.value);
+          }}
+          value={undebouncedFilterText}
+          showClearIcon={!!debouncedFilterText}
+          onClear={onClear}
+        />
         {treeItems.length > 0 ? (
           <div style={{ flex: "1 1 100%" }}>
             <AutoSizer>
