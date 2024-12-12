@@ -125,8 +125,6 @@
     "license-checker": "25.0.1",
     "prettier": "3.3.2",
     "react-refresh": "0.14.2",
-    "react-virtualized": "9.22.5",
-    "react-virtualized-auto-sizer": "1.0.24",
     "rimraf": "5.0.5",
     "semver": "7.5.4",
     "storybook": "8.4.6",
