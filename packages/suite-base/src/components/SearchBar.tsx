@@ -8,9 +8,16 @@ import { TextFieldProps } from "@mui/material/TextField";
 import { PropsWithChildren } from "react";
 import { makeStyles } from "tss-react/mui";
 
-const useStyles = makeStyles()(() => ({
+const useStyles = makeStyles()((theme) => ({
   filterStartAdornment: {
     display: "flex",
+  },
+  filterBar: {
+    top: 0,
+    zIndex: theme.zIndex.appBar,
+    padding: theme.spacing(0.5),
+    position: "sticky",
+    backgroundColor: theme.palette.background.paper,
   },
 }));
 
@@ -39,31 +46,35 @@ function SearchBar(
   const { classes } = useStyles();
 
   return (
-    <TextField
-      id={id}
-      variant={variant}
-      disabled={disabled}
-      value={value}
-      onChange={onChange}
-      placeholder={placeholder}
-      fullWidth
-      InputProps={{
-        ...rest.InputProps,
-        startAdornment: (
-          <InputAdornment className={classes.filterStartAdornment} position="start">
-            {startAdornment}
-          </InputAdornment>
-        ),
-        endAdornment: showClearIcon && (
-          <InputAdornment position="end">
-            <IconButton size="small" title="Clear" onClick={onClear} edge="end">
-              <ClearIcon fontSize="small" />
-            </IconButton>
-          </InputAdornment>
-        ),
-      }}
-      {...rest}
-    />
+    <>
+      <header className={classes.filterBar}>
+        <TextField
+          id={id}
+          variant={variant}
+          disabled={disabled}
+          value={value}
+          onChange={onChange}
+          placeholder={placeholder}
+          fullWidth
+          InputProps={{
+            ...rest.InputProps,
+            startAdornment: (
+              <InputAdornment className={classes.filterStartAdornment} position="start">
+                {startAdornment}
+              </InputAdornment>
+            ),
+            endAdornment: showClearIcon && (
+              <InputAdornment position="end">
+                <IconButton size="small" title="Clear" onClick={onClear} edge="end">
+                  <ClearIcon fontSize="small" />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+          {...rest}
+        />
+      </header>
+    </>
   );
 }
 
