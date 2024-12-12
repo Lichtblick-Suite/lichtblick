@@ -7,15 +7,7 @@
 
 import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search";
-import {
-  IconButton,
-  List,
-  ListItem,
-  ListItemText,
-  PopoverPosition,
-  Skeleton,
-  TextField,
-} from "@mui/material";
+import { IconButton, List, ListItem, ListItemText, PopoverPosition, Skeleton } from "@mui/material";
 import { MouseEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLatest } from "react-use";
@@ -34,6 +26,7 @@ import {
   useMessagePipeline,
 } from "@lichtblick/suite-base/components/MessagePipeline";
 import { DraggedMessagePath } from "@lichtblick/suite-base/components/PanelExtensionAdapter";
+import SearchBar from "@lichtblick/suite-base/components/SearchBar";
 import { ContextMenu } from "@lichtblick/suite-base/components/TopicList/ContextMenu";
 import { PlayerPresence } from "@lichtblick/suite-base/players/types";
 import { MessagePathSelectionProvider } from "@lichtblick/suite-base/services/messagePathDragging/MessagePathSelectionProvider";
@@ -208,7 +201,7 @@ export function TopicList(): React.JSX.Element {
     return (
       <>
         <header className={classes.filterBar}>
-          <TextField
+          <SearchBar
             disabled
             variant="filled"
             fullWidth
@@ -239,16 +232,14 @@ export function TopicList(): React.JSX.Element {
     <MessagePathSelectionProvider getSelectedItems={getSelectedItemsAsDraggedMessagePaths}>
       <div className={classes.root}>
         <header className={classes.filterBar}>
-          <TextField
+          <SearchBar
             id="topic-filter"
-            variant="filled"
+            placeholder={t("searchBarPlaceholder")}
             disabled={playerPresence !== PlayerPresence.PRESENT}
             onChange={(event) => {
               setFilterText(event.target.value);
             }}
             value={undebouncedFilterText}
-            fullWidth
-            placeholder={t("searchBarPlaceholder")}
             InputProps={{
               inputProps: { "data-testid": "topic-filter" },
               size: "small",
