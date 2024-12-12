@@ -162,7 +162,7 @@
     "react-transition-group": "4.4.5",
     "react-use": "17.5.1",
     "react-virtualized-auto-sizer": "1.0.24",
-    "react-window": "1.8.9",
+    "react-window": "1.8.10",
     "readable-stream": "4.4.2",
     "rehype-raw": "6.1.1",
     "reselect": "5.1.1",
