@@ -19,10 +19,12 @@ import * as _ from "lodash-es";
 import { useEffect, useMemo, useState } from "react";
 import { useAsyncFn } from "react-use";
 import { makeStyles } from "tss-react/mui";
+import { useDebounce } from "use-debounce";
 
 import Log from "@lichtblick/log";
 import { Immutable } from "@lichtblick/suite";
 import { ExtensionDetails } from "@lichtblick/suite-base/components/ExtensionDetails";
+import SearchBar from "@lichtblick/suite-base/components/SearchBar";
 import Stack from "@lichtblick/suite-base/components/Stack";
 import { useExtensionCatalog } from "@lichtblick/suite-base/context/ExtensionCatalogContext";
 import {
@@ -88,6 +90,11 @@ function ExtensionListEntry(props: {
 }
 
 export default function ExtensionsSettings(): React.ReactElement {
+  const [undebouncedFilterText, setFilterText] = useState<string>("");
+  const [debouncedFilterText] = useDebounce(undebouncedFilterText, 50);
+  const onClear = () => {
+    setFilterText("");
+  };
   const [focusedExtension, setFocusedExtension] = useState<
     | {
         installed: boolean;
@@ -183,6 +190,19 @@ export default function ExtensionsSettings(): React.ReactElement {
           Check your internet connection and try again.
         </Alert>
       )}
+      <div style={{ position: "sticky", top: 0, zIndex: 1 }}>
+        <SearchBar
+          id="extension-filter"
+          placeholder="Search extensions..."
+          variant="outlined"
+          onChange={(event) => {
+            setFilterText(event.target.value);
+          }}
+          value={undebouncedFilterText}
+          showClearIcon={!!debouncedFilterText}
+          onClear={onClear}
+        />
+      </div>
       {!_.isEmpty(namespacedEntries) ? (
         Object.entries(namespacedEntries).map(([namespace, entries]) => (
           <List key={namespace}>
