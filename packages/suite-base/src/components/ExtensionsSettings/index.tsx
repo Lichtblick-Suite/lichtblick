@@ -18,7 +18,6 @@ import {
 import * as _ from "lodash-es";
 import { useEffect, useMemo, useState } from "react";
 import { useAsyncFn } from "react-use";
-import { makeStyles } from "tss-react/mui";
 import { useDebounce } from "use-debounce";
 
 import Log from "@lichtblick/log";
@@ -32,13 +31,9 @@ import {
   useExtensionMarketplace,
 } from "@lichtblick/suite-base/context/ExtensionMarketplaceContext";
 
-const log = Log.getLogger(__filename);
+import { useStyles } from "./Index.style";
 
-const useStyles = makeStyles()((theme) => ({
-  listItemButton: {
-    "&:hover": { color: theme.palette.primary.main },
-  },
-}));
+const log = Log.getLogger(__filename);
 
 function displayNameForNamespace(namespace: string): string {
   switch (namespace) {

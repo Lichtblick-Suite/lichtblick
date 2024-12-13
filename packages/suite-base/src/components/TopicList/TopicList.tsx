@@ -12,7 +12,6 @@ import { useTranslation } from "react-i18next";
 import { useLatest } from "react-use";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { ListChildComponentProps, VariableSizeList } from "react-window";
-import { makeStyles } from "tss-react/mui";
 import { useDebounce } from "use-debounce";
 
 import { filterMap } from "@lichtblick/den/collection";
@@ -31,33 +30,12 @@ import { PlayerPresence } from "@lichtblick/suite-base/players/types";
 import { MessagePathSelectionProvider } from "@lichtblick/suite-base/services/messagePathDragging/MessagePathSelectionProvider";
 
 import { MessagePathRow } from "./MessagePathRow";
+import { useStyles } from "./TopicList.style";
 import { TopicRow } from "./TopicRow";
 import { useMultiSelection } from "./useMultiSelection";
 import { TopicListItem, useTopicListSearch } from "./useTopicListSearch";
 
 const selectPlayerPresence = ({ playerState }: MessagePipelineContext) => playerState.presence;
-
-const useStyles = makeStyles()((theme) => ({
-  root: {
-    width: "100%",
-    height: "100%",
-    overflow: "hidden",
-    display: "flex",
-    flexDirection: "column",
-    containerType: "inline-size",
-  },
-  filterBar: {
-    top: 0,
-    zIndex: theme.zIndex.appBar,
-    padding: theme.spacing(0.5),
-    position: "sticky",
-    backgroundColor: theme.palette.background.paper,
-  },
-  skeletonText: {
-    marginTop: theme.spacing(0.5),
-    marginBottom: theme.spacing(0.5),
-  },
-}));
 
 function getDraggedMessagePath(treeItem: TopicListItem): DraggedMessagePath {
   switch (treeItem.type) {
