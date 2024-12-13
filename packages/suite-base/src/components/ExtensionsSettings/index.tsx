@@ -90,10 +90,10 @@ function ExtensionListEntry(props: {
 }
 
 export default function ExtensionsSettings(): React.ReactElement {
-  const [undebouncedFilterText, setFilterText] = useState<string>("");
+  const [undebouncedFilterText, setUndebouncedFilterText] = useState<string>("");
   const [debouncedFilterText] = useDebounce(undebouncedFilterText, 50);
   const onClear = () => {
-    setFilterText("");
+    setUndebouncedFilterText("");
   };
   const [focusedExtension, setFocusedExtension] = useState<
     | {
@@ -115,9 +115,10 @@ export default function ExtensionsSettings(): React.ReactElement {
     [marketplaceEntries],
   );
 
-  const installedEntries = useMemo(
-    () =>
-      (installed ?? []).map((entry) => {
+  const installedEntries = useMemo(() => {
+    const searchLower = debouncedFilterText.toLowerCase();
+    return (installed ?? [])
+      .map((entry) => {
         const marketplaceEntry = marketplaceMap[entry.id];
         if (marketplaceEntry != undefined) {
           return { ...marketplaceEntry, namespace: entry.namespace };
@@ -137,9 +138,13 @@ export default function ExtensionsSettings(): React.ReactElement {
           namespace: entry.namespace,
           qualifiedName: entry.qualifiedName,
         };
-      }),
-    [installed, marketplaceMap],
-  );
+      })
+      .filter(
+        (entry) =>
+          entry.name.toLowerCase().includes(searchLower) ||
+          entry.description.toLowerCase().includes(searchLower),
+      );
+  }, [installed, marketplaceMap, debouncedFilterText]);
 
   const namespacedEntries = useMemo(
     () => _.groupBy(installedEntries, (entry) => entry.namespace),
@@ -175,6 +180,43 @@ export default function ExtensionsSettings(): React.ReactElement {
     );
   }
 
+  function generatePlaceholderList(message?: string): React.ReactElement {
+    return (
+      <List>
+        <ListItem>
+          <ListItemText primary={message} />
+        </ListItem>
+      </List>
+    );
+  }
+
+  function listExtensions() {
+    if (!_.isEmpty(namespacedEntries)) {
+      return Object.entries(namespacedEntries).map(([namespace, entries]) => (
+        <List key={namespace}>
+          <Stack paddingY={0.25} paddingX={2}>
+            <Typography component="li" variant="overline" color="text.secondary">
+              {displayNameForNamespace(namespace)}
+            </Typography>
+          </Stack>
+          {entries.map((entry) => (
+            <ExtensionListEntry
+              key={entry.id}
+              entry={entry}
+              onClick={() => {
+                setFocusedExtension({ installed: true, entry });
+              }}
+            />
+          ))}
+        </List>
+      ));
+    } else if (_.isEmpty(namespacedEntries) && undebouncedFilterText) {
+      return generatePlaceholderList("No extensions found"); //translate this!!!!
+    } else {
+      return generatePlaceholderList("No extensions installed"); //translate this!!!!
+    }
+  }
+
   return (
     <Stack gap={1}>
       {marketplaceEntries.error && (
@@ -196,39 +238,14 @@ export default function ExtensionsSettings(): React.ReactElement {
           placeholder="Search extensions..."
           variant="outlined"
           onChange={(event) => {
-            setFilterText(event.target.value);
+            setUndebouncedFilterText(event.target.value);
           }}
           value={undebouncedFilterText}
           showClearIcon={!!debouncedFilterText}
           onClear={onClear}
         />
       </div>
-      {!_.isEmpty(namespacedEntries) ? (
-        Object.entries(namespacedEntries).map(([namespace, entries]) => (
-          <List key={namespace}>
-            <Stack paddingY={0.25} paddingX={2}>
-              <Typography component="li" variant="overline" color="text.secondary">
-                {displayNameForNamespace(namespace)}
-              </Typography>
-            </Stack>
-            {entries.map((entry) => (
-              <ExtensionListEntry
-                key={entry.id}
-                entry={entry}
-                onClick={() => {
-                  setFocusedExtension({ installed: true, entry });
-                }}
-              />
-            ))}
-          </List>
-        ))
-      ) : (
-        <List>
-          <ListItem>
-            <ListItemText primary="No installed extensions" />
-          </ListItem>
-        </List>
-      )}
+      {listExtensions()}
       <List>
         <Stack paddingY={0.25} paddingX={2}>
           <Typography component="li" variant="overline" color="text.secondary">
