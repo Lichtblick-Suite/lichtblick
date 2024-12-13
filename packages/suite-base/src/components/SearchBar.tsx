@@ -27,21 +27,19 @@ function SearchBar(
     onClear,
     showClearIcon = false,
     startAdornment = <SearchIcon fontSize="small" />,
-    placeholder = "Search...",
     ...rest
   } = props;
 
   const { classes } = useStyles();
 
   return (
-    <header className={classes.filterBar}>
+    <header className={classes.filterSearchBar}>
       <TextField
         id={id}
         variant={variant}
         disabled={disabled}
         value={value}
         onChange={onChange}
-        placeholder={placeholder}
         fullWidth
         InputProps={{
           ...rest.InputProps,

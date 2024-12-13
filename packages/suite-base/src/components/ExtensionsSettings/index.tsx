@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 import * as _ from "lodash-es";
 import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useAsyncFn } from "react-use";
 import { useDebounce } from "use-debounce";
 
@@ -85,6 +86,7 @@ function ExtensionListEntry(props: {
 }
 
 export default function ExtensionsSettings(): React.ReactElement {
+  const { t } = useTranslation("extensionsSettings");
   const [undebouncedFilterText, setUndebouncedFilterText] = useState<string>("");
   const [debouncedFilterText] = useDebounce(undebouncedFilterText, 50);
   const onClear = () => {
@@ -189,7 +191,7 @@ export default function ExtensionsSettings(): React.ReactElement {
     if (!_.isEmpty(namespacedEntries)) {
       return Object.entries(namespacedEntries).map(([namespace, entries]) => (
         <List key={namespace}>
-          <Stack paddingY={0.25} paddingX={2}>
+          <Stack paddingY={0} paddingX={2}>
             <Typography component="li" variant="overline" color="text.secondary">
               {displayNameForNamespace(namespace)}
             </Typography>
@@ -206,9 +208,9 @@ export default function ExtensionsSettings(): React.ReactElement {
         </List>
       ));
     } else if (_.isEmpty(namespacedEntries) && undebouncedFilterText) {
-      return generatePlaceholderList("No extensions found"); //translate this!!!!
+      return generatePlaceholderList(t("noExtensionsFound"));
     } else {
-      return generatePlaceholderList("No extensions installed"); //translate this!!!!
+      return generatePlaceholderList(t("noExtensionsAvailable"));
     }
   }
 
@@ -223,14 +225,15 @@ export default function ExtensionsSettings(): React.ReactElement {
             </Button>
           }
         >
-          <AlertTitle>Failed to retrieve the list of available marketplace extensions</AlertTitle>
-          Check your internet connection and try again.
+          <AlertTitle>{t("failedToRetrieveMarketplaceExtensions")}</AlertTitle>
+          {t("checkInternetConnection")}
         </Alert>
       )}
       <div style={{ position: "sticky", top: 0, zIndex: 1 }}>
         <SearchBar
+          style={{ paddingBottom: 13 }}
           id="extension-filter"
-          placeholder="Search extensions..."
+          placeholder={t("searchExtensions")}
           variant="outlined"
           onChange={(event) => {
             setUndebouncedFilterText(event.target.value);
@@ -242,9 +245,9 @@ export default function ExtensionsSettings(): React.ReactElement {
       </div>
       {listExtensions()}
       <List>
-        <Stack paddingY={0.25} paddingX={2}>
+        <Stack paddingY={0.1} paddingX={2}>
           <Typography component="li" variant="overline" color="text.secondary">
-            Available
+            {t("available")}
           </Typography>
         </Stack>
         {filteredMarketplaceEntries.map((entry) => (

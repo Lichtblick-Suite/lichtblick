@@ -7,7 +7,7 @@ export const useStyles = makeStyles()((theme) => ({
   filterStartAdornment: {
     display: "flex",
   },
-  filterBar: {
+  filterSearchBar: {
     top: 0,
     zIndex: theme.zIndex.appBar,
     padding: theme.spacing(0.5),
