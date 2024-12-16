@@ -168,19 +168,17 @@ describe("App Component MultiProvider Tests", () => {
 
   it("verifies that MultiProvider has rendered all providers when its nativeApp", () => {
     setup({ nativeAppMenu: {} as INativeAppMenu });
-    const providerTypes = verifyProviderTypes();
 
     expectedProviders.forEach((provider) => {
-      expect(providerTypes).toContain(provider);
+      expect(verifyProviderTypes()).toContain(provider);
     });
   });
 
   it("verifies that MultiProvider has rendered all providers when its nativeWindow", () => {
     setup({ nativeWindow: {} as INativeWindow });
-    const providerTypes = verifyProviderTypes();
 
     expectedProviders.forEach((provider) => {
-      expect(providerTypes).toContain(provider);
+      expect(verifyProviderTypes()).toContain(provider);
     });
   });
 });
