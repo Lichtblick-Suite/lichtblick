@@ -14,74 +14,57 @@ beforeEach(() => {
   jest.clearAllMocks();
 });
 
-const mockAppConfiguration: IAppConfiguration = {
-  get: jest.fn(),
-  set: jest.fn(),
-  addChangeListener: jest.fn(),
-  removeChangeListener: jest.fn()
-};
-
+// Mocking shared components
 jest.mock("./providers/LayoutManagerProvider", () => jest.fn(() => <></>));
 jest.mock("./components/SyncAdapters", () => jest.fn(() => <></>));
-jest.mock("./components/MultiProvider", () =>
-  jest.fn(({ children }: { children: React.ReactNode }) => <>{children}</>),
-);
-jest.mock("./components/GlobalCss", () =>  jest.fn(({ children }) => <div data-testid="global-css">{children}</div>));
+jest.mock("./components/MultiProvider", () => jest.fn(({ children }) => <>{children}</>));
+jest.mock("./components/GlobalCss", () => jest.fn(({ children }) => <div data-testid="global-css">{children}</div>));
 jest.mock("./components/StudioToastProvider", () => jest.fn(() => <></>));
 jest.mock("./components/PlayerManager", () => jest.fn(() => <></>));
 jest.mock("./components/DocumentTitleAdapter", () => jest.fn(() => <></>));
 jest.mock("./components/ErrorBoundary", () => jest.fn(() => <></>));
 jest.mock("./components/ColorSchemeThemeProvider", () => ({
-  ColorSchemeThemeProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>,
+  ColorSchemeThemeProvider: jest.fn(({ children }) => <>{children}</>),
 }));
 jest.mock("./components/CssBaseline", () => jest.fn(({ children }) => <>cssBaseline {children}</>));
 jest.mock("./screens/LaunchPreference", () => ({
-  LaunchPreference: jest.fn(({ children }) => <>maybeLaunchPreference {children}</>)
+  LaunchPreference: jest.fn(({ children }) => <>maybeLaunchPreference {children}</>),
 }));
 
-describe("App Component", () => {
+// Mocked App configuration
+const mockAppConfiguration: IAppConfiguration = {
+  get: jest.fn(),
+  set: jest.fn(),
+  addChangeListener: jest.fn(),
+  removeChangeListener: jest.fn(),
+};
 
+// Helper to render the App with default props
+const setup = (overrides: Partial<React.ComponentProps<typeof App>> = {}) => {
+  const defaultProps = {
+    appConfiguration: mockAppConfiguration,
+    deepLinks: [],
+    dataSources: [],
+    extensionLoaders: [],
+    layoutLoaders: [],
+    ...overrides,
+  };
+  return render(<App {...defaultProps} />);
+};
+
+describe("App Component", () => {
   it("renders without crashing", () => {
-    render(
-      <App
-        appConfiguration={mockAppConfiguration}
-        deepLinks={[]}
-        dataSources={[]}
-        extensionLoaders={[]}
-        layoutLoaders={[]}
-      />
-    );
+    setup();
     expect(screen.getByText("cssBaseline")).toBeDefined();
   });
 
   it("renders GlobalCss when enableGlobalCss is true", () => {
-    render(
-      <App
-        appConfiguration={mockAppConfiguration}
-        deepLinks={[]}
-        dataSources={[]}
-        extensionLoaders={[]}
-        layoutLoaders={[]}
-        enableGlobalCss={true}
-      />
-    );
+    setup({ enableGlobalCss: true });
     expect(screen.getByTestId("global-css")).toBeDefined();
   });
 
   it("renders LaunchPreference screen when enableLaunchPreferenceScreen is true", () => {
-    render(
-
-      <App
-        appConfiguration={mockAppConfiguration}
-        dataSources={[]}
-        extensionLoaders={[]}
-        layoutLoaders={[]}
-        deepLinks={[]}
-        enableLaunchPreferenceScreen={true}
-      />
-
-    );
+    setup({ enableLaunchPreferenceScreen: true });
     expect(screen.getByText("maybeLaunchPreference")).toBeDefined();
   });
-
 });
