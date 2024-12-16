@@ -160,6 +160,7 @@ describe("App Component MultiProvider Tests", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
+
   it("verifies that MultiProvider is called with correct providers", () => {
     setup();
     expect(screen.getByTestId("multi-provider")).toBeDefined();
