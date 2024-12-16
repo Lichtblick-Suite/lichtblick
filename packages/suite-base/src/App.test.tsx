@@ -28,45 +28,31 @@ beforeEach(() => {
   jest.clearAllMocks();
 });
 
+function mockProvider(testId: string) {
+  return jest.fn(({ children }) => <div data-testid={testId}>{children}</div>);
+}
+
 // Mocking shared providers and components
-jest.mock("./providers/LayoutManagerProvider", () =>
-  jest.fn(({ children }) => <div data-testid="layout-manager-provider">{children}</div>),
-);
-jest.mock("./providers/PanelCatalogProvider", () =>
-  jest.fn(({ children }) => <div data-testid="panel-catalog-provider">{children}</div>),
-);
-jest.mock("./components/MultiProvider", () =>
-  jest.fn(({ children }) => <div data-testid="multi-provider">{children}</div>),
-);
-jest.mock("./components/StudioToastProvider", () =>
-  jest.fn(({ children }) => <div data-testid="studio-toast-provider">{children}</div>),
-);
-jest.mock("./components/GlobalCss", () =>
-  jest.fn(({ children }) => <div data-testid="global-css">{children}</div>),
-);
-jest.mock("./components/DocumentTitleAdapter", () =>
-  jest.fn(({ children }) => <div data-testid="document-title-adapter">{children}</div>),
-);
-jest.mock("./components/ErrorBoundary", () =>
-  jest.fn(({ children }) => <div data-testid="error-boundary">{children}</div>),
-);
+jest.mock("./providers/LayoutManagerProvider", () => mockProvider("layout-manager-provider"));
+jest.mock("./providers/PanelCatalogProvider", () => mockProvider("panel-catalog-provider"));
+jest.mock("./components/MultiProvider", () => mockProvider("multi-provider"));
+jest.mock("./components/StudioToastProvider", () => mockProvider("studio-toast-provider"));
+jest.mock("./components/GlobalCss", () => mockProvider("global-css"));
+jest.mock("./components/DocumentTitleAdapter", () => mockProvider("document-title-adapter"));
+jest.mock("./components/ErrorBoundary", () => mockProvider("error-boundary"));
 jest.mock("./components/ColorSchemeThemeProvider", () => ({
-  ColorSchemeThemeProvider: jest.fn(({ children }) => (
-    <div data-testid="color-scheme-theme">{children}</div>
-  )),
+  ColorSchemeThemeProvider: mockProvider("color-scheme-theme"),
 }));
-jest.mock("./components/CssBaseline", () =>
-  jest.fn(({ children }) => <div data-testid="css-baseline">{children}</div>),
-);
+jest.mock("./components/CssBaseline", () => mockProvider("css-baseline"));
 jest.mock("./components/SendNotificationToastAdapter", () =>
-  jest.fn(({ children }) => <div data-testid="send-notification-toast-adapter">{children}</div>),
+  mockProvider("send-notification-toast-adapter"),
 );
 jest.mock("./context/NativeAppMenuContext", () => ({
-  Provider: jest.fn(({ children }) => <div data-testid="native-app-component">{children}</div>),
+  Provider: mockProvider("native-app-component"),
 }));
-jest.mock("./Workspace", () => jest.fn(() => <div data-testid="workspace-component"></div>));
+jest.mock("./Workspace", () => mockProvider("workspace-component"));
 jest.mock("./screens/LaunchPreference", () => ({
-  LaunchPreference: jest.fn(() => <div data-testid="launch-preference"></div>),
+  LaunchPreference: mockProvider("launch-preference"),
 }));
 
 // Mocked App configuration
