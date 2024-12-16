@@ -7,6 +7,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import { render, screen } from "@testing-library/react";
+import React from "react";
 
 import { IAppConfiguration } from "@lichtblick/suite-base/context/AppConfigurationContext";
 
@@ -17,37 +18,18 @@ beforeEach(() => {
   jest.clearAllMocks();
 });
 
-// Mocking shared providers
-jest.mock("./providers/LayoutManagerProvider", () => jest.fn(() => <></>));
-jest.mock("./providers/PanelCatalogProvider", () =>
-  jest.fn(({ children }) => <div data-testid="panel-catalog-provider">{children}</div>),
-);
-// Mocking shared components
-jest.mock("./components/MultiProvider", () =>
-  jest.fn(({ children }) => <div data-testid="multi-provider">{children}</div>),
-);
-jest.mock("./components/GlobalCss", () =>
-  jest.fn(({ children }) => <div data-testid="global-css">{children}</div>),
-);
-jest.mock("./components/StudioToastProvider", () => jest.fn(() => <></>));
-jest.mock("./components/DocumentTitleAdapter", () =>
-  jest.fn(({ children }) => <div data-testid="document-title-adapter">{children}</div>),
-);
-jest.mock("./components/ErrorBoundary", () =>
-  jest.fn(({ children }) => <div data-testid="error-boundary">{children}</div>),
-);
+// Mocking shared providers and components
+jest.mock("./providers/LayoutManagerProvider", () => jest.fn(({ children }) => <div data-testid="layout-manager-provider">{children}</div>));
+jest.mock("./providers/PanelCatalogProvider", () => jest.fn(({ children }) => <div data-testid="panel-catalog-provider">{children}</div>));
+jest.mock("./components/MultiProvider", () => jest.fn(({ children }) => <div data-testid="multi-provider">{children}</div>));
+jest.mock("./components/GlobalCss", () => jest.fn(({ children }) => <div data-testid="global-css">{children}</div>));
+jest.mock("./components/DocumentTitleAdapter", () => jest.fn(({ children }) => <div data-testid="document-title-adapter">{children}</div>));
+jest.mock("./components/ErrorBoundary", () => jest.fn(({ children }) => <div data-testid="error-boundary">{children}</div>));
 jest.mock("./components/ColorSchemeThemeProvider", () => ({
-  ColorSchemeThemeProvider: jest.fn(({ children }) => (
-    <div data-testid="color-scheme-theme">{children}</div>
-  )),
+  ColorSchemeThemeProvider: jest.fn(({ children }) => <div data-testid="color-scheme-theme">{children}</div>),
 }));
-jest.mock("./components/CssBaseline", () =>
-  jest.fn(({ children }) => <div data-testid="css-baseline"> {children}</div>),
-);
-jest.mock("./components/SendNotificationToastAdapter", () =>
-  jest.fn(({ children }) => <div data-testid="send-notification-toast-adapter">{children}</div>),
-);
-
+jest.mock("./components/CssBaseline", () => jest.fn(({ children }) => <div data-testid="css-baseline">{children}</div>));
+jest.mock("./components/SendNotificationToastAdapter", () => jest.fn(({ children }) => <div data-testid="send-notification-toast-adapter">{children}</div>));
 jest.mock("./context/NativeAppMenuContext", () => ({
   Provider: jest.fn(({ children }) => <div data-testid="native-app-component">{children}</div>),
 }));
