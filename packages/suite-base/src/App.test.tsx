@@ -9,7 +9,17 @@
 import { render, screen } from "@testing-library/react";
 import React from "react";
 
+import MultiProvider from "@lichtblick/suite-base/components/MultiProvider";
+import StudioToastProvider from "@lichtblick/suite-base/components/StudioToastProvider";
 import { IAppConfiguration } from "@lichtblick/suite-base/context/AppConfigurationContext";
+import LayoutStorageContext from "@lichtblick/suite-base/context/LayoutStorageContext";
+import { INativeAppMenu } from "@lichtblick/suite-base/context/NativeAppMenuContext";
+import { INativeWindow } from "@lichtblick/suite-base/context/NativeWindowContext";
+import CurrentLayoutProvider from "@lichtblick/suite-base/providers/CurrentLayoutProvider";
+import LayoutManagerProvider from "@lichtblick/suite-base/providers/LayoutManagerProvider";
+import ProblemsContextProvider from "@lichtblick/suite-base/providers/ProblemsContextProvider";
+import { StudioLogsSettingsProvider } from "@lichtblick/suite-base/providers/StudioLogsSettingsProvider";
+import UserProfileLocalStorageProvider from "@lichtblick/suite-base/providers/UserProfileLocalStorageProvider";
 
 import { App } from "./App";
 import Workspace from "./Workspace";
@@ -19,17 +29,38 @@ beforeEach(() => {
 });
 
 // Mocking shared providers and components
-jest.mock("./providers/LayoutManagerProvider", () => jest.fn(({ children }) => <div data-testid="layout-manager-provider">{children}</div>));
-jest.mock("./providers/PanelCatalogProvider", () => jest.fn(({ children }) => <div data-testid="panel-catalog-provider">{children}</div>));
-jest.mock("./components/MultiProvider", () => jest.fn(({ children }) => <div data-testid="multi-provider">{children}</div>));
-jest.mock("./components/GlobalCss", () => jest.fn(({ children }) => <div data-testid="global-css">{children}</div>));
-jest.mock("./components/DocumentTitleAdapter", () => jest.fn(({ children }) => <div data-testid="document-title-adapter">{children}</div>));
-jest.mock("./components/ErrorBoundary", () => jest.fn(({ children }) => <div data-testid="error-boundary">{children}</div>));
+jest.mock("./providers/LayoutManagerProvider", () =>
+  jest.fn(({ children }) => <div data-testid="layout-manager-provider">{children}</div>),
+);
+jest.mock("./providers/PanelCatalogProvider", () =>
+  jest.fn(({ children }) => <div data-testid="panel-catalog-provider">{children}</div>),
+);
+jest.mock("./components/MultiProvider", () =>
+  jest.fn(({ children }) => <div data-testid="multi-provider">{children}</div>),
+);
+jest.mock("./components/StudioToastProvider", () =>
+  jest.fn(({ children }) => <div data-testid="studio-toast-provider">{children}</div>),
+);
+jest.mock("./components/GlobalCss", () =>
+  jest.fn(({ children }) => <div data-testid="global-css">{children}</div>),
+);
+jest.mock("./components/DocumentTitleAdapter", () =>
+  jest.fn(({ children }) => <div data-testid="document-title-adapter">{children}</div>),
+);
+jest.mock("./components/ErrorBoundary", () =>
+  jest.fn(({ children }) => <div data-testid="error-boundary">{children}</div>),
+);
 jest.mock("./components/ColorSchemeThemeProvider", () => ({
-  ColorSchemeThemeProvider: jest.fn(({ children }) => <div data-testid="color-scheme-theme">{children}</div>),
+  ColorSchemeThemeProvider: jest.fn(({ children }) => (
+    <div data-testid="color-scheme-theme">{children}</div>
+  )),
 }));
-jest.mock("./components/CssBaseline", () => jest.fn(({ children }) => <div data-testid="css-baseline">{children}</div>));
-jest.mock("./components/SendNotificationToastAdapter", () => jest.fn(({ children }) => <div data-testid="send-notification-toast-adapter">{children}</div>));
+jest.mock("./components/CssBaseline", () =>
+  jest.fn(({ children }) => <div data-testid="css-baseline">{children}</div>),
+);
+jest.mock("./components/SendNotificationToastAdapter", () =>
+  jest.fn(({ children }) => <div data-testid="send-notification-toast-adapter">{children}</div>),
+);
 jest.mock("./context/NativeAppMenuContext", () => ({
   Provider: jest.fn(({ children }) => <div data-testid="native-app-component">{children}</div>),
 }));
@@ -130,15 +161,32 @@ describe("App Component", () => {
     expect(screen.getByTestId("multi-provider").children.length).toBe(3);
   });
 
-  // // one test for nativeAppMenu
-  // it("verifies that Multiprovider has rendered all providers", () => {
-  //   setup({nativeAppMenu: {} as INativeAppMenu});
-  //   const props = (MultiProvider as jest.Mock).mock.calls[0][0];
+  it("verifies that Multiprovider has rendered all providers when its nativeApp", () => {
+    setup({ nativeAppMenu: {} as INativeAppMenu });
 
-  //   expect(props.providers).toContain(<StudioLogsSettingsProvider />);
-  // });
+    const props = (MultiProvider as jest.Mock).mock.calls[0][0];
+    const providerTypes = props.providers.map((provider: React.ReactElement) => provider.type);
 
-  // // one test with the all fix provider
-  // //
-  // // one test for nativeWindow
+    expect(providerTypes).toContain(StudioToastProvider);
+    expect(providerTypes).toContain(StudioLogsSettingsProvider);
+    expect(providerTypes).toContain(ProblemsContextProvider);
+    expect(providerTypes).toContain(CurrentLayoutProvider);
+    expect(providerTypes).toContain(UserProfileLocalStorageProvider);
+    expect(providerTypes).toContain(LayoutManagerProvider);
+    expect(providerTypes).toContain(LayoutStorageContext.Provider);
+  });
+
+  it("verifies that Multiprovider has rendered all providers when its nativeWindow", () => {
+    setup({ nativeWindow: {} as INativeWindow });
+    const props = (MultiProvider as jest.Mock).mock.calls[0][0];
+    const providerTypes = props.providers.map((provider: React.ReactElement) => provider.type);
+
+    expect(providerTypes).toContain(StudioToastProvider);
+    expect(providerTypes).toContain(StudioLogsSettingsProvider);
+    expect(providerTypes).toContain(ProblemsContextProvider);
+    expect(providerTypes).toContain(CurrentLayoutProvider);
+    expect(providerTypes).toContain(UserProfileLocalStorageProvider);
+    expect(providerTypes).toContain(LayoutManagerProvider);
+    expect(providerTypes).toContain(LayoutStorageContext.Provider);
+  });
 });
