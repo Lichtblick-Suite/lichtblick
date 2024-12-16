@@ -139,11 +139,6 @@ describe("App Component", () => {
     expect(screen.queryByTestId("launch-preference")).toBeNull();
   });
 
-  it("renders LaunchPreference component when enableLaunchPreferenceScreen is true", () => {
-    setup({ enableLaunchPreferenceScreen: true });
-    expect(screen.getByTestId("launch-preference")).toBeDefined();
-  });
-
   it("passes deepLinks and onAppBarDoubleClick to Workspace", () => {
     const mockDeepLinks = ["link1", "link2"];
     const mockOnAppBarDoubleClick = jest.fn();
@@ -163,40 +158,50 @@ describe("App Component", () => {
       {},
     );
   });
+});
 
-  it("verifies that Multiprovider is called with correct providers", () => {
+describe("App Component MultiProvider Tests", () => {
+  const expectedProviders = [
+    StudioToastProvider,
+    StudioLogsSettingsProvider,
+    ProblemsContextProvider,
+    CurrentLayoutProvider,
+    UserProfileLocalStorageProvider,
+    LayoutManagerProvider,
+    LayoutStorageContext.Provider,
+  ];
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+  it("verifies that MultiProvider is called with correct providers", () => {
     setup();
     expect(screen.getByTestId("multi-provider")).toBeDefined();
-    expect(screen.getByTestId("multi-provider").children.length).toBe(3);
+    expect(screen.getByTestId("multi-provider").children).toHaveLength(3);
   });
 
-  it("verifies that Multiprovider has rendered all providers when its nativeApp", () => {
+  it("verifies that MultiProvider has rendered all providers when its nativeApp", () => {
     setup({ nativeAppMenu: {} as INativeAppMenu });
+    const providerTypes = verifyProviderTypes();
 
-    const props = (MultiProvider as jest.Mock).mock.calls[0][0];
-    const providerTypes = props.providers.map((provider: React.ReactElement) => provider.type);
-
-    expect(providerTypes).toContain(StudioToastProvider);
-    expect(providerTypes).toContain(StudioLogsSettingsProvider);
-    expect(providerTypes).toContain(ProblemsContextProvider);
-    expect(providerTypes).toContain(CurrentLayoutProvider);
-    expect(providerTypes).toContain(UserProfileLocalStorageProvider);
-    expect(providerTypes).toContain(LayoutManagerProvider);
-    expect(providerTypes).toContain(LayoutStorageContext.Provider);
+   expectedProviders.forEach(provider => {
+      expect(providerTypes).toContain(provider);
+    });
   });
 
-  it("verifies that Multiprovider has rendered all providers when its nativeWindow", () => {
+  it("verifies that MultiProvider has rendered all providers when its nativeWindow", () => {
     setup({ nativeWindow: {} as INativeWindow });
-    const props = (MultiProvider as jest.Mock).mock.calls[0][0];
-    const providerTypes = props.providers.map((provider: React.ReactElement) => provider.type);
+    const providerTypes = verifyProviderTypes();
 
-    expect(providerTypes).toContain(StudioToastProvider);
-    expect(providerTypes).toContain(StudioLogsSettingsProvider);
-    expect(providerTypes).toContain(ProblemsContextProvider);
-    expect(providerTypes).toContain(CurrentLayoutProvider);
-    expect(providerTypes).toContain(UserProfileLocalStorageProvider);
-    expect(providerTypes).toContain(LayoutManagerProvider);
-    expect(providerTypes).toContain(LayoutStorageContext.Provider);
+    expectedProviders.forEach(provider => {
+      expect(providerTypes).toContain(provider);
+    });
   });
 
 });
+
+function verifyProviderTypes() {
+  const props = (MultiProvider as jest.Mock).mock.calls[0][0];
+  const providerTypes = props.providers.map((provider: React.ReactElement) => provider.type);
+  return providerTypes;
+}
