@@ -129,7 +129,7 @@ export function App(props: AppProps): React.JSX.Element {
   return (
     <AppConfigurationContext.Provider value={appConfiguration}>
       <ColorSchemeThemeProvider>
-        {enableGlobalCss && <GlobalCss />}
+        {enableGlobalCss && <GlobalCss>{enableGlobalCss}</GlobalCss>}
         <CssBaseline>
           <ErrorBoundary>
             <MaybeLaunchPreference>

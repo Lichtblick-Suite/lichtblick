@@ -26,7 +26,7 @@ jest.mock("./components/SyncAdapters", () => jest.fn(() => <></>));
 jest.mock("./components/MultiProvider", () =>
   jest.fn(({ children }: { children: React.ReactNode }) => <>{children}</>),
 );
-jest.mock("./components/GlobalCss", () => jest.fn(() => <></>));
+jest.mock("./components/GlobalCss", () =>  jest.fn(({ children }) => <div data-testid="global-css">{children}</div>));
 jest.mock("./components/StudioToastProvider", () => jest.fn(() => <></>));
 jest.mock("./components/PlayerManager", () => jest.fn(() => <></>));
 jest.mock("./components/DocumentTitleAdapter", () => jest.fn(() => <></>));
@@ -35,6 +35,9 @@ jest.mock("./components/ColorSchemeThemeProvider", () => ({
   ColorSchemeThemeProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>,
 }));
 jest.mock("./components/CssBaseline", () => jest.fn(({ children }) => <>cssBaseline {children}</>));
+jest.mock("./screens/LaunchPreference", () => ({
+  LaunchPreference: jest.fn(({ children }) => <>maybeLaunchPreference {children}</>)
+}));
 
 describe("App Component", () => {
 
@@ -55,14 +58,14 @@ describe("App Component", () => {
     render(
       <App
         appConfiguration={mockAppConfiguration}
+        deepLinks={[]}
         dataSources={[]}
         extensionLoaders={[]}
         layoutLoaders={[]}
-        deepLinks={[]}
         enableGlobalCss={true}
       />
     );
-    expect(document.querySelector("style")).toBeInTheDocument();
+    expect(screen.getByTestId("global-css")).toBeDefined();
   });
 
   it("renders LaunchPreference screen when enableLaunchPreferenceScreen is true", () => {
@@ -78,7 +81,7 @@ describe("App Component", () => {
       />
 
     );
-    expect(screen.getByText("LaunchPreference")).toBeDefined();
+    expect(screen.getByText("maybeLaunchPreference")).toBeDefined();
   });
 
 });
