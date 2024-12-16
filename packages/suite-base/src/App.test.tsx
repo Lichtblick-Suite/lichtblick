@@ -29,9 +29,6 @@ jest.mock("./components/ColorSchemeThemeProvider", () => ({
   ColorSchemeThemeProvider: jest.fn(({ children }) => <>{children}</>),
 }));
 jest.mock("./components/CssBaseline", () => jest.fn(({ children }) => <>cssBaseline {children}</>));
-jest.mock("./screens/LaunchPreference", () => ({
-  LaunchPreference: jest.fn(({ children }) => <>maybeLaunchPreference {children}</>),
-}));
 
 // Mocked App configuration
 const mockAppConfiguration: IAppConfiguration = {
@@ -63,10 +60,5 @@ describe("App Component", () => {
   it("renders GlobalCss when enableGlobalCss is true", () => {
     setup({ enableGlobalCss: true });
     expect(screen.getByTestId("global-css")).toBeDefined();
-  });
-
-  it("renders LaunchPreference screen when enableLaunchPreferenceScreen is true", () => {
-    setup({ enableLaunchPreferenceScreen: true });
-    expect(screen.getByText("maybeLaunchPreference")).toBeDefined();
   });
 });

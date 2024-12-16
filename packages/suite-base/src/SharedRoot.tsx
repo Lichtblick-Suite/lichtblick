@@ -37,7 +37,7 @@ export function SharedRoot(
   return (
     <AppConfigurationContext.Provider value={appConfiguration}>
       <ColorSchemeThemeProvider>
-        {enableGlobalCss && <GlobalCss>{enableGlobalCss}</GlobalCss>}
+        {enableGlobalCss && <GlobalCss />}
         <CssBaseline>
           <ErrorBoundary>
             <SharedRootContext.Provider
