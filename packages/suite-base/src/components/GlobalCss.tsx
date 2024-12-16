@@ -8,7 +8,6 @@
 import { GlobalStyles, useTheme } from "@mui/material";
 
 /** GlobalCss component configures html, body, and #root with theme elements */
-
 export default function GlobalCss(): React.JSX.Element {
   const theme = useTheme();
 
