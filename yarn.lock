@@ -3295,8 +3295,6 @@ __metadata:
     electron-devtools-installer: 3.2.0
     electron-squirrel-startup: 1.0.1
     electron-updater: 6.3.9
-    electron-squirrel-startup: 1.0.1
-    electron-updater: 6.3.9
     esbuild-loader: 2.21.0
     eventemitter3: 5.0.1
     fork-ts-checker-webpack-plugin: 9.0.2
@@ -7790,16 +7788,6 @@ __metadata:
     debug: ^4.3.4
     sax: ^1.2.4
   checksum: 4507253fc7d50943526d00725322cbfdc9b80aad44c4a160eb4257a8ec97ddc6262448ddd840aa1520e2a4252b2b5b04d0a5caac2138be033117f1d445cf5ce7
-  languageName: node
-  linkType: hard
-
-"builder-util-runtime@npm:9.2.4":
-  version: 9.2.4
-  resolution: "builder-util-runtime@npm:9.2.4"
-  dependencies:
-    debug: ^4.3.4
-    sax: ^1.2.4
-  checksum: 7d02b7f57a10ac0d65a6dac08c7048d8e4a2bbbaa6025423fa0c08b6d629c2fedf6c712f4807f5c3480cabe1a721b5eccc21bcccb6211ce660e067945fd016cc
   languageName: node
   linkType: hard
 
