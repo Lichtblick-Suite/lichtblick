@@ -59,4 +59,4 @@ export default function GlobalCss(): React.JSX.Element {
       />
     </div>
   );
-};
+}

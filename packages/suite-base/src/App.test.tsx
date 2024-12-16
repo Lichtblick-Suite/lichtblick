@@ -20,7 +20,9 @@ beforeEach(() => {
 jest.mock("./providers/LayoutManagerProvider", () => jest.fn(() => <></>));
 jest.mock("./components/SyncAdapters", () => jest.fn(() => <></>));
 jest.mock("./components/MultiProvider", () => jest.fn(({ children }) => <>{children}</>));
-jest.mock("./components/GlobalCss", () => jest.fn(({ children }) => <div data-testid="global-css">{children}</div>));
+jest.mock("./components/GlobalCss", () =>
+  jest.fn(({ children }) => <div data-testid="global-css">{children}</div>),
+);
 jest.mock("./components/StudioToastProvider", () => jest.fn(() => <></>));
 jest.mock("./components/PlayerManager", () => jest.fn(() => <></>));
 jest.mock("./components/DocumentTitleAdapter", () => jest.fn(() => <></>));
