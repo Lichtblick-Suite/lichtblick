@@ -184,7 +184,7 @@ describe("App Component MultiProvider Tests", () => {
     setup({ nativeAppMenu: {} as INativeAppMenu });
     const providerTypes = verifyProviderTypes();
 
-   expectedProviders.forEach(provider => {
+    expectedProviders.forEach((provider) => {
       expect(providerTypes).toContain(provider);
     });
   });
@@ -193,11 +193,10 @@ describe("App Component MultiProvider Tests", () => {
     setup({ nativeWindow: {} as INativeWindow });
     const providerTypes = verifyProviderTypes();
 
-    expectedProviders.forEach(provider => {
+    expectedProviders.forEach((provider) => {
       expect(providerTypes).toContain(provider);
     });
   });
-
 });
 
 function verifyProviderTypes() {
