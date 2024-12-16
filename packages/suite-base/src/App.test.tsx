@@ -7,8 +7,10 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import { render, screen } from "@testing-library/react";
-import { App } from "./App";
+
 import { IAppConfiguration } from "@lichtblick/suite-base/context/AppConfigurationContext";
+
+import { App } from "./App";
 
 beforeEach(() => {
   jest.clearAllMocks();
