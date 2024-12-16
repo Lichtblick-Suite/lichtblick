@@ -97,7 +97,6 @@ describe("App Component", () => {
 
   it("renders without crashing", () => {
     setup();
-    //add more expects here verifying that render was successful
     expect(screen.getByTestId("color-scheme-theme")).toBeDefined();
     expect(screen.getByTestId("css-baseline")).toBeDefined();
     expect(screen.getByTestId("error-boundary")).toBeDefined();
@@ -128,6 +127,16 @@ describe("App Component", () => {
     expect(removeEventListenerSpy).not.toHaveBeenCalled();
     unmount();
     expect(removeEventListenerSpy).toHaveBeenCalledWith("contextmenu", expect.any(Function));
+  });
+
+  it("renders LaunchPreference component when enableLaunchPreferenceScreen is true", () => {
+    setup({ enableLaunchPreferenceScreen: true });
+    expect(screen.getByTestId("launch-preference")).toBeDefined();
+  });
+
+  it("does not render LaunchPreference component when enableLaunchPreferenceScreen is false", () => {
+    setup({ enableLaunchPreferenceScreen: false });
+    expect(screen.queryByTestId("launch-preference")).toBeNull();
   });
 
   it("renders LaunchPreference component when enableLaunchPreferenceScreen is true", () => {
@@ -189,4 +198,5 @@ describe("App Component", () => {
     expect(providerTypes).toContain(LayoutManagerProvider);
     expect(providerTypes).toContain(LayoutStorageContext.Provider);
   });
+
 });
