@@ -169,6 +169,12 @@ describe("App Component MultiProvider Tests", () => {
     LayoutStorageContext.Provider,
   ];
 
+  function extractProviderTypes() {
+    const props = (MultiProvider as jest.Mock).mock.calls[0][0];
+    const providerTypes = props.providers.map((provider: React.ReactElement) => provider.type);
+    return providerTypes;
+  }
+
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -178,23 +184,26 @@ describe("App Component MultiProvider Tests", () => {
     expect(screen.getByTestId("multi-provider")).toBeDefined();
     expect(screen.getByTestId("multi-provider").children).toHaveLength(3);
     expectedProviders.forEach((provider) => {
-      expect(verifyProviderTypes()).toContain(provider);
+      expect(extractProviderTypes()).toContain(provider);
     });
   });
 
   it("verifies that MultiProvider has rendered all providers when its nativeApp", () => {
     setup({ nativeAppMenu: {} as INativeAppMenu });
-    expect(verifyProviderTypes()).toContain(NativeAppMenuContext.Provider);
+    expect(extractProviderTypes()).toContain(NativeAppMenuContext.Provider);
   });
 
   it("verifies that MultiProvider has rendered all providers when its nativeWindow", () => {
     setup({ nativeWindow: {} as INativeWindow });
-    expect(verifyProviderTypes()).toContain(NativeWindowContext.Provider);
+    expect(extractProviderTypes()).toContain(NativeWindowContext.Provider);
+  });
+
+  //add test for extraProviders
+  it("verifies that MultiProvider has rendered all providers when it has extraProviders", () => {
+    const extraProviders = [<div data-testid="extra-provider"/>, <div data-testid="extra-provider-2"/>];
+    setup({ extraProviders });
+
+    expect(extractProviderTypes()).toContain(extraProviders[0]?.type);
+    expect(extractProviderTypes()).toHaveLength(expectedProviders.length + 2);
   });
 });
-
-function verifyProviderTypes() {
-  const props = (MultiProvider as jest.Mock).mock.calls[0][0];
-  const providerTypes = props.providers.map((provider: React.ReactElement) => provider.type);
-  return providerTypes;
-}
