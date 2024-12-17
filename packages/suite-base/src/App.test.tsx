@@ -200,7 +200,10 @@ describe("App Component MultiProvider Tests", () => {
 
   //add test for extraProviders
   it("verifies that MultiProvider has rendered all providers when it has extraProviders", () => {
-    const extraProviders = [<div data-testid="extra-provider"/>, <div data-testid="extra-provider-2"/>];
+    const extraProviders = [
+      <div data-testid="extra-provider" />,
+      <div data-testid="extra-provider-2" />,
+    ];
     setup({ extraProviders });
 
     expect(extractProviderTypes()).toContain(extraProviders[0]?.type);
