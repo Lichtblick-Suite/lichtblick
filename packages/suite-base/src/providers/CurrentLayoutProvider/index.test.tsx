@@ -24,6 +24,7 @@ import {
   UserProfileStorage,
   UserProfileStorageContext,
 } from "@lichtblick/suite-base/context/UserProfileStorageContext";
+import AppParametersProvider from "@lichtblick/suite-base/providers/AppParametersProvider";
 import CurrentLayoutProvider from "@lichtblick/suite-base/providers/CurrentLayoutProvider";
 import { MAX_SUPPORTED_LAYOUT_VERSION } from "@lichtblick/suite-base/providers/CurrentLayoutProvider/constants";
 import { ILayoutManager } from "@lichtblick/suite-base/services/ILayoutManager";
@@ -102,16 +103,18 @@ function renderTest({
           childMounted.notifyAll();
         }, []);
         return (
-          <SnackbarProvider>
-            <LayoutManagerContext.Provider value={mockLayoutManager}>
-              <UserProfileStorageContext.Provider value={mockUserProfile}>
-                <CurrentLayoutProvider loaders={[]}>
-                  {children}
-                  <CurrentLayoutSyncAdapter />
-                </CurrentLayoutProvider>
-              </UserProfileStorageContext.Provider>
-            </LayoutManagerContext.Provider>
-          </SnackbarProvider>
+          <AppParametersProvider>
+            <SnackbarProvider>
+              <LayoutManagerContext.Provider value={mockLayoutManager}>
+                <UserProfileStorageContext.Provider value={mockUserProfile}>
+                  <CurrentLayoutProvider loaders={[]}>
+                    {children}
+                    <CurrentLayoutSyncAdapter />
+                  </CurrentLayoutProvider>
+                </UserProfileStorageContext.Provider>
+              </LayoutManagerContext.Provider>
+            </SnackbarProvider>
+          </AppParametersProvider>
         );
       },
     },
