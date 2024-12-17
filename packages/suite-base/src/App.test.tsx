@@ -14,8 +14,12 @@ import PlayerManager from "@lichtblick/suite-base/components/PlayerManager";
 import StudioToastProvider from "@lichtblick/suite-base/components/StudioToastProvider";
 import { IAppConfiguration } from "@lichtblick/suite-base/context/AppConfigurationContext";
 import LayoutStorageContext from "@lichtblick/suite-base/context/LayoutStorageContext";
-import NativeAppMenuContext, { INativeAppMenu } from "@lichtblick/suite-base/context/NativeAppMenuContext";
-import NativeWindowContext, { INativeWindow } from "@lichtblick/suite-base/context/NativeWindowContext";
+import NativeAppMenuContext, {
+  INativeAppMenu,
+} from "@lichtblick/suite-base/context/NativeAppMenuContext";
+import NativeWindowContext, {
+  INativeWindow,
+} from "@lichtblick/suite-base/context/NativeWindowContext";
 import { UserScriptStateProvider } from "@lichtblick/suite-base/context/UserScriptStateContext";
 import CurrentLayoutProvider from "@lichtblick/suite-base/providers/CurrentLayoutProvider";
 import EventsProvider from "@lichtblick/suite-base/providers/EventsProvider";
