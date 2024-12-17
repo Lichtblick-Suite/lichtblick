@@ -16,7 +16,7 @@ export function LichtblickLogo(props: SvgIconProps): React.JSX.Element {
         data-name="Layer 2"
         xmlns="http://www.w3.org/2000/svg"
         xmlnsXlink="http://www.w3.org/1999/xlink"
-        viewBox="0 0 180 180"
+        viewBox="0 0 165 165"
       >
         <defs>
           <clipPath id="clippath">
@@ -27,7 +27,7 @@ export function LichtblickLogo(props: SvgIconProps): React.JSX.Element {
               d="M128.02,0h-10.13l-37.8,76.79,60.8,5.34V12.87c0-7.13-5.78-12.87-12.87-12.87ZM46.68,82.5l-23.23,21.52,16.99-1.1,13.27,10.47-7.04-30.89ZM72.17,92.86l-8.14,16.52c-.04.11-.09.2-.16.29-5.22,10.67-17.53,16.41-29.37,13.05-13.29-3.79-21.05-17.71-17.26-31.03,3.36-11.84,14.75-19.28,26.59-18.09l-.02-.02,18.7,1.64L77.01,0H12.85C5.76,0,0,5.74,0,12.87v115.12c0,7.11,5.76,12.87,12.85,12.87h115.17c7.08,0,12.87-5.76,12.87-12.87v-8.68l-68.72-26.46ZM46.68,82.5l-23.23,21.52,16.99-1.1,13.27,10.47-7.04-30.89ZM46.68,82.5l-23.23,21.52,16.99-1.1,13.27,10.47-7.04-30.89Z"
             />
           </clipPath>
-          <clipPath id="clippath-1">
+          <clipPath id="f-1">
             <rect
               className="cls-2"
               fill="none"
