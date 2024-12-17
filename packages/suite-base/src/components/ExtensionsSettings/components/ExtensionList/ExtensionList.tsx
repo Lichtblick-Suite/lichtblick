@@ -12,11 +12,10 @@ import { ExtensionMarketplaceDetail } from "@lichtblick/suite-base/context/Exten
 import ExtensionListEntry from "../ExtensionListEntry/ExtensionListEntry";
 
 function displayNameForNamespace(namespace: string): string {
-  switch (namespace) {
-    case "org":
-      return "Organization";
-    default:
-      return namespace;
+  if (namespace === "org") {
+    return "Organization";
+  } else {
+    return namespace;
   }
 }
 

@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ExtensionListEntry Component matches the snapshot 1`] = `
+<DocumentFragment>
+  <li
+    class="MuiListItem-root MuiListItem-gutters css-1nxmd3h-MuiListItem-root"
+  >
+    <div
+      class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1br4jff-MuiButtonBase-root-MuiListItemButton-root-listItemButton"
+      role="button"
+      tabindex="0"
+    >
+      <div
+        class="MuiListItemText-root MuiListItemText-multiline css-konndc-MuiListItemText-root"
+      >
+        <div
+          class="css-1fg1ug7-FoxgloveStack-root"
+        >
+          <h6
+            class="MuiTypography-root MuiTypography-subtitle2 css-h8rzac-MuiTypography-root"
+          >
+            wtRZDv
+          </h6>
+          <span
+            class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
+          >
+            ahQlck
+          </span>
+        </div>
+        <div
+          class="css-1ucvlxx-FoxgloveStack-root"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body2 css-r40f8v-MuiTypography-root"
+          >
+            CFYPtL
+          </p>
+          <p
+            class="MuiTypography-root MuiTypography-body2 css-1yr8029-MuiTypography-root"
+          >
+            sWzoRy
+          </p>
+        </div>
+      </div>
+      <span
+        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+      />
+    </div>
+  </li>
+</DocumentFragment>
+`;
