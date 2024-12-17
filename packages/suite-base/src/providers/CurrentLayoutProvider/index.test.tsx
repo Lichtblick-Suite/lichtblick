@@ -51,10 +51,10 @@ function makeMockLayoutManager() {
     isBusy: false,
     isOnline: false,
     error: undefined,
-    on: jest.fn(/*noop*/),
-    off: jest.fn(/*noop*/),
-    setError: jest.fn(/*noop*/),
-    setOnline: jest.fn(/*noop*/),
+    on: jest.fn(),
+    off: jest.fn(),
+    setError: jest.fn(),
+    setOnline: jest.fn(),
     getLayouts: jest.fn(),
     getLayout: jest.fn(),
     saveNewLayout: jest.fn().mockImplementation(mockThrow("saveNewLayout")),
@@ -205,6 +205,7 @@ describe("CurrentLayoutProvider", () => {
 
   it("keeps identity of action functions when modifying layout", async () => {
     const mockLayoutManager = makeMockLayoutManager();
+    mockLayoutManager.getLayouts.mockImplementation(() => []);
     mockLayoutManager.getLayout.mockImplementation(async () => {
       return {
         id: "TEST_ID",

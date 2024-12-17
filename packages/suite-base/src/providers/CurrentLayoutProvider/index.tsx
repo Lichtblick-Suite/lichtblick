@@ -17,6 +17,7 @@ import { useShallowMemo } from "@lichtblick/hooks";
 import Logger from "@lichtblick/log";
 import { VariableValue } from "@lichtblick/suite";
 import { useAnalytics } from "@lichtblick/suite-base/context/AnalyticsContext";
+import { useAppParameters } from "@lichtblick/suite-base/context/AppParametersContext";
 import CurrentLayoutContext, {
   ICurrentLayout,
   LayoutID,
@@ -69,6 +70,8 @@ export default function CurrentLayoutProvider({
   const layoutManager = useLayoutManager();
   const analytics = useAnalytics();
   const isMounted = useMountedState();
+
+  const appParameters = useAppParameters();
 
   const [mosaicId] = useState(() => uuidv4());
 
@@ -277,6 +280,17 @@ export default function CurrentLayoutProvider({
     // Try to load default layouts, before checking to add the fallback "Default".
     await loadDefaultLayouts(layoutManager, loaders);
 
+    const layouts = await layoutManager.getLayouts();
+
+    // Check if there's a layout specified by the CLI
+    const defaultLayoutFromCLI = layouts.find(
+      (layout) => layout.name === appParameters.defaultLayout,
+    );
+    if (defaultLayoutFromCLI) {
+      await setSelectedLayoutId(defaultLayoutFromCLI.id);
+      return;
+    }
+
     // Retreive the selected layout id from the user's profile. If there's no layout specified
     // or we can't load it then save and select a default layout.
     const { currentLayoutId } = await getUserProfile();
@@ -287,7 +301,6 @@ export default function CurrentLayoutProvider({
       return;
     }
 
-    const layouts = await layoutManager.getLayouts();
     if (layouts.length > 0) {
       const sortedLayouts = [...layouts].sort((a, b) => a.name.localeCompare(b.name));
       await setSelectedLayoutId(sortedLayouts[0]!.id);
@@ -302,7 +315,7 @@ export default function CurrentLayoutProvider({
     await setSelectedLayoutId(newLayout.id);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [getUserProfile, layoutManager, setSelectedLayoutId]);
+  }, [getUserProfile, layoutManager, setSelectedLayoutId, enqueueSnackbar]);
 
   const { updateSharedPanelState } = useUpdateSharedPanelState(layoutStateRef, setLayoutState);
 

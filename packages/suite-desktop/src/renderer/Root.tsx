@@ -25,6 +25,7 @@ import {
   UlogLocalDataSourceFactory,
   VelodyneDataSourceFactory,
 } from "@lichtblick/suite-base";
+import { AppParameters } from "@lichtblick/suite-base/context/AppParametersContext";
 
 import { DesktopExtensionLoader } from "./services/DesktopExtensionLoader";
 import { DesktopLayoutLoader } from "./services/DesktopLayoutLoader";
@@ -38,6 +39,7 @@ const menuBridge = (global as { menuBridge?: NativeMenuBridge }).menuBridge;
 const ctxbridge = (global as { ctxbridge?: OsContext }).ctxbridge;
 
 export default function Root(props: {
+  appParameters: AppParameters;
   appConfiguration: IAppConfiguration;
   extraProviders: React.JSX.Element[] | undefined;
   dataSources: IDataSourceFactory[] | undefined;
@@ -148,28 +150,27 @@ export default function Root(props: {
   }, []);
 
   return (
-    <>
-      <App
-        deepLinks={deepLinks}
-        dataSources={dataSources}
-        appConfiguration={appConfiguration}
-        extensionLoaders={extensionLoaders}
-        layoutLoaders={layoutLoaders}
-        nativeAppMenu={nativeAppMenu}
-        nativeWindow={nativeWindow}
-        enableGlobalCss
-        appBarLeftInset={ctxbridge?.platform === "darwin" && !isFullScreen ? 72 : undefined}
-        onAppBarDoubleClick={() => {
-          nativeWindow.handleTitleBarDoubleClick();
-        }}
-        showCustomWindowControls={ctxbridge?.platform === "linux"}
-        isMaximized={isMaximized}
-        onMinimizeWindow={onMinimizeWindow}
-        onMaximizeWindow={onMaximizeWindow}
-        onUnmaximizeWindow={onUnmaximizeWindow}
-        onCloseWindow={onCloseWindow}
-        extraProviders={props.extraProviders}
-      />
-    </>
+    <App
+      appParameters={props.appParameters}
+      deepLinks={deepLinks}
+      dataSources={dataSources}
+      appConfiguration={appConfiguration}
+      extensionLoaders={extensionLoaders}
+      layoutLoaders={layoutLoaders}
+      nativeAppMenu={nativeAppMenu}
+      nativeWindow={nativeWindow}
+      enableGlobalCss
+      appBarLeftInset={ctxbridge?.platform === "darwin" && !isFullScreen ? 72 : undefined}
+      onAppBarDoubleClick={() => {
+        nativeWindow.handleTitleBarDoubleClick();
+      }}
+      showCustomWindowControls={ctxbridge?.platform === "linux"}
+      isMaximized={isMaximized}
+      onMinimizeWindow={onMinimizeWindow}
+      onMaximizeWindow={onMaximizeWindow}
+      onUnmaximizeWindow={onUnmaximizeWindow}
+      onCloseWindow={onCloseWindow}
+      extraProviders={props.extraProviders}
+    />
   );
 }
