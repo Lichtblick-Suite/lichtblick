@@ -5,165 +5,43 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import {
-  Alert,
-  AlertTitle,
-  Button,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-  Typography,
-} from "@mui/material";
-import * as _ from "lodash-es";
-import { useEffect, useMemo, useState } from "react";
+import { Alert, AlertTitle, Button } from "@mui/material";
+import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useAsyncFn } from "react-use";
-import { useDebounce } from "use-debounce";
 
-import Log from "@lichtblick/log";
-import { Immutable } from "@lichtblick/suite";
 import { ExtensionDetails } from "@lichtblick/suite-base/components/ExtensionDetails";
+import useExtensionSettings from "@lichtblick/suite-base/components/ExtensionsSettings/hooks/useExtensionSettings";
+import { FocusedExtension } from "@lichtblick/suite-base/components/ExtensionsSettings/types";
 import SearchBar from "@lichtblick/suite-base/components/SearchBar";
 import Stack from "@lichtblick/suite-base/components/Stack";
-import { useExtensionCatalog } from "@lichtblick/suite-base/context/ExtensionCatalogContext";
-import {
-  ExtensionMarketplaceDetail,
-  useExtensionMarketplace,
-} from "@lichtblick/suite-base/context/ExtensionMarketplaceContext";
 
-import { useStyles } from "./Index.style";
-
-const log = Log.getLogger(__filename);
-
-function displayNameForNamespace(namespace: string): string {
-  switch (namespace) {
-    case "org":
-      return "Organization";
-    default:
-      return namespace;
-  }
-}
-
-function ExtensionListEntry(props: {
-  entry: Immutable<ExtensionMarketplaceDetail>;
-  onClick: () => void;
-}): React.JSX.Element {
-  const {
-    entry: { id, description, name, publisher, version },
-    onClick,
-  } = props;
-  const { classes } = useStyles();
-  return (
-    <ListItem disablePadding key={id}>
-      <ListItemButton className={classes.listItemButton} onClick={onClick}>
-        <ListItemText
-          disableTypography
-          primary={
-            <Stack direction="row" alignItems="baseline" gap={0.5}>
-              <Typography variant="subtitle2" fontWeight={600}>
-                {name}
-              </Typography>
-              <Typography variant="caption" color="text.secondary">
-                {version}
-              </Typography>
-            </Stack>
-          }
-          secondary={
-            <Stack gap={0.5}>
-              <Typography variant="body2" color="text.secondary">
-                {description}
-              </Typography>
-              <Typography color="text.primary" variant="body2">
-                {publisher}
-              </Typography>
-            </Stack>
-          }
-        />
-      </ListItemButton>
-    </ListItem>
-  );
-}
+import ExtensionList from "./components/ExtensionList/ExtensionList";
 
 export default function ExtensionsSettings(): React.ReactElement {
   const { t } = useTranslation("extensionsSettings");
-  const [undebouncedFilterText, setUndebouncedFilterText] = useState<string>("");
-  const [debouncedFilterText] = useDebounce(undebouncedFilterText, 50);
+
+  const [focusedExtension, setFocusedExtension] = useState<FocusedExtension | undefined>();
+
+  const {
+    setUndebouncedFilterText,
+    marketplaceEntries,
+    refreshMarketplaceEntries,
+    undebouncedFilterText,
+    namespacedData,
+    groupedMarketplaceData,
+    debouncedFilterText,
+  } = useExtensionSettings();
+
   const onClear = () => {
     setUndebouncedFilterText("");
   };
-  const [focusedExtension, setFocusedExtension] = useState<
-    | {
-        installed: boolean;
-        entry: Immutable<ExtensionMarketplaceDetail>;
-      }
-    | undefined
-  >(undefined);
-  const installed = useExtensionCatalog((state) => state.installedExtensions);
-  const marketplace = useExtensionMarketplace();
 
-  const [marketplaceEntries, refreshMarketplaceEntries] = useAsyncFn(
-    async () => await marketplace.getAvailableExtensions(),
-    [marketplace],
+  const selectFocusedExtension = useCallback(
+    (newFocusedExtension: FocusedExtension) => {
+      setFocusedExtension(newFocusedExtension);
+    },
+    [setFocusedExtension],
   );
-
-  const marketplaceMap = useMemo(
-    () => _.keyBy(marketplaceEntries.value ?? [], (entry) => entry.id),
-    [marketplaceEntries],
-  );
-
-  const installedEntries = useMemo(() => {
-    const searchLower = debouncedFilterText.toLowerCase();
-    return (installed ?? [])
-      .map((entry) => {
-        const marketplaceEntry = marketplaceMap[entry.id];
-        if (marketplaceEntry != undefined) {
-          return { ...marketplaceEntry, namespace: entry.namespace };
-        }
-
-        return {
-          id: entry.id,
-          installed: true,
-          name: entry.displayName,
-          displayName: entry.displayName,
-          description: entry.description,
-          publisher: entry.publisher,
-          homepage: entry.homepage,
-          license: entry.license,
-          version: entry.version,
-          keywords: entry.keywords,
-          namespace: entry.namespace,
-          qualifiedName: entry.qualifiedName,
-        };
-      })
-      .filter(
-        (entry) =>
-          entry.name.toLowerCase().includes(searchLower) ||
-          entry.description.toLowerCase().includes(searchLower),
-      );
-  }, [installed, marketplaceMap, debouncedFilterText]);
-
-  const namespacedEntries = useMemo(
-    () => _.groupBy(installedEntries, (entry) => entry.namespace),
-    [installedEntries],
-  );
-
-  // Hide installed extensions from the list of available extensions
-  const filteredMarketplaceEntries = useMemo(
-    () =>
-      _.differenceWith(
-        marketplaceEntries.value ?? [],
-        installed ?? [],
-        (a, b) => a.id === b.id && a.namespace === b.namespace,
-      ),
-    [marketplaceEntries, installed],
-  );
-
-  useEffect(() => {
-    refreshMarketplaceEntries().catch((error: unknown) => {
-      log.error(error);
-    });
-  }, [refreshMarketplaceEntries]);
 
   if (focusedExtension != undefined) {
     return (
@@ -175,43 +53,6 @@ export default function ExtensionsSettings(): React.ReactElement {
         }}
       />
     );
-  }
-
-  function generatePlaceholderList(message?: string): React.ReactElement {
-    return (
-      <List>
-        <ListItem>
-          <ListItemText primary={message} />
-        </ListItem>
-      </List>
-    );
-  }
-
-  function listExtensions() {
-    if (!_.isEmpty(namespacedEntries)) {
-      return Object.entries(namespacedEntries).map(([namespace, entries]) => (
-        <List key={namespace}>
-          <Stack paddingY={0} paddingX={2}>
-            <Typography component="li" variant="overline" color="text.secondary">
-              {displayNameForNamespace(namespace)}
-            </Typography>
-          </Stack>
-          {entries.map((entry) => (
-            <ExtensionListEntry
-              key={entry.id}
-              entry={entry}
-              onClick={() => {
-                setFocusedExtension({ installed: true, entry });
-              }}
-            />
-          ))}
-        </List>
-      ));
-    } else if (_.isEmpty(namespacedEntries) && undebouncedFilterText) {
-      return generatePlaceholderList(t("noExtensionsFound"));
-    } else {
-      return generatePlaceholderList(t("noExtensionsAvailable"));
-    }
   }
 
   return (
@@ -243,23 +84,26 @@ export default function ExtensionsSettings(): React.ReactElement {
           onClear={onClear}
         />
       </div>
-      {listExtensions()}
-      <List>
-        <Stack paddingY={0.1} paddingX={2}>
-          <Typography component="li" variant="overline" color="text.secondary">
-            {t("available")}
-          </Typography>
-        </Stack>
-        {filteredMarketplaceEntries.map((entry) => (
-          <ExtensionListEntry
-            key={`${entry.id}_${entry.namespace}`}
-            entry={entry}
-            onClick={() => {
-              setFocusedExtension({ installed: false, entry });
-            }}
-          />
-        ))}
-      </List>
+
+      {namespacedData.map(({ namespace, entries }) => (
+        <ExtensionList
+          key={namespace}
+          filterText={debouncedFilterText}
+          entries={entries}
+          namespace={namespace}
+          selectExtension={selectFocusedExtension}
+        />
+      ))}
+
+      {groupedMarketplaceData.map(({ namespace, entries }) => (
+        <ExtensionList
+          key={namespace}
+          filterText={debouncedFilterText}
+          entries={entries}
+          namespace={namespace}
+          selectExtension={selectFocusedExtension}
+        />
+      ))}
     </Stack>
   );
 }
