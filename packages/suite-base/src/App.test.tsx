@@ -10,23 +10,25 @@ import { render, screen } from "@testing-library/react";
 import React from "react";
 
 import MultiProvider from "@lichtblick/suite-base/components/MultiProvider";
+import PlayerManager from "@lichtblick/suite-base/components/PlayerManager";
 import StudioToastProvider from "@lichtblick/suite-base/components/StudioToastProvider";
 import { IAppConfiguration } from "@lichtblick/suite-base/context/AppConfigurationContext";
 import LayoutStorageContext from "@lichtblick/suite-base/context/LayoutStorageContext";
-import { INativeAppMenu } from "@lichtblick/suite-base/context/NativeAppMenuContext";
-import { INativeWindow } from "@lichtblick/suite-base/context/NativeWindowContext";
+import NativeAppMenuContext, { INativeAppMenu } from "@lichtblick/suite-base/context/NativeAppMenuContext";
+import NativeWindowContext, { INativeWindow } from "@lichtblick/suite-base/context/NativeWindowContext";
+import { UserScriptStateProvider } from "@lichtblick/suite-base/context/UserScriptStateContext";
 import CurrentLayoutProvider from "@lichtblick/suite-base/providers/CurrentLayoutProvider";
+import EventsProvider from "@lichtblick/suite-base/providers/EventsProvider";
+import ExtensionCatalogProvider from "@lichtblick/suite-base/providers/ExtensionCatalogProvider";
+import ExtensionMarketplaceProvider from "@lichtblick/suite-base/providers/ExtensionMarketplaceProvider";
 import LayoutManagerProvider from "@lichtblick/suite-base/providers/LayoutManagerProvider";
 import ProblemsContextProvider from "@lichtblick/suite-base/providers/ProblemsContextProvider";
 import { StudioLogsSettingsProvider } from "@lichtblick/suite-base/providers/StudioLogsSettingsProvider";
+import TimelineInteractionStateProvider from "@lichtblick/suite-base/providers/TimelineInteractionStateProvider";
 import UserProfileLocalStorageProvider from "@lichtblick/suite-base/providers/UserProfileLocalStorageProvider";
 
 import { App } from "./App";
 import Workspace from "./Workspace";
-
-beforeEach(() => {
-  jest.clearAllMocks();
-});
 
 function mockProvider(testId: string) {
   return jest.fn(({ children }) => <div data-testid={testId}>{children}</div>);
@@ -148,6 +150,12 @@ describe("App Component", () => {
 
 describe("App Component MultiProvider Tests", () => {
   const expectedProviders = [
+    TimelineInteractionStateProvider,
+    UserScriptStateProvider,
+    ExtensionMarketplaceProvider,
+    ExtensionCatalogProvider,
+    PlayerManager,
+    EventsProvider,
     StudioToastProvider,
     StudioLogsSettingsProvider,
     ProblemsContextProvider,
@@ -165,22 +173,19 @@ describe("App Component MultiProvider Tests", () => {
     setup();
     expect(screen.getByTestId("multi-provider")).toBeDefined();
     expect(screen.getByTestId("multi-provider").children).toHaveLength(3);
+    expectedProviders.forEach((provider) => {
+      expect(verifyProviderTypes()).toContain(provider);
+    });
   });
 
   it("verifies that MultiProvider has rendered all providers when its nativeApp", () => {
     setup({ nativeAppMenu: {} as INativeAppMenu });
-
-    expectedProviders.forEach((provider) => {
-      expect(verifyProviderTypes()).toContain(provider);
-    });
+    expect(verifyProviderTypes()).toContain(NativeAppMenuContext.Provider);
   });
 
   it("verifies that MultiProvider has rendered all providers when its nativeWindow", () => {
     setup({ nativeWindow: {} as INativeWindow });
-
-    expectedProviders.forEach((provider) => {
-      expect(verifyProviderTypes()).toContain(provider);
-    });
+    expect(verifyProviderTypes()).toContain(NativeWindowContext.Provider);
   });
 });
 
