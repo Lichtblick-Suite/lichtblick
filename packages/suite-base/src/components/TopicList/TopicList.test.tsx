@@ -56,11 +56,6 @@ describe("getDraggedMessagePath", () => {
     jest.clearAllMocks();
   });
 
-  const testDraggedMessagePath = (treeItem: TopicListItem, expectedPath: object) => {
-    const result = getDraggedMessagePath(treeItem);
-    expect(result).toEqual(expectedPath);
-  };
-
   it("should return correct path for topic type", () => {
     const treeItem: TopicListItem = {
       type: "topic",
@@ -75,7 +70,8 @@ describe("getDraggedMessagePath", () => {
         score: 0,
       },
     };
-    testDraggedMessagePath(treeItem, {
+    const result = getDraggedMessagePath(treeItem);
+    expect(result).toEqual({
       path: "testTopic",
       rootSchemaName: "testSchema",
       isTopic: true,
@@ -107,7 +103,8 @@ describe("getDraggedMessagePath", () => {
         score: 0,
       },
     };
-    testDraggedMessagePath(treeItem, {
+    const result = getDraggedMessagePath(treeItem);
+    expect(result).toEqual({
       path: "test/full/path",
       rootSchemaName: "testSchema",
       isTopic: false,
