@@ -26,7 +26,9 @@ describe("ExtensionListEntry Component", () => {
   const mockOnClick = jest.fn();
 
   it("renders primary text with name and highlights search text", () => {
-    render(<ExtensionListEntry entry={mockEntry} searchText={mockEntry.name} onClick={mockOnClick} />);
+    render(
+      <ExtensionListEntry entry={mockEntry} searchText={mockEntry.name} onClick={mockOnClick} />,
+    );
 
     const name = screen.getByText(new RegExp(mockEntry.name, "i"));
     expect(name).toBeInTheDocument();
@@ -37,19 +39,21 @@ describe("ExtensionListEntry Component", () => {
   });
 
   it("renders secondary text with description and publisher", () => {
-    render(<ExtensionListEntry entry={mockEntry} searchText={mockEntry.name} onClick={mockOnClick} />);
-
+    render(
+      <ExtensionListEntry entry={mockEntry} searchText={mockEntry.name} onClick={mockOnClick} />,
+    );
 
     const description = screen.getByText(new RegExp(mockEntry.description, "i"));
     expect(description).toBeInTheDocument();
-
 
     const publisher = screen.getByText(new RegExp(mockEntry.publisher, "i"));
     expect(publisher).toBeInTheDocument();
   });
 
   it("displays version next to name", () => {
-    render(<ExtensionListEntry entry={mockEntry} searchText={mockEntry.name} onClick={mockOnClick} />);
+    render(
+      <ExtensionListEntry entry={mockEntry} searchText={mockEntry.name} onClick={mockOnClick} />,
+    );
 
     // Check for version
     const version = screen.getByText(new RegExp(mockEntry.version, "i"));
