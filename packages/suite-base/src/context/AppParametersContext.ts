@@ -14,7 +14,7 @@ import { AppParametersEnum } from "@lichtblick/suite-base/AppParameters";
 export type AppParametersInput = Readonly<Record<string, string>>;
 
 // Defines a type for application parameters, restricting keys to the AppParametersEnum for type-safe usage.
-export type AppParameters = Readonly<Record<AppParametersEnum, string>>;
+export type AppParameters = Readonly<Record<AppParametersEnum, string | undefined>>;
 
 export type AppParametersContext = Immutable<AppParameters>;
 
