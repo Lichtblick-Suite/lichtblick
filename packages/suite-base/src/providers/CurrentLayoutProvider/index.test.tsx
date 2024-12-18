@@ -76,9 +76,11 @@ function makeMockUserProfile() {
 function renderTest({
   mockLayoutManager,
   mockUserProfile,
+  mockAppParameters = {},
 }: {
   mockLayoutManager: ILayoutManager;
   mockUserProfile: UserProfileStorage;
+  mockAppParameters?: Record<string, string>;
 }) {
   const childMounted = new Condvar();
   const childMountedWait = childMounted.wait();
@@ -103,7 +105,7 @@ function renderTest({
           childMounted.notifyAll();
         }, []);
         return (
-          <AppParametersProvider>
+          <AppParametersProvider appParameters={mockAppParameters}>
             <SnackbarProvider>
               <LayoutManagerContext.Provider value={mockLayoutManager}>
                 <UserProfileStorageContext.Provider value={mockUserProfile}>
@@ -269,6 +271,45 @@ describe("CurrentLayoutProvider", () => {
     const { result, all } = renderTest({
       mockLayoutManager,
       mockUserProfile,
+    });
+
+    await act(async () => {
+      await result.current.childMounted;
+    });
+
+    const selectedLayout = all.find((item) => item.layoutState.selectedLayout?.id)?.layoutState
+      .selectedLayout?.id;
+
+    expect(selectedLayout).toBeDefined();
+    expect(selectedLayout).toBe("layout2");
+  });
+
+  it("should select a layout though app parameters", async () => {
+    const mockAppParameters = { defaultLayout: "LAYOUT 2" };
+    const mockLayoutManager = makeMockLayoutManager();
+    mockLayoutManager.getLayout.mockImplementation(async () => undefined);
+    mockLayoutManager.getLayouts.mockImplementation(async () => {
+      return [
+        {
+          id: "layout1",
+          name: "LAYOUT 1",
+          data: { data: TEST_LAYOUT },
+        },
+        {
+          id: "layout2",
+          name: "LAYOUT 2",
+          data: { data: TEST_LAYOUT },
+        },
+      ];
+    });
+
+    const mockUserProfile = makeMockUserProfile();
+    mockUserProfile.getUserProfile.mockResolvedValue({ currentLayoutId: undefined });
+
+    const { result, all } = renderTest({
+      mockLayoutManager,
+      mockUserProfile,
+      mockAppParameters,
     });
 
     await act(async () => {

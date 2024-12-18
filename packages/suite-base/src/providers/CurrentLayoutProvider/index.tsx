@@ -16,6 +16,7 @@ import { v4 as uuidv4 } from "uuid";
 import { useShallowMemo } from "@lichtblick/hooks";
 import Logger from "@lichtblick/log";
 import { VariableValue } from "@lichtblick/suite";
+import { AppParameters } from "@lichtblick/suite-base/AppParameters";
 import { useAnalytics } from "@lichtblick/suite-base/context/AnalyticsContext";
 import { useAppParameters } from "@lichtblick/suite-base/context/AppParametersContext";
 import CurrentLayoutContext, {
@@ -280,20 +281,21 @@ export default function CurrentLayoutProvider({
     // Try to load default layouts, before checking to add the fallback "Default".
     await loadDefaultLayouts(layoutManager, loaders);
 
+    // For some reason, this needs to go befre the setSelectedLayoutId, zprobably some initialization
+    const { currentLayoutId } = await getUserProfile();
+
     const layouts = await layoutManager.getLayouts();
 
-    // Check if there's a layout specified by the CLI
-    const defaultLayoutFromCLI = layouts.find(
-      (layout) => layout.name === appParameters.defaultLayout,
-    );
-    if (defaultLayoutFromCLI) {
-      await setSelectedLayoutId(defaultLayoutFromCLI.id);
+    // Check if there's a layout specified by app parameter
+    const predefinedLayout = appParameters[AppParameters.DEFAULT_LAYOUT];
+    const defaultLayoutFromParameters = layouts.find((l) => l.name === predefinedLayout);
+    if (defaultLayoutFromParameters) {
+      await setSelectedLayoutId(defaultLayoutFromParameters.id, { saveToProfile: false });
       return;
     }
 
     // Retreive the selected layout id from the user's profile. If there's no layout specified
-    // or we can't load it then save and select a default layout.
-    const { currentLayoutId } = await getUserProfile();
+    // or we can't load it then save and select a default layout
     const layout = currentLayoutId ? await layoutManager.getLayout(currentLayoutId) : undefined;
 
     if (layout) {
