@@ -26,7 +26,7 @@ function SearchBar(
     onChange,
     onClear,
     showClearIcon = false,
-    startAdornment = <SearchIcon fontSize="small" />,
+    startAdornment = <SearchIcon fontSize="small" data-testid="SearchIcon" />,
     ...rest
   } = props;
 
@@ -35,6 +35,7 @@ function SearchBar(
   return (
     <header className={classes.filterSearchBar}>
       <TextField
+        data-testid="SearchBarComponent"
         id={id}
         variant={variant}
         disabled={disabled}
@@ -51,7 +52,7 @@ function SearchBar(
           endAdornment: showClearIcon && (
             <InputAdornment position="end">
               <IconButton size="small" title="Clear" onClick={onClear} edge="end">
-                <ClearIcon fontSize="small" />
+                <ClearIcon fontSize="small" data-testid="ClearIcon" />
               </IconButton>
             </InputAdornment>
           ),
