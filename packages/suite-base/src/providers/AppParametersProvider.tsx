@@ -10,17 +10,27 @@ import { PropsWithChildren, useMemo } from "react";
 import {
   AppParameters,
   AppParametersContext,
+  AppParametersInput,
 } from "@lichtblick/suite-base/context/AppParametersContext";
 
 type Props = PropsWithChildren<{
-  appParameters?: AppParameters;
+  appParameters?: AppParametersInput;
 }>;
 
+/**
+ * AppParametersProvider:
+ *
+ * This component provides a context for application parameters within the Lichtblick ecosystem.
+ *
+ * Type Safety:
+ *   The `appParameters` input is cast to the `AppParameters` type, ensuring that keys align with
+ *   the expected enumeration. This guarantees proper autocomplete and type-checking for developers.
+ */
 export default function AppParametersProvider({
   children,
   appParameters = {},
 }: Props): React.JSX.Element {
-  const parameters = useMemo(() => appParameters, [appParameters]);
+  const parameters: AppParameters = useMemo(() => appParameters, [appParameters]);
   return (
     <AppParametersContext.Provider value={parameters}>{children}</AppParametersContext.Provider>
   );

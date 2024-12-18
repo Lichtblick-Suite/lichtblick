@@ -10,7 +10,11 @@ import { createContext, useContext } from "react";
 import { Immutable } from "@lichtblick/suite";
 import { AppParametersEnum } from "@lichtblick/suite-base/AppParameters";
 
-export type AppParameters = Readonly<Record<AppParametersEnum | (string & {}), string>>;
+// Defines a type for input parameters, allowing any string keys with string values.
+export type AppParametersInput = Readonly<Record<string, string>>;
+
+// Defines a type for application parameters, restricting keys to the AppParametersEnum for type-safe usage.
+export type AppParameters = Readonly<Record<AppParametersEnum, string>>;
 
 export type AppParametersContext = Immutable<AppParameters>;
 
