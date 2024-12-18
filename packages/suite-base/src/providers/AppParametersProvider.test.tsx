@@ -12,10 +12,10 @@ import AppParametersProvider from "./AppParametersProvider";
 
 describe("AppParametersProvider", () => {
   it("provides app parameters to its children", () => {
-    const mockParameters = { key: BasicBuilder.string() };
+    const mockParameters = { defaultLayout: BasicBuilder.string() };
     const TestComponent = () => {
       const appParameters = useAppParameters();
-      return <div>{appParameters.key}</div>;
+      return <div>{appParameters.defaultLayout}</div>;
     };
 
     const { getByText } = render(
@@ -24,7 +24,7 @@ describe("AppParametersProvider", () => {
       </AppParametersProvider>,
     );
 
-    expect(getByText(mockParameters.key)).toBeDefined();
+    expect(getByText(mockParameters.defaultLayout)).toBeDefined();
   });
 
   it("provides default app parameters when none are given", () => {
@@ -41,5 +41,17 @@ describe("AppParametersProvider", () => {
     );
 
     expect(getByText("0")).toBeDefined();
+  });
+
+  it("should throw an error if useAppParameters is called without AppParametersProvider", () => {
+    const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation(() => {});
+
+    const TestComponent = () => {
+      useAppParameters();
+      return <div />;
+    };
+
+    expect(() => render(<TestComponent />)).toThrow();
+    consoleErrorSpy.mockRestore();
   });
 });

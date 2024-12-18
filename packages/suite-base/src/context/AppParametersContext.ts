@@ -23,7 +23,7 @@ export const AppParametersContext = createContext<undefined | AppParametersConte
 export function useAppParameters(): AppParameters {
   const context = useContext(AppParametersContext);
   if (context == undefined) {
-    throw new Error("A AppParameters provider is required to useAppParameters");
+    throw new Error("useAppParameters must be used within a AppParametersProvider");
   }
   return context;
 }
