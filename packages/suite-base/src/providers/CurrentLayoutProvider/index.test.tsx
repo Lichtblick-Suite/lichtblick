@@ -129,7 +129,6 @@ describe("CurrentLayoutProvider", () => {
   const mockUserProfile = makeMockUserProfile();
 
   beforeEach(() => {
-    jest.clearAllMocks();
     // Default mocks
     mockLayoutManager.getLayout.mockImplementation(async () => undefined);
     mockLayoutManager.getLayouts.mockImplementation(() => []);
@@ -138,6 +137,7 @@ describe("CurrentLayoutProvider", () => {
 
   afterEach(() => {
     (console.warn as jest.Mock).mockClear();
+    jest.clearAllMocks();
   });
 
   it("uses currentLayoutId from UserProfile to load from LayoutStorage", async () => {
