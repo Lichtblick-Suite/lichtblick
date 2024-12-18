@@ -108,10 +108,6 @@ export function App(props: AppProps): React.JSX.Element {
     providers.unshift(...extraProviders);
   }
 
-  // The toast and logs provider comes first so they are available to all downstream providers
-  providers.unshift(<StudioToastProvider />);
-  providers.unshift(<StudioLogsSettingsProvider />);
-
   // Problems provider also must come before other, dependent contexts.
   providers.unshift(<ProblemsContextProvider />);
   providers.unshift(<CurrentLayoutProvider loaders={layoutLoaders} />);
@@ -120,6 +116,10 @@ export function App(props: AppProps): React.JSX.Element {
 
   const layoutStorage = useMemo(() => new IdbLayoutStorage(), []);
   providers.unshift(<LayoutStorageContext.Provider value={layoutStorage} />);
+
+  // The toast and logs provider comes first so they are available to all downstream providers
+  providers.unshift(<StudioToastProvider />);
+  providers.unshift(<StudioLogsSettingsProvider />);
 
   const MaybeLaunchPreference = enableLaunchPreferenceScreen === true ? LaunchPreference : Fragment;
 

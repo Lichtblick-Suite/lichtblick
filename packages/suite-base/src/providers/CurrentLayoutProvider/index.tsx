@@ -8,6 +8,7 @@
 import * as _ from "lodash-es";
 import { useSnackbar } from "notistack";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { getNodeAtPath } from "react-mosaic-component";
 import { useAsync, useAsyncFn, useMountedState } from "react-use";
 import shallowequal from "shallowequal";
@@ -70,6 +71,8 @@ export default function CurrentLayoutProvider({
   const layoutManager = useLayoutManager();
   const analytics = useAnalytics();
   const isMounted = useMountedState();
+
+  const { t } = useTranslation("general");
 
   const appParameters = useAppParameters();
 
@@ -285,11 +288,18 @@ export default function CurrentLayoutProvider({
 
     const layouts = await layoutManager.getLayouts();
 
-    // // Check if there's a layout specified by app parameter
+    // Check if there's a layout specified by app parameter
     const defaultLayoutFromParameters = layouts.find((l) => l.name === appParameters.defaultLayout);
     if (defaultLayoutFromParameters) {
       await setSelectedLayoutId(defaultLayoutFromParameters.id, { saveToProfile: false });
       return;
+    }
+
+    // It there is a defaultLayout setted but didnt found a layout, show a error to the user
+    if (appParameters.defaultLayout) {
+      enqueueSnackbar(t("noDefaultLayoutParameter", { layoutName: appParameters.defaultLayout }), {
+        variant: "warning",
+      });
     }
 
     // Retreive the selected layout id from the user's profile. If there's no layout specified

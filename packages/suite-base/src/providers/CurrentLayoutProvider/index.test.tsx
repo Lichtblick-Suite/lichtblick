@@ -2,12 +2,13 @@
 
 // SPDX-FileCopyrightText: Copyright (C) 2023-2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)<lichtblick@bmwgroup.com>
 // SPDX-License-Identifier: MPL-2.0
+
 // This Source Code Form is subject to the terms of the Mozilla Public
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import { act, renderHook } from "@testing-library/react";
-import { SnackbarProvider } from "notistack";
+import { SnackbarProvider, useSnackbar } from "notistack";
 import { useEffect } from "react";
 
 import { Condvar } from "@lichtblick/den/async";
@@ -28,6 +29,14 @@ import AppParametersProvider from "@lichtblick/suite-base/providers/AppParameter
 import CurrentLayoutProvider from "@lichtblick/suite-base/providers/CurrentLayoutProvider";
 import { MAX_SUPPORTED_LAYOUT_VERSION } from "@lichtblick/suite-base/providers/CurrentLayoutProvider/constants";
 import { ILayoutManager } from "@lichtblick/suite-base/services/ILayoutManager";
+import BasicBuilder from "@lichtblick/suite-base/testing/builders/BasicBuilder";
+
+jest.mock("notistack", () => ({
+  ...jest.requireActual("notistack"),
+  useSnackbar: jest.fn().mockReturnValue({
+    enqueueSnackbar: jest.fn(),
+  }),
+}));
 
 const TEST_LAYOUT: LayoutData = {
   layout: "ExamplePanel!1",
@@ -315,5 +324,26 @@ describe("CurrentLayoutProvider", () => {
 
     expect(selectedLayout).toBeDefined();
     expect(selectedLayout).toBe("layout2");
+  });
+
+  it("should show a message to the user if the defaultLayout from app parameter is not found", async () => {
+    const mockAppParameters = { defaultLayout: BasicBuilder.string() };
+
+    const { result } = renderTest({
+      mockLayoutManager,
+      mockUserProfile,
+      mockAppParameters,
+    });
+
+    await act(async () => {
+      await result.current.childMounted;
+    });
+
+    const { enqueueSnackbar } = useSnackbar();
+
+    expect(enqueueSnackbar).toHaveBeenCalledWith(
+      `The layout '${mockAppParameters.defaultLayout}' specified in the app parameters does not exist.`,
+      { variant: "warning" },
+    );
   });
 });
