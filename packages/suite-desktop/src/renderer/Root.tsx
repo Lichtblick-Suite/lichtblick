@@ -25,7 +25,7 @@ import {
   UlogLocalDataSourceFactory,
   VelodyneDataSourceFactory,
 } from "@lichtblick/suite-base";
-import { AppParameters } from "@lichtblick/suite-base/context/AppParametersContext";
+import { AppParametersInput } from "@lichtblick/suite-base/context/AppParametersContext";
 
 import { DesktopExtensionLoader } from "./services/DesktopExtensionLoader";
 import { DesktopLayoutLoader } from "./services/DesktopLayoutLoader";
@@ -39,7 +39,7 @@ const menuBridge = (global as { menuBridge?: NativeMenuBridge }).menuBridge;
 const ctxbridge = (global as { ctxbridge?: OsContext }).ctxbridge;
 
 export default function Root(props: {
-  appParameters: AppParameters;
+  appParameters: AppParametersInput;
   appConfiguration: IAppConfiguration;
   extraProviders: React.JSX.Element[] | undefined;
   dataSources: IDataSourceFactory[] | undefined;

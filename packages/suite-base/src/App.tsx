@@ -11,7 +11,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 
 import { IdbLayoutStorage } from "@lichtblick/suite-base/IdbLayoutStorage";
 import GlobalCss from "@lichtblick/suite-base/components/GlobalCss";
-import { AppParameters } from "@lichtblick/suite-base/context/AppParametersContext";
+import { AppParametersInput } from "@lichtblick/suite-base/context/AppParametersContext";
 import LayoutStorageContext from "@lichtblick/suite-base/context/LayoutStorageContext";
 import { UserScriptStateProvider } from "@lichtblick/suite-base/context/UserScriptStateContext";
 import AppParametersProvider from "@lichtblick/suite-base/providers/AppParametersProvider";
@@ -46,7 +46,7 @@ import { ExtensionLoader } from "./services/ExtensionLoader";
 
 export type AppProps = CustomWindowControlsProps & {
   appConfiguration: IAppConfiguration;
-  appParameters: AppParameters;
+  appParameters: AppParametersInput;
   dataSources: IDataSourceFactory[];
   deepLinks: string[];
   extensionLoaders: readonly ExtensionLoader[];
