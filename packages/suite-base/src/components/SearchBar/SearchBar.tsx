@@ -7,7 +7,7 @@ import { IconButton, TextField, InputAdornment } from "@mui/material";
 import { TextFieldProps } from "@mui/material/TextField";
 import { PropsWithChildren } from "react";
 
-import { useStyles } from "@lichtblick/suite-base/components/SearchBar.style";
+import { useStyles } from "@lichtblick/suite-base/components/SearchBar/SearchBar.style";
 
 function SearchBar(
   props: PropsWithChildren<

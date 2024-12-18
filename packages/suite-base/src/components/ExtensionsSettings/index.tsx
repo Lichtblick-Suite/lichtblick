@@ -12,13 +12,15 @@ import { useTranslation } from "react-i18next";
 import { ExtensionDetails } from "@lichtblick/suite-base/components/ExtensionDetails";
 import useExtensionSettings from "@lichtblick/suite-base/components/ExtensionsSettings/hooks/useExtensionSettings";
 import { FocusedExtension } from "@lichtblick/suite-base/components/ExtensionsSettings/types";
-import SearchBar from "@lichtblick/suite-base/components/SearchBar";
+import SearchBar from "@lichtblick/suite-base/components/SearchBar/SearchBar";
 import Stack from "@lichtblick/suite-base/components/Stack";
 
 import ExtensionList from "./components/ExtensionList/ExtensionList";
+import { useStyles } from "./index.style";
 
 export default function ExtensionsSettings(): React.ReactElement {
   const { t } = useTranslation("extensionsSettings");
+  const { classes } = useStyles();
 
   const [focusedExtension, setFocusedExtension] = useState<FocusedExtension | undefined>();
 
@@ -70,9 +72,9 @@ export default function ExtensionsSettings(): React.ReactElement {
           {t("checkInternetConnection")}
         </Alert>
       )}
-      <div style={{ position: "sticky", top: 0, zIndex: 1 }}>
+      <div className={classes.searchBarDiv}>
         <SearchBar
-          style={{ paddingBottom: 13 }}
+          className={classes.searchBarPadding}
           id="extension-filter"
           placeholder={t("searchExtensions")}
           variant="outlined"
@@ -84,7 +86,6 @@ export default function ExtensionsSettings(): React.ReactElement {
           onClear={onClear}
         />
       </div>
-
       {namespacedData.map(({ namespace, entries }) => (
         <ExtensionList
           key={namespace}
@@ -94,7 +95,6 @@ export default function ExtensionsSettings(): React.ReactElement {
           selectExtension={selectFocusedExtension}
         />
       ))}
-
       {groupedMarketplaceData.map(({ namespace, entries }) => (
         <ExtensionList
           key={namespace}
