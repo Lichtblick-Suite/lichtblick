@@ -16,7 +16,6 @@ import { v4 as uuidv4 } from "uuid";
 import { useShallowMemo } from "@lichtblick/hooks";
 import Logger from "@lichtblick/log";
 import { VariableValue } from "@lichtblick/suite";
-import { AppParameters } from "@lichtblick/suite-base/AppParameters";
 import { useAnalytics } from "@lichtblick/suite-base/context/AnalyticsContext";
 import { useAppParameters } from "@lichtblick/suite-base/context/AppParametersContext";
 import CurrentLayoutContext, {
@@ -278,17 +277,16 @@ export default function CurrentLayoutProvider({
       return;
     }
 
+    // For some reason, this needs to go befre the setSelectedLayoutId, probably some initialization
+    const { currentLayoutId } = await getUserProfile();
+
     // Try to load default layouts, before checking to add the fallback "Default".
     await loadDefaultLayouts(layoutManager, loaders);
 
-    // For some reason, this needs to go befre the setSelectedLayoutId, zprobably some initialization
-    const { currentLayoutId } = await getUserProfile();
-
     const layouts = await layoutManager.getLayouts();
 
-    // Check if there's a layout specified by app parameter
-    const predefinedLayout = appParameters[AppParameters.DEFAULT_LAYOUT];
-    const defaultLayoutFromParameters = layouts.find((l) => l.name === predefinedLayout);
+    // // Check if there's a layout specified by app parameter
+    const defaultLayoutFromParameters = layouts.find((l) => l.name === appParameters.defaultLayout);
     if (defaultLayoutFromParameters) {
       await setSelectedLayoutId(defaultLayoutFromParameters.id, { saveToProfile: false });
       return;

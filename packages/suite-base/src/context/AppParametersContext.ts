@@ -8,8 +8,9 @@
 import { createContext, useContext } from "react";
 
 import { Immutable } from "@lichtblick/suite";
+import { AppParametersEnum } from "@lichtblick/suite-base/AppParameters";
 
-export type AppParameters = Readonly<Record<string, string>>;
+export type AppParameters = Readonly<Record<AppParametersEnum | (string & {}), string>>;
 
 export type AppParametersContext = Immutable<AppParameters>;
 

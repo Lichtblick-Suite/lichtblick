@@ -125,6 +125,17 @@ function renderTest({
 }
 
 describe("CurrentLayoutProvider", () => {
+  const mockLayoutManager = makeMockLayoutManager();
+  const mockUserProfile = makeMockUserProfile();
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+    // Default mocks
+    mockLayoutManager.getLayout.mockImplementation(async () => undefined);
+    mockLayoutManager.getLayouts.mockImplementation(() => []);
+    mockUserProfile.getUserProfile.mockResolvedValue({ currentLayoutId: undefined });
+  });
+
   afterEach(() => {
     (console.warn as jest.Mock).mockClear();
   });
@@ -139,7 +150,6 @@ describe("CurrentLayoutProvider", () => {
     };
     const condvar = new Condvar();
     const layoutStorageGetCalledWait = condvar.wait();
-    const mockLayoutManager = makeMockLayoutManager();
     mockLayoutManager.getLayout.mockImplementation(async () => {
       condvar.notifyAll();
       return {
@@ -149,7 +159,6 @@ describe("CurrentLayoutProvider", () => {
       };
     });
 
-    const mockUserProfile = makeMockUserProfile();
     mockUserProfile.getUserProfile.mockResolvedValue({ currentLayoutId: "example" });
 
     const { all } = renderTest({ mockLayoutManager, mockUserProfile });
@@ -183,7 +192,6 @@ describe("CurrentLayoutProvider", () => {
 
     const condvar = new Condvar();
     const layoutStorageGetCalledWait = condvar.wait();
-    const mockLayoutManager = makeMockLayoutManager();
     mockLayoutManager.getLayout.mockImplementation(async () => {
       condvar.notifyAll();
       return {
@@ -193,7 +201,6 @@ describe("CurrentLayoutProvider", () => {
       };
     });
 
-    const mockUserProfile = makeMockUserProfile();
     mockUserProfile.getUserProfile.mockResolvedValue({ currentLayoutId: "example" });
 
     const { all } = renderTest({ mockLayoutManager, mockUserProfile });
@@ -209,8 +216,6 @@ describe("CurrentLayoutProvider", () => {
   });
 
   it("keeps identity of action functions when modifying layout", async () => {
-    const mockLayoutManager = makeMockLayoutManager();
-    mockLayoutManager.getLayouts.mockImplementation(() => []);
     mockLayoutManager.getLayout.mockImplementation(async () => {
       return {
         id: "TEST_ID",
@@ -226,7 +231,6 @@ describe("CurrentLayoutProvider", () => {
         baseline: { data: TEST_LAYOUT, updatedAt: new Date(10).toISOString() },
       };
     });
-    const mockUserProfile = makeMockUserProfile();
     mockUserProfile.getUserProfile.mockResolvedValue({ currentLayoutId: "example" });
 
     const { result } = renderTest({
@@ -248,8 +252,6 @@ describe("CurrentLayoutProvider", () => {
   });
 
   it("selects the first layout in alphabetic order, when there is no selected layout", async () => {
-    const mockLayoutManager = makeMockLayoutManager();
-    mockLayoutManager.getLayout.mockImplementation(async () => undefined);
     mockLayoutManager.getLayouts.mockImplementation(async () => {
       return [
         {
@@ -264,9 +266,6 @@ describe("CurrentLayoutProvider", () => {
         },
       ];
     });
-
-    const mockUserProfile = makeMockUserProfile();
-    mockUserProfile.getUserProfile.mockResolvedValue({ currentLayoutId: undefined });
 
     const { result, all } = renderTest({
       mockLayoutManager,
@@ -286,8 +285,6 @@ describe("CurrentLayoutProvider", () => {
 
   it("should select a layout though app parameters", async () => {
     const mockAppParameters = { defaultLayout: "LAYOUT 2" };
-    const mockLayoutManager = makeMockLayoutManager();
-    mockLayoutManager.getLayout.mockImplementation(async () => undefined);
     mockLayoutManager.getLayouts.mockImplementation(async () => {
       return [
         {
@@ -302,9 +299,6 @@ describe("CurrentLayoutProvider", () => {
         },
       ];
     });
-
-    const mockUserProfile = makeMockUserProfile();
-    mockUserProfile.getUserProfile.mockResolvedValue({ currentLayoutId: undefined });
 
     const { result, all } = renderTest({
       mockLayoutManager,
