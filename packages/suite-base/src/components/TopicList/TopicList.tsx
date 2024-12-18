@@ -37,7 +37,7 @@ import { TopicListItem, useTopicListSearch } from "./useTopicListSearch";
 
 const selectPlayerPresence = ({ playerState }: MessagePipelineContext) => playerState.presence;
 
-function getDraggedMessagePath(treeItem: TopicListItem): DraggedMessagePath {
+export function getDraggedMessagePath(treeItem: TopicListItem): DraggedMessagePath {
   switch (treeItem.type) {
     case "topic":
       return {
