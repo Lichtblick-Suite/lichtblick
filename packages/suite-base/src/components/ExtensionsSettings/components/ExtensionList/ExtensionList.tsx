@@ -11,7 +11,7 @@ import { ExtensionMarketplaceDetail } from "@lichtblick/suite-base/context/Exten
 
 import ExtensionListEntry from "../ExtensionListEntry/ExtensionListEntry";
 
-function displayNameForNamespace(namespace: string): string {
+export function displayNameForNamespace(namespace: string): string {
   if (namespace === "org") {
     return "Organization";
   } else {
@@ -19,7 +19,7 @@ function displayNameForNamespace(namespace: string): string {
   }
 }
 
-function generatePlaceholderList(message?: string): React.ReactElement {
+export function generatePlaceholderList(message?: string): React.ReactElement {
   return (
     <List>
       <ListItem>
