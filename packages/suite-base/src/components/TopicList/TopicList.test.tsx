@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: Copyright (C) 2023-2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)<lichtblick@bmwgroup.com>
+// SPDX-License-Identifier: MPL-2.0
+
 /**
  * @jest-environment jsdom
  */
@@ -5,13 +8,13 @@
 // SPDX-License-Identifier: MPL-2.0
 
 import "@testing-library/jest-dom";
-
-import { render} from "@testing-library/react";
+import { render } from "@testing-library/react";
 
 import { useMessagePipeline } from "@lichtblick/suite-base/components/MessagePipeline";
 import { PlayerPresence } from "@lichtblick/suite-base/players/types";
-import { TopicListItem } from "./useTopicListSearch";
+
 import { getDraggedMessagePath, TopicList } from "./TopicList";
+import { TopicListItem } from "./useTopicListSearch";
 
 // Mock dependencies
 jest.mock("@lichtblick/suite-base/components/MessagePipeline");
@@ -30,23 +33,19 @@ const setup = (playerPresence: PlayerPresence) => {
   return render(<TopicList />);
 };
 
-// Helper to render and get text
-const renderAndGetText = (playerPresence: PlayerPresence, text: string) => {
-  const { getByText } = setup(playerPresence);
-  expect(getByText(text)).toBeInTheDocument();
-};
-
 describe("TopicList Component", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
   it("renders EmptyState when playerPresence is NOT_PRESENT", () => {
-    renderAndGetText(PlayerPresence.NOT_PRESENT, "No data source selected");
+    const { getByText } = setup(PlayerPresence.NOT_PRESENT);
+    expect(getByText("No data source selected")).toBeInTheDocument();
   });
 
   it("renders EmptyState when playerPresence is ERROR", () => {
-    renderAndGetText(PlayerPresence.ERROR, "An error occurred");
+    const { getByText } = setup(PlayerPresence.ERROR);
+    expect(getByText("An error occurred")).toBeInTheDocument();
   });
 
   it("renders loading state when playerPresence is INITIALIZING", () => {
@@ -103,7 +102,7 @@ describe("getDraggedMessagePath", () => {
           suffix: {
             isLeaf: true,
             pathSuffix: "",
-            type: ""
+            type: "",
           },
         },
         positions: new Set<number>(),
