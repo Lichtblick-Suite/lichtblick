@@ -15,7 +15,6 @@ import { ListChildComponentProps, VariableSizeList } from "react-window";
 import { useDebounce } from "use-debounce";
 
 import { filterMap } from "@lichtblick/den/collection";
-import { quoteTopicNameIfNeeded } from "@lichtblick/message-path";
 import { useDataSourceInfo } from "@lichtblick/suite-base/PanelAPI";
 import { DirectTopicStatsUpdater } from "@lichtblick/suite-base/components/DirectTopicStatsUpdater";
 import EmptyState from "@lichtblick/suite-base/components/EmptyState";
@@ -26,6 +25,7 @@ import {
 import { DraggedMessagePath } from "@lichtblick/suite-base/components/PanelExtensionAdapter";
 import SearchBar from "@lichtblick/suite-base/components/SearchBar/SearchBar";
 import { ContextMenu } from "@lichtblick/suite-base/components/TopicList/ContextMenu";
+import { getDraggedMessagePath } from "@lichtblick/suite-base/components/TopicList/getDraggedMessagePath";
 import { PlayerPresence } from "@lichtblick/suite-base/players/types";
 import { MessagePathSelectionProvider } from "@lichtblick/suite-base/services/messagePathDragging/MessagePathSelectionProvider";
 
@@ -33,30 +33,9 @@ import { MessagePathRow } from "./MessagePathRow";
 import { useStyles } from "./TopicList.style";
 import { TopicRow } from "./TopicRow";
 import { useMultiSelection } from "./useMultiSelection";
-import { TopicListItem, useTopicListSearch } from "./useTopicListSearch";
+import { useTopicListSearch } from "./useTopicListSearch";
 
 const selectPlayerPresence = ({ playerState }: MessagePipelineContext) => playerState.presence;
-
-export function getDraggedMessagePath(treeItem: TopicListItem): DraggedMessagePath {
-  switch (treeItem.type) {
-    case "topic":
-      return {
-        path: quoteTopicNameIfNeeded(treeItem.item.item.name),
-        rootSchemaName: treeItem.item.item.schemaName,
-        isTopic: true,
-        isLeaf: false,
-        topicName: treeItem.item.item.name,
-      };
-    case "schema":
-      return {
-        path: treeItem.item.item.fullPath,
-        rootSchemaName: treeItem.item.item.topic.schemaName,
-        isTopic: false,
-        isLeaf: treeItem.item.item.suffix.isLeaf,
-        topicName: treeItem.item.item.topic.name,
-      };
-  }
-}
 
 export function TopicList(): React.JSX.Element {
   const { t } = useTranslation("topicList");
