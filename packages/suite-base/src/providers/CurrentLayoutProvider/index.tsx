@@ -280,7 +280,7 @@ export default function CurrentLayoutProvider({
       return;
     }
 
-    // For some reason, this needs to go befre the setSelectedLayoutId, probably some initialization
+    // For some reason, this needs to go before the setSelectedLayoutId, probably some initialization
     const { currentLayoutId } = await getUserProfile();
 
     // Try to load default layouts, before checking to add the fallback "Default".
@@ -291,7 +291,7 @@ export default function CurrentLayoutProvider({
     // Check if there's a layout specified by app parameter
     const defaultLayoutFromParameters = layouts.find((l) => l.name === appParameters.defaultLayout);
     if (defaultLayoutFromParameters) {
-      await setSelectedLayoutId(defaultLayoutFromParameters.id, { saveToProfile: false });
+      await setSelectedLayoutId(defaultLayoutFromParameters.id, { saveToProfile: true });
       return;
     }
 
