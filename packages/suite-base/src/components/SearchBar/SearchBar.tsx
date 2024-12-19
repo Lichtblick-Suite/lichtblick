@@ -33,7 +33,7 @@ function SearchBar(
   const { classes } = useStyles();
 
   return (
-    <header className={classes.filterSearchBar}>
+    <div className={classes.filterSearchBar}>
       <TextField
         data-testid="SearchBarComponent"
         id={id}
@@ -59,7 +59,7 @@ function SearchBar(
         }}
         {...rest}
       />
-    </header>
+    </div>
   );
 }
 

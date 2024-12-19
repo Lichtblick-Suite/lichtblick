@@ -116,11 +116,11 @@ describe("ExtensionList Component", () => {
   it("calls selectExtension with the correct parameters when an entry is clicked", async () => {
     render(
       <ExtensionList
-      namespace={mockNamespace}
+        namespace={mockNamespace}
         entries={mockEntries}
         filterText=""
         selectExtension={mockSelectExtension}
-      />
+      />,
     );
 
     const firstEntry = screen.getByText("Extension");
