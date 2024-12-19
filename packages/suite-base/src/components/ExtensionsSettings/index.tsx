@@ -74,6 +74,7 @@ export default function ExtensionsSettings(): React.ReactElement {
       )}
       <div className={classes.searchBarDiv}>
         <SearchBar
+          data-testid="SearchBarComponent"
           className={classes.searchBarPadding}
           id="extension-filter"
           placeholder={t("searchExtensions")}
