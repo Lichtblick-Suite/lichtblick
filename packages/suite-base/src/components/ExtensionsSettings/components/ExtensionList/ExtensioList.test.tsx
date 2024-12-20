@@ -4,7 +4,6 @@
 // SPDX-License-Identifier: MPL-2.0
 
 import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 
 import "@testing-library/jest-dom";
 import { Immutable } from "@lichtblick/suite";
@@ -113,7 +112,7 @@ describe("ExtensionList Component", () => {
     expect(screen.getByText("No extensions available")).toBeInTheDocument();
   });
 
-  it("calls selectExtension with the correct parameters when an entry is clicked", async () => {
+  it("calls selectExtension with the correct parameters when an entry is clicked", () => {
     render(
       <ExtensionList
         namespace={mockNamespace}
@@ -124,7 +123,7 @@ describe("ExtensionList Component", () => {
     );
 
     const firstEntry = screen.getByText("Extension");
-    await userEvent.click(firstEntry);
+    firstEntry.click();
 
     expect(mockSelectExtension).toHaveBeenCalledWith({
       installed: true,
