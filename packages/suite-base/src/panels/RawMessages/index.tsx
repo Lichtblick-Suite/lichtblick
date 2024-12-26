@@ -402,7 +402,9 @@ function RawMessages(props: Props) {
     const shouldDisplaySingleVal =
       (data != undefined && typeof data !== "object") ||
       (isSingleElemArray(data) && data[0] != undefined && typeof data[0] !== "object");
-    const singleVal = isSingleElemArray(data) ? data[0] : data;
+    const singleVal = isSingleElemArray(data)
+      ? `${data[0]} (${baseItem.queriedData[0]?.constantName})`
+      : data;
 
     const diffData =
       diffItem && dataWithoutWrappingArray(diffItem.queriedData.map(({ value }) => value));
