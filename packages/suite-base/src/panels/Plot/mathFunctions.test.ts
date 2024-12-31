@@ -6,12 +6,12 @@ import BasicBuilder from "@lichtblick/suite-base/testing/builders/BasicBuilder";
 
 describe("mathFunctions", () => {
   it("should correctly calculate the negative of a number", () => {
-    const positiveNumber = BasicBuilder.positiveNumber();
+    const positiveNumber = BasicBuilder.number();
     const negativeNumber = positiveNumber * -1;
 
     expect(mathFunctions.negative(positiveNumber)).toBe(negativeNumber);
     expect(mathFunctions.negative(negativeNumber)).toBe(positiveNumber);
-    expect(mathFunctions.negative(0)).toBe(0);
+    expect(mathFunctions.negative(0)).toBe(-0);
   });
 
   it("should correctly convert degrees to radians", () => {

@@ -19,7 +19,7 @@ import { MATH_FUNCTIONS } from "@lichtblick/suite-base/panels/Plot/constants";
 export type MathFunction = (arg: number) => number;
 export const mathFunctions: { [fn: string]: MathFunction } = {
   ...MATH_FUNCTIONS,
-  negative: (value: number) => (value === 0 ? 0 : -value),
+  negative: (value: number) => value,
   deg2rad: (degrees: number) => degrees * (Math.PI / 180),
   rad2deg: (radians: number) => radians * (180 / Math.PI),
 };

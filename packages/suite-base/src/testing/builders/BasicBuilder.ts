@@ -44,14 +44,6 @@ export default class BasicBuilder {
     return _.random(min, max);
   }
 
-  public static positiveNumber({ min = 1, max = 20 }: Partial<NumberBuilder> = {}): number {
-    return _.random(min, max);
-  }
-
-  public static negativeNumber({ min = -20, max = -1 }: Partial<NumberBuilder> = {}): number {
-    return _.random(min, max);
-  }
-
   public static float(min = 1, max = 20): number {
     return _.random(min, max, true);
   }
