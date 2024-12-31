@@ -338,7 +338,6 @@ export function Plot(props: Props): React.JSX.Element {
     const isCanvasTarget = (entry: Immutable<ResizeObserverEntry>) => entry.target === canvasDiv;
     const resizeObserver = new ResizeObserver((entries) => {
       const entry = _.findLast(entries, isCanvasTarget);
-      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (entry) {
         plotCoordinator.setSize({
           width: entry.contentRect.width,
