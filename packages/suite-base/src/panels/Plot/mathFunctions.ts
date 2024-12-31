@@ -14,26 +14,12 @@
 //   found at http://www.apache.org/licenses/LICENSE-2.0
 //   You may not use this file except in compliance with the License.
 
-export type MathFunction = (arg: number) => number;
+import { MATH_FUNCTIONS } from "@lichtblick/suite-base/panels/Plot/constants";
 
+export type MathFunction = (arg: number) => number;
 export const mathFunctions: { [fn: string]: MathFunction } = {
-  abs: Math.abs,
-  acos: Math.acos,
-  asin: Math.asin,
-  atan: Math.atan,
-  ceil: Math.ceil,
-  cos: Math.cos,
-  log: Math.log,
-  log1p: Math.log1p,
-  log2: Math.log2,
-  log10: Math.log10,
-  round: Math.round,
-  sign: Math.sign,
-  sin: Math.sin,
-  sqrt: Math.sqrt,
-  tan: Math.tan,
-  trunc: Math.trunc,
-  negative: (value: number) => -value,
+  ...MATH_FUNCTIONS,
+  negative: (value: number) => (value === 0 ? 0 : -value),
   deg2rad: (degrees: number) => degrees * (Math.PI / 180),
   rad2deg: (radians: number) => radians * (180 / Math.PI),
 };

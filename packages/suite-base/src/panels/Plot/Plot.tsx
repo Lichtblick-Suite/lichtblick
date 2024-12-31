@@ -273,8 +273,6 @@ export function Plot(props: Props): React.JSX.Element {
       default:
         throw new Error(`unsupported mode: ${xAxisMode}`);
     }
-
-    return undefined;
   }, [xAxisMode]);
 
   useEffect(() => {
@@ -322,6 +320,7 @@ export function Plot(props: Props): React.JSX.Element {
   }, [canvasDiv, theme]);
 
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition, @typescript-eslint/strict-boolean-expressions
     if (!renderer || !datasetsBuilder || !canvasDiv) {
       return;
     }
@@ -339,6 +338,7 @@ export function Plot(props: Props): React.JSX.Element {
     const isCanvasTarget = (entry: Immutable<ResizeObserverEntry>) => entry.target === canvasDiv;
     const resizeObserver = new ResizeObserver((entries) => {
       const entry = _.findLast(entries, isCanvasTarget);
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (entry) {
         plotCoordinator.setSize({
           width: entry.contentRect.width,
