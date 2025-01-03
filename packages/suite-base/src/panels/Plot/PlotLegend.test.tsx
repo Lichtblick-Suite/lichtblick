@@ -9,6 +9,7 @@ import { render, screen } from "@testing-library/react";
 import { useMemo } from "react";
 
 import PanelContext from "@lichtblick/suite-base/components/PanelContext";
+import { useSelectedPanels } from "@lichtblick/suite-base/context/CurrentLayoutContext";
 
 import { PlotLegend } from "./PlotLegend";
 
@@ -97,10 +98,21 @@ jest.mock("@lichtblick/suite-base/context/CurrentLayoutContext", () => ({
     getCurrentLayoutState: jest.fn(),
     setCurrentLayout: jest.fn(),
   })),
-  useSelectedPanels: jest.fn(() => []), // Add this line to mock useSelectedPanels
+  useSelectedPanels: jest.fn(() => []),
 }));
 
 describe("PlotLegend", () => {
+  const mockSetSelectedPanelIds = jest.fn();
+  beforeEach(() => {
+    (useSelectedPanels as jest.Mock).mockReturnValue({
+      setSelectedPanelIds: mockSetSelectedPanelIds,
+    });
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it("renders PlotLegend without crashing", () => {
     setup();
     expect(screen.getByTitle("Add series")).toBeDefined();
@@ -123,5 +135,16 @@ describe("PlotLegend", () => {
 
     expect(screen.getByText("path1")).toBeDefined();
     expect(screen.getByText("path2")).toBeDefined();
+  });
+
+  it("calls onClickPath when a path is clicked", () => {
+    const mockOnClickPath = jest.fn();
+    const paths = [{ value: "path1", enabled: true, timestampMethod: "method1" }];
+    setup({ paths, onClickPath: mockOnClickPath });
+
+    const pathElement = screen.getByText("path1");
+    fireEvent.click(pathElement);
+
+    expect(mockOnClickPath).toHaveBeenCalledWith(0);
   });
 });
