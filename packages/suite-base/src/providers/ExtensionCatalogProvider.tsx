@@ -162,30 +162,49 @@ function createExtensionRegistryStore(
         topicAliasFunctions: [],
         panelSettings: {},
       };
-      for (const loader of loaders) {
-        try {
-          for (const extension of await loader.getExtensions()) {
+
+      const processExtensionsBatch = async (
+        extensionsBatch: ExtensionInfo[],
+        loader: ExtensionLoader,
+      ) => {
+        await Promise.all(
+          extensionsBatch.map(async (extension) => {
             try {
               extensionList.push(extension);
               const unwrappedExtensionSource = await loader.loadExtension(extension.id);
               const contributionPoints = activateExtension(extension, unwrappedExtensionSource);
-              Object.assign(allContributionPoints.panels, contributionPoints.panels);
+
+              _.assign(allContributionPoints.panels, contributionPoints.panels);
               _.merge(allContributionPoints.panelSettings, contributionPoints.panelSettings);
               allContributionPoints.messageConverters.push(...contributionPoints.messageConverters);
               allContributionPoints.topicAliasFunctions.push(
                 ...contributionPoints.topicAliasFunctions,
               );
             } catch (err: unknown) {
-              log.error("Error loading extension", err);
+              log.error(`Error loading extension ${extension.id}`, err);
             }
+          }),
+        );
+      };
+
+      const processLoader = async (loader: ExtensionLoader) => {
+        try {
+          const extensions = await loader.getExtensions();
+          const chunks = _.chunk(extensions, 5);
+          for (const chunk of chunks) {
+            await processExtensionsBatch(chunk, loader);
           }
         } catch (err: unknown) {
           log.error("Error loading extension list", err);
         }
-      }
+      };
+
+      await Promise.all(loaders.map(processLoader));
+
       log.info(
         `Loaded ${extensionList.length} extensions in ${(performance.now() - start).toFixed(1)}ms`,
       );
+
       set({
         installedExtensions: extensionList,
         installedPanels: allContributionPoints.panels,
