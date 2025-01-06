@@ -13,8 +13,8 @@ import { toSec } from "@lichtblick/rostime";
 import { useMessagePipelineSubscribe } from "@lichtblick/suite-base/components/MessagePipeline";
 import { useHoverValue } from "@lichtblick/suite-base/context/TimelineInteractionStateContext";
 
-import type { Scale } from "./ChartRenderer";
 import type { PlotCoordinator } from "./PlotCoordinator";
+import type { Scale } from "./types";
 
 type Props = {
   coordinator?: PlotCoordinator;
