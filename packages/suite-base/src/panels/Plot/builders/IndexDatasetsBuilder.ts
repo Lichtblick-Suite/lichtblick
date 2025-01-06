@@ -22,9 +22,9 @@ import {
   SeriesConfigKey,
   SeriesItem,
 } from "./IDatasetsBuilder";
-import { Dataset } from "../ChartRenderer";
 import { MATH_FUNCTIONS } from "../constants";
 import { getChartValue, isChartValue, Datum } from "../datum";
+import { Dataset } from "../types";
 
 type DatumWithReceiveTime = Datum & {
   receiveTime: Time;
