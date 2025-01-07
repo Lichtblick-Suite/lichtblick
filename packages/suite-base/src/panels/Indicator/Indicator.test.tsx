@@ -58,22 +58,12 @@ describe("Indicator Component", () => {
       },
     };
 
-    const renderStates: Immutable<RenderState>[] = [];
     const config: IndicatorConfig = {
       ...IndicatorBuilder.config(),
       ...configOverride,
     };
     const saveConfig = () => {};
-    const initPanel = jest.fn((context: PanelExtensionContext) => {
-      context.watch("currentFrame");
-      context.watch("didSeek");
-      context.watch("variables");
-      context.subscribe([{ topic: "x", preload: false }]);
-      context.onRender = (renderState, done) => {
-        renderStates.push({ ...renderState });
-        done();
-      };
-    });
+    const initPanel = jest.fn();
 
     const ui: React.ReactElement = (
       <ThemeProvider isDark>
@@ -93,12 +83,17 @@ describe("Indicator Component", () => {
     };
     (getMatchingRule as jest.Mock).mockReturnValue(matchingRule);
 
+    const augmentColor = jest.fn(({ color: { main } }) => ({
+      contrastText: `${main}-contrast`,
+    }));
+
     return {
       ...render(ui),
       config,
       matchingRule,
       props,
       user: userEvent.setup(),
+      augmentColor,
     };
   }
 
