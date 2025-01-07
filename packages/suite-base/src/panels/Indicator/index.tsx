@@ -17,7 +17,7 @@ import ThemeProvider from "@lichtblick/suite-base/theme/ThemeProvider";
 import { SaveConfig } from "@lichtblick/suite-base/types/panels";
 
 import { Indicator } from "./Indicator";
-import { Config } from "./types";
+import { IndicatorConfig } from "./types";
 
 function initPanel(crash: ReturnType<typeof useCrash>, context: PanelExtensionContext) {
   return createSyncRoot(
@@ -31,8 +31,8 @@ function initPanel(crash: ReturnType<typeof useCrash>, context: PanelExtensionCo
 }
 
 type IndicatorPanelAdapterProps = {
-  config: Config;
-  saveConfig: SaveConfig<Config>;
+  config: IndicatorConfig;
+  saveConfig: SaveConfig<IndicatorConfig>;
 };
 
 function IndicatorLightPanelAdapter({ config, saveConfig }: IndicatorPanelAdapterProps) {

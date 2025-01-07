@@ -9,7 +9,7 @@ import { Typography } from "@mui/material";
 import { useCallback, useEffect, useLayoutEffect, useMemo, useReducer, useState } from "react";
 
 import { parseMessagePath } from "@lichtblick/message-path";
-import { PanelExtensionContext, SettingsTreeAction } from "@lichtblick/suite";
+import { SettingsTreeAction } from "@lichtblick/suite";
 import Stack from "@lichtblick/suite-base/components/Stack";
 import { GlobalVariables } from "@lichtblick/suite-base/hooks/useGlobalVariables";
 import { useStyles } from "@lichtblick/suite-base/panels/Indicator/Indicator.style";
@@ -19,11 +19,7 @@ import { GaugeAndIndicatorState } from "@lichtblick/suite-base/panels/types";
 
 import { getMatchingRule } from "./getMatchingRule";
 import { settingsActionReducer, useSettingsTree } from "./settings";
-import { Config } from "./types";
-
-type IndicatorProps = {
-  context: PanelExtensionContext;
-};
+import { IndicatorConfig, IndicatorProps } from "./types";
 
 export function Indicator({ context }: IndicatorProps): React.JSX.Element {
   // panel extensions must notify when they've completed rendering
@@ -38,7 +34,7 @@ export function Indicator({ context }: IndicatorProps): React.JSX.Element {
 
   const [config, setConfig] = useState(() => ({
     ...DEFAULT_CONFIG,
-    ...(context.initialState as Partial<Config>),
+    ...(context.initialState as Partial<IndicatorConfig>),
   }));
 
   const [{ error, latestMatchingQueriedData, parsedPath, pathParseError }, dispatch] = useReducer(

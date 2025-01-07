@@ -7,7 +7,7 @@
 
 import { assertNever } from "@lichtblick/suite-base/util/assertNever";
 
-import { Rule } from "./types";
+import { IndicatorRule } from "./types";
 
 export function getMatchingRule(
   rawValue:
@@ -17,8 +17,8 @@ export function getMatchingRule(
     | number
     | string
     | { data?: boolean | bigint | number | string },
-  rules: readonly Rule[],
-): Rule | undefined {
+  rules: readonly IndicatorRule[],
+): IndicatorRule | undefined {
   const value = typeof rawValue === "object" ? rawValue.data : rawValue;
   if (value == undefined) {
     return undefined;
