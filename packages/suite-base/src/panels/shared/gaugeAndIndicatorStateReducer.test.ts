@@ -90,6 +90,7 @@ describe("stateReducer", () => {
   } = {}) {
     const state: GaugeAndIndicatorState = {
       error: undefined,
+      globalVariables: undefined,
       latestMatchingQueriedData: undefined,
       latestMessage: undefined,
       parsedPath: buildMessagePath(),
@@ -222,31 +223,6 @@ describe("stateReducer", () => {
       expect(newState.pathParseError).toBeUndefined();
       expect(newState.latestMatchingQueriedData).toBeUndefined();
     });
-
-    it.each<Partial<MessagePathPart>>([
-      { type: "filter", value: Object() },
-      { type: "slice", start: Object() },
-      { type: "slice", end: Object() },
-    ])(
-      "should set pathParseError when using unsupported variables in path",
-      (messagePathPart: Partial<MessagePathPart>) => {
-        const { action, state } = setup({
-          actionOverride: buildPathAction(),
-        });
-        const newPath: MessagePath = {
-          messagePath: [messagePathPart as MessagePathPart],
-          topicName: "",
-          topicNameRepr: "",
-        };
-        (parseMessagePath as jest.Mock).mockReturnValue(newPath);
-
-        const newState = stateReducer(state, action);
-
-        expect(newState.pathParseError).toBe(
-          "Message paths using variables are not currently supported",
-        );
-      },
-    );
 
     it("should parse the path and update latestMatchingQueriedData", () => {
       const { action, state } = setup({
