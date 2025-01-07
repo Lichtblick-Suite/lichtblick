@@ -30,18 +30,18 @@ function initPanel(crash: ReturnType<typeof useCrash>, context: PanelExtensionCo
   );
 }
 
-type IndicatorProps = {
+type IndicatorPanelAdapterProps = {
   config: Config;
   saveConfig: SaveConfig<Config>;
 };
 
-function IndicatorLightPanelAdapter(props: IndicatorProps) {
+function IndicatorLightPanelAdapter({ config, saveConfig }: IndicatorPanelAdapterProps) {
   const crash = useCrash();
   const boundInitPanel = useMemo(() => initPanel.bind(undefined, crash), [crash]);
   return (
     <PanelExtensionAdapter
-      config={props.config}
-      saveConfig={props.saveConfig}
+      config={config}
+      saveConfig={saveConfig}
       initPanel={boundInitPanel}
       highestSupportedConfigVersion={1}
     />

@@ -7,12 +7,13 @@
 
 import { Typography } from "@mui/material";
 import { useCallback, useEffect, useLayoutEffect, useMemo, useReducer, useState } from "react";
-import { makeStyles } from "tss-react/mui";
 
 import { parseMessagePath } from "@lichtblick/message-path";
 import { PanelExtensionContext, SettingsTreeAction } from "@lichtblick/suite";
 import Stack from "@lichtblick/suite-base/components/Stack";
 import { GlobalVariables } from "@lichtblick/suite-base/hooks/useGlobalVariables";
+import { useStyles } from "@lichtblick/suite-base/panels/Indicator/Indicator.style";
+import { DEFAULT_CONFIG } from "@lichtblick/suite-base/panels/Indicator/constants";
 import { stateReducer } from "@lichtblick/suite-base/panels/shared/gaugeAndIndicatorStateReducer";
 import { GaugeAndIndicatorState } from "@lichtblick/suite-base/panels/types";
 
@@ -20,33 +21,11 @@ import { getMatchingRule } from "./getMatchingRule";
 import { settingsActionReducer, useSettingsTree } from "./settings";
 import { Config } from "./types";
 
-type Props = {
+type IndicatorProps = {
   context: PanelExtensionContext;
 };
 
-const defaultConfig: Config = {
-  path: "",
-  style: "bulb",
-  fallbackColor: "#a0a0a0",
-  fallbackLabel: "False",
-  rules: [{ operator: "=", rawValue: "true", color: "#68e24a", label: "True" }],
-};
-
-const useStyles = makeStyles()({
-  root: {
-    width: 40,
-    height: 40,
-    borderRadius: "50%",
-    position: "relative",
-    backgroundImage: [
-      `radial-gradient(transparent, transparent 55%, rgba(255,255,255,0.4) 80%, rgba(255,255,255,0.4))`,
-      `radial-gradient(circle at 38% 35%, rgba(255,255,255,0.8), transparent 30%, transparent)`,
-      `radial-gradient(circle at 46% 44%, transparent, transparent 61%, rgba(0,0,0,0.7) 74%, rgba(0,0,0,0.7))`,
-    ].join(","),
-  },
-});
-
-export function Indicator({ context }: Props): React.JSX.Element {
+export function Indicator({ context }: IndicatorProps): React.JSX.Element {
   // panel extensions must notify when they've completed rendering
   // onRender will setRenderDone to a done callback which we can invoke after we've rendered
   const [renderDone, setRenderDone] = useState<() => void>(() => () => {});
@@ -58,7 +37,7 @@ export function Indicator({ context }: Props): React.JSX.Element {
   } = useStyles();
 
   const [config, setConfig] = useState(() => ({
-    ...defaultConfig,
+    ...DEFAULT_CONFIG,
     ...(context.initialState as Partial<Config>),
   }));
 
@@ -111,7 +90,7 @@ export function Indicator({ context }: Props): React.JSX.Element {
     return () => {
       context.onRender = undefined;
     };
-  }, [context]);
+  }, [context, dispatch]);
 
   const settingsActionHandler = useCallback(
     (action: SettingsTreeAction) => {
@@ -142,16 +121,28 @@ export function Indicator({ context }: Props): React.JSX.Element {
     renderDone();
   }, [renderDone]);
 
-  const rawValue =
-    typeof latestMatchingQueriedData === "boolean" ||
-    typeof latestMatchingQueriedData === "number" ||
-    typeof latestMatchingQueriedData === "bigint" ||
-    typeof latestMatchingQueriedData === "string"
-      ? latestMatchingQueriedData
-      : undefined;
+  const rawValue = useMemo(() => {
+    if (
+      typeof latestMatchingQueriedData === "boolean" ||
+      typeof latestMatchingQueriedData === "number" ||
+      typeof latestMatchingQueriedData === "bigint" ||
+      typeof latestMatchingQueriedData === "string"
+    ) {
+      return latestMatchingQueriedData;
+    }
+    return undefined;
+  }, [latestMatchingQueriedData]);
 
   const { style, rules, fallbackColor, fallbackLabel } = config;
   const matchingRule = useMemo(() => getMatchingRule(rawValue, rules), [rawValue, rules]);
+
+  const bulbStyle = useMemo(
+    () => ({
+      backgroundColor: matchingRule?.color ?? fallbackColor,
+    }),
+    [matchingRule?.color, fallbackColor],
+  );
+
   return (
     <Stack fullHeight>
       <Stack
@@ -166,12 +157,7 @@ export function Indicator({ context }: Props): React.JSX.Element {
         }}
       >
         <Stack direction="row" alignItems="center" gap={2}>
-          {style === "bulb" && (
-            <div
-              className={classes.root}
-              style={{ backgroundColor: matchingRule?.color ?? fallbackColor }}
-            />
-          )}
+          {style === "bulb" && <div className={classes.root} style={bulbStyle} />}
           <Typography
             color={
               style === "background"
