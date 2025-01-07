@@ -12,6 +12,7 @@ import { makeStyles } from "tss-react/mui";
 import { parseMessagePath } from "@lichtblick/message-path";
 import { PanelExtensionContext, SettingsTreeAction } from "@lichtblick/suite";
 import Stack from "@lichtblick/suite-base/components/Stack";
+import { GlobalVariables } from "@lichtblick/suite-base/hooks/useGlobalVariables";
 import { stateReducer } from "@lichtblick/suite-base/panels/shared/gaugeAndIndicatorStateReducer";
 import { GaugeAndIndicatorState } from "@lichtblick/suite-base/panels/types";
 
@@ -61,16 +62,17 @@ export function Indicator({ context }: Props): React.JSX.Element {
     ...(context.initialState as Partial<Config>),
   }));
 
-  const [state, dispatch] = useReducer(
+  const [{ error, latestMatchingQueriedData, parsedPath, pathParseError }, dispatch] = useReducer(
     stateReducer,
     config,
-    ({ path }): GaugeAndIndicatorState => ({
-      path,
-      parsedPath: parseMessagePath(path),
-      latestMessage: undefined,
-      latestMatchingQueriedData: undefined,
-      pathParseError: undefined,
+    ({ path: pathState }): GaugeAndIndicatorState => ({
+      globalVariables: undefined,
       error: undefined,
+      latestMatchingQueriedData: undefined,
+      latestMessage: undefined,
+      parsedPath: parseMessagePath(pathState),
+      path: pathState,
+      pathParseError: undefined,
     }),
   );
 
@@ -87,6 +89,13 @@ export function Indicator({ context }: Props): React.JSX.Element {
     context.onRender = (renderState, done) => {
       setRenderDone(() => done);
 
+      if (renderState.variables) {
+        dispatch({
+          type: "updateGlobalVariables",
+          globalVariables: Object.fromEntries(renderState.variables) as GlobalVariables,
+        });
+      }
+
       if (renderState.didSeek === true) {
         dispatch({ type: "seek" });
       }
@@ -97,6 +106,7 @@ export function Indicator({ context }: Props): React.JSX.Element {
     };
     context.watch("currentFrame");
     context.watch("didSeek");
+    context.watch("variables");
 
     return () => {
       context.onRender = undefined;
@@ -110,7 +120,7 @@ export function Indicator({ context }: Props): React.JSX.Element {
     [setConfig],
   );
 
-  const settingsTree = useSettingsTree(config, state.pathParseError, state.error?.message);
+  const settingsTree = useSettingsTree(config, pathParseError, error?.message);
   useEffect(() => {
     context.updatePanelSettingsEditor({
       actionHandler: settingsActionHandler,
@@ -119,13 +129,13 @@ export function Indicator({ context }: Props): React.JSX.Element {
   }, [context, settingsActionHandler, settingsTree]);
 
   useEffect(() => {
-    if (state.parsedPath?.topicName != undefined) {
-      context.subscribe([{ topic: state.parsedPath.topicName, preload: false }]);
+    if (parsedPath?.topicName != undefined) {
+      context.subscribe([{ topic: parsedPath.topicName, preload: false }]);
     }
     return () => {
       context.unsubscribeAll();
     };
-  }, [context, state.parsedPath?.topicName]);
+  }, [context, parsedPath?.topicName]);
 
   // Indicate render is complete - the effect runs after the dom is updated
   useEffect(() => {
@@ -133,11 +143,11 @@ export function Indicator({ context }: Props): React.JSX.Element {
   }, [renderDone]);
 
   const rawValue =
-    typeof state.latestMatchingQueriedData === "boolean" ||
-    typeof state.latestMatchingQueriedData === "bigint" ||
-    typeof state.latestMatchingQueriedData === "string" ||
-    typeof state.latestMatchingQueriedData === "number"
-      ? state.latestMatchingQueriedData
+    typeof latestMatchingQueriedData === "boolean" ||
+    typeof latestMatchingQueriedData === "number" ||
+    typeof latestMatchingQueriedData === "bigint" ||
+    typeof latestMatchingQueriedData === "string"
+      ? latestMatchingQueriedData
       : undefined;
 
   const { style, rules, fallbackColor, fallbackLabel } = config;
