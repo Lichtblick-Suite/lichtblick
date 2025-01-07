@@ -139,6 +139,16 @@ export function Indicator({ context }: IndicatorProps): React.JSX.Element {
     [matchingRule?.color, fallbackColor],
   );
 
+  const color = useMemo(
+    () =>
+      style === "background"
+        ? augmentColor({
+            color: { main: matchingRule?.color ?? fallbackColor },
+          }).contrastText
+        : matchingRule?.color ?? fallbackColor,
+    [style, augmentColor, matchingRule?.color, fallbackColor],
+  );
+
   return (
     <Stack fullHeight>
       <Stack
@@ -154,18 +164,7 @@ export function Indicator({ context }: IndicatorProps): React.JSX.Element {
       >
         <Stack direction="row" alignItems="center" gap={2}>
           {style === "bulb" && <div className={classes.root} style={bulbStyle} />}
-          <Typography
-            color={
-              style === "background"
-                ? augmentColor({
-                    color: { main: matchingRule?.color ?? fallbackColor },
-                  }).contrastText
-                : matchingRule?.color ?? fallbackColor
-            }
-            fontFamily="fontMonospace"
-            variant="h1"
-            whiteSpace="pre"
-          >
+          <Typography color={color} fontFamily="fontMonospace" variant="h1" whiteSpace="pre">
             {matchingRule?.label ?? fallbackLabel}
           </Typography>
         </Stack>
