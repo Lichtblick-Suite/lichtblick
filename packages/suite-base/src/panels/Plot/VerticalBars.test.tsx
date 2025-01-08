@@ -4,9 +4,11 @@
 // SPDX-License-Identifier: MPL-2.0
 
 import { render, screen } from "@testing-library/react";
-import { VerticalBars } from "./VerticalBars";
+
 import { useMessagePipelineSubscribe } from "@lichtblick/suite-base/components/MessagePipeline";
 import { useHoverValue } from "@lichtblick/suite-base/context/TimelineInteractionStateContext";
+
+import { VerticalBars } from "./VerticalBars";
 import "@testing-library/jest-dom";
 
 jest.mock("@lichtblick/suite-base/components/MessagePipeline", () => ({

@@ -17,8 +17,8 @@
 import Panel from "@lichtblick/suite-base/components/Panel";
 
 import { Plot } from "./Plot";
-import { defaultSidebarDimension } from "./constants";
 import { PlotConfig } from "./config";
+import { defaultSidebarDimension } from "./constants";
 
 const defaultConfig: PlotConfig = {
   paths: [],
