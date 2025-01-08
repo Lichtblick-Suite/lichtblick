@@ -109,4 +109,12 @@ export type UseHoverHandlersHook = {
   onMouseOut: () => void;
   onWheel: (event: React.WheelEvent<HTMLElement>) => void;
   onResetView: () => void;
-}
+};
+export type ChartRendererProps = {
+  canvas: OffscreenCanvas;
+  devicePixelRatio: number;
+  gridColor: string;
+  tickColor: string;
+};
+
+export type ChartOptionsPlot = Omit<ChartRendererProps, "canvas">;

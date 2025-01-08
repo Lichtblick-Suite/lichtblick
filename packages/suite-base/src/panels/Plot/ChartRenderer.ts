@@ -21,6 +21,7 @@ import { Bounds } from "@lichtblick/suite-base/types/Bounds";
 import { maybeCast } from "@lichtblick/suite-base/util/maybeCast";
 
 import {
+  ChartRendererProps,
   ChartType,
   Dataset,
   Datum,
@@ -37,12 +38,7 @@ export class ChartRenderer {
   #fakeNodeEvents = new EventEmitter();
   #fakeDocumentEvents = new EventEmitter();
 
-  public constructor(args: {
-    canvas: OffscreenCanvas;
-    devicePixelRatio: number;
-    gridColor: string;
-    tickColor: string;
-  }) {
+  public constructor(args: ChartRendererProps) {
     const fakeNode = {
       addEventListener: addEventListener(this.#fakeNodeEvents),
       removeEventListener: removeEventListener(this.#fakeNodeEvents),
@@ -291,5 +287,9 @@ export class ChartRenderer {
         maybeCast<ZoomableChart>(this.#chartInstance)?.$zoom.panEndHandler();
         break;
     }
+  }
+
+  public getChartInstance(): ChartType {
+    return this.#chartInstance;
   }
 }
