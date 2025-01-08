@@ -1,0 +1,166 @@
+// SPDX-FileCopyrightText: Copyright (C) 2023-2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)<lichtblick@bmwgroup.com>
+// SPDX-License-Identifier: MPL-2.0
+
+import { useCallback, useRef, useMemo, SetStateAction, Dispatch } from "react";
+import { useMountedState } from "react-use";
+
+import { debouncePromise } from "@lichtblick/den/async";
+import { isTime, toSec } from "@lichtblick/rostime";
+import { TimeBasedChartTooltipData } from "@lichtblick/suite-base/components/TimeBasedChart/TimeBasedChartTooltipContent";
+import {
+  TimelineInteractionStateStore,
+  useClearHoverValue,
+  useSetHoverValue,
+  useTimelineInteractionState,
+} from "@lichtblick/suite-base/context/TimelineInteractionStateContext";
+import { OffscreenCanvasRenderer } from "@lichtblick/suite-base/panels/Plot/OffscreenCanvasRenderer";
+import { PlotCoordinator } from "@lichtblick/suite-base/panels/Plot/PlotCoordinator";
+import { PlotConfig } from "@lichtblick/suite-base/panels/Plot/config";
+import { ElementAtPixelArgs, UseHoverHandlersHook } from "@lichtblick/suite-base/panels/Plot/types";
+
+const selectSetGlobalBounds = (store: TimelineInteractionStateStore) => store.setGlobalBounds;
+
+const useHoverHandlers = (
+  coordinator: PlotCoordinator | undefined,
+  renderer: OffscreenCanvasRenderer | undefined,
+  subscriberId: string,
+  config: PlotConfig,
+  setActiveTooltip: Dispatch<
+    SetStateAction<
+      | {
+          x: number;
+          y: number;
+          data: TimeBasedChartTooltipData[];
+        }
+      | undefined
+    >
+  >,
+  { shouldSync }: { shouldSync: boolean },
+): UseHoverHandlersHook => {
+  const setHoverValue = useSetHoverValue();
+  const clearHoverValue = useClearHoverValue();
+  const isMounted = useMountedState();
+  const mousePresentRef = useRef(false);
+  const { xAxisVal: xAxisMode } = config;
+  const setGlobalBounds = useTimelineInteractionState(selectSetGlobalBounds);
+
+  const buildTooltip = useMemo(() => {
+    return debouncePromise(async (args: ElementAtPixelArgs) => {
+      const elements = await renderer?.getElementsAtPixel({
+        x: args.canvasX,
+        y: args.canvasY,
+      });
+
+      if (!isMounted()) {
+        return;
+      }
+
+      // Looking up a tooltip is an async operation so the mouse might leave the component while
+      // that is happening and we need to avoid showing a tooltip.
+      if (!elements || elements.length === 0 || !mousePresentRef.current) {
+        setActiveTooltip(undefined);
+        return;
+      }
+
+      const tooltipItems: TimeBasedChartTooltipData[] = [];
+
+      for (const element of elements) {
+        const value = element.data.value ?? element.data.y;
+        const tooltipValue = typeof value === "object" && isTime(value) ? toSec(value) : value;
+
+        tooltipItems.push({
+          configIndex: element.configIndex,
+          value: tooltipValue,
+        });
+      }
+
+      if (tooltipItems.length === 0) {
+        setActiveTooltip(undefined);
+        return;
+      }
+
+      setActiveTooltip({
+        x: args.clientX,
+        y: args.clientY,
+        data: tooltipItems,
+      });
+    });
+  }, [renderer, isMounted, setActiveTooltip]);
+
+  // Extract the bounding client rect from currentTarget before calling the debounced function
+  // because react re-uses the SyntheticEvent objects.
+  const onMouseMove = useCallback(
+    (event: React.MouseEvent<HTMLElement>) => {
+      mousePresentRef.current = true;
+      const boundingRect = event.currentTarget.getBoundingClientRect();
+      buildTooltip({
+        clientX: event.clientX,
+        clientY: event.clientY,
+        canvasX: event.clientX - boundingRect.left,
+        canvasY: event.clientY - boundingRect.top,
+      });
+
+      if (!coordinator) {
+        return;
+      }
+
+      const rect = event.currentTarget.getBoundingClientRect();
+      const mouseX = event.clientX - rect.left;
+      const seconds = coordinator.getXValueAtPixel(mouseX);
+
+      setHoverValue({
+        componentId: subscriberId,
+        value: seconds,
+        type: xAxisMode === "timestamp" ? "PLAYBACK_SECONDS" : "OTHER",
+      });
+    },
+    [buildTooltip, coordinator, setHoverValue, subscriberId, xAxisMode],
+  );
+
+  const onMouseOut = useCallback(() => {
+    mousePresentRef.current = false;
+    setActiveTooltip(undefined);
+    clearHoverValue(subscriberId);
+  }, [clearHoverValue, subscriberId, setActiveTooltip]);
+
+  const onWheel = useCallback(
+    (event: React.WheelEvent<HTMLElement>) => {
+      if (!coordinator) {
+        return;
+      }
+
+      const boundingRect = event.currentTarget.getBoundingClientRect();
+      coordinator.addInteractionEvent({
+        type: "wheel",
+        cancelable: false,
+        deltaY: event.deltaY,
+        deltaX: event.deltaX,
+        clientX: event.clientX,
+        clientY: event.clientY,
+        boundingClientRect: boundingRect.toJSON(),
+      });
+    },
+    [coordinator],
+  );
+
+  const onResetView = useCallback(() => {
+    if (!coordinator) {
+      return;
+    }
+
+    coordinator.resetBounds();
+
+    if (shouldSync) {
+      setGlobalBounds(undefined);
+    }
+  }, [coordinator, setGlobalBounds, shouldSync]);
+
+  return {
+    onMouseMove,
+    onMouseOut,
+    onWheel,
+    onResetView,
+  };
+};
+
+export default useHoverHandlers;
