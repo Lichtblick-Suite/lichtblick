@@ -3,7 +3,9 @@
 
 import { Chart, ChartDataset, ScatterDataPoint } from "chart.js";
 
+import { PlotConfig } from "@lichtblick/suite-base/panels/Plot/config";
 import { Bounds1D } from "@lichtblick/suite-base/types/Bounds";
+import { SaveConfig } from "@lichtblick/suite-base/types/panels";
 
 import { OriginalValue } from "./datum";
 
@@ -89,3 +91,22 @@ export type ZoomableChart = Chart & {
     panEndHandler(): void;
   };
 };
+
+export type Props = {
+  config: PlotConfig;
+  saveConfig: SaveConfig<PlotConfig>;
+};
+
+export type ElementAtPixelArgs = {
+  clientX: number;
+  clientY: number;
+  canvasX: number;
+  canvasY: number;
+};
+
+export type UseHoverHandlersHook = {
+  onMouseMove: (event: React.MouseEvent<HTMLElement>) => void;
+  onMouseOut: () => void;
+  onWheel: (event: React.WheelEvent<HTMLElement>) => void;
+  onResetView: () => void;
+}

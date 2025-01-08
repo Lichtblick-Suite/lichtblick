@@ -21,3 +21,5 @@ export const MATH_FUNCTIONS: { [fn: string]: MathFunction } = {
   tan: Math.tan,
   trunc: Math.trunc,
 };
+
+export const defaultSidebarDimension = 240;

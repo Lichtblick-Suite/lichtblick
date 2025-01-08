@@ -5,18 +5,16 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-import { Button, Tooltip, Fade, buttonClasses, useTheme } from "@mui/material";
+import { Button, Tooltip, Fade, useTheme } from "@mui/material";
 import Hammer from "hammerjs";
 import * as _ from "lodash-es";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useMountedState } from "react-use";
-import { makeStyles } from "tss-react/mui";
 import { v4 as uuidv4 } from "uuid";
 
-import { debouncePromise } from "@lichtblick/den/async";
 import { filterMap } from "@lichtblick/den/collection";
 import { parseMessagePath } from "@lichtblick/message-path";
-import { add as addTimes, fromSec, isTime, toSec } from "@lichtblick/rostime";
+import { add as addTimes, fromSec } from "@lichtblick/rostime";
 import { Immutable } from "@lichtblick/suite";
 import KeyListener from "@lichtblick/suite-base/components/KeyListener";
 import { fillInGlobalVariablesInPath } from "@lichtblick/suite-base/components/MessagePathSyntax/useCachedGetMessagePathDataItems";
@@ -40,71 +38,29 @@ import TimeBasedChartTooltipContent, {
 import { Bounds1D } from "@lichtblick/suite-base/components/TimeBasedChart/types";
 import {
   TimelineInteractionStateStore,
-  useClearHoverValue,
-  useSetHoverValue,
   useTimelineInteractionState,
 } from "@lichtblick/suite-base/context/TimelineInteractionStateContext";
 import useGlobalVariables from "@lichtblick/suite-base/hooks/useGlobalVariables";
 import { VerticalBars } from "@lichtblick/suite-base/panels/Plot/VerticalBars";
+import { defaultSidebarDimension } from "@lichtblick/suite-base/panels/Plot/constants";
+import useHoverHandlers from "@lichtblick/suite-base/panels/Plot/hooks/useHoverHandlers";
+import { Props } from "@lichtblick/suite-base/panels/Plot/types";
 import { SubscribePayload } from "@lichtblick/suite-base/players/types";
-import { SaveConfig } from "@lichtblick/suite-base/types/panels";
 import { PANEL_TITLE_CONFIG_KEY } from "@lichtblick/suite-base/util/layout";
 import { getLineColor } from "@lichtblick/suite-base/util/plotColors";
 
 import { OffscreenCanvasRenderer } from "./OffscreenCanvasRenderer";
+import { useStyles } from "./Plot.style";
 import { PlotCoordinator } from "./PlotCoordinator";
 import { PlotLegend } from "./PlotLegend";
 import { CurrentCustomDatasetsBuilder } from "./builders/CurrentCustomDatasetsBuilder";
 import { CustomDatasetsBuilder } from "./builders/CustomDatasetsBuilder";
 import { IndexDatasetsBuilder } from "./builders/IndexDatasetsBuilder";
 import { TimestampDatasetsBuilder } from "./builders/TimestampDatasetsBuilder";
-import { isReferenceLinePlotPathType, PlotConfig } from "./config";
+import { isReferenceLinePlotPathType } from "./config";
 import { downloadCSV } from "./csv";
 import { usePlotPanelSettings } from "./settings";
 import { pathToSubscribePayload } from "./subscription";
-
-export const defaultSidebarDimension = 240;
-
-const useStyles = makeStyles()((theme) => ({
-  tooltip: {
-    maxWidth: "none",
-  },
-  resetZoomButton: {
-    pointerEvents: "none",
-    position: "absolute",
-    display: "flex",
-    justifyContent: "flex-end",
-    paddingInline: theme.spacing(1),
-    right: 0,
-    left: 0,
-    bottom: 0,
-    width: "100%",
-    paddingBottom: theme.spacing(4),
-
-    [`.${buttonClasses.root}`]: {
-      pointerEvents: "auto",
-    },
-  },
-  canvasDiv: { width: "100%", height: "100%", overflow: "hidden", cursor: "crosshair" },
-  verticalBarWrapper: {
-    width: "100%",
-    height: "100%",
-    overflow: "hidden",
-    position: "relative",
-  },
-}));
-
-type Props = {
-  config: PlotConfig;
-  saveConfig: SaveConfig<PlotConfig>;
-};
-
-type ElementAtPixelArgs = {
-  clientX: number;
-  clientY: number;
-  canvasX: number;
-  canvasY: number;
-};
 
 const selectGlobalBounds = (store: TimelineInteractionStateStore) => store.globalBounds;
 const selectSetGlobalBounds = (store: TimelineInteractionStateStore) => store.setGlobalBounds;
@@ -151,13 +107,6 @@ export function Plot(props: Props): React.JSX.Element {
     });
   }, [saveConfig, setMessagePathDropConfig]);
 
-  const isMounted = useMountedState();
-  const [focusedPath, setFocusedPath] = useState<undefined | string[]>(undefined);
-  const [subscriberId] = useState(() => uuidv4());
-  const [canvasDiv, setCanvasDiv] = useState<HTMLDivElement | ReactNull>(ReactNull);
-  const [renderer, setRenderer] = useState<OffscreenCanvasRenderer | undefined>(undefined);
-  const [coordinator, setCoordinator] = useState<PlotCoordinator | undefined>(undefined);
-
   // When true the user can reset the plot back to the original view
   const [canReset, setCanReset] = useState(false);
 
@@ -167,10 +116,24 @@ export function Plot(props: Props): React.JSX.Element {
     data: TimeBasedChartTooltipData[];
   }>();
 
-  usePlotPanelSettings(config, saveConfig, focusedPath);
+  const isMounted = useMountedState();
+  const [focusedPath, setFocusedPath] = useState<undefined | string[]>(undefined);
+  const [subscriberId] = useState(() => uuidv4());
+  const [canvasDiv, setCanvasDiv] = useState<HTMLDivElement | ReactNull>(ReactNull);
+  const [renderer, setRenderer] = useState<OffscreenCanvasRenderer | undefined>(undefined);
+  const [coordinator, setCoordinator] = useState<PlotCoordinator | undefined>(undefined);
+  const shouldSync = config.xAxisVal === "timestamp" && config.isSynced;
 
-  const setHoverValue = useSetHoverValue();
-  const clearHoverValue = useClearHoverValue();
+  const { onMouseMove, onMouseOut, onResetView, onWheel } = useHoverHandlers(
+    coordinator,
+    renderer,
+    subscriberId,
+    config,
+    setActiveTooltip,
+    { shouldSync },
+  );
+
+  usePlotPanelSettings(config, saveConfig, focusedPath);
 
   const onClickPath = useCallback((index: number) => {
     setFocusedPath(["paths", String(index)]);
@@ -353,107 +316,6 @@ export function Plot(props: Props): React.JSX.Element {
     };
   }, [canvasDiv, datasetsBuilder, renderer]);
 
-  const onWheel = useCallback(
-    (event: React.WheelEvent<HTMLElement>) => {
-      if (!coordinator) {
-        return;
-      }
-
-      const boundingRect = event.currentTarget.getBoundingClientRect();
-      coordinator.addInteractionEvent({
-        type: "wheel",
-        cancelable: false,
-        deltaY: event.deltaY,
-        deltaX: event.deltaX,
-        clientX: event.clientX,
-        clientY: event.clientY,
-        boundingClientRect: boundingRect.toJSON(),
-      });
-    },
-    [coordinator],
-  );
-
-  const mousePresentRef = useRef(false);
-
-  const buildTooltip = useMemo(() => {
-    return debouncePromise(async (args: ElementAtPixelArgs) => {
-      const elements = await renderer?.getElementsAtPixel({
-        x: args.canvasX,
-        y: args.canvasY,
-      });
-
-      if (!isMounted()) {
-        return;
-      }
-
-      // Looking up a tooltip is an async operation so the mouse might leave the component while
-      // that is happening and we need to avoid showing a tooltip.
-      if (!elements || elements.length === 0 || !mousePresentRef.current) {
-        setActiveTooltip(undefined);
-        return;
-      }
-
-      const tooltipItems: TimeBasedChartTooltipData[] = [];
-
-      for (const element of elements) {
-        const value = element.data.value ?? element.data.y;
-        const tooltipValue = typeof value === "object" && isTime(value) ? toSec(value) : value;
-
-        tooltipItems.push({
-          configIndex: element.configIndex,
-          value: tooltipValue,
-        });
-      }
-
-      if (tooltipItems.length === 0) {
-        setActiveTooltip(undefined);
-        return;
-      }
-
-      setActiveTooltip({
-        x: args.clientX,
-        y: args.clientY,
-        data: tooltipItems,
-      });
-    });
-  }, [renderer, isMounted]);
-
-  // Extract the bounding client rect from currentTarget before calling the debounced function
-  // because react re-uses the SyntheticEvent objects.
-  const onMouseMove = useCallback(
-    (event: React.MouseEvent<HTMLElement>) => {
-      mousePresentRef.current = true;
-      const boundingRect = event.currentTarget.getBoundingClientRect();
-      buildTooltip({
-        clientX: event.clientX,
-        clientY: event.clientY,
-        canvasX: event.clientX - boundingRect.left,
-        canvasY: event.clientY - boundingRect.top,
-      });
-
-      if (!coordinator) {
-        return;
-      }
-
-      const rect = event.currentTarget.getBoundingClientRect();
-      const mouseX = event.clientX - rect.left;
-      const seconds = coordinator.getXValueAtPixel(mouseX);
-
-      setHoverValue({
-        componentId: subscriberId,
-        value: seconds,
-        type: xAxisMode === "timestamp" ? "PLAYBACK_SECONDS" : "OTHER",
-      });
-    },
-    [buildTooltip, coordinator, setHoverValue, subscriberId, xAxisMode],
-  );
-
-  const onMouseOut = useCallback(() => {
-    mousePresentRef.current = false;
-    setActiveTooltip(undefined);
-    clearHoverValue(subscriberId);
-  }, [clearHoverValue, subscriberId]);
-
   const { colorsByDatasetIndex, labelsByDatasetIndex } = useMemo(() => {
     const labels: Record<string, string> = {};
     const colors: Record<string, string> = {};
@@ -592,8 +454,6 @@ export function Plot(props: Props): React.JSX.Element {
   const globalBounds = useTimelineInteractionState(selectGlobalBounds);
   const setGlobalBounds = useTimelineInteractionState(selectSetGlobalBounds);
 
-  const shouldSync = config.xAxisVal === "timestamp" && config.isSynced;
-
   useEffect(() => {
     if (globalBounds?.sourceId === subscriberId || !shouldSync) {
       return;
@@ -622,18 +482,6 @@ export function Plot(props: Props): React.JSX.Element {
       coordinator.off("viewportChange", setCanReset);
     };
   }, [coordinator, setGlobalBounds, shouldSync, subscriberId]);
-
-  const onResetView = useCallback(() => {
-    if (!coordinator) {
-      return;
-    }
-
-    coordinator.resetBounds();
-
-    if (shouldSync) {
-      setGlobalBounds(undefined);
-    }
-  }, [coordinator, setGlobalBounds, shouldSync]);
 
   const hoveredValuesBySeriesIndex = useMemo(() => {
     if (!config.showPlotValuesInLegend) {
