@@ -157,8 +157,13 @@ export const VerticalBars = React.memo(function VerticalBars({
 
   return (
     <>
-      <div ref={currentTimeBarRef} className={cx(classes.verticalBar, classes.playbackBar)} />
       <div
+        data-testid="vertical-bar"
+        ref={currentTimeBarRef}
+        className={cx(classes.verticalBar, classes.playbackBar)}
+      />
+      <div
+        data-testid="hover-bar"
         ref={hoverBarRef}
         className={cx(classes.verticalBar)}
         style={{
