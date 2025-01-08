@@ -5,7 +5,7 @@ import { userEvent } from "@storybook/testing-library";
 import { render, screen } from "@testing-library/react";
 import React from "react";
 
-import { Immutable, PanelExtensionContext, RenderState } from "@lichtblick/suite";
+import { PanelExtensionContext } from "@lichtblick/suite";
 import MockPanelContextProvider from "@lichtblick/suite-base/components/MockPanelContextProvider";
 import { PanelExtensionAdapter } from "@lichtblick/suite-base/components/PanelExtensionAdapter";
 import Indicator from "@lichtblick/suite-base/panels/Indicator";
