@@ -19,7 +19,7 @@ import { GaugeAndIndicatorState } from "@lichtblick/suite-base/panels/types";
 
 import { getMatchingRule } from "./getMatchingRule";
 import { settingsActionReducer, useSettingsTree } from "./settings";
-import { IndicatorConfig, IndicatorProps } from "./types";
+import { IndicatorConfig, IndicatorProps, RawValueIndicator } from "./types";
 
 export function Indicator({ context }: IndicatorProps): React.JSX.Element {
   // panel extensions must notify when they've completed rendering
@@ -118,19 +118,16 @@ export function Indicator({ context }: IndicatorProps): React.JSX.Element {
   }, [renderDone]);
 
   const rawValue = useMemo(() => {
-    if (
-      typeof latestMatchingQueriedData === "boolean" ||
-      typeof latestMatchingQueriedData === "number" ||
-      typeof latestMatchingQueriedData === "bigint" ||
-      typeof latestMatchingQueriedData === "string"
-    ) {
-      return latestMatchingQueriedData;
-    }
-    return undefined;
+    return ["boolean", "number", "bigint", "string"].includes(typeof latestMatchingQueriedData)
+      ? latestMatchingQueriedData
+      : undefined;
   }, [latestMatchingQueriedData]);
 
   const { style, rules, fallbackColor, fallbackLabel } = config;
-  const matchingRule = useMemo(() => getMatchingRule(rawValue, rules), [rawValue, rules]);
+  const matchingRule = useMemo(
+    () => getMatchingRule(rawValue as RawValueIndicator, rules),
+    [rawValue, rules],
+  );
 
   const bulbStyle = useMemo(
     () => ({

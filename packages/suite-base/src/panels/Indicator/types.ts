@@ -18,6 +18,14 @@ export type IndicatorRule = {
   rawValue: string;
 };
 
+export type RawValueIndicator =
+  | undefined
+  | boolean
+  | bigint
+  | number
+  | string
+  | { data?: boolean | bigint | number | string };
+
 export type IndicatorConfig = {
   fallbackColor: string;
   fallbackLabel: string;
