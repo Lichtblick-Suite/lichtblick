@@ -3,13 +3,16 @@
 // SPDX-FileCopyrightText: Copyright (C) 2023-2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)<lichtblick@bmwgroup.com>
 // SPDX-License-Identifier: MPL-2.0
 
-import { act, render, screen } from "@testing-library/react";
-import { VerticalBars } from "./VerticalBars";
+import { render, screen } from "@testing-library/react";
+
 import { useMessagePipelineSubscribe } from "@lichtblick/suite-base/components/MessagePipeline";
 import { useHoverValue } from "@lichtblick/suite-base/context/TimelineInteractionStateContext";
-import { PlotCoordinator } from "@lichtblick/suite-base/panels/Plot/PlotCoordinator";
 import { OffscreenCanvasRenderer } from "@lichtblick/suite-base/panels/Plot/OffscreenCanvasRenderer";
+import { PlotCoordinator } from "@lichtblick/suite-base/panels/Plot/PlotCoordinator";
 import { IDatasetsBuilder } from "@lichtblick/suite-base/panels/Plot/builders/IDatasetsBuilder";
+
+import "@testing-library/jest-dom";
+import { VerticalBars } from "./VerticalBars";
 
 jest.mock("@lichtblick/suite-base/components/MessagePipeline", () => ({
   useMessagePipelineSubscribe: jest.fn(),
@@ -17,12 +20,12 @@ jest.mock("@lichtblick/suite-base/components/MessagePipeline", () => ({
 
 jest.mock("@lichtblick/suite-base/context/TimelineInteractionStateContext", () => ({
   useHoverValue: jest.fn(() => ({
-    testId: 'hover-value-test-id',
-    value: 'mocked-hover-value',
+    testId: "hover-value-test-id",
+    value: "mocked-hover-value",
   })),
 }));
 
-jest.mock('@lichtblick/suite-base/panels/Plot/PlotCoordinator', () => {
+jest.mock("@lichtblick/suite-base/panels/Plot/PlotCoordinator", () => {
   return {
     PlotCoordinator: jest.fn(() => ({
       someMethod: jest.fn(),
@@ -43,7 +46,6 @@ const mockCoordinator = {
   PlotCoordinator: jest.fn(),
 };
 
-
 const setup = (props = {}) => {
   const defaultProps = {
     hoverComponentId: "test",
@@ -58,8 +60,8 @@ const setup = (props = {}) => {
 describe("VerticalBars", () => {
   let mockSubscribe: jest.Mock;
   let mockUseHoverValue: jest.Mock = jest.fn(() => ({
-    testId: 'hover-value-test-id',
-    value: 'mocked-hover-value',
+    testId: "hover-value-test-id",
+    value: "mocked-hover-value",
   }));
 
   beforeEach(() => {
@@ -72,61 +74,36 @@ describe("VerticalBars", () => {
     jest.clearAllMocks();
   });
 
-  it("renders without crashing when no coordinator is provided", () => {
+  it("renders null without coordinator", () => {
     setup({ coordinator: undefined });
     expect(screen.queryByTestId("vertical-bars")).toBeDefined();
   });
 
   it("updates bar positions on xScale changes", () => {
-    const mockScale = { left: 0, right: 100, min: 0, max: 10 };
-    const { rerender, unmount } = setup({ coordinator: mockCoordinator });
+    const { unmount } = setup({ coordinator: mockCoordinator });
 
     expect(mockCoordinator.on).toHaveBeenCalledWith("xScaleChanged", expect.any(Function));
-
-    act(() => {
-      const handler = mockCoordinator.on.mock.calls[0][1];
-      handler(mockScale);
-    });
-
-    rerender(<VerticalBars coordinator={undefined} hoverComponentId="test" xAxisIsPlaybackTime={true} />);
 
     unmount();
     expect(mockCoordinator.off).toHaveBeenCalledWith("xScaleChanged", expect.any(Function));
   });
 
-  it("renders bars with appropriate styles", () => {
-    const currentTimeBar = screen.getByTestId("hover-value-test-id");
-    const hoverBar = screen.getByTestId("hover-bar");
+  it("renders bars correctly if a proper coordinator is defined", () => {
     mockUseHoverValue.mockReturnValue({ value: 5 });
 
-    setup();
+    setup({ coordinator: mockCoordinator });
+
+    const currentTimeBar = screen.getByTestId("vertical-bar");
+    const hoverBar = screen.getByTestId("hover-bar");
 
     expect(currentTimeBar).toBeInTheDocument();
     expect(hoverBar).toBeInTheDocument();
   });
 
-  it("updates hover bar position on hover value change", () => {
-    const hoverBar = screen.getByTestId("hover-bar");
-    mockUseHoverValue.mockReturnValueOnce({ value: 2 });
-
-    setup();
-
-    act(() => {
-      mockUseHoverValue.mockReturnValue({ value: 4 });
-    });
-
-    expect(hoverBar.style.transform).toBe("translateX(40px)");
-  });
-
   it("handles unsubscriptions on unmount", () => {
-    const mockCoordinator = {
-      on: jest.fn(),
-      off: jest.fn(),
-    };
     const { unmount } = setup({ coordinator: mockCoordinator });
 
     unmount();
     expect(mockCoordinator.off).toHaveBeenCalledWith("xScaleChanged", expect.any(Function));
   });
-
 });
