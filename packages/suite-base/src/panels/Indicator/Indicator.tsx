@@ -37,19 +37,21 @@ export function Indicator({ context }: IndicatorProps): React.JSX.Element {
     ...(context.initialState as Partial<IndicatorConfig>),
   }));
 
-  const [{ error, latestMatchingQueriedData, parsedPath, pathParseError }, dispatch] = useReducer(
+  const [state, dispatch] = useReducer(
     stateReducer,
     config,
-    ({ path: pathState }): GaugeAndIndicatorState => ({
+    ({ path: statePath }): GaugeAndIndicatorState => ({
       globalVariables: undefined,
       error: undefined,
       latestMatchingQueriedData: undefined,
       latestMessage: undefined,
-      parsedPath: parseMessagePath(pathState),
-      path: pathState,
+      parsedPath: parseMessagePath(statePath),
+      path: statePath,
       pathParseError: undefined,
     }),
   );
+
+  const { error, latestMatchingQueriedData, parsedPath, pathParseError } = state;
 
   useLayoutEffect(() => {
     dispatch({ type: "path", path: config.path });
