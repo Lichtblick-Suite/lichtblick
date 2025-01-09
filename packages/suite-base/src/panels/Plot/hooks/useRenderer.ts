@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { OffscreenCanvasRenderer } from "../OffscreenCanvasRenderer";
 
 export function useRenderer(
-  canvasDiv: HTMLDivElement | undefined,
+  canvasDiv: HTMLDivElement | ReactNull,
   theme: Theme,
 ): OffscreenCanvasRenderer | undefined {
   const [renderer, setRenderer] = useState<OffscreenCanvasRenderer | undefined>(undefined);

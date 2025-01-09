@@ -6,7 +6,6 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import { Button, Tooltip, Fade, useTheme } from "@mui/material";
-import Hammer from "hammerjs";
 import * as _ from "lodash-es";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useMountedState } from "react-use";
@@ -33,11 +32,11 @@ import useGlobalVariables from "@lichtblick/suite-base/hooks/useGlobalVariables"
 import { VerticalBars } from "@lichtblick/suite-base/panels/Plot/VerticalBars";
 import { defaultSidebarDimension } from "@lichtblick/suite-base/panels/Plot/constants";
 import useHoverHandlers from "@lichtblick/suite-base/panels/Plot/hooks/useHoverHandlers";
+import usePanning from "@lichtblick/suite-base/panels/Plot/hooks/usePanning";
 import { PlotProps, TooltipStateSetter } from "@lichtblick/suite-base/panels/Plot/types";
 import { PANEL_TITLE_CONFIG_KEY } from "@lichtblick/suite-base/util/layout";
 import { getLineColor } from "@lichtblick/suite-base/util/plotColors";
 
-import { OffscreenCanvasRenderer } from "./OffscreenCanvasRenderer";
 import { useStyles } from "./Plot.style";
 import { PlotCoordinator } from "./PlotCoordinator";
 import { PlotLegend } from "./PlotLegend";
@@ -47,6 +46,7 @@ import { IndexDatasetsBuilder } from "./builders/IndexDatasetsBuilder";
 import { TimestampDatasetsBuilder } from "./builders/TimestampDatasetsBuilder";
 import { downloadCSV } from "./csv";
 import useGlobalSync from "./hooks/useGlobalSync";
+import { useRenderer } from "./hooks/useRenderer";
 import useSubscriptions from "./hooks/useSubscriptions";
 import { usePlotPanelSettings } from "./settings";
 
@@ -101,9 +101,9 @@ export function Plot(props: PlotProps): React.JSX.Element {
   const [focusedPath, setFocusedPath] = useState<undefined | string[]>(undefined);
   const [subscriberId] = useState(() => uuidv4());
   const [canvasDiv, setCanvasDiv] = useState<HTMLDivElement | ReactNull>(ReactNull);
-  const [renderer, setRenderer] = useState<OffscreenCanvasRenderer | undefined>(undefined);
   const [coordinator, setCoordinator] = useState<PlotCoordinator | undefined>(undefined);
   const shouldSync = config.xAxisVal === "timestamp" && config.isSynced;
+  const renderer = useRenderer(canvasDiv, theme);
 
   const { onMouseMove, onMouseOut, onResetView, onWheel, onClick } = useHoverHandlers(
     coordinator,
@@ -118,6 +118,7 @@ export function Plot(props: PlotProps): React.JSX.Element {
   usePlotPanelSettings(config, saveConfig, focusedPath);
   useSubscriptions(config, subscriberId);
   useGlobalSync(coordinator, setCanReset, { shouldSync }, subscriberId);
+  usePanning(canvasDiv, coordinator, draggingRef);
 
   const onClickPath = useCallback((index: number) => {
     setFocusedPath(["paths", String(index)]);
@@ -204,30 +205,6 @@ export function Plot(props: PlotProps): React.JSX.Element {
   }, [datasetsBuilder, globalVariables, xAxisPath]);
 
   useEffect(() => {
-    if (!canvasDiv) {
-      return;
-    }
-
-    const clientRect = canvasDiv.getBoundingClientRect();
-
-    const canvas = document.createElement("canvas");
-    canvas.style.width = "100%";
-    canvas.style.height = "100%";
-    // So the canvas does not affect the size of the parent
-    canvas.style.position = "absolute";
-    canvas.width = clientRect.width;
-    canvas.height = clientRect.height;
-    canvasDiv.appendChild(canvas);
-
-    const offscreenCanvas = canvas.transferControlToOffscreen();
-    setRenderer(new OffscreenCanvasRenderer(offscreenCanvas, theme));
-
-    return () => {
-      canvasDiv.removeChild(canvas);
-    };
-  }, [canvasDiv, theme]);
-
-  useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition, @typescript-eslint/strict-boolean-expressions
     if (!renderer || !datasetsBuilder || !canvasDiv) {
       return;
@@ -288,65 +265,6 @@ export function Plot(props: PlotProps): React.JSX.Element {
       />
     ) : undefined;
   }, [activeTooltip, colorsByDatasetIndex, labelsByDatasetIndex, numSeries]);
-
-  // panning
-  useEffect(() => {
-    if (!canvasDiv || !coordinator) {
-      return;
-    }
-
-    const hammerManager = new Hammer.Manager(canvasDiv);
-    const threshold = 10;
-    hammerManager.add(new Hammer.Pan({ threshold }));
-
-    hammerManager.on("panstart", (event) => {
-      draggingRef.current = true;
-      const boundingRect = event.target.getBoundingClientRect();
-      coordinator.addInteractionEvent({
-        type: "panstart",
-        cancelable: false,
-        deltaY: event.deltaY,
-        deltaX: event.deltaX,
-        center: {
-          x: event.center.x,
-          y: event.center.y,
-        },
-        boundingClientRect: boundingRect.toJSON(),
-      });
-    });
-
-    hammerManager.on("panmove", (event) => {
-      const boundingRect = event.target.getBoundingClientRect();
-      coordinator.addInteractionEvent({
-        type: "panmove",
-        cancelable: false,
-        deltaY: event.deltaY,
-        deltaX: event.deltaX,
-        boundingClientRect: boundingRect.toJSON(),
-      });
-    });
-
-    hammerManager.on("panend", (event) => {
-      const boundingRect = event.target.getBoundingClientRect();
-      coordinator.addInteractionEvent({
-        type: "panend",
-        cancelable: false,
-        deltaY: event.deltaY,
-        deltaX: event.deltaX,
-        boundingClientRect: boundingRect.toJSON(),
-      });
-
-      // We need to do this a little bit later so that the onClick handler still sees
-      // draggingRef.current===true and can skip the seek.
-      setTimeout(() => {
-        draggingRef.current = false;
-      }, 0);
-    });
-
-    return () => {
-      hammerManager.destroy();
-    };
-  }, [canvasDiv, coordinator]);
 
   const hoveredValuesBySeriesIndex = useMemo(() => {
     if (!config.showPlotValuesInLegend) {
