@@ -289,7 +289,19 @@ export class ChartRenderer {
     }
   }
 
-  public getChartInstance(): ChartType {
+  /**
+   * Exposed as protected for unit testing strictly private fields.
+   * Developers are encouraged to avoid using these methods in production logic.
+   */
+  protected getChartInstance(): ChartType {
     return this.#chartInstance;
+  }
+
+  /**
+   * Exposed as protected for unit testing strictly private fields.
+   * Developers are encouraged to avoid using these methods in production logic.
+   */
+  protected getFakeNodeEvents(): EventEmitter {
+    return this.#fakeNodeEvents;
   }
 }
