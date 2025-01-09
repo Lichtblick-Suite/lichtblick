@@ -7,29 +7,13 @@
 
 import { useCallback, useEffect, useLayoutEffect, useRef } from "react";
 import { useLatest } from "react-use";
-import { makeStyles } from "tss-react/mui";
 
 import { toSec } from "@lichtblick/rostime";
 import { useMessagePipelineSubscribe } from "@lichtblick/suite-base/components/MessagePipeline";
 import { useHoverValue } from "@lichtblick/suite-base/context/TimelineInteractionStateContext";
 
 import type { VerticalBarsProps, Scale } from "./types";
-
-const useStyles = makeStyles()(() => ({
-  verticalBar: {
-    position: "absolute",
-    top: 0,
-    bottom: 0,
-    left: 0,
-    width: 1,
-    marginLeft: -1,
-    display: "block",
-    pointerEvents: "none",
-  },
-  playbackBar: {
-    backgroundColor: "#aaa",
-  },
-}));
+import { useStyles } from "@lichtblick/suite-base/panels/Plot/verticalbars.style";
 
 /** Get the canvas pixel x location for the plot x value */
 function getPixelForXValue(
