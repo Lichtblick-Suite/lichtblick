@@ -13,14 +13,7 @@ import { toSec } from "@lichtblick/rostime";
 import { useMessagePipelineSubscribe } from "@lichtblick/suite-base/components/MessagePipeline";
 import { useHoverValue } from "@lichtblick/suite-base/context/TimelineInteractionStateContext";
 
-import type { PlotCoordinator } from "./PlotCoordinator";
-import type { Scale } from "./types";
-
-type Props = {
-  coordinator?: PlotCoordinator;
-  hoverComponentId: string;
-  xAxisIsPlaybackTime: boolean;
-};
+import type { VerticalBarsProps, Scale } from "./types";
 
 const useStyles = makeStyles()(() => ({
   verticalBar: {
@@ -69,7 +62,7 @@ export const VerticalBars = React.memo(function VerticalBars({
   coordinator,
   hoverComponentId,
   xAxisIsPlaybackTime,
-}: Props): React.JSX.Element {
+}: VerticalBarsProps): React.JSX.Element {
   const { classes, cx, theme } = useStyles();
 
   const messagePipelineSubscribe = useMessagePipelineSubscribe();

@@ -44,7 +44,7 @@ import useGlobalVariables from "@lichtblick/suite-base/hooks/useGlobalVariables"
 import { VerticalBars } from "@lichtblick/suite-base/panels/Plot/VerticalBars";
 import { defaultSidebarDimension } from "@lichtblick/suite-base/panels/Plot/constants";
 import useHoverHandlers from "@lichtblick/suite-base/panels/Plot/hooks/useHoverHandlers";
-import { Props } from "@lichtblick/suite-base/panels/Plot/types";
+import { VerticalBarsProps } from "@lichtblick/suite-base/panels/Plot/types";
 import { SubscribePayload } from "@lichtblick/suite-base/players/types";
 import { PANEL_TITLE_CONFIG_KEY } from "@lichtblick/suite-base/util/layout";
 import { getLineColor } from "@lichtblick/suite-base/util/plotColors";
@@ -65,7 +65,7 @@ import { pathToSubscribePayload } from "./subscription";
 const selectGlobalBounds = (store: TimelineInteractionStateStore) => store.globalBounds;
 const selectSetGlobalBounds = (store: TimelineInteractionStateStore) => store.setGlobalBounds;
 
-export function Plot(props: Props): React.JSX.Element {
+export function Plot(props: VerticalBarsProps): React.JSX.Element {
   const { saveConfig, config } = props;
   const {
     paths: series,

@@ -3,6 +3,7 @@
 
 import { Chart, ChartDataset, ScatterDataPoint } from "chart.js";
 
+import type { PlotCoordinator } from "@lichtblick/suite-base/panels/Plot/PlotCoordinator";
 import { PlotConfig } from "@lichtblick/suite-base/panels/Plot/config";
 import { Bounds1D } from "@lichtblick/suite-base/types/Bounds";
 import { SaveConfig } from "@lichtblick/suite-base/types/panels";
@@ -118,3 +119,9 @@ export type ChartRendererProps = {
 };
 
 export type ChartOptionsPlot = Omit<ChartRendererProps, "canvas">;
+
+export type VerticalBarsProps = {
+  coordinator?: PlotCoordinator;
+  hoverComponentId: string;
+  xAxisIsPlaybackTime: boolean;
+};
