@@ -5,6 +5,7 @@
 
 import { renderHook } from "@testing-library/react";
 
+import { parseMessagePath } from "@lichtblick/message-path";
 import { useMessagePipeline } from "@lichtblick/suite-base/components/MessagePipeline";
 import useGlobalVariables from "@lichtblick/suite-base/hooks/useGlobalVariables";
 import { PlotConfig } from "@lichtblick/suite-base/panels/Plot/config";
@@ -19,6 +20,10 @@ jest.mock("@lichtblick/suite-base/components/MessagePipeline", () => ({
 jest.mock("@lichtblick/suite-base/hooks/useGlobalVariables", () => ({
   __esModule: true,
   default: jest.fn(),
+}));
+
+jest.mock("@lichtblick/message-path", () => ({
+  parseMessagePath: jest.fn(),
 }));
 
 describe("useSubscriptions", () => {
@@ -38,6 +43,10 @@ describe("useSubscriptions", () => {
     (useGlobalVariables as jest.Mock).mockReturnValue({ globalVariables });
 
     jest.clearAllMocks();
+
+    jest.mock("@lichtblick/message-path", () => ({
+      parseMessagePath: jest.fn(),
+    }));
   });
 
   const setup = (config: PlotConfig = defaultConfig, subscriberId: string = testSubscriber) => {
@@ -118,16 +127,18 @@ describe("useSubscriptions", () => {
     expect(setSubscriptions).toHaveBeenCalledWith(testSubscriber, expect.any(Array));
   });
 
-  it("does not set subscriptions for invalid xAxisPath", () => {
-    const invalidXAxisConfig: PlotConfig = {
-      paths: [],
+  it("does not set subscriptions when parsedPath is undefined", () => {
+    const mockPath = BasicBuilder.string();
+    const configWithInvalidPath: PlotConfig = {
+      paths: [{ value: mockPath }],
       xAxisVal: BasicBuilder.string(),
-      xAxisPath: null,
     } as any;
 
-    setup(invalidXAxisConfig);
+    (parseMessagePath as jest.Mock).mockReturnValue(undefined);
+
+    setup(configWithInvalidPath);
 
     expect(setSubscriptions).toHaveBeenCalledWith(testSubscriber, []);
+    expect(parseMessagePath).toHaveBeenCalledWith(mockPath);
   });
-
 });
