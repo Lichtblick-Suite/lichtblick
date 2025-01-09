@@ -33,8 +33,8 @@ export type MouseBase = BaseInteractionEvent & {
 export type WheelInteractionEvent = { type: "wheel" } & BaseInteractionEvent & MouseBase;
 
 export type PanStartInteractionEvent = { type: "panstart" } & BaseInteractionEvent & {
-  center: { x: number; y: number };
-};
+    center: { x: number; y: number };
+  };
 export type PanMoveInteractionEvent = { type: "panmove" } & BaseInteractionEvent;
 
 export type PanEndInteractionEvent = { type: "panend" } & BaseInteractionEvent;

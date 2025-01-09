@@ -11,9 +11,9 @@ import { useLatest } from "react-use";
 import { toSec } from "@lichtblick/rostime";
 import { useMessagePipelineSubscribe } from "@lichtblick/suite-base/components/MessagePipeline";
 import { useHoverValue } from "@lichtblick/suite-base/context/TimelineInteractionStateContext";
+import { useStyles } from "@lichtblick/suite-base/panels/Plot/verticalbars.style";
 
 import type { VerticalBarsProps, Scale } from "./types";
-import { useStyles } from "@lichtblick/suite-base/panels/Plot/verticalbars.style";
 
 /** Get the canvas pixel x location for the plot x value */
 function getPixelForXValue(
