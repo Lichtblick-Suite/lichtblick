@@ -3,17 +3,14 @@
 
 import { ChartOptions } from "chart.js";
 
+import { ChartOptionsPlot } from "@lichtblick/suite-base/panels/Plot/types";
 import { fontMonospace } from "@lichtblick/theme";
 
 export const getChartOptions = ({
   devicePixelRatio,
   gridColor,
   tickColor,
-}: {
-  devicePixelRatio: number;
-  gridColor: string;
-  tickColor: string;
-}): ChartOptions<"scatter"> => ({
+}: ChartOptionsPlot): ChartOptions<"scatter"> => ({
   maintainAspectRatio: false,
   animation: false,
   elements: { line: { tension: 0 } },

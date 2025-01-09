@@ -7,69 +7,43 @@ import { render, screen } from "@testing-library/react";
 
 import { useMessagePipelineSubscribe } from "@lichtblick/suite-base/components/MessagePipeline";
 import { useHoverValue } from "@lichtblick/suite-base/context/TimelineInteractionStateContext";
-import { OffscreenCanvasRenderer } from "@lichtblick/suite-base/panels/Plot/OffscreenCanvasRenderer";
-import { PlotCoordinator } from "@lichtblick/suite-base/panels/Plot/PlotCoordinator";
-import { IDatasetsBuilder } from "@lichtblick/suite-base/panels/Plot/builders/IDatasetsBuilder";
 
-import "@testing-library/jest-dom";
 import { VerticalBars } from "./VerticalBars";
+import "@testing-library/jest-dom";
 
 jest.mock("@lichtblick/suite-base/components/MessagePipeline", () => ({
   useMessagePipelineSubscribe: jest.fn(),
 }));
 
 jest.mock("@lichtblick/suite-base/context/TimelineInteractionStateContext", () => ({
-  useHoverValue: jest.fn(() => ({
-    testId: "hover-value-test-id",
-    value: "mocked-hover-value",
-  })),
-}));
-
-jest.mock("@lichtblick/suite-base/panels/Plot/PlotCoordinator", () => {
-  return {
-    PlotCoordinator: jest.fn(() => ({
-      someMethod: jest.fn(),
-    })),
-  };
-});
-
-const mockRenderer = jest.fn() as unknown as OffscreenCanvasRenderer;
-const mockBuilder = jest.fn() as unknown as IDatasetsBuilder;
-
-const mockCoordinator = {
-  on: jest.fn(),
-  off: jest.fn(),
-  renderer: jest.fn(() => new PlotCoordinator(mockRenderer, mockBuilder)),
-  datasetsBuilder: jest.fn(),
-  configBounds: jest.fn(),
-  lastSeekTime: jest.fn(),
-  PlotCoordinator: jest.fn(),
-};
-
-const setup = (props = {}) => {
-  const defaultProps = {
-    hoverComponentId: "test",
-    xAxisIsPlaybackTime: true,
-    coordinator: undefined,
-  };
-  const mergedProps = { ...defaultProps, ...props };
-
-  return render(<VerticalBars {...mergedProps} />);
-};
+  useHoverValue: jest.fn(),}));
 
 describe("VerticalBars", () => {
   let mockSubscribe: jest.Mock;
-  let mockUseHoverValue: jest.Mock = jest.fn(() => ({
-    testId: "hover-value-test-id",
-    value: "mocked-hover-value",
-  }));
+  let mockCoordinator: any;
+
+  const setup = (props = {}) => {
+    const defaultProps = {
+      hoverComponentId: "test",
+      xAxisIsPlaybackTime: true,
+      coordinator: undefined,
+    };
+    const mergedProps = { ...defaultProps, ...props };
+    return render(<VerticalBars {...mergedProps} />);
+  };
 
   beforeEach(() => {
-    mockSubscribe = jest.fn();
+    mockSubscribe = jest.fn((callback) => {
+        callback({ playerState: { activeData: undefined } });
+        return jest.fn();
+    });
     (useMessagePipelineSubscribe as jest.Mock).mockImplementation(() => mockSubscribe);
 
-    mockUseHoverValue = jest.fn();
-    (useHoverValue as jest.Mock).mockImplementation(mockUseHoverValue);
+    mockCoordinator = {
+      on: jest.fn(),
+      off: jest.fn(),
+      renderer: jest.fn(),
+    };
 
     jest.clearAllMocks();
   });
@@ -89,7 +63,7 @@ describe("VerticalBars", () => {
   });
 
   it("renders bars correctly if a proper coordinator is defined", () => {
-    mockUseHoverValue.mockReturnValue({ value: 5 });
+    (useHoverValue as jest.Mock).mockReturnValue({ value: 5 });
 
     setup({ coordinator: mockCoordinator });
 
@@ -104,6 +78,23 @@ describe("VerticalBars", () => {
     const { unmount } = setup({ coordinator: mockCoordinator });
 
     unmount();
+
     expect(mockCoordinator.off).toHaveBeenCalledWith("xScaleChanged", expect.any(Function));
   });
+
+  it("handles undefined activeData correctly", () => {
+    const latestCurrentTimeSinceStart = { current: undefined };
+
+    setup({ coordinator: mockCoordinator });
+
+    expect(mockSubscribe).toHaveBeenCalledTimes(1);
+    expect(mockSubscribe).toHaveBeenCalledWith(expect.any(Function));
+    expect(latestCurrentTimeSinceStart.current).toBeUndefined();
+  });
+
+  it("does not subscribe to messagePipeline when xAxisIsPlaybackTime is false", () => {
+    setup({ coordinator: mockCoordinator, xAxisIsPlaybackTime: false });
+    expect(mockSubscribe).not.toHaveBeenCalled();
+  });
+
 });

@@ -4,6 +4,7 @@
 import { Chart, ChartDataset, ScatterDataPoint } from "chart.js";
 
 import { TimeBasedChartTooltipData } from "@lichtblick/suite-base/components/TimeBasedChart/TimeBasedChartTooltipContent";
+import type { PlotCoordinator } from "@lichtblick/suite-base/panels/Plot/PlotCoordinator";
 import { PlotConfig } from "@lichtblick/suite-base/panels/Plot/config";
 import { Bounds1D } from "@lichtblick/suite-base/types/Bounds";
 import { SaveConfig } from "@lichtblick/suite-base/types/panels";
@@ -93,7 +94,7 @@ export type ZoomableChart = Chart & {
   };
 };
 
-export type Props = {
+export type PlotProps = {
   config: PlotConfig;
   saveConfig: SaveConfig<PlotConfig>;
 };
@@ -117,4 +118,19 @@ export type TooltipStateSetter = {
   x: number;
   y: number;
   data: TimeBasedChartTooltipData[];
+};
+
+export type ChartRendererProps = {
+  canvas: OffscreenCanvas;
+  devicePixelRatio: number;
+  gridColor: string;
+  tickColor: string;
+};
+
+export type ChartOptionsPlot = Omit<ChartRendererProps, "canvas">;
+
+export type VerticalBarsProps = {
+  coordinator?: PlotCoordinator;
+  hoverComponentId: string;
+  xAxisIsPlaybackTime: boolean;
 };
