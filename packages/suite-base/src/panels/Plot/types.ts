@@ -59,6 +59,8 @@ export type HoverElement = {
 
 export type Size = { width: number; height: number };
 
+export type ReferenceLine = { color: string; value: number };
+
 export type UpdateAction = {
   type: "update";
   size?: { width: number; height: number };
@@ -67,7 +69,7 @@ export type UpdateAction = {
   xBounds?: Partial<Bounds1D>;
   yBounds?: Partial<Bounds1D>;
   zoomMode?: "x" | "y" | "xy";
-  referenceLines?: { color: string; value: number }[];
+  referenceLines?: ReferenceLine[];
   interactionEvents?: InteractionEvent[];
 };
 

@@ -1,6 +1,8 @@
 // SPDX-FileCopyrightText: Copyright (C) 2023-2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)<lichtblick@bmwgroup.com>
 // SPDX-License-Identifier: MPL-2.0
 
+import { AnnotationOptions } from "chartjs-plugin-annotation";
+
 import { MathFunction } from "@lichtblick/suite-base/panels/Plot/mathFunctions";
 
 export const MATH_FUNCTIONS: { [fn: string]: MathFunction } = {
@@ -22,4 +24,13 @@ export const MATH_FUNCTIONS: { [fn: string]: MathFunction } = {
   trunc: Math.trunc,
 };
 
-export const defaultSidebarDimension = 240;
+export const DEFAULT_SIDEBAR_DIMENSION = 240;
+
+export const DEFAULT_ANNOTATION: AnnotationOptions = {
+  type: "line",
+  display: true,
+  drawTime: "beforeDatasetsDraw",
+  scaleID: "y",
+  borderWidth: 1,
+  borderDash: [5, 5],
+};

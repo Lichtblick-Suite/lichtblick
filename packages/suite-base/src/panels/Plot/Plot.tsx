@@ -30,7 +30,7 @@ import Stack from "@lichtblick/suite-base/components/Stack";
 import TimeBasedChartTooltipContent from "@lichtblick/suite-base/components/TimeBasedChart/TimeBasedChartTooltipContent";
 import useGlobalVariables from "@lichtblick/suite-base/hooks/useGlobalVariables";
 import { VerticalBars } from "@lichtblick/suite-base/panels/Plot/VerticalBars";
-import { defaultSidebarDimension } from "@lichtblick/suite-base/panels/Plot/constants";
+import { DEFAULT_SIDEBAR_DIMENSION } from "@lichtblick/suite-base/panels/Plot/constants";
 import useHoverHandlers from "@lichtblick/suite-base/panels/Plot/hooks/useHoverHandlers";
 import usePanning from "@lichtblick/suite-base/panels/Plot/hooks/usePanning";
 import { PlotProps, TooltipStateSetter } from "@lichtblick/suite-base/panels/Plot/types";
@@ -58,7 +58,7 @@ export function Plot(props: PlotProps): React.JSX.Element {
     xAxisVal: xAxisMode,
     xAxisPath,
     legendDisplay = config.showSidebar === true ? "left" : "floating",
-    sidebarDimension = config.sidebarWidth ?? defaultSidebarDimension,
+    sidebarDimension = config.sidebarWidth ?? DEFAULT_SIDEBAR_DIMENSION,
     [PANEL_TITLE_CONFIG_KEY]: customTitle,
   } = config;
 
