@@ -6,6 +6,7 @@ import { Zoom as ZoomPlugin } from "@lichtblick/chartjs-plugin-zoom";
 import { Immutable } from "@lichtblick/suite";
 import { ChartRenderer } from "@lichtblick/suite-base/panels/Plot/ChartRenderer";
 import { getChartOptions } from "@lichtblick/suite-base/panels/Plot/ChartUtilities/ChartOptions";
+import { DEFAULT_ANNOTATION } from "@lichtblick/suite-base/panels/Plot/constants";
 import BasicBuilder from "@lichtblick/suite-base/testing/builders/BasicBuilder";
 
 import {
@@ -16,6 +17,7 @@ import {
   PanEndInteractionEvent,
   PanMoveInteractionEvent,
   PanStartInteractionEvent,
+  ReferenceLine,
   UpdateAction,
   WheelInteractionEvent,
 } from "./types";
@@ -344,6 +346,44 @@ describe("ChartRenderer", () => {
       chartRenderer.update(action);
 
       expect(panHandlerSpy).toHaveBeenCalledTimes(1);
+    });
+
+    it("should handle reference lines in update action", () => {
+      (Chart as unknown as jest.Mock).mockImplementationOnce(() => ({
+        update: jest.fn(),
+        scales: SCALES_CHART,
+        options: {
+          plugins: {
+            annotation: {
+              annotations: [{}],
+            },
+          },
+        } as ChartOptions,
+      }));
+      const referenceLines: ReferenceLine[] = [
+        { value: 10, color: "red" },
+        { value: 20, color: "blue" },
+      ];
+      const { chartRenderer, action } = setup({
+        actionOverride: { referenceLines },
+      });
+      const chartInstance = (chartRenderer as any).getChartInstance();
+
+      chartRenderer.update(action);
+
+      const newAnnotations = chartInstance.options.plugins?.annotation?.annotations;
+      expect(newAnnotations).toEqual([
+        {
+          ...DEFAULT_ANNOTATION,
+          borderColor: referenceLines[0]?.color,
+          value: referenceLines[0]?.value,
+        },
+        {
+          ...DEFAULT_ANNOTATION,
+          borderColor: referenceLines[1]?.color,
+          value: referenceLines[1]?.value,
+        },
+      ]);
     });
   });
 

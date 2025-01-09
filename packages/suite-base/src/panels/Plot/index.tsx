@@ -18,7 +18,7 @@ import Panel from "@lichtblick/suite-base/components/Panel";
 
 import { Plot } from "./Plot";
 import { PlotConfig } from "./config";
-import { defaultSidebarDimension } from "./constants";
+import { DEFAULT_SIDEBAR_DIMENSION } from "./constants";
 
 const defaultConfig: PlotConfig = {
   paths: [],
@@ -31,7 +31,7 @@ const defaultConfig: PlotConfig = {
   showPlotValuesInLegend: false,
   isSynced: true,
   xAxisVal: "timestamp",
-  sidebarDimension: defaultSidebarDimension,
+  sidebarDimension: DEFAULT_SIDEBAR_DIMENSION,
 };
 
 export default Panel(

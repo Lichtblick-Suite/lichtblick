@@ -17,6 +17,7 @@ import {
   addEventListener,
   removeEventListener,
 } from "@lichtblick/suite-base/panels/Plot/ChartUtilities/EventHandler";
+import { DEFAULT_ANNOTATION } from "@lichtblick/suite-base/panels/Plot/constants";
 import { Bounds } from "@lichtblick/suite-base/types/Bounds";
 import { maybeCast } from "@lichtblick/suite-base/util/maybeCast";
 
@@ -144,13 +145,8 @@ export class ChartRenderer {
 
       const newAnnotations: AnnotationOptions[] = action.referenceLines.map((config) => {
         return {
-          type: "line",
-          display: true,
-          drawTime: "beforeDatasetsDraw",
-          scaleID: "y",
+          ...DEFAULT_ANNOTATION,
           borderColor: config.color,
-          borderDash: [5, 5],
-          borderWidth: 1,
           value: config.value,
         };
       });
