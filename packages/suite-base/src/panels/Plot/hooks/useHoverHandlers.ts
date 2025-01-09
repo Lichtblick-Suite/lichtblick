@@ -1,11 +1,12 @@
 // SPDX-FileCopyrightText: Copyright (C) 2023-2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)<lichtblick@bmwgroup.com>
 // SPDX-License-Identifier: MPL-2.0
 
-import { useCallback, useRef, useMemo, SetStateAction, Dispatch } from "react";
+import { useCallback, useRef, useMemo, MutableRefObject } from "react";
 import { useMountedState } from "react-use";
 
 import { debouncePromise } from "@lichtblick/den/async";
-import { isTime, toSec } from "@lichtblick/rostime";
+import { add as addTimes, fromSec, isTime, toSec } from "@lichtblick/rostime";
+import { useMessagePipelineGetter } from "@lichtblick/suite-base/components/MessagePipeline";
 import { TimeBasedChartTooltipData } from "@lichtblick/suite-base/components/TimeBasedChart/TimeBasedChartTooltipContent";
 import {
   TimelineInteractionStateStore,
@@ -16,7 +17,11 @@ import {
 import { OffscreenCanvasRenderer } from "@lichtblick/suite-base/panels/Plot/OffscreenCanvasRenderer";
 import { PlotCoordinator } from "@lichtblick/suite-base/panels/Plot/PlotCoordinator";
 import { PlotConfig } from "@lichtblick/suite-base/panels/Plot/config";
-import { ElementAtPixelArgs, UseHoverHandlersHook } from "@lichtblick/suite-base/panels/Plot/types";
+import {
+  ElementAtPixelArgs,
+  TooltipStateSetter,
+  UseHoverHandlersHook,
+} from "@lichtblick/suite-base/panels/Plot/types";
 
 const selectSetGlobalBounds = (store: TimelineInteractionStateStore) => store.setGlobalBounds;
 
@@ -25,17 +30,9 @@ const useHoverHandlers = (
   renderer: OffscreenCanvasRenderer | undefined,
   subscriberId: string,
   config: PlotConfig,
-  setActiveTooltip: Dispatch<
-    SetStateAction<
-      | {
-          x: number;
-          y: number;
-          data: TimeBasedChartTooltipData[];
-        }
-      | undefined
-    >
-  >,
+  setActiveTooltip: (data: TooltipStateSetter | undefined) => void,
   { shouldSync }: { shouldSync: boolean },
+  draggingRef: MutableRefObject<boolean>,
 ): UseHoverHandlersHook => {
   const setHoverValue = useSetHoverValue();
   const clearHoverValue = useClearHoverValue();
@@ -43,6 +40,7 @@ const useHoverHandlers = (
   const mousePresentRef = useRef(false);
   const { xAxisVal: xAxisMode } = config;
   const setGlobalBounds = useTimelineInteractionState(selectSetGlobalBounds);
+  const getMessagePipelineState = useMessagePipelineGetter();
 
   const buildTooltip = useMemo(() => {
     return debouncePromise(async (args: ElementAtPixelArgs) => {
@@ -155,11 +153,45 @@ const useHoverHandlers = (
     }
   }, [coordinator, setGlobalBounds, shouldSync]);
 
+  const onClick = useCallback(
+    (event: React.MouseEvent<HTMLElement>): void => {
+      // If we started a drag we should not register a seek
+      if (draggingRef.current) {
+        return;
+      }
+
+      // Only timestamp plots support click-to-seek
+      if (xAxisMode !== "timestamp" || !coordinator) {
+        return;
+      }
+
+      const {
+        seekPlayback,
+        playerState: { activeData: { startTime: start } = {} },
+      } = getMessagePipelineState();
+
+      if (!seekPlayback || !start) {
+        return;
+      }
+
+      const rect = event.currentTarget.getBoundingClientRect();
+      const mouseX = event.clientX - rect.left;
+
+      const seekSeconds = coordinator.getXValueAtPixel(mouseX);
+      // Avoid normalizing a negative time if the clicked point had x < 0.
+      if (seekSeconds >= 0) {
+        seekPlayback(addTimes(start, fromSec(seekSeconds)));
+      }
+    },
+    [coordinator, draggingRef, getMessagePipelineState, xAxisMode],
+  );
+
   return {
     onMouseMove,
     onMouseOut,
     onWheel,
     onResetView,
+    onClick,
   };
 };
 

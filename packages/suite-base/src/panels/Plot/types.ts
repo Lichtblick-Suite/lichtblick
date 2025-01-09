@@ -3,6 +3,7 @@
 
 import { Chart, ChartDataset, ScatterDataPoint } from "chart.js";
 
+import { TimeBasedChartTooltipData } from "@lichtblick/suite-base/components/TimeBasedChart/TimeBasedChartTooltipContent";
 import { PlotConfig } from "@lichtblick/suite-base/panels/Plot/config";
 import { Bounds1D } from "@lichtblick/suite-base/types/Bounds";
 import { SaveConfig } from "@lichtblick/suite-base/types/panels";
@@ -109,4 +110,11 @@ export type UseHoverHandlersHook = {
   onMouseOut: () => void;
   onWheel: (event: React.WheelEvent<HTMLElement>) => void;
   onResetView: () => void;
-}
+  onClick: (event: React.MouseEvent<HTMLElement>) => void;
+};
+
+export type TooltipStateSetter = {
+  x: number;
+  y: number;
+  data: TimeBasedChartTooltipData[];
+};

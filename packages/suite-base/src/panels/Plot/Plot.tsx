@@ -12,15 +12,11 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useMountedState } from "react-use";
 import { v4 as uuidv4 } from "uuid";
 
-import { filterMap } from "@lichtblick/den/collection";
 import { parseMessagePath } from "@lichtblick/message-path";
-import { add as addTimes, fromSec } from "@lichtblick/rostime";
 import { Immutable } from "@lichtblick/suite";
 import KeyListener from "@lichtblick/suite-base/components/KeyListener";
 import { fillInGlobalVariablesInPath } from "@lichtblick/suite-base/components/MessagePathSyntax/useCachedGetMessagePathDataItems";
 import {
-  MessagePipelineContext,
-  useMessagePipeline,
   useMessagePipelineGetter,
   useMessagePipelineSubscribe,
 } from "@lichtblick/suite-base/components/MessagePipeline";
@@ -32,20 +28,12 @@ import {
 import PanelToolbar from "@lichtblick/suite-base/components/PanelToolbar";
 import { PANEL_TOOLBAR_MIN_HEIGHT } from "@lichtblick/suite-base/components/PanelToolbar/constants";
 import Stack from "@lichtblick/suite-base/components/Stack";
-import TimeBasedChartTooltipContent, {
-  TimeBasedChartTooltipData,
-} from "@lichtblick/suite-base/components/TimeBasedChart/TimeBasedChartTooltipContent";
-import { Bounds1D } from "@lichtblick/suite-base/components/TimeBasedChart/types";
-import {
-  TimelineInteractionStateStore,
-  useTimelineInteractionState,
-} from "@lichtblick/suite-base/context/TimelineInteractionStateContext";
+import TimeBasedChartTooltipContent from "@lichtblick/suite-base/components/TimeBasedChart/TimeBasedChartTooltipContent";
 import useGlobalVariables from "@lichtblick/suite-base/hooks/useGlobalVariables";
 import { VerticalBars } from "@lichtblick/suite-base/panels/Plot/VerticalBars";
 import { defaultSidebarDimension } from "@lichtblick/suite-base/panels/Plot/constants";
 import useHoverHandlers from "@lichtblick/suite-base/panels/Plot/hooks/useHoverHandlers";
-import { Props } from "@lichtblick/suite-base/panels/Plot/types";
-import { SubscribePayload } from "@lichtblick/suite-base/players/types";
+import { Props, TooltipStateSetter } from "@lichtblick/suite-base/panels/Plot/types";
 import { PANEL_TITLE_CONFIG_KEY } from "@lichtblick/suite-base/util/layout";
 import { getLineColor } from "@lichtblick/suite-base/util/plotColors";
 
@@ -57,13 +45,10 @@ import { CurrentCustomDatasetsBuilder } from "./builders/CurrentCustomDatasetsBu
 import { CustomDatasetsBuilder } from "./builders/CustomDatasetsBuilder";
 import { IndexDatasetsBuilder } from "./builders/IndexDatasetsBuilder";
 import { TimestampDatasetsBuilder } from "./builders/TimestampDatasetsBuilder";
-import { isReferenceLinePlotPathType } from "./config";
 import { downloadCSV } from "./csv";
+import useGlobalSync from "./hooks/useGlobalSync";
+import useSubscriptions from "./hooks/useSubscriptions";
 import { usePlotPanelSettings } from "./settings";
-import { pathToSubscribePayload } from "./subscription";
-
-const selectGlobalBounds = (store: TimelineInteractionStateStore) => store.globalBounds;
-const selectSetGlobalBounds = (store: TimelineInteractionStateStore) => store.setGlobalBounds;
 
 export function Plot(props: Props): React.JSX.Element {
   const { saveConfig, config } = props;
@@ -110,11 +95,7 @@ export function Plot(props: Props): React.JSX.Element {
   // When true the user can reset the plot back to the original view
   const [canReset, setCanReset] = useState(false);
 
-  const [activeTooltip, setActiveTooltip] = useState<{
-    x: number;
-    y: number;
-    data: TimeBasedChartTooltipData[];
-  }>();
+  const [activeTooltip, setActiveTooltip] = useState<TooltipStateSetter>();
 
   const isMounted = useMountedState();
   const [focusedPath, setFocusedPath] = useState<undefined | string[]>(undefined);
@@ -124,54 +105,29 @@ export function Plot(props: Props): React.JSX.Element {
   const [coordinator, setCoordinator] = useState<PlotCoordinator | undefined>(undefined);
   const shouldSync = config.xAxisVal === "timestamp" && config.isSynced;
 
-  const { onMouseMove, onMouseOut, onResetView, onWheel } = useHoverHandlers(
+  const { onMouseMove, onMouseOut, onResetView, onWheel, onClick } = useHoverHandlers(
     coordinator,
     renderer,
     subscriberId,
     config,
     setActiveTooltip,
     { shouldSync },
+    draggingRef,
   );
 
   usePlotPanelSettings(config, saveConfig, focusedPath);
+  useSubscriptions(config, subscriberId);
+  useGlobalSync(coordinator, setCanReset, { shouldSync }, subscriberId);
 
   const onClickPath = useCallback((index: number) => {
     setFocusedPath(["paths", String(index)]);
   }, []);
 
   const getMessagePipelineState = useMessagePipelineGetter();
-  const onClick = useCallback(
-    (event: React.MouseEvent<HTMLElement>): void => {
-      // If we started a drag we should not register a seek
-      if (draggingRef.current) {
-        return;
-      }
 
-      // Only timestamp plots support click-to-seek
-      if (xAxisMode !== "timestamp" || !coordinator) {
-        return;
-      }
+  const subscribeMessagePipeline = useMessagePipelineSubscribe();
 
-      const {
-        seekPlayback,
-        playerState: { activeData: { startTime: start } = {} },
-      } = getMessagePipelineState();
-
-      if (!seekPlayback || !start) {
-        return;
-      }
-
-      const rect = event.currentTarget.getBoundingClientRect();
-      const mouseX = event.clientX - rect.left;
-
-      const seekSeconds = coordinator.getXValueAtPixel(mouseX);
-      // Avoid normalizing a negative time if the clicked point had x < 0.
-      if (seekSeconds >= 0) {
-        seekPlayback(addTimes(start, fromSec(seekSeconds)));
-      }
-    },
-    [coordinator, getMessagePipelineState, xAxisMode],
-  );
+  const { globalVariables } = useGlobalVariables();
 
   const getPanelContextMenuItems = useCallback(() => {
     const items: PanelContextMenuItem[] = [
@@ -190,17 +146,6 @@ export function Plot(props: Props): React.JSX.Element {
     ];
     return items;
   }, [coordinator, customTitle, isMounted, xAxisMode]);
-
-  const setSubscriptions = useMessagePipeline(
-    useCallback(
-      ({ setSubscriptions: pipelineSetSubscriptions }: MessagePipelineContext) =>
-        pipelineSetSubscriptions,
-      [],
-    ),
-  );
-  const subscribeMessagePipeline = useMessagePipelineSubscribe();
-
-  const { globalVariables } = useGlobalVariables();
 
   useEffect(() => {
     coordinator?.handleConfig(config, theme.palette.mode, globalVariables);
@@ -402,86 +347,6 @@ export function Plot(props: Props): React.JSX.Element {
       hammerManager.destroy();
     };
   }, [canvasDiv, coordinator]);
-
-  // We could subscribe in the chart renderer, but doing it with react effects is easier for
-  // managing the lifecycle of the subscriptions. The renderer will correlate input message data to
-  // the correct series.
-  useEffect(() => {
-    // The index and currentCustom modes only need the latest message on each topic so we use
-    // partial subscribe mode for those to avoid preloading data that we don't need
-    const preloadType = xAxisMode === "index" || xAxisMode === "currentCustom" ? "partial" : "full";
-
-    const subscriptions = filterMap(series, (item): SubscribePayload | undefined => {
-      if (isReferenceLinePlotPathType(item)) {
-        return;
-      }
-
-      const parsed = parseMessagePath(item.value);
-      if (!parsed) {
-        return;
-      }
-
-      return pathToSubscribePayload(
-        fillInGlobalVariablesInPath(parsed, globalVariables),
-        preloadType,
-      );
-    });
-
-    if ((xAxisMode === "custom" || xAxisMode === "currentCustom") && xAxisPath) {
-      const parsed = parseMessagePath(xAxisPath.value);
-      if (parsed) {
-        const sub = pathToSubscribePayload(
-          fillInGlobalVariablesInPath(parsed, globalVariables),
-          preloadType,
-        );
-        if (sub) {
-          subscriptions.push(sub);
-        }
-      }
-    }
-
-    setSubscriptions(subscriberId, subscriptions);
-  }, [series, setSubscriptions, subscriberId, globalVariables, xAxisMode, xAxisPath]);
-
-  // Only unsubscribe on unmount so that when the above subscriber effect dependencies change we
-  // don't transition to unsubscribing all to then re-subscribe.
-  useEffect(() => {
-    return () => {
-      setSubscriptions(subscriberId, []);
-    };
-  }, [subscriberId, setSubscriptions]);
-
-  const globalBounds = useTimelineInteractionState(selectGlobalBounds);
-  const setGlobalBounds = useTimelineInteractionState(selectSetGlobalBounds);
-
-  useEffect(() => {
-    if (globalBounds?.sourceId === subscriberId || !shouldSync) {
-      return;
-    }
-
-    coordinator?.setGlobalBounds(globalBounds);
-  }, [coordinator, globalBounds, shouldSync, subscriberId]);
-
-  useEffect(() => {
-    if (!coordinator || !shouldSync) {
-      return;
-    }
-
-    const onTimeseriesBounds = (newBounds: Immutable<Bounds1D>) => {
-      setGlobalBounds({
-        min: newBounds.min,
-        max: newBounds.max,
-        sourceId: subscriberId,
-        userInteraction: true,
-      });
-    };
-    coordinator.on("timeseriesBounds", onTimeseriesBounds);
-    coordinator.on("viewportChange", setCanReset);
-    return () => {
-      coordinator.off("timeseriesBounds", onTimeseriesBounds);
-      coordinator.off("viewportChange", setCanReset);
-    };
-  }, [coordinator, setGlobalBounds, shouldSync, subscriberId]);
 
   const hoveredValuesBySeriesIndex = useMemo(() => {
     if (!config.showPlotValuesInLegend) {
