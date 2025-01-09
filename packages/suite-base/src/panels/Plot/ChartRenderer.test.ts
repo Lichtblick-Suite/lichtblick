@@ -8,7 +8,7 @@ import { ChartRenderer } from "@lichtblick/suite-base/panels/Plot/ChartRenderer"
 import { getChartOptions } from "@lichtblick/suite-base/panels/Plot/ChartUtilities/ChartOptions";
 import BasicBuilder from "@lichtblick/suite-base/testing/builders/BasicBuilder";
 
-import { ChartOptionsPlot, ChartRendererProps, ChartType, UpdateAction } from "./types";
+import { ChartOptionsPlot, ChartRendererProps, ChartType, Dataset, UpdateAction } from "./types";
 
 const OPTIONS_CHART: ChartOptionsPlot = {
   devicePixelRatio: 2,
@@ -291,6 +291,28 @@ describe("ChartRenderer", () => {
       const elements = chartRenderer.getElementsAtPixel(pixelPoint);
 
       expect(elements).toEqual([{ data: { x: element1.x, y: element1.y }, configIndex: 0 }]);
+    });
+  });
+
+  describe("updateDatasets", () => {
+    it("should update dataset and disable animations", () => {
+      const { chartRenderer } = setup();
+      const datasets: Dataset[] = [
+        { data: [{ x: BasicBuilder.number(), y: BasicBuilder.number() }] },
+      ];
+      const chartInstance = chartRenderer.getChartInstance();
+      const updateSpy = jest.spyOn(chartInstance, "update");
+
+      const result = chartRenderer.updateDatasets(datasets);
+
+      expect(chartInstance.data.datasets).toBe(datasets);
+      expect(updateSpy).toHaveBeenCalledWith("none");
+      expect(result).toEqual({
+        min: chartInstance.scales.x?.min,
+        max: chartInstance.scales.x?.max,
+        left: chartInstance.scales.x?.left,
+        right: chartInstance.scales.x?.right,
+      });
     });
   });
 });
