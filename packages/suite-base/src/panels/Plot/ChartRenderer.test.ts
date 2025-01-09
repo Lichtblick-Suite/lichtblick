@@ -7,7 +7,6 @@ import { Immutable } from "@lichtblick/suite";
 import { ChartRenderer } from "@lichtblick/suite-base/panels/Plot/ChartRenderer";
 import { getChartOptions } from "@lichtblick/suite-base/panels/Plot/ChartUtilities/ChartOptions";
 import BasicBuilder from "@lichtblick/suite-base/testing/builders/BasicBuilder";
-import { maybeCast } from "@lichtblick/suite-base/util/maybeCast";
 
 import {
   ChartOptionsPlot,
@@ -19,7 +18,6 @@ import {
   PanStartInteractionEvent,
   UpdateAction,
   WheelInteractionEvent,
-  ZoomableChart,
 } from "./types";
 
 const OPTIONS_CHART: ChartOptionsPlot = {
