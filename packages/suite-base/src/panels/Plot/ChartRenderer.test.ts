@@ -136,7 +136,7 @@ describe("ChartRenderer", () => {
     });
   });
 
-  describe("Update ChartRenderer", () => {
+  describe("update", () => {
     it("should update chart dimensions on update action", () => {
       const { action, chartRenderer } = setup({
         actionOverride: {
@@ -154,7 +154,6 @@ describe("ChartRenderer", () => {
       expect(chartInstance.canvas.width).toBe(action.size?.width);
       expect(chartInstance.canvas.height).toBe(action.size?.height);
       expect(resizeSpy).toHaveBeenCalledTimes(1);
-      // expect(chartInstance.resize).toHaveBeenCalledTimes(1);
     });
 
     it("should update chart scales on update action", () => {
@@ -226,6 +225,21 @@ describe("ChartRenderer", () => {
       expect(chartUpdated?.x.max).toBe(SCALES_CHART.x!.max!);
       expect(chartUpdated?.y.min).toBe(SCALES_CHART.y!.min!);
       expect(chartUpdated?.y.max).toBe(SCALES_CHART.y!.max!);
+    });
+
+    it("should update returns undefined", () => {
+      (Chart as unknown as jest.Mock).mockImplementationOnce(() => ({
+        update: jest.fn(),
+        scales: {
+          x: undefined,
+          y: undefined,
+        },
+      }));
+      const { action, chartRenderer } = setup();
+
+      const chartUpdated = chartRenderer.update(action);
+
+      expect(chartUpdated).toBeUndefined();
     });
   });
 
