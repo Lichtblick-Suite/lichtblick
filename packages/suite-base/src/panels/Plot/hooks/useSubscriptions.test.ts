@@ -55,90 +55,90 @@ describe("useSubscriptions", () => {
     });
   };
 
-  it("sets subscriptions correctly for series paths", () => {
-    setup();
+  describe("Setting subscriptions", () => {
+    it("sets subscriptions correctly for series paths", () => {
+      setup();
+      expect(setSubscriptions).toHaveBeenCalledWith(testSubscriber, expect.any(Array));
+    });
 
-    expect(setSubscriptions).toHaveBeenCalledWith(testSubscriber, expect.any(Array));
+    it("sets subscriptions correctly for xAxisPath", () => {
+      const customConfig: PlotConfig = {
+        paths: [],
+        xAxisVal: BasicBuilder.string(),
+        xAxisPath: { value: BasicBuilder.string() },
+      } as any;
+      setup(customConfig);
+      expect(setSubscriptions).toHaveBeenCalledWith(testSubscriber, expect.any(Array));
+    });
+
+    it("sets subscriptions correctly for custom xAxisVal", () => {
+      const customXAxisConfig: PlotConfig = {
+        paths: [{ value: BasicBuilder.string() }],
+        xAxisVal: "custom",
+        xAxisPath: { value: BasicBuilder.string() },
+      } as any;
+      setup(customXAxisConfig);
+      expect(setSubscriptions).toHaveBeenCalledWith(testSubscriber, expect.any(Array));
+    });
+
+    it("sets subscriptions correctly for currentCustom xAxisVal", () => {
+      const customXAxisConfig: PlotConfig = {
+        paths: [{ value: BasicBuilder.string() }],
+        xAxisVal: "currentCustom",
+        xAxisPath: { value: BasicBuilder.string() },
+      } as any;
+      setup(customXAxisConfig);
+      expect(setSubscriptions).toHaveBeenCalledWith(testSubscriber, expect.any(Array));
+    });
   });
 
-  it("sets subscriptions correctly for xAxisPath", () => {
-    const customConfig: PlotConfig = {
-      paths: [],
-      xAxisVal: BasicBuilder.string(),
-      xAxisPath: { value: BasicBuilder.string() },
-    } as any;
-
-    setup(customConfig);
-
-    expect(setSubscriptions).toHaveBeenCalledWith(testSubscriber, expect.any(Array));
+  describe("Unsubscribing", () => {
+    it("unsubscribes on unmount", () => {
+      const { unmount } = setup();
+      unmount();
+      expect(setSubscriptions).toHaveBeenCalledWith(testSubscriber, []);
+    });
   });
 
-  it("unsubscribes on unmount", () => {
-    const { unmount } = setup();
+  describe("Handling invalid paths", () => {
+    it("does not set subscriptions for invalid paths", () => {
+      const invalidConfig: PlotConfig = {
+        paths: [{ value: BasicBuilder.string() }],
+        xAxisVal: BasicBuilder.string(),
+      } as any;
+      setup(invalidConfig);
+      expect(setSubscriptions).toHaveBeenCalledWith(testSubscriber, []);
+    });
 
-    unmount();
+    it("does not set subscriptions for reference line paths", () => {
+      const referenceLineConfig: PlotConfig = {
+        paths: [{ value: BasicBuilder.string(), type: "referenceLine" }],
+        xAxisVal: BasicBuilder.string(),
+      } as any;
+      setup(referenceLineConfig);
+      expect(setSubscriptions).toHaveBeenCalledWith(testSubscriber, []);
+    });
 
-    expect(setSubscriptions).toHaveBeenCalledWith(testSubscriber, []);
-  });
+    it("does not set subscriptions when parsedPath is undefined", () => {
+      const mockPath = BasicBuilder.string();
+      const configWithInvalidPath: PlotConfig = {
+        paths: [{ value: mockPath }],
+        xAxisVal: BasicBuilder.string(),
+      } as any;
+      (parseMessagePath as jest.Mock).mockReturnValue(undefined);
+      setup(configWithInvalidPath);
+      expect(setSubscriptions).toHaveBeenCalledWith(testSubscriber, []);
+      expect(parseMessagePath).toHaveBeenCalledWith(mockPath);
+    });
 
-  it("does not set subscriptions for invalid paths", () => {
-    const invalidConfig: PlotConfig = {
-      paths: [{ value: BasicBuilder.string() }],
-      xAxisVal: BasicBuilder.string(),
-    } as any;
-
-    setup(invalidConfig);
-
-    expect(setSubscriptions).toHaveBeenCalledWith(testSubscriber, []);
-  });
-
-  it("does not set subscriptions for reference line paths", () => {
-    const referenceLineConfig: PlotConfig = {
-      paths: [{ value: BasicBuilder.string(), type: "referenceLine" }],
-      xAxisVal: BasicBuilder.string(),
-    } as any;
-
-    setup(referenceLineConfig);
-
-    expect(setSubscriptions).toHaveBeenCalledWith(testSubscriber, []);
-  });
-
-  it("sets subscriptions correctly for custom xAxisVal", () => {
-    const customXAxisConfig: PlotConfig = {
-      paths: [{ value: BasicBuilder.string() }],
-      xAxisVal: "custom",
-      xAxisPath: { value: BasicBuilder.string() },
-    } as any;
-
-    setup(customXAxisConfig);
-
-    expect(setSubscriptions).toHaveBeenCalledWith(testSubscriber, expect.any(Array));
-  });
-
-  it("sets subscriptions correctly for currentCustom xAxisVal", () => {
-    const customXAxisConfig: PlotConfig = {
-      paths: [{ value: BasicBuilder.string() }],
-      xAxisVal: "currentCustom",
-      xAxisPath: { value: BasicBuilder.string() },
-    } as any;
-
-    setup(customXAxisConfig);
-
-    expect(setSubscriptions).toHaveBeenCalledWith(testSubscriber, expect.any(Array));
-  });
-
-  it("does not set subscriptions when parsedPath is undefined", () => {
-    const mockPath = BasicBuilder.string();
-    const configWithInvalidPath: PlotConfig = {
-      paths: [{ value: mockPath }],
-      xAxisVal: BasicBuilder.string(),
-    } as any;
-
-    (parseMessagePath as jest.Mock).mockReturnValue(undefined);
-
-    setup(configWithInvalidPath);
-
-    expect(setSubscriptions).toHaveBeenCalledWith(testSubscriber, []);
-    expect(parseMessagePath).toHaveBeenCalledWith(mockPath);
+    it("does not set subscriptions for invalid xAxisPath", () => {
+      const invalidXAxisConfig: PlotConfig = {
+        paths: [],
+        xAxisVal: BasicBuilder.string(),
+        xAxisPath: undefined,
+      } as any;
+      setup(invalidXAxisConfig);
+      expect(setSubscriptions).toHaveBeenCalledWith(testSubscriber, []);
+    });
   });
 });
