@@ -16,7 +16,8 @@ jest.mock("@lichtblick/suite-base/components/MessagePipeline", () => ({
 }));
 
 jest.mock("@lichtblick/suite-base/context/TimelineInteractionStateContext", () => ({
-  useHoverValue: jest.fn(),}));
+  useHoverValue: jest.fn(),
+}));
 
 describe("VerticalBars", () => {
   let mockSubscribe: jest.Mock;
@@ -34,8 +35,8 @@ describe("VerticalBars", () => {
 
   beforeEach(() => {
     mockSubscribe = jest.fn((callback) => {
-        callback({ playerState: { activeData: undefined } });
-        return jest.fn();
+      callback({ playerState: { activeData: undefined } });
+      return jest.fn();
     });
     (useMessagePipelineSubscribe as jest.Mock).mockImplementation(() => mockSubscribe);
 
@@ -96,5 +97,4 @@ describe("VerticalBars", () => {
     setup({ coordinator: mockCoordinator, xAxisIsPlaybackTime: false });
     expect(mockSubscribe).not.toHaveBeenCalled();
   });
-
 });
