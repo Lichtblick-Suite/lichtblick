@@ -16,10 +16,7 @@ jest.mock("@lichtblick/suite-base/components/MessagePipeline", () => ({
 }));
 
 jest.mock("@lichtblick/suite-base/context/TimelineInteractionStateContext", () => ({
-  useHoverValue: jest.fn(() => ({
-    testId: "hover-value-test-id",
-    value: "mocked-hover-value",
-  })),
+  useHoverValue: jest.fn(),
 }));
 
 describe("VerticalBars", () => {
@@ -37,7 +34,10 @@ describe("VerticalBars", () => {
   };
 
   beforeEach(() => {
-    mockSubscribe = jest.fn();
+    mockSubscribe = jest.fn((callback) => {
+      callback({ playerState: { activeData: undefined } });
+      return jest.fn();
+    });
     (useMessagePipelineSubscribe as jest.Mock).mockImplementation(() => mockSubscribe);
 
     mockCoordinator = {
@@ -79,6 +79,22 @@ describe("VerticalBars", () => {
     const { unmount } = setup({ coordinator: mockCoordinator });
 
     unmount();
+
     expect(mockCoordinator.off).toHaveBeenCalledWith("xScaleChanged", expect.any(Function));
+  });
+
+  it("handles undefined activeData correctly", () => {
+    const latestCurrentTimeSinceStart = { current: undefined };
+
+    setup({ coordinator: mockCoordinator });
+
+    expect(mockSubscribe).toHaveBeenCalledTimes(1);
+    expect(mockSubscribe).toHaveBeenCalledWith(expect.any(Function));
+    expect(latestCurrentTimeSinceStart.current).toBeUndefined();
+  });
+
+  it("does not subscribe to messagePipeline when xAxisIsPlaybackTime is false", () => {
+    setup({ coordinator: mockCoordinator, xAxisIsPlaybackTime: false });
+    expect(mockSubscribe).not.toHaveBeenCalled();
   });
 });
