@@ -11,31 +11,10 @@ import { useLatest } from "react-use";
 import { toSec } from "@lichtblick/rostime";
 import { useMessagePipelineSubscribe } from "@lichtblick/suite-base/components/MessagePipeline";
 import { useHoverValue } from "@lichtblick/suite-base/context/TimelineInteractionStateContext";
+import { getPixelForXValue } from "@lichtblick/suite-base/panels/Plot/getPixelForXValue";
 import { useStyles } from "@lichtblick/suite-base/panels/Plot/verticalbars.style";
 
 import type { VerticalBarsProps, Scale } from "./types";
-
-/** Get the canvas pixel x location for the plot x value */
-function getPixelForXValue(
-  scale: Scale | undefined,
-  xValue: number | undefined,
-): number | undefined {
-  if (!scale || xValue == undefined) {
-    return undefined;
-  }
-
-  const pixelRange = scale.right - scale.left;
-  if (pixelRange <= 0) {
-    return undefined;
-  }
-
-  if (xValue < scale.min || xValue > scale.max) {
-    return undefined;
-  }
-
-  // Linear interpolation to place the xValue within min/max
-  return scale.left + ((xValue - scale.min) / (scale.max - scale.min)) * pixelRange;
-}
 
 /**
  * Display vertical bars at the currentTime & the hovered time.
