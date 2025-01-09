@@ -361,8 +361,8 @@ describe("ChartRenderer", () => {
         } as ChartOptions,
       }));
       const referenceLines: ReferenceLine[] = [
-        { value: 10, color: "red" },
-        { value: 20, color: "blue" },
+        { value: BasicBuilder.number(), color: BasicBuilder.string() },
+        { value: BasicBuilder.number(), color: BasicBuilder.string() },
       ];
       const { chartRenderer, action } = setup({
         actionOverride: { referenceLines },
