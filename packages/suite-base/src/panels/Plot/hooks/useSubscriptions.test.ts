@@ -82,4 +82,52 @@ describe("useSubscriptions", () => {
 
     expect(setSubscriptions).toHaveBeenCalledWith(testSubscriber, []);
   });
+
+  it("does not set subscriptions for reference line paths", () => {
+    const referenceLineConfig: PlotConfig = {
+      paths: [{ value: BasicBuilder.string(), type: "referenceLine" }],
+      xAxisVal: BasicBuilder.string(),
+    } as any;
+
+    setup(referenceLineConfig);
+
+    expect(setSubscriptions).toHaveBeenCalledWith(testSubscriber, []);
+  });
+
+  it("sets subscriptions correctly for custom xAxisVal", () => {
+    const customXAxisConfig: PlotConfig = {
+      paths: [{ value: BasicBuilder.string() }],
+      xAxisVal: "custom",
+      xAxisPath: { value: BasicBuilder.string() },
+    } as any;
+
+    setup(customXAxisConfig);
+
+    expect(setSubscriptions).toHaveBeenCalledWith(testSubscriber, expect.any(Array));
+  });
+
+  it("sets subscriptions correctly for currentCustom xAxisVal", () => {
+    const customXAxisConfig: PlotConfig = {
+      paths: [{ value: BasicBuilder.string() }],
+      xAxisVal: "currentCustom",
+      xAxisPath: { value: BasicBuilder.string() },
+    } as any;
+
+    setup(customXAxisConfig);
+
+    expect(setSubscriptions).toHaveBeenCalledWith(testSubscriber, expect.any(Array));
+  });
+
+  it("does not set subscriptions for invalid xAxisPath", () => {
+    const invalidXAxisConfig: PlotConfig = {
+      paths: [],
+      xAxisVal: BasicBuilder.string(),
+      xAxisPath: null,
+    } as any;
+
+    setup(invalidXAxisConfig);
+
+    expect(setSubscriptions).toHaveBeenCalledWith(testSubscriber, []);
+  });
+
 });
