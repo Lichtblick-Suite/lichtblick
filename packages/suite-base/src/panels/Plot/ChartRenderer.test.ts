@@ -7,8 +7,20 @@ import { Immutable } from "@lichtblick/suite";
 import { ChartRenderer } from "@lichtblick/suite-base/panels/Plot/ChartRenderer";
 import { getChartOptions } from "@lichtblick/suite-base/panels/Plot/ChartUtilities/ChartOptions";
 import BasicBuilder from "@lichtblick/suite-base/testing/builders/BasicBuilder";
+import { maybeCast } from "@lichtblick/suite-base/util/maybeCast";
 
-import { ChartOptionsPlot, ChartRendererProps, ChartType, Dataset, UpdateAction } from "./types";
+import {
+  ChartOptionsPlot,
+  ChartRendererProps,
+  ChartType,
+  Dataset,
+  PanEndInteractionEvent,
+  PanMoveInteractionEvent,
+  PanStartInteractionEvent,
+  UpdateAction,
+  WheelInteractionEvent,
+  ZoomableChart,
+} from "./types";
 
 const OPTIONS_CHART: ChartOptionsPlot = {
   devicePixelRatio: 2,
@@ -48,6 +60,11 @@ jest.mock("chart.js", () => {
       options,
       scales: SCALES_CHART,
       canvas,
+      $zoom: {
+        panStartHandler: jest.fn(),
+        panHandler: jest.fn(),
+        panEndHandler: jest.fn(),
+      },
       getElementsAtEventForMode: jest.fn().mockReturnValue([]),
     })),
   };
@@ -148,7 +165,7 @@ describe("ChartRenderer", () => {
       });
 
       chartRenderer.update(action);
-      const chartInstance = chartRenderer.getChartInstance();
+      const chartInstance = (chartRenderer as any).getChartInstance();
       const resizeSpy = jest.spyOn(chartInstance, "resize");
 
       expect(chartInstance.canvas.width).toBe(action.size?.width);
@@ -171,7 +188,7 @@ describe("ChartRenderer", () => {
       });
 
       chartRenderer.update(action);
-      const chartInstance: ChartType = chartRenderer.getChartInstance();
+      const chartInstance: ChartType = (chartRenderer as any).getChartInstance();
 
       expect(chartInstance.options.scales!.x!.min).toBe(action.xBounds!.min);
       expect(chartInstance.options.scales!.x!.max).toBe(action.xBounds!.max);
@@ -187,7 +204,7 @@ describe("ChartRenderer", () => {
       });
 
       chartRenderer.update(action);
-      const chartInstance: ChartType = chartRenderer.getChartInstance();
+      const chartInstance: ChartType = (chartRenderer as any).getChartInstance();
 
       expect(chartInstance.options.scales!.x!.ticks?.display).toBe(true);
     });
@@ -200,7 +217,7 @@ describe("ChartRenderer", () => {
       });
 
       chartRenderer.update(action);
-      const chartInstance: ChartType = chartRenderer.getChartInstance();
+      const chartInstance: ChartType = (chartRenderer as any).getChartInstance();
 
       expect(chartInstance.options.scales!.y!.ticks?.display).toBe(true);
     });
@@ -209,7 +226,7 @@ describe("ChartRenderer", () => {
       const { action, chartRenderer } = setup();
 
       chartRenderer.update(action);
-      const chartInstance = chartRenderer.getChartInstance();
+      const chartInstance = (chartRenderer as any).getChartInstance();
       const updateSpy = jest.spyOn(chartInstance, "update");
 
       expect(updateSpy).toHaveBeenCalledTimes(1);
@@ -241,12 +258,101 @@ describe("ChartRenderer", () => {
 
       expect(chartUpdated).toBeUndefined();
     });
+
+    it("should update when wheel event type", () => {
+      const wheelEvent = {
+        type: "wheel",
+        boundingClientRect: {},
+        deltaX: BasicBuilder.number(),
+        deltaY: BasicBuilder.number(),
+      } as WheelInteractionEvent;
+      const { action, chartRenderer } = setup({
+        actionOverride: {
+          type: "update",
+          interactionEvents: [wheelEvent],
+        },
+      });
+      const fakeNodeEventsEmitSpy = jest.spyOn((chartRenderer as any).getFakeNodeEvents(), "emit");
+
+      chartRenderer.update(action);
+
+      expect(fakeNodeEventsEmitSpy).toHaveBeenCalledWith("wheel", {
+        deltaX: wheelEvent.deltaX,
+        deltaY: wheelEvent.deltaY,
+        target: expect.objectContaining({
+          getBoundingClientRect: expect.any(Function),
+        }),
+      });
+    });
+
+    it("should update when panstart event type", () => {
+      const panStartEvent = {
+        type: "panstart",
+        boundingClientRect: {},
+        center: { x: BasicBuilder.number(), y: BasicBuilder.number() },
+      } as PanStartInteractionEvent;
+      const { action, chartRenderer } = setup({
+        actionOverride: {
+          type: "update",
+          interactionEvents: [panStartEvent],
+        },
+      });
+      const chartInstance = (chartRenderer as any).getChartInstance();
+      const panStartHandlerSpy = jest.spyOn(chartInstance.$zoom, "panStartHandler");
+
+      chartRenderer.update(action);
+
+      expect(panStartHandlerSpy).toHaveBeenCalledWith({
+        center: panStartEvent.center,
+        deltaX: undefined,
+        deltaY: undefined,
+        target: expect.objectContaining({
+          getBoundingClientRect: expect.any(Function),
+        }),
+      });
+    });
+
+    it("should update when panmove event type", () => {
+      const panMoveEvent = {
+        type: "panmove",
+      } as PanMoveInteractionEvent;
+      const { action, chartRenderer } = setup({
+        actionOverride: {
+          type: "update",
+          interactionEvents: [panMoveEvent],
+        },
+      });
+      const chartInstance = (chartRenderer as any).getChartInstance();
+      const panHandlerSpy = jest.spyOn(chartInstance.$zoom, "panHandler");
+
+      chartRenderer.update(action);
+
+      expect(panHandlerSpy).toHaveBeenCalledWith(panMoveEvent);
+    });
+
+    it("should update when panend event type", () => {
+      const panEndEvent = {
+        type: "panend",
+      } as PanEndInteractionEvent;
+      const { action, chartRenderer } = setup({
+        actionOverride: {
+          type: "update",
+          interactionEvents: [panEndEvent],
+        },
+      });
+      const chartInstance = (chartRenderer as any).getChartInstance();
+      const panHandlerSpy = jest.spyOn(chartInstance.$zoom, "panEndHandler");
+
+      chartRenderer.update(action);
+
+      expect(panHandlerSpy).toHaveBeenCalledTimes(1);
+    });
   });
 
   describe("getElementsAtPixel", () => {
     it("should return elements sorted by proximity to a pixel", () => {
       const { chartRenderer } = setup();
-      const chartInstance = chartRenderer.getChartInstance();
+      const chartInstance = (chartRenderer as any).getChartInstance();
       const elementsAtEventMock: InteractionItem[] = [
         { element: { x: 10, y: 10 } as Element, datasetIndex: 0, index: 0 },
         { element: { x: 30, y: 30 } as Element, datasetIndex: 1, index: 1 },
@@ -276,7 +382,7 @@ describe("ChartRenderer", () => {
 
     it("should return elements sorted by proximity to a pixel dinamically", () => {
       const { chartRenderer } = setup();
-      const chartInstance = chartRenderer.getChartInstance();
+      const chartInstance = (chartRenderer as any).getChartInstance();
 
       const element1 = {
         x: BasicBuilder.number({ min: 5, max: 15 }),
@@ -314,7 +420,7 @@ describe("ChartRenderer", () => {
       const datasets: Dataset[] = [
         { data: [{ x: BasicBuilder.number(), y: BasicBuilder.number() }] },
       ];
-      const chartInstance = chartRenderer.getChartInstance();
+      const chartInstance = (chartRenderer as any).getChartInstance();
       const updateSpy = jest.spyOn(chartInstance, "update");
 
       const result = chartRenderer.updateDatasets(datasets);
