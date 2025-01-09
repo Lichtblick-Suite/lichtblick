@@ -1,6 +1,6 @@
 // SPDX-FileCopyrightText: Copyright (C) 2023-2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)<lichtblick@bmwgroup.com>
 // SPDX-License-Identifier: MPL-2.0
-import { Chart, ChartOptions, Scale } from "chart.js";
+import { Chart, ChartOptions, Element, InteractionItem, Scale } from "chart.js";
 
 import { Zoom as ZoomPlugin } from "@lichtblick/chartjs-plugin-zoom";
 import { Immutable } from "@lichtblick/suite";
@@ -77,22 +77,17 @@ global.OffscreenCanvas = class {
   }
 } as unknown as typeof OffscreenCanvas;
 
-type Setup = {
+type ChartRendererTestSetup = {
   actionOverride?: Partial<UpdateAction>;
 };
 
-// chartMocked();
 describe("ChartRenderer", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     console.error = jest.fn();
   });
 
-  // afterEach(() => {
-  //   jest.clearAllMocks();
-  // });
-
-  function setup({ actionOverride }: Setup = {}) {
+  function setup({ actionOverride }: ChartRendererTestSetup = {}) {
     const canvas = new OffscreenCanvas(500, 500);
     const props: ChartRendererProps = {
       canvas,
@@ -123,19 +118,21 @@ describe("ChartRenderer", () => {
     };
   }
 
-  it("should initialize a Chart instance with correct chart options", () => {
-    const { props } = setup();
+  describe("constructor", () => {
+    it("should initialize a Chart instance with correct chart options", () => {
+      const { props } = setup();
 
-    expect(Chart).toHaveBeenCalledWith(expect.anything(), {
-      data: { datasets: [] },
-      options: expect.any(Object),
-      plugins: [ZoomPlugin],
-      type: "scatter",
-    });
-    expect(getChartOptions).toHaveBeenCalledWith({
-      devicePixelRatio: props.devicePixelRatio,
-      gridColor: props.gridColor,
-      tickColor: props.tickColor,
+      expect(Chart).toHaveBeenCalledWith(expect.anything(), {
+        data: { datasets: [] },
+        options: expect.any(Object),
+        plugins: [ZoomPlugin],
+        type: "scatter",
+      });
+      expect(getChartOptions).toHaveBeenCalledWith({
+        devicePixelRatio: props.devicePixelRatio,
+        gridColor: props.gridColor,
+        tickColor: props.tickColor,
+      });
     });
   });
 
@@ -230,20 +227,70 @@ describe("ChartRenderer", () => {
       expect(chartUpdated?.y.min).toBe(SCALES_CHART.y!.min!);
       expect(chartUpdated?.y.max).toBe(SCALES_CHART.y!.max!);
     });
+  });
 
-    it("should update returns undefined", () => {
-      (Chart as unknown as jest.Mock).mockImplementation(() => ({
-        update: jest.fn(),
-        scales: {
-          x: undefined,
-          y: undefined,
+  describe("getElementsAtPixel", () => {
+    it("should return elements sorted by proximity to a pixel", () => {
+      const { chartRenderer } = setup();
+      const chartInstance = chartRenderer.getChartInstance();
+      const elementsAtEventMock: InteractionItem[] = [
+        { element: { x: 10, y: 10 } as Element, datasetIndex: 0, index: 0 },
+        { element: { x: 30, y: 30 } as Element, datasetIndex: 1, index: 1 },
+        { element: { x: 20, y: 20 } as Element, datasetIndex: 2, index: 2 },
+      ];
+
+      (chartInstance.getElementsAtEventForMode as jest.Mock).mockReturnValue(elementsAtEventMock);
+      chartInstance.data.datasets = [
+        {
+          data: [{ x: 10, y: 10 }],
         },
-      }));
-      const { action, chartRenderer } = setup();
+        {
+          data: [
+            { x: 20, y: 20 },
+            { x: 60, y: 60 },
+          ],
+        },
+      ];
 
-      const chartUpdated = chartRenderer.update(action);
+      const elements = chartRenderer.getElementsAtPixel({ x: 1000, y: 1000 });
 
-      expect(chartUpdated).toBeUndefined();
+      expect(elements).toEqual([
+        { data: chartInstance.data.datasets[1]!.data[1], configIndex: 1 },
+        { data: chartInstance.data.datasets[0]!.data[0], configIndex: 0 },
+      ]);
+    });
+
+    it("should return elements sorted by proximity to a pixel dinamically", () => {
+      const { chartRenderer } = setup();
+      const chartInstance = chartRenderer.getChartInstance();
+
+      const element1 = {
+        x: BasicBuilder.number({ min: 5, max: 15 }),
+        y: BasicBuilder.number({ min: 5, max: 15 }),
+      };
+      const element2 = {
+        x: BasicBuilder.number({ min: 16, max: 30 }),
+        y: BasicBuilder.number({ min: 16, max: 30 }),
+      };
+
+      (chartInstance.getElementsAtEventForMode as jest.Mock).mockReturnValue([
+        { element: element1, datasetIndex: 0, index: 0 },
+        { element: element2, datasetIndex: 1, index: 1 },
+      ]);
+
+      chartInstance.data.datasets = [
+        { data: [{ x: element1.x, y: element1.y }] },
+        { data: [{ x: element2.x, y: element2.y }] },
+      ];
+
+      const pixelPoint = {
+        x: BasicBuilder.number({ min: 500, max: 1000 }),
+        y: BasicBuilder.number({ min: 500, max: 1000 }),
+      };
+
+      const elements = chartRenderer.getElementsAtPixel(pixelPoint);
+
+      expect(elements).toEqual([{ data: { x: element1.x, y: element1.y }, configIndex: 0 }]);
     });
   });
 });
