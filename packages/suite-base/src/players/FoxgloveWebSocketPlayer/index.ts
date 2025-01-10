@@ -667,6 +667,10 @@ export default class FoxgloveWebSocketPlayer implements Player {
         const requestMsgEncoding = service.request?.encoding ?? this.#serviceCallEncoding;
         const responseMsgEncoding = service.response?.encoding ?? this.#serviceCallEncoding;
 
+        // Note: The `requestSchema` and `responseSchema` fields are deprecated in @foxglove/ws-protocol.
+        // However, they are still required for compatibility with Foxglove Bridge.
+        // We are temporarily reintroducing support for these fields to avoid blocking users.
+        // This usage should be removed once Foxglove Bridge transitions away from these deprecated fields.
         try {
           if (
             // eslint-disable-next-line @typescript-eslint/no-deprecated
@@ -740,6 +744,20 @@ export default class FoxgloveWebSocketPlayer implements Player {
           };
           this.#servicesByName.set(service.name, resolvedService);
           this.#problems.removeProblem(serviceProblemId);
+
+          // Issue a warning to users if the service relies on deprecated fields (`requestSchema` or `responseSchema`).
+          // This highlights the need for migration, as these fields will be removed in future versions.
+
+          // eslint-disable-next-line @typescript-eslint/no-deprecated
+          if (service.requestSchema || service.responseSchema) {
+            this.#problems.addProblem(serviceProblemId, {
+              severity: "warn",
+              message: `Service ${service.name}`,
+              error: new Error(
+                "requestSchema and responseSchema are deprecated and will not be supported in future versions of Lichtblick",
+              ),
+            });
+          }
         } catch (error) {
           this.#problems.addProblem(serviceProblemId, {
             severity: "error",
