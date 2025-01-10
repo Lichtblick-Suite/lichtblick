@@ -131,11 +131,26 @@ describe("useSubscriptions", () => {
       expect(parseMessagePath).toHaveBeenCalledWith(mockPath);
     });
 
-    it("does not set subscriptions for invalid xAxisPath", () => {
+    it("does not set subscriptions for undefined xAxisPath", () => {
       const invalidXAxisConfig: PlotConfig = {
         paths: [],
         xAxisVal: BasicBuilder.string(),
         xAxisPath: undefined,
+      } as any;
+
+      (parseMessagePath as jest.Mock).mockReturnValue(undefined);
+
+      setup(invalidXAxisConfig);
+
+      expect(setSubscriptions).toHaveBeenCalledWith(testSubscriber, []);
+      expect(parseMessagePath).not.toHaveBeenCalled();
+    });
+
+    it("does not set subscriptions for null xAxisPath", () => {
+      const invalidXAxisConfig: PlotConfig = {
+        paths: [],
+        xAxisVal: BasicBuilder.string(),
+        xAxisPath: ReactNull,
       } as any;
 
       (parseMessagePath as jest.Mock).mockReturnValue(undefined);
