@@ -668,9 +668,17 @@ export default class FoxgloveWebSocketPlayer implements Player {
         const responseMsgEncoding = service.response?.encoding ?? this.#serviceCallEncoding;
 
         try {
-          if (service.request == undefined || service.response == undefined) {
+          if (
+            // eslint-disable-next-line @typescript-eslint/no-deprecated
+            (service.request == undefined && service.requestSchema == undefined) ||
+            // eslint-disable-next-line @typescript-eslint/no-deprecated
+            (service.response == undefined && service.responseSchema == undefined)
+          ) {
             throw new Error("Invalid service definition, at least one required field is missing");
-          } else if (!defaultSchemaEncoding) {
+          } else if (
+            !defaultSchemaEncoding &&
+            (service.request == undefined || service.response == undefined)
+          ) {
             throw new Error("Cannot determine service request or response schema encoding");
           } else if (!SUPPORTED_SERVICE_ENCODINGS.includes(requestMsgEncoding)) {
             const supportedEncodingsStr = SUPPORTED_SERVICE_ENCODINGS.join(", ");
@@ -685,8 +693,9 @@ export default class FoxgloveWebSocketPlayer implements Player {
               messageEncoding: requestMsgEncoding,
               schema: {
                 name: requestType,
-                encoding: service.request.schemaEncoding,
-                data: textEncoder.encode(service.request.schema),
+                encoding: service.request?.schemaEncoding ?? defaultSchemaEncoding,
+                // eslint-disable-next-line @typescript-eslint/no-deprecated
+                data: textEncoder.encode(service.request?.schema ?? service.requestSchema),
               },
             },
             parseChannelOptions,
@@ -696,8 +705,9 @@ export default class FoxgloveWebSocketPlayer implements Player {
               messageEncoding: responseMsgEncoding,
               schema: {
                 name: responseType,
-                encoding: service.response.schemaEncoding,
-                data: textEncoder.encode(service.response.schema),
+                encoding: service.response?.schemaEncoding ?? defaultSchemaEncoding,
+                // eslint-disable-next-line @typescript-eslint/no-deprecated
+                data: textEncoder.encode(service.response?.schema ?? service.responseSchema),
               },
             },
             parseChannelOptions,
