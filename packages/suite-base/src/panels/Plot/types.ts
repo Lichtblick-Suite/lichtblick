@@ -3,6 +3,7 @@
 
 import { Chart, ChartDataset, ScatterDataPoint } from "chart.js";
 
+import { PanelContextMenuItem } from "@lichtblick/suite-base/components/PanelContextMenu";
 import { TimeBasedChartTooltipData } from "@lichtblick/suite-base/components/TimeBasedChart/TimeBasedChartTooltipContent";
 import type { PlotCoordinator } from "@lichtblick/suite-base/panels/Plot/PlotCoordinator";
 import { CurrentCustomDatasetsBuilder } from "@lichtblick/suite-base/panels/Plot/builders/CurrentCustomDatasetsBuilder";
@@ -120,6 +121,15 @@ export type UseHoverHandlersHook = {
   onClick: (event: React.MouseEvent<HTMLElement>) => void;
   onClickPath: (index: number) => void;
   focusedPath: string[] | undefined;
+  keyDownHandlers: {
+    v: () => void;
+    b: () => void;
+  };
+  keyUphandlers: {
+    v: () => void;
+    b: () => void;
+  };
+  getPanelContextMenuItems: () => PanelContextMenuItem[];
 };
 
 export type TooltipStateSetter = {

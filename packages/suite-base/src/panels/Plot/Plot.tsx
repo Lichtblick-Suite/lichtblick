@@ -7,8 +7,7 @@
 
 import { Button, Tooltip, Fade, useTheme } from "@mui/material";
 import * as _ from "lodash-es";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useMountedState } from "react-use";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import { Immutable } from "@lichtblick/suite";
@@ -18,10 +17,7 @@ import {
   useMessagePipelineSubscribe,
 } from "@lichtblick/suite-base/components/MessagePipeline";
 import { usePanelContext } from "@lichtblick/suite-base/components/PanelContext";
-import {
-  PanelContextMenu,
-  PanelContextMenuItem,
-} from "@lichtblick/suite-base/components/PanelContextMenu";
+import { PanelContextMenu } from "@lichtblick/suite-base/components/PanelContextMenu";
 import PanelToolbar from "@lichtblick/suite-base/components/PanelToolbar";
 import { PANEL_TOOLBAR_MIN_HEIGHT } from "@lichtblick/suite-base/components/PanelToolbar/constants";
 import Stack from "@lichtblick/suite-base/components/Stack";
@@ -32,19 +28,17 @@ import { DEFAULT_SIDEBAR_DIMENSION } from "@lichtblick/suite-base/panels/Plot/co
 import usePanning from "@lichtblick/suite-base/panels/Plot/hooks/usePanning";
 import usePlotInteractionHandlers from "@lichtblick/suite-base/panels/Plot/hooks/usePlotInteractionHandlers";
 import { PlotProps, TooltipStateSetter } from "@lichtblick/suite-base/panels/Plot/types";
-import { PANEL_TITLE_CONFIG_KEY } from "@lichtblick/suite-base/util/layout";
 
 import { useStyles } from "./Plot.style";
 import { PlotCoordinator } from "./PlotCoordinator";
 import { PlotLegend } from "./PlotLegend";
-import { downloadCSV } from "./csv";
 import useGlobalSync from "./hooks/useGlobalSync";
 import usePlotDataHandling from "./hooks/usePlotDataHandling";
-import { useRenderer } from "./hooks/useRenderer";
+import useRenderer from "./hooks/useRenderer";
 import useSubscriptions from "./hooks/useSubscriptions";
 import { usePlotPanelSettings } from "./settings";
 
-export function Plot(props: PlotProps): React.JSX.Element {
+const Plot = (props: PlotProps): React.JSX.Element => {
   const { saveConfig, config } = props;
   const {
     paths: series,
@@ -52,7 +46,6 @@ export function Plot(props: PlotProps): React.JSX.Element {
     xAxisVal: xAxisMode,
     legendDisplay = config.showSidebar === true ? "left" : "floating",
     sidebarDimension = config.sidebarWidth ?? DEFAULT_SIDEBAR_DIMENSION,
-    [PANEL_TITLE_CONFIG_KEY]: customTitle,
   } = config;
 
   const { classes } = useStyles();
@@ -66,7 +59,6 @@ export function Plot(props: PlotProps): React.JSX.Element {
 
   const [activeTooltip, setActiveTooltip] = useState<TooltipStateSetter>();
 
-  const isMounted = useMountedState();
   const [subscriberId] = useState(() => uuidv4());
   const [canvasDiv, setCanvasDiv] = useState<HTMLDivElement | ReactNull>(ReactNull);
   const [coordinator, setCoordinator] = useState<PlotCoordinator | undefined>(undefined);
@@ -76,16 +68,26 @@ export function Plot(props: PlotProps): React.JSX.Element {
   const getMessagePipelineState = useMessagePipelineGetter();
   const subscribeMessagePipeline = useMessagePipelineSubscribe();
 
-  const { onMouseMove, onMouseOut, onResetView, onWheel, onClick, onClickPath, focusedPath } =
-    usePlotInteractionHandlers(
-      coordinator,
-      renderer,
-      subscriberId,
-      config,
-      setActiveTooltip,
-      { shouldSync },
-      draggingRef,
-    );
+  const {
+    onMouseMove,
+    onMouseOut,
+    onResetView,
+    onWheel,
+    onClick,
+    onClickPath,
+    focusedPath,
+    keyDownHandlers,
+    keyUphandlers,
+    getPanelContextMenuItems,
+  } = usePlotInteractionHandlers(
+    coordinator,
+    renderer,
+    subscriberId,
+    config,
+    setActiveTooltip,
+    { shouldSync },
+    draggingRef,
+  );
 
   usePlotPanelSettings(config, saveConfig, focusedPath);
   useSubscriptions(config, subscriberId);
@@ -119,24 +121,6 @@ export function Plot(props: PlotProps): React.JSX.Element {
       },
     });
   }, [saveConfig, setMessagePathDropConfig]);
-
-  const getPanelContextMenuItems = useCallback(() => {
-    const items: PanelContextMenuItem[] = [
-      {
-        type: "item",
-        label: "Download plot data as CSV",
-        onclick: async () => {
-          const data = await coordinator?.getCsvData();
-          if (!data || !isMounted()) {
-            return;
-          }
-
-          downloadCSV(customTitle ?? "plot_data", data, xAxisMode);
-        },
-      },
-    ];
-    return items;
-  }, [coordinator, customTitle, isMounted, xAxisMode]);
 
   useEffect(() => {
     coordinator?.handleConfig(config, theme.palette.mode, globalVariables);
@@ -221,27 +205,6 @@ export function Plot(props: PlotProps): React.JSX.Element {
     return values;
   }, [activeTooltip, config.paths.length, config.showPlotValuesInLegend]);
 
-  const { keyDownHandlers, keyUphandlers } = useMemo(() => {
-    return {
-      keyDownHandlers: {
-        v: () => {
-          coordinator?.setZoomMode("y");
-        },
-        b: () => {
-          coordinator?.setZoomMode("xy");
-        },
-      },
-      keyUphandlers: {
-        v: () => {
-          coordinator?.setZoomMode("x");
-        },
-        b: () => {
-          coordinator?.setZoomMode("x");
-        },
-      },
-    };
-  }, [coordinator]);
-
   return (
     <Stack
       flex="auto"
@@ -317,4 +280,6 @@ export function Plot(props: PlotProps): React.JSX.Element {
       <KeyListener global keyDownHandlers={keyDownHandlers} keyUpHandlers={keyUphandlers} />
     </Stack>
   );
-}
+};
+
+export default Plot;

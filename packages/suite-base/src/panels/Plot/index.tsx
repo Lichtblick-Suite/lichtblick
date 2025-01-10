@@ -16,7 +16,7 @@
 
 import Panel from "@lichtblick/suite-base/components/Panel";
 
-import { Plot } from "./Plot";
+import Plot from "./Plot";
 import { PlotConfig } from "./config";
 import { DEFAULT_SIDEBAR_DIMENSION } from "./constants";
 

@@ -7,6 +7,7 @@ import { useMountedState } from "react-use";
 import { debouncePromise } from "@lichtblick/den/async";
 import { add as addTimes, fromSec, isTime, toSec } from "@lichtblick/rostime";
 import { useMessagePipelineGetter } from "@lichtblick/suite-base/components/MessagePipeline";
+import { PanelContextMenuItem } from "@lichtblick/suite-base/components/PanelContextMenu";
 import { TimeBasedChartTooltipData } from "@lichtblick/suite-base/components/TimeBasedChart/TimeBasedChartTooltipContent";
 import {
   TimelineInteractionStateStore,
@@ -17,11 +18,13 @@ import {
 import { OffscreenCanvasRenderer } from "@lichtblick/suite-base/panels/Plot/OffscreenCanvasRenderer";
 import { PlotCoordinator } from "@lichtblick/suite-base/panels/Plot/PlotCoordinator";
 import { PlotConfig } from "@lichtblick/suite-base/panels/Plot/config";
+import { downloadCSV } from "@lichtblick/suite-base/panels/Plot/csv";
 import {
   ElementAtPixelArgs,
   TooltipStateSetter,
   UseHoverHandlersHook as UsePlotInteractionHandlers,
 } from "@lichtblick/suite-base/panels/Plot/types";
+import { PANEL_TITLE_CONFIG_KEY } from "@lichtblick/suite-base/util/layout";
 
 const selectSetGlobalBounds = (store: TimelineInteractionStateStore) => store.setGlobalBounds;
 
@@ -38,7 +41,7 @@ const usePlotInteractionHandlers = (
   const clearHoverValue = useClearHoverValue();
   const isMounted = useMountedState();
   const mousePresentRef = useRef(false);
-  const { xAxisVal: xAxisMode } = config;
+  const { xAxisVal: xAxisMode, [PANEL_TITLE_CONFIG_KEY]: customTitle } = config;
   const setGlobalBounds = useTimelineInteractionState(selectSetGlobalBounds);
   const getMessagePipelineState = useMessagePipelineGetter();
   const [focusedPath, setFocusedPath] = useState<undefined | string[]>(undefined);
@@ -191,6 +194,45 @@ const usePlotInteractionHandlers = (
     setFocusedPath(["paths", String(index)]);
   }, []);
 
+  const { keyDownHandlers, keyUphandlers } = useMemo(() => {
+    return {
+      keyDownHandlers: {
+        v: () => {
+          coordinator?.setZoomMode("y");
+        },
+        b: () => {
+          coordinator?.setZoomMode("xy");
+        },
+      },
+      keyUphandlers: {
+        v: () => {
+          coordinator?.setZoomMode("x");
+        },
+        b: () => {
+          coordinator?.setZoomMode("x");
+        },
+      },
+    };
+  }, [coordinator]);
+
+  const getPanelContextMenuItems = useCallback(() => {
+    const items: PanelContextMenuItem[] = [
+      {
+        type: "item",
+        label: "Download plot data as CSV",
+        onclick: async () => {
+          const data = await coordinator?.getCsvData();
+          if (!data || !isMounted()) {
+            return;
+          }
+
+          downloadCSV(customTitle ?? "plot_data", data, xAxisMode);
+        },
+      },
+    ];
+    return items;
+  }, [coordinator, customTitle, isMounted, xAxisMode]);
+
   return {
     onMouseMove,
     onMouseOut,
@@ -199,6 +241,9 @@ const usePlotInteractionHandlers = (
     onClick,
     onClickPath,
     focusedPath,
+    keyDownHandlers,
+    keyUphandlers,
+    getPanelContextMenuItems,
   };
 };
 
