@@ -137,8 +137,13 @@ describe("useSubscriptions", () => {
         xAxisVal: BasicBuilder.string(),
         xAxisPath: undefined,
       } as any;
+
+      (parseMessagePath as jest.Mock).mockReturnValue(undefined);
+
       setup(invalidXAxisConfig);
+
       expect(setSubscriptions).toHaveBeenCalledWith(testSubscriber, []);
+      expect(parseMessagePath).not.toHaveBeenCalled();
     });
   });
 });
