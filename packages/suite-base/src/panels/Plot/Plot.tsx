@@ -11,10 +11,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useMountedState } from "react-use";
 import { v4 as uuidv4 } from "uuid";
 
-import { parseMessagePath } from "@lichtblick/message-path";
 import { Immutable } from "@lichtblick/suite";
 import KeyListener from "@lichtblick/suite-base/components/KeyListener";
-import { fillInGlobalVariablesInPath } from "@lichtblick/suite-base/components/MessagePathSyntax/useCachedGetMessagePathDataItems";
 import {
   useMessagePipelineGetter,
   useMessagePipelineSubscribe,
@@ -31,21 +29,17 @@ import TimeBasedChartTooltipContent from "@lichtblick/suite-base/components/Time
 import useGlobalVariables from "@lichtblick/suite-base/hooks/useGlobalVariables";
 import { VerticalBars } from "@lichtblick/suite-base/panels/Plot/VerticalBars";
 import { DEFAULT_SIDEBAR_DIMENSION } from "@lichtblick/suite-base/panels/Plot/constants";
-import useHoverHandlers from "@lichtblick/suite-base/panels/Plot/hooks/useHoverHandlers";
 import usePanning from "@lichtblick/suite-base/panels/Plot/hooks/usePanning";
+import usePlotInteractionHandlers from "@lichtblick/suite-base/panels/Plot/hooks/usePlotInteractionHandlers";
 import { PlotProps, TooltipStateSetter } from "@lichtblick/suite-base/panels/Plot/types";
 import { PANEL_TITLE_CONFIG_KEY } from "@lichtblick/suite-base/util/layout";
-import { getLineColor } from "@lichtblick/suite-base/util/plotColors";
 
 import { useStyles } from "./Plot.style";
 import { PlotCoordinator } from "./PlotCoordinator";
 import { PlotLegend } from "./PlotLegend";
-import { CurrentCustomDatasetsBuilder } from "./builders/CurrentCustomDatasetsBuilder";
-import { CustomDatasetsBuilder } from "./builders/CustomDatasetsBuilder";
-import { IndexDatasetsBuilder } from "./builders/IndexDatasetsBuilder";
-import { TimestampDatasetsBuilder } from "./builders/TimestampDatasetsBuilder";
 import { downloadCSV } from "./csv";
 import useGlobalSync from "./hooks/useGlobalSync";
+import usePlotDataHandling from "./hooks/usePlotDataHandling";
 import { useRenderer } from "./hooks/useRenderer";
 import useSubscriptions from "./hooks/useSubscriptions";
 import { usePlotPanelSettings } from "./settings";
@@ -56,7 +50,6 @@ export function Plot(props: PlotProps): React.JSX.Element {
     paths: series,
     showLegend,
     xAxisVal: xAxisMode,
-    xAxisPath,
     legendDisplay = config.showSidebar === true ? "left" : "floating",
     sidebarDimension = config.sidebarWidth ?? DEFAULT_SIDEBAR_DIMENSION,
     [PANEL_TITLE_CONFIG_KEY]: customTitle,
@@ -67,6 +60,41 @@ export function Plot(props: PlotProps): React.JSX.Element {
 
   const { setMessagePathDropConfig } = usePanelContext();
   const draggingRef = useRef(false);
+
+  // When true the user can reset the plot back to the original view
+  const [canReset, setCanReset] = useState(false);
+
+  const [activeTooltip, setActiveTooltip] = useState<TooltipStateSetter>();
+
+  const isMounted = useMountedState();
+  const [subscriberId] = useState(() => uuidv4());
+  const [canvasDiv, setCanvasDiv] = useState<HTMLDivElement | ReactNull>(ReactNull);
+  const [coordinator, setCoordinator] = useState<PlotCoordinator | undefined>(undefined);
+  const shouldSync = config.xAxisVal === "timestamp" && config.isSynced;
+  const renderer = useRenderer(canvasDiv, theme);
+  const { globalVariables } = useGlobalVariables();
+  const getMessagePipelineState = useMessagePipelineGetter();
+  const subscribeMessagePipeline = useMessagePipelineSubscribe();
+
+  const { onMouseMove, onMouseOut, onResetView, onWheel, onClick, onClickPath, focusedPath } =
+    usePlotInteractionHandlers(
+      coordinator,
+      renderer,
+      subscriberId,
+      config,
+      setActiveTooltip,
+      { shouldSync },
+      draggingRef,
+    );
+
+  usePlotPanelSettings(config, saveConfig, focusedPath);
+  useSubscriptions(config, subscriberId);
+  useGlobalSync(coordinator, setCanReset, { shouldSync }, subscriberId);
+  usePanning(canvasDiv, coordinator, draggingRef);
+  const { colorsByDatasetIndex, labelsByDatasetIndex, datasetsBuilder } = usePlotDataHandling(
+    config,
+    globalVariables,
+  );
 
   useEffect(() => {
     setMessagePathDropConfig({
@@ -91,44 +119,6 @@ export function Plot(props: PlotProps): React.JSX.Element {
       },
     });
   }, [saveConfig, setMessagePathDropConfig]);
-
-  // When true the user can reset the plot back to the original view
-  const [canReset, setCanReset] = useState(false);
-
-  const [activeTooltip, setActiveTooltip] = useState<TooltipStateSetter>();
-
-  const isMounted = useMountedState();
-  const [focusedPath, setFocusedPath] = useState<undefined | string[]>(undefined);
-  const [subscriberId] = useState(() => uuidv4());
-  const [canvasDiv, setCanvasDiv] = useState<HTMLDivElement | ReactNull>(ReactNull);
-  const [coordinator, setCoordinator] = useState<PlotCoordinator | undefined>(undefined);
-  const shouldSync = config.xAxisVal === "timestamp" && config.isSynced;
-  const renderer = useRenderer(canvasDiv, theme);
-
-  const { onMouseMove, onMouseOut, onResetView, onWheel, onClick } = useHoverHandlers(
-    coordinator,
-    renderer,
-    subscriberId,
-    config,
-    setActiveTooltip,
-    { shouldSync },
-    draggingRef,
-  );
-
-  usePlotPanelSettings(config, saveConfig, focusedPath);
-  useSubscriptions(config, subscriberId);
-  useGlobalSync(coordinator, setCanReset, { shouldSync }, subscriberId);
-  usePanning(canvasDiv, coordinator, draggingRef);
-
-  const onClickPath = useCallback((index: number) => {
-    setFocusedPath(["paths", String(index)]);
-  }, []);
-
-  const getMessagePipelineState = useMessagePipelineGetter();
-
-  const subscribeMessagePipeline = useMessagePipelineSubscribe();
-
-  const { globalVariables } = useGlobalVariables();
 
   const getPanelContextMenuItems = useCallback(() => {
     const items: PanelContextMenuItem[] = [
@@ -169,44 +159,8 @@ export function Plot(props: PlotProps): React.JSX.Element {
     return unsub;
   }, [coordinator, getMessagePipelineState, subscribeMessagePipeline]);
 
-  const datasetsBuilder = useMemo(() => {
-    switch (xAxisMode) {
-      case "timestamp":
-        return new TimestampDatasetsBuilder();
-      case "index":
-        return new IndexDatasetsBuilder();
-      case "custom":
-        return new CustomDatasetsBuilder();
-      case "currentCustom":
-        return new CurrentCustomDatasetsBuilder();
-      default:
-        throw new Error(`unsupported mode: ${xAxisMode}`);
-    }
-  }, [xAxisMode]);
-
   useEffect(() => {
-    if (
-      datasetsBuilder instanceof CurrentCustomDatasetsBuilder ||
-      datasetsBuilder instanceof CustomDatasetsBuilder
-    ) {
-      if (!xAxisPath?.value) {
-        datasetsBuilder.setXPath(undefined);
-        return;
-      }
-
-      const parsed = parseMessagePath(xAxisPath.value);
-      if (!parsed) {
-        datasetsBuilder.setXPath(undefined);
-        return;
-      }
-
-      datasetsBuilder.setXPath(fillInGlobalVariablesInPath(parsed, globalVariables));
-    }
-  }, [datasetsBuilder, globalVariables, xAxisPath]);
-
-  useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition, @typescript-eslint/strict-boolean-expressions
-    if (!renderer || !datasetsBuilder || !canvasDiv) {
+    if (!renderer || !canvasDiv) {
       return;
     }
 
@@ -237,22 +191,6 @@ export function Plot(props: PlotProps): React.JSX.Element {
       plotCoordinator.destroy();
     };
   }, [canvasDiv, datasetsBuilder, renderer]);
-
-  const { colorsByDatasetIndex, labelsByDatasetIndex } = useMemo(() => {
-    const labels: Record<string, string> = {};
-    const colors: Record<string, string> = {};
-
-    for (let idx = 0; idx < config.paths.length; ++idx) {
-      const item = config.paths[idx]!;
-      labels[idx] = item.label ?? item.value;
-      colors[idx] = getLineColor(item.color, idx);
-    }
-
-    return {
-      colorsByDatasetIndex: colors,
-      labelsByDatasetIndex: labels,
-    };
-  }, [config.paths]);
 
   const numSeries = config.paths.length;
   const tooltipContent = useMemo(() => {

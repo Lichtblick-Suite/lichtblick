@@ -5,6 +5,10 @@ import { Chart, ChartDataset, ScatterDataPoint } from "chart.js";
 
 import { TimeBasedChartTooltipData } from "@lichtblick/suite-base/components/TimeBasedChart/TimeBasedChartTooltipContent";
 import type { PlotCoordinator } from "@lichtblick/suite-base/panels/Plot/PlotCoordinator";
+import { CurrentCustomDatasetsBuilder } from "@lichtblick/suite-base/panels/Plot/builders/CurrentCustomDatasetsBuilder";
+import { CustomDatasetsBuilder } from "@lichtblick/suite-base/panels/Plot/builders/CustomDatasetsBuilder";
+import { IndexDatasetsBuilder } from "@lichtblick/suite-base/panels/Plot/builders/IndexDatasetsBuilder";
+import { TimestampDatasetsBuilder } from "@lichtblick/suite-base/panels/Plot/builders/TimestampDatasetsBuilder";
 import { PlotConfig } from "@lichtblick/suite-base/panels/Plot/config";
 import { Bounds1D } from "@lichtblick/suite-base/types/Bounds";
 import { SaveConfig } from "@lichtblick/suite-base/types/panels";
@@ -114,6 +118,8 @@ export type UseHoverHandlersHook = {
   onWheel: (event: React.WheelEvent<HTMLElement>) => void;
   onResetView: () => void;
   onClick: (event: React.MouseEvent<HTMLElement>) => void;
+  onClickPath: (index: number) => void;
+  focusedPath: string[] | undefined;
 };
 
 export type TooltipStateSetter = {
@@ -135,4 +141,14 @@ export type VerticalBarsProps = {
   coordinator?: PlotCoordinator;
   hoverComponentId: string;
   xAxisIsPlaybackTime: boolean;
+};
+
+export type UsePlotDataHandling = {
+  colorsByDatasetIndex: Record<string, string>;
+  labelsByDatasetIndex: Record<string, string>;
+  datasetsBuilder:
+    | TimestampDatasetsBuilder
+    | IndexDatasetsBuilder
+    | CustomDatasetsBuilder
+    | CurrentCustomDatasetsBuilder;
 };

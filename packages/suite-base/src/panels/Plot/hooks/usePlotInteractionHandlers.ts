@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: Copyright (C) 2023-2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)<lichtblick@bmwgroup.com>
 // SPDX-License-Identifier: MPL-2.0
 
-import { useCallback, useRef, useMemo, MutableRefObject } from "react";
+import { useCallback, useRef, useMemo, MutableRefObject, useState } from "react";
 import { useMountedState } from "react-use";
 
 import { debouncePromise } from "@lichtblick/den/async";
@@ -20,12 +20,12 @@ import { PlotConfig } from "@lichtblick/suite-base/panels/Plot/config";
 import {
   ElementAtPixelArgs,
   TooltipStateSetter,
-  UseHoverHandlersHook,
+  UseHoverHandlersHook as UsePlotInteractionHandlers,
 } from "@lichtblick/suite-base/panels/Plot/types";
 
 const selectSetGlobalBounds = (store: TimelineInteractionStateStore) => store.setGlobalBounds;
 
-const useHoverHandlers = (
+const usePlotInteractionHandlers = (
   coordinator: PlotCoordinator | undefined,
   renderer: OffscreenCanvasRenderer | undefined,
   subscriberId: string,
@@ -33,7 +33,7 @@ const useHoverHandlers = (
   setActiveTooltip: (data: TooltipStateSetter | undefined) => void,
   { shouldSync }: { shouldSync: boolean },
   draggingRef: MutableRefObject<boolean>,
-): UseHoverHandlersHook => {
+): UsePlotInteractionHandlers => {
   const setHoverValue = useSetHoverValue();
   const clearHoverValue = useClearHoverValue();
   const isMounted = useMountedState();
@@ -41,6 +41,7 @@ const useHoverHandlers = (
   const { xAxisVal: xAxisMode } = config;
   const setGlobalBounds = useTimelineInteractionState(selectSetGlobalBounds);
   const getMessagePipelineState = useMessagePipelineGetter();
+  const [focusedPath, setFocusedPath] = useState<undefined | string[]>(undefined);
 
   const buildTooltip = useMemo(() => {
     return debouncePromise(async (args: ElementAtPixelArgs) => {
@@ -186,13 +187,19 @@ const useHoverHandlers = (
     [coordinator, draggingRef, getMessagePipelineState, xAxisMode],
   );
 
+  const onClickPath = useCallback((index: number) => {
+    setFocusedPath(["paths", String(index)]);
+  }, []);
+
   return {
     onMouseMove,
     onMouseOut,
     onWheel,
     onResetView,
     onClick,
+    onClickPath,
+    focusedPath,
   };
 };
 
-export default useHoverHandlers;
+export default usePlotInteractionHandlers;
