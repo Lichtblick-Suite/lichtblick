@@ -13,22 +13,21 @@ import { PlotCoordinator } from "@lichtblick/suite-base/panels/Plot/PlotCoordina
 
 import usePanning from "./usePanning"; // Adjust the import path as needed
 
-jest.mock("hammerjs");
-
-const panmove = "panmove";
-const panstart = "panstart";
-const panend = "panend";
-const mockHammerManager = {
-  add: jest.fn(),
-  on: jest.fn(),
-  destroy: jest.fn(),
-};
-Hammer.Manager = jest.fn().mockImplementation(() => mockHammerManager);
-
 describe("usePanning", () => {
   let canvasDiv: HTMLDivElement;
   let coordinator: PlotCoordinator;
   let draggingRef: React.MutableRefObject<boolean>;
+  const panmove = "panmove";
+  const panstart = "panstart";
+  const panend = "panend";
+  const mockHammerManager = {
+    add: jest.fn(),
+    on: jest.fn(),
+    destroy: jest.fn(),
+  };
+
+  jest.mock("hammerjs");
+  Hammer.Manager = jest.fn().mockImplementation(() => mockHammerManager);
 
   beforeEach(() => {
     canvasDiv = document.createElement("div");
@@ -102,9 +101,7 @@ describe("usePanning", () => {
       usePanning(canvasDiv, coordinator, draggingRef);
     });
 
-    const panmoveHandler = mockHammerManager.on.mock.calls.find(
-      ([event]) => event === panmove,
-    )[1];
+    const panmoveHandler = mockHammerManager.on.mock.calls.find(([event]) => event === panmove)[1];
 
     const mockEvent = {
       deltaX: 20,
