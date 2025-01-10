@@ -6,10 +6,10 @@ import { useEffect, useState } from "react";
 
 import { OffscreenCanvasRenderer } from "../OffscreenCanvasRenderer";
 
-export function useRenderer(
+const useRenderer = (
   canvasDiv: HTMLDivElement | ReactNull,
   theme: Theme,
-): OffscreenCanvasRenderer | undefined {
+): OffscreenCanvasRenderer | undefined => {
   const [renderer, setRenderer] = useState<OffscreenCanvasRenderer | undefined>(undefined);
 
   useEffect(() => {
@@ -39,4 +39,6 @@ export function useRenderer(
   }, [canvasDiv, theme]);
 
   return renderer;
-}
+};
+
+export default useRenderer;
