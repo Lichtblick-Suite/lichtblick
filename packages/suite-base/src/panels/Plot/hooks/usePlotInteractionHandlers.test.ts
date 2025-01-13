@@ -2,6 +2,7 @@
 
 // SPDX-FileCopyrightText: Copyright (C) 2023-2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)<lichtblick@bmwgroup.com>
 // SPDX-License-Identifier: MPL-2.0
+/* eslint-enable @typescript-eslint/unbound-method */
 
 import { renderHook, act } from "@testing-library/react";
 import { MutableRefObject } from "react";
@@ -89,7 +90,7 @@ describe("usePlotInteractionHandlers", () => {
               top: 50,
             })),
           },
-        } as any);
+        } as unknown as React.MouseEvent<HTMLElement>);
       });
 
       expect(mockCoordinator.getXValueAtPixel).toHaveBeenCalledWith(50); // 100 - 50
@@ -146,7 +147,7 @@ describe("usePlotInteractionHandlers", () => {
           currentTarget: {
             getBoundingClientRect: jest.fn(() => boundingRect),
           },
-        } as any);
+        } as unknown as React.WheelEvent<HTMLElement>);
       });
 
       expect(mockCoordinator.addInteractionEvent).toHaveBeenCalledWith({
