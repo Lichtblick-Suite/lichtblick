@@ -77,28 +77,33 @@ describe("usePlotInteractionHandlers", () => {
     it("sets hover value correctly", () => {
       const mockBuildTooltip = jest.fn();
       (debouncePromise as jest.Mock).mockReturnValue(mockBuildTooltip);
-
+      const mockClientX = BasicBuilder.number();
+      const mockClientY = BasicBuilder.number();
+      const mockLeft = BasicBuilder.number();
+      const mockTop = BasicBuilder.number();
       const { result } = setup();
+      const expectedCanvasX = mockClientX - mockLeft;
+      const expectedCanvasY = mockClientY - mockTop;
 
       act(() => {
         result.current.onMouseMove({
-          clientX: 100,
-          clientY: 100,
+          clientX: mockClientX,
+          clientY: mockClientY,
           currentTarget: {
             getBoundingClientRect: jest.fn(() => ({
-              left: 50,
-              top: 50,
+              left: mockLeft,
+              top: mockTop,
             })),
           },
         } as unknown as React.MouseEvent<HTMLElement>);
       });
 
-      expect(mockCoordinator.getXValueAtPixel).toHaveBeenCalledWith(50); // 100 - 50
+      expect(mockCoordinator.getXValueAtPixel).toHaveBeenCalledWith(expectedCanvasX);
       expect(mockBuildTooltip).toHaveBeenCalledWith({
-        clientX: 100,
-        clientY: 100,
-        canvasX: 50,
-        canvasY: 50,
+        clientX: mockClientX,
+        clientY: mockClientY,
+        canvasX: expectedCanvasX,
+        canvasY: expectedCanvasY,
       });
       expect(mockSetHoverValue).toHaveBeenCalledWith({
         componentId: mockSubscriberId,
@@ -106,6 +111,7 @@ describe("usePlotInteractionHandlers", () => {
         type: "PLAYBACK_SECONDS",
       });
     });
+
   });
 
   describe("onMouseOut", () => {
@@ -119,6 +125,16 @@ describe("usePlotInteractionHandlers", () => {
       expect(mockSetActiveTooltip).toHaveBeenCalledWith(undefined);
       expect(mockClearHoverValue).toHaveBeenCalledWith(mockSubscriberId);
     });
+
+    it("sets mousePresentRef to false", () => {
+      const { result } = setup();
+
+      act(() => {
+        result.current.onMouseOut();
+      });
+
+      expect(mockDraggingRef.current).toBe(false);
+    });
   });
 
   describe("onWheel", () => {
@@ -128,13 +144,9 @@ describe("usePlotInteractionHandlers", () => {
       const boundingRect = {
         left: 5,
         top: 5,
-        width: 100,
-        height: 100,
         toJSON: jest.fn().mockReturnValue({
           left: 5,
           top: 5,
-          width: 100,
-          height: 100,
         }),
       };
 
@@ -172,5 +184,6 @@ describe("usePlotInteractionHandlers", () => {
 
       expect(mockCoordinator.resetBounds).toHaveBeenCalled();
     });
+
   });
 });
