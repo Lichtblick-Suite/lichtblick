@@ -2,7 +2,7 @@
 
 // SPDX-FileCopyrightText: Copyright (C) 2023-2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)<lichtblick@bmwgroup.com>
 // SPDX-License-Identifier: MPL-2.0
-/* eslint-enable @typescript-eslint/unbound-method */
+/* eslint-disable @typescript-eslint/unbound-method */
 
 import { renderHook, act } from "@testing-library/react";
 import { MutableRefObject } from "react";
