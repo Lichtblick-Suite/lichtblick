@@ -189,11 +189,7 @@ const Plot = (props: PlotProps): React.JSX.Element => {
   }, [activeTooltip, colorsByDatasetIndex, labelsByDatasetIndex, numSeries]);
 
   const hoveredValuesBySeriesIndex = useMemo(() => {
-    if (!config.showPlotValuesInLegend) {
-      return;
-    }
-
-    if (!activeTooltip?.data) {
+    if (!config.showPlotValuesInLegend || !activeTooltip?.data) {
       return;
     }
 
