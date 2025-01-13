@@ -3,20 +3,19 @@
 // SPDX-FileCopyrightText: Copyright (C) 2023-2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)<lichtblick@bmwgroup.com>
 // SPDX-License-Identifier: MPL-2.0
 
-/* eslint-disable @typescript-eslint/unbound-method */
-
 import { renderHook } from "@testing-library/react";
 import Hammer from "hammerjs";
 import { act } from "react";
 
 import { PlotCoordinator } from "@lichtblick/suite-base/panels/Plot/PlotCoordinator";
 
-import usePanning from "./usePanning"; // Adjust the import path as needed
+import usePanning from "./usePanning";
 
 describe("usePanning", () => {
   let canvasDiv: HTMLDivElement;
   let coordinator: PlotCoordinator;
   let draggingRef: React.MutableRefObject<boolean>;
+  let spy: jest.SpyInstance;
   const panmove = "panmove";
   const panstart = "panstart";
   const panend = "panend";
@@ -41,12 +40,12 @@ describe("usePanning", () => {
     } as unknown as PlotCoordinator;
 
     draggingRef = { current: false };
-
-    jest.clearAllMocks();
+    spy = jest.spyOn(coordinator, "addInteractionEvent");
   });
 
   afterEach(() => {
     document.body.removeChild(canvasDiv);
+    jest.clearAllMocks();
   });
 
   it("should initialize Hammer Manager and set up event listeners", () => {
@@ -86,7 +85,7 @@ describe("usePanning", () => {
     });
 
     expect(draggingRef.current).toBe(true);
-    expect(coordinator.addInteractionEvent).toHaveBeenCalledWith({
+    expect(spy).toHaveBeenCalledWith({
       type: panstart,
       cancelable: false,
       deltaY: 30,
@@ -117,7 +116,7 @@ describe("usePanning", () => {
       panmoveHandler(mockEvent);
     });
 
-    expect(coordinator.addInteractionEvent).toHaveBeenCalledWith({
+    expect(spy).toHaveBeenCalledWith({
       type: panmove,
       cancelable: false,
       deltaY: 10,
@@ -149,7 +148,7 @@ describe("usePanning", () => {
       panendHandler(mockEvent);
     });
 
-    expect(coordinator.addInteractionEvent).toHaveBeenCalledWith({
+    expect(spy).toHaveBeenCalledWith({
       type: panend,
       cancelable: false,
       deltaY: 40,
@@ -182,6 +181,6 @@ describe("usePanning", () => {
     });
 
     expect(Hammer.Manager).not.toHaveBeenCalled();
-    expect(coordinator.addInteractionEvent).not.toHaveBeenCalled();
+    expect(spy).not.toHaveBeenCalled();
   });
 });
