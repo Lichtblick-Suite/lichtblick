@@ -111,7 +111,6 @@ describe("usePlotInteractionHandlers", () => {
         type: "PLAYBACK_SECONDS",
       });
     });
-
   });
 
   describe("onMouseOut", () => {
@@ -184,5 +183,28 @@ describe("usePlotInteractionHandlers", () => {
 
       expect(mockCoordinator.resetBounds).toHaveBeenCalled();
     });
+  });
+  it("should not call setZoomMode if not mounted", () => {
+    const { result, unmount } = setup();
+
+    unmount();
+
+    act(() => {
+      result.current.onWheel({
+        deltaX: 1,
+        deltaY: -1,
+        clientX: 10,
+        clientY: 20,
+        currentTarget: {
+          getBoundingClientRect: jest.fn(() => ({
+            left: BasicBuilder.number(),
+            top: BasicBuilder.number(),
+            toJSON: jest.fn(), // Add this line to mock toJSON method
+          })),
+        },
+      } as unknown as React.WheelEvent<HTMLElement>);
+    });
+
+    expect(mockCoordinator.setZoomMode).not.toHaveBeenCalled();
   });
 });
