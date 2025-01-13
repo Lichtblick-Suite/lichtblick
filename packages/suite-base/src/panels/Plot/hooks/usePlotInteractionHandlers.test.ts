@@ -184,6 +184,5 @@ describe("usePlotInteractionHandlers", () => {
 
       expect(mockCoordinator.resetBounds).toHaveBeenCalled();
     });
-
   });
 });
