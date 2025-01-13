@@ -91,42 +91,97 @@ describe("usePlotInteractionHandlers", () => {
     );
   };
 
-  describe("onMouseMove", () => {
-    it("sets hover value correctly", () => {
-      const mockBuildTooltip = jest.fn();
-      (debouncePromise as jest.Mock).mockReturnValue(mockBuildTooltip);
-      const mockClientX = BasicBuilder.number();
-      const mockClientY = BasicBuilder.number();
-      const mockLeft = BasicBuilder.number();
-      const mockTop = BasicBuilder.number();
-      const { result } = setup();
-      const expectedCanvasX = mockClientX - mockLeft;
-      const expectedCanvasY = mockClientY - mockTop;
+  const mockBuildTooltip = jest.fn();
+  const mockClientX = BasicBuilder.number();
+  const mockClientY = BasicBuilder.number();
+  const mockLeft = BasicBuilder.number();
+  const mockTop = BasicBuilder.number();
+  const expectedCanvasX = mockClientX - mockLeft;
+  const expectedCanvasY = mockClientY - mockTop;
 
-      act(() => {
-        result.current.onMouseMove({
-          clientX: mockClientX,
-          clientY: mockClientY,
-          currentTarget: {
-            getBoundingClientRect: jest.fn(() => ({
-              left: mockLeft,
-              top: mockTop,
-            })),
-          },
-        } as unknown as React.MouseEvent<HTMLElement>);
-      });
-
-      expect(mockCoordinator.getXValueAtPixel).toHaveBeenCalledWith(expectedCanvasX);
-      expect(mockBuildTooltip).toHaveBeenCalledWith({
+  const triggerMouseMove = (result: any) => {
+    act(() => {
+      result.current.onMouseMove({
         clientX: mockClientX,
         clientY: mockClientY,
-        canvasX: expectedCanvasX,
-        canvasY: expectedCanvasY,
+        currentTarget: {
+          getBoundingClientRect: jest.fn(() => ({
+            left: mockLeft,
+            top: mockTop,
+          })),
+        },
+      } as unknown as React.MouseEvent<HTMLElement>);
+    });
+  };
+
+  beforeEach(() => {
+    (debouncePromise as jest.Mock).mockReturnValue(mockBuildTooltip);
+  });
+
+  describe("onMouseMove", () => {
+    describe("when xAxisMode is timestamp", () => {
+      it("sets hover value correctly", () => {
+        const { result } = setup();
+        triggerMouseMove(result);
+
+        expect(result.current.onMouseMove).toBeDefined();
+        expect(mockCoordinator.getXValueAtPixel).toHaveBeenCalledWith(expectedCanvasX);
+        expect(mockBuildTooltip).toHaveBeenCalledWith({
+          clientX: mockClientX,
+          clientY: mockClientY,
+          canvasX: expectedCanvasX,
+          canvasY: expectedCanvasY,
+        });
+        expect(mockSetHoverValue).toHaveBeenCalledWith({
+          componentId: mockSubscriberId,
+          value: expect.any(Number),
+          type: "PLAYBACK_SECONDS",
+        });
       });
-      expect(mockSetHoverValue).toHaveBeenCalledWith({
-        componentId: mockSubscriberId,
-        value: expect.any(Number),
-        type: "PLAYBACK_SECONDS",
+    });
+
+    describe("when xAxisMode is not timestamp", () => {
+      it("sets hover value with type OTHER", () => {
+        const mockConfigWithOtherXAxisMode = {
+          ...mockConfig,
+          xAxisVal: "other",
+        } as unknown as PlotConfig;
+        const { result } = renderHook(() =>
+          usePlotInteractionHandlers(
+            mockCoordinator,
+            mockRenderer,
+            mockSubscriberId,
+            mockConfigWithOtherXAxisMode,
+            mockSetActiveTooltip,
+            { shouldSync: false },
+            mockDraggingRef,
+          ),
+        );
+        triggerMouseMove(result);
+
+        expect(result.current.onMouseMove).toBeDefined();
+        expect(mockCoordinator.getXValueAtPixel).toHaveBeenCalledWith(expectedCanvasX);
+        expect(mockBuildTooltip).toHaveBeenCalledWith({
+          clientX: mockClientX,
+          clientY: mockClientY,
+          canvasX: expectedCanvasX,
+          canvasY: expectedCanvasY,
+        });
+        expect(mockSetHoverValue).toHaveBeenCalledWith({
+          componentId: mockSubscriberId,
+          value: expect.any(Number),
+          type: "OTHER",
+        });
+      });
+    });
+
+    describe("when coordinator is not provided", () => {
+      it("should return early", () => {
+        const { result } = setupWithoutCoordinator();
+        triggerMouseMove(result);
+
+        expect(mockCoordinator.getXValueAtPixel).not.toHaveBeenCalled();
+        expect(mockSetHoverValue).not.toHaveBeenCalled();
       });
     });
   });
@@ -155,18 +210,7 @@ describe("usePlotInteractionHandlers", () => {
   });
 
   describe("onWheel", () => {
-    it("handles wheel event correctly", () => {
-      const { result } = setup();
-
-      const boundingRect = {
-        left: 5,
-        top: 5,
-        toJSON: jest.fn().mockReturnValue({
-          left: 5,
-          top: 5,
-        }),
-      };
-
+    const triggerWheel = (result: any, boundingRect: any) => {
       act(() => {
         result.current.onWheel({
           deltaX: 1,
@@ -178,6 +222,20 @@ describe("usePlotInteractionHandlers", () => {
           },
         } as unknown as React.WheelEvent<HTMLElement>);
       });
+    };
+
+    it("handles wheel event correctly", () => {
+      const { result } = setup();
+      const boundingRect = {
+        left: 5,
+        top: 5,
+        toJSON: jest.fn().mockReturnValue({
+          left: 5,
+          top: 5,
+        }),
+      };
+
+      triggerWheel(result, boundingRect);
 
       expect(mockCoordinator.addInteractionEvent).toHaveBeenCalledWith({
         type: "wheel",
@@ -189,94 +247,84 @@ describe("usePlotInteractionHandlers", () => {
         boundingClientRect: boundingRect.toJSON(),
       });
     });
+
+    describe("when coordinator is not provided", () => {
+      it("should return early", () => {
+        const { result } = setupWithoutCoordinator();
+        const boundingRect = {
+          left: BasicBuilder.number(),
+          top: BasicBuilder.number(),
+        };
+
+        triggerWheel(result, boundingRect);
+
+        expect(mockCoordinator.addInteractionEvent).not.toHaveBeenCalled();
+      });
+    });
   });
 
   describe("onResetView", () => {
     it("resets coordinator bounds", () => {
       const { result } = setup();
-
       act(() => {
         result.current.onResetView();
       });
 
       expect(mockCoordinator.resetBounds).toHaveBeenCalled();
     });
-  });
 
-  describe("when coordinator is not provided", () => {
-    it("should return early in onMouseMove", () => {
-      const { result } = setupWithoutCoordinator();
+    describe("when coordinator is not provided", () => {
+      it("should return early", () => {
+        const { result } = setupWithoutCoordinator();
 
-      act(() => {
-        result.current.onMouseMove({
-          clientX: BasicBuilder.number(),
-          clientY: BasicBuilder.number(),
-          currentTarget: {
-            getBoundingClientRect: jest.fn(() => ({
-              left: BasicBuilder.number(),
-              top: BasicBuilder.number(),
-            })),
-          },
-        } as unknown as React.MouseEvent<HTMLElement>);
+        act(() => {
+          result.current.onResetView();
+        });
+
+        expect(mockCoordinator.resetBounds).not.toHaveBeenCalled();
       });
-
-      expect(mockCoordinator.getXValueAtPixel).not.toHaveBeenCalled();
-      expect(mockSetHoverValue).not.toHaveBeenCalled();
-    });
-
-    it("should return early in onWheel", () => {
-      const { result } = setupWithoutCoordinator();
-
-      act(() => {
-        result.current.onWheel({
-          deltaX: 1,
-          deltaY: -1,
-          clientX: 10,
-          clientY: 20,
-          currentTarget: {
-            getBoundingClientRect: jest.fn(() => ({
-              left: BasicBuilder.number(),
-              top: BasicBuilder.number(),
-            })),
-          },
-        } as unknown as React.WheelEvent<HTMLElement>);
-      });
-
-      expect(mockCoordinator.addInteractionEvent).not.toHaveBeenCalled();
-    });
-
-    it("should return early in onResetView", () => {
-      const { result } = setupWithoutCoordinator();
-
-      act(() => {
-        result.current.onResetView();
-      });
-
-      expect(mockCoordinator.resetBounds).not.toHaveBeenCalled();
     });
   });
 
-  it("should not call setZoomMode if not mounted", () => {
-    const { result, unmount } = setup();
+  describe("key handlers", () => {
+    it("sets zoom mode to 'y' on key down 'v'", () => {
+      const { result } = setup();
 
-    unmount();
+      act(() => {
+        result.current.keyDownHandlers.v();
+      });
 
-    act(() => {
-      result.current.onWheel({
-        deltaX: 1,
-        deltaY: -1,
-        clientX: 10,
-        clientY: 20,
-        currentTarget: {
-          getBoundingClientRect: jest.fn(() => ({
-            left: BasicBuilder.number(),
-            top: BasicBuilder.number(),
-            toJSON: jest.fn(), // Add this line to mock toJSON method
-          })),
-        },
-      } as unknown as React.WheelEvent<HTMLElement>);
+      expect(mockCoordinator.setZoomMode).toHaveBeenCalledWith("y");
     });
 
-    expect(mockCoordinator.setZoomMode).not.toHaveBeenCalled();
+    it("sets zoom mode to 'xy' on key down 'b'", () => {
+      const { result } = setup();
+
+      act(() => {
+        result.current.keyDownHandlers.b();
+      });
+
+      expect(mockCoordinator.setZoomMode).toHaveBeenCalledWith("xy");
+    });
+
+    it("sets zoom mode to 'x' on key up 'v'", () => {
+      const { result } = setup();
+
+      act(() => {
+        result.current.keyUphandlers.v();
+      });
+
+      expect(mockCoordinator.setZoomMode).toHaveBeenCalledWith("x");
+    });
+
+    it("sets zoom mode to 'x' on key up 'b'", () => {
+      const { result } = setup();
+
+      act(() => {
+        result.current.keyUphandlers.b();
+      });
+
+      expect(mockCoordinator.setZoomMode).toHaveBeenCalledWith("x");
+    });
   });
 });
