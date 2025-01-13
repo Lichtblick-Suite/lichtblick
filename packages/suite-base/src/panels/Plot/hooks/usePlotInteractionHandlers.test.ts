@@ -73,6 +73,24 @@ describe("usePlotInteractionHandlers", () => {
     );
   };
 
+  const setupWithoutCoordinator = () => {
+    jest.clearAllMocks();
+    (useSetHoverValue as jest.Mock).mockReturnValue(mockSetHoverValue);
+    (useClearHoverValue as jest.Mock).mockReturnValue(mockClearHoverValue);
+
+    return renderHook(() =>
+      usePlotInteractionHandlers(
+        undefined,
+        mockRenderer,
+        mockSubscriberId,
+        mockConfig,
+        mockSetActiveTooltip,
+        { shouldSync: false },
+        mockDraggingRef,
+      ),
+    );
+  };
+
   describe("onMouseMove", () => {
     it("sets hover value correctly", () => {
       const mockBuildTooltip = jest.fn();
@@ -184,6 +202,60 @@ describe("usePlotInteractionHandlers", () => {
       expect(mockCoordinator.resetBounds).toHaveBeenCalled();
     });
   });
+
+  describe("when coordinator is not provided", () => {
+    it("should return early in onMouseMove", () => {
+      const { result } = setupWithoutCoordinator();
+
+      act(() => {
+        result.current.onMouseMove({
+          clientX: BasicBuilder.number(),
+          clientY: BasicBuilder.number(),
+          currentTarget: {
+            getBoundingClientRect: jest.fn(() => ({
+              left: BasicBuilder.number(),
+              top: BasicBuilder.number(),
+            })),
+          },
+        } as unknown as React.MouseEvent<HTMLElement>);
+      });
+
+      expect(mockCoordinator.getXValueAtPixel).not.toHaveBeenCalled();
+      expect(mockSetHoverValue).not.toHaveBeenCalled();
+    });
+
+    it("should return early in onWheel", () => {
+      const { result } = setupWithoutCoordinator();
+
+      act(() => {
+        result.current.onWheel({
+          deltaX: 1,
+          deltaY: -1,
+          clientX: 10,
+          clientY: 20,
+          currentTarget: {
+            getBoundingClientRect: jest.fn(() => ({
+              left: BasicBuilder.number(),
+              top: BasicBuilder.number(),
+            })),
+          },
+        } as unknown as React.WheelEvent<HTMLElement>);
+      });
+
+      expect(mockCoordinator.addInteractionEvent).not.toHaveBeenCalled();
+    });
+
+    it("should return early in onResetView", () => {
+      const { result } = setupWithoutCoordinator();
+
+      act(() => {
+        result.current.onResetView();
+      });
+
+      expect(mockCoordinator.resetBounds).not.toHaveBeenCalled();
+    });
+  });
+
   it("should not call setZoomMode if not mounted", () => {
     const { result, unmount } = setup();
 
