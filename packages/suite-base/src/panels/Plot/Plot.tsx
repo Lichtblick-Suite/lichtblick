@@ -8,6 +8,7 @@
 import { Button, Tooltip, Fade, useTheme } from "@mui/material";
 import * as _ from "lodash-es";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { v4 as uuidv4 } from "uuid";
 
 import { Immutable } from "@lichtblick/suite";
@@ -50,6 +51,7 @@ const Plot = (props: PlotProps): React.JSX.Element => {
 
   const { classes } = useStyles();
   const theme = useTheme();
+  const { t } = useTranslation("plot");
 
   const { setMessagePathDropConfig } = usePanelContext();
   const draggingRef = useRef(false);
@@ -267,7 +269,7 @@ const Plot = (props: PlotProps): React.JSX.Element => {
               title="(shortcut: double-click)"
               onClick={onResetView}
             >
-              Reset view
+              {t("resetView")}
             </Button>
           </div>
         )}

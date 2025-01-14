@@ -29,6 +29,11 @@ jest.mock("@lichtblick/suite-base/panels/Plot/VerticalBars", () => ({
 jest.mock("@lichtblick/suite-base/hooks/useGlobalVariables");
 jest.mock("@lichtblick/suite-base/panels/Plot/hooks/usePlotDataHandling");
 jest.mock("@lichtblick/suite-base/panels/Plot/hooks/useRenderer");
+jest.mock("react-i18next", () => ({
+  useTranslation: () => ({
+    t: (key: string) => key,
+  }),
+}));
 
 describe("Plot Component", () => {
   beforeEach(() => {
