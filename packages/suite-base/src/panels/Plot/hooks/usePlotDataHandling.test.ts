@@ -18,12 +18,14 @@ import { IndexDatasetsBuilder } from "../builders/IndexDatasetsBuilder";
 jest.mock("@lichtblick/message-path", () => ({
   parseMessagePath: jest.fn(),
 }));
+
 jest.mock(
   "@lichtblick/suite-base/components/MessagePathSyntax/useCachedGetMessagePathDataItems",
   () => ({
     fillInGlobalVariablesInPath: jest.fn(),
   }),
 );
+
 jest.mock("@lichtblick/suite-base/util/plotColors", () => ({
   getLineColor: jest.fn(
     (color: string | undefined, idx: number) => color ?? `default-color-${idx}`,

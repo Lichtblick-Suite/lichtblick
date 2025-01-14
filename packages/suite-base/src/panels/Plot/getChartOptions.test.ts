@@ -5,7 +5,7 @@ import { ChartOptions } from "chart.js";
 
 import { fontMonospace } from "@lichtblick/theme";
 
-import { getChartOptions } from "./ChartOptions";
+import { getChartOptions } from "./getChartOptions";
 
 describe("getChartOptions", () => {
   const mockDevicePixelRatio = 2;

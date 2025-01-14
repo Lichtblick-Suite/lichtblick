@@ -3,7 +3,7 @@
 
 import EventEmitter from "eventemitter3";
 
-import { addEventListener, removeEventListener } from "./EventHandler";
+import { addEventListener, removeEventListener } from "./eventHandler";
 
 describe("EventHandler", () => {
   let emitter: EventEmitter;
