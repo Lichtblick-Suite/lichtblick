@@ -15,6 +15,7 @@ import {
 import { OffscreenCanvasRenderer } from "@lichtblick/suite-base/panels/Plot/OffscreenCanvasRenderer";
 import { PlotCoordinator } from "@lichtblick/suite-base/panels/Plot/PlotCoordinator";
 import { PlotConfig } from "@lichtblick/suite-base/panels/Plot/config";
+import { HoverElement } from "@lichtblick/suite-base/panels/Plot/types";
 import BasicBuilder from "@lichtblick/suite-base/testing/builders/BasicBuilder";
 
 import usePlotInteractionHandlers from "./usePlotInteractionHandlers";
@@ -196,10 +197,35 @@ describe("usePlotInteractionHandlers", () => {
       expect(mockSetActiveTooltip).toHaveBeenCalledTimes(1);
     });
 
+    it("set active tooltip if tooltip items are found with correct data", async () => {
+      const elements: HoverElement[] = [{ configIndex: BasicBuilder.number(), data: { x: BasicBuilder.number(), y: BasicBuilder.number(), value: BasicBuilder.number() } }];
+      const expectedResult: any = { x: mockClientX, y: mockClientY, data: [{ configIndex: elements[0]!.configIndex, value: elements[0]!.data.value }] };
+      (debouncePromise as jest.Mock).mockImplementationOnce((fn) => fn);
+      (mockRenderer.getElementsAtPixel as jest.Mock).mockReturnValueOnce(elements);
+
+      const { result } = setup();
+      await triggerMouseMove(result);
+
+      expect(mockSetActiveTooltip).toHaveBeenCalledWith(expectedResult);
+      expect(mockSetActiveTooltip).toHaveBeenCalledTimes(1);
+    });
+
+    it("set active tooltip if tooltip items are found when having multiple hover elements", async () => {
+      const elements = BasicBuilder.multiple<HoverElement>(() => ({ configIndex: BasicBuilder.number(), data: { x: BasicBuilder.number(), y: BasicBuilder.number(), value: BasicBuilder.number() } }));
+      const expectedResult: any = { x: mockClientX, y: mockClientY, data: elements.map((element) => ({ configIndex: element.configIndex, value: element.data.value })) };
+      (debouncePromise as jest.Mock).mockImplementationOnce((fn) => fn);
+      (mockRenderer.getElementsAtPixel as jest.Mock).mockReturnValueOnce(elements);
+
+      const { result } = setup();
+      await triggerMouseMove(result);
+
+      expect(mockSetActiveTooltip).toHaveBeenCalledWith(expectedResult);
+      expect(mockSetActiveTooltip).toHaveBeenCalledTimes(1);
+    });
+
     describe("when using actual debouncePromise", () => {
       it("calls debouncePromise with correct arguments", async () => {
         const { result } = setup();
-
         await triggerMouseMove(result);
 
         expect(mockCoordinator.getXValueAtPixel).toHaveBeenCalledWith(expectedCanvasX);
@@ -211,8 +237,8 @@ describe("usePlotInteractionHandlers", () => {
       });
 
       it("clears active tooltip if no tooltip items are found", async () => {
-        (debouncePromise as jest.Mock).mockImplementationOnce((fn) => fn);
         (mockRenderer.getElementsAtPixel as jest.Mock).mockReturnValueOnce([]);
+        (debouncePromise as jest.Mock).mockImplementationOnce((fn) => fn);
 
         const { result } = setup();
         await triggerMouseMove(result);
@@ -222,14 +248,24 @@ describe("usePlotInteractionHandlers", () => {
       });
 
       it("does not clear active tooltip if tooltip items are found", async () => {
-        const { result } = setup();
         (mockRenderer.getElementsAtPixel as jest.Mock).mockReturnValueOnce([]);
 
+        const { result } = setup();
         await triggerMouseMove(result);
 
         expect(mockSetActiveTooltip).not.toHaveBeenCalledWith(undefined);
         expect(mockSetHoverValue).toHaveBeenCalled();
       });
+    });
+
+    it("does not set active tooltip if isMounted is false", async () => {
+      (debouncePromise as jest.Mock).mockImplementationOnce((fn) => fn);
+      const { result, unmount } = setup();
+
+      unmount();
+      await triggerMouseMove(result);
+
+      expect(mockSetActiveTooltip).not.toHaveBeenCalled();
     });
   });
 
