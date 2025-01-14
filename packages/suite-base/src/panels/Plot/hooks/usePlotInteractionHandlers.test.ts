@@ -198,8 +198,21 @@ describe("usePlotInteractionHandlers", () => {
     });
 
     it("set active tooltip if tooltip items are found with correct data", async () => {
-      const elements: HoverElement[] = [{ configIndex: BasicBuilder.number(), data: { x: BasicBuilder.number(), y: BasicBuilder.number(), value: BasicBuilder.number() } }];
-      const expectedResult: any = { x: mockClientX, y: mockClientY, data: [{ configIndex: elements[0]!.configIndex, value: elements[0]!.data.value }] };
+      const elements: HoverElement[] = [
+        {
+          configIndex: BasicBuilder.number(),
+          data: {
+            x: BasicBuilder.number(),
+            y: BasicBuilder.number(),
+            value: BasicBuilder.number(),
+          },
+        },
+      ];
+      const expectedResult: any = {
+        x: mockClientX,
+        y: mockClientY,
+        data: [{ configIndex: elements[0]!.configIndex, value: elements[0]!.data.value }],
+      };
       (debouncePromise as jest.Mock).mockImplementationOnce((fn) => fn);
       (mockRenderer.getElementsAtPixel as jest.Mock).mockReturnValueOnce(elements);
 
@@ -211,8 +224,18 @@ describe("usePlotInteractionHandlers", () => {
     });
 
     it("set active tooltip if tooltip items are found when having multiple hover elements", async () => {
-      const elements = BasicBuilder.multiple<HoverElement>(() => ({ configIndex: BasicBuilder.number(), data: { x: BasicBuilder.number(), y: BasicBuilder.number(), value: BasicBuilder.number() } }));
-      const expectedResult: any = { x: mockClientX, y: mockClientY, data: elements.map((element) => ({ configIndex: element.configIndex, value: element.data.value })) };
+      const elements = BasicBuilder.multiple<HoverElement>(() => ({
+        configIndex: BasicBuilder.number(),
+        data: { x: BasicBuilder.number(), y: BasicBuilder.number(), value: BasicBuilder.number() },
+      }));
+      const expectedResult: any = {
+        x: mockClientX,
+        y: mockClientY,
+        data: elements.map((element) => ({
+          configIndex: element.configIndex,
+          value: element.data.value,
+        })),
+      };
       (debouncePromise as jest.Mock).mockImplementationOnce((fn) => fn);
       (mockRenderer.getElementsAtPixel as jest.Mock).mockReturnValueOnce(elements);
 
