@@ -76,11 +76,6 @@ const usePlotInteractionHandlers = (
         });
       }
 
-      if (tooltipItems.length === 0) {
-        setActiveTooltip(undefined);
-        return;
-      }
-
       setActiveTooltip({
         x: args.clientX,
         y: args.clientY,

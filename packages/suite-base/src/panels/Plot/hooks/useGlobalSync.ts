@@ -32,7 +32,7 @@ const useGlobalSync = (
   }, [coordinator, globalBounds, shouldSync, subscriberId]);
 
   useEffect(() => {
-    if (!coordinator || !shouldSync) {
+    if (!coordinator) {
       return;
     }
 

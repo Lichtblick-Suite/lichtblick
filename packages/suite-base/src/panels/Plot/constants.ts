@@ -3,6 +3,7 @@
 
 import { AnnotationOptions } from "chartjs-plugin-annotation";
 
+import { PlotConfig } from "@lichtblick/suite-base/panels/Plot/config";
 import { MathFunction } from "@lichtblick/suite-base/panels/Plot/mathFunctions";
 
 export const MATH_FUNCTIONS: { [fn: string]: MathFunction } = {
@@ -33,4 +34,18 @@ export const DEFAULT_ANNOTATION: AnnotationOptions = {
   scaleID: "y",
   borderWidth: 1,
   borderDash: [5, 5],
+};
+
+export const DEFAULT_PLOT_CONFIG: PlotConfig = {
+  paths: [],
+  minYValue: undefined,
+  maxYValue: undefined,
+  showXAxisLabels: true,
+  showYAxisLabels: true,
+  showLegend: true,
+  legendDisplay: "floating",
+  showPlotValuesInLegend: false,
+  isSynced: true,
+  xAxisVal: "timestamp",
+  sidebarDimension: DEFAULT_SIDEBAR_DIMENSION,
 };

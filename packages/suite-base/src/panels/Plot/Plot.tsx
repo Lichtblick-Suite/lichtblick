@@ -8,6 +8,7 @@
 import { Button, Tooltip, Fade, useTheme } from "@mui/material";
 import * as _ from "lodash-es";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { v4 as uuidv4 } from "uuid";
 
 import { Immutable } from "@lichtblick/suite";
@@ -50,6 +51,7 @@ const Plot = (props: PlotProps): React.JSX.Element => {
 
   const { classes } = useStyles();
   const theme = useTheme();
+  const { t } = useTranslation("plot");
 
   const { setMessagePathDropConfig } = usePanelContext();
   const draggingRef = useRef(false);
@@ -189,11 +191,7 @@ const Plot = (props: PlotProps): React.JSX.Element => {
   }, [activeTooltip, colorsByDatasetIndex, labelsByDatasetIndex, numSeries]);
 
   const hoveredValuesBySeriesIndex = useMemo(() => {
-    if (!config.showPlotValuesInLegend) {
-      return;
-    }
-
-    if (!activeTooltip?.data) {
+    if (!config.showPlotValuesInLegend || !activeTooltip?.data) {
       return;
     }
 
@@ -246,7 +244,7 @@ const Plot = (props: PlotProps): React.JSX.Element => {
           TransitionComponent={Fade}
           TransitionProps={{ timeout: 0 }}
         >
-          <div className={classes.verticalBarWrapper}>
+          <div className={classes.verticalBarWrapper} data-testid="vertical-bar-wrapper">
             <div
               className={classes.canvasDiv}
               ref={setCanvasDiv}
@@ -264,14 +262,14 @@ const Plot = (props: PlotProps): React.JSX.Element => {
           </div>
         </Tooltip>
         {canReset && (
-          <div className={classes.resetZoomButton}>
+          <div className={classes.resetZoomButton} data-testid="plot-reset-view-button">
             <Button
               variant="contained"
               color="inherit"
               title="(shortcut: double-click)"
               onClick={onResetView}
             >
-              Reset view
+              {t("resetView")}
             </Button>
           </div>
         )}
