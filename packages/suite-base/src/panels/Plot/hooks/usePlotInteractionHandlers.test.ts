@@ -19,6 +19,8 @@ import { HoverElement } from "@lichtblick/suite-base/panels/Plot/types";
 import BasicBuilder from "@lichtblick/suite-base/testing/builders/BasicBuilder";
 
 import usePlotInteractionHandlers from "./usePlotInteractionHandlers";
+import RosTimeBuilder from "@lichtblick/suite-base/testing/builders/RosTimeBuilder";
+import { Time, toSec } from "@lichtblick/rostime";
 
 jest.mock("@lichtblick/den/async", () => ({
   debouncePromise: jest.fn(),
@@ -208,13 +210,65 @@ describe("usePlotInteractionHandlers", () => {
           },
         },
       ];
+      (debouncePromise as jest.Mock).mockImplementationOnce((fn) => fn);
+      (mockRenderer.getElementsAtPixel as jest.Mock).mockReturnValueOnce(elements);
       const expectedResult: any = {
         x: mockClientX,
         y: mockClientY,
         data: [{ configIndex: elements[0]!.configIndex, value: elements[0]!.data.value }],
       };
+
+      const { result } = setup();
+      await triggerMouseMove(result);
+
+      expect(mockSetActiveTooltip).toHaveBeenCalledWith(expectedResult);
+      expect(mockSetActiveTooltip).toHaveBeenCalledTimes(1);
+    });
+
+    it("set active tooltip if tooltip items are found when value is a time object", async () => {
+      const elements: HoverElement[] = [
+        {
+          configIndex: BasicBuilder.number(),
+          data: {
+            x: BasicBuilder.number(),
+            y: BasicBuilder.number(),
+            value: RosTimeBuilder.time(),
+          },
+        },
+      ];
       (debouncePromise as jest.Mock).mockImplementationOnce((fn) => fn);
       (mockRenderer.getElementsAtPixel as jest.Mock).mockReturnValueOnce(elements);
+      const expectedResult: any = {
+        x: mockClientX,
+        y: mockClientY,
+        data: [{ configIndex: elements[0]!.configIndex, value: toSec(elements[0]!.data.value as Time) }],
+      };
+
+      const { result } = setup();
+      await triggerMouseMove(result);
+
+      expect(mockSetActiveTooltip).toHaveBeenCalledWith(expectedResult);
+      expect(mockSetActiveTooltip).toHaveBeenCalledTimes(1);
+    });
+
+    it("set active tooltip if tooltip items are found when value is undefined", async () => {
+      const elements: HoverElement[] = [
+        {
+          configIndex: BasicBuilder.number(),
+          data: {
+            x: BasicBuilder.number(),
+            y: BasicBuilder.number(),
+            value: undefined,
+          },
+        },
+      ];
+      (debouncePromise as jest.Mock).mockImplementationOnce((fn) => fn);
+      (mockRenderer.getElementsAtPixel as jest.Mock).mockReturnValueOnce(elements);
+      const expectedResult: any = {
+        x: mockClientX,
+        y: mockClientY,
+        data: [{ configIndex: elements[0]!.configIndex, value: elements[0]!.data.y }],
+      };
 
       const { result } = setup();
       await triggerMouseMove(result);
