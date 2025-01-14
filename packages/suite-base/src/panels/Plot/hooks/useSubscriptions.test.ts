@@ -119,6 +119,15 @@ describe("useSubscriptions", () => {
       expect(setSubscriptions).toHaveBeenCalledWith(testSubscriber, []);
     });
 
+    it("sets subscriptions for non-reference line paths", () => {
+      const nonReferenceLineConfig: PlotConfig = {
+        paths: [{ value: BasicBuilder.string(), type: "series" }],
+        xAxisVal: BasicBuilder.string(),
+      } as any;
+      setup(nonReferenceLineConfig);
+      expect(setSubscriptions).toHaveBeenCalledWith(testSubscriber, expect.any(Array));
+    });
+
     it("does not set subscriptions when parsedPath is undefined", () => {
       const mockPath = BasicBuilder.string();
       const configWithInvalidPath: PlotConfig = {
@@ -159,6 +168,19 @@ describe("useSubscriptions", () => {
 
       expect(setSubscriptions).toHaveBeenCalledWith(testSubscriber, []);
       expect(parseMessagePath).not.toHaveBeenCalled();
+    });
+
+    it("does not set subscriptions when parsedPath is null", () => {
+      const mockPath = BasicBuilder.string();
+      const configWithInvalidPath: PlotConfig = {
+        paths: [{ value: mockPath }],
+        xAxisVal: BasicBuilder.string(),
+      } as any;
+      (parseMessagePath as jest.Mock).mockReturnValue(ReactNull);
+      setup(configWithInvalidPath);
+
+      expect(setSubscriptions).toHaveBeenCalledWith(testSubscriber, []);
+      expect(parseMessagePath).toHaveBeenCalledWith(mockPath);
     });
   });
 });
