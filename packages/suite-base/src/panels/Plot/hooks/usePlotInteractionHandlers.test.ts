@@ -99,8 +99,8 @@ describe("usePlotInteractionHandlers", () => {
   const expectedCanvasX = mockClientX - mockLeft;
   const expectedCanvasY = mockClientY - mockTop;
 
-  const triggerMouseMove = (result: any) => {
-    act(() => {
+  const triggerMouseMove = async (result: any) => {
+    await act(async () => {
       result.current.onMouseMove({
         clientX: mockClientX,
         clientY: mockClientY,
@@ -120,9 +120,9 @@ describe("usePlotInteractionHandlers", () => {
 
   describe("onMouseMove", () => {
     describe("when xAxisMode is timestamp", () => {
-      it("sets hover value correctly", () => {
+      it("sets hover value correctly", async () => {
         const { result } = setup();
-        triggerMouseMove(result);
+        await triggerMouseMove(result);
 
         expect(result.current.onMouseMove).toBeDefined();
         expect(mockCoordinator.getXValueAtPixel).toHaveBeenCalledWith(expectedCanvasX);
@@ -141,7 +141,7 @@ describe("usePlotInteractionHandlers", () => {
     });
 
     describe("when xAxisMode is not timestamp", () => {
-      it("sets hover value with type OTHER", () => {
+      it("sets hover value with type OTHER", async () => {
         const mockConfigWithOtherXAxisMode = {
           ...mockConfig,
           xAxisVal: "other",
@@ -157,7 +157,7 @@ describe("usePlotInteractionHandlers", () => {
             mockDraggingRef,
           ),
         );
-        triggerMouseMove(result);
+        await triggerMouseMove(result);
 
         expect(result.current.onMouseMove).toBeDefined();
         expect(mockCoordinator.getXValueAtPixel).toHaveBeenCalledWith(expectedCanvasX);
@@ -176,12 +176,60 @@ describe("usePlotInteractionHandlers", () => {
     });
 
     describe("when coordinator is not provided", () => {
-      it("should return early", () => {
+      it("should return early", async () => {
         const { result } = setupWithoutCoordinator();
-        triggerMouseMove(result);
+        await triggerMouseMove(result);
 
         expect(mockCoordinator.getXValueAtPixel).not.toHaveBeenCalled();
         expect(mockSetHoverValue).not.toHaveBeenCalled();
+      });
+    });
+
+    it("clears active tooltip if no tooltip items are found", async () => {
+      (debouncePromise as jest.Mock).mockImplementationOnce((fn) => fn);
+      (mockRenderer.getElementsAtPixel as jest.Mock).mockReturnValueOnce([]);
+
+      const { result } = setup();
+      await triggerMouseMove(result);
+
+      expect(mockSetActiveTooltip).toHaveBeenCalledWith(undefined);
+      expect(mockSetActiveTooltip).toHaveBeenCalledTimes(1);
+    });
+
+    describe("when using actual debouncePromise", () => {
+
+      it("calls debouncePromise with correct arguments", async () => {
+        const { result } = setup();
+
+        await triggerMouseMove(result);
+
+        expect(mockCoordinator.getXValueAtPixel).toHaveBeenCalledWith(expectedCanvasX);
+        expect(mockSetHoverValue).toHaveBeenCalledWith({
+          componentId: mockSubscriberId,
+          value: expect.any(Number),
+          type: "PLAYBACK_SECONDS",
+        });
+      });
+
+      it("clears active tooltip if no tooltip items are found", async () => {
+        (debouncePromise as jest.Mock).mockImplementationOnce((fn) => fn);
+        (mockRenderer.getElementsAtPixel as jest.Mock).mockReturnValueOnce([]);
+
+        const { result } = setup();
+        await triggerMouseMove(result);
+
+        expect(mockSetActiveTooltip).toHaveBeenCalledWith(undefined);
+        expect(mockSetHoverValue).toHaveBeenCalled();
+      });
+
+      it("does not clear active tooltip if tooltip items are found", async () => {
+        const { result } = setup();
+        (mockRenderer.getElementsAtPixel as jest.Mock).mockReturnValueOnce([]);
+
+        await triggerMouseMove(result);
+
+        expect(mockSetActiveTooltip).not.toHaveBeenCalledWith(undefined);
+        expect(mockSetHoverValue).toHaveBeenCalled();
       });
     });
   });
