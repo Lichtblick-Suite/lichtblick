@@ -242,7 +242,7 @@ const Plot = (props: PlotProps): React.JSX.Element => {
           TransitionComponent={Fade}
           TransitionProps={{ timeout: 0 }}
         >
-          <div className={classes.verticalBarWrapper}>
+          <div className={classes.verticalBarWrapper} data-testid="vertical-bar-wrapper">
             <div
               className={classes.canvasDiv}
               ref={setCanvasDiv}
@@ -260,7 +260,7 @@ const Plot = (props: PlotProps): React.JSX.Element => {
           </div>
         </Tooltip>
         {canReset && (
-          <div className={classes.resetZoomButton}>
+          <div className={classes.resetZoomButton} data-testid="plot-reset-view-button">
             <Button
               variant="contained"
               color="inherit"

@@ -8,7 +8,7 @@ import MockPanelContextProvider from "@lichtblick/suite-base/components/MockPane
 import { PanelExtensionAdapter } from "@lichtblick/suite-base/components/PanelExtensionAdapter";
 import useGlobalVariables from "@lichtblick/suite-base/hooks/useGlobalVariables";
 import { PlotConfig } from "@lichtblick/suite-base/panels/Plot/config";
-import { DEFAULT_SIDEBAR_DIMENSION } from "@lichtblick/suite-base/panels/Plot/constants";
+import { DEFAULT_PLOT_CONFIG } from "@lichtblick/suite-base/panels/Plot/constants";
 import usePlotDataHandling from "@lichtblick/suite-base/panels/Plot/hooks/usePlotDataHandling";
 import useRenderer from "@lichtblick/suite-base/panels/Plot/hooks/useRenderer";
 import { PlotProps } from "@lichtblick/suite-base/panels/Plot/types";
@@ -19,6 +19,12 @@ import Plot from "./Plot";
 
 jest.mock("@lichtblick/suite-base/components/PanelContextMenu", () => ({
   PanelContextMenu: jest.fn(() => <div data-testid="panel-context-menu" />),
+}));
+jest.mock("@lichtblick/suite-base/panels/Plot/PlotLegend", () => ({
+  PlotLegend: jest.fn(() => <div data-testid="plot-legend" />),
+}));
+jest.mock("@lichtblick/suite-base/panels/Plot/VerticalBars", () => ({
+  VerticalBars: jest.fn(() => <div data-testid="vertical-bars" />),
 }));
 jest.mock("@lichtblick/suite-base/hooks/useGlobalVariables");
 jest.mock("@lichtblick/suite-base/panels/Plot/hooks/usePlotDataHandling");
@@ -42,17 +48,7 @@ describe("Plot Component", () => {
 
   function setup(configOverrides: Partial<PlotConfig> = {}) {
     const config: PlotConfig = {
-      paths: [],
-      minYValue: undefined,
-      maxYValue: undefined,
-      showXAxisLabels: true,
-      showYAxisLabels: true,
-      showLegend: true,
-      legendDisplay: "floating",
-      showPlotValuesInLegend: false,
-      isSynced: true,
-      xAxisVal: "timestamp",
-      sidebarDimension: DEFAULT_SIDEBAR_DIMENSION,
+      ...DEFAULT_PLOT_CONFIG,
       ...configOverrides,
     };
 
@@ -86,9 +82,11 @@ describe("Plot Component", () => {
     const panelToolbar = screen.getAllByTestId("mosaic-drag-handle");
     const panelContextMenu = screen.getAllByTestId("panel-context-menu");
     const resetButton = screen.queryByText("Reset view");
+    const plotLegend = screen.getByTestId("plot-legend");
 
     expect(panelToolbar).toBeTruthy();
     expect(panelContextMenu).toBeTruthy();
+    expect(plotLegend).toBeTruthy();
     expect(resetButton).not.toBeTruthy();
   });
 
@@ -101,5 +99,23 @@ describe("Plot Component", () => {
     fireEvent.wheel(panelContextMenu);
 
     expect(panelContextMenu).toBeTruthy();
+  });
+
+  it("should not display legend when legendDisplay is none", () => {
+    setup({ legendDisplay: "none" });
+
+    const plotLegend = screen.queryByTestId("plot-legend");
+
+    expect(plotLegend).not.toBeTruthy();
+  });
+
+  it("should display vertical bars", () => {
+    setup();
+
+    const verticalBarWrapper = screen.getByTestId("vertical-bar-wrapper");
+    const verticalBars = screen.getByTestId("vertical-bars");
+
+    expect(verticalBarWrapper).toBeTruthy();
+    expect(verticalBars).toBeTruthy();
   });
 });
