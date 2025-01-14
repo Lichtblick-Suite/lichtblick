@@ -241,7 +241,9 @@ describe("usePlotInteractionHandlers", () => {
       const expectedResult: any = {
         x: mockClientX,
         y: mockClientY,
-        data: [{ configIndex: elements[0]!.configIndex, value: toSec(elements[0]!.data.value as Time) }],
+        data: [
+          { configIndex: elements[0]!.configIndex, value: toSec(elements[0]!.data.value as Time) },
+        ],
       };
 
       const { result } = setup();
