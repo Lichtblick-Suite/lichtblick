@@ -197,7 +197,6 @@ describe("usePlotInteractionHandlers", () => {
     });
 
     describe("when using actual debouncePromise", () => {
-
       it("calls debouncePromise with correct arguments", async () => {
         const { result } = setup();
 
