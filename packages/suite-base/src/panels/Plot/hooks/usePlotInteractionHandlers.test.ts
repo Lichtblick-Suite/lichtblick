@@ -8,6 +8,7 @@ import { renderHook, act } from "@testing-library/react";
 import { MutableRefObject } from "react";
 
 import { debouncePromise } from "@lichtblick/den/async";
+import { Time, toSec } from "@lichtblick/rostime";
 import {
   useSetHoverValue,
   useClearHoverValue,
@@ -17,10 +18,9 @@ import { PlotCoordinator } from "@lichtblick/suite-base/panels/Plot/PlotCoordina
 import { PlotConfig } from "@lichtblick/suite-base/panels/Plot/config";
 import { HoverElement } from "@lichtblick/suite-base/panels/Plot/types";
 import BasicBuilder from "@lichtblick/suite-base/testing/builders/BasicBuilder";
+import RosTimeBuilder from "@lichtblick/suite-base/testing/builders/RosTimeBuilder";
 
 import usePlotInteractionHandlers from "./usePlotInteractionHandlers";
-import RosTimeBuilder from "@lichtblick/suite-base/testing/builders/RosTimeBuilder";
-import { Time, toSec } from "@lichtblick/rostime";
 
 jest.mock("@lichtblick/den/async", () => ({
   debouncePromise: jest.fn(),
