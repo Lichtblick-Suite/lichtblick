@@ -8,31 +8,44 @@ import Hammer from "hammerjs";
 import { act } from "react";
 
 import { PlotCoordinator } from "@lichtblick/suite-base/panels/Plot/PlotCoordinator";
+import BasicBuilder from "@lichtblick/suite-base/testing/builders/BasicBuilder";
 
 import usePanning from "./usePanning";
+
+const panmove = "panmove";
+const panstart = "panstart";
+const panend = "panend";
+const CANVAS_WIDTH = 800;
+const CANVAS_HEIGHT = 600;
+
+const mockHammerManager = {
+  add: jest.fn(),
+  on: jest.fn(),
+  destroy: jest.fn(),
+};
+
+const triggerEvent = (eventType: string, mockEvent: any) => {
+  const handler = mockHammerManager.on.mock.calls.find(([event]) => event === eventType)[1];
+  act(() => {
+    handler(mockEvent);
+  });
+};
+
+jest.mock("hammerjs");
+Hammer.Manager = jest.fn().mockImplementation(() => mockHammerManager);
 
 describe("usePanning", () => {
   let canvasDiv: HTMLDivElement;
   let coordinator: PlotCoordinator;
   let draggingRef: React.MutableRefObject<boolean>;
   let spy: jest.SpyInstance;
-  const panmove = "panmove";
-  const panstart = "panstart";
-  const panend = "panend";
-  const mockHammerManager = {
-    add: jest.fn(),
-    on: jest.fn(),
-    destroy: jest.fn(),
-  };
+  let mockEvent: any;
 
-  jest.mock("hammerjs");
-  Hammer.Manager = jest.fn().mockImplementation(() => mockHammerManager);
-
-  beforeEach(() => {
+  const setupMocks = () => {
     canvasDiv = document.createElement("div");
     canvasDiv.style.position = "relative";
-    canvasDiv.style.width = "800px";
-    canvasDiv.style.height = "600px";
+    canvasDiv.style.width = `${CANVAS_WIDTH}px`;
+    canvasDiv.style.height = `${CANVAS_HEIGHT}px`;
     document.body.appendChild(canvasDiv);
 
     coordinator = {
@@ -41,6 +54,31 @@ describe("usePanning", () => {
 
     draggingRef = { current: false };
     spy = jest.spyOn(coordinator, "addInteractionEvent");
+
+    mockEvent = {
+      deltaX: BasicBuilder.number(),
+      deltaY: BasicBuilder.number(),
+      target: {
+        getBoundingClientRect: jest.fn().mockReturnValue({
+          toJSON: () => ({ x: 0, y: 0, width: CANVAS_WIDTH, height: CANVAS_HEIGHT }),
+        }),
+      },
+    };
+    return { mockEvent };
+  };
+
+  const setup = () => {
+    const mocks = setupMocks();
+    return {
+      ...renderHook(() => {
+        usePanning(canvasDiv, coordinator, draggingRef);
+      }),
+      ...mocks,
+    };
+  };
+
+  beforeEach(() => {
+    setupMocks();
   });
 
   afterEach(() => {
@@ -49,9 +87,7 @@ describe("usePanning", () => {
   });
 
   it("should initialize Hammer Manager and set up event listeners", () => {
-    renderHook(() => {
-      usePanning(canvasDiv, coordinator, draggingRef);
-    });
+    setup();
 
     expect(Hammer.Manager).toHaveBeenCalledWith(canvasDiv);
     expect(mockHammerManager.add).toHaveBeenCalledWith(expect.any(Hammer.Pan));
@@ -61,99 +97,50 @@ describe("usePanning", () => {
   });
 
   it("should call coordinator.addInteractionEvent on panstart", () => {
-    renderHook(() => {
-      usePanning(canvasDiv, coordinator, draggingRef);
-    });
+    setup();
 
-    const panstartHandler = mockHammerManager.on.mock.calls.find(
-      ([event]) => event === panstart,
-    )[1];
+    mockEvent.deltaX = BasicBuilder.number();
+    mockEvent.deltaY = BasicBuilder.number();
+    mockEvent.center = { x: BasicBuilder.number(), y: BasicBuilder.number() };
 
-    const mockEvent = {
-      deltaX: 50,
-      deltaY: 30,
-      center: { x: 100, y: 200 },
-      target: {
-        getBoundingClientRect: jest
-          .fn()
-          .mockReturnValue({ toJSON: () => ({ x: 0, y: 0, width: 800, height: 600 }) }),
-      },
-    };
-
-    act(() => {
-      panstartHandler(mockEvent);
-    });
+    triggerEvent(panstart, mockEvent);
 
     expect(draggingRef.current).toBe(true);
     expect(spy).toHaveBeenCalledWith({
       type: panstart,
       cancelable: false,
-      deltaY: 30,
-      deltaX: 50,
-      center: { x: 100, y: 200 },
-      boundingClientRect: { x: 0, y: 0, width: 800, height: 600 },
+      deltaX: mockEvent.deltaX,
+      deltaY: mockEvent.deltaY,
+      center: mockEvent.center,
+      boundingClientRect: { x: 0, y: 0, width: CANVAS_WIDTH, height: CANVAS_HEIGHT },
     });
   });
 
   it("should call coordinator.addInteractionEvent on panmove", () => {
-    renderHook(() => {
-      usePanning(canvasDiv, coordinator, draggingRef);
-    });
+    setup();
 
-    const panmoveHandler = mockHammerManager.on.mock.calls.find(([event]) => event === panmove)[1];
-
-    const mockEvent = {
-      deltaX: 20,
-      deltaY: 10,
-      target: {
-        getBoundingClientRect: jest
-          .fn()
-          .mockReturnValue({ toJSON: () => ({ x: 0, y: 0, width: 800, height: 600 }) }),
-      },
-    };
-
-    act(() => {
-      panmoveHandler(mockEvent);
-    });
+    triggerEvent(panmove, mockEvent);
 
     expect(spy).toHaveBeenCalledWith({
       type: panmove,
       cancelable: false,
-      deltaY: 10,
-      deltaX: 20,
-      boundingClientRect: { x: 0, y: 0, width: 800, height: 600 },
+      deltaY: mockEvent.deltaY,
+      deltaX: mockEvent.deltaX,
+      boundingClientRect: { x: 0, y: 0, width: CANVAS_WIDTH, height: CANVAS_HEIGHT },
     });
   });
 
   it("should call coordinator.addInteractionEvent on panend and reset draggingRef", () => {
-    jest.useFakeTimers();
+    setup();
 
-    renderHook(() => {
-      usePanning(canvasDiv, coordinator, draggingRef);
-    });
-
-    const panendHandler = mockHammerManager.on.mock.calls.find(([event]) => event === panend)[1];
-
-    const mockEvent = {
-      deltaX: 70,
-      deltaY: 40,
-      target: {
-        getBoundingClientRect: jest
-          .fn()
-          .mockReturnValue({ toJSON: () => ({ x: 0, y: 0, width: 800, height: 600 }) }),
-      },
-    };
-
-    act(() => {
-      panendHandler(mockEvent);
-    });
+    triggerEvent(panend, mockEvent);
 
     expect(spy).toHaveBeenCalledWith({
       type: panend,
       cancelable: false,
-      deltaY: 40,
-      deltaX: 70,
-      boundingClientRect: { x: 0, y: 0, width: 800, height: 600 },
+      deltaY: mockEvent.deltaY,
+      deltaX: mockEvent.deltaX,
+      boundingClientRect: { x: 0, y: 0, width: CANVAS_WIDTH, height: CANVAS_HEIGHT },
     });
 
     jest.runAllTimers();
@@ -163,9 +150,7 @@ describe("usePanning", () => {
   });
 
   it("should clean up Hammer Manager on unmount", () => {
-    const { unmount } = renderHook(() => {
-      usePanning(canvasDiv, coordinator, draggingRef);
-    });
+    const { unmount } = setup();
 
     unmount();
 
