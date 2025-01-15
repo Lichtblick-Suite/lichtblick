@@ -92,6 +92,19 @@ describe("usePlotDataHandling hook", () => {
     expect(result.current.datasetsBuilder).toBeInstanceOf(CustomDatasetsBuilder);
   });
 
+  it("should throw error when xAxisPath is unsupported", () => {
+    const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation(() => {});
+    const config = PlotBuilder.config({
+      xAxisVal: "unsupportedMode" as any,
+      xAxisPath: undefined,
+    });
+
+    expect(() => renderHook(() => usePlotDataHandling(config, globalVariables))).toThrow(
+      `unsupported mode: ${config.xAxisVal}`,
+    );
+    consoleErrorSpy.mockRestore();
+  });
+
   it("should generate correct colors and labels for datasets", () => {
     const config = PlotBuilder.config({
       paths: [
