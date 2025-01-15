@@ -381,11 +381,11 @@ describe("usePlotInteractionHandlers", () => {
     it("handles wheel event correctly", () => {
       const { result, props } = setup({ coordinator: mockCoordinator });
       const boundingRect = {
-        left: 5,
-        top: 5,
+        left: BasicBuilder.number(),
+        top: BasicBuilder.number(),
         toJSON: jest.fn().mockReturnValue({
-          left: 5,
-          top: 5,
+          left: BasicBuilder.number(),
+          top: BasicBuilder.number(),
         }),
       } as unknown as DOMRect;
 

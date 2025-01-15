@@ -3,7 +3,7 @@
 
 import EventEmitter from "eventemitter3";
 
-type EventListenerHandler = (eventName: string, fn?: () => void) => void;
+import { EventListenerHandler } from "@lichtblick/suite-base/components/Chart/types";
 
 export function addEventListener(emitter: EventEmitter): EventListenerHandler {
   return (eventName: string, fn?: () => void): void => {

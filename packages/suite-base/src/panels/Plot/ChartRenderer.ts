@@ -12,12 +12,12 @@ import EventEmitter from "eventemitter3";
 import { Zoom as ZoomPlugin } from "@lichtblick/chartjs-plugin-zoom";
 import { unwrap } from "@lichtblick/den/monads";
 import { Immutable } from "@lichtblick/suite";
-import { getChartOptions } from "@lichtblick/suite-base/panels/Plot/ChartUtilities/ChartOptions";
 import {
   addEventListener,
   removeEventListener,
-} from "@lichtblick/suite-base/panels/Plot/ChartUtilities/EventHandler";
+} from "@lichtblick/suite-base/components/Chart/worker/eventHandler";
 import { DEFAULT_ANNOTATION } from "@lichtblick/suite-base/panels/Plot/constants";
+import { getChartOptions } from "@lichtblick/suite-base/panels/Plot/getChartOptions";
 import { Bounds } from "@lichtblick/suite-base/types/Bounds";
 import { maybeCast } from "@lichtblick/suite-base/util/maybeCast";
 
