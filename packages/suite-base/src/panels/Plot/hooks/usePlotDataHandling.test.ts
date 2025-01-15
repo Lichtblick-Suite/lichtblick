@@ -8,6 +8,7 @@ import { renderHook } from "@testing-library/react";
 import { GlobalVariables } from "@lichtblick/suite-base/hooks/useGlobalVariables";
 import { CurrentCustomDatasetsBuilder } from "@lichtblick/suite-base/panels/Plot/builders/CurrentCustomDatasetsBuilder";
 import { CustomDatasetsBuilder } from "@lichtblick/suite-base/panels/Plot/builders/CustomDatasetsBuilder";
+import { TimestampDatasetsBuilder } from "@lichtblick/suite-base/panels/Plot/builders/TimestampDatasetsBuilder";
 import PlotBuilder from "@lichtblick/suite-base/testing/builders/PlotBuilder";
 
 import usePlotDataHandling from "./usePlotDataHandling";
@@ -48,6 +49,16 @@ describe("usePlotDataHandling hook", () => {
     const { result } = renderHook(() => usePlotDataHandling(config, globalVariables));
 
     expect(result.current.datasetsBuilder).toBeInstanceOf(IndexDatasetsBuilder);
+  });
+
+  it("should create a TimestampDatasetsBuilder for 'timestamp' xAxisVal", () => {
+    const config = PlotBuilder.config({
+      xAxisVal: "timestamp",
+    });
+
+    const { result } = renderHook(() => usePlotDataHandling(config, globalVariables));
+
+    expect(result.current.datasetsBuilder).toBeInstanceOf(TimestampDatasetsBuilder);
   });
 
   it("should create a CurrentCustomDatasetsBuilder for 'currentCustom' xAxisVal", () => {
