@@ -373,17 +373,24 @@ describe("usePlotInteractionHandlers", () => {
 
   describe("onWheel", () => {
     const triggerWheel = (result: any, boundingRect: any) => {
+      const deltaX = BasicBuilder.number();
+      const deltaY = BasicBuilder.number();
+      const clientX = BasicBuilder.number();
+      const clientY = BasicBuilder.number();
+
       act(() => {
         result.current.onWheel({
-          deltaX: 1,
-          deltaY: -1,
-          clientX: 10,
-          clientY: 20,
+          deltaX,
+          deltaY,
+          clientX,
+          clientY,
           currentTarget: {
             getBoundingClientRect: jest.fn(() => boundingRect),
           },
         } as unknown as React.WheelEvent<HTMLElement>);
       });
+
+      return { deltaX, deltaY, clientX, clientY };
     };
 
     it("handles wheel event correctly", () => {
@@ -397,15 +404,15 @@ describe("usePlotInteractionHandlers", () => {
         }),
       };
 
-      triggerWheel(result, boundingRect);
+      const { deltaX, deltaY, clientX, clientY } = triggerWheel(result, boundingRect);
 
       expect(mockCoordinator.addInteractionEvent).toHaveBeenCalledWith({
         type: "wheel",
         cancelable: false,
-        deltaX: 1,
-        deltaY: -1,
-        clientX: 10,
-        clientY: 20,
+        deltaX,
+        deltaY,
+        clientX,
+        clientY,
         boundingClientRect: boundingRect.toJSON(),
       });
     });
