@@ -3,47 +3,46 @@
 // SPDX-FileCopyrightText: Copyright (C) 2023-2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)<lichtblick@bmwgroup.com>
 // SPDX-License-Identifier: MPL-2.0
 
-import { fireEvent } from "@storybook/testing-library";
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { useMemo } from "react";
 
 import PanelContext from "@lichtblick/suite-base/components/PanelContext";
 import { useSelectedPanels } from "@lichtblick/suite-base/context/CurrentLayoutContext";
+import BasicBuilder from "@lichtblick/suite-base/testing/builders/BasicBuilder";
 
 import { PlotLegend } from "./PlotLegend";
 
 const defaultProps = {
   showLegend: true,
   saveConfig: jest.fn(),
-  sidebarDimension: 200,
+  sidebarDimension: BasicBuilder.number(),
   paths: [],
 };
 
-const TestWrapper = ({ children }: { children: React.ReactNode }) => {
-  const contextValue = useMemo(
-    () => ({
-      type: "foo",
-      id: "bar",
-      title: "Foo Panel",
-      config: {},
-      saveConfig: jest.fn(),
-      updatePanelConfigs: jest.fn(),
-      openSiblingPanel: jest.fn(),
-      replacePanel: jest.fn(),
-      enterFullscreen: jest.fn(),
-      exitFullscreen: jest.fn(),
-      setHasFullscreenDescendant: jest.fn(),
-      isFullscreen: false,
-      connectToolbarDragHandle: jest.fn(),
-      setMessagePathDropConfig: jest.fn(),
-    }),
-    [],
-  );
+const getContextValue = () => ({
+  type: "foo",
+  id: "bar",
+  title: "Foo Panel",
+  config: {},
+  saveConfig: jest.fn(),
+  updatePanelConfigs: jest.fn(),
+  exitFullscreen: jest.fn(),
+  setHasFullscreenDescendant: jest.fn(),
+  isFullscreen: false,
+  connectToolbarDragHandle: jest.fn(),
+  setMessagePathDropConfig: jest.fn(),
+  openSiblingPanel: jest.fn(),
+  replacePanel: jest.fn(),
+  enterFullscreen: jest.fn(),
+});
 
+const TestWrapper = ({ children }: { children: React.ReactNode }) => {
+  const contextValue = useMemo(getContextValue, []);
   return (
     <PanelContext.Provider value={contextValue}>
-      <div data-testid="drag-handle">{children}</div>
+      <div>{children}</div>
     </PanelContext.Provider>
   );
 };
@@ -51,31 +50,12 @@ const TestWrapper = ({ children }: { children: React.ReactNode }) => {
 const setup = (overrides = {}) => {
   const props = { ...defaultProps, ...overrides };
   return render(
-    <PanelContext.Provider
-      value={{
-        type: "foo",
-        id: "bar",
-        title: "Foo Panel",
-        config: {},
-        saveConfig: jest.fn(),
-        updatePanelConfigs: jest.fn(),
-        openSiblingPanel: jest.fn(),
-        replacePanel: jest.fn(),
-        enterFullscreen: jest.fn(),
-        exitFullscreen: jest.fn(),
-        setHasFullscreenDescendant: jest.fn(),
-        isFullscreen: false,
-        connectToolbarDragHandle: jest.fn(),
-        setMessagePathDropConfig: jest.fn(),
-      }}
-    >
+    <PanelContext.Provider value={getContextValue()}>
       <TestWrapper>
         <PlotLegend
           coordinator={undefined}
           legendDisplay="floating"
-          onClickPath={function (): void {
-            throw new Error("Function not implemented.");
-          }}
+          onClickPath={jest.fn()}
           showValues={false}
           {...props}
         />
@@ -103,6 +83,9 @@ jest.mock("@lichtblick/suite-base/context/CurrentLayoutContext", () => ({
 
 describe("PlotLegend", () => {
   const mockSetSelectedPanelIds = jest.fn();
+  const path = BasicBuilder.string();
+  const secondPath = BasicBuilder.string();
+
   beforeEach(() => {
     (useSelectedPanels as jest.Mock).mockReturnValue({
       setSelectedPanelIds: mockSetSelectedPanelIds,
@@ -118,32 +101,33 @@ describe("PlotLegend", () => {
     expect(screen.getByTitle("Add series")).toBeDefined();
   });
 
-  it("toggles legend visibility when IconButton is clicked", () => {
+  it("toggles legend visibility when IconButton is clicked", async () => {
     const mockSaveConfig = jest.fn();
     const { getByRole } = setup({ showLegend: false, saveConfig: mockSaveConfig });
-    const button = getByRole("button");
-    fireEvent.click(button);
+
+    await userEvent.setup().click(getByRole("button"));
+
     expect(mockSaveConfig).toHaveBeenCalledWith({ showLegend: true });
   });
 
   it("renders paths from props", () => {
     const paths = [
-      { value: "path1", enabled: true, timestampMethod: "method1" },
-      { value: "path2", enabled: true, timestampMethod: "method2" },
+      { value: path, enabled: true },
+      { value: secondPath, enabled: true },
     ];
     setup({ paths });
 
-    expect(screen.getByText("path1")).toBeDefined();
-    expect(screen.getByText("path2")).toBeDefined();
+    expect(screen.getByText(path)).toBeDefined();
+    expect(screen.getByText(secondPath)).toBeDefined();
   });
 
-  it("calls onClickPath when a path is clicked", () => {
+  it("calls onClickPath when a path is clicked", async () => {
     const mockOnClickPath = jest.fn();
-    const paths = [{ value: "path1", enabled: true, timestampMethod: "method1" }];
+    const paths = [{ value: path, enabled: true }];
+
     setup({ paths, onClickPath: mockOnClickPath });
 
-    const pathElement = screen.getByText("path1");
-    fireEvent.click(pathElement);
+    await userEvent.setup().click(screen.getByText(path));
 
     expect(mockOnClickPath).toHaveBeenCalledWith(0);
   });
