@@ -2,9 +2,11 @@
 // SPDX-License-Identifier: MPL-2.0
 
 import { Chart, ChartDataset, ScatterDataPoint } from "chart.js";
+import { MutableRefObject } from "react";
 
 import { PanelContextMenuItem } from "@lichtblick/suite-base/components/PanelContextMenu";
 import { TimeBasedChartTooltipData } from "@lichtblick/suite-base/components/TimeBasedChart/TimeBasedChartTooltipContent";
+import { OffscreenCanvasRenderer } from "@lichtblick/suite-base/panels/Plot/OffscreenCanvasRenderer";
 import type { PlotCoordinator } from "@lichtblick/suite-base/panels/Plot/PlotCoordinator";
 import { CurrentCustomDatasetsBuilder } from "@lichtblick/suite-base/panels/Plot/builders/CurrentCustomDatasetsBuilder";
 import { CustomDatasetsBuilder } from "@lichtblick/suite-base/panels/Plot/builders/CustomDatasetsBuilder";
@@ -161,4 +163,14 @@ export type UsePlotDataHandling = {
     | IndexDatasetsBuilder
     | CustomDatasetsBuilder
     | CurrentCustomDatasetsBuilder;
+};
+
+export type UsePlotInteractionHandlersProps = {
+  config: PlotConfig;
+  coordinator: PlotCoordinator | undefined;
+  draggingRef: MutableRefObject<boolean>;
+  renderer: OffscreenCanvasRenderer | undefined;
+  setActiveTooltip: (data: TooltipStateSetter | undefined) => void;
+  shouldSync: boolean;
+  subscriberId: string;
 };

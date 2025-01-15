@@ -81,15 +81,15 @@ const Plot = (props: PlotProps): React.JSX.Element => {
     keyDownHandlers,
     keyUphandlers,
     getPanelContextMenuItems,
-  } = usePlotInteractionHandlers(
-    coordinator,
-    renderer,
-    subscriberId,
+  } = usePlotInteractionHandlers({
     config,
-    setActiveTooltip,
-    { shouldSync },
+    coordinator,
     draggingRef,
-  );
+    setActiveTooltip,
+    renderer,
+    shouldSync,
+    subscriberId,
+  });
 
   usePlotPanelSettings(config, saveConfig, focusedPath);
   useSubscriptions(config, subscriberId);

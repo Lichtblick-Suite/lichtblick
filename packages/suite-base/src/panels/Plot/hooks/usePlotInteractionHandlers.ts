@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: Copyright (C) 2023-2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)<lichtblick@bmwgroup.com>
 // SPDX-License-Identifier: MPL-2.0
 
-import { useCallback, useRef, useMemo, MutableRefObject, useState } from "react";
+import { useCallback, useRef, useMemo, useState } from "react";
 import { useMountedState } from "react-use";
 
 import { debouncePromise } from "@lichtblick/den/async";
@@ -15,28 +15,25 @@ import {
   useSetHoverValue,
   useTimelineInteractionState,
 } from "@lichtblick/suite-base/context/TimelineInteractionStateContext";
-import { OffscreenCanvasRenderer } from "@lichtblick/suite-base/panels/Plot/OffscreenCanvasRenderer";
-import { PlotCoordinator } from "@lichtblick/suite-base/panels/Plot/PlotCoordinator";
-import { PlotConfig } from "@lichtblick/suite-base/panels/Plot/config";
 import { downloadCSV } from "@lichtblick/suite-base/panels/Plot/csv";
 import {
   ElementAtPixelArgs,
-  TooltipStateSetter,
   UseHoverHandlersHook as UsePlotInteractionHandlers,
+  UsePlotInteractionHandlersProps,
 } from "@lichtblick/suite-base/panels/Plot/types";
 import { PANEL_TITLE_CONFIG_KEY } from "@lichtblick/suite-base/util/layout";
 
 const selectSetGlobalBounds = (store: TimelineInteractionStateStore) => store.setGlobalBounds;
 
-const usePlotInteractionHandlers = (
-  coordinator: PlotCoordinator | undefined,
-  renderer: OffscreenCanvasRenderer | undefined,
-  subscriberId: string,
-  config: PlotConfig,
-  setActiveTooltip: (data: TooltipStateSetter | undefined) => void,
-  { shouldSync }: { shouldSync: boolean },
-  draggingRef: MutableRefObject<boolean>,
-): UsePlotInteractionHandlers => {
+const usePlotInteractionHandlers = ({
+  config,
+  coordinator,
+  draggingRef,
+  renderer,
+  setActiveTooltip,
+  shouldSync,
+  subscriberId,
+}: UsePlotInteractionHandlersProps): UsePlotInteractionHandlers => {
   const setHoverValue = useSetHoverValue();
   const clearHoverValue = useClearHoverValue();
   const isMounted = useMountedState();
