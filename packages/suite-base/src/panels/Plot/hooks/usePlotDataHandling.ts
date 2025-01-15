@@ -19,10 +19,10 @@ const usePlotDataHandling = (
   config: PlotConfig,
   globalVariables: GlobalVariables,
 ): UsePlotDataHandling => {
-  const { xAxisVal: xAxisMode, xAxisPath } = config;
+  const { xAxisVal, xAxisPath } = config;
 
   const datasetsBuilder = useMemo(() => {
-    switch (xAxisMode) {
+    switch (xAxisVal) {
       case "timestamp":
         return new TimestampDatasetsBuilder();
       case "index":
@@ -32,9 +32,9 @@ const usePlotDataHandling = (
       case "currentCustom":
         return new CurrentCustomDatasetsBuilder();
       default:
-        throw new Error(`unsupported mode: ${xAxisMode}`);
+        throw new Error(`unsupported mode: ${xAxisVal}`);
     }
-  }, [xAxisMode]);
+  }, [xAxisVal]);
 
   useEffect(() => {
     if (

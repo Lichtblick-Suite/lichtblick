@@ -8,9 +8,7 @@ import { renderHook } from "@testing-library/react";
 import { GlobalVariables } from "@lichtblick/suite-base/hooks/useGlobalVariables";
 import { CurrentCustomDatasetsBuilder } from "@lichtblick/suite-base/panels/Plot/builders/CurrentCustomDatasetsBuilder";
 import { CustomDatasetsBuilder } from "@lichtblick/suite-base/panels/Plot/builders/CustomDatasetsBuilder";
-import { PlotConfig } from "@lichtblick/suite-base/panels/Plot/config";
-import BasicBuilder from "@lichtblick/suite-base/testing/builders/BasicBuilder";
-import { TimestampMethod } from "@lichtblick/suite-base/util/time";
+import PlotBuilder from "@lichtblick/suite-base/testing/builders/PlotBuilder";
 
 import usePlotDataHandling from "./usePlotDataHandling";
 import { IndexDatasetsBuilder } from "../builders/IndexDatasetsBuilder";
@@ -32,114 +30,91 @@ jest.mock("@lichtblick/suite-base/util/plotColors", () => ({
   ),
 }));
 
-describe("usePlotDataHandling hook", () => {
-  global.Worker = jest.fn().mockImplementation(() => ({
-    postMessage: jest.fn(),
-    terminate: jest.fn(),
-    onmessage: undefined,
-    addEventListener: jest.fn(),
-  }));
+global.Worker = jest.fn().mockImplementation(() => ({
+  addEventListener: jest.fn(),
+  onmessage: undefined,
+  postMessage: jest.fn(),
+  terminate: jest.fn(),
+}));
 
-  const mockGlobalVariables: GlobalVariables = {};
-  const mockConfig: PlotConfig = {
-    paths: [
-      {
-        value: BasicBuilder.string(),
-        label: BasicBuilder.string(),
-        color: BasicBuilder.string(),
-        enabled: BasicBuilder.boolean(),
-        timestampMethod: "receiveTime",
-      },
-      {
-        value: BasicBuilder.string(),
-        label: BasicBuilder.string(),
-        enabled: BasicBuilder.boolean(),
-        timestampMethod: "receiveTime",
-      },
-    ],
-    xAxisVal: "timestamp",
-    xAxisPath: { value: BasicBuilder.string(), enabled: BasicBuilder.boolean() },
-    isSynced: BasicBuilder.boolean(),
-    showLegend: BasicBuilder.boolean(),
-    showPlotValuesInLegend: BasicBuilder.boolean(),
-    showXAxisLabels: BasicBuilder.boolean(),
-    showYAxisLabels: BasicBuilder.boolean(),
-    legendDisplay: "floating",
-    sidebarDimension: BasicBuilder.number(),
-  };
+describe("usePlotDataHandling hook", () => {
+  const globalVariables: GlobalVariables = {};
 
   it("should create an IndexDatasetsBuilder for 'index' xAxisVal", () => {
-    const config = { ...mockConfig, xAxisVal: "index" as const };
-    const { result } = renderHook(() => usePlotDataHandling(config, mockGlobalVariables));
+    const config = PlotBuilder.config({
+      xAxisVal: "index",
+    });
+
+    const { result } = renderHook(() => usePlotDataHandling(config, globalVariables));
 
     expect(result.current.datasetsBuilder).toBeInstanceOf(IndexDatasetsBuilder);
   });
 
   it("should create a CurrentCustomDatasetsBuilder for 'currentCustom' xAxisVal", () => {
-    const config = { ...mockConfig, xAxisVal: "currentCustom" as const };
-    const { result } = renderHook(() => usePlotDataHandling(config, mockGlobalVariables));
+    const config = PlotBuilder.config({
+      xAxisVal: "currentCustom",
+    });
+
+    const { result } = renderHook(() => usePlotDataHandling(config, globalVariables));
 
     expect(result.current.datasetsBuilder).toBeInstanceOf(CurrentCustomDatasetsBuilder);
   });
 
   it("should create a CustomDatasetsBuilder for 'custom' xAxisVal", () => {
-    const config = { ...mockConfig, xAxisVal: "custom" as const };
-    const { result } = renderHook(() => usePlotDataHandling(config, mockGlobalVariables));
+    const config = PlotBuilder.config({
+      xAxisVal: "custom",
+    });
+
+    const { result } = renderHook(() => usePlotDataHandling(config, globalVariables));
 
     expect(result.current.datasetsBuilder).toBeInstanceOf(CustomDatasetsBuilder);
   });
 
   it("should handle empty xAxisPath gracefully for 'currentCustom' xAxisVal", () => {
-    const config = {
-      ...mockConfig,
-      xAxisVal: "currentCustom" as const,
+    const config = PlotBuilder.config({
+      xAxisVal: "currentCustom",
       xAxisPath: { value: "", enabled: true },
-    };
-    const { result } = renderHook(() => usePlotDataHandling(config, mockGlobalVariables));
+    });
+
+    const { result } = renderHook(() => usePlotDataHandling(config, globalVariables));
 
     expect(result.current.datasetsBuilder).toBeInstanceOf(CurrentCustomDatasetsBuilder);
   });
 
   it("should handle missing xAxisPath gracefully for 'custom' xAxisVal", () => {
-    const config = {
-      ...mockConfig,
-      xAxisVal: "custom" as const,
+    const config = PlotBuilder.config({
+      xAxisVal: "custom",
       xAxisPath: undefined,
-    };
-    const { result } = renderHook(() => usePlotDataHandling(config, mockGlobalVariables));
+    });
+
+    const { result } = renderHook(() => usePlotDataHandling(config, globalVariables));
 
     expect(result.current.datasetsBuilder).toBeInstanceOf(CustomDatasetsBuilder);
   });
 
   it("should generate correct colors and labels for datasets", () => {
-    const config = {
-      ...mockConfig,
+    const config = PlotBuilder.config({
       paths: [
-        {
-          value: "path1",
-          label: "Label 1",
-          color: "red",
+        PlotBuilder.path({
           enabled: true,
-          timestampMethod: "receiveTime" as TimestampMethod,
-        },
-        {
-          value: "path2",
-          label: "Label 2",
-          color: undefined,
+          timestampMethod: "receiveTime",
+        }),
+        PlotBuilder.path({
           enabled: true,
-          timestampMethod: "receiveTime" as TimestampMethod,
-        },
+          timestampMethod: "receiveTime",
+        }),
       ],
-    };
-    const { result } = renderHook(() => usePlotDataHandling(config, mockGlobalVariables));
+    });
+
+    const { result } = renderHook(() => usePlotDataHandling(config, globalVariables));
 
     expect(result.current.colorsByDatasetIndex).toEqual({
-      0: "red",
-      1: "default-color-1",
+      0: config.paths[0]?.color,
+      1: config.paths[1]?.color,
     });
     expect(result.current.labelsByDatasetIndex).toEqual({
-      0: "Label 1",
-      1: "Label 2",
+      0: config.paths[0]?.label,
+      1: config.paths[1]?.label,
     });
   });
 });
