@@ -16,13 +16,6 @@ const mockHammerManager = {
   destroy: jest.fn(),
 };
 
-const triggerEvent = (eventType: string, mockEvent: any) => {
-  const handler = mockHammerManager.on.mock.calls.find(([event]) => event === eventType)[1];
-  act(() => {
-    handler(mockEvent);
-  });
-};
-
 jest.mock("hammerjs");
 Hammer.Manager = jest.fn().mockImplementation(() => mockHammerManager);
 
@@ -36,6 +29,13 @@ describe("usePanning", () => {
     panEnd: "panend",
     panMove: "panmove",
     panStart: "panstart",
+  };
+
+  const triggerEvent = (hammerEventType: string, mockEvent: any) => {
+    const handler = mockHammerManager.on.mock.calls.find(([event]) => event === hammerEventType)[1];
+    act(() => {
+      handler(mockEvent);
+    });
   };
 
   const setup = (override: UsePanningProps = {}) => {
