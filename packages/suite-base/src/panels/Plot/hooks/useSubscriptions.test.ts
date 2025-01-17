@@ -183,6 +183,28 @@ describe("useSubscriptions", () => {
       expect(pathToSubscribePayload).toHaveBeenCalledWith(filledInGlobalVarsPath, "partial");
       expect(setSubscriptions).toHaveBeenCalledWith(subscriberId, expect.any(Array));
     });
+
+    it("should set subscriptions when xAxisVal is currentCustom and parsedPath is undefined", () => {
+      const parsedPath = undefined;
+      const filledInGlobalVarsPath = BasicBuilder.string();
+      (isReferenceLinePlotPathType as jest.Mock).mockImplementation(() => false);
+      (parseMessagePath as jest.Mock).mockImplementation(() => parsedPath);
+      (fillInGlobalVariablesInPath as jest.Mock).mockImplementation(() => filledInGlobalVarsPath);
+      (pathToSubscribePayload as jest.Mock).mockImplementation(() => "");
+
+      const { subscriberId, config } = setup({
+        config: {
+          paths: [],
+          xAxisVal: "currentCustom",
+        },
+      });
+
+      expect(parseMessagePath).toHaveBeenCalledTimes(1);
+      expect(parseMessagePath).toHaveBeenCalledWith(config.xAxisPath?.value);
+      expect(fillInGlobalVariablesInPath).not.toHaveBeenCalled();
+      expect(pathToSubscribePayload).not.toHaveBeenCalled();
+      expect(setSubscriptions).toHaveBeenCalledWith(subscriberId, expect.any(Array));
+    });
   });
 
   describe("Unsubscribing", () => {
