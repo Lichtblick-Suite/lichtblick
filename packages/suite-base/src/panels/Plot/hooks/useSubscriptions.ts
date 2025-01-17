@@ -17,7 +17,7 @@ import { isReferenceLinePlotPathType } from "../config";
 import { pathToSubscribePayload } from "../subscription";
 
 const useSubscriptions = (config: PlotConfig, subscriberId: string): void => {
-  const { paths: series, xAxisVal: xAxisMode } = config;
+  const { paths, xAxisVal } = config;
   const { globalVariables } = useGlobalVariables();
 
   const setSubscriptions = useMessagePipeline(
@@ -30,13 +30,13 @@ const useSubscriptions = (config: PlotConfig, subscriberId: string): void => {
 
   // We could subscribe in the chart renderer, but doing it with react effects is easier for
   // managing the lifecycle of the subscriptions. The renderer will correlate input message data to
-  // the correct series.
+  // the correct paths/series.
   useEffect(() => {
     // The index and currentCustom modes only need the latest message on each topic so we use
     // partial subscribe mode for those to avoid preloading data that we don't need
-    const preloadType = xAxisMode === "index" || xAxisMode === "currentCustom" ? "partial" : "full";
+    const preloadType = xAxisVal === "index" || xAxisVal === "currentCustom" ? "partial" : "full";
 
-    const subscriptions = filterMap(series, (item) => {
+    const subscriptions = filterMap(paths, (item) => {
       if (isReferenceLinePlotPathType(item)) {
         return;
       }
@@ -52,7 +52,7 @@ const useSubscriptions = (config: PlotConfig, subscriberId: string): void => {
       );
     });
 
-    if ((xAxisMode === "custom" || xAxisMode === "currentCustom") && config.xAxisPath?.value) {
+    if ((xAxisVal === "custom" || xAxisVal === "currentCustom") && config.xAxisPath?.value) {
       const parsedPath = parseMessagePath(config.xAxisPath.value);
       if (parsedPath) {
         const xAxisSub = pathToSubscribePayload(
@@ -66,7 +66,7 @@ const useSubscriptions = (config: PlotConfig, subscriberId: string): void => {
     }
 
     setSubscriptions(subscriberId, subscriptions);
-  }, [config, xAxisMode, series, globalVariables, setSubscriptions, subscriberId]);
+  }, [config, xAxisVal, paths, globalVariables, setSubscriptions, subscriberId]);
 
   // Only unsubscribe on unmount so that when the above subscriber effect dependencies change we
   // don't transition to unsubscribing all to then re-subscribe.
