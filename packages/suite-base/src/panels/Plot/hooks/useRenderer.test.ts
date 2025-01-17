@@ -6,9 +6,10 @@
 import { createTheme, Theme } from "@mui/material/styles";
 import { renderHook } from "@testing-library/react";
 
+import BasicBuilder from "@lichtblick/suite-base/testing/builders/BasicBuilder";
+
 import useRenderer from "./useRenderer";
 import { OffscreenCanvasRenderer } from "../OffscreenCanvasRenderer";
-import BasicBuilder from "@lichtblick/suite-base/testing/builders/BasicBuilder";
 
 jest.mock("../OffscreenCanvasRenderer", () => {
   return {
@@ -47,8 +48,6 @@ describe("useRenderer hook", () => {
   });
 
   it("should not create renderer if canvasDiv is undefined", () => {
-    const theme = createTheme();
-
     const { result } = renderHook(() => useRenderer(ReactNull, theme));
 
     expect(result.current).toBeUndefined();
