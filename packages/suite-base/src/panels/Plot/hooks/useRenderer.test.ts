@@ -3,11 +3,12 @@
 // SPDX-FileCopyrightText: Copyright (C) 2023-2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)<lichtblick@bmwgroup.com>
 // SPDX-License-Identifier: MPL-2.0
 
-import { createTheme } from "@mui/material/styles";
+import { createTheme, Theme } from "@mui/material/styles";
 import { renderHook } from "@testing-library/react";
 
 import useRenderer from "./useRenderer";
 import { OffscreenCanvasRenderer } from "../OffscreenCanvasRenderer";
+import BasicBuilder from "@lichtblick/suite-base/testing/builders/BasicBuilder";
 
 jest.mock("../OffscreenCanvasRenderer", () => {
   return {
@@ -20,16 +21,21 @@ jest.mock("../OffscreenCanvasRenderer", () => {
 
 Object.defineProperty(HTMLCanvasElement.prototype, "transferControlToOffscreen", {
   value: jest.fn().mockImplementation(() => ({
-    width: 0,
-    height: 0,
+    width: BasicBuilder.number(),
+    height: BasicBuilder.number(),
   })),
 });
 
 describe("useRenderer hook", () => {
-  it("should create a renderer and attach canvas to the canvasDiv", () => {
-    const canvasDiv = document.createElement("div");
-    const theme = createTheme();
+  let canvasDiv: HTMLDivElement;
+  let theme: Theme;
 
+  beforeEach(() => {
+    canvasDiv = document.createElement("div");
+    theme = createTheme();
+  });
+
+  it("should create a renderer and attach canvas to the canvasDiv", () => {
     const { result, unmount } = renderHook(() => useRenderer(canvasDiv, theme));
 
     expect(result.current).toBeInstanceOf(OffscreenCanvasRenderer);
@@ -53,7 +59,6 @@ describe("useRenderer hook", () => {
   it("should correctly reinitialize the renderer if canvasDiv changes", () => {
     const canvasDiv1 = document.createElement("div");
     const canvasDiv2 = document.createElement("div");
-    const theme = createTheme();
 
     const { result, rerender } = renderHook(({ div }) => useRenderer(div, theme), {
       initialProps: { div: canvasDiv1 },
