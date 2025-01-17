@@ -146,6 +146,7 @@
     "@lichtblick/ros2idl-parser": "1.0.0",
     "@lichtblick/suite": "workspace:*",
     "@mui/material": "5.13.5",
+    "@testing-library/user-event": "14.5.2",
     "react-use": "17.5.1",
     "rehype-raw": "6.1.1",
     "vm-browserify": "1.1.2"
