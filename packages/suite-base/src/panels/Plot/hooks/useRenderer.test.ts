@@ -41,10 +41,8 @@ describe("useRenderer hook", () => {
     expect(result.current).toBeInstanceOf(OffscreenCanvasRenderer);
     expect(canvasDiv.querySelector("canvas")).not.toBeNull();
 
-    //unmounting the hook
     unmount();
 
-    //Checking that the renderer was destroyed and canvas removed
     expect(canvasDiv.querySelector("canvas")).toBeNull();
   });
 
@@ -66,7 +64,6 @@ describe("useRenderer hook", () => {
 
     const initialRenderer = result.current;
 
-    // Switching canvasDiv
     rerender({ div: canvasDiv2 });
 
     expect(result.current).not.toBe(initialRenderer);
