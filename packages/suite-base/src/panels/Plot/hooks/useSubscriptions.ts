@@ -12,6 +12,7 @@ import {
 } from "@lichtblick/suite-base/components/MessagePipeline";
 import useGlobalVariables from "@lichtblick/suite-base/hooks/useGlobalVariables";
 import { PlotConfig } from "@lichtblick/suite-base/panels/Plot/config";
+import { SubscriptionPreloadType } from "@lichtblick/suite-base/players/types";
 
 import { isReferenceLinePlotPathType } from "../config";
 import { pathToSubscribePayload } from "../subscription";
@@ -34,7 +35,8 @@ const useSubscriptions = (config: PlotConfig, subscriberId: string): void => {
   useEffect(() => {
     // The index and currentCustom modes only need the latest message on each topic so we use
     // partial subscribe mode for those to avoid preloading data that we don't need
-    const preloadType = xAxisVal === "index" || xAxisVal === "currentCustom" ? "partial" : "full";
+    const preloadType: SubscriptionPreloadType =
+      xAxisVal === "index" || xAxisVal === "currentCustom" ? "partial" : "full";
 
     const subscriptions = filterMap(paths, (item) => {
       if (isReferenceLinePlotPathType(item)) {
