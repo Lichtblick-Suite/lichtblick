@@ -24,12 +24,22 @@ export type RegisteredPanel = {
   registration: ExtensionPanelRegistration;
 };
 
+export type InstallExtensionsResponse = {
+  success: boolean;
+  info?: ExtensionInfo;
+  error?: unknown;
+};
+
 export type ExtensionCatalog = Immutable<{
   downloadExtension: (url: string) => Promise<Uint8Array>;
   installExtension: (
     namespace: ExtensionNamespace,
     foxeFileData: Uint8Array,
   ) => Promise<ExtensionInfo>;
+  installExtensions: (
+    namespace: ExtensionNamespace,
+    data: Uint8Array[],
+  ) => Promise<InstallExtensionsResponse[]>;
   refreshExtensions: () => Promise<void>;
   uninstallExtension: (namespace: ExtensionNamespace, id: string) => Promise<void>;
 

@@ -6,6 +6,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import * as _ from "lodash-es";
+import { nanoid } from "nanoid";
 import React, { PropsWithChildren, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { StoreApi, createStore } from "zustand";
@@ -21,6 +22,7 @@ import {
 import {
   ExtensionCatalog,
   ExtensionCatalogContext,
+  InstallExtensionsResponse,
   RegisteredPanel,
 } from "@lichtblick/suite-base/context/ExtensionCatalogContext";
 import { TopicAliasFunctions } from "@lichtblick/suite-base/players/TopicAliasingPlayer/aliasing";
@@ -139,16 +141,44 @@ function createExtensionRegistryStore(
       return new Uint8Array(await res.arrayBuffer());
     },
 
-    installExtension: async (namespace: ExtensionNamespace, foxeFileData: Uint8Array) => {
+    installExtension: async (namespace: ExtensionNamespace, data: Uint8Array) => {
       const namespacedLoader = loaders.find((loader) => loader.namespace === namespace);
       if (namespacedLoader == undefined) {
         throw new Error("No extension loader found for namespace " + namespace);
       }
-      const info = await namespacedLoader.installExtension(foxeFileData);
-      await get().refreshExtensions();
+      const info = await namespacedLoader.installExtension(data);
       return info;
     },
+    installExtensions: async (namespace: ExtensionNamespace, data: Uint8Array[]) => {
+      const namespacedLoader = loaders.find((loader) => loader.namespace === namespace);
+      if (namespacedLoader == undefined) {
+        throw new Error("No extension loader found for namespace " + namespace);
+      }
 
+      const batchPromises = async (batch: Uint8Array[]): Promise<InstallExtensionsResponse[]> => {
+        return await Promise.all(
+          batch.map(async (extension) => {
+            try {
+              const info = await namespacedLoader.installExtension(extension);
+              return { success: true, info };
+            } catch (error) {
+              return { success: false, error };
+            }
+          }),
+        );
+      };
+
+      const chunkSize = 10;
+      const results: InstallExtensionsResponse[] = [];
+      for (let i = 0; i < data.length; i += chunkSize) {
+        const chunk = data.slice(i, i + chunkSize);
+        const batchResults = await batchPromises(chunk);
+        results.push(...batchResults);
+      }
+
+      // await get().refreshExtensions();
+      return results;
+    },
     refreshExtensions: async () => {
       if (loaders.length === 0) {
         return;
@@ -171,7 +201,12 @@ function createExtensionRegistryStore(
           extensionsBatch.map(async (extension) => {
             try {
               extensionList.push(extension);
+              const nano = nanoid();
+              console.time(`GOLD_${nano}-${extension.displayName}-loadExtension`);
               const unwrappedExtensionSource = await loader.loadExtension(extension.id);
+              console.timeEnd(`GOLD_${nano}-${extension.displayName}-loadExtension`);
+
+              console.time(`GOLD_${nano}-${extension.displayName}-load-resto`);
               const contributionPoints = activateExtension(extension, unwrappedExtensionSource);
 
               _.assign(allContributionPoints.panels, contributionPoints.panels);
@@ -180,6 +215,7 @@ function createExtensionRegistryStore(
               allContributionPoints.topicAliasFunctions.push(
                 ...contributionPoints.topicAliasFunctions,
               );
+              console.timeEnd(`GOLD_${nano}-${extension.displayName}-load-resto`);
             } catch (err: unknown) {
               log.error(`Error loading extension ${extension.id}`, err);
             }
@@ -189,8 +225,13 @@ function createExtensionRegistryStore(
 
       const processLoader = async (loader: ExtensionLoader) => {
         try {
+          const nano = nanoid();
+          console.time(`GOLD_${nano}-getExtensions`);
           const extensions = await loader.getExtensions();
+          console.timeEnd(`GOLD_${nano}-getExtensions`);
+
           const chunks = _.chunk(extensions, 5);
+          console.log("GOLD chunks", chunks);
           for (const chunk of chunks) {
             await processExtensionsBatch(chunk, loader);
           }
@@ -202,7 +243,7 @@ function createExtensionRegistryStore(
       await Promise.all(loaders.map(processLoader));
 
       log.info(
-        `Loaded ${extensionList.length} extensions in ${(performance.now() - start).toFixed(1)}ms`,
+        `GOLD Loaded ${extensionList.length} extensions in ${(performance.now() - start).toFixed(1)}ms`,
       );
 
       set({

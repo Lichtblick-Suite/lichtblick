@@ -72,13 +72,11 @@ export class IdbExtensionLoader implements ExtensionLoader {
     log.debug("Loading extension", id);
 
     const extension = await this.#storage.get(id);
-    const zip = new JSZip();
-
     if (extension?.content == undefined) {
       throw new Error("Extension is corrupted");
     }
 
-    const content = await zip.loadAsync(extension.content);
+    const content = await new JSZip().loadAsync(extension.content);
     const srcText = await content.file("dist/extension.js")?.async("string");
 
     if (srcText == undefined) {
