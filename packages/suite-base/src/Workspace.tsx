@@ -227,50 +227,17 @@ function WorkspaceContent(props: WorkspaceProps): React.JSX.Element {
     }
   }, []);
 
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
 
-  const installExtension = useExtensionCatalog((state) => state.installExtension);
   const installExtensions = useExtensionCatalog((state) => state.installExtensions);
   const refreshExtensions = useExtensionCatalog((state) => state.refreshExtensions);
 
-  const handleFile = useCallback(
-    async (
-      handle: FileSystemFileHandle /* foxglove-depcheck-used: @types/wicg-file-system-access */,
-    ) => {
-      log.debug("open handle", handle);
-      const file = await handle.getFile();
-
-      if (file.name.endsWith(".foxe")) {
-        // Extension installation
-        try {
-          const arrayBuffer = await file.arrayBuffer();
-          const data = new Uint8Array(arrayBuffer);
-          const extension = await installExtension("local", data);
-          await refreshExtensions();
-          enqueueSnackbar(`Installed extension ${extension.id}`, { variant: "success" });
-        } catch (e: unknown) {
-          const err = e as Error;
-          log.error(err);
-          enqueueSnackbar(`Failed to install extension ${file.name}: ${err.message}`, {
-            variant: "error",
-          });
-        }
-      }
-
-      // Look for a source that supports the file extensions
-      const matchedSource = availableSources.find((source) => {
-        const ext = extname(file.name);
-        return source.supportedFileTypes?.includes(ext);
-      });
-      if (matchedSource) {
-        selectSource(matchedSource.id, { type: "file", handle });
-      }
-    },
-    [availableSources, enqueueSnackbar, installExtension, refreshExtensions, selectSource],
-  );
-
   const handleFiles = useCallback(
     async (files: File[]) => {
+      if (files.length === 0) {
+        return;
+      }
+
       const otherFiles: File[] = [];
       log.debug("open files", files);
 
@@ -289,7 +256,7 @@ function WorkspaceContent(props: WorkspaceProps): React.JSX.Element {
         const installed = result.filter(({ success }) => success);
 
         if (installed.length === result.length) {
-          enqueueSnackbar(`Installed all ${installed.length}/${result.length} extensions`, {
+          enqueueSnackbar(`Installed all extensions (${installed.length}/${result.length})`, {
             variant: "success",
           });
         } else {
@@ -302,7 +269,6 @@ function WorkspaceContent(props: WorkspaceProps): React.JSX.Element {
           variant: "error",
         });
       } finally {
-        closeSnackbar();
         await refreshExtensions();
       }
 
@@ -322,14 +288,7 @@ function WorkspaceContent(props: WorkspaceProps): React.JSX.Element {
         }
       }
     },
-    [
-      availableSources,
-      closeSnackbar,
-      enqueueSnackbar,
-      installExtensions,
-      refreshExtensions,
-      selectSource,
-    ],
+    [availableSources, enqueueSnackbar, installExtensions, refreshExtensions, selectSource],
   );
 
   // files the main thread told us to open
@@ -341,18 +300,21 @@ function WorkspaceContent(props: WorkspaceProps): React.JSX.Element {
   }, [filesToOpen, handleFiles]);
 
   const dropHandler = useCallback(
-    ({ files, handles }: { files?: File[]; handles?: FileSystemFileHandle[] }) => {
-      const file = handles?.[0];
-      // When selecting sources with handles we can only select with a single handle since we haven't
-      // written the code to store multiple handles for recents. When there are multiple handles, we
-      // fall back to opening regular files.
-      if (handles?.length === 1 && file) {
-        void handleFile(file);
-      } else if (files) {
-        void handleFiles(files);
+    async ({ files, handles }: { files?: File[]; handles?: FileSystemFileHandle[] }) => {
+      const filesArray: File[] = [];
+
+      if (handles?.length === 1) {
+        const fileHandle = handles[0];
+        if (fileHandle) {
+          filesArray.push(await fileHandle.getFile());
+        }
+      } else if (files?.length != undefined) {
+        filesArray.push(...files);
       }
+
+      void handleFiles(filesArray);
     },
-    [handleFiles, handleFile],
+    [handleFiles],
   );
 
   // Since the _component_ field of a sidebar item entry is a component and accepts no additional

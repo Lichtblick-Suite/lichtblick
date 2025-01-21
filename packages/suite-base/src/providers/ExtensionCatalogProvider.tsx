@@ -42,6 +42,9 @@ type ContributionPoints = {
   panelSettings: Record<string, Record<string, PanelSettings<unknown>>>;
 };
 
+const REFRESH_EXTENSIONS_BATCH = 5;
+const INSTALL_EXTENSIONS_BATCH = 5;
+
 function activateExtension(
   extension: ExtensionInfo,
   unwrappedExtensionSource: string,
@@ -130,12 +133,25 @@ function activateExtension(
     panelSettings,
   };
 }
-
 function createExtensionRegistryStore(
   loaders: readonly ExtensionLoader[],
   mockMessageConverters: readonly RegisterMessageConverterArgs<unknown>[] | undefined,
 ): StoreApi<ExtensionCatalog> {
   return createStore((set, get) => ({
+    loadedExtensions: new Set<string>(),
+    isExtensionLoaded: (extensionId: string) => {
+      return get().loadedExtensions.has(extensionId);
+    },
+    markExtensionAsLoaded: (extensionId: string) => {
+      const updatedExtensions = new Set(get().loadedExtensions);
+      updatedExtensions.add(extensionId);
+      set({ loadedExtensions: updatedExtensions });
+    },
+    unmarkExtensionAsLoaded: (extensionId: string) => {
+      const updatedExtensions = new Set(get().loadedExtensions);
+      updatedExtensions.delete(extensionId);
+      set({ loadedExtensions: updatedExtensions });
+    },
     downloadExtension: async (url: string) => {
       const res = await fetch(url);
       return new Uint8Array(await res.arrayBuffer());
@@ -157,9 +173,10 @@ function createExtensionRegistryStore(
 
       const batchPromises = async (batch: Uint8Array[]): Promise<InstallExtensionsResponse[]> => {
         return await Promise.all(
-          batch.map(async (extension) => {
+          batch.map(async (extension: Uint8Array) => {
             try {
               const info = await namespacedLoader.installExtension(extension);
+              get().unmarkExtensionAsLoaded(info.id);
               return { success: true, info };
             } catch (error) {
               return { success: false, error };
@@ -168,18 +185,15 @@ function createExtensionRegistryStore(
         );
       };
 
-      const chunkSize = 10;
       const results: InstallExtensionsResponse[] = [];
-      for (let i = 0; i < data.length; i += chunkSize) {
-        const chunk = data.slice(i, i + chunkSize);
+      for (let i = 0; i < data.length; i += INSTALL_EXTENSIONS_BATCH) {
+        const chunk = data.slice(i, i + INSTALL_EXTENSIONS_BATCH);
         const batchResults = await batchPromises(chunk);
         results.push(...batchResults);
       }
-
-      // await get().refreshExtensions();
       return results;
     },
-    refreshExtensions: async () => {
+    refreshAllExtensions: async () => {
       if (loaders.length === 0) {
         return;
       }
@@ -202,20 +216,18 @@ function createExtensionRegistryStore(
             try {
               extensionList.push(extension);
               const nano = nanoid();
-              console.time(`GOLD_${nano}-${extension.displayName}-loadExtension`);
+              console.time(`GOLD_${nano}--loadExtension-${extension.displayName}`);
               const unwrappedExtensionSource = await loader.loadExtension(extension.id);
-              console.timeEnd(`GOLD_${nano}-${extension.displayName}-loadExtension`);
+              console.timeEnd(`GOLD_${nano}--loadExtension-${extension.displayName}`);
 
-              console.time(`GOLD_${nano}-${extension.displayName}-load-resto`);
               const contributionPoints = activateExtension(extension, unwrappedExtensionSource);
-
               _.assign(allContributionPoints.panels, contributionPoints.panels);
               _.merge(allContributionPoints.panelSettings, contributionPoints.panelSettings);
               allContributionPoints.messageConverters.push(...contributionPoints.messageConverters);
               allContributionPoints.topicAliasFunctions.push(
                 ...contributionPoints.topicAliasFunctions,
               );
-              console.timeEnd(`GOLD_${nano}-${extension.displayName}-load-resto`);
+              get().markExtensionAsLoaded(extension.id);
             } catch (err: unknown) {
               log.error(`Error loading extension ${extension.id}`, err);
             }
@@ -226,11 +238,11 @@ function createExtensionRegistryStore(
       const processLoader = async (loader: ExtensionLoader) => {
         try {
           const nano = nanoid();
-          console.time(`GOLD_${nano}-getExtensions`);
+          console.time(`GOLD_${nano}--getExtensions`);
           const extensions = await loader.getExtensions();
-          console.timeEnd(`GOLD_${nano}-getExtensions`);
+          console.timeEnd(`GOLD_${nano}--getExtensions`);
 
-          const chunks = _.chunk(extensions, 5);
+          const chunks = _.chunk(extensions, REFRESH_EXTENSIONS_BATCH);
           console.log("GOLD chunks", chunks);
           for (const chunk of chunks) {
             await processExtensionsBatch(chunk, loader);
@@ -244,6 +256,76 @@ function createExtensionRegistryStore(
 
       log.info(
         `GOLD Loaded ${extensionList.length} extensions in ${(performance.now() - start).toFixed(1)}ms`,
+      );
+
+      set({
+        installedExtensions: extensionList,
+        installedPanels: allContributionPoints.panels,
+        installedMessageConverters: allContributionPoints.messageConverters,
+        installedTopicAliasFunctions: allContributionPoints.topicAliasFunctions,
+        panelSettings: allContributionPoints.panelSettings,
+      });
+    },
+    refreshExtensions: async () => {
+      if (loaders.length === 0) {
+        return;
+      }
+
+      const start = performance.now();
+      const extensionList: ExtensionInfo[] = [];
+      const allContributionPoints: ContributionPoints = {
+        panels: {},
+        messageConverters: [],
+        topicAliasFunctions: [],
+        panelSettings: {},
+      };
+
+      const processExtensionsBatch = async (
+        extensionsBatch: ExtensionInfo[],
+        loader: ExtensionLoader,
+      ) => {
+        await Promise.all(
+          extensionsBatch.map(async (extension) => {
+            try {
+              if (get().isExtensionLoaded(extension.id)) {
+                return;
+              }
+
+              extensionList.push(extension);
+
+              const nano = nanoid();
+              console.time(`GOLD_${nano}--loadExtension-${extension.displayName}`);
+              const unwrappedExtensionSource = await loader.loadExtension(extension.id);
+              console.timeEnd(`GOLD_${nano}--loadExtension-${extension.displayName}`);
+
+              const contributionPoints = activateExtension(extension, unwrappedExtensionSource);
+              _.assign(allContributionPoints.panels, contributionPoints.panels);
+              _.merge(allContributionPoints.panelSettings, contributionPoints.panelSettings);
+              allContributionPoints.messageConverters.push(...contributionPoints.messageConverters);
+              allContributionPoints.topicAliasFunctions.push(
+                ...contributionPoints.topicAliasFunctions,
+              );
+
+              get().markExtensionAsLoaded(extension.id);
+            } catch (err: unknown) {
+              log.error(`Error loading extension ${extension.id}`, err);
+            }
+          }),
+        );
+      };
+
+      await Promise.all(
+        loaders.map(async (loader) => {
+          const extensions = await loader.getExtensions();
+          const chunks = _.chunk(extensions, REFRESH_EXTENSIONS_BATCH);
+          for (const chunk of chunks) {
+            await processExtensionsBatch(chunk, loader);
+          }
+        }),
+      );
+
+      log.info(
+        `GOLD Incrementally loaded ${extensionList.length} extensions in ${(performance.now() - start).toFixed(1)}ms`,
       );
 
       set({
@@ -277,6 +359,7 @@ function createExtensionRegistryStore(
         throw new Error("No extension loader found for namespace " + namespace);
       }
       await namespacedLoader.uninstallExtension(id);
+      get().unmarkExtensionAsLoaded(id);
       await get().refreshExtensions();
     },
   }));
@@ -293,12 +376,12 @@ export default function ExtensionCatalogProvider({
   const [store] = useState(createExtensionRegistryStore(loaders, mockMessageConverters));
 
   // Request an initial refresh on first mount
-  const refreshExtensions = store.getState().refreshExtensions;
+  const refreshAllExtensions = store.getState().refreshAllExtensions;
   useEffect(() => {
-    refreshExtensions().catch((err: unknown) => {
+    refreshAllExtensions().catch((err: unknown) => {
       log.error(err);
     });
-  }, [refreshExtensions]);
+  }, [refreshAllExtensions]);
 
   return (
     <ExtensionCatalogContext.Provider value={store}>{children}</ExtensionCatalogContext.Provider>

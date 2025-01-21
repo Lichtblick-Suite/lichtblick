@@ -31,6 +31,10 @@ export type InstallExtensionsResponse = {
 };
 
 export type ExtensionCatalog = Immutable<{
+  loadedExtensions: Set<string>;
+  isExtensionLoaded: (extensionId: string) => boolean;
+  markExtensionAsLoaded: (extensionId: string) => void;
+  unmarkExtensionAsLoaded: (extensionId: string) => void;
   downloadExtension: (url: string) => Promise<Uint8Array>;
   installExtension: (
     namespace: ExtensionNamespace,
@@ -40,6 +44,7 @@ export type ExtensionCatalog = Immutable<{
     namespace: ExtensionNamespace,
     data: Uint8Array[],
   ) => Promise<InstallExtensionsResponse[]>;
+  refreshAllExtensions: () => Promise<void>;
   refreshExtensions: () => Promise<void>;
   uninstallExtension: (namespace: ExtensionNamespace, id: string) => Promise<void>;
 
