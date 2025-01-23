@@ -54,6 +54,15 @@ describe("WorkerSocketAdapter", () => {
     expect(adapter.protocol).toBe(protocol);
   });
 
+  it("should not call onopen if it is undefined", () => {
+    const protocol = "test-protocol";
+    mockWorker.onmessage?.({
+      data: { type: "open", protocol },
+    } as MessageEvent);
+
+    expect(adapter.onopen).toBeUndefined();
+  });
+
   it("should handle close events from the Worker", () => {
     const onCloseMock = jest.fn();
     adapter.onclose = onCloseMock;
@@ -65,11 +74,35 @@ describe("WorkerSocketAdapter", () => {
     expect(mockWorker.terminate).toHaveBeenCalled();
   });
 
+  it("should handle error type events from the Worker", () => {
+    const onErrorMock = jest.fn();
+    adapter.onerror = onErrorMock;
+
+    mockWorker.onmessage?.({ data: { type: "error" } } as MessageEvent);
+
+    expect(onErrorMock).toHaveBeenCalledWith({ type: "error" });
+  });
+
+  it("should not call onerror if it is undefined", () => {
+    mockWorker.onmessage?.({ data: { type: "error" } } as MessageEvent);
+
+    expect(adapter.onerror).toBeUndefined();
+  });
+
+  it("should handle message type events from the Worker", () => {
+    const onMessageMock = jest.fn();
+    adapter.onmessage = onMessageMock;
+
+    mockWorker.onmessage?.({ data: { type: "message" } } as MessageEvent);
+
+    expect(onMessageMock).toHaveBeenCalledWith({ type: "message" });
+  });
+
   it("should handle error events from the Worker", () => {
     const onErrorMock = jest.fn();
     adapter.onerror = onErrorMock;
 
-    const errorEvent = { message: "Test error" } as ErrorEvent;
+    const errorEvent = { message: "error" } as ErrorEvent;
     mockWorker.onerror?.(errorEvent);
 
     expect(onErrorMock).toHaveBeenCalledWith(errorEvent);
@@ -99,6 +132,17 @@ describe("WorkerSocketAdapter", () => {
     adapter.close();
     // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(mockWorker.postMessage).toHaveBeenCalledWith({
+      type: "close",
+      data: undefined,
+    });
+  });
+
+  it("shouldn't send a close message to the Worker because the connection is already closed", () => {
+    mockWorker.onmessage?.({ data: { type: "close" } } as MessageEvent);
+    adapter.close();
+
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    expect(mockWorker.postMessage).not.toHaveBeenCalledWith({
       type: "close",
       data: undefined,
     });
