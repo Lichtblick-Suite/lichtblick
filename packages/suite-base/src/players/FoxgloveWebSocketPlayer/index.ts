@@ -51,7 +51,6 @@ import {
 import rosDatatypesToMessageDefinition from "@lichtblick/suite-base/util/rosDatatypesToMessageDefinition";
 
 import { JsonMessageWriter } from "./JsonMessageWriter";
-import { MessageWriter } from "./types";
 import WorkerSocketAdapter from "./WorkerSocketAdapter";
 import {
   CURRENT_FRAME_MAXIMUM_SIZE_BYTES,
@@ -65,7 +64,13 @@ import {
   ZERO_TIME,
 } from "./constants";
 import { dataTypeToFullName, statusLevelToProblemSeverity } from "./helpers";
-import { MessageDefinitionMap, Publication, ResolvedChannel, ResolvedService } from "./types";
+import {
+  MessageWriter,
+  MessageDefinitionMap,
+  Publication,
+  ResolvedChannel,
+  ResolvedService,
+} from "./types";
 
 const log = Log.getLogger(__dirname);
 const textEncoder = new TextEncoder();

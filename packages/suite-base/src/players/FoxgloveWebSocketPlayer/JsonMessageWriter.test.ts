@@ -4,7 +4,7 @@
 import { JsonMessageWriter } from "@lichtblick/suite-base/players/FoxgloveWebSocketPlayer/JsonMessageWriter";
 
 describe("JsonMessageWriter", () => {
-    const writer = new JsonMessageWriter();
+  const writer = new JsonMessageWriter();
 
   it("should return a message converted to a Uint8Array", () => {
     const message = { text: "test message" };

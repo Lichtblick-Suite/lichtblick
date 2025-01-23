@@ -1,7 +1,6 @@
 // SPDX-FileCopyrightText: Copyright (C) 2023-2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)<lichtblick@bmwgroup.com>
 // SPDX-License-Identifier: MPL-2.0
 
-
 import WorkerSocketAdapter from "@lichtblick/suite-base/players/FoxgloveWebSocketPlayer/WorkerSocketAdapter";
 import BasicBuilder from "@lichtblick/suite-base/testing/builders/BasicBuilder";
 
@@ -77,7 +76,7 @@ describe("WorkerSocketAdapter", () => {
   });
 
   it("should send data to the Worker", () => {
-    const message = BasicBuilder.string()
+    const message = BasicBuilder.string();
     adapter.send(message);
     // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(mockWorker.postMessage).toHaveBeenCalledWith({
