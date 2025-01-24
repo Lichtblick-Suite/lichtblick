@@ -28,27 +28,13 @@ describe("dataTypeToFullName", () => {
 });
 
 describe("statusLevelToProblemSeverity", () => {
-  it("should map StatusLevel.INFO to 'info' severity", () => {
-    const level = StatusLevel.INFO;
+  type StatusLevelToProblemTest = [level: StatusLevel, result: string];
 
-    const result = statusLevelToProblemSeverity(level);
-
-    expect(result).toBe("info");
-  });
-
-  it("should map StatusLevel.WARNING to 'warn' severity", () => {
-    const level = StatusLevel.WARNING;
-
-    const result = statusLevelToProblemSeverity(level);
-
-    expect(result).toBe("warn");
-  });
-
-  it("should map StatusLevel.ERROR to 'error' severity", () => {
-    const level = StatusLevel.ERROR;
-
-    const result = statusLevelToProblemSeverity(level);
-
-    expect(result).toBe("error");
+  it.each<StatusLevelToProblemTest>([
+    [StatusLevel.INFO, "info"],
+    [StatusLevel.WARNING, "warn"],
+    [StatusLevel.ERROR, "error"],
+  ])("should map StatusLevel %s to result %s", (level, result) => {
+    expect(statusLevelToProblemSeverity(level)).toBe(result);
   });
 });

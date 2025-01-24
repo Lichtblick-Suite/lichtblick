@@ -98,6 +98,12 @@ describe("WorkerSocketAdapter", () => {
     expect(onMessageMock).toHaveBeenCalledWith({ type: "message" });
   });
 
+  it("should not call onmessage if it is undefined", () => {
+    mockWorker.onmessage?.({ data: { type: "message" } } as MessageEvent);
+
+    expect(adapter.onmessage).toBeUndefined();
+  });
+
   it("should handle error events from the Worker", () => {
     const onErrorMock = jest.fn();
     adapter.onerror = onErrorMock;
@@ -146,5 +152,25 @@ describe("WorkerSocketAdapter", () => {
       type: "close",
       data: undefined,
     });
+  });
+
+  it("should call the onerror callback when defined and an error occurs", () => {
+    const onErrorMock = jest.fn();
+    adapter.onerror = onErrorMock;
+
+    const errorEvent = { message: "error" } as ErrorEvent;
+    mockWorker.onerror?.(errorEvent);
+
+    expect(onErrorMock).toHaveBeenCalledWith(errorEvent);
+    expect(onErrorMock).toHaveBeenCalledTimes(1);
+  });
+
+  it("should do nothing when onerror is undefined and an error occurs", () => {
+    adapter.onerror = undefined;
+
+    const errorEvent = { message: "error" } as ErrorEvent;
+    mockWorker.onerror?.(errorEvent);
+
+    expect(adapter.onerror).toBeUndefined();
   });
 });
