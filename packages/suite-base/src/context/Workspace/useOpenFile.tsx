@@ -5,6 +5,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import { enqueueSnackbar } from "notistack";
 import path from "path";
 import { useCallback, useMemo } from "react";
 
@@ -28,7 +29,8 @@ export function useOpenFile(sources: readonly IDataSourceFactory[]): () => Promi
   }, [sources]);
 
   return useCallback(async () => {
-    const [fileHandle] = await showOpenFilePicker({
+    const filesHandles = await showOpenFilePicker({
+      multiple: true,
       types: [
         {
           description: allExtensions.join(", "),
@@ -36,31 +38,51 @@ export function useOpenFile(sources: readonly IDataSourceFactory[]): () => Promi
         },
       ],
     });
-    if (!fileHandle) {
+
+    if (filesHandles.length === 0) {
       return;
     }
 
-    const file = await fileHandle.getFile();
-    // Find the first _file_ source which can load our extension
-    const matchingSources = sources.filter((source) => {
-      // Only consider _file_ type sources that have a list of supported file types
-      if (!source.supportedFileTypes || source.type !== "file") {
-        return false;
-      }
+    const processedFiles = await Promise.all(
+      filesHandles.map(async (handle) => {
+        const file = await handle.getFile();
+        return {
+          handle,
+          file,
+          extension: path.extname(file.name),
+        };
+      }),
+    );
 
-      const extension = path.extname(file.name);
-      return source.supportedFileTypes.includes(extension);
-    });
+    const uniqueExtensions = new Set(processedFiles.map(({ extension }) => extension));
+    if (uniqueExtensions.size > 1) {
+      const message = `Multiple file extensions detected: ${[...uniqueExtensions].join(
+        ", ",
+      )}. All files must have the same extension.`;
+      enqueueSnackbar(message, { variant: "error" });
+      throw new Error(message);
+    }
 
+    const [extension] = uniqueExtensions;
+    const matchingSources = sources.filter(
+      (source) =>
+        source.supportedFileTypes &&
+        source.type === "file" &&
+        source.supportedFileTypes.includes(extension!),
+    );
     if (matchingSources.length > 1) {
-      throw new Error(`Multiple source matched ${file.name}. This is not supported.`);
+      const message = `The file extension "${extension}" is not supported. Please select files with the following extensions: ${allExtensions.join(", ")}.`;
+      enqueueSnackbar(message, { variant: "error" });
+      throw new Error(message);
     }
 
     const foundSource = matchingSources[0];
     if (!foundSource) {
-      throw new Error(`Cannot find source to handle ${file.name}`);
+      const message = `Cannot find a source to handle files with extension ${extension}`;
+      enqueueSnackbar(message, { variant: "error" });
+      throw new Error(message);
     }
 
-    selectSource(foundSource.id, { type: "file", handle: fileHandle });
+    selectSource(foundSource.id, { type: "file", files: processedFiles.map((item) => item.file) });
   }, [allExtensions, selectSource, sources]);
 }
