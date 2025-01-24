@@ -3333,7 +3333,7 @@ __metadata:
     async-mutex: 0.4.0
     builder-util: "*"
     clean-webpack-plugin: 4.0.0
-    electron: 33.2.1
+    electron: 29.4.6
     electron-builder: 25.1.8
     electron-devtools-installer: 4.0.0
     electron-squirrel-startup: 1.0.1
@@ -9509,7 +9509,7 @@ __metadata:
     "@lichtblick/suite-desktop": "workspace:*"
     "@lichtblick/tsconfig": 1.0.0
     "@types/ws": ^8
-    electron: 33.2.1
+    electron: 29.4.6
     playwright: 1.49.1
     ws: 8.18.0
   languageName: unknown
@@ -10008,16 +10008,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron@npm:33.2.1":
-  version: 33.2.1
-  resolution: "electron@npm:33.2.1"
+"electron@npm:29.4.6":
+  version: 29.4.6
+  resolution: "electron@npm:29.4.6"
   dependencies:
     "@electron/get": ^2.0.0
     "@types/node": ^20.9.0
     extract-zip: ^2.0.1
   bin:
     electron: cli.js
-  checksum: c5b7d5fe56f831da5d14be9d24d0a29fdb392d5b4e593b31200a9c01e6260d87bba1216c4cc17297b2f4838e0893428464b9e2ca71c3eaff499dbff1981c0670
+  checksum: 14f4ae506032227083e59db3188863c71cd89c9df9490cc4bb014af55c9d93bd585093e06db4f221e897aea5b01805d4ad11e5f6ae7b41cbe493d84d55e5ffbf
   languageName: node
   linkType: hard
 
@@ -14548,7 +14548,7 @@ __metadata:
     babel-plugin-transform-import-meta: 2.2.1
     cross-env: 7.0.3
     depcheck: 1.4.7
-    electron: 33.2.1
+    electron: 29.4.6
     electron-builder: 25.1.8
     eslint: 8.57
     eslint-config-prettier: 9.1.0

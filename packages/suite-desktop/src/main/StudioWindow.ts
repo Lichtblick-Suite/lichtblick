@@ -13,11 +13,11 @@ import {
   Menu,
   MenuItem,
   MenuItemConstructorOptions,
-  TitleBarOverlayOptions,
   app,
   nativeTheme,
   shell,
   systemPreferences,
+  TitleBarOverlay,
 } from "electron";
 import path from "path";
 
@@ -52,7 +52,7 @@ function getWindowBackgroundColor(): string | undefined {
   return theme.background?.default;
 }
 
-function getTitleBarOverlayOptions(): TitleBarOverlayOptions {
+function getTitleBarOverlayOptions(): TitleBarOverlay {
   const theme = palette[nativeTheme.shouldUseDarkColors ? "dark" : "light"];
   if (isWindows) {
     return {
@@ -298,15 +298,15 @@ function buildMenu(browserWindow: BrowserWindow): Menu {
       { role: "paste" },
       ...(isMac
         ? [
-            { role: "pasteAndMatchStyle" } as const,
-            { role: "delete" } as const,
-            { role: "selectAll" } as const,
-          ]
+          { role: "pasteAndMatchStyle" } as const,
+          { role: "delete" } as const,
+          { role: "selectAll" } as const,
+        ]
         : [
-            { role: "delete" } as const,
-            { type: "separator" } as const,
-            { role: "selectAll" } as const,
-          ]),
+          { role: "delete" } as const,
+          { type: "separator" } as const,
+          { role: "selectAll" } as const,
+        ]),
     ],
   });
 
@@ -319,15 +319,15 @@ function buildMenu(browserWindow: BrowserWindow): Menu {
       workers.length === 0
         ? [{ label: t("desktopWindow:noSharedWorkers"), enabled: false }]
         : workers.map(
-            (worker) =>
-              new MenuItem({
-                label: worker.url,
-                click() {
-                  browserWindow.webContents.closeDevTools();
-                  browserWindow.webContents.inspectSharedWorkerById(worker.id);
-                },
-              }),
-          ),
+          (worker) =>
+            new MenuItem({
+              label: worker.url,
+              click() {
+                browserWindow.webContents.closeDevTools();
+                browserWindow.webContents.inspectSharedWorkerById(worker.id);
+              },
+            }),
+        ),
     ).popup();
   };
 
