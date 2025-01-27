@@ -102,7 +102,7 @@ export default forwardRef<HTMLDivElement, PropsWithChildren<StackProps>>(
       flexGrow,
       flexShrink,
       flexWrap,
-      fullHeight = true,
+      fullHeight = false,
       fullWidth = false,
       gap,
       gapX,

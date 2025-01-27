@@ -151,7 +151,7 @@ export function Indicator({ context }: IndicatorProps): React.JSX.Element {
             style === "background" ? matchingRule?.color ?? fallbackColor : undefined,
         }}
       >
-        <Stack direction="row" alignItems="center" gap={2}>
+        <Stack direction="row" alignItems="center" gap={2} className={classes.stack}>
           {style === "bulb" && <div className={classes.root} style={bulbStyle} />}
           <Typography
             color={
@@ -161,9 +161,7 @@ export function Indicator({ context }: IndicatorProps): React.JSX.Element {
                   }).contrastText
                 : matchingRule?.color ?? fallbackColor
             }
-            fontFamily="fontMonospace"
-            variant="h1"
-            whiteSpace="pre"
+            className={classes.typography}
           >
             {matchingRule?.label ?? fallbackLabel}
           </Typography>

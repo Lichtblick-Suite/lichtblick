@@ -3,7 +3,7 @@
 
 import { makeStyles } from "tss-react/mui";
 
-export const useStyles = makeStyles()({
+export const useStyles = makeStyles()(({ spacing }) => ({
   root: {
     width: 40,
     height: 40,
@@ -15,4 +15,17 @@ export const useStyles = makeStyles()({
       `radial-gradient(circle at 46% 44%, transparent, transparent 61%, rgba(0,0,0,0.7) 74%, rgba(0,0,0,0.7))`,
     ].join(","),
   },
-});
+  stack: {
+    width: "10vw",
+    height: "10vw",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  typography: {
+    fontWeight: 700,
+    fontSize: "clamp(10px, 1vw, 52px)",
+    whiteSpace: "pre",
+    padding: spacing(0),
+  },
+}));
