@@ -152,7 +152,9 @@ export default function PlayerManager(
   const selectSource = useCallback(
     async (sourceId: string, args?: DataSourceArgs) => {
       log.debug(`Select Source: ${sourceId}`);
-
+      console.log("GOLD PlayerManager playerSources", playerSources);
+      console.log("GOLD PlayerManager sourceId", sourceId);
+      console.log("GOLD PlayerManager args", args);
       const foundSource = playerSources.find(
         (source) => source.id === sourceId || source.legacyIds?.includes(sourceId),
       );
@@ -209,6 +211,7 @@ export default function PlayerManager(
             // files we can try loading immediately
             // We do not add these to recents entries because putting File in indexedb results in
             // the entire file being stored in the database.
+            console.log("GOLD PlayerManager files", files);
             if (files) {
               let file = files[0];
               const fileList: File[] = [];

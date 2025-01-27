@@ -120,7 +120,7 @@ export async function main(): Promise<void> {
     for (const link of deepLinks) {
       app.emit("open-url", { preventDefault() {} }, link);
     }
-
+    log.info("GOLD args", argv);
     const files = argv
       .slice(1)
       .filter((arg) => !arg.startsWith("--")) // Filter out flags

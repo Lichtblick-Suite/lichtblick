@@ -102,6 +102,7 @@ class CachingIterableSource extends EventEmitter<EventTypes> implements IIterabl
 
   public constructor(source: IIterableSource, opt?: Options) {
     super();
+    console.log("GOLD CachingIterableSource", source);
 
     this.#source = source;
     this.#maxTotalSizeBytes = opt?.maxTotalSize ?? 629145600; // 600MB (was 1GB, reduced to mitigate OOM issues)

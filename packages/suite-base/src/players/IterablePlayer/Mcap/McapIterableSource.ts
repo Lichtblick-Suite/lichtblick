@@ -9,6 +9,7 @@ import { McapIndexedReader, McapTypes } from "@mcap/core";
 
 import Log from "@lichtblick/log";
 import { loadDecompressHandlers } from "@lichtblick/mcap-support";
+import { ExtensibleMcapIndexedIterableSource } from "@lichtblick/suite-base/players/IterablePlayer/Mcap/ExtensibleMcapIndexedIterableSource";
 import { MessageEvent } from "@lichtblick/suite-base/players/types";
 
 import { BlobReadable } from "./BlobReadable";
@@ -25,7 +26,10 @@ import {
 
 const log = Log.getLogger(__filename);
 
-type McapSource = { type: "file"; file: Blob } | { type: "url"; url: string };
+type McapSource =
+  | { type: "file"; file: Blob }
+  | { type: "files"; files: Blob[] }
+  | { type: "url"; url: string };
 
 /**
  * Create a McapIndexedReader if it will be possible to do an indexed read. If the file is not
@@ -65,7 +69,7 @@ export class McapIterableSource implements IIterableSource {
         await source.file.slice(0, 1).arrayBuffer();
 
         const readable = new BlobReadable(source.file);
-        const reader = await tryCreateIndexedReader(readable);
+        const reader: McapIndexedReader | undefined = await tryCreateIndexedReader(readable);
         if (reader) {
           this.#sourceImpl = new McapIndexedIterableSource(reader);
         } else {
@@ -74,6 +78,25 @@ export class McapIterableSource implements IIterableSource {
             stream: source.file.stream(),
           });
         }
+        break;
+      }
+      case "files": {
+        console.log("GOLD McapIterableSource files", source);
+        const readers = await Promise.all(
+          source.files.map(async (file) => {
+            await file.slice(0, 1).arrayBuffer();
+            const readable = new BlobReadable(file);
+
+            const reader = await tryCreateIndexedReader(readable);
+            if (!reader) {
+              throw new Error(`Failed to create indexed reader for file.`);
+            }
+            return reader;
+          }),
+        );
+
+        this.#sourceImpl = new ExtensibleMcapIndexedIterableSource(readers);
+
         break;
       }
       case "url": {

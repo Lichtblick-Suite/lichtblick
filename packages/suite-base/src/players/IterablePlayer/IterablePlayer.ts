@@ -188,7 +188,7 @@ export class IterablePlayer implements Player {
 
   public constructor(options: IterablePlayerOptions) {
     const { metricsCollector, urlParams, source, name, enablePreload, sourceId } = options;
-
+    console.log("GOLD IterablePlayer", options);
     this.#iterableSource = source;
     this.#bufferedSource = new BufferedIterableSource(source);
     this.#name = name;

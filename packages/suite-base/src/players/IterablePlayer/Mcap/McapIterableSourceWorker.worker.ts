@@ -16,6 +16,10 @@ export function initialize(args: IterableSourceInitializeArgs): WorkerIterableSo
     const source = new McapIterableSource({ type: "file", file: args.file });
     const wrapped = new WorkerIterableSourceWorker(source);
     return Comlink.proxy(wrapped);
+  } else if (args.files) {
+    const sources = new McapIterableSource({ type: "files", files: args.files });
+    const wrapped = new WorkerIterableSourceWorker(sources);
+    return Comlink.proxy(wrapped);
   } else if (args.url) {
     const source = new McapIterableSource({ type: "url", url: args.url });
     const wrapped = new WorkerIterableSourceWorker(source);

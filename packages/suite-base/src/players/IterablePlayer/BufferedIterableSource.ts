@@ -80,6 +80,7 @@ class BufferedIterableSource extends EventEmitter<EventTypes> implements IIterab
 
   public constructor(source: IIterableSource, opt?: Options) {
     super();
+    console.log("GOLD BufferedIterableSource", source);
 
     this.#readAheadDuration = opt?.readAheadDuration ?? DEFAULT_READ_AHEAD_DURATION;
     this.#minReadAheadDuration = opt?.minReadAheadDuration ?? DEFAULT_MIN_READ_AHEAD_DURATION;
