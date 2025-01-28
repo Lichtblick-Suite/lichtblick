@@ -1,6 +1,7 @@
 /** @jest-environment jsdom */
 // SPDX-FileCopyrightText: Copyright (C) 2023-2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)<lichtblick@bmwgroup.com>
 // SPDX-License-Identifier: MPL-2.0
+
 import { userEvent } from "@storybook/testing-library";
 import { render, screen } from "@testing-library/react";
 import React from "react";
@@ -10,7 +11,7 @@ import MockPanelContextProvider from "@lichtblick/suite-base/components/MockPane
 import { PanelExtensionAdapter } from "@lichtblick/suite-base/components/PanelExtensionAdapter";
 import Indicator from "@lichtblick/suite-base/panels/Indicator";
 import { getMatchingRule } from "@lichtblick/suite-base/panels/Indicator/getMatchingRule";
-import { IndicatorConfig, IndicatorProps } from "@lichtblick/suite-base/panels/Indicator/types";
+import { IndicatorConfig, IndicatorProps, IndicatorStyle } from "@lichtblick/suite-base/panels/Indicator/types";
 import PanelSetup from "@lichtblick/suite-base/stories/PanelSetup";
 import BasicBuilder from "@lichtblick/suite-base/testing/builders/BasicBuilder";
 import IndicatorBuilder from "@lichtblick/suite-base/testing/builders/IndicatorBuilder";
@@ -25,7 +26,13 @@ type Setup = {
   contextOverride?: Partial<PanelExtensionContext>;
 };
 
+jest.mock("@lichtblick/suite-base/testing/builders/IndicatorBuilder", () => ({
+  config: jest.fn(() => ({ })),
+}));
+
 describe("Indicator Component", () => {
+  const CUSTOM_PATH = BasicBuilder.string();
+
   beforeEach(() => {
     jest.spyOn(console, "error").mockImplementation(() => {});
   });
@@ -103,4 +110,51 @@ describe("Indicator Component", () => {
     const element = screen.getByText(matchingRule.label);
     expect(element).toBeTruthy();
   });
+
+  it("renders with default configuration", () => {
+    const { config } = setup();
+    expect(config).toEqual(IndicatorBuilder.config());
+  });
+
+  it("renders with custom configuration", () => {
+    const customConfig: Partial<IndicatorConfig> = {
+      path: CUSTOM_PATH,
+      style: "background" as IndicatorStyle,
+      fallbackColor: "#ff0000",
+    };
+    const { config } = setup({ configOverride: customConfig });
+    expect(config).toMatchObject(customConfig);
+  });
+
+  it("calls context.saveState on config change", () => {
+    const saveStateMock = jest.fn();
+    const { props } = setup({
+      contextOverride: { saveState: saveStateMock },
+    });
+    props.context.saveState({ path: CUSTOM_PATH });
+    expect(saveStateMock).toHaveBeenCalledWith({ path: CUSTOM_PATH });
+  });
+
+  it("calls context.setDefaultPanelTitle on config change", () => {
+    const setDefaultPanelTitleMock = jest.fn();
+    const { props } = setup({
+      contextOverride: { setDefaultPanelTitle: setDefaultPanelTitleMock },
+    });
+    props.context.setDefaultPanelTitle(CUSTOM_PATH);
+    expect(setDefaultPanelTitleMock).toHaveBeenCalledWith(CUSTOM_PATH);
+  });
+
+  it("subscribes and unsubscribes to topics", () => {
+    const subscribeMock = jest.fn();
+    const unsubscribeAllMock = jest.fn();
+    const TEST_TOPIC = BasicBuilder.string();
+    const { props } = setup({
+      contextOverride: { subscribe: subscribeMock, unsubscribeAll: unsubscribeAllMock },
+    });
+    props.context.subscribe([{ topic: TEST_TOPIC, preload: false }]);
+    expect(subscribeMock).toHaveBeenCalledWith([{ topic: TEST_TOPIC, preload: false }]);
+    props.context.unsubscribeAll();
+    expect(unsubscribeAllMock).toHaveBeenCalled();
+  });
+
 });
