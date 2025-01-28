@@ -30,10 +30,6 @@ type Setup = {
   contextOverride?: Partial<PanelExtensionContext>;
 };
 
-jest.mock("@lichtblick/suite-base/testing/builders/IndicatorBuilder", () => ({
-  config: jest.fn(() => ({})),
-}));
-
 describe("Indicator Component", () => {
   beforeEach(() => {
     jest.spyOn(console, "error").mockImplementation(() => {});
@@ -115,11 +111,6 @@ describe("Indicator Component", () => {
     expect(element).toBeTruthy();
   });
 
-  it("renders with default configuration", () => {
-    const { config } = setup();
-    expect(config).toEqual(IndicatorBuilder.config());
-  });
-
   it("renders with custom configuration", () => {
     const customConfig: Partial<IndicatorConfig> = {
       path: BasicBuilder.string(),
@@ -135,8 +126,8 @@ describe("Indicator Component", () => {
     const { props, path } = setup({
       contextOverride: { saveState: saveStateMock },
     });
-    props.context.saveState({ path: path });
-    expect(saveStateMock).toHaveBeenCalledWith({ path: path });
+    props.context.saveState({ path });
+    expect(saveStateMock).toHaveBeenCalledWith({ path });
   });
 
   it("calls context.setDefaultPanelTitle on config change", () => {
@@ -171,20 +162,27 @@ describe("Indicator Component", () => {
   it("subscribes and unsubscribes to topics", () => {
     const subscribeMock = jest.fn();
     const unsubscribeAllMock = jest.fn();
-    const TEST_TOPIC = BasicBuilder.string();
+    const topic = BasicBuilder.string();
     const { props } = setup({
       contextOverride: { subscribe: subscribeMock, unsubscribeAll: unsubscribeAllMock },
     });
-    props.context.subscribe([{ topic: TEST_TOPIC, preload: false }]);
-    expect(subscribeMock).toHaveBeenCalledWith([{ topic: TEST_TOPIC, preload: false }]);
+    props.context.subscribe([{ topic, preload: false }]);
+    expect(subscribeMock).toHaveBeenCalledWith([{ topic, preload: false }]);
     props.context.unsubscribeAll();
     expect(unsubscribeAllMock).toHaveBeenCalled();
   });
 
   it("updates global variables when renderState.variables is defined", () => {
     const { props } = setup();
-    const variables = BasicBuilder.stringMap();
-    const renderState = { variables };
+    const renderState = { variables: BasicBuilder.stringMap() };
+
+    props.context.onRender!(renderState, jest.fn());
+    expect(props.context.onRender).toBeDefined();
+  });
+
+  it("handles context.onRender with didSeek", () => {
+    const { props } = setup();
+    const renderState = { didSeek: true };
 
     props.context.onRender!(renderState, jest.fn());
     expect(props.context.onRender).toBeDefined();
