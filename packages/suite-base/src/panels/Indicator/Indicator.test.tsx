@@ -40,7 +40,6 @@ describe("Indicator Component", () => {
   });
 
   function setup({ contextOverride, configOverride }: Setup = {}) {
-    const path = BasicBuilder.string();
     const props: IndicatorProps = {
       context: {
         initialState: {},
@@ -100,7 +99,6 @@ describe("Indicator Component", () => {
       props,
       user: userEvent.setup(),
       augmentColor,
-      path,
     };
   }
 
@@ -123,7 +121,8 @@ describe("Indicator Component", () => {
 
   it("calls context.saveState on config change", () => {
     const saveStateMock = jest.fn();
-    const { props, path } = setup({
+    const path = BasicBuilder.string();
+    const { props } = setup({
       contextOverride: { saveState: saveStateMock },
     });
     props.context.saveState({ path });
@@ -132,7 +131,8 @@ describe("Indicator Component", () => {
 
   it("calls context.setDefaultPanelTitle on config change", () => {
     const setDefaultPanelTitleMock = jest.fn();
-    const { props, path } = setup({
+    const path = BasicBuilder.string();
+    const { props } = setup({
       contextOverride: { setDefaultPanelTitle: setDefaultPanelTitleMock },
     });
     props.context.setDefaultPanelTitle(path);
@@ -141,7 +141,8 @@ describe("Indicator Component", () => {
 
   it("calls context.setDefaultPanelTitle with undefined path", () => {
     const setDefaultPanelTitleMock = jest.fn();
-    const { props, path } = setup({
+    const path = BasicBuilder.string();
+    const { props } = setup({
       contextOverride: { setDefaultPanelTitle: setDefaultPanelTitleMock },
       configOverride: { path: undefined },
     });
@@ -151,9 +152,10 @@ describe("Indicator Component", () => {
 
   it("calls context.setDefaultPanelTitle with empty path", () => {
     const setDefaultPanelTitleMock = jest.fn();
-    const { props, path } = setup({
+    const path = "";
+    const { props } = setup({
       contextOverride: { setDefaultPanelTitle: setDefaultPanelTitleMock },
-      configOverride: { path: "" },
+      configOverride: { path},
     });
     props.context.setDefaultPanelTitle(path);
     expect(setDefaultPanelTitleMock).toHaveBeenCalledWith(path);
