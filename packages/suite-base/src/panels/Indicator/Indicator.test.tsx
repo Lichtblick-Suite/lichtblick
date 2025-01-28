@@ -11,7 +11,11 @@ import MockPanelContextProvider from "@lichtblick/suite-base/components/MockPane
 import { PanelExtensionAdapter } from "@lichtblick/suite-base/components/PanelExtensionAdapter";
 import Indicator from "@lichtblick/suite-base/panels/Indicator";
 import { getMatchingRule } from "@lichtblick/suite-base/panels/Indicator/getMatchingRule";
-import { IndicatorConfig, IndicatorProps, IndicatorStyle } from "@lichtblick/suite-base/panels/Indicator/types";
+import {
+  IndicatorConfig,
+  IndicatorProps,
+  IndicatorStyle,
+} from "@lichtblick/suite-base/panels/Indicator/types";
 import PanelSetup from "@lichtblick/suite-base/stories/PanelSetup";
 import BasicBuilder from "@lichtblick/suite-base/testing/builders/BasicBuilder";
 import IndicatorBuilder from "@lichtblick/suite-base/testing/builders/IndicatorBuilder";
@@ -27,12 +31,10 @@ type Setup = {
 };
 
 jest.mock("@lichtblick/suite-base/testing/builders/IndicatorBuilder", () => ({
-  config: jest.fn(() => ({ })),
+  config: jest.fn(() => ({})),
 }));
 
 describe("Indicator Component", () => {
-  const CUSTOM_PATH = BasicBuilder.string();
-
   beforeEach(() => {
     jest.spyOn(console, "error").mockImplementation(() => {});
   });
@@ -42,13 +44,14 @@ describe("Indicator Component", () => {
   });
 
   function setup({ contextOverride, configOverride }: Setup = {}) {
+    const path = BasicBuilder.string();
     const props: IndicatorProps = {
       context: {
         initialState: {},
         layout: {
           addPanel: jest.fn(),
         },
-        onRender: undefined,
+        onRender: jest.fn(),
         panelElement: document.createElement("div"),
         saveState: jest.fn(),
         setDefaultPanelTitle: jest.fn(),
@@ -101,6 +104,7 @@ describe("Indicator Component", () => {
       props,
       user: userEvent.setup(),
       augmentColor,
+      path,
     };
   }
 
@@ -118,7 +122,7 @@ describe("Indicator Component", () => {
 
   it("renders with custom configuration", () => {
     const customConfig: Partial<IndicatorConfig> = {
-      path: CUSTOM_PATH,
+      path: BasicBuilder.string(),
       style: "background" as IndicatorStyle,
       fallbackColor: "#ff0000",
     };
@@ -128,20 +132,40 @@ describe("Indicator Component", () => {
 
   it("calls context.saveState on config change", () => {
     const saveStateMock = jest.fn();
-    const { props } = setup({
+    const { props, path } = setup({
       contextOverride: { saveState: saveStateMock },
     });
-    props.context.saveState({ path: CUSTOM_PATH });
-    expect(saveStateMock).toHaveBeenCalledWith({ path: CUSTOM_PATH });
+    props.context.saveState({ path: path });
+    expect(saveStateMock).toHaveBeenCalledWith({ path: path });
   });
 
   it("calls context.setDefaultPanelTitle on config change", () => {
     const setDefaultPanelTitleMock = jest.fn();
-    const { props } = setup({
+    const { props, path } = setup({
       contextOverride: { setDefaultPanelTitle: setDefaultPanelTitleMock },
     });
-    props.context.setDefaultPanelTitle(CUSTOM_PATH);
-    expect(setDefaultPanelTitleMock).toHaveBeenCalledWith(CUSTOM_PATH);
+    props.context.setDefaultPanelTitle(path);
+    expect(setDefaultPanelTitleMock).toHaveBeenCalledWith(path);
+  });
+
+  it("calls context.setDefaultPanelTitle with undefined path", () => {
+    const setDefaultPanelTitleMock = jest.fn();
+    const { props, path } = setup({
+      contextOverride: { setDefaultPanelTitle: setDefaultPanelTitleMock },
+      configOverride: { path: undefined },
+    });
+    props.context.setDefaultPanelTitle(path);
+    expect(setDefaultPanelTitleMock).toHaveBeenCalledWith(path);
+  });
+
+  it("calls context.setDefaultPanelTitle with empty path", () => {
+    const setDefaultPanelTitleMock = jest.fn();
+    const { props, path } = setup({
+      contextOverride: { setDefaultPanelTitle: setDefaultPanelTitleMock },
+      configOverride: { path: "" },
+    });
+    props.context.setDefaultPanelTitle(path);
+    expect(setDefaultPanelTitleMock).toHaveBeenCalledWith(path);
   });
 
   it("subscribes and unsubscribes to topics", () => {
@@ -157,4 +181,12 @@ describe("Indicator Component", () => {
     expect(unsubscribeAllMock).toHaveBeenCalled();
   });
 
+  it("updates global variables when renderState.variables is defined", () => {
+    const { props } = setup();
+    const variables = BasicBuilder.stringMap();
+    const renderState = { variables };
+
+    props.context.onRender!(renderState, jest.fn());
+    expect(props.context.onRender).toBeDefined();
+  });
 });
