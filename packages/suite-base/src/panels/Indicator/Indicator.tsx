@@ -140,7 +140,7 @@ export function Indicator({ context }: IndicatorProps): React.JSX.Element {
     theme: {
       palette: { augmentColor },
     },
-  } = useStyles({ style, bulbColor });
+  } = useStyles({ style, backgroundColor: bulbColor });
 
   const label = matchingRule?.label ?? fallbackLabel;
   const textColor = useMemo(() => {
@@ -160,7 +160,7 @@ export function Indicator({ context }: IndicatorProps): React.JSX.Element {
 }
 
 const Bulb = memo(({ label, bulbColor }: { label: string; bulbColor: string }) => {
-  const { classes } = useStyles({ bulbColor });
+  const { classes } = useStyles({ backgroundColor: bulbColor });
 
   return (
     <Stack className={classes.stack}>
