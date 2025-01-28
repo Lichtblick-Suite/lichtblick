@@ -6,7 +6,7 @@ import { makeStyles } from "tss-react/mui";
 import { IndicatorStyle } from "@lichtblick/suite-base/panels/Indicator/types";
 
 export const useStyles = makeStyles<Partial<{ style: IndicatorStyle; backgroundColor: string }>>()(
-  ({ spacing }, { style, backgroundColor: backgroundColor = "transparent" }) => ({
+  ({ spacing }, { style, backgroundColor = "transparent" }) => ({
     indicatorStack: {
       flexGrow: 1,
       justifyContent: "space-around",
@@ -29,7 +29,7 @@ export const useStyles = makeStyles<Partial<{ style: IndicatorStyle; backgroundC
       height: "clamp(10px, 2vw, 32px)",
       borderRadius: "50%",
       position: "relative",
-      backgroundColor: backgroundColor,
+      backgroundColor,
       backgroundImage: [
         `radial-gradient(transparent, transparent 55%, rgba(255,255,255,0.4) 80%, rgba(255,255,255,0.4))`,
         `radial-gradient(circle at 38% 35%, rgba(255,255,255,0.8), transparent 30%, transparent)`,
