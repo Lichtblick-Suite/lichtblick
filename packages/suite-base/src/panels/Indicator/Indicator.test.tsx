@@ -129,37 +129,18 @@ describe("Indicator Component", () => {
     expect(saveStateMock).toHaveBeenCalledWith({ path });
   });
 
-  it("calls context.setDefaultPanelTitle on config change", () => {
+  it("calls context.setDefaultPanelTitle on config change and empty path", () => {
     const setDefaultPanelTitleMock = jest.fn();
-    const path = BasicBuilder.string();
     const { props } = setup({
       contextOverride: { setDefaultPanelTitle: setDefaultPanelTitleMock },
+      configOverride: IndicatorBuilder.config({ path: "" })
     });
-    props.context.setDefaultPanelTitle(path);
-    expect(setDefaultPanelTitleMock).toHaveBeenCalledWith(path);
+    props.context.setDefaultPanelTitle(undefined);
+
+    expect(setDefaultPanelTitleMock).toHaveBeenCalledWith(undefined);
+    expect(setDefaultPanelTitleMock).toHaveBeenCalledTimes(1);
   });
 
-  it("calls context.setDefaultPanelTitle with undefined path", () => {
-    const setDefaultPanelTitleMock = jest.fn();
-    const path = BasicBuilder.string();
-    const { props } = setup({
-      contextOverride: { setDefaultPanelTitle: setDefaultPanelTitleMock },
-      configOverride: { path: undefined },
-    });
-    props.context.setDefaultPanelTitle(path);
-    expect(setDefaultPanelTitleMock).toHaveBeenCalledWith(path);
-  });
-
-  it("calls context.setDefaultPanelTitle with empty path", () => {
-    const setDefaultPanelTitleMock = jest.fn();
-    const path = "";
-    const { props } = setup({
-      contextOverride: { setDefaultPanelTitle: setDefaultPanelTitleMock },
-      configOverride: { path},
-    });
-    props.context.setDefaultPanelTitle(path);
-    expect(setDefaultPanelTitleMock).toHaveBeenCalledWith(path);
-  });
 
   it("subscribes and unsubscribes to topics", () => {
     const subscribeMock = jest.fn();
