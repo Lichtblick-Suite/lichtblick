@@ -133,14 +133,13 @@ describe("Indicator Component", () => {
     const setDefaultPanelTitleMock = jest.fn();
     const { props } = setup({
       contextOverride: { setDefaultPanelTitle: setDefaultPanelTitleMock },
-      configOverride: IndicatorBuilder.config({ path: "" })
+      configOverride: IndicatorBuilder.config({ path: "" }),
     });
     props.context.setDefaultPanelTitle(undefined);
 
     expect(setDefaultPanelTitleMock).toHaveBeenCalledWith(undefined);
     expect(setDefaultPanelTitleMock).toHaveBeenCalledTimes(1);
   });
-
 
   it("subscribes and unsubscribes to topics", () => {
     const subscribeMock = jest.fn();
