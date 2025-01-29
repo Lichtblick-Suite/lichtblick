@@ -44,6 +44,10 @@ export class McapIndexedIterableSource implements IIterableSource {
   #end?: Time;
   #messageSizeEstimateByHash: Record<string /* subscription hash */, number> = {};
 
+  public getStart(): Time {
+    return this.#start!;
+  }
+
   public constructor(reader: McapIndexedReader) {
     this.#reader = reader;
   }

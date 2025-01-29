@@ -9,7 +9,7 @@ import { McapIndexedReader, McapTypes } from "@mcap/core";
 
 import Log from "@lichtblick/log";
 import { loadDecompressHandlers } from "@lichtblick/mcap-support";
-import { ExtensibleMcapIndexedIterableSource } from "@lichtblick/suite-base/players/IterablePlayer/Mcap/ExtensibleMcapIndexedIterableSource";
+import { Time } from "@lichtblick/rostime";
 import { MessageEvent } from "@lichtblick/suite-base/players/types";
 
 import { BlobReadable } from "./BlobReadable";
@@ -28,7 +28,7 @@ const log = Log.getLogger(__filename);
 
 type McapSource =
   | { type: "file"; file: Blob }
-  | { type: "files"; files: Blob[] }
+  // | { type: "files"; files: Blob[] }
   | { type: "url"; url: string };
 
 /**
@@ -53,6 +53,10 @@ async function tryCreateIndexedReader(readable: McapTypes.IReadable) {
 export class McapIterableSource implements IIterableSource {
   #source: McapSource;
   #sourceImpl: IIterableSource | undefined;
+
+  public getStart(): Time {
+    return this.#sourceImpl!.getStart!();
+  }
 
   public constructor(source: McapSource) {
     this.#source = source;
@@ -80,25 +84,25 @@ export class McapIterableSource implements IIterableSource {
         }
         break;
       }
-      case "files": {
-        console.log("GOLD McapIterableSource files", source);
-        const readers = await Promise.all(
-          source.files.map(async (file) => {
-            await file.slice(0, 1).arrayBuffer();
-            const readable = new BlobReadable(file);
+      // case "files": {
+      //   console.log("GOLD McapIterableSource files", source);
+      //   const readers = await Promise.all(
+      //     source.files.map(async (file) => {
+      //       await file.slice(0, 1).arrayBuffer();
+      //       const readable = new BlobReadable(file);
 
-            const reader = await tryCreateIndexedReader(readable);
-            if (!reader) {
-              throw new Error(`Failed to create indexed reader for file.`);
-            }
-            return reader;
-          }),
-        );
+      //       const reader = await tryCreateIndexedReader(readable);
+      //       if (!reader) {
+      //         throw new Error(`Failed to create indexed reader for file.`);
+      //       }
+      //       return reader;
+      //     }),
+      //   );
 
-        this.#sourceImpl = new ExtensibleMcapIndexedIterableSource(readers);
+      //   this.#sourceImpl = new ExtensibleMcapIndexedIterableSource(readers);
 
-        break;
-      }
+      //   break;
+      // }
       case "url": {
         const readable = new RemoteFileReadable(source.url);
         await readable.open();

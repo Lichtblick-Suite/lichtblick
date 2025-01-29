@@ -156,6 +156,8 @@ export interface IIterableSource {
    */
   initialize(): Promise<Initalization>;
 
+  getStart?: () => Time;
+
   /**
    * Instantiate an IMessageIterator for the source.
    *
