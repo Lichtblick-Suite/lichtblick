@@ -6,6 +6,7 @@ import { userEvent } from "@storybook/testing-library";
 import { render, screen } from "@testing-library/react";
 import React from "react";
 
+import { parseMessagePath } from "@lichtblick/message-path";
 import { PanelExtensionContext } from "@lichtblick/suite";
 import MockPanelContextProvider from "@lichtblick/suite-base/components/MockPanelContextProvider";
 import { PanelExtensionAdapter } from "@lichtblick/suite-base/components/PanelExtensionAdapter";
@@ -23,6 +24,10 @@ import ThemeProvider from "@lichtblick/suite-base/theme/ThemeProvider";
 
 jest.mock("./getMatchingRule", () => ({
   getMatchingRule: jest.fn(),
+}));
+
+jest.mock("@lichtblick/message-path", () => ({
+  parseMessagePath: jest.fn(),
 }));
 
 type Setup = {
@@ -88,6 +93,9 @@ describe("Indicator Component", () => {
     };
     (getMatchingRule as jest.Mock).mockReturnValue(matchingRule);
 
+    const parsedPath = { topicName: BasicBuilder.string() };
+    (parseMessagePath as jest.Mock).mockReturnValue(parsedPath.topicName);
+
     const augmentColor = jest.fn(({ color: { main } }) => ({
       contrastText: `${main}-contrast`,
     }));
@@ -96,6 +104,7 @@ describe("Indicator Component", () => {
       ...render(ui),
       config,
       matchingRule,
+      parsedPath,
       props,
       user: userEvent.setup(),
       augmentColor,
@@ -148,10 +157,25 @@ describe("Indicator Component", () => {
     const { props } = setup({
       contextOverride: { subscribe: subscribeMock, unsubscribeAll: unsubscribeAllMock },
     });
+
     props.context.subscribe([{ topic, preload: false }]);
+
     expect(subscribeMock).toHaveBeenCalledWith([{ topic, preload: false }]);
+    expect(subscribeMock).toHaveBeenCalledTimes(1);
     props.context.unsubscribeAll();
     expect(unsubscribeAllMock).toHaveBeenCalled();
+  });
+
+  it("subscribes to topic when parsedPath.topicName is defined", () => {
+    const subscribeMock = jest.fn();
+    const { props, parsedPath } = setup({
+      contextOverride: { subscribe: subscribeMock },
+    });
+
+    props.context.subscribe([{ topic: parsedPath.topicName, preload: false }]);
+
+    expect(subscribeMock).toHaveBeenCalledWith([{ topic: parsedPath.topicName, preload: false }]);
+    expect(subscribeMock).toHaveBeenCalledTimes(1);
   });
 
   it("updates global variables when renderState.variables is defined", () => {
