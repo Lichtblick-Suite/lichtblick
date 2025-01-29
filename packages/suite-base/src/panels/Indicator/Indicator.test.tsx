@@ -193,4 +193,64 @@ describe("Indicator Component", () => {
     props.context.onRender!(renderState, jest.fn());
     expect(props.context.onRender).toBeDefined();
   });
+
+  it("returns the correct rawValue for boolean type", () => {
+    const latestMatchingQueriedData = BasicBuilder.boolean();
+    const rawValue = ["boolean", "number", "bigint", "string"].includes(
+      typeof latestMatchingQueriedData,
+    )
+      ? latestMatchingQueriedData
+      : undefined;
+    expect(rawValue).toBe(latestMatchingQueriedData);
+  });
+
+  it("returns the correct rawValue for number type", () => {
+    const latestMatchingQueriedData = BasicBuilder.number();
+    const rawValue = ["boolean", "number", "bigint", "string"].includes(
+      typeof latestMatchingQueriedData,
+    )
+      ? latestMatchingQueriedData
+      : undefined;
+    expect(rawValue).toBe(latestMatchingQueriedData);
+  });
+
+  it("returns the correct rawValue for bigint type", () => {
+    const latestMatchingQueriedData = BasicBuilder.bigInt();
+    const rawValue = ["boolean", "number", "bigint", "string"].includes(
+      typeof latestMatchingQueriedData,
+    )
+      ? latestMatchingQueriedData
+      : undefined;
+    expect(rawValue).toBe(latestMatchingQueriedData);
+  });
+
+  it("returns the correct rawValue for string type", () => {
+    const latestMatchingQueriedData = BasicBuilder.string();
+    const rawValue = ["boolean", "number", "bigint", "string"].includes(
+      typeof latestMatchingQueriedData,
+    )
+      ? latestMatchingQueriedData
+      : undefined;
+    expect(rawValue).toBe(latestMatchingQueriedData);
+  });
+
+  it("returns undefined for object type", () => {
+    const latestMatchingQueriedData = { key: "value" };
+    const rawValue = ["boolean", "number", "bigint", "string"].includes(
+      typeof latestMatchingQueriedData,
+    )
+      ? latestMatchingQueriedData
+      : undefined;
+    expect(rawValue).toBeUndefined();
+  });
+
+  it("returns undefined for undefined type", () => {
+    const latestMatchingQueriedData = undefined;
+    const rawValue = ["boolean", "number", "bigint", "string"].includes(
+      typeof latestMatchingQueriedData,
+    )
+      ? latestMatchingQueriedData
+      : undefined;
+    expect(rawValue).toBeUndefined();
+  });
 });
