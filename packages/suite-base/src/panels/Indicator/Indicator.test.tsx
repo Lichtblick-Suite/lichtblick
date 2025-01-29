@@ -130,12 +130,12 @@ describe("Indicator Component", () => {
 
   it("calls context.saveState on config change", () => {
     const saveStateMock = jest.fn();
-    const path = BasicBuilder.string();
+    const newConfig = IndicatorBuilder.config();
     const { props } = setup({
       contextOverride: { saveState: saveStateMock },
     });
-    props.context.saveState({ path });
-    expect(saveStateMock).toHaveBeenCalledWith({ path });
+    props.context.saveState(newConfig);
+    expect(saveStateMock).toHaveBeenCalledWith(newConfig);
   });
 
   it("calls context.setDefaultPanelTitle on config change and empty path", () => {
@@ -178,79 +178,11 @@ describe("Indicator Component", () => {
     expect(subscribeMock).toHaveBeenCalledTimes(1);
   });
 
-  it("updates global variables when renderState.variables is defined", () => {
+  it("handles context.onRender with didSeek and renderState.variables", () => {
     const { props } = setup();
-    const renderState = { variables: BasicBuilder.stringMap() };
+    const renderState = { didSeek: true, variables: BasicBuilder.stringMap() };
 
     props.context.onRender!(renderState, jest.fn());
     expect(props.context.onRender).toBeDefined();
-  });
-
-  it("handles context.onRender with didSeek", () => {
-    const { props } = setup();
-    const renderState = { didSeek: true };
-
-    props.context.onRender!(renderState, jest.fn());
-    expect(props.context.onRender).toBeDefined();
-  });
-
-  it("returns the correct rawValue for boolean type", () => {
-    const latestMatchingQueriedData = BasicBuilder.boolean();
-    const rawValue = ["boolean", "number", "bigint", "string"].includes(
-      typeof latestMatchingQueriedData,
-    )
-      ? latestMatchingQueriedData
-      : undefined;
-    expect(rawValue).toBe(latestMatchingQueriedData);
-  });
-
-  it("returns the correct rawValue for number type", () => {
-    const latestMatchingQueriedData = BasicBuilder.number();
-    const rawValue = ["boolean", "number", "bigint", "string"].includes(
-      typeof latestMatchingQueriedData,
-    )
-      ? latestMatchingQueriedData
-      : undefined;
-    expect(rawValue).toBe(latestMatchingQueriedData);
-  });
-
-  it("returns the correct rawValue for bigint type", () => {
-    const latestMatchingQueriedData = BasicBuilder.bigInt();
-    const rawValue = ["boolean", "number", "bigint", "string"].includes(
-      typeof latestMatchingQueriedData,
-    )
-      ? latestMatchingQueriedData
-      : undefined;
-    expect(rawValue).toBe(latestMatchingQueriedData);
-  });
-
-  it("returns the correct rawValue for string type", () => {
-    const latestMatchingQueriedData = BasicBuilder.string();
-    const rawValue = ["boolean", "number", "bigint", "string"].includes(
-      typeof latestMatchingQueriedData,
-    )
-      ? latestMatchingQueriedData
-      : undefined;
-    expect(rawValue).toBe(latestMatchingQueriedData);
-  });
-
-  it("returns undefined for object type", () => {
-    const latestMatchingQueriedData = { key: "value" };
-    const rawValue = ["boolean", "number", "bigint", "string"].includes(
-      typeof latestMatchingQueriedData,
-    )
-      ? latestMatchingQueriedData
-      : undefined;
-    expect(rawValue).toBeUndefined();
-  });
-
-  it("returns undefined for undefined type", () => {
-    const latestMatchingQueriedData = undefined;
-    const rawValue = ["boolean", "number", "bigint", "string"].includes(
-      typeof latestMatchingQueriedData,
-    )
-      ? latestMatchingQueriedData
-      : undefined;
-    expect(rawValue).toBeUndefined();
   });
 });
