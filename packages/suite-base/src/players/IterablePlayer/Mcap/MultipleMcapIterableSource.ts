@@ -67,8 +67,10 @@ export class MultipleMcapIterableSource implements IIterableSource {
     const uniqueTopics: (arr: Topic[]) => Topic[] = (arr) =>
       Array.from(new Map<string, Topic>(arr.map((topic) => [topic.name, topic])).values());
 
-    // eslint-disable-next-line no-warning-comments
-    // TODO: IMPROVE MERGING INITIALIZATION OBJECTS
+    // console.log("GOLD initializations", initializations);
+
+    // IMPROVE MERGING INITIALIZATION OBJECTS
+    // measure processing time between current implementation and new one.
     for (const initialization of initializations) {
       mergedInitialization.start =
         compare(initialization.start, mergedInitialization.start) < 0
@@ -84,10 +86,18 @@ export class MultipleMcapIterableSource implements IIterableSource {
         ...mergedInitialization.topics,
         ...initialization.topics,
       ]);
+      /**
+       * It's missing improve the topicStats processing.
+       * The messages number(topicStats[x].value.numMessages) should be recalculated.
+       */
       mergedInitialization.topicStats = new Map([
         ...mergedInitialization.topicStats,
         ...initialization.topicStats,
       ]);
+      /**
+       * In the future will be necessary validate the schemas(datatypes) once is
+       * expected load multiple mcaps from different mcap origins.
+       */
       mergedInitialization.datatypes = new Map([
         ...mergedInitialization.datatypes,
         ...initialization.datatypes,
@@ -111,6 +121,7 @@ export class MultipleMcapIterableSource implements IIterableSource {
     // Sort the sources by start time -> IT NEEDS TO HAPPEN
     this.#sourceImpl.sort((a, b) => compare(a.getStart!(), b.getStart!()));
 
+    // console.log("GOLD mergedInitialization", mergedInitialization);
     return mergedInitialization;
   }
 
@@ -123,7 +134,9 @@ export class MultipleMcapIterableSource implements IIterableSource {
       }
     }
 
-    // Test with mergeAsyncIterators
+    /**
+     * Improve performance using promises to handle multiple iterators
+     */
     // const iterators = this.#sourceImpl.map((source) => source.messageIterator(opt));
     // yield* mergeAsyncIterators(iterators);
   }
