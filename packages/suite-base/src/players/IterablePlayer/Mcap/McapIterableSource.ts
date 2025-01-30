@@ -26,10 +26,7 @@ import {
 
 const log = Log.getLogger(__filename);
 
-type McapSource =
-  | { type: "file"; file: Blob }
-  // | { type: "files"; files: Blob[] }
-  | { type: "url"; url: string };
+type McapSource = { type: "file"; file: Blob } | { type: "url"; url: string };
 
 /**
  * Create a McapIndexedReader if it will be possible to do an indexed read. If the file is not

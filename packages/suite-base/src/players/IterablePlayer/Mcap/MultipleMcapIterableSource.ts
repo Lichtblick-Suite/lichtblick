@@ -4,7 +4,6 @@
 // This Source Code Form is subject to the terms of the Mozilla Public
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
-
 import { compare } from "@lichtblick/rostime";
 import { Topic } from "@lichtblick/suite";
 import { McapIterableSource } from "@lichtblick/suite-base/players/IterablePlayer/Mcap/McapIterableSource";
@@ -19,39 +18,42 @@ import {
   GetBackfillMessagesArgs,
 } from "../IIterableSource";
 
-type MultipleDataSource = { type: "files"; files: Blob[] } | { type: "url"; urls: string[] };
+type MultiMcapSource = { type: "files"; files: Blob[] } | { type: "urls"; urls: string[] };
 
-export class MultipleMcapIterableSource implements IIterableSource {
-  #dataSource: MultipleDataSource;
+export class MultiMcapIterableSource implements IIterableSource {
+  #dataSource: MultiMcapSource;
   #sourceImpl: IIterableSource[] = [];
 
-  public constructor(dataSource: MultipleDataSource) {
+  public constructor(dataSource: MultiMcapSource) {
     this.#dataSource = dataSource;
   }
 
-  public async initialize(): Promise<Initalization> {
-    const dataSource = this.#dataSource;
+  async #initializeMultipleSources(): Promise<Initalization[]> {
+    const { type } = this.#dataSource;
 
-    // SELECT OBJECT DEPENDING IF IT IS FILES OR URLS
-    const initializations =
-      dataSource.type === "files"
-        ? await Promise.all(
-            dataSource.files.map(async (file) => {
-              const localSourceImpl = new McapIterableSource({ type: "file", file });
-              this.#sourceImpl.push(localSourceImpl);
-              return await localSourceImpl.initialize();
-            }),
-          )
-        : await Promise.all(
-            dataSource.urls.map(async (url) => {
-              const localSourceImpl = new McapIterableSource({ type: "url", url });
-              this.#sourceImpl.push(localSourceImpl);
-              return await localSourceImpl.initialize();
-            }),
-          );
+    const sources =
+      type === "files"
+        ? this.#dataSource.files.map((file) => new McapIterableSource({ type: "file", file }))
+        : this.#dataSource.urls.map((url) => new McapIterableSource({ type: "url", url }));
+
+    this.#sourceImpl = [...this.#sourceImpl, ...sources];
+
+    const initializations: Initalization[] = await Promise.all(
+      sources.map(async (source) => await source.initialize()),
+    );
+
+    return initializations;
+  }
+
+  public async initialize(): Promise<Initalization> {
+    console.time("GOLD_init");
+    const initializations: Initalization[] = await this.#initializeMultipleSources();
+    console.timeEnd("GOLD_init");
+
+    console.time("GOLD_inits");
 
     // INITIATE MERGED INITIALIZATION OBJECT
-    const mergedInitialization: Initalization = {
+    const initialization: Initalization = {
       start: { sec: Number.MAX_SAFE_INTEGER, nsec: Number.MAX_SAFE_INTEGER },
       end: { sec: Number.MIN_SAFE_INTEGER, nsec: Number.MIN_SAFE_INTEGER },
       topics: [],
@@ -64,82 +66,117 @@ export class MultipleMcapIterableSource implements IIterableSource {
       problems: [],
     };
 
-    const uniqueTopics: (arr: Topic[]) => Topic[] = (arr) =>
-      Array.from(new Map<string, Topic>(arr.map((topic) => [topic.name, topic])).values());
-
-    // console.log("GOLD initializations", initializations);
+    const uniqueTopics = new Map<string, Topic>();
 
     // IMPROVE MERGING INITIALIZATION OBJECTS
     // measure processing time between current implementation and new one.
-    for (const initialization of initializations) {
-      mergedInitialization.start =
-        compare(initialization.start, mergedInitialization.start) < 0
-          ? initialization.start
-          : mergedInitialization.start;
-      mergedInitialization.end =
-        compare(initialization.end, mergedInitialization.end) > 0
-          ? initialization.end
-          : mergedInitialization.end;
+    for (const init of initializations) {
+      if (compare(init.start, initialization.start) < 0) {
+        initialization.start = init.start;
+      }
+      if (compare(init.end, initialization.end) > 0) {
+        initialization.end = init.end;
+      }
 
-      // @ts-expect-error - 'Topic' interface not correct?
-      mergedInitialization.topics = uniqueTopics([
-        ...mergedInitialization.topics,
-        ...initialization.topics,
-      ]);
-      /**
-       * It's missing improve the topicStats processing.
-       * The messages number(topicStats[x].value.numMessages) should be recalculated.
-       */
-      mergedInitialization.topicStats = new Map([
-        ...mergedInitialization.topicStats,
-        ...initialization.topicStats,
-      ]);
+      init.topics.forEach((topic) => uniqueTopics.set(topic.name, topic as Topic));
+
+      for (const [topic, stats] of init.topicStats) {
+        if (!initialization.topicStats.has(topic)) {
+          initialization.topicStats.set(topic, { numMessages: 0 });
+        }
+        initialization.topicStats.get(topic)!.numMessages += stats.numMessages;
+      }
+
       /**
        * In the future will be necessary validate the schemas(datatypes) once is
        * expected load multiple mcaps from different mcap origins.
        */
-      mergedInitialization.datatypes = new Map([
-        ...mergedInitialization.datatypes,
+      initialization.datatypes = new Map<string, OptionalMessageDefinition>([
         ...initialization.datatypes,
+        ...init.datatypes,
       ]);
-      mergedInitialization.profile = initialization.profile;
-      mergedInitialization.name = initialization.name;
-      mergedInitialization.metadata = [
-        ...(mergedInitialization.metadata ?? []),
-        ...(initialization.metadata ?? []),
-      ];
-      mergedInitialization.publishersByTopic = new Map([
-        ...mergedInitialization.publishersByTopic,
+      initialization.profile = initialization.profile ?? init.profile;
+      initialization.name = initialization.name ?? init.name;
+      initialization.metadata = [...(initialization.metadata ?? []), ...(init.metadata ?? [])];
+      initialization.publishersByTopic = new Map<string, Set<string>>([
         ...initialization.publishersByTopic,
+        ...init.publishersByTopic,
       ]);
-      mergedInitialization.problems = [
-        ...mergedInitialization.problems,
-        ...initialization.problems,
-      ];
+      initialization.problems = [...initialization.problems, ...init.problems];
     }
 
-    // Sort the sources by start time -> IT NEEDS TO HAPPEN
+    initialization.topics = Array.from(uniqueTopics.values());
     this.#sourceImpl.sort((a, b) => compare(a.getStart!(), b.getStart!()));
 
-    // console.log("GOLD mergedInitialization", mergedInitialization);
-    return mergedInitialization;
+    console.timeEnd("GOLD_inits");
+
+    // console.log("GOLD initialization", initialization);
+    return initialization;
   }
 
+  /**
+   * Improve performance using promises to handle multiple iterators
+   */
+  /**
+   * Each source already processes messages very quickly, there is no reason to parallelize,
+   * as the bottleneck is in the latency of the sources and not in the iteration code.
+   */
   public async *messageIterator(
     opt: MessageIteratorArgs,
   ): AsyncIterableIterator<Readonly<IteratorResult>> {
+    const startTime = performance.now();
     for (const source of this.#sourceImpl) {
       for await (const message of source.messageIterator(opt)) {
         yield message;
       }
     }
-
-    /**
-     * Improve performance using promises to handle multiple iterators
-     */
     // const iterators = this.#sourceImpl.map((source) => source.messageIterator(opt));
     // yield* mergeAsyncIterators(iterators);
+    const endTime = performance.now();
+    console.log("GOLD_messageIterator completed", endTime - startTime);
   }
+
+  // BATCH
+  // public async *messageIterator2(
+  //   opt: MessageIteratorArgs,
+  // ): AsyncIterableIterator<Readonly<IteratorResult>> {
+  //   console.log("GOLD_messageIterator");
+  //   const startTime = performance.now();
+  //   for (const source of this.#sourceImpl) {
+  //     const batchSize = 6; // Adjust based on your use case
+  //     let batch: IteratorResult[] = [];
+
+  //     for await (const message of source.messageIterator(opt)) {
+  //       batch.push(message);
+  //       if (batch.length >= batchSize) {
+  //         yield* batch;
+  //         batch = [];
+  //       }
+  //     }
+
+  //     // Yield any remaining messages in the last batch
+  //     if (batch.length > 0) {
+  //       yield* batch;
+  //     }
+  //   }
+  //   const endTime = performance.now();
+  //   console.log("GOLD_messageIterator2 completed", endTime - startTime);
+  // }
+
+  // STREAM
+  // public async *messageIterator3(
+  //   opt: MessageIteratorArgs,
+  // ): AsyncIterableIterator<Readonly<IteratorResult>> {
+  //   const startTime = performance.now();
+  //   for (const source of this.#sourceImpl) {
+  //     const stream = Readable.from(source.messageIterator(opt));
+  //     for await (const message of stream) {
+  //       yield message;
+  //     }
+  //   }
+  //   const endTime = performance.now();
+  //   console.log("GOLD_messageIterator3 completed", endTime - startTime);
+  // }
 
   public async getBackfillMessages(args: GetBackfillMessagesArgs): Promise<MessageEvent[]> {
     const backfillMessages = await Promise.all(
