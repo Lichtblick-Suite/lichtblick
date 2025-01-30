@@ -12,10 +12,12 @@ import { Immutable, PanelExtensionContext, RenderState } from "@lichtblick/suite
 import MockPanelContextProvider from "@lichtblick/suite-base/components/MockPanelContextProvider";
 import { PanelExtensionAdapter } from "@lichtblick/suite-base/components/PanelExtensionAdapter";
 import Indicator from "@lichtblick/suite-base/panels/Indicator";
+import { DEFAULT_CONFIG } from "@lichtblick/suite-base/panels/Indicator/constants";
 import { getMatchingRule } from "@lichtblick/suite-base/panels/Indicator/getMatchingRule";
 import {
   IndicatorConfig,
   IndicatorProps,
+  IndicatorRule,
   IndicatorStyle,
 } from "@lichtblick/suite-base/panels/Indicator/types";
 import PanelSetup from "@lichtblick/suite-base/stories/PanelSetup";
@@ -76,23 +78,24 @@ describe("Indicator Component", () => {
 
     const saveConfig = () => {};
     // const initPanel = jest.fn();
-    const renderStates: Immutable<RenderState>[] = [];
     const initPanel = jest.fn((context: PanelExtensionContext) => {
       context.watch("currentFrame");
       context.watch("didSeek");
-      context.subscribe([{ topic: "x", preload: false }]);
-      context.onRender = (renderState, done) => {
-        renderStates.push({ ...renderState });
-        done();
-      };
+      context.watch("variables");
+      context.subscribe([{ topic: BasicBuilder.string(), preload: false }]);
+      context.onRender = () => {};
     });
 
     const ui: React.ReactElement = (
       <ThemeProvider isDark>
         <MockPanelContextProvider>
           <PanelSetup>
-            <PanelExtensionAdapter config={config} saveConfig={saveConfig} initPanel={initPanel}>
-              <Indicator {...props} />
+            <PanelExtensionAdapter
+              config={DEFAULT_CONFIG}
+              saveConfig={saveConfig}
+              initPanel={initPanel}
+            >
+              <Indicator overrideConfig={config} />
             </PanelExtensionAdapter>
           </PanelSetup>
         </MockPanelContextProvider>
@@ -124,8 +127,7 @@ describe("Indicator Component", () => {
   it("renders Indicator component", () => {
     const { matchingRule } = setup();
 
-    const element = screen.getByText(matchingRule.label);
-    expect(element).toBeTruthy();
+    expect(screen.getByText(matchingRule.label)).toBeTruthy();
   });
 
   it("renders with custom configuration", () => {
@@ -139,6 +141,26 @@ describe("Indicator Component", () => {
 
     expect(config).toMatchObject(customConfig);
   });
+
+  it("renders the correct label based on matching rule", () => {
+    const { matchingRule } = setup();
+
+    expect(screen.getByText(matchingRule.label)).toBeTruthy();
+  });
+
+  it.each<IndicatorStyle>(["bulb", "background"])(
+    "renders with the proper style indicator",
+    (style) => {
+      const { matchingRule } = setup({
+        configOverride: {
+          style,
+        },
+      });
+
+      expect(screen.getByTestId(`${style}-indicator`)).toBeTruthy();
+      expect(screen.getByText(matchingRule.label)).toBeTruthy();
+    },
+  );
 
   // it("calls context.saveState on config change", () => {
   //   const newConfig = IndicatorBuilder.config();
