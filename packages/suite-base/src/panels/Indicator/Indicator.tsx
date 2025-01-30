@@ -40,7 +40,6 @@ export function Indicator({ context }: IndicatorProps): React.JSX.Element {
   }));
 
   const { style, rules, fallbackColor, fallbackLabel } = config;
-  console.log("CONFIG STYLE", config.style);
 
   const [state, dispatch] = useReducer(
     stateReducer,
@@ -63,8 +62,6 @@ export function Indicator({ context }: IndicatorProps): React.JSX.Element {
   }, [config.path]);
 
   useEffect(() => {
-    // console.log("useEffect called with path:", config);
-    // console.log("useEffect called with path:", config.path);
     context.saveState(config);
     context.setDefaultPanelTitle(config.path === "" ? undefined : config.path);
   }, [config, context]);
@@ -113,14 +110,13 @@ export function Indicator({ context }: IndicatorProps): React.JSX.Element {
   }, [context, settingsActionHandler, settingsTree]);
 
   useEffect(() => {
-    // console.log("parsedPath", parsedPath);
     if (parsedPath?.topicName != undefined) {
       context.subscribe([{ topic: parsedPath.topicName, preload: false }]);
     }
     return () => {
       context.unsubscribeAll();
     };
-  }, [context, parsedPath]);
+  }, [context, parsedPath?.topicName]);
 
   // Indicate render is complete - the effect runs after the dom is updated
   useEffect(() => {
