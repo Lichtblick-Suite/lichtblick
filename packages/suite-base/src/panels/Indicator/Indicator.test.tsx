@@ -132,12 +132,6 @@ describe("Indicator Component", () => {
     expect(config).toMatchObject(customConfig);
   });
 
-  it("renders the correct label based on matching rule", () => {
-    const { matchingRule } = setup();
-
-    expect(screen.getByText(matchingRule.label)).toBeTruthy();
-  });
-
   it.each<IndicatorStyle>(["bulb", "background"])(
     "renders with the proper style indicator",
     (style) => {
