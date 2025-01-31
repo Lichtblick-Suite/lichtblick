@@ -37,7 +37,7 @@ import { IteratorResult } from "@lichtblick/suite-base/players/IterablePlayer/II
 
 /**
  * IT WORKS
- * but with same performance.
+ * but with same time without mergeAsyncIterators in messageIterator.
  */
 
 // export async function* mergeAsyncIterators<T extends IteratorResult>(
@@ -73,7 +73,23 @@ import { IteratorResult } from "@lichtblick/suite-base/players/IterablePlayer/II
 
 /**
  * IT WORKS
- * but with same performance.
+ * but with same time without mergeAsyncIterators in messageIterator.
+ *
+ * It use Heap structure to order iterators instead de sort JS method.
+ * Ordering with min heap:  O(log n) for each iteration
+ * Ordering with sort():    O(n log n) for each iteration
+ *
+ * Min-Heap:
+ *      2                3
+ *     / \              / \
+ *    3   4     ->     5   4
+ *   / \   \          / \
+ *  6   8   5        6   8
+ *
+ * Operations:
+ * push   -> O(log n)
+ * pop    -> O(log n)
+ * access -> O(1)
  */
 export async function* mergeAsyncIterators<T extends IteratorResult>(
   iterators: AsyncIterableIterator<T>[],
@@ -92,22 +108,22 @@ export async function* mergeAsyncIterators<T extends IteratorResult>(
   );
 
   while (!heap.isEmpty()) {
-    const { value, iterator } = heap.pop()!;
-    yield value;
+    const node = heap.pop()!;
+    yield node.value;
 
-    const nextResult = await iterator.next();
+    const nextResult = await node.iterator.next();
     if (!(nextResult.done ?? false)) {
-      heap.push({ value: nextResult.value, iterator });
+      heap.push({ value: nextResult.value, iterator: node.iterator });
     }
   }
 }
 
 function getTime(event: IteratorResult): number {
-  if (event.type === "stamp") {
-    return toMillis(event.stamp);
-  }
   if (event.type === "message-event") {
     return toMillis(event.msgEvent.receiveTime);
+  }
+  if (event.type === "stamp") {
+    return toMillis(event.stamp);
   }
   return Number.MAX_SAFE_INTEGER;
 }

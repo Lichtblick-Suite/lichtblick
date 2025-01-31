@@ -7,6 +7,7 @@
 import { compare } from "@lichtblick/rostime";
 import { Topic } from "@lichtblick/suite";
 import { McapIterableSource } from "@lichtblick/suite-base/players/IterablePlayer/Mcap/McapIterableSource";
+import { mergeAsyncIterators } from "@lichtblick/suite-base/players/IterablePlayer/Mcap/mergeAsyncIterators";
 import { MessageEvent } from "@lichtblick/suite-base/players/types";
 import { OptionalMessageDefinition } from "@lichtblick/suite-base/types/RosDatatypes";
 
@@ -46,12 +47,11 @@ export class MultiMcapIterableSource implements IIterableSource {
   }
 
   public async initialize(): Promise<Initalization> {
-    console.time("GOLD_init");
+    console.time("GOLD_loadFiles");
     const initializations: Initalization[] = await this.#initializeMultipleSources();
-    console.timeEnd("GOLD_init");
+    console.timeEnd("GOLD_loadFiles");
 
-    console.time("GOLD_inits");
-
+    console.time("GOLD_init");
     // INITIATE MERGED INITIALIZATION OBJECT
     const initialization: Initalization = {
       start: { sec: Number.MAX_SAFE_INTEGER, nsec: Number.MAX_SAFE_INTEGER },
@@ -108,7 +108,7 @@ export class MultiMcapIterableSource implements IIterableSource {
     initialization.topics = Array.from(uniqueTopics.values());
     this.#sourceImpl.sort((a, b) => compare(a.getStart!(), b.getStart!()));
 
-    console.timeEnd("GOLD_inits");
+    console.timeEnd("GOLD_init");
 
     // console.log("GOLD initialization", initialization);
     return initialization;
@@ -125,13 +125,13 @@ export class MultiMcapIterableSource implements IIterableSource {
     opt: MessageIteratorArgs,
   ): AsyncIterableIterator<Readonly<IteratorResult>> {
     const startTime = performance.now();
-    for (const source of this.#sourceImpl) {
-      for await (const message of source.messageIterator(opt)) {
-        yield message;
-      }
-    }
-    // const iterators = this.#sourceImpl.map((source) => source.messageIterator(opt));
-    // yield* mergeAsyncIterators(iterators);
+    // for (const source of this.#sourceImpl) {
+    //   for await (const message of source.messageIterator(opt)) {
+    //     yield message;
+    //   }
+    // }
+    const iterators = this.#sourceImpl.map((source) => source.messageIterator(opt));
+    yield* mergeAsyncIterators(iterators);
     const endTime = performance.now();
     console.log("GOLD_messageIterator completed", endTime - startTime);
   }
