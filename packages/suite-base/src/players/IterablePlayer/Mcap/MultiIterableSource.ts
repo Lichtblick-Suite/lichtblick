@@ -6,7 +6,6 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 import { compare } from "@lichtblick/rostime";
 import { Topic } from "@lichtblick/suite";
-import { McapIterableSource } from "@lichtblick/suite-base/players/IterablePlayer/Mcap/McapIterableSource";
 import { mergeAsyncIterators } from "@lichtblick/suite-base/players/IterablePlayer/Mcap/mergeAsyncIterators";
 import { MessageEvent } from "@lichtblick/suite-base/players/types";
 import { OptionalMessageDefinition } from "@lichtblick/suite-base/types/RosDatatypes";
@@ -19,23 +18,31 @@ import {
   GetBackfillMessagesArgs,
 } from "../IIterableSource";
 
-type MultiMcapSource = { type: "files"; files: Blob[] } | { type: "urls"; urls: string[] };
+type MultiSource = { type: "files"; files: Blob[] } | { type: "urls"; urls: string[] };
 
-export class MultiMcapIterableSource implements IIterableSource {
-  #dataSource: MultiMcapSource;
+type IterableSourceConstructor<T extends IIterableSource, P> = new (args: P) => T;
+
+export class MultiIterableSource<T extends IIterableSource, P> implements IIterableSource {
+  #SourceConstructor: IterableSourceConstructor<T, P>;
+  #dataSource: MultiSource;
   #sourceImpl: IIterableSource[] = [];
 
-  public constructor(dataSource: MultiMcapSource) {
+  public constructor(dataSource: MultiSource, SourceConstructor: IterableSourceConstructor<T, P>) {
     this.#dataSource = dataSource;
+    this.#SourceConstructor = SourceConstructor;
   }
 
   async #initializeMultipleSources(): Promise<Initalization[]> {
     const { type } = this.#dataSource;
 
-    const sources =
+    const sources: IIterableSource[] =
       type === "files"
-        ? this.#dataSource.files.map((file) => new McapIterableSource({ type: "file", file }))
-        : this.#dataSource.urls.map((url) => new McapIterableSource({ type: "url", url }));
+        ? this.#dataSource.files.map(
+            (file) => new this.#SourceConstructor({ type: "file", file } as P),
+          )
+        : this.#dataSource.urls.map(
+            (url) => new this.#SourceConstructor({ type: "url", url } as P),
+          );
 
     this.#sourceImpl = [...this.#sourceImpl, ...sources];
 

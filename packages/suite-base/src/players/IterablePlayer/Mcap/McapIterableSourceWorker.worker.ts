@@ -7,7 +7,7 @@
 
 import * as Comlink from "@lichtblick/comlink";
 import { IterableSourceInitializeArgs } from "@lichtblick/suite-base/players/IterablePlayer/IIterableSource";
-import { MultiMcapIterableSource } from "@lichtblick/suite-base/players/IterablePlayer/Mcap/MultipleMcapIterableSource";
+import { MultiIterableSource } from "@lichtblick/suite-base/players/IterablePlayer/Mcap/MultiIterableSource";
 import { WorkerIterableSourceWorker } from "@lichtblick/suite-base/players/IterablePlayer/WorkerIterableSourceWorker";
 
 import { McapIterableSource } from "./McapIterableSource";
@@ -18,7 +18,10 @@ export function initialize(args: IterableSourceInitializeArgs): WorkerIterableSo
     const wrapped = new WorkerIterableSourceWorker(source);
     return Comlink.proxy(wrapped);
   } else if (args.files) {
-    const source = new MultiMcapIterableSource({ type: "files", files: args.files });
+    const source = new MultiIterableSource(
+      { type: "files", files: args.files },
+      McapIterableSource,
+    );
     const wrapped = new WorkerIterableSourceWorker(source);
     return Comlink.proxy(wrapped);
   } else if (args.url) {

@@ -15,6 +15,9 @@ import {
 } from "@lichtblick/suite-base/players/types";
 import { RosDatatypes } from "@lichtblick/suite-base/types/RosDatatypes";
 
+/**
+ * Fix name: Initialization
+ */
 export type Initalization = {
   start: Time;
   end: Time;
