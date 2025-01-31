@@ -32,7 +32,7 @@ export class MultiIterableSource<T extends IIterableSource, P> implements IItera
     this.#SourceConstructor = SourceConstructor;
   }
 
-  async #initializeMultipleSources(): Promise<Initalization[]> {
+  async #loadMultipleSources(): Promise<Initalization[]> {
     const { type } = this.#dataSource;
 
     const sources: IIterableSource[] =
@@ -55,7 +55,7 @@ export class MultiIterableSource<T extends IIterableSource, P> implements IItera
 
   public async initialize(): Promise<Initalization> {
     console.time("GOLD_loadFiles");
-    const initializations: Initalization[] = await this.#initializeMultipleSources();
+    const initializations: Initalization[] = await this.#loadMultipleSources();
     console.timeEnd("GOLD_loadFiles");
 
     console.time("GOLD_init");
@@ -85,6 +85,9 @@ export class MultiIterableSource<T extends IIterableSource, P> implements IItera
         initialization.end = init.end;
       }
 
+      /**
+       * Validate
+       */
       init.topics.forEach((topic) => uniqueTopics.set(topic.name, topic as Topic));
 
       for (const [topic, stats] of init.topicStats) {
