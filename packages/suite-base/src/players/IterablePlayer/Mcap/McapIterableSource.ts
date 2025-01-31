@@ -9,7 +9,6 @@ import { McapIndexedReader, McapTypes } from "@mcap/core";
 
 import Log from "@lichtblick/log";
 import { loadDecompressHandlers } from "@lichtblick/mcap-support";
-import { Time } from "@lichtblick/rostime";
 import { MessageEvent } from "@lichtblick/suite-base/players/types";
 
 import { BlobReadable } from "./BlobReadable";
@@ -50,10 +49,6 @@ async function tryCreateIndexedReader(readable: McapTypes.IReadable) {
 export class McapIterableSource implements IIterableSource {
   #source: McapSource;
   #sourceImpl: IIterableSource | undefined;
-
-  public getStart(): Time {
-    return this.#sourceImpl!.getStart!();
-  }
 
   public constructor(source: McapSource) {
     this.#source = source;
