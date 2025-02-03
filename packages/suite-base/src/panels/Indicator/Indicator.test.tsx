@@ -26,10 +26,6 @@ jest.mock("./getMatchingRule", () => ({
   getMatchingRule: jest.fn(),
 }));
 
-jest.mock("@lichtblick/message-path", () => ({
-  parseMessagePath: jest.fn(),
-}));
-
 type Setup = {
   configOverride?: Partial<IndicatorConfig>;
   contextOverride?: Partial<PanelExtensionContext>;
