@@ -7,6 +7,7 @@ import WorkerSocketAdapter from "./WorkerSocketAdapter";
 
 describe("WorkerSocketAdapter", () => {
   let workerMock: any;
+  const wsUrl = "wss://example.com";
 
   beforeEach(() => {
     workerMock = {
@@ -17,7 +18,7 @@ describe("WorkerSocketAdapter", () => {
 
     global.Worker = jest.fn(() => workerMock as unknown as Worker);
 
-    new WorkerSocketAdapter("wss://example.com");
+    new WorkerSocketAdapter(wsUrl);
   });
 
   it("WorkerSocketAdapter should open a WebSocket connection", () => {
@@ -25,7 +26,7 @@ describe("WorkerSocketAdapter", () => {
 
     expect(workerMock.postMessage).toHaveBeenCalledWith({
       type: "open",
-      data: { wsUrl: "wss://example.com", protocols: undefined },
+      data: { wsUrl, protocols: undefined },
     });
   });
 
@@ -36,13 +37,14 @@ describe("WorkerSocketAdapter", () => {
   });
 
   it("WorkerSocketAdapter should send a message", () => {
-    const socket = new WorkerSocketAdapter("wss://example.com");
+    const socket = new WorkerSocketAdapter(wsUrl);
+    const message = BasicBuilder.string();
 
-    socket.send("Hello, World!");
+    socket.send(message);
 
     expect(workerMock.postMessage).toHaveBeenCalledWith({
       type: "data",
-      data: "Hello, World!",
+      data: message,
     });
   });
 
@@ -53,7 +55,7 @@ describe("WorkerSocketAdapter", () => {
 
     expect(workerMock.postMessage).toHaveBeenCalledWith({
       type: "open",
-      data: { wsUrl: "wss://example.com", protocols: undefined },
+      data: { wsUrl, protocols: undefined },
     });
   });
 
@@ -64,7 +66,7 @@ describe("WorkerSocketAdapter", () => {
 
     expect(workerMock.postMessage).toHaveBeenCalledWith({
       type: "open",
-      data: { wsUrl: "wss://example.com", protocols: undefined },
+      data: { wsUrl, protocols: undefined },
     });
   });
 });
