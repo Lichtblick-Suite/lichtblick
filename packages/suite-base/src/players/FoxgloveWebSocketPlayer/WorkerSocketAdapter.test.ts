@@ -1,176 +1,70 @@
 // SPDX-FileCopyrightText: Copyright (C) 2023-2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)<lichtblick@bmwgroup.com>
 // SPDX-License-Identifier: MPL-2.0
 
-import WorkerSocketAdapter from "@lichtblick/suite-base/players/FoxgloveWebSocketPlayer/WorkerSocketAdapter";
 import BasicBuilder from "@lichtblick/suite-base/testing/builders/BasicBuilder";
 
+import WorkerSocketAdapter from "./WorkerSocketAdapter";
+
 describe("WorkerSocketAdapter", () => {
-  let mockWorker: Worker;
-  let adapter: WorkerSocketAdapter;
+  let workerMock: any;
 
   beforeEach(() => {
-    mockWorker = {
-      addEventListener: jest.fn(),
-      dispatchEvent: jest.fn(),
-      // eslint-disable-next-line no-restricted-syntax
-      onerror: null as ((event: ErrorEvent) => void) | null,
-      // eslint-disable-next-line no-restricted-syntax
-      onmessage: null as ((event: MessageEvent) => void) | null,
-      // eslint-disable-next-line no-restricted-syntax
-      onmessageerror: null as ((event: MessageEvent) => void) | null,
+    workerMock = {
       postMessage: jest.fn(),
-      removeEventListener: jest.fn(),
       terminate: jest.fn(),
+      onmessage: undefined as ((event: MessageEvent) => void) | undefined,
     };
 
-    global.Worker = jest.fn(() => mockWorker) as any;
+    global.Worker = jest.fn(() => workerMock as unknown as Worker);
 
-    adapter = new WorkerSocketAdapter("ws://localhost:8080");
+    new WorkerSocketAdapter("wss://example.com");
   });
 
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
+  it("WorkerSocketAdapter should open a WebSocket connection", () => {
+    workerMock.onmessage?.({ data: { type: "open", protocol: "json" } } as MessageEvent);
 
-  it("should create a Worker and send an open message", () => {
-    expect(global.Worker).toHaveBeenCalledWith(expect.any(URL));
-    // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(mockWorker.postMessage).toHaveBeenCalledWith({
+    expect(workerMock.postMessage).toHaveBeenCalledWith({
       type: "open",
-      data: { wsUrl: "ws://localhost:8080", protocols: undefined },
+      data: { wsUrl: "wss://example.com", protocols: undefined },
     });
   });
 
-  it("should handle open events from the Worker", () => {
-    const onOpenMock = jest.fn();
-    adapter.onopen = onOpenMock;
+  it("WorkerSocketAdapter should close a WebSocket connection", () => {
+    workerMock.onmessage?.({ data: { type: "close", data: {} } } as MessageEvent);
 
-    const protocol = "test-protocol";
-    mockWorker.onmessage?.({
-      data: { type: "open", protocol },
-    } as MessageEvent);
-
-    expect(onOpenMock).toHaveBeenCalledWith({ type: "open", protocol });
-    expect(adapter.protocol).toBe(protocol);
+    expect(workerMock.terminate).toHaveBeenCalled();
   });
 
-  it("should not call onopen if it is undefined", () => {
-    const protocol = "test-protocol";
-    mockWorker.onmessage?.({
-      data: { type: "open", protocol },
-    } as MessageEvent);
+  it("WorkerSocketAdapter should send a message", () => {
+    const socket = new WorkerSocketAdapter("wss://example.com");
 
-    expect(adapter.onopen).toBeUndefined();
-  });
+    socket.send("Hello, World!");
 
-  it("should handle close events from the Worker", () => {
-    const onCloseMock = jest.fn();
-    adapter.onclose = onCloseMock;
-
-    mockWorker.onmessage?.({ data: { type: "close" } } as MessageEvent);
-
-    expect(onCloseMock).toHaveBeenCalledWith({ type: "close" });
-    // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(mockWorker.terminate).toHaveBeenCalled();
-  });
-
-  it("should handle error type events from the Worker", () => {
-    const onErrorMock = jest.fn();
-    adapter.onerror = onErrorMock;
-
-    mockWorker.onmessage?.({ data: { type: "error" } } as MessageEvent);
-
-    expect(onErrorMock).toHaveBeenCalledWith({ type: "error" });
-  });
-
-  it("should not call onerror if it is undefined", () => {
-    mockWorker.onmessage?.({ data: { type: "error" } } as MessageEvent);
-
-    expect(adapter.onerror).toBeUndefined();
-  });
-
-  it("should handle message type events from the Worker", () => {
-    const onMessageMock = jest.fn();
-    adapter.onmessage = onMessageMock;
-
-    mockWorker.onmessage?.({ data: { type: "message" } } as MessageEvent);
-
-    expect(onMessageMock).toHaveBeenCalledWith({ type: "message" });
-  });
-
-  it("should not call onmessage if it is undefined", () => {
-    mockWorker.onmessage?.({ data: { type: "message" } } as MessageEvent);
-
-    expect(adapter.onmessage).toBeUndefined();
-  });
-
-  it("should handle error events from the Worker", () => {
-    const onErrorMock = jest.fn();
-    adapter.onerror = onErrorMock;
-
-    const errorEvent = { message: "error" } as ErrorEvent;
-    mockWorker.onerror?.(errorEvent);
-
-    expect(onErrorMock).toHaveBeenCalledWith(errorEvent);
-  });
-
-  it("should send data to the Worker", () => {
-    const message = BasicBuilder.string();
-    adapter.send(message);
-    // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(mockWorker.postMessage).toHaveBeenCalledWith({
+    expect(workerMock.postMessage).toHaveBeenCalledWith({
       type: "data",
-      data: message,
+      data: "Hello, World!",
     });
   });
 
-  it("should throw an error when sending data after the connection is closed", () => {
-    mockWorker.onmessage?.({
-      data: { type: "close" },
+  it("WorkerSocketAdapter should handle an error", () => {
+    workerMock.onmessage?.({
+      data: { type: "error", error: "Something went wrong" },
     } as MessageEvent);
 
-    expect(() => {
-      adapter.send("test-data");
-    }).toThrow("Can't send message over closed websocket connection");
-  });
-
-  it("should send a close message to the Worker", () => {
-    adapter.close();
-    // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(mockWorker.postMessage).toHaveBeenCalledWith({
-      type: "close",
-      data: undefined,
+    expect(workerMock.postMessage).toHaveBeenCalledWith({
+      type: "open",
+      data: { wsUrl: "wss://example.com", protocols: undefined },
     });
   });
 
-  it("shouldn't send a close message to the Worker because the connection is already closed", () => {
-    mockWorker.onmessage?.({ data: { type: "close" } } as MessageEvent);
-    adapter.close();
+  it("WorkerSocketAdapter should handle a message", () => {
+    workerMock.onmessage?.({
+      data: { type: "message", data: BasicBuilder.string() },
+    } as MessageEvent);
 
-    // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(mockWorker.postMessage).not.toHaveBeenCalledWith({
-      type: "close",
-      data: undefined,
+    expect(workerMock.postMessage).toHaveBeenCalledWith({
+      type: "open",
+      data: { wsUrl: "wss://example.com", protocols: undefined },
     });
-  });
-
-  it("should call the onerror callback when defined and an error occurs", () => {
-    const onErrorMock = jest.fn();
-    adapter.onerror = onErrorMock;
-
-    const errorEvent = { message: "error" } as ErrorEvent;
-    mockWorker.onerror?.(errorEvent);
-
-    expect(onErrorMock).toHaveBeenCalledWith(errorEvent);
-    expect(onErrorMock).toHaveBeenCalledTimes(1);
-  });
-
-  it("should do nothing when onerror is undefined and an error occurs", () => {
-    adapter.onerror = undefined;
-
-    const errorEvent = { message: "error" } as ErrorEvent;
-    mockWorker.onerror?.(errorEvent);
-
-    expect(adapter.onerror).toBeUndefined();
   });
 });

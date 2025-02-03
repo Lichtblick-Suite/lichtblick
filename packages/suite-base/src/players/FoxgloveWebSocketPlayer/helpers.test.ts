@@ -15,7 +15,7 @@ describe("dataTypeToFullName", () => {
 
     const result = dataTypeToFullName(message);
 
-    expect(result).toContain("/msg/");
+    expect(result).toBe("unit/msg/test");
   });
 
   it("should return the message unaltered if it differs from the 'text/text' format", () => {
