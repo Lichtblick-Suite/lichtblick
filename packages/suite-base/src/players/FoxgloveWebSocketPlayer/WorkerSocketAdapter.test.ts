@@ -22,7 +22,6 @@ describe("WorkerSocketAdapter", () => {
     new WorkerSocketAdapter(wsUrl);
   });
 
-
   it("WorkerSocketAdapter should close a WebSocket connection", () => {
     workerMock.onmessage?.({ data: { type: "close", data: {} } } as MessageEvent);
 
@@ -53,7 +52,11 @@ describe("WorkerSocketAdapter", () => {
   });
 
   it.each([
-    [{ data: { type: "open", protocol: BasicBuilder.string() } } as MessageEvent<FromWorkerMessage>],
+    [
+      {
+        data: { type: "open", protocol: BasicBuilder.string() },
+      } as MessageEvent<FromWorkerMessage>,
+    ],
     [{ data: { type: "message", data: BasicBuilder.string() } } as MessageEvent<FromWorkerMessage>],
     [{ data: { type: "close", data: undefined } } as MessageEvent<FromWorkerMessage>],
   ])("WorkerSocketAdapter should handle '%s' event", (event) => {
