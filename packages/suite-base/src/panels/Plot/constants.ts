@@ -5,6 +5,7 @@ import { AnnotationOptions } from "chartjs-plugin-annotation";
 
 import { PlotConfig } from "@lichtblick/suite-base/panels/Plot/config";
 import { MathFunction } from "@lichtblick/suite-base/panels/Plot/mathFunctions";
+import { Dataset } from "@lichtblick/suite-base/panels/Plot/types";
 
 export const MATH_FUNCTIONS: { [fn: string]: MathFunction } = {
   abs: Math.abs,
@@ -49,3 +50,6 @@ export const DEFAULT_PLOT_CONFIG: PlotConfig = {
   xAxisVal: "timestamp",
   sidebarDimension: DEFAULT_SIDEBAR_DIMENSION,
 };
+
+export const replaceUndefinedWithEmptyDataset = (dataset: Dataset | undefined): Dataset =>
+  dataset ?? { data: [] };

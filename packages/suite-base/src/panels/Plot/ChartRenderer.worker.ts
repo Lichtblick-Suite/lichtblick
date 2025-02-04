@@ -21,20 +21,10 @@ import {
 import AnnotationPlugin from "chartjs-plugin-annotation";
 
 import * as Comlink from "@lichtblick/comlink";
+import { Service } from "@lichtblick/suite-base/panels/Plot/types";
 import PlexMono from "@lichtblick/suite-base/styles/assets/PlexMono.woff2";
 
 import { ChartRenderer } from "./ChartRenderer";
-
-type InitArgs = {
-  canvas: OffscreenCanvas;
-  devicePixelRatio: number;
-  gridColor: string;
-  tickColor: string;
-};
-
-export type Service<T> = {
-  init(args: InitArgs): Promise<T>;
-};
 
 // Explicitly load the "Plex Mono" font, since custom fonts from the main renderer are not inherited
 // by web workers. This is required to draw "Plex Mono" on an OffscreenCanvas, and it also appears

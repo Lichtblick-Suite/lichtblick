@@ -4,16 +4,17 @@
 import { Chart, ChartDataset, ScatterDataPoint } from "chart.js";
 import { MutableRefObject } from "react";
 
+import { Immutable } from "@lichtblick/suite";
 import { PanelContextMenuItem } from "@lichtblick/suite-base/components/PanelContextMenu";
 import { TimeBasedChartTooltipData } from "@lichtblick/suite-base/components/TimeBasedChart/TimeBasedChartTooltipContent";
+import { Bounds1D } from "@lichtblick/suite-base/components/TimeBasedChart/types";
 import { OffscreenCanvasRenderer } from "@lichtblick/suite-base/panels/Plot/OffscreenCanvasRenderer";
 import type { PlotCoordinator } from "@lichtblick/suite-base/panels/Plot/PlotCoordinator";
 import { CurrentCustomDatasetsBuilder } from "@lichtblick/suite-base/panels/Plot/builders/CurrentCustomDatasetsBuilder";
 import { CustomDatasetsBuilder } from "@lichtblick/suite-base/panels/Plot/builders/CustomDatasetsBuilder";
 import { IndexDatasetsBuilder } from "@lichtblick/suite-base/panels/Plot/builders/IndexDatasetsBuilder";
 import { TimestampDatasetsBuilder } from "@lichtblick/suite-base/panels/Plot/builders/TimestampDatasetsBuilder";
-import { PlotConfig } from "@lichtblick/suite-base/panels/Plot/config";
-import { Bounds1D } from "@lichtblick/suite-base/types/Bounds";
+import { PlotConfig, PlotPath } from "@lichtblick/suite-base/panels/Plot/config";
 import { SaveConfig } from "@lichtblick/suite-base/types/panels";
 
 import { OriginalValue } from "./datum";
@@ -173,4 +174,44 @@ export type UsePlotInteractionHandlersProps = {
   setActiveTooltip: (data: TooltipStateSetter | undefined) => void;
   shouldSync: boolean;
   subscriberId: string;
+};
+export type PlotLegendRowProps = Immutable<{
+  hasMismatchedDataLength: boolean;
+  index: number;
+  onClickPath: () => void;
+  path: PlotPath;
+  paths: PlotPath[];
+  value?: unknown;
+  valueSource: "hover" | "current";
+  savePaths: (paths: PlotPath[]) => void;
+}>;
+export type EventTypes = {
+  timeseriesBounds(bounds: Immutable<Bounds1D>): void;
+
+  /** X scale changed. */
+  xScaleChanged(scale: Scale | undefined): void;
+
+  /** Current values changed (for displaying in the legend) */
+  currentValuesChanged(values: readonly unknown[]): void;
+
+  /** Paths with mismatched data lengths were detected */
+  pathsWithMismatchedDataLengthsChanged(pathsWithMismatchedDataLengths: string[]): void;
+
+  /** Rendering updated the viewport. `canReset` is true if the viewport can be reset. */
+  viewportChange(canReset: boolean): void;
+}; // If the datasets builder is garbage collected we also need to cleanup the worker
+// This registry ensures the worker is cleaned up when the builder is garbage collected
+export const registry = new FinalizationRegistry<() => void>((dispose) => {
+  dispose();
+});
+
+type InitArgs = {
+  canvas: OffscreenCanvas;
+  devicePixelRatio: number;
+  gridColor: string;
+  tickColor: string;
+};
+
+export type Service<T> = {
+  init(args: InitArgs): Promise<T>;
 };

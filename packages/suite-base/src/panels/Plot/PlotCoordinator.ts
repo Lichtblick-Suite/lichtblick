@@ -18,6 +18,7 @@ import { stringifyMessagePath } from "@lichtblick/suite-base/components/MessageP
 import { fillInGlobalVariablesInPath } from "@lichtblick/suite-base/components/MessagePathSyntax/useCachedGetMessagePathDataItems";
 import { Bounds1D } from "@lichtblick/suite-base/components/TimeBasedChart/types";
 import { GlobalVariables } from "@lichtblick/suite-base/hooks/useGlobalVariables";
+import { replaceUndefinedWithEmptyDataset } from "@lichtblick/suite-base/panels/Plot/constants";
 import { MessageBlock, PlayerState } from "@lichtblick/suite-base/players/types";
 import { Bounds } from "@lichtblick/suite-base/types/Bounds";
 import delay from "@lichtblick/suite-base/util/delay";
@@ -32,25 +33,7 @@ import {
   Viewport,
 } from "./builders/IDatasetsBuilder";
 import { isReferenceLinePlotPathType, PlotConfig } from "./config";
-import { Dataset, InteractionEvent, Scale, UpdateAction } from "./types";
-
-type EventTypes = {
-  timeseriesBounds(bounds: Immutable<Bounds1D>): void;
-
-  /** X scale changed. */
-  xScaleChanged(scale: Scale | undefined): void;
-
-  /** Current values changed (for displaying in the legend) */
-  currentValuesChanged(values: readonly unknown[]): void;
-
-  /** Paths with mismatched data lengths were detected */
-  pathsWithMismatchedDataLengthsChanged(pathsWithMismatchedDataLengths: string[]): void;
-
-  /** Rendering updated the viewport. `canReset` is true if the viewport can be reset. */
-  viewportChange(canReset: boolean): void;
-};
-
-const replaceUndefinedWithEmptyDataset = (dataset: Dataset | undefined) => dataset ?? { data: [] };
+import { Dataset, EventTypes, InteractionEvent, Scale, UpdateAction } from "./types";
 
 /**
  * PlotCoordinator interfaces commands and updates between the dataset builder and the chart

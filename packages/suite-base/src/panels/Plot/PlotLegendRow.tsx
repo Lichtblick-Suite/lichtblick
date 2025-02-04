@@ -12,122 +12,21 @@ import {
   Square12Filled,
   Square12Regular,
 } from "@fluentui/react-icons";
-import { ButtonBase, Checkbox, Tooltip, Typography, buttonBaseClasses } from "@mui/material";
+import { ButtonBase, Checkbox, Tooltip, Typography } from "@mui/material";
 import { MouseEventHandler } from "react";
 import { useTranslation } from "react-i18next";
-import { makeStyles } from "tss-react/mui";
 
 import { isTime, toSec } from "@lichtblick/rostime";
-import { Immutable } from "@lichtblick/suite";
 import { usePanelContext } from "@lichtblick/suite-base/components/PanelContext";
 import { useSelectedPanels } from "@lichtblick/suite-base/context/CurrentLayoutContext";
 import { useWorkspaceActions } from "@lichtblick/suite-base/context/Workspace/useWorkspaceActions";
+import { useStyles } from "@lichtblick/suite-base/panels/Plot/PlotLegendRow.style";
+import { PlotLegendRowProps } from "@lichtblick/suite-base/panels/Plot/types";
 import { getLineColor } from "@lichtblick/suite-base/util/plotColors";
 
-import { PlotPath, plotPathDisplayName } from "./config";
-
-type PlotLegendRowProps = Immutable<{
-  hasMismatchedDataLength: boolean;
-  index: number;
-  onClickPath: () => void;
-  path: PlotPath;
-  paths: PlotPath[];
-  value?: unknown;
-  valueSource: "hover" | "current";
-  savePaths: (paths: PlotPath[]) => void;
-}>;
+import { plotPathDisplayName } from "./config";
 
 export const ROW_HEIGHT = 30;
-
-const useStyles = makeStyles<void, "plotName" | "actionButton">()((theme, _params, classes) => ({
-  root: {
-    display: "contents",
-    cursor: "pointer",
-
-    "&:hover": {
-      "& > *": {
-        backgroundColor: theme.palette.background.paper,
-        backgroundImage: `linear-gradient(${[
-          "0deg",
-          theme.palette.action.hover,
-          theme.palette.action.hover,
-        ].join(" ,")})`,
-      },
-    },
-    ":not(:hover)": {
-      [`& .${classes.actionButton}`]: {
-        opacity: 0,
-      },
-    },
-  },
-  showPlotValue: {
-    [`.${classes.plotName}`]: {
-      gridColumn: "span 1",
-      padding: theme.spacing(0, 1.5, 0, 0.5),
-    },
-  },
-  listIcon: {
-    display: "flex",
-    alignItems: "center",
-    position: "sticky",
-    height: ROW_HEIGHT,
-    left: 0,
-  },
-  checkbox: {
-    height: ROW_HEIGHT,
-    width: ROW_HEIGHT,
-    borderRadius: 0,
-
-    ":hover": {
-      backgroundColor: theme.palette.action.hover,
-    },
-  },
-  disabledPathLabel: {
-    opacity: 0.5,
-  },
-  plotName: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    justifySelf: "stretch",
-    gap: theme.spacing(0.5),
-    height: ROW_HEIGHT,
-    paddingInline: theme.spacing(0.75, 2.5),
-    gridColumn: "span 2",
-    fontFeatureSettings: `${theme.typography.fontFeatureSettings}, "zero"`,
-
-    ".MuiTypography-root": {
-      whiteSpace: "nowrap",
-    },
-  },
-  plotValue: {
-    display: "flex",
-    alignItems: "center",
-    justifySelf: "stretch",
-    height: ROW_HEIGHT,
-    padding: theme.spacing(0.25, 1, 0.25, 0.25),
-    whiteSpace: "pre-wrap",
-  },
-  errorIcon: {
-    color: theme.palette.error.main,
-  },
-  actionButton: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    position: "sticky",
-    right: 0,
-
-    [`.${buttonBaseClasses.root}`]: {
-      height: ROW_HEIGHT,
-      width: ROW_HEIGHT,
-
-      ":hover": {
-        backgroundColor: theme.palette.action.hover,
-      },
-    },
-  },
-}));
 
 function renderValue(value: unknown): string | number | undefined {
   switch (typeof value) {
