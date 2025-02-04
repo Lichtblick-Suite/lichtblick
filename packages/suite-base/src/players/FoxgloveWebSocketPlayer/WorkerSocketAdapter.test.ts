@@ -1,6 +1,7 @@
 // SPDX-FileCopyrightText: Copyright (C) 2023-2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)<lichtblick@bmwgroup.com>
 // SPDX-License-Identifier: MPL-2.0
 
+import { FromWorkerMessage } from "@lichtblick/suite-base/players/FoxgloveWebSocketPlayer/types";
 import BasicBuilder from "@lichtblick/suite-base/testing/builders/BasicBuilder";
 
 import WorkerSocketAdapter from "./WorkerSocketAdapter";
@@ -21,14 +22,6 @@ describe("WorkerSocketAdapter", () => {
     new WorkerSocketAdapter(wsUrl);
   });
 
-  it("WorkerSocketAdapter should open a WebSocket connection", () => {
-    workerMock.onmessage?.({ data: { type: "open", protocol: "json" } } as MessageEvent);
-
-    expect(workerMock.postMessage).toHaveBeenCalledWith({
-      type: "open",
-      data: { wsUrl, protocols: undefined },
-    });
-  });
 
   it("WorkerSocketAdapter should close a WebSocket connection", () => {
     workerMock.onmessage?.({ data: { type: "close", data: {} } } as MessageEvent);
@@ -59,11 +52,12 @@ describe("WorkerSocketAdapter", () => {
     });
   });
 
-  it("WorkerSocketAdapter should handle a message", () => {
-    workerMock.onmessage?.({
-      data: { type: "message", data: BasicBuilder.string() },
-    } as MessageEvent);
-
+  it.each([
+    [{ data: { type: "open", protocol: BasicBuilder.string() } } as MessageEvent<FromWorkerMessage>],
+    [{ data: { type: "message", data: BasicBuilder.string() } } as MessageEvent<FromWorkerMessage>],
+    [{ data: { type: "close", data: undefined } } as MessageEvent<FromWorkerMessage>],
+  ])("WorkerSocketAdapter should handle '%s' event", (event) => {
+    workerMock.onmessage?.(event);
     expect(workerMock.postMessage).toHaveBeenCalledWith({
       type: "open",
       data: { wsUrl, protocols: undefined },
