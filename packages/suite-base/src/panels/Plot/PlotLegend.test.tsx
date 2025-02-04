@@ -22,9 +22,9 @@ const defaultProps = {
 };
 
 const getContextValue = () => ({
-  type: "foo",
-  id: "bar",
-  title: "Foo Panel",
+  type: BasicBuilder.string(),
+  id: BasicBuilder.string(),
+  title: BasicBuilder.string(),
   config: {},
   saveConfig: jest.fn(),
   updatePanelConfigs: jest.fn(),
