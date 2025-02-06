@@ -277,7 +277,7 @@ export class McapIndexedIterableSource implements IIterableSource {
 
   /**
    * Returns the cached size estimate for the given {@link subscriptionHash}. Estimates the size
-   * of the given {@link msg} object and updates the cache if no such cache entry existsp.
+   * of the given {@link msg} object and updates the cache if no such cache entry exists.
    * @param subscriptionHash Subscription hash
    * @param msg Deserialized message object
    * @returns Size estimate in bytes
