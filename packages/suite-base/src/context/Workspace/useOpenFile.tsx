@@ -34,7 +34,7 @@ export function useOpenFile(sources: readonly IDataSourceFactory[]): () => Promi
   }, [sources]);
 
   return useCallback(async () => {
-    const filesHandles = await showOpenFilePicker({
+    const filesHandle = await showOpenFilePicker({
       multiple: true,
       types: [
         {
@@ -44,12 +44,12 @@ export function useOpenFile(sources: readonly IDataSourceFactory[]): () => Promi
       ],
     });
 
-    if (filesHandles.length === 0) {
+    if (filesHandle.length === 0) {
       return;
     }
 
     const processedFiles = await Promise.all(
-      filesHandles.map(async (handle) => {
+      filesHandle.map(async (handle) => {
         const file = await handle.getFile();
         return {
           file,
