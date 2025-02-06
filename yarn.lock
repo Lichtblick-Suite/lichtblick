@@ -12345,17 +12345,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"heap-js@npm:2.6.0":
+"heap-js@npm:2.6.0, heap-js@npm:^2.2.0":
   version: 2.6.0
   resolution: "heap-js@npm:2.6.0"
   checksum: c89d8fc4794e580abdfd5ab2937fdef6fef0d4f48428484ac2665b50873237ebcf60e02b453b2b448a89607a9af6270d8a71aa79f5890a3dc0e52d62b6119e1c
-  languageName: node
-  linkType: hard
-
-"heap-js@npm:^2.2.0":
-  version: 2.5.0
-  resolution: "heap-js@npm:2.5.0"
-  checksum: 2705f4c94ee89fe6aee274117abc8caa3da18eefaf7586dcc0cad4386ff75fc7a7025474b20240b12fb12cf18ef569e51d1959ee3a00a5b6ec0831b6974f2c42
   languageName: node
   linkType: hard
 
