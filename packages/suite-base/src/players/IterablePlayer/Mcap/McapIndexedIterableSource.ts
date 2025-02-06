@@ -293,8 +293,8 @@ export class McapIndexedIterableSource implements IIterableSource {
     return sizeEstimate;
   }
 
-  public getStart(): Time {
-    return this.#start!;
+  public getStart(): Time | undefined {
+    return this.#start;
   }
 }
 

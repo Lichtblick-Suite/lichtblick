@@ -91,7 +91,7 @@ export class MultiIterableSource<T extends IIterableSource, P> implements IItera
     }
 
     resultInit.topics = Array.from(uniqueTopics.values());
-    this.sourceImpl.sort((a, b) => compare(a.getStart!(), b.getStart!()));
+    this.sourceImpl.sort((a, b) => compare(a.getStart!()!, b.getStart!()!));
 
     return resultInit;
   }
