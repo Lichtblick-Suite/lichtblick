@@ -25,8 +25,11 @@ class McapLocalDataSourceFactory implements IDataSourceFactory {
   public supportsMultiFile = true;
 
   public initialize(args: DataSourceFactoryInitializeArgs): Player | undefined {
-    const files = [...(args.files ?? []), ...(args.file ? [args.file] : [])];
+    const files = args.files ?? [];
 
+    if (args.file) {
+      files.push(args.file);
+    }
     if (files.length === 0) {
       return;
     }
@@ -47,7 +50,7 @@ class McapLocalDataSourceFactory implements IDataSourceFactory {
     return new IterablePlayer({
       metricsCollector: args.metricsCollector,
       source,
-      name: mergeMultipleFileNames(files.map((file) => file.name)),
+      name: files.map((file) => file.name).join(),
       sourceId: this.id,
     });
   }
