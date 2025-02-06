@@ -9,6 +9,7 @@ import { McapIndexedReader, McapTypes } from "@mcap/core";
 
 import Log from "@lichtblick/log";
 import { loadDecompressHandlers } from "@lichtblick/mcap-support";
+import { Time } from "@lichtblick/rostime";
 import { MessageEvent } from "@lichtblick/suite-base/players/types";
 
 import { BlobReadable } from "./BlobReadable";
@@ -120,5 +121,9 @@ export class McapIterableSource implements IIterableSource {
     }
 
     return await this.#sourceImpl.getBackfillMessages(args);
+  }
+
+  public getStart(): Time | undefined {
+    return this.#sourceImpl!.getStart!();
   }
 }

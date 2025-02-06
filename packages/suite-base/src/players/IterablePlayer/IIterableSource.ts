@@ -191,6 +191,8 @@ export interface IIterableSource {
     args: Immutable<MessageIteratorArgs> & { abort?: AbortSignal },
   ) => IMessageCursor;
 
+  getStart?: () => Time | undefined;
+
   /**
    * Optional method a data source can implement to cleanup resources. The player will call this
    * method when the source will no longer be used.
