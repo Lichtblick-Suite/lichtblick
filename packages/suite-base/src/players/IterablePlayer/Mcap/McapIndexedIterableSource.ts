@@ -292,6 +292,10 @@ export class McapIndexedIterableSource implements IIterableSource {
     this.#messageSizeEstimateByHash[subscriptionHash] = sizeEstimate;
     return sizeEstimate;
   }
+
+  public getStart(): Time | undefined {
+    return this.#start;
+  }
 }
 
 // Computes the subscription hash for a given topic & subscription payload pair.
