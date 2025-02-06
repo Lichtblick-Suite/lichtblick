@@ -21,14 +21,34 @@ export function filterMatches(filter: Immutable<MessagePathFilter>, value: unkno
     if (typeof currentValue !== "object" || currentValue == undefined) {
       return false;
     }
+
     currentValue = (currentValue as Record<string, unknown>)[name];
     if (currentValue == undefined) {
       return false;
     }
   }
 
-  // Test equality using `==` so we can be forgiving for comparing booleans with integers,
+  // Test equality using non strict operators so we can be forgiving for comparing booleans with integers,
   // comparing numbers with strings, bigints with numbers, and so on.
-  // eslint-disable-next-line @lichtblick/strict-equality
-  return currentValue != undefined && currentValue == filter.value;
+
+  if (currentValue != undefined) {
+    switch (filter.operator) {
+      case "==":
+        // eslint-disable-next-line @lichtblick/strict-equality
+        return currentValue == filter.value;
+      case "!=":
+        // eslint-disable-next-line @lichtblick/strict-equality
+        return currentValue != filter.value;
+      case ">=":
+        return currentValue >= filter.value;
+      case "<=":
+        return currentValue <= filter.value;
+      case ">":
+        return currentValue > filter.value;
+      case "<":
+        return currentValue < filter.value;
+      default:
+        return false;
+    }
+  }
 }

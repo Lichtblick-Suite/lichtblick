@@ -293,6 +293,7 @@ describe("parseRosPath", () => {
           nameLoc: "/topic.foo{".length,
           valueLoc: "/topic.foo{bar==".length,
           repr: "bar=='baz'",
+          operator: "==",
         },
         { type: "name", name: "a", repr: "a" },
         {
@@ -302,6 +303,7 @@ describe("parseRosPath", () => {
           nameLoc: "/topic.foo{bar=='baz'}.a{".length,
           valueLoc: "/topic.foo{bar=='baz'}.a{bar==".length,
           repr: 'bar=="baz"',
+          operator: "==",
         },
         { type: "name", name: "b", repr: "b" },
         {
@@ -311,6 +313,7 @@ describe("parseRosPath", () => {
           nameLoc: "/topic.foo{bar=='baz'}.a{bar==\"baz\"}.b{".length,
           valueLoc: "/topic.foo{bar=='baz'}.a{bar==\"baz\"}.b{bar==".length,
           repr: "bar==3",
+          operator: "==",
         },
         { type: "name", name: "c", repr: "c" },
         {
@@ -320,6 +323,7 @@ describe("parseRosPath", () => {
           nameLoc: "/topic.foo{bar=='baz'}.a{bar==\"baz\"}.b{bar==3}.c{".length,
           valueLoc: "/topic.foo{bar=='baz'}.a{bar==\"baz\"}.b{bar==3}.c{bar==".length,
           repr: "bar==-1",
+          operator: "==",
         },
         { type: "name", name: "d", repr: "d" },
         {
@@ -329,6 +333,7 @@ describe("parseRosPath", () => {
           nameLoc: "/topic.foo{bar=='baz'}.a{bar==\"baz\"}.b{bar==3}.c{bar==-1}.d{".length,
           valueLoc: "/topic.foo{bar=='baz'}.a{bar==\"baz\"}.b{bar==3}.c{bar==-1}.d{bar==".length,
           repr: "bar==false",
+          operator: "==",
         },
         { type: "name", name: "e", repr: "e" },
         { type: "slice", start: 0, end: Infinity },
@@ -342,6 +347,7 @@ describe("parseRosPath", () => {
             "/topic.foo{bar=='baz'}.a{bar==\"baz\"}.b{bar==3}.c{bar==-1}.d{bar==false}.e[:]{bar.baz=="
               .length,
           repr: "bar.baz==true",
+          operator: "==",
         },
       ],
       modifier: MISSING,
@@ -360,6 +366,7 @@ describe("parseRosPath", () => {
           nameLoc: "/topic{".length,
           valueLoc: "/topic{foo==".length,
           repr: "foo=='bar'",
+          operator: "==",
         },
         {
           type: "filter",
@@ -368,6 +375,7 @@ describe("parseRosPath", () => {
           nameLoc: "/topic{foo=='bar'}{".length,
           valueLoc: "/topic{foo=='bar'}{baz==".length,
           repr: "baz==2",
+          operator: "==",
         },
         { type: "name", name: "a", repr: "a" },
         { type: "slice", start: 3, end: 3 },
@@ -379,6 +387,7 @@ describe("parseRosPath", () => {
           nameLoc: "/topic{foo=='bar'}{baz==2}.a[3].b{".length,
           valueLoc: "/topic{foo=='bar'}{baz==2}.a[3].b{x==".length,
           repr: "x=='y'",
+          operator: "==",
         },
       ],
       modifier: MISSING,
@@ -398,6 +407,7 @@ describe("parseRosPath", () => {
           nameLoc: "/topic.foo{".length,
           valueLoc: "/topic.foo{bar==".length,
           repr: "bar==$",
+          operator: "==",
         },
         { type: "name", name: "a", repr: "a" },
         {
@@ -407,6 +417,7 @@ describe("parseRosPath", () => {
           nameLoc: "/topic.foo{bar==$}.a{".length,
           valueLoc: "/topic.foo{bar==$}.a{bar==".length,
           repr: "bar==$my_var_1",
+          operator: "==",
         },
       ],
       modifier: MISSING,
@@ -485,6 +496,7 @@ describe("parseRosPath", () => {
           nameLoc: "/topic.foo{".length,
           valueLoc: "/topic.foo{==".length,
           repr: "==1",
+          operator: "==",
         },
       ],
       modifier: MISSING,
@@ -501,6 +513,7 @@ describe("parseRosPath", () => {
           nameLoc: "/topic.foo{".length,
           valueLoc: "/topic.foo{==".length,
           repr: "==-3",
+          operator: "==",
         },
       ],
       modifier: MISSING,
