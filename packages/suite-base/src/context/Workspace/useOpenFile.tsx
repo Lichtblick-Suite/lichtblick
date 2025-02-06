@@ -52,7 +52,6 @@ export function useOpenFile(sources: readonly IDataSourceFactory[]): () => Promi
       filesHandles.map(async (handle) => {
         const file = await handle.getFile();
         return {
-          handle,
           file,
           extension: path.extname(file.name),
         };
