@@ -51,4 +51,5 @@ export function filterMatches(filter: Immutable<MessagePathFilter>, value: unkno
         return false;
     }
   }
+  return false;
 }
