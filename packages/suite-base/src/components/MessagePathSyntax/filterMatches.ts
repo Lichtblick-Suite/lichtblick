@@ -15,8 +15,8 @@ export function filterMatches(filter: Immutable<MessagePathFilter>, value: unkno
   if (filter.value == undefined) {
     return false;
   }
-
   let currentValue = value;
+  console.log("currentValue line 19:", currentValue);
   for (const name of filter.path) {
     if (typeof currentValue !== "object" || currentValue == undefined) {
       return false;
@@ -31,6 +31,7 @@ export function filterMatches(filter: Immutable<MessagePathFilter>, value: unkno
   // comparing numbers with strings, bigints with numbers, and so on.
 
   if (currentValue != undefined) {
+    console.log("currentValue line 34:", currentValue);
     switch (filter.operator) {
       case "==":
         // eslint-disable-next-line @lichtblick/strict-equality

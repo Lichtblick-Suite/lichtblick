@@ -88,7 +88,7 @@ describe("filterMatches", () => {
   describe("handling undefined or empty values", () => {
     it("returns false when currentValue is undefined or an empty object", () => {
       const filter = setup({}, "==");
-      expect(filterMatches(filter, { a: undefined })).toBe(false);
+      expect(filterMatches(filter, {})).toBe(false);
       expect(filterMatches(filter, { a: {} })).toBe(false);
     });
 
