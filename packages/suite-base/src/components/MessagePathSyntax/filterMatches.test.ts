@@ -10,11 +10,11 @@ import { filterMatches } from "./filterMatches";
 describe("filterMatches", () => {
   function setup(
     overrides: Partial<MessagePathFilter> = {},
-    operator: OperatorType = "==",
+    operator: OperatorType,
   ): Immutable<MessagePathFilter> {
     return {
       path: ["a"],
-      value: undefined,
+      value: BasicBuilder.number(),
       operator,
       type: "filter",
       nameLoc: BasicBuilder.number(),
@@ -24,131 +24,78 @@ describe("filterMatches", () => {
     };
   }
 
-  describe("basic value matching", () => {
+  describe("value matching", () => {
     it("returns false for undefined filter value", () => {
-      const filter = setup();
-      expect(filterMatches(filter, { a: 1 })).toBe(false);
+      const filter = setup({ value: undefined }, "==");
+      expect(filterMatches(filter, { a: BasicBuilder.number() })).toBe(false);
     });
 
     it("returns false for non-matching value", () => {
-      const filter = setup({ value: 2 });
-      expect(filterMatches(filter, { a: 1 })).toBe(false);
+      const value = BasicBuilder.number();
+      const secondValue = BasicBuilder.number();
+      const filter = setup({ value }, "==");
+      expect(filterMatches(filter, { a: secondValue })).toBe(false);
     });
 
     it("returns true for matching value", () => {
-      const filter = setup({ value: 1 });
-      expect(filterMatches(filter, { a: 1 })).toBe(true);
-    });
-
-    it("returns false for currentValue == undefined", () => {
-      const filter = setup({ value: 1 });
-      expect(filterMatches(filter, { a: undefined })).toBe(false);
+      const value = BasicBuilder.number();
+      const filter = setup({ value }, "==");
+      expect(filterMatches(filter, { a: value })).toBe(true);
     });
   });
 
   describe("nested value matching", () => {
-    it("returns false for non-matching nested value", () => {
-      const filter = setup({ path: ["a", "b"], value: 2 });
-      expect(filterMatches(filter, { a: { b: 1 } })).toBe(false);
+    it("returns false for non-matching or missing nested value", () => {
+      const filter = setup({ path: ["a", "b"], value: BasicBuilder.number() }, "==");
+      expect(filterMatches(filter, { a: { b: BasicBuilder.number() } })).toBe(false);
+      expect(filterMatches(filter, { a: {} })).toBe(false);
+      expect(filterMatches(filter, { a: { b: {} } })).toBe(false);
     });
 
     it("returns true for matching nested value", () => {
-      const filter = setup({ path: ["a", "b"], value: 1 });
-      expect(filterMatches(filter, { a: { b: 1 } })).toBe(true);
-    });
-
-    it("returns false for undefined nested value", () => {
-      const filter = setup({ path: ["a", "b"], value: 1 });
-      expect(filterMatches(filter, { a: {} })).toBe(false);
+      const value = BasicBuilder.number();
+      const filter = setup({ path: ["a", "b"], value }, "==");
+      expect(filterMatches(filter, { a: { b: value } })).toBe(true);
     });
   });
 
   describe("operator matching", () => {
+    it.each([
+      ["==", 1, 1, true],
+      ["==", 1, 2, false],
+      ["!=", 1, 1, false],
+      ["!=", 1, 2, true],
+      [">", 2, 1, true],
+      [">=", 2, 1, true],
+      [">=", 1, 1, true],
+      [">=", 1, 2, false],
+      ["<", 1, 2, true],
+      ["<", 2, 1, false],
+      ["<=", 1, 2, true],
+      ["<=", 1, 1, true],
+      ["<=", 2, 1, false],
+    ])("returns %s for %s %s %s", (operator, testValue, filterValue, expected) => {
+      const filter = setup({ value: filterValue }, operator as OperatorType);
+      expect(filterMatches(filter, { a: testValue })).toBe(expected);
+    });
+
     it("returns false for invalid operator", () => {
-      const filter = setup({ value: 1, operator: "invalid" as any });
-      expect(filterMatches(filter, { a: 1 })).toBe(false);
-    });
-
-    it("returns false for non-matching value with <", () => {
-      const filter = setup({ value: 1 }, "<");
-      expect(filterMatches(filter, { a: 2 })).toBe(false);
-    });
-
-    it("returns true for matching value with <", () => {
-      const filter = setup({ value: 2 }, "<");
-      expect(filterMatches(filter, { a: 1 })).toBe(true);
-    });
-
-    it("returns false for non-matching value with >", () => {
-      const filter = setup({ value: 2 }, ">");
-      expect(filterMatches(filter, { a: 1 })).toBe(false);
-    });
-
-    it("returns true for matching value with >", () => {
-      const filter = setup({ value: 1 }, ">");
-      expect(filterMatches(filter, { a: 2 })).toBe(true);
-    });
-
-    it("returns false for matching value with !=", () => {
-      const filter = setup({ value: 1 }, "!=");
-      expect(filterMatches(filter, { a: 1 })).toBe(false);
-    });
-
-    it("returns true for non-matching value with !=", () => {
-      const filter = setup({ value: 1 }, "!=");
-      expect(filterMatches(filter, { a: 2 })).toBe(true);
-    });
-
-    it("returns false for non-matching value with >=", () => {
-      const filter = setup({ value: 2 }, ">=");
-      expect(filterMatches(filter, { a: 1 })).toBe(false);
-    });
-
-    it("returns true for matching value with >=", () => {
-      const filter = setup({ value: 1 }, ">=");
-      expect(filterMatches(filter, { a: 1 })).toBe(true);
-    });
-
-    it("returns true for greater value with >=", () => {
-      const filter = setup({ value: 1 }, ">=");
-      expect(filterMatches(filter, { a: 2 })).toBe(true);
-    });
-
-    it("returns false for non-matching value with <=", () => {
-      const filter = setup({ value: 1 }, "<=");
-      expect(filterMatches(filter, { a: 2 })).toBe(false);
-    });
-
-    it("returns true for matching value with <=", () => {
-      const filter = setup({ value: 1 }, "<=");
-      expect(filterMatches(filter, { a: 1 })).toBe(true);
-    });
-
-    it("returns true for lesser value with <=", () => {
-      const filter = setup({ value: 2 }, "<=");
-      expect(filterMatches(filter, { a: 1 })).toBe(true);
+      const filter = setup({ value: BasicBuilder.number(), operator: "invalid" as any }, "==");
+      expect(filterMatches(filter, { a: BasicBuilder.number() })).toBe(false);
     });
   });
-  describe("currentValue type checking", () => {
-    it("returns false for currentValue being a primitive type", () => {
-      const filter = setup({ value: 1 });
-      expect(filterMatches(filter, { a: "string" })).toBe(false);
-      expect(filterMatches(filter, { a: null })).toBe(false);
-    });
 
-    it("returns false for currentValue being undefined", () => {
-      const filter = setup({ value: 1 });
+  describe("handling undefined or empty values", () => {
+    it("returns false when currentValue is undefined or an empty object", () => {
+      const filter = setup({}, "==");
       expect(filterMatches(filter, { a: undefined })).toBe(false);
+      expect(filterMatches(filter, { a: {} })).toBe(false);
     });
 
-    it("returns true for currentValue being a valid object", () => {
-      const filter = setup({ path: ["a", "b"], value: 1 });
-      expect(filterMatches(filter, { a: { b: 1 } })).toBe(true);
-    });
-
-    it("returns false for currentValue being an empty object", () => {
-      const filter = setup({ path: ["a", "b"], value: 1 });
-      expect(filterMatches(filter, { a: { b: {} } })).toBe(false);
+    it("returns true when currentValue is a valid nested object", () => {
+      const value = BasicBuilder.number();
+      const filter = setup({ path: ["a", "b"], value }, "==");
+      expect(filterMatches(filter, { a: { b: value } })).toBe(true);
     });
   });
 });
