@@ -21,7 +21,6 @@ export function filterMatches(filter: Immutable<MessagePathFilter>, value: unkno
     if (typeof currentValue !== "object" || currentValue == undefined) {
       return false;
     }
-
     currentValue = (currentValue as Record<string, unknown>)[name];
     if (currentValue == undefined) {
       return false;
