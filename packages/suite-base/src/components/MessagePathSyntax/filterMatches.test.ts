@@ -129,4 +129,26 @@ describe("filterMatches", () => {
       expect(filterMatches(filter, { a: 1 })).toBe(true);
     });
   });
+  describe("currentValue type checking", () => {
+    it("returns false for currentValue being a primitive type", () => {
+      const filter = setup({ value: 1 });
+      expect(filterMatches(filter, { a: "string" })).toBe(false);
+      expect(filterMatches(filter, { a: null })).toBe(false);
+    });
+
+    it("returns false for currentValue being undefined", () => {
+      const filter = setup({ value: 1 });
+      expect(filterMatches(filter, { a: undefined })).toBe(false);
+    });
+
+    it("returns true for currentValue being a valid object", () => {
+      const filter = setup({ path: ["a", "b"], value: 1 });
+      expect(filterMatches(filter, { a: { b: 1 } })).toBe(true);
+    });
+
+    it("returns false for currentValue being an empty object", () => {
+      const filter = setup({ path: ["a", "b"], value: 1 });
+      expect(filterMatches(filter, { a: { b: {} } })).toBe(false);
+    });
+  });
 });
