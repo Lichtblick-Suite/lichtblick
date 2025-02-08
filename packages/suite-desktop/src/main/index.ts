@@ -7,6 +7,7 @@
 
 import { app, BrowserWindow, ipcMain, Menu, nativeTheme, session } from "electron";
 import fs from "fs";
+import os from "os";
 import path from "path";
 
 import Logger from "@lichtblick/log";
@@ -15,6 +16,7 @@ import { initI18n, sharedI18nObject as i18n } from "@lichtblick/suite-base/src/i
 
 import StudioAppUpdater from "./StudioAppUpdater";
 import StudioWindow from "./StudioWindow";
+import { allowedExtensions } from "./constants";
 import getDevModeIcon from "./getDevModeIcon";
 import injectFilesToOpen from "./injectFilesToOpen";
 import installChromeExtensions from "./installChromeExtensions";
@@ -46,6 +48,27 @@ function isFileToOpen(arg: string) {
     // ignore
   }
   return false;
+}
+
+function getFilesFromDirectory(arg: string): string[] {
+  try {
+    return fs.readdirSync(arg);
+  } catch (err) {
+    console.error("Error:", err);
+  }
+  return [];
+}
+
+function isPathToDirectory(paths: string[]): boolean {
+  if (paths.length !== 1) {
+    return false;
+  }
+  try {
+    return fs.statSync(paths[0]!).isDirectory();
+  } catch (error) {
+    console.error(`Error checking directory ${error}`);
+    return false;
+  }
 }
 
 function updateNativeColorScheme() {
@@ -142,14 +165,49 @@ export async function main(): Promise<void> {
       log.warn("Could not set app as handler for lichtblick://");
     }
   }
+  log.debug("PROCESSSS !!!!!!!", process.argv);
 
-  // files our app should open - either from user double-click on a supported fileAssociation
-  // or command line arguments.
-  const filesToOpen: string[] = process.argv
-    .slice(1)
-    .filter((arg) => !arg.startsWith("--")) // Filter out flags
-    .map((filePath) => path.resolve(filePath)) // Convert to absolute path, linux has some problems to resolve relative paths
-    .filter(isFileToOpen);
+  const sourceArgs: string[] = process.argv.filter((arg) => arg.startsWith("--source="));
+
+  const paths: string[] = sourceArgs.flatMap((arg) => {
+    const withoutPrefix = arg.slice("--source=".length);
+
+    return withoutPrefix.split(",").map((filePath) => filePath.trim());
+  });
+
+  const resolvedFilePaths: string[] = paths
+    .map((filePath) =>
+      filePath.startsWith("~") ? path.join(os.homedir(), filePath.slice(1)) : filePath,
+    )
+    .map((filePath) => path.resolve(filePath));
+
+  const filesToOpen: string[] = [];
+
+  // check if there's flag --source= passed by the user
+  if (resolvedFilePaths.length === 0) {
+    log.debug("No source flag provided.");
+  } else {
+    if (isPathToDirectory(resolvedFilePaths)) {
+      //saving sourcePath of the directory to add it later so the potencial files
+      //found inside the directory can be read by lichtblick
+      const sourcePath = resolvedFilePaths[0]!;
+
+      const directoryFiles = getFilesFromDirectory(sourcePath);
+      const resolvedDirectoryFiles = directoryFiles
+        .map((fileName) => path.join(sourcePath, fileName))
+        .filter((file) =>
+          allowedExtensions.some((extension) => file.toLocaleLowerCase().endsWith(extension)),
+        );
+
+      filesToOpen.push(...resolvedDirectoryFiles);
+    } else {
+      //in case of the only filePath passed via source flag is a file
+      //its directly pushed to filesToOpen array
+      filesToOpen.push(...resolvedFilePaths);
+    }
+  }
+
+  const verifiedFilesToOpen: string[] = filesToOpen.filter(isFileToOpen);
 
   // indicates the preloader has setup the file input used to inject which files to open
   let preloaderFileInputIsReady = false;
@@ -160,12 +218,12 @@ export async function main(): Promise<void> {
   // The open-file handler registered earlier will handle adding the file to filesToOpen
   app.on("open-file", async (_ev, filePath) => {
     log.debug("open-file handler", filePath);
-    filesToOpen.push(filePath);
+    verifiedFilesToOpen.push(filePath);
 
     if (preloaderFileInputIsReady) {
       const focusedWindow = BrowserWindow.getFocusedWindow();
       if (focusedWindow) {
-        await injectFilesToOpen(focusedWindow.webContents.debugger, filesToOpen);
+        await injectFilesToOpen(focusedWindow.webContents.debugger, verifiedFilesToOpen);
       } else {
         // On MacOS the user may have closed all the windows so we need to open a new window
         new StudioWindow().load();
@@ -179,7 +237,7 @@ export async function main(): Promise<void> {
   ipcMain.handle("load-pending-files", async (ev) => {
     log.debug("load-pending-files");
     const debug = ev.sender.debugger;
-    await injectFilesToOpen(debug, filesToOpen);
+    await injectFilesToOpen(debug, verifiedFilesToOpen);
     preloaderFileInputIsReady = true;
   });
 

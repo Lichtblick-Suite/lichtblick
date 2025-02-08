@@ -75,6 +75,11 @@ export function useOpenFile(sources: readonly IDataSourceFactory[]): () => Promi
         source.type === "file" &&
         source.supportedFileTypes.includes(extension!),
     );
+
+    if (matchingSources.length === 0) {
+      throwErrorAndSnackbar(`Cannot find a source to handle files with extension ${extension}`);
+    }
+
     if (matchingSources.length > 1) {
       throwErrorAndSnackbar(
         `The file extension "${extension}" is not supported. Please select files with the following extensions: ${allExtensions.join(", ")}.`,
@@ -88,11 +93,9 @@ export function useOpenFile(sources: readonly IDataSourceFactory[]): () => Promi
       throwErrorAndSnackbar(`The application only support multiple files for MCAP extension.`);
     }
 
-    const foundSource = matchingSources[0];
-    if (!foundSource) {
-      throwErrorAndSnackbar(`Cannot find a source to handle files with extension ${extension}`);
-    }
-
-    selectSource(foundSource!.id, { type: "file", files: processedFiles.map((item) => item.file) });
+    selectSource(matchingSources[0]!.id, {
+      type: "file",
+      files: processedFiles.map((item) => item.file),
+    });
   }, [allExtensions, selectSource, sources]);
 }
