@@ -204,7 +204,7 @@ export async function main(): Promise<void> {
     //its directly pushed to filesToOpen array
     filesToOpen.push(...resolvedFilePaths);
   }
-  
+
   const verifiedFilesToOpen: string[] = filesToOpen.filter(isFileToOpen);
 
   // indicates the preloader has setup the file input used to inject which files to open
