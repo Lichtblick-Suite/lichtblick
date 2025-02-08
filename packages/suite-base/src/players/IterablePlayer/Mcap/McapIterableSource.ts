@@ -123,7 +123,7 @@ export class McapIterableSource implements IIterableSource {
     return await this.#sourceImpl.getBackfillMessages(args);
   }
 
-  public getStart(): Time {
+  public getStart(): Time | undefined {
     return this.#sourceImpl!.getStart!();
   }
 }

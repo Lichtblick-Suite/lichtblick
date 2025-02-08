@@ -40,6 +40,9 @@ class Foo {
     this.bar = 2;
   }
 
+  private foo() {
+    this.bar = 2;
+  }
   private static getBaz() {
     this.baz = 3;
     void this.baz;
