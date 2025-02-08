@@ -186,27 +186,25 @@ export async function main(): Promise<void> {
   // check if there's flag --source= passed by the user
   if (resolvedFilePaths.length === 0) {
     log.debug("No source flag provided.");
+  } else if (isPathToDirectory(resolvedFilePaths)) {
+    //saving sourcePath of the directory to add it later so the potencial files
+    //found inside the directory can be read by lichtblick
+    const sourcePath = resolvedFilePaths[0]!;
+
+    const directoryFiles = getFilesFromDirectory(sourcePath);
+    const resolvedDirectoryFiles = directoryFiles
+      .map((fileName) => path.join(sourcePath, fileName))
+      .filter((file) =>
+        allowedExtensions.some((extension) => file.toLocaleLowerCase().endsWith(extension)),
+      );
+
+    filesToOpen.push(...resolvedDirectoryFiles);
   } else {
-    if (isPathToDirectory(resolvedFilePaths)) {
-      //saving sourcePath of the directory to add it later so the potencial files
-      //found inside the directory can be read by lichtblick
-      const sourcePath = resolvedFilePaths[0]!;
-
-      const directoryFiles = getFilesFromDirectory(sourcePath);
-      const resolvedDirectoryFiles = directoryFiles
-        .map((fileName) => path.join(sourcePath, fileName))
-        .filter((file) =>
-          allowedExtensions.some((extension) => file.toLocaleLowerCase().endsWith(extension)),
-        );
-
-      filesToOpen.push(...resolvedDirectoryFiles);
-    } else {
-      //in case of the only filePath passed via source flag is a file
-      //its directly pushed to filesToOpen array
-      filesToOpen.push(...resolvedFilePaths);
-    }
+    //in case of the only filePath passed via source flag is a file
+    //its directly pushed to filesToOpen array
+    filesToOpen.push(...resolvedFilePaths);
   }
-
+  
   const verifiedFilesToOpen: string[] = filesToOpen.filter(isFileToOpen);
 
   // indicates the preloader has setup the file input used to inject which files to open
