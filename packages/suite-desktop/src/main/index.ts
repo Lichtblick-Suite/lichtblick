@@ -7,8 +7,6 @@
 
 import { app, BrowserWindow, ipcMain, Menu, nativeTheme, session } from "electron";
 import fs from "fs";
-import os from "os";
-import path from "path";
 
 import Logger from "@lichtblick/log";
 import { AppSetting } from "@lichtblick/suite-base/src/AppSetting";
@@ -16,11 +14,11 @@ import { initI18n, sharedI18nObject as i18n } from "@lichtblick/suite-base/src/i
 
 import StudioAppUpdater from "./StudioAppUpdater";
 import StudioWindow from "./StudioWindow";
-import { allowedExtensions } from "./constants";
 import getDevModeIcon from "./getDevModeIcon";
 import injectFilesToOpen from "./injectFilesToOpen";
 import installChromeExtensions from "./installChromeExtensions";
 import { parseCLIFlags } from "./parseCLIFlags";
+import { resolveSourcePaths } from "./resolveSourcePaths";
 import {
   registerRosPackageProtocolHandlers,
   registerRosPackageProtocolSchemes,
@@ -48,27 +46,6 @@ function isFileToOpen(arg: string) {
     // ignore
   }
   return false;
-}
-
-function getFilesFromDirectory(arg: string): string[] {
-  try {
-    return fs.readdirSync(arg);
-  } catch (err) {
-    console.error("Error:", err);
-  }
-  return [];
-}
-
-function isPathToDirectory(paths: string[]): boolean {
-  if (paths.length !== 1) {
-    return false;
-  }
-  try {
-    return fs.statSync(paths[0]!).isDirectory();
-  } catch (error) {
-    console.error(`Error checking directory ${error}`);
-    return false;
-  }
 }
 
 function updateNativeColorScheme() {
@@ -165,45 +142,8 @@ export async function main(): Promise<void> {
       log.warn("Could not set app as handler for lichtblick://");
     }
   }
-  log.debug("PROCESSSS !!!!!!!", process.argv);
 
-  const sourceArgs: string[] = process.argv.filter((arg) => arg.startsWith("--source="));
-
-  const paths: string[] = sourceArgs.flatMap((arg) => {
-    const withoutPrefix = arg.slice("--source=".length);
-
-    return withoutPrefix.split(",").map((filePath) => filePath.trim());
-  });
-
-  const resolvedFilePaths: string[] = paths
-    .map((filePath) =>
-      filePath.startsWith("~") ? path.join(os.homedir(), filePath.slice(1)) : filePath,
-    )
-    .map((filePath) => path.resolve(filePath));
-
-  const filesToOpen: string[] = [];
-
-  // check if there's flag --source= passed by the user
-  if (resolvedFilePaths.length === 0) {
-    log.debug("No source flag provided.");
-  } else if (isPathToDirectory(resolvedFilePaths)) {
-    //saving sourcePath of the directory to add it later so the potencial files
-    //found inside the directory can be read by lichtblick
-    const sourcePath = resolvedFilePaths[0]!;
-
-    const directoryFiles = getFilesFromDirectory(sourcePath);
-    const resolvedDirectoryFiles = directoryFiles
-      .map((fileName) => path.join(sourcePath, fileName))
-      .filter((file) =>
-        allowedExtensions.some((extension) => file.toLocaleLowerCase().endsWith(extension)),
-      );
-
-    filesToOpen.push(...resolvedDirectoryFiles);
-  } else {
-    //in case of the only filePath passed via source flag is a file
-    //its directly pushed to filesToOpen array
-    filesToOpen.push(...resolvedFilePaths);
-  }
+  const filesToOpen = resolveSourcePaths();
 
   const verifiedFilesToOpen: string[] = filesToOpen.filter(isFileToOpen);
 
