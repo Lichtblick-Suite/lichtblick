@@ -32,7 +32,7 @@ describe("filterMatches", () => {
 
     it("returns false for non-matching value", () => {
       const value = BasicBuilder.number();
-      const secondValue = BasicBuilder.number();
+      const secondValue = value + 1;
       const filter = setup({ value }, "==");
       expect(filterMatches(filter, { a: secondValue })).toBe(false);
     });
