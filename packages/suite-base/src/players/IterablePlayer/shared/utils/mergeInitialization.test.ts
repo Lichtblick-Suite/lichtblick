@@ -1,7 +1,6 @@
 // SPDX-FileCopyrightText: Copyright (C) 2023-2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)<lichtblick@bmwgroup.com>
 // SPDX-License-Identifier: MPL-2.0
 
-import { Time } from "@lichtblick/rostime";
 import {
   InitMetadata,
   InitTopicStatsMap,
@@ -13,12 +12,25 @@ import {
   setEndTime,
   setStartTime,
 } from "@lichtblick/suite-base/players/IterablePlayer/shared/utils/mergeInitialization";
+import { TopicStats } from "@lichtblick/suite-base/players/types";
+import BasicBuilder from "@lichtblick/suite-base/testing/builders/BasicBuilder";
+import RosTimeBuilder from "@lichtblick/suite-base/testing/builders/RosTimeBuilder";
 
 describe("mergeInitialization utils", () => {
   describe("setStartTime", () => {
     it("should return the earlier time", () => {
-      const time1: Time = { sec: 10, nsec: 0 };
-      const time2: Time = { sec: 20, nsec: 0 };
+      const time1 = RosTimeBuilder.time({ sec: BasicBuilder.number({ max: 10 }) });
+      const time2 = RosTimeBuilder.time({ sec: BasicBuilder.number({ min: 20 }) });
+
+      expect(setStartTime(time1, time2)).toEqual(time1);
+      expect(setStartTime(time2, time1)).toEqual(time1);
+    });
+
+    it("should return the time if they are equal", () => {
+      const time1 = RosTimeBuilder.time();
+      const time2 = time1;
+
+      expect(time1).toEqual(time2);
       expect(setStartTime(time1, time2)).toEqual(time1);
       expect(setStartTime(time2, time1)).toEqual(time1);
     });
@@ -26,10 +38,20 @@ describe("mergeInitialization utils", () => {
 
   describe("setEndTime", () => {
     it("should return the later time", () => {
-      const time1: Time = { sec: 10, nsec: 0 };
-      const time2: Time = { sec: 20, nsec: 0 };
+      const time1 = RosTimeBuilder.time({ sec: BasicBuilder.number({ max: 10 }) });
+      const time2 = RosTimeBuilder.time({ sec: BasicBuilder.number({ min: 20 }) });
+
       expect(setEndTime(time1, time2)).toEqual(time2);
       expect(setEndTime(time2, time1)).toEqual(time2);
+    });
+
+    it("should return the time if they are equal", () => {
+      const time1 = RosTimeBuilder.time();
+      const time2 = time1;
+
+      expect(time1).toEqual(time2);
+      expect(setEndTime(time1, time2)).toEqual(time1);
+      expect(setEndTime(time2, time1)).toEqual(time1);
     });
   });
 
@@ -37,21 +59,21 @@ describe("mergeInitialization utils", () => {
     it("should merge two metadata arrays", () => {
       const metadata1: InitMetadata = [{ name: "value1", metadata: { key: "value1" } }];
       const metadata2: InitMetadata = [{ name: "value2", metadata: { key: "value2" } }];
+
       const result = mergeMetadata(metadata1, metadata2);
+
       expect(result!.length).toBe(2);
-      expect(result![0]!.name).toBe("value1");
-      expect(result![1]!.name).toBe("value2");
-      expect(result![0]!.metadata.key).toBe("value1");
-      expect(result![1]!.metadata.key).toBe("value2");
+      expect(result![0]).toEqual(metadata1[0]);
+      expect(result![1]).toEqual(metadata2[0]);
     });
 
     it("should handle undefined metadata", () => {
       const metadata1: InitMetadata = [{ name: "value1", metadata: { key: "value1" } }];
       const metadata2: InitMetadata = undefined;
       const result = mergeMetadata(metadata1, metadata2);
+
       expect(result!.length).toBe(1);
-      expect(result![0]!.name).toBe("value1");
-      expect(result![0]!.metadata.key).toBe("value1");
+      expect(result![0]).toEqual(metadata1[0]);
     });
 
     it("should handle undefined metadata in both", () => {
@@ -74,15 +96,33 @@ describe("mergeInitialization utils", () => {
   });
 
   describe("mergeTopicStats", () => {
-    it("should merge two topic stats maps", () => {
-      const statsMap1: InitTopicStatsMap = new Map([["topic1", { numMessages: 5 }]]);
-      const statsMap2: InitTopicStatsMap = new Map([
-        ["topic1", { numMessages: 3 }],
-        ["topic2", { numMessages: 7 }],
-      ]);
+    it("should merge two topic stats maps and set correct first and last message time", () => {
+      const topic1 = BasicBuilder.string();
+      const topic2 = BasicBuilder.string();
+
+      const statsMap1: InitTopicStatsMap = new Map<string, TopicStats>();
+      statsMap1.set(topic1, {
+        numMessages: 5,
+        firstMessageTime: RosTimeBuilder.time({ sec: 10 }),
+        lastMessageTime: RosTimeBuilder.time({ sec: 30 }),
+      });
+
+      const statsMap2: InitTopicStatsMap = new Map<string, TopicStats>();
+      statsMap2.set(topic1, { numMessages: 3, firstMessageTime: RosTimeBuilder.time({ sec: 1 }) });
+      statsMap2.set(topic2, { numMessages: 7, lastMessageTime: RosTimeBuilder.time({ sec: 20 }) });
+
       const result = mergeTopicStats(statsMap1, statsMap2);
-      expect(result.get("topic1")!.numMessages).toBe(8);
-      expect(result.get("topic2")!.numMessages).toBe(7);
+
+      expect(result.get(topic1)).toEqual({
+        numMessages: 8,
+        firstMessageTime: { sec: 1, nsec: expect.any(Number) },
+        lastMessageTime: { sec: 30, nsec: expect.any(Number) },
+      });
+
+      expect(result.get(topic2)).toEqual({
+        numMessages: 7,
+        lastMessageTime: { sec: 20, nsec: expect.any(Number) },
+      });
     });
   });
 });

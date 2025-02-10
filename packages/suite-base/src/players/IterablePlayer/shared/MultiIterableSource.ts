@@ -4,8 +4,8 @@
 // This Source Code Form is subject to the terms of the Mozilla Public
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
+
 import { compare } from "@lichtblick/rostime";
-import { Topic } from "@lichtblick/suite";
 import {
   IterableSourceConstructor,
   MultiSource,
@@ -18,6 +18,11 @@ import {
   setEndTime,
   setStartTime,
 } from "@lichtblick/suite-base/players/IterablePlayer/shared/utils/mergeInitialization";
+import {
+  validateAndAddNewTopics,
+  validateAndAddDatatypes,
+  validateOverlap,
+} from "@lichtblick/suite-base/players/IterablePlayer/shared/utils/validateInitialization";
 import { MessageEvent, TopicStats } from "@lichtblick/suite-base/players/types";
 import { OptionalMessageDefinition } from "@lichtblick/suite-base/types/RosDatatypes";
 
@@ -97,26 +102,24 @@ export class MultiIterableSource<T extends IIterableSource, P> implements IItera
       topicStats: new Map<string, TopicStats>(),
     };
 
-    const uniqueTopics = new Map<string, Topic>();
-
     for (const init of initializations) {
       resultInit.start = setStartTime(resultInit.start, init.start);
       resultInit.end = setEndTime(resultInit.end, init.end);
+      validateOverlap(resultInit, init);
       resultInit.name ??= init.name;
       resultInit.profile ??= init.profile;
-      resultInit.datatypes = accumulateMap(resultInit.datatypes, init.datatypes);
       resultInit.publishersByTopic = accumulateMap(
         resultInit.publishersByTopic,
         init.publishersByTopic,
       );
       resultInit.topicStats = mergeTopicStats(resultInit.topicStats, init.topicStats);
       resultInit.metadata = mergeMetadata(resultInit.metadata, init.metadata);
-      resultInit.problems = [...resultInit.problems, ...init.problems];
+      resultInit.problems.push(...init.problems);
 
-      init.topics.forEach((topic) => uniqueTopics.set(topic.name, topic as Topic));
+      // These validations validate and merge data, in order to avoid multiple loops
+      validateAndAddDatatypes(resultInit, init);
+      validateAndAddNewTopics(resultInit, init);
     }
-
-    resultInit.topics = Array.from(uniqueTopics.values());
 
     return resultInit;
   }

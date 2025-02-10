@@ -34,7 +34,24 @@ export const mergeTopicStats = (
     if (!accumulated.has(topic)) {
       accumulated.set(topic, { numMessages: 0 });
     }
-    accumulated.get(topic)!.numMessages += stats.numMessages;
+    const accStats = accumulated.get(topic)!;
+
+    accStats.numMessages += stats.numMessages;
+    // Keep the earliest firstMessageTime
+    if (
+      stats.firstMessageTime &&
+      (!accStats.firstMessageTime || compare(stats.firstMessageTime, accStats.firstMessageTime) < 0)
+    ) {
+      accStats.firstMessageTime = stats.firstMessageTime;
+    }
+
+    // Keep the latest lastMessageTime
+    if (
+      stats.lastMessageTime &&
+      (!accStats.lastMessageTime || compare(stats.lastMessageTime, accStats.lastMessageTime) > 0)
+    ) {
+      accStats.lastMessageTime = stats.lastMessageTime;
+    }
   }
   return accumulated;
 };
