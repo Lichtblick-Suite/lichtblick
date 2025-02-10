@@ -84,5 +84,4 @@ describe("filterMatches", () => {
       expect(filterMatches(filter, { a: BasicBuilder.number() })).toBe(false);
     });
   });
-
 });
