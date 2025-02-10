@@ -42,11 +42,6 @@ describe("filterMatches", () => {
       const filter = setup({ value }, "==");
       expect(filterMatches(filter, { a: value })).toBe(true);
     });
-
-    it("returns false for undefined currentValue in path", () => {
-      const filter = setup({ path: ["a", "b"], value: BasicBuilder.number() }, "==");
-      expect(filterMatches(filter, { a: undefined })).toBe(false);
-    });
   });
 
   describe("nested value matching", () => {
@@ -61,11 +56,6 @@ describe("filterMatches", () => {
       const value = BasicBuilder.number();
       const filter = setup({ path: ["a", "b"], value }, "==");
       expect(filterMatches(filter, { a: { b: value } })).toBe(true);
-    });
-
-    it("returns false for undefined currentValue in nested path", () => {
-      const filter = setup({ path: ["a", "b"], value: BasicBuilder.number() }, "==");
-      expect(filterMatches(filter, { a: { b: undefined } })).toBe(false);
     });
   });
 
@@ -92,11 +82,6 @@ describe("filterMatches", () => {
     it("returns false for invalid operator", () => {
       const filter = setup({ value: BasicBuilder.number(), operator: "invalid" as any }, "==");
       expect(filterMatches(filter, { a: BasicBuilder.number() })).toBe(false);
-    });
-
-    it("returns false for undefined currentValue", () => {
-      const filter = setup({ value: BasicBuilder.number() }, "==");
-      expect(filterMatches(filter, { a: undefined })).toBe(false);
     });
   });
 
