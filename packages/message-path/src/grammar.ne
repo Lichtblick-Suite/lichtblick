@@ -120,16 +120,16 @@ filter -> "{" simplePath:? "}"
                 repr: (d[1] || []).join("."),
               })
             %}
-        | "{" simplePath:? comparisonOperator:? value "}"
+        | "{" simplePath:? comparisonOperator value "}"
             {%
               (d, loc) => ({
                 type: "filter",
                 path: d[1] || [],
-                operator: d[2] || "",
+                operator: d[2],
                 value: d[3].value,
                 nameLoc: loc+1,
-                valueLoc: loc+1+(d[1] || []).join(".").length+(d[2] || "").length,
-                repr: `${(d[1] || []).join(".")}${d[2] || ""}${d[3].repr}`,
+                valueLoc: loc+1+(d[1] || []).join(".").length+d[2].length,
+                repr: `${(d[1] || []).join(".")}${d[2]}${d[3].repr}`,
               })
             %}
 
