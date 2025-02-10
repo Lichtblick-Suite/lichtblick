@@ -10,7 +10,7 @@ import { filterMatches } from "./filterMatches";
 describe("filterMatches", () => {
   function setup(
     overrides: Partial<MessagePathFilter> = {},
-    operator: OperatorType,
+    operator?: OperatorType,
   ): Immutable<MessagePathFilter> {
     return {
       path: ["a"],
@@ -26,7 +26,7 @@ describe("filterMatches", () => {
 
   describe("value matching", () => {
     it("returns false for undefined filter value", () => {
-      const filter = setup({ value: undefined }, "==");
+      const filter = setup({ value: undefined });
       expect(filterMatches(filter, { a: BasicBuilder.number() })).toBe(false);
     });
 
@@ -46,7 +46,7 @@ describe("filterMatches", () => {
 
   describe("nested value matching", () => {
     it("returns false for non-matching or missing nested value", () => {
-      const filter = setup({ path: ["a", "b"], value: BasicBuilder.number() }, "==");
+      const filter = setup({ path: ["a", "b"], value: BasicBuilder.number() });
       expect(filterMatches(filter, { a: { b: BasicBuilder.number() } })).toBe(false);
       expect(filterMatches(filter, { a: {} })).toBe(false);
       expect(filterMatches(filter, { a: { b: {} } })).toBe(false);
@@ -80,7 +80,7 @@ describe("filterMatches", () => {
     });
 
     it("returns false for invalid operator", () => {
-      const filter = setup({ value: BasicBuilder.number(), operator: "invalid" as any }, "==");
+      const filter = setup({ value: BasicBuilder.number(), operator: "invalid" as any });
       expect(filterMatches(filter, { a: BasicBuilder.number() })).toBe(false);
     });
   });
