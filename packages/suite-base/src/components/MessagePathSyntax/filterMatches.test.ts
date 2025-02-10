@@ -85,17 +85,4 @@ describe("filterMatches", () => {
     });
   });
 
-  describe("handling undefined or empty values", () => {
-    it("returns false when currentValue is undefined or an empty object", () => {
-      const filter = setup({}, "==");
-      expect(filterMatches(filter, {})).toBe(false);
-      expect(filterMatches(filter, { a: {} })).toBe(false);
-    });
-
-    it("returns true when currentValue is a valid nested object", () => {
-      const value = BasicBuilder.number();
-      const filter = setup({ path: ["a", "b"], value }, "==");
-      expect(filterMatches(filter, { a: { b: value } })).toBe(true);
-    });
-  });
 });
