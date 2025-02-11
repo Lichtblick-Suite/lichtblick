@@ -91,9 +91,9 @@ describe("filterMatches", () => {
       ["<=", 1, 2, true],
       ["<=", 1, 1, true],
       ["<=", 2, 1, false],
-    ])("returns %s for %s %s %s", (operator, testValue, filterValue, expected) => {
+    ])("returns %s for %s %s %s", (operator, testValue, filterValue, expectedResult) => {
       const filter = setup({ value: filterValue, operator: operator as OperatorType });
-      expect(filterMatches(filter, { a: testValue })).toBe(expected);
+      expect(filterMatches(filter, { a: testValue })).toBe(expectedResult);
     });
 
     it("returns false for invalid operator", () => {
