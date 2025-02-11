@@ -100,9 +100,16 @@ export function StudioApp(): React.JSX.Element {
   const MaybeLaunchPreference = enableLaunchPreferenceScreen === true ? LaunchPreference : Fragment;
 
   const url = new URL(window.location.href);
-  const namespace = url.searchParams.get("namespace") ?? "lbpoc";
-  const remoteLayoutStorage = useMemo(() => new LichtblickApi(namespace), [namespace]);
-  providers.unshift(<RemoteLayoutStorageContext.Provider value={remoteLayoutStorage.layouts} />);
+  const namespace = url.searchParams.get("namespace");
+
+  const remoteLayoutStorage = useMemo(
+    () => (namespace ? new LichtblickApi(namespace) : undefined),
+    [namespace],
+  );
+
+  if (remoteLayoutStorage) {
+    providers.unshift(<RemoteLayoutStorageContext.Provider value={remoteLayoutStorage.layouts} />);
+  }
 
   useEffect(() => {
     document.addEventListener("contextmenu", contextMenuHandler);
