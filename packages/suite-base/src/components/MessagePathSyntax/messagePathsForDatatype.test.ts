@@ -15,7 +15,7 @@
 //   You may not use this file except in compliance with the License.
 
 import { unwrap } from "@lichtblick/den/monads";
-import { parseMessagePath } from "@lichtblick/message-path";
+import { OperatorType, parseMessagePath } from "@lichtblick/message-path";
 import { RosDatatypes } from "@lichtblick/suite-base/types/RosDatatypes";
 
 import {
@@ -592,6 +592,9 @@ describe("validTerminatingStructureItem", () => {
 });
 
 describe("traverseStructure", () => {
+  const equal: OperatorType = "==";
+  const notEqual: OperatorType = "!=";
+  const greaterThan: OperatorType = ">=";
   it("returns whether the path is valid for the structure, plus some metadata", () => {
     const structure = messagePathStructures(datatypes)["pose_msgs/PoseDebug"];
 
@@ -627,7 +630,7 @@ describe("traverseStructure", () => {
           nameLoc: 123,
           valueLoc: 0,
           repr: "",
-          operator: "==",
+          operator: equal,
         },
         { type: "name", name: "dummy_array", repr: "dummy_array" },
         { type: "slice", start: 50, end: 100 },
@@ -647,7 +650,7 @@ describe("traverseStructure", () => {
           nameLoc: 123,
           valueLoc: 0,
           repr: "",
-          operator: "==",
+          operator: equal,
         },
       ]),
     ).toEqual({
@@ -690,7 +693,7 @@ describe("traverseStructure", () => {
           nameLoc: 123,
           valueLoc: 0,
           repr: "",
-          operator: "==",
+          operator: notEqual,
         },
       ]),
     ).toEqual({
@@ -702,7 +705,7 @@ describe("traverseStructure", () => {
         nameLoc: 123,
         valueLoc: 0,
         repr: "",
-        operator: "==",
+        operator: notEqual,
       },
       structureItem: messagePathStructures(datatypes)["pose_msgs/SomePose"],
     });
@@ -716,7 +719,7 @@ describe("traverseStructure", () => {
           nameLoc: 123,
           valueLoc: 0,
           repr: "",
-          operator: "==",
+          operator: greaterThan,
         },
       ]),
     ).toEqual({
@@ -728,7 +731,7 @@ describe("traverseStructure", () => {
         nameLoc: 123,
         valueLoc: 0,
         repr: "",
-        operator: "==",
+        operator: greaterThan,
       },
       structureItem: messagePathStructures(datatypes)["pose_msgs/SomePose"],
     });

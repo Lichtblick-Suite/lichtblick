@@ -18,7 +18,7 @@
 import { renderHook } from "@testing-library/react";
 import * as _ from "lodash-es";
 
-import { parseMessagePath } from "@lichtblick/message-path";
+import { OperatorType, parseMessagePath } from "@lichtblick/message-path";
 import { messagePathStructures } from "@lichtblick/suite-base/components/MessagePathSyntax/messagePathsForDatatype";
 import MockMessagePipelineProvider from "@lichtblick/suite-base/components/MessagePipeline/MockMessagePipelineProvider";
 import { MessageEvent, Topic } from "@lichtblick/suite-base/players/types";
@@ -618,6 +618,9 @@ describe("useCachedGetMessagePathDataItems", () => {
 });
 
 describe("fillInGlobalVariablesInPath", () => {
+  const equal: OperatorType = "==";
+  const notEqual: OperatorType = "!=";
+
   it("fills in global variables in slices", () => {
     expect(
       fillInGlobalVariablesInPath(
@@ -687,7 +690,7 @@ describe("fillInGlobalVariablesInPath", () => {
               nameLoc: 0,
               valueLoc: 0,
               repr: "",
-              operator: "==",
+              operator: equal,
             },
           ],
           modifier: undefined,
@@ -705,7 +708,7 @@ describe("fillInGlobalVariablesInPath", () => {
           nameLoc: 0,
           valueLoc: 0,
           repr: "",
-          operator: "==",
+          operator: equal,
         },
       ],
     });
@@ -726,7 +729,7 @@ describe("fillInGlobalVariablesInPath", () => {
               nameLoc: 0,
               valueLoc: 0,
               repr: "",
-              operator: "==",
+              operator: notEqual,
             },
           ],
           modifier: undefined,
@@ -744,7 +747,7 @@ describe("fillInGlobalVariablesInPath", () => {
           nameLoc: 0,
           valueLoc: 0,
           repr: "",
-          operator: "==",
+          operator: notEqual,
         },
       ],
     });
