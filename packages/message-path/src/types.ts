@@ -37,7 +37,7 @@ export type MessagePathFilter = {
   nameLoc: number;
   valueLoc: number;
   repr: string; // the original string representation of the filter
-  operator?: OperatorType;
+  operator: OperatorType;
 };
 
 // A parsed version of paths.
