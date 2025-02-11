@@ -5,11 +5,8 @@ import fs from "fs";
 import os from "os";
 import path from "path";
 
-import Logger from "@lichtblick/log";
-
 import { allowedExtensions } from "./constants";
-
-const log = Logger.getLogger(__filename);
+import { CLIFlags } from "../common/types";
 
 const SOURCE_PARAMETER = "source";
 
@@ -38,16 +35,17 @@ export function isPathToDirectory(paths: string[]): boolean {
   }
 }
 
-export function resolveSourcePaths(): string[] {
-  const sourceArgs: string[] = process.argv.filter((arg) =>
-    arg.startsWith(`--${SOURCE_PARAMETER}=`),
-  );
+export function resolveSourcePaths(cliFlags: CLIFlags): string[] {
+  const sourceParameter = cliFlags[SOURCE_PARAMETER];
 
-  const paths: string[] = sourceArgs.flatMap((arg) => {
-    const withoutPrefix = arg.slice(`--${SOURCE_PARAMETER}=`.length);
+  if (!sourceParameter) {
+    return [];
+  }
 
-    return withoutPrefix.split(",").map((filePath) => filePath.trim());
-  });
+  const paths: string[] = sourceParameter
+    .split(",")
+    .map((filePath) => filePath.trim())
+    .filter(Boolean);
 
   const resolvedFilePaths: string[] = paths
     .map((filePath) =>
@@ -57,9 +55,7 @@ export function resolveSourcePaths(): string[] {
 
   const filesToOpen: string[] = [];
 
-  if (resolvedFilePaths.length === 0) {
-    log.debug("No source flag provided.");
-  } else if (isPathToDirectory(resolvedFilePaths)) {
+  if (isPathToDirectory(resolvedFilePaths)) {
     const sourcePath = resolvedFilePaths[0]!;
 
     const directoryFiles = getFilesFromDirectory(sourcePath);

@@ -3,7 +3,8 @@
 
 import mockFs from "mock-fs";
 
-import { getFilesFromDirectory, isPathToDirectory } from "./resolveSourcePaths";
+import { getFilesFromDirectory, isPathToDirectory, resolveSourcePaths } from "./resolveSourcePaths";
+import { CLIFlags } from "../common/types";
 
 jest.mock("./StudioWindow", () => ({
   __esModule: true,
@@ -113,5 +114,15 @@ describe("isPathToDirectory", () => {
     );
 
     consoleErrorSpy.mockRestore();
+  });
+});
+
+describe("resolveSourcePaths", () => {
+  it("should return an empty array because there was no source parameter provided", () => {
+    const mockCliFlag: CLIFlags = {};
+
+    const result = resolveSourcePaths(mockCliFlag);
+
+    expect(result).toEqual([]);
   });
 });
