@@ -24,8 +24,7 @@ import {
   validateAndAddNewDatatypes,
   validateOverlap,
 } from "@lichtblick/suite-base/players/IterablePlayer/shared/utils/validateInitialization";
-import { MessageEvent, TopicStats } from "@lichtblick/suite-base/players/types";
-import { OptionalMessageDefinition } from "@lichtblick/suite-base/types/RosDatatypes";
+import { MessageEvent } from "@lichtblick/suite-base/players/types";
 
 import {
   IIterableSource,
@@ -93,30 +92,24 @@ export class MultiIterableSource<T extends IIterableSource, P> implements IItera
     const resultInit: Initalization = {
       start: { sec: Number.MAX_SAFE_INTEGER, nsec: Number.MAX_SAFE_INTEGER },
       end: { sec: Number.MIN_SAFE_INTEGER, nsec: Number.MIN_SAFE_INTEGER },
-      datatypes: new Map<string, OptionalMessageDefinition>(),
+      datatypes: new Map(),
       metadata: [],
       name: "",
       problems: [],
       profile: "",
-      publishersByTopic: new Map<string, Set<string>>(),
+      publishersByTopic: new Map(),
       topics: [],
-      topicStats: new Map<string, TopicStats>(),
+      topicStats: new Map(),
     };
 
     const loadedTimes: InitLoadedTimes = [];
 
     for (const init of initializations) {
-      // Validate and merge time ranges
       resultInit.start = setStartTime(resultInit.start, init.start);
       resultInit.end = setEndTime(resultInit.end, init.end);
       validateOverlap(loadedTimes, init, resultInit);
       loadedTimes.push({ start: init.start, end: init.end });
 
-      // These validations validate and merge data, in order to avoid multiple loops
-      validateAndAddNewDatatypes(resultInit, init);
-      validateAndAddNewTopics(resultInit, init);
-
-      // Merge rest of the data
       resultInit.name = init.name ?? resultInit.name;
       resultInit.profile = init.profile ?? resultInit.profile;
       resultInit.publishersByTopic = accumulateMap(
@@ -126,6 +119,10 @@ export class MultiIterableSource<T extends IIterableSource, P> implements IItera
       resultInit.topicStats = mergeTopicStats(resultInit.topicStats, init.topicStats);
       resultInit.metadata = mergeMetadata(resultInit.metadata, init.metadata);
       resultInit.problems.push(...init.problems);
+
+      // These methos validate and add to avoid lopp through all topics and datatypes once again
+      validateAndAddNewDatatypes(resultInit, init);
+      validateAndAddNewTopics(resultInit, init);
     }
 
     return resultInit;
