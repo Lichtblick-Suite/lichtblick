@@ -27,6 +27,20 @@ describe("filterMatches", () => {
       expect(filterMatches(filter, undefined)).toBe(false);
     });
 
+    it("returns false for empty path and undefined value", () => {
+      const filter = setup({ path: [] });
+      expect(filterMatches(filter, undefined)).toBe(false);
+    });
+
+    it("returns error when filter value is an object", () => {
+      const filter = setup({
+        value: { variableName: BasicBuilder.string(), startLoc: BasicBuilder.number() },
+      });
+      expect(() => filterMatches(filter, { a: BasicBuilder.number() })).toThrow(
+        new Error("filterMatches only works on paths where global variables have been filled in"),
+      );
+    });
+
     it("returns false for undefined filter value", () => {
       const filter = setup({ value: undefined });
       expect(filterMatches(filter, { a: BasicBuilder.number() })).toBe(false);
