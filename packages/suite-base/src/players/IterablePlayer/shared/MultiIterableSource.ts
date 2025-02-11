@@ -54,7 +54,7 @@ export class MultiIterableSource<T extends IIterableSource, P> implements IItera
           )
         : this.dataSource.urls.map((url) => new this.SourceConstructor({ type: "url", url } as P));
 
-    this.sourceImpl = [...this.sourceImpl, ...sources];
+    this.sourceImpl.push(...sources);
 
     const initializations: Initalization[] = await Promise.all(
       sources.map(async (source) => await source.initialize()),

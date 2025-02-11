@@ -1,13 +1,15 @@
 // SPDX-FileCopyrightText: Copyright (C) 2023-2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)<lichtblick@bmwgroup.com>
 // SPDX-License-Identifier: MPL-2.0
 
+import { get } from "http";
+
 import { MultiSource } from "@lichtblick/suite-base/players/IterablePlayer/shared/types";
 import BasicBuilder from "@lichtblick/suite-base/testing/builders/BasicBuilder";
 import InitilizationSourceBuilder from "@lichtblick/suite-base/testing/builders/InitilizationSourceBuilder";
 import RosTimeBuilder from "@lichtblick/suite-base/testing/builders/RosTimeBuilder";
 
 import { MultiIterableSource } from "./MultiIterableSource";
-import { IIterableSource } from "../IIterableSource";
+import { IIterableSource, Initalization } from "../IIterableSource";
 
 describe("MultiIterableSource", () => {
   let mockSourceConstructor: jest.Mock;
@@ -31,6 +33,12 @@ describe("MultiIterableSource", () => {
   });
 
   describe("Initialization", () => {
+    const mockInitialization = (initialization: Initalization) => {
+      mockSourceConstructor.mockImplementationOnce(() => ({
+        initialize: jest.fn().mockResolvedValue(initialization),
+        getStart: jest.fn().mockReturnValue(initialization.start),
+      }));
+    };
     it("should merge initializations correctly with no problems", async () => {
       const multiSource = new MultiIterableSource(dataSource, mockSourceConstructor);
 
@@ -57,7 +65,10 @@ describe("MultiIterableSource", () => {
         metadata: [{ name: "key", metadata: { key: "value2" } }],
       });
 
-      const result = multiSource["mergeInitializations"]([init1, init2]);
+      mockInitialization(init1);
+      mockInitialization(init2);
+
+      const result = await multiSource.initialize();
 
       expect(result.start.sec).toBe(0);
       expect(result.end.sec).toBe(40);
@@ -93,7 +104,10 @@ describe("MultiIterableSource", () => {
         topics: [{ name: topicName, schemaName: BasicBuilder.string() }],
       });
 
-      const result = multiSource["mergeInitializations"]([init1, init2]);
+      mockInitialization(init1);
+      mockInitialization(init2);
+
+      const result = await multiSource.initialize();
 
       expect(result.start.sec).toBe(0);
       expect(result.end.sec).toBe(30);
