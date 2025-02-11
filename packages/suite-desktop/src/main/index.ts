@@ -145,7 +145,7 @@ export async function main(): Promise<void> {
   // Get the command line flags passed to the app when it was launched
   const parsedCLIFlags = parseCLIFlags(process.argv);
 
-  const filesToOpen = resolveSourcePaths(parsedCLIFlags);
+  const filesToOpen = resolveSourcePaths(parsedCLIFlags.source);
 
   const verifiedFilesToOpen: string[] = filesToOpen.filter(isFileToOpen);
 

@@ -5,10 +5,11 @@ import fs from "fs";
 import os from "os";
 import path from "path";
 
-import { allowedExtensions } from "./constants";
-import { CLIFlags } from "../common/types";
+import Logger from "@lichtblick/log";
 
-const SOURCE_PARAMETER = "source";
+import { allowedExtensions } from "./constants";
+
+const log = Logger.getLogger(__filename);
 
 export function getFilesFromDirectory(arg: string): string[] {
   try {
@@ -35,9 +36,7 @@ export function isPathToDirectory(paths: string[]): boolean {
   }
 }
 
-export function resolveSourcePaths(cliFlags: CLIFlags): string[] {
-  const sourceParameter = cliFlags[SOURCE_PARAMETER];
-
+export function resolveSourcePaths(sourceParameter: string | undefined): string[] {
   if (!sourceParameter) {
     return [];
   }
@@ -59,6 +58,11 @@ export function resolveSourcePaths(cliFlags: CLIFlags): string[] {
     const sourcePath = resolvedFilePaths[0]!;
 
     const directoryFiles = getFilesFromDirectory(sourcePath);
+    log.debug("directoryFiles", directoryFiles);
+    if (directoryFiles.length === 0) {
+      log.debug("ENTREII AQUI ");
+      return [];
+    }
     const resolvedDirectoryFiles = directoryFiles.map((fileName) =>
       path.join(sourcePath, fileName),
     );

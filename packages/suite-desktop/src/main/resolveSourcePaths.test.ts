@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: MPL-2.0
 
 import mockFs from "mock-fs";
+import os from "os";
 
 import { getFilesFromDirectory, isPathToDirectory, resolveSourcePaths } from "./resolveSourcePaths";
-import { CLIFlags } from "../common/types";
 
 jest.mock("./StudioWindow", () => ({
   __esModule: true,
@@ -118,11 +118,35 @@ describe("isPathToDirectory", () => {
 });
 
 describe("resolveSourcePaths", () => {
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
   it("should return an empty array because there was no source parameter provided", () => {
-    const mockCliFlag: CLIFlags = {};
+    const mockSourceParameter = undefined;
 
-    const result = resolveSourcePaths(mockCliFlag);
+    const result = resolveSourcePaths(mockSourceParameter);
 
     expect(result).toEqual([]);
+  });
+
+  it("should return an array with a single path to a file", () => {
+    const mockSourceParameter = "~/Folder/Mcap_folder/file.mcap";
+    jest.spyOn(os, "homedir").mockReturnValue("/home/testuser");
+
+    const result = resolveSourcePaths(mockSourceParameter);
+
+    expect(result).toEqual(["C:\\home\\testuser\\Folder\\Mcap_folder\\file.mcap"]);
+  });
+
+  it("should return an array with multiple paths to files", () => {
+    const mockSourceParameter = "~/Folder/Mcap_folder/file.mcap,~/Folder/Mcap_folder/file2.mcap,";
+    jest.spyOn(os, "homedir").mockReturnValue("/home/testuser");
+
+    const result = resolveSourcePaths(mockSourceParameter);
+
+    expect(result).toEqual([
+      "C:\\home\\testuser\\Folder\\Mcap_folder\\file.mcap",
+      "C:\\home\\testuser\\Folder\\Mcap_folder\\file2.mcap",
+    ]);
   });
 });
