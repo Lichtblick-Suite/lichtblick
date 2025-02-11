@@ -4,7 +4,7 @@
 import * as _ from "lodash-es";
 
 import { compare } from "@lichtblick/rostime";
-import { Initalization } from "@lichtblick/suite-base/players/IterablePlayer/IIterableSource";
+import { Initialization } from "@lichtblick/suite-base/players/IterablePlayer/IIterableSource";
 import { InitLoadedTimes } from "@lichtblick/suite-base/players/IterablePlayer/shared/types";
 import { OptionalMessageDefinition } from "@lichtblick/suite-base/types/RosDatatypes";
 
@@ -20,8 +20,8 @@ import { OptionalMessageDefinition } from "@lichtblick/suite-base/types/RosDatat
  */
 export const validateOverlap = (
   loadedTimes: InitLoadedTimes,
-  current: Initalization,
-  accumulated: Initalization,
+  current: Initialization,
+  accumulated: Initialization,
 ): void => {
   for (const loadedTime of loadedTimes) {
     // Check if the current MCAP is after or before the loaded time range
@@ -61,8 +61,8 @@ export const validateOverlap = (
  * - If the topic is new, it is safe to add it to the `accumulated` map.
  */
 export const validateAndAddNewDatatypes = (
-  accumulated: Initalization,
-  current: Initalization,
+  accumulated: Initialization,
+  current: Initialization,
 ): void => {
   const isSameDatatype = (a: OptionalMessageDefinition, b: OptionalMessageDefinition): boolean => {
     return _.isEqual(a.definitions, b.definitions);
@@ -90,8 +90,8 @@ export const validateAndAddNewDatatypes = (
  * Validates and accumulates topics, ensuring unique topic names with consistent schemaNames.
  */
 export const validateAndAddNewTopics = (
-  accumulated: Initalization,
-  current: Initalization,
+  accumulated: Initialization,
+  current: Initialization,
 ): void => {
   for (const topic of current.topics) {
     const existingTopic = accumulated.topics.find((t) => t.name === topic.name);

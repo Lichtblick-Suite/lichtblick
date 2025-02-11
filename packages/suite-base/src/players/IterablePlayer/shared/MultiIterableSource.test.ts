@@ -9,7 +9,7 @@ import InitilizationSourceBuilder from "@lichtblick/suite-base/testing/builders/
 import RosTimeBuilder from "@lichtblick/suite-base/testing/builders/RosTimeBuilder";
 
 import { MultiIterableSource } from "./MultiIterableSource";
-import { IIterableSource, Initalization } from "../IIterableSource";
+import { IIterableSource, Initialization } from "../IIterableSource";
 
 describe("MultiIterableSource", () => {
   let mockSourceConstructor: jest.Mock;
@@ -33,7 +33,7 @@ describe("MultiIterableSource", () => {
   });
 
   describe("Initialization", () => {
-    const mockInitialization = (initialization: Initalization) => {
+    const mockInitialization = (initialization: Initialization) => {
       mockSourceConstructor.mockImplementationOnce(() => ({
         initialize: jest.fn().mockResolvedValue(initialization),
         getStart: jest.fn().mockReturnValue(initialization.start),

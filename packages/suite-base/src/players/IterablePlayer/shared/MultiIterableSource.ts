@@ -29,7 +29,7 @@ import { MessageEvent } from "@lichtblick/suite-base/players/types";
 import {
   IIterableSource,
   IteratorResult,
-  Initalization,
+  Initialization,
   MessageIteratorArgs,
   GetBackfillMessagesArgs,
 } from "../IIterableSource";
@@ -44,7 +44,7 @@ export class MultiIterableSource<T extends IIterableSource, P> implements IItera
     this.SourceConstructor = SourceConstructor;
   }
 
-  private async loadMultipleSources(): Promise<Initalization[]> {
+  private async loadMultipleSources(): Promise<Initialization[]> {
     const { type } = this.dataSource;
 
     const sources: IIterableSource[] =
@@ -56,17 +56,17 @@ export class MultiIterableSource<T extends IIterableSource, P> implements IItera
 
     this.sourceImpl.push(...sources);
 
-    const initializations: Initalization[] = await Promise.all(
+    const initializations: Initialization[] = await Promise.all(
       sources.map(async (source) => await source.initialize()),
     );
 
     return initializations;
   }
 
-  public async initialize(): Promise<Initalization> {
-    const initializations: Initalization[] = await this.loadMultipleSources();
+  public async initialize(): Promise<Initialization> {
+    const initializations: Initialization[] = await this.loadMultipleSources();
 
-    const resultInit: Initalization = this.mergeInitializations(initializations);
+    const resultInit: Initialization = this.mergeInitializations(initializations);
 
     this.sourceImpl.sort((a, b) => compare(a.getStart!()!, b.getStart!()!));
 
@@ -88,8 +88,8 @@ export class MultiIterableSource<T extends IIterableSource, P> implements IItera
     return backfillMessages.flat();
   }
 
-  private mergeInitializations(initializations: Initalization[]): Initalization {
-    const resultInit: Initalization = {
+  private mergeInitializations(initializations: Initialization[]): Initialization {
+    const resultInit: Initialization = {
       start: { sec: Number.MAX_SAFE_INTEGER, nsec: Number.MAX_SAFE_INTEGER },
       end: { sec: Number.MIN_SAFE_INTEGER, nsec: Number.MIN_SAFE_INTEGER },
       datatypes: new Map(),

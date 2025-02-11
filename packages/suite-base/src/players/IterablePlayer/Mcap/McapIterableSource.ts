@@ -19,7 +19,7 @@ import { RemoteFileReadable } from "./RemoteFileReadable";
 import {
   IIterableSource,
   IteratorResult,
-  Initalization,
+  Initialization,
   MessageIteratorArgs,
   GetBackfillMessagesArgs,
 } from "../IIterableSource";
@@ -55,7 +55,7 @@ export class McapIterableSource implements IIterableSource {
     this.#source = source;
   }
 
-  public async initialize(): Promise<Initalization> {
+  public async initialize(): Promise<Initialization> {
     const source = this.#source;
 
     switch (source.type) {
