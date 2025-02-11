@@ -620,7 +620,15 @@ describe("traverseStructure", () => {
     expect(
       traverseStructure(structure, [
         { type: "name", name: "some_pose", repr: "some_pose" },
-        { type: "filter", path: ["x"], value: 10, nameLoc: 123, valueLoc: 0, repr: "" },
+        {
+          type: "filter",
+          path: ["x"],
+          value: 10,
+          nameLoc: 123,
+          valueLoc: 0,
+          repr: "",
+          operator: "==",
+        },
         { type: "name", name: "dummy_array", repr: "dummy_array" },
         { type: "slice", start: 50, end: 100 },
       ]),
@@ -632,7 +640,15 @@ describe("traverseStructure", () => {
     expect(
       traverseStructure(structure, [
         { type: "name", name: "some_pose", repr: "some_pose" },
-        { type: "filter", path: ["header", "seq"], value: 10, nameLoc: 123, valueLoc: 0, repr: "" },
+        {
+          type: "filter",
+          path: ["header", "seq"],
+          value: 10,
+          nameLoc: 123,
+          valueLoc: 0,
+          repr: "",
+          operator: "==",
+        },
       ]),
     ).toEqual({
       valid: true,
@@ -667,17 +683,41 @@ describe("traverseStructure", () => {
     expect(
       traverseStructure(structure, [
         { type: "name", name: "some_pose", repr: "some_pose" },
-        { type: "filter", path: ["y"], value: 10, nameLoc: 123, valueLoc: 0, repr: "" },
+        {
+          type: "filter",
+          path: ["y"],
+          value: 10,
+          nameLoc: 123,
+          valueLoc: 0,
+          repr: "",
+          operator: "==",
+        },
       ]),
     ).toEqual({
       valid: false,
-      msgPathPart: { type: "filter", path: ["y"], value: 10, nameLoc: 123, valueLoc: 0, repr: "" },
+      msgPathPart: {
+        type: "filter",
+        path: ["y"],
+        value: 10,
+        nameLoc: 123,
+        valueLoc: 0,
+        repr: "",
+        operator: "==",
+      },
       structureItem: messagePathStructures(datatypes)["pose_msgs/SomePose"],
     });
     expect(
       traverseStructure(structure, [
         { type: "name", name: "some_pose", repr: "some_pose" },
-        { type: "filter", path: ["header", "y"], value: 10, nameLoc: 123, valueLoc: 0, repr: "" },
+        {
+          type: "filter",
+          path: ["header", "y"],
+          value: 10,
+          nameLoc: 123,
+          valueLoc: 0,
+          repr: "",
+          operator: "==",
+        },
       ]),
     ).toEqual({
       valid: false,
@@ -688,6 +728,7 @@ describe("traverseStructure", () => {
         nameLoc: 123,
         valueLoc: 0,
         repr: "",
+        operator: "==",
       },
       structureItem: messagePathStructures(datatypes)["pose_msgs/SomePose"],
     });

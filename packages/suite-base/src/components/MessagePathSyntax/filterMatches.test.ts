@@ -8,14 +8,11 @@ import BasicBuilder from "@lichtblick/suite-base/testing/builders/BasicBuilder";
 import { filterMatches } from "./filterMatches";
 
 describe("filterMatches", () => {
-  function setup(
-    overrides: Partial<MessagePathFilter> = {},
-    operator?: OperatorType,
-  ): Immutable<MessagePathFilter> {
+  function setup(overrides: Partial<MessagePathFilter> = {}): Immutable<MessagePathFilter> {
     return {
       path: ["a"],
       value: BasicBuilder.number(),
-      operator,
+      operator: "==",
       type: "filter",
       nameLoc: BasicBuilder.number(),
       valueLoc: BasicBuilder.number(),
@@ -33,13 +30,13 @@ describe("filterMatches", () => {
     it("returns false for non-matching value", () => {
       const value = BasicBuilder.number();
       const secondValue = value + 1;
-      const filter = setup({ value }, "==");
+      const filter = setup({ value });
       expect(filterMatches(filter, { a: secondValue })).toBe(false);
     });
 
     it("returns true for matching value", () => {
       const value = BasicBuilder.number();
-      const filter = setup({ value }, "==");
+      const filter = setup({ value });
       expect(filterMatches(filter, { a: value })).toBe(true);
     });
   });
@@ -54,7 +51,7 @@ describe("filterMatches", () => {
 
     it("returns true for matching nested value", () => {
       const value = BasicBuilder.number();
-      const filter = setup({ path: ["a", "b"], value }, "==");
+      const filter = setup({ path: ["a", "b"], value });
       expect(filterMatches(filter, { a: { b: value } })).toBe(true);
     });
   });
@@ -75,7 +72,7 @@ describe("filterMatches", () => {
       ["<=", 1, 1, true],
       ["<=", 2, 1, false],
     ])("returns %s for %s %s %s", (operator, testValue, filterValue, expected) => {
-      const filter = setup({ value: filterValue }, operator as OperatorType);
+      const filter = setup({ value: filterValue, operator: operator as OperatorType });
       expect(filterMatches(filter, { a: testValue })).toBe(expected);
     });
 

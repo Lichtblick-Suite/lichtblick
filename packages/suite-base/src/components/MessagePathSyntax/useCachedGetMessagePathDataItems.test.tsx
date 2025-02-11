@@ -687,6 +687,7 @@ describe("fillInGlobalVariablesInPath", () => {
               nameLoc: 0,
               valueLoc: 0,
               repr: "",
+              operator: "==",
             },
           ],
           modifier: undefined,
@@ -697,7 +698,15 @@ describe("fillInGlobalVariablesInPath", () => {
       topicName: "/foo",
       topicNameRepr: "/foo",
       messagePath: [
-        { type: "filter", path: ["bar"], value: 123, nameLoc: 0, valueLoc: 0, repr: "" },
+        {
+          type: "filter",
+          path: ["bar"],
+          value: 123,
+          nameLoc: 0,
+          valueLoc: 0,
+          repr: "",
+          operator: "==",
+        },
       ],
     });
   });
@@ -717,6 +726,7 @@ describe("fillInGlobalVariablesInPath", () => {
               nameLoc: 0,
               valueLoc: 0,
               repr: "",
+              operator: "==",
             },
           ],
           modifier: undefined,
@@ -727,7 +737,7 @@ describe("fillInGlobalVariablesInPath", () => {
       topicName: "/foo",
       topicNameRepr: "/foo",
       messagePath: [
-        { type: "filter", path: ["bar"], value: undefined, nameLoc: 0, valueLoc: 0, repr: "" },
+        { type: "filter", path: ["bar"], value: undefined, nameLoc: 0, valueLoc: 0, repr: "", operator:"==" },
       ],
     });
   });
