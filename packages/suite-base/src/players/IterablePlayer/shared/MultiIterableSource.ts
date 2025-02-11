@@ -105,14 +105,6 @@ export class MultiIterableSource<T extends IIterableSource, P> implements IItera
 
     const loadedTimes: InitLoadedTimes = [];
 
-    initializations[0]!.topics.push({ name: "teste", schemaName: "testeA" });
-    initializations[1]!.topics.push({ name: "teste", schemaName: "testeB" });
-
-    initializations[0]!.datatypes.set("Test", {
-      definitions: [{ name: "field1", type: "string" }],
-    });
-    initializations[1]!.datatypes.set("Test", { definitions: [{ name: "field1", type: "int64" }] });
-
     for (const init of initializations) {
       // Validate and merge time ranges
       resultInit.start = setStartTime(resultInit.start, init.start);
@@ -125,8 +117,8 @@ export class MultiIterableSource<T extends IIterableSource, P> implements IItera
       validateAndAddNewTopics(resultInit, init);
 
       // Merge rest of the data
-      resultInit.name ??= init.name;
-      resultInit.profile ??= init.profile;
+      resultInit.name = init.name ?? resultInit.name;
+      resultInit.profile = init.profile ?? resultInit.profile;
       resultInit.publishersByTopic = accumulateMap(
         resultInit.publishersByTopic,
         init.publishersByTopic,
