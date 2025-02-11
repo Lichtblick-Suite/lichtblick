@@ -17,11 +17,11 @@ describe("MultiIterableSource", () => {
     mockSourceConstructor = jest.fn().mockImplementation(
       () =>
         ({
-          initialize: jest.fn(),
-          messageIterator: jest.fn(),
-          getBackfillMessages: jest.fn(),
-          getStart: jest.fn(),
-        }) as unknown as jest.Mocked<IIterableSource>,
+          initialize: jest.fn().mockResolvedValue(InitilizationSourceBuilder.initialization()),
+          messageIterator: jest.fn().mockResolvedValue({ done: true, value: undefined }),
+          getBackfillMessages: jest.fn().mockResolvedValue([]),
+          getStart: jest.fn().mockResolvedValue(RosTimeBuilder.time()),
+        }) as jest.Mocked<IIterableSource>,
     );
 
     dataSource = {
@@ -32,10 +32,11 @@ describe("MultiIterableSource", () => {
 
   describe("Initialization", () => {
     const mockInitialization = (initialization: Initialization) => {
-      mockSourceConstructor.mockImplementationOnce(() => ({
+      const mockSource = {
         initialize: jest.fn().mockResolvedValue(initialization),
-        getStart: jest.fn().mockReturnValue(initialization.start),
-      }));
+        getStart: jest.fn().mockResolvedValue(initialization.start),
+      };
+      mockSourceConstructor.mockImplementationOnce(() => mockSource);
     };
     it("should merge initializations correctly with no problems", async () => {
       const multiSource = new MultiIterableSource(dataSource, mockSourceConstructor);
@@ -80,6 +81,8 @@ describe("MultiIterableSource", () => {
       expect(result.metadata).toContainEqual(init2.metadata![0]);
       expect(result.profile).toBe(init2.profile);
       expect(result.problems.length).toBe(0);
+
+      expect(mockSourceConstructor).toHaveBeenCalledTimes(2);
     });
 
     it("should merge initializations, but containing problems", async () => {
@@ -124,6 +127,8 @@ describe("MultiIterableSource", () => {
       expect(result.problems[2]!.message).toBe(
         `Schema name mismatch detected for topic "${topicName}". Expected "${init1.topics[0]!.schemaName}", but found "${init2.topics[0]!.schemaName}".`,
       );
+
+      expect(mockSourceConstructor).toHaveBeenCalledTimes(2);
     });
   });
 });
