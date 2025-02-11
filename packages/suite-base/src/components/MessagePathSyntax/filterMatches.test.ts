@@ -22,6 +22,11 @@ describe("filterMatches", () => {
   }
 
   describe("value matching", () => {
+    it("returns false for undefined value", () => {
+      const filter = setup();
+      expect(filterMatches(filter, undefined)).toBe(false);
+    });
+
     it("returns false for undefined filter value", () => {
       const filter = setup({ value: undefined });
       expect(filterMatches(filter, { a: BasicBuilder.number() })).toBe(false);
@@ -43,8 +48,9 @@ describe("filterMatches", () => {
 
   describe("nested value matching", () => {
     it("returns false for non-matching or missing nested value", () => {
-      const filter = setup({ path: ["a", "b"], value: BasicBuilder.number() });
-      expect(filterMatches(filter, { a: { b: BasicBuilder.number() } })).toBe(false);
+      const value = BasicBuilder.number();
+      const filter = setup({ path: ["a", "b"], value });
+      expect(filterMatches(filter, { a: { b: value + 1 } })).toBe(false);
       expect(filterMatches(filter, { a: {} })).toBe(false);
       expect(filterMatches(filter, { a: { b: {} } })).toBe(false);
     });
