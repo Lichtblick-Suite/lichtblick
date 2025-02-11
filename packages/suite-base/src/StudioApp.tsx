@@ -13,6 +13,7 @@ import { IdbLayoutStorage } from "@lichtblick/suite-base/IdbLayoutStorage";
 import LayoutStorageContext from "@lichtblick/suite-base/context/LayoutStorageContext";
 import NativeAppMenuContext from "@lichtblick/suite-base/context/NativeAppMenuContext";
 import NativeWindowContext from "@lichtblick/suite-base/context/NativeWindowContext";
+import { RemoteLayoutStorageContext } from "@lichtblick/suite-base/context/RemoteLayoutStorageContext";
 import { useSharedRootContext } from "@lichtblick/suite-base/context/SharedRootContext";
 import EventsProvider from "@lichtblick/suite-base/providers/EventsProvider";
 import LayoutManagerProvider from "@lichtblick/suite-base/providers/LayoutManagerProvider";
@@ -20,6 +21,7 @@ import ProblemsContextProvider from "@lichtblick/suite-base/providers/ProblemsCo
 import { StudioLogsSettingsProvider } from "@lichtblick/suite-base/providers/StudioLogsSettingsProvider";
 import TimelineInteractionStateProvider from "@lichtblick/suite-base/providers/TimelineInteractionStateProvider";
 import UserProfileLocalStorageProvider from "@lichtblick/suite-base/providers/UserProfileLocalStorageProvider";
+import LichtblickApi from "@lichtblick/suite-base/services/LichtblickApi/LichtblickApi";
 
 import Workspace from "./Workspace";
 import DocumentTitleAdapter from "./components/DocumentTitleAdapter";
@@ -96,6 +98,11 @@ export function StudioApp(): React.JSX.Element {
 
   providers.unshift(<LayoutStorageContext.Provider value={layoutStorage} />);
   const MaybeLaunchPreference = enableLaunchPreferenceScreen === true ? LaunchPreference : Fragment;
+
+  const url = new URL(window.location.href);
+  const namespace = url.searchParams.get("namespace") ?? "lbpoc";
+  const remoteLayoutStorage = useMemo(() => new LichtblickApi(namespace), [namespace]);
+  providers.unshift(<RemoteLayoutStorageContext.Provider value={remoteLayoutStorage.layouts} />);
 
   useEffect(() => {
     document.addEventListener("contextmenu", contextMenuHandler);

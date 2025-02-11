@@ -7,7 +7,11 @@
 
 import { LayoutID } from "@lichtblick/suite-base/context/CurrentLayoutContext";
 import { LayoutData } from "@lichtblick/suite-base/context/CurrentLayoutContext/actions";
-import { ISO8601Timestamp, LayoutPermission } from "@lichtblick/suite-base/services/ILayoutStorage";
+import {
+  ISO8601Timestamp,
+  Layout,
+  LayoutPermission,
+} from "@lichtblick/suite-base/services/ILayoutStorage";
 
 /**
  * A panel layout stored on a remote server.
@@ -18,6 +22,19 @@ export type RemoteLayout = {
   permission: LayoutPermission;
   data: LayoutData;
   savedAt: ISO8601Timestamp | undefined;
+};
+
+export type SaveNewLayout = Pick<Layout, "name" | "data" | "permission"> & {
+  id: LayoutID | undefined;
+  savedAt: ISO8601Timestamp;
+};
+
+export type UpdateLayout = {
+  id: LayoutID;
+  name?: string;
+  data?: LayoutData;
+  permission?: LayoutPermission;
+  savedAt: ISO8601Timestamp;
 };
 
 export interface IRemoteLayoutStorage {
@@ -31,21 +48,11 @@ export interface IRemoteLayoutStorage {
 
   getLayout: (id: LayoutID) => Promise<RemoteLayout | undefined>;
 
-  saveNewLayout: (params: {
-    id: LayoutID | undefined;
-    name: string;
-    data: LayoutData;
-    permission: LayoutPermission;
-    savedAt: ISO8601Timestamp;
-  }) => Promise<RemoteLayout>;
+  saveNewLayout: (params: SaveNewLayout) => Promise<RemoteLayout>;
 
-  updateLayout: (params: {
-    id: LayoutID;
-    name?: string;
-    data?: LayoutData;
-    permission?: LayoutPermission;
-    savedAt: ISO8601Timestamp;
-  }) => Promise<{ status: "success"; newLayout: RemoteLayout } | { status: "conflict" }>;
+  updateLayout: (
+    params: UpdateLayout,
+  ) => Promise<{ status: "success"; newLayout: RemoteLayout } | { status: "conflict" }>;
 
   /** Returns true if the layout existed and was deleted, false if the layout did not exist. */
   deleteLayout: (id: LayoutID) => Promise<boolean>;

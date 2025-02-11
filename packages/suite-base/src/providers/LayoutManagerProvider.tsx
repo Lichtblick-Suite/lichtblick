@@ -18,7 +18,7 @@ import delay from "@lichtblick/suite-base/util/delay";
 
 const log = Logger.getLogger(__filename);
 
-const SYNC_INTERVAL_BASE_MS = 30_000;
+const SYNC_INTERVAL_BASE_MS = 15_000;
 const SYNC_INTERVAL_MAX_MS = 3 * 60_000;
 
 export default function LayoutManagerProvider({
@@ -27,10 +27,9 @@ export default function LayoutManagerProvider({
   const layoutStorage = useLayoutStorage();
   const remoteLayoutStorage = useRemoteLayoutStorage();
 
-  const layoutManager = useMemo(
-    () => new LayoutManager({ local: layoutStorage, remote: remoteLayoutStorage }),
-    [layoutStorage, remoteLayoutStorage],
-  );
+  const layoutManager = useMemo(() => {
+    return new LayoutManager({ local: layoutStorage, remote: remoteLayoutStorage });
+  }, [layoutStorage, remoteLayoutStorage]);
 
   const { online = false } = useNetworkState();
   const visibilityState = useVisibilityState();
