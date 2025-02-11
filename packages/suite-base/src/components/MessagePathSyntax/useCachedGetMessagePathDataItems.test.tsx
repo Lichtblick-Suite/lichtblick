@@ -737,7 +737,15 @@ describe("fillInGlobalVariablesInPath", () => {
       topicName: "/foo",
       topicNameRepr: "/foo",
       messagePath: [
-        { type: "filter", path: ["bar"], value: undefined, nameLoc: 0, valueLoc: 0, repr: "", operator:"==" },
+        {
+          type: "filter",
+          path: ["bar"],
+          value: undefined,
+          nameLoc: 0,
+          valueLoc: 0,
+          repr: "",
+          operator: "==",
+        },
       ],
     });
   });
