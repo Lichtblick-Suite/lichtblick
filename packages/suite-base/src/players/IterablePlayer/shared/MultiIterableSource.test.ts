@@ -106,7 +106,7 @@ describe("MultiIterableSource", () => {
       );
 
       expect(result.problems[1]!.message).toBe(
-        `Datatype mismatch detected for ${dataTypeName}. Merging may cause issues.`,
+        `Datatype mismatch detected for "${dataTypeName}". Merging may cause issues.`,
       );
 
       expect(result.problems[2]!.message).toBe(

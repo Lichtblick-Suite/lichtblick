@@ -118,7 +118,7 @@ describe("validateInitialization", () => {
 
       expect(accumulated.problems).toHaveLength(1);
       expect(accumulated.problems[0]!.message).toBe(
-        `Datatype mismatch detected for ${datatype}. Merging may cause issues.`,
+        `Datatype mismatch detected for "${datatype}". Merging may cause issues.`,
       );
     });
 
