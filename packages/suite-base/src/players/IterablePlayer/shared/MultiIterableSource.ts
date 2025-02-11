@@ -7,6 +7,7 @@
 
 import { compare } from "@lichtblick/rostime";
 import {
+  InitLoadedTimes,
   IterableSourceConstructor,
   MultiSource,
 } from "@lichtblick/suite-base/players/IterablePlayer/shared/types";
@@ -20,7 +21,7 @@ import {
 } from "@lichtblick/suite-base/players/IterablePlayer/shared/utils/mergeInitialization";
 import {
   validateAndAddNewTopics,
-  validateAndAddDatatypes,
+  validateAndAddNewDatatypes,
   validateOverlap,
 } from "@lichtblick/suite-base/players/IterablePlayer/shared/utils/validateInitialization";
 import { MessageEvent, TopicStats } from "@lichtblick/suite-base/players/types";
@@ -66,7 +67,7 @@ export class MultiIterableSource<T extends IIterableSource, P> implements IItera
   public async initialize(): Promise<Initalization> {
     const initializations: Initalization[] = await this.loadMultipleSources();
 
-    const resultInit: Initalization = this.aggregateInitialization(initializations);
+    const resultInit: Initalization = this.mergeInitializations(initializations);
 
     this.sourceImpl.sort((a, b) => compare(a.getStart!()!, b.getStart!()!));
 
@@ -88,7 +89,7 @@ export class MultiIterableSource<T extends IIterableSource, P> implements IItera
     return backfillMessages.flat();
   }
 
-  private aggregateInitialization(initializations: Initalization[]): Initalization {
+  private mergeInitializations(initializations: Initalization[]): Initalization {
     const resultInit: Initalization = {
       start: { sec: Number.MAX_SAFE_INTEGER, nsec: Number.MAX_SAFE_INTEGER },
       end: { sec: Number.MIN_SAFE_INTEGER, nsec: Number.MIN_SAFE_INTEGER },
@@ -102,10 +103,28 @@ export class MultiIterableSource<T extends IIterableSource, P> implements IItera
       topicStats: new Map<string, TopicStats>(),
     };
 
+    const loadedTimes: InitLoadedTimes = [];
+
+    initializations[0]!.topics.push({ name: "teste", schemaName: "testeA" });
+    initializations[1]!.topics.push({ name: "teste", schemaName: "testeB" });
+
+    initializations[0]!.datatypes.set("Test", {
+      definitions: [{ name: "field1", type: "string" }],
+    });
+    initializations[1]!.datatypes.set("Test", { definitions: [{ name: "field1", type: "int64" }] });
+
     for (const init of initializations) {
+      // Validate and merge time ranges
       resultInit.start = setStartTime(resultInit.start, init.start);
       resultInit.end = setEndTime(resultInit.end, init.end);
-      validateOverlap(resultInit, init);
+      validateOverlap(loadedTimes, init, resultInit);
+      loadedTimes.push({ start: init.start, end: init.end });
+
+      // These validations validate and merge data, in order to avoid multiple loops
+      validateAndAddNewDatatypes(resultInit, init);
+      validateAndAddNewTopics(resultInit, init);
+
+      // Merge rest of the data
       resultInit.name ??= init.name;
       resultInit.profile ??= init.profile;
       resultInit.publishersByTopic = accumulateMap(
@@ -115,10 +134,6 @@ export class MultiIterableSource<T extends IIterableSource, P> implements IItera
       resultInit.topicStats = mergeTopicStats(resultInit.topicStats, init.topicStats);
       resultInit.metadata = mergeMetadata(resultInit.metadata, init.metadata);
       resultInit.problems.push(...init.problems);
-
-      // These validations validate and merge data, in order to avoid multiple loops
-      validateAndAddDatatypes(resultInit, init);
-      validateAndAddNewTopics(resultInit, init);
     }
 
     return resultInit;

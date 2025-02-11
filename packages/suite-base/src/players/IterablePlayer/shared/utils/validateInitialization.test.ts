@@ -9,7 +9,7 @@ import { OptionalMessageDefinition } from "@lichtblick/suite-base/types/RosDatat
 
 import {
   validateOverlap,
-  validateAndAddDatatypes,
+  validateAndAddNewDatatypes,
   validateAndAddNewTopics,
 } from "./validateInitialization";
 
@@ -23,14 +23,6 @@ describe("validateInitialization", () => {
   });
 
   describe("validateOverlap", () => {
-    beforeEach(() => {
-      // for validateOverlap tests, all have the accumulated range from 10 to 20
-      accumulated = InitilizationSourceBuilder.initialization({
-        start: RosTimeBuilder.time({ sec: 10 }),
-        end: RosTimeBuilder.time({ sec: 20 }),
-      });
-    });
-
     it.each<[number, number]>([
       [15, 25], // starts inside
       [5, 15], // ends inside
@@ -39,10 +31,17 @@ describe("validateInitialization", () => {
     ])(
       "should add a warning if the current MCAP overlaps with the accumulated range",
       (startSec, endSec) => {
-        current.start = RosTimeBuilder.time({ sec: startSec });
-        current.end = RosTimeBuilder.time({ sec: endSec });
+        const loadedTimes = [
+          {
+            start: RosTimeBuilder.time({ sec: 10, nsec: 0 }),
+            end: RosTimeBuilder.time({ sec: 20, nsec: 0 }),
+          },
+        ];
 
-        validateOverlap(accumulated, current);
+        current.start = RosTimeBuilder.time({ sec: startSec, nsec: 0 });
+        current.end = RosTimeBuilder.time({ sec: endSec, nsec: 0 });
+
+        validateOverlap(loadedTimes, current, accumulated);
 
         expect(accumulated.problems).toHaveLength(1);
         expect(accumulated.problems[0]!.message).toBe(
@@ -53,15 +52,51 @@ describe("validateInitialization", () => {
 
     it.each<[number, number]>([
       [0, 5], // before
+      [5, 10], // before and touching
       [25, 30], // after
+      [20, 25], // after and touching
     ])("should not add a warning if there is no overlap", (startSec, endSec) => {
-      current.start = RosTimeBuilder.time({ sec: startSec });
-      current.end = RosTimeBuilder.time({ sec: endSec });
+      const loadedTimes = [
+        {
+          start: RosTimeBuilder.time({ sec: 10, nsec: 0 }),
+          end: RosTimeBuilder.time({ sec: 20, nsec: 0 }),
+        },
+      ];
+      current.start = RosTimeBuilder.time({ sec: startSec, nsec: 0 });
+      current.end = RosTimeBuilder.time({ sec: endSec, nsec: 0 });
 
-      validateOverlap(accumulated, current);
+      validateOverlap(loadedTimes, current, accumulated);
 
       expect(accumulated.problems).toHaveLength(0);
     });
+
+    it.each<[number, number]>([
+      [22, 28], // in between
+      [20, 30], // in between and touching
+      [20, 28], // in between and touching the start
+      [22, 30], // in between and touching the end
+    ])(
+      "should not add a warning if the current MCAP is between two loaded times",
+      (startSec, endSec) => {
+        const loadedTimes = [
+          {
+            start: RosTimeBuilder.time({ sec: 10, nsec: 0 }),
+            end: RosTimeBuilder.time({ sec: 20, nsec: 0 }),
+          },
+          {
+            start: RosTimeBuilder.time({ sec: 30, nsec: 0 }),
+            end: RosTimeBuilder.time({ sec: 40, nsec: 0 }),
+          },
+        ];
+
+        current.start = RosTimeBuilder.time({ sec: startSec, nsec: 0 });
+        current.end = RosTimeBuilder.time({ sec: endSec, nsec: 0 });
+
+        validateOverlap(loadedTimes, current, accumulated);
+
+        expect(accumulated.problems).toHaveLength(0);
+      },
+    );
   });
 
   describe("validateAndAddDatatypes", () => {
@@ -77,7 +112,7 @@ describe("validateInitialization", () => {
       accumulated.datatypes.set(datatype, accumulatedDefinition);
       current.datatypes.set(datatype, currentDefinition);
 
-      validateAndAddDatatypes(accumulated, current);
+      validateAndAddNewDatatypes(accumulated, current);
 
       expect(accumulated.datatypes.get(datatype)).toEqual(accumulatedDefinition);
 
@@ -96,10 +131,9 @@ describe("validateInitialization", () => {
       accumulated.datatypes.set(datatype, definition);
       current.datatypes.set(datatype, definition);
 
-      validateAndAddDatatypes(accumulated, current);
+      validateAndAddNewDatatypes(accumulated, current);
 
       expect(accumulated.problems).toHaveLength(0);
-
       expect(accumulated.datatypes.get(datatype)).toEqual(definition);
     });
 
@@ -111,7 +145,7 @@ describe("validateInitialization", () => {
 
       current.datatypes.set(datatype, definition);
 
-      validateAndAddDatatypes(accumulated, current);
+      validateAndAddNewDatatypes(accumulated, current);
 
       expect(accumulated.problems).toHaveLength(0);
 
@@ -163,9 +197,27 @@ describe("validateInitialization", () => {
 
         validateAndAddNewTopics(accumulated, current);
 
-        expect(accumulated.problems).toHaveLength(0);
-
         expect(accumulated.topics).toEqual([topic]);
+        expect(accumulated.problems).toHaveLength(0);
+      });
+
+      it("should add all topics for multiple topics per MCAP", () => {
+        const topic1 = { name: "topic1", schemaName: "schema1" };
+        const topic2 = { name: "topic2", schemaName: "schema2" };
+        const topic3 = { name: "topic3", schemaName: "schema3" };
+        const topic4 = { name: "topic4", schemaName: "schema4" };
+        const topic5 = { name: "topic4", schemaName: "schema4" };
+
+        accumulated.topics = [];
+
+        current.topics = [topic1, topic2];
+        validateAndAddNewTopics(accumulated, current);
+
+        current.topics = [topic3, topic4, topic5];
+        validateAndAddNewTopics(accumulated, current);
+
+        expect(accumulated.topics).toEqual([topic1, topic2, topic3, topic4]);
+        expect(accumulated.problems).toHaveLength(0);
       });
     });
   });

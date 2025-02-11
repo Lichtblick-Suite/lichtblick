@@ -106,6 +106,11 @@ describe("mergeInitialization utils", () => {
         firstMessageTime: RosTimeBuilder.time({ sec: 10 }),
         lastMessageTime: RosTimeBuilder.time({ sec: 30 }),
       });
+      statsMap1.set(topic2, {
+        numMessages: 500,
+        firstMessageTime: RosTimeBuilder.time({ sec: 10 }),
+        lastMessageTime: RosTimeBuilder.time({ sec: 30 }),
+      });
 
       const statsMap2: InitTopicStatsMap = new Map<string, TopicStats>();
       statsMap2.set(topic1, { numMessages: 3, firstMessageTime: RosTimeBuilder.time({ sec: 1 }) });
@@ -120,8 +125,9 @@ describe("mergeInitialization utils", () => {
       });
 
       expect(result.get(topic2)).toEqual({
-        numMessages: 7,
-        lastMessageTime: { sec: 20, nsec: expect.any(Number) },
+        numMessages: 507,
+        firstMessageTime: { sec: 10, nsec: expect.any(Number) },
+        lastMessageTime: { sec: 30, nsec: expect.any(Number) },
       });
     });
   });
