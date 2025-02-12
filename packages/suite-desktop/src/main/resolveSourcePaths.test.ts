@@ -4,6 +4,7 @@
 import fs, { Dirent, Stats } from "fs";
 import mockFs from "mock-fs";
 import os from "os";
+import path from "path";
 
 import { getFilesFromDirectory, isPathToDirectory, resolveSourcePaths } from "./resolveSourcePaths";
 
@@ -137,7 +138,7 @@ describe("resolveSourcePaths", () => {
 
     const result = resolveSourcePaths(mockSourceParameter);
 
-    expect(result).toEqual(["C:\\home\\testuser\\Folder\\Mcap_folder\\file.mcap"]);
+    expect(result).toEqual([path.normalize("C:\\home\\testuser\\Folder\\Mcap_folder\\file.mcap")]);
   });
 
   it("should return an array with multiple paths to files", () => {
@@ -147,8 +148,8 @@ describe("resolveSourcePaths", () => {
 
     const result = resolveSourcePaths(mockSourceParameter);
 
-    expect(result[0]).toContain("Folder\\Mcap_folder\\file.mcap");
-    expect(result[1]).toContain("Folder\\Mcap_folder\\file2.mcap");
+    expect(result[0]).toContain(path.normalize("Folder\\Mcap_folder\\file.mcap"));
+    expect(result[1]).toContain(path.normalize("Folder\\Mcap_folder\\file2.mcap"));
   });
 
   it("should return an empty array after getting a path to a directory with no mcap files", () => {
@@ -183,7 +184,7 @@ describe("resolveSourcePaths", () => {
 
     const result = resolveSourcePaths(mockSourceParameter);
 
-    expect(result[0]).toContain("some_folder\\mcap_files\\file1.mcap");
-    expect(result[1]).toContain("some_folder\\mcap_files\\file3.mcap");
+    expect(result[0]).toContain(path.normalize("some_folder\\mcap_files\\file1.mcap"));
+    expect(result[1]).toContain(path.normalize("some_folder\\mcap_files\\file3.mcap"));
   });
 });
