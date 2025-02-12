@@ -34,11 +34,11 @@ function setupMockFileSystem(customStructure?: Record<string, any>) {
   mockFs(customStructure ?? defaultStructure);
 }
 
-describe("getFilesFromDirectory", () => {
-  afterEach(() => {
-    mockFs.restore();
-  });
+afterEach(() => {
+  mockFs.restore();
+});
 
+describe("getFilesFromDirectory", () => {
   it("should return only the .mcap files from the directory", () => {
     setupMockFileSystem();
     const result = getFilesFromDirectory("/folder/mcap_files");
@@ -74,10 +74,6 @@ describe("getFilesFromDirectory", () => {
 });
 
 describe("isPathToDirectory", () => {
-  afterEach(() => {
-    mockFs.restore();
-  });
-
   it("should return false cause there's more than one path", () => {
     setupMockFileSystem({
       "/empty_folder/mcap_files": {},
