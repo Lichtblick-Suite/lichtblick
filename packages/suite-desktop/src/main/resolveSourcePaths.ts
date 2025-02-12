@@ -46,7 +46,8 @@ export function resolveSourcePaths(sourceParameter: string | undefined): string[
     .map((filePath) =>
       filePath.startsWith("~") ? path.join(os.homedir(), filePath.slice(1)) : filePath,
     )
-    .map((filePath) => path.resolve(filePath));
+    .map((filePath) => path.resolve(filePath))
+    .map((filePath) => path.normalize(filePath));
 
   const filesToOpen: string[] = [];
 
@@ -65,6 +66,5 @@ export function resolveSourcePaths(sourceParameter: string | undefined): string[
   } else {
     filesToOpen.push(...resolvedFilePaths);
   }
-
   return filesToOpen;
 }
