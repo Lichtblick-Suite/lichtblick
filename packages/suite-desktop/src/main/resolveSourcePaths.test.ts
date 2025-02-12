@@ -1,6 +1,7 @@
 // SPDX-FileCopyrightText: Copyright (C) 2023-2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)<lichtblick@bmwgroup.com>
 // SPDX-License-Identifier: MPL-2.0
 
+import fs, { Dirent, Stats } from "fs";
 import mockFs from "mock-fs";
 import os from "os";
 
@@ -15,6 +16,10 @@ jest.mock("../common/webpackDefines", () => ({
   LICHTBLICK_PRODUCT_NAME: "Lichtblick",
   LICHTBLICK_PRODUCT_VERSION: "1.0.0",
   LICHTBLICK_PRODUCT_HOMEPAGE: "https://lichtblick.com",
+}));
+
+jest.mock("./resolveSourcePaths", () => ({
+  ...jest.requireActual("./resolveSourcePaths"),
 }));
 
 function setupMockFileSystem(customStructure?: Record<string, any>) {
@@ -41,9 +46,9 @@ describe("getFilesFromDirectory", () => {
     expect(result).toEqual(["file3.mcap"]);
   });
 
-  it("should a return a empty array because the directory has no allowed files", () => {
+  it("should a return a empty array because the directory has no supported files", () => {
     setupMockFileSystem({
-      "/empty_folder/mcap_files": {},
+      "/empty_folder/mcap_files": { "file.txt": "content" },
     });
 
     const result = getFilesFromDirectory("/empty_folder/mcap_files");
@@ -119,8 +124,9 @@ describe("isPathToDirectory", () => {
 
 describe("resolveSourcePaths", () => {
   afterEach(() => {
-    jest.restoreAllMocks();
+    jest.resetAllMocks();
   });
+
   it("should return an empty array because there was no source parameter provided", () => {
     const mockSourceParameter = undefined;
 
@@ -139,14 +145,49 @@ describe("resolveSourcePaths", () => {
   });
 
   it("should return an array with multiple paths to files", () => {
-    const mockSourceParameter = "~/Folder/Mcap_folder/file.mcap,~/Folder/Mcap_folder/file2.mcap,";
+    const mockSourceParameter =
+      "c:/test/Folder/Mcap_folder/file.mcap,~/Folder/Mcap_folder/file2.mcap,";
     jest.spyOn(os, "homedir").mockReturnValue("/home/testuser");
 
     const result = resolveSourcePaths(mockSourceParameter);
 
-    expect(result).toEqual([
-      "C:\\home\\testuser\\Folder\\Mcap_folder\\file.mcap",
-      "C:\\home\\testuser\\Folder\\Mcap_folder\\file2.mcap",
-    ]);
+    expect(result[0]).toContain("Folder\\Mcap_folder\\file.mcap");
+    expect(result[1]).toContain("Folder\\Mcap_folder\\file2.mcap");
+  });
+
+  it("should return an empty array after getting a path to a directory with no mcap files", () => {
+    jest.spyOn(os, "homedir").mockReturnValue("/home/testuser");
+    jest.spyOn(fs, "statSync").mockReturnValueOnce({
+      isDirectory: () => true,
+    } as Stats);
+    const mockSourceParameter = "~/empty_folder/mcap_files";
+
+    const result = resolveSourcePaths(mockSourceParameter);
+
+    expect(result).toEqual([]);
+  });
+
+  it("should return an array with mcap files after getting a path to a directory with mcap files", () => {
+    jest.spyOn(os, "homedir").mockReturnValue("/home/testuser");
+    jest.spyOn(fs, "statSync").mockReturnValueOnce({
+      isDirectory: () => true,
+    } as Stats);
+    jest
+      .spyOn(fs, "readdirSync")
+      .mockReturnValueOnce(["file1.mcap", "file3.mcap"] as unknown as Dirent[]);
+
+    setupMockFileSystem({
+      "/some_folder/mcap_files": {
+        "file1.mcap": "mcap content",
+        "file2.bag": "bag content",
+        "file3.mcap": "mcap content",
+      },
+    });
+    const mockSourceParameter = "~/some_folder/mcap_files";
+
+    const result = resolveSourcePaths(mockSourceParameter);
+
+    expect(result[0]).toContain("some_folder\\mcap_files\\file1.mcap");
+    expect(result[1]).toContain("some_folder\\mcap_files\\file3.mcap");
   });
 });

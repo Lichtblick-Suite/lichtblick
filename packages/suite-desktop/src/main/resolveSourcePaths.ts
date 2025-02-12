@@ -5,11 +5,7 @@ import fs from "fs";
 import os from "os";
 import path from "path";
 
-import Logger from "@lichtblick/log";
-
 import { allowedExtensions } from "./constants";
-
-const log = Logger.getLogger(__filename);
 
 export function getFilesFromDirectory(arg: string): string[] {
   try {
@@ -54,13 +50,12 @@ export function resolveSourcePaths(sourceParameter: string | undefined): string[
 
   const filesToOpen: string[] = [];
 
-  if (isPathToDirectory(resolvedFilePaths)) {
+  const isDirPath = isPathToDirectory(resolvedFilePaths);
+  if (isDirPath) {
     const sourcePath = resolvedFilePaths[0]!;
-
     const directoryFiles = getFilesFromDirectory(sourcePath);
-    log.debug("directoryFiles", directoryFiles);
+
     if (directoryFiles.length === 0) {
-      log.debug("ENTREII AQUI ");
       return [];
     }
     const resolvedDirectoryFiles = directoryFiles.map((fileName) =>
