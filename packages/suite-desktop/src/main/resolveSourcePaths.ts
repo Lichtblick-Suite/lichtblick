@@ -60,11 +60,12 @@ export function resolveSourcePaths(sourceParameter: string | undefined): string[
       return [];
     }
     const resolvedDirectoryFiles = directoryFiles.map((fileName) =>
-      path.join(sourcePath, fileName),
+      path.normalize(path.join(sourcePath, fileName)),
     );
     filesToOpen.push(...resolvedDirectoryFiles);
   } else {
     filesToOpen.push(...resolvedFilePaths);
   }
+
   return filesToOpen;
 }
