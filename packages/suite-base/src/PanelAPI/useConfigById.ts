@@ -32,10 +32,10 @@ import { getPanelTypeFromId } from "../util/layout";
 export default function useConfigById<Config extends Record<string, unknown>>(
   panelId: string | undefined,
 ): [
-    Config | undefined,
-    SaveConfig<Config>,
-    Record<string, Record<string, PanelSettings<unknown>>>,
-  ] {
+  Config | undefined,
+  SaveConfig<Config>,
+  Record<string, Record<string, PanelSettings<unknown>>>,
+] {
   const { getCurrentLayoutState, savePanelConfigs } = useCurrentLayoutActions();
   const extensionSettings = useExtensionCatalog(getExtensionPanelSettings);
   const sortedTopics = useMessagePipeline((state) => state.sortedTopics);
