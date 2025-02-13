@@ -243,7 +243,9 @@ function WorkspaceContent(props: WorkspaceProps): React.JSX.Element {
         try {
           const arrayBuffer = await file.arrayBuffer();
           const data = new Uint8Array(arrayBuffer);
-          const extension = await installExtension("local", data, file);
+          const url = new URL(window.location.href);
+          const namespace = url.searchParams.get("namespace") ? "org" : "local";
+          const extension = await installExtension(namespace, data, file);
           enqueueSnackbar(`Installed extension ${extension.id}`, { variant: "success" });
         } catch (e: unknown) {
           const err = e as Error;
@@ -277,7 +279,9 @@ function WorkspaceContent(props: WorkspaceProps): React.JSX.Element {
           try {
             const arrayBuffer = await file.arrayBuffer();
             const data = new Uint8Array(arrayBuffer);
-            const extension = await installExtension("local", data, file);
+            const url = new URL(window.location.href);
+            const namespace = url.searchParams.get("namespace") ? "org" : "local";
+            const extension = await installExtension(namespace, data, file);
             enqueueSnackbar(`Installed extension ${extension.id}`, { variant: "success" });
           } catch (err: unknown) {
             log.error(err);

@@ -12,7 +12,7 @@ import {
   AppSetting,
   FoxgloveWebSocketDataSourceFactory,
   IDataSourceFactory,
-  // IdbExtensionLoader,
+  IdbExtensionLoader,
   RemoteExtensionLoader,
   McapLocalDataSourceFactory,
   RemoteDataSourceFactory,
@@ -52,7 +52,7 @@ export function WebRoot(props: {
   const url = new URL(window.location.href);
   const slug = url.searchParams.get("namespace");
   if (slug) {
-    defaultExtensionLoaders.push(new RemoteExtensionLoader("local", slug));
+    defaultExtensionLoaders.push(new RemoteExtensionLoader("org", slug));
   }
   const [extensionLoaders] = useState(() => defaultExtensionLoaders);
 

@@ -95,21 +95,19 @@ export function StudioApp(): React.JSX.Element {
   providers.unshift(<LayoutManagerProvider />);
 
   const layoutStorage = useMemo(() => new IdbLayoutStorage(), []);
-
   providers.unshift(<LayoutStorageContext.Provider value={layoutStorage} />);
-  const MaybeLaunchPreference = enableLaunchPreferenceScreen === true ? LaunchPreference : Fragment;
 
   const url = new URL(window.location.href);
   const namespace = url.searchParams.get("namespace");
-
   const remoteLayoutStorage = useMemo(
     () => (namespace ? new LichtblickApi(namespace) : undefined),
     [namespace],
   );
-
   if (remoteLayoutStorage) {
     providers.unshift(<RemoteLayoutStorageContext.Provider value={remoteLayoutStorage.layouts} />);
   }
+
+  const MaybeLaunchPreference = enableLaunchPreferenceScreen === true ? LaunchPreference : Fragment;
 
   useEffect(() => {
     document.addEventListener("contextmenu", contextMenuHandler);

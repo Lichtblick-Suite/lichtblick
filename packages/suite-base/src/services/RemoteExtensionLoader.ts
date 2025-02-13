@@ -52,8 +52,8 @@ function validatePackageInfo(info: Partial<ExtensionInfo>): ExtensionInfo {
 }
 
 export class RemoteExtensionLoader implements ExtensionLoader {
-  public readonly namespace: ExtensionNamespace;
   #remote: LichtblickApi;
+  public readonly namespace: ExtensionNamespace;
   public slug: string;
 
   public constructor(namespace: ExtensionNamespace, slug: string) {
@@ -90,15 +90,6 @@ export class RemoteExtensionLoader implements ExtensionLoader {
 
     return srcText;
   }
-
-  // public async compressFile(file: File, foxeFileData: Uint8Array): Promise<Blob> {
-  //   const zipWriter = new ZipWriter(new BlobWriter("application/zip"), {
-  //     level: 9, // 0 - 9
-  //   });
-
-  //   await zipWriter.add(file.name, new Blob([foxeFileData]), { compression: "DEFLATE" });
-  //   return await zipWriter.close();
-  // }
 
   public async installExtension(foxeFileData: Uint8Array, file: File): Promise<ExtensionInfo> {
     log.debug("Installing extension");

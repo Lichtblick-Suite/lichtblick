@@ -298,7 +298,8 @@ export default React.memo(function LayoutRow({
       text: "Rename",
       onClick: renameAction,
       "data-testid": "rename-layout",
-      disabled: (layoutIsShared(layout) && !isOnline) || multiSelection,
+      disabled:
+        (layoutIsShared(layout) && layout.permission === "ORG_READ" && isOnline) || multiSelection,
       secondaryText: layoutIsShared(layout) && !isOnline ? "Offline" : undefined,
     },
     // For shared layouts, duplicate first requires saving or discarding changes
@@ -345,7 +346,9 @@ export default React.memo(function LayoutRow({
         key: "overwrite",
         text: "Save changes",
         onClick: overwriteAction,
-        disabled: deletedOnServer || (layoutIsShared(layout) && !isOnline),
+        disabled:
+          deletedOnServer ||
+          (layoutIsShared(layout) && layout.permission === "ORG_READ" && isOnline),
         secondaryText: layoutIsShared(layout) && !isOnline ? "Offline" : undefined,
       },
       {

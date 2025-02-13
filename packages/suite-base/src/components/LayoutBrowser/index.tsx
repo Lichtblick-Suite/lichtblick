@@ -206,6 +206,7 @@ export default function LayoutBrowser({
     if (
       currentLayout != undefined &&
       layoutIsShared(currentLayout) &&
+      currentLayout.permission !== "ORG_READ" &&
       currentLayout.working != undefined
     ) {
       const result = await openUnsavedChangesPrompt(currentLayout);
