@@ -133,23 +133,51 @@ function createExtensionRegistryStore(
   loaders: readonly ExtensionLoader[],
   mockMessageConverters: readonly RegisterMessageConverterArgs<unknown>[] | undefined,
 ): StoreApi<ExtensionCatalog> {
-  return createStore((set, get) => ({
+  const extensionCache = new Map<string, ExtensionInfo>();
+
+  return createStore((set, _get) => ({
+    /**
+     * Used only for desktop version: packages/suite-base/src/components/ExtensionDetails.tsx
+     */
     downloadExtension: async (url: string) => {
       const res = await fetch(url);
       return new Uint8Array(await res.arrayBuffer());
     },
 
-    installExtension: async (namespace: ExtensionNamespace, foxeFileData: Uint8Array) => {
+    installExtension: async (
+      namespace: ExtensionNamespace,
+      foxeFileData: Uint8Array,
+      file?: File,
+    ) => {
       const namespacedLoader = loaders.find((loader) => loader.namespace === namespace);
       if (namespacedLoader == undefined) {
         throw new Error("No extension loader found for namespace " + namespace);
       }
-      const info = await namespacedLoader.installExtension(foxeFileData);
-      await get().refreshExtensions();
+      const info = await namespacedLoader.installExtension(foxeFileData, file);
+
+      extensionCache.set(info.id, info);
+
+      const unwrappedExtensionSource = await namespacedLoader.loadExtension(info.id);
+      const contributionPoints = activateExtension(info, unwrappedExtensionSource);
+
+      set((state) => ({
+        installedExtensions: [...state.installedExtensions!, info],
+        installedPanels: { ...state.installedPanels, ...contributionPoints.panels },
+        installedMessageConverters: [
+          ...state.installedMessageConverters!,
+          ...contributionPoints.messageConverters,
+        ],
+        installedTopicAliasFunctions: [
+          ...state.installedTopicAliasFunctions!,
+          ...contributionPoints.topicAliasFunctions,
+        ],
+        panelSettings: { ...state.panelSettings, ...contributionPoints.panelSettings },
+      }));
+
       return info;
     },
 
-    refreshExtensions: async () => {
+    refreshAllExtensions: async () => {
       if (loaders.length === 0) {
         return;
       }
@@ -162,11 +190,17 @@ function createExtensionRegistryStore(
         topicAliasFunctions: [],
         panelSettings: {},
       };
+
       for (const loader of loaders) {
         try {
           for (const extension of await loader.getExtensions()) {
             try {
-              extensionList.push(extension);
+              if (extensionCache.has(extension.id)) {
+                log.debug(`Using cached extension: ${extension.id}`);
+                extensionList.push(extensionCache.get(extension.id)!);
+                continue;
+              }
+
               const unwrappedExtensionSource = await loader.loadExtension(extension.id);
               const contributionPoints = activateExtension(extension, unwrappedExtensionSource);
               Object.assign(allContributionPoints.panels, contributionPoints.panels);
@@ -175,6 +209,9 @@ function createExtensionRegistryStore(
               allContributionPoints.topicAliasFunctions.push(
                 ...contributionPoints.topicAliasFunctions,
               );
+
+              extensionCache.set(extension.id, extension);
+              extensionList.push(extension);
             } catch (err: unknown) {
               log.error("Error loading extension", err);
             }
@@ -186,6 +223,7 @@ function createExtensionRegistryStore(
       log.info(
         `Loaded ${extensionList.length} extensions in ${(performance.now() - start).toFixed(1)}ms`,
       );
+
       set({
         installedExtensions: extensionList,
         installedPanels: allContributionPoints.panels,
@@ -217,7 +255,11 @@ function createExtensionRegistryStore(
         throw new Error("No extension loader found for namespace " + namespace);
       }
       await namespacedLoader.uninstallExtension(id);
-      await get().refreshExtensions();
+      extensionCache.delete(id);
+
+      set((state) => ({
+        installedExtensions: state.installedExtensions!.filter((ext) => ext.id !== id),
+      }));
     },
   }));
 }
@@ -233,12 +275,12 @@ export default function ExtensionCatalogProvider({
   const [store] = useState(createExtensionRegistryStore(loaders, mockMessageConverters));
 
   // Request an initial refresh on first mount
-  const refreshExtensions = store.getState().refreshExtensions;
+  const refreshAllExtensions = store.getState().refreshAllExtensions;
   useEffect(() => {
-    refreshExtensions().catch((err: unknown) => {
+    refreshAllExtensions().catch((err: unknown) => {
       log.error(err);
     });
-  }, [refreshExtensions]);
+  }, [refreshAllExtensions]);
 
   return (
     <ExtensionCatalogContext.Provider value={store}>{children}</ExtensionCatalogContext.Provider>

@@ -29,8 +29,9 @@ export type ExtensionCatalog = Immutable<{
   installExtension: (
     namespace: ExtensionNamespace,
     foxeFileData: Uint8Array,
+    file?: File,
   ) => Promise<ExtensionInfo>;
-  refreshExtensions: () => Promise<void>;
+  refreshAllExtensions: () => Promise<void>;
   uninstallExtension: (namespace: ExtensionNamespace, id: string) => Promise<void>;
 
   installedExtensions: undefined | ExtensionInfo[];

@@ -1,10 +1,6 @@
 // SPDX-FileCopyrightText: Copyright (C) 2023-2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)<lichtblick@bmwgroup.com>
 // SPDX-License-Identifier: MPL-2.0
 
-/* eslint-disable no-restricted-syntax */
-// SPDX-FileCopyrightText: Copyright (C) 2023-2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)<lichtblick@bmwgroup.com>
-// SPDX-License-Identifier: MPL-2.0
-
 import { LayoutID } from "@lichtblick/suite-base/context/CurrentLayoutContext";
 import {
   RemoteLayout,
@@ -18,17 +14,14 @@ export class LichtblickApiLayouts implements IRemoteLayoutStorage {
   #baseUrl: string;
 
   public constructor(baseUrl: string, namespace: string) {
-    console.log("GOLD LichtblickApiLayouts", baseUrl, namespace);
     this.#baseUrl = `${baseUrl}/layouts`;
     this.namespace = namespace;
   }
 
   public async getLayouts(): Promise<readonly RemoteLayout[]> {
     try {
-      // console.log("GOLD LichtblickApiLayouts.getLayouts", `${this.#baseUrl}/${this.namespace}`);
       const response = await fetch(`${this.#baseUrl}/${this.namespace}`);
 
-      // console.log("GOLD LichtblickApiLayouts.getLayouts response", response);
       if (!response.ok) {
         throw new Error(`Failed to fetch layouts: ${response.statusText}`);
       }
@@ -51,8 +44,6 @@ export class LichtblickApiLayouts implements IRemoteLayoutStorage {
   }
 
   public async saveNewLayout(params: SaveNewLayout): Promise<RemoteLayout> {
-    // console.log("GOLD saveNewLayout", params);
-
     const response = await fetch(`${this.#baseUrl}/${this.namespace}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -68,7 +59,6 @@ export class LichtblickApiLayouts implements IRemoteLayoutStorage {
   public async updateLayout(
     params: UpdateLayout,
   ): Promise<{ status: "success"; newLayout: RemoteLayout } | { status: "conflict" }> {
-    // console.log("GOLD updateLayout", params);
     const response = await fetch(`${this.#baseUrl}/${params.id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },

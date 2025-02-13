@@ -6679,6 +6679,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@zip.js/zip.js@npm:2.7.57":
+  version: 2.7.57
+  resolution: "@zip.js/zip.js@npm:2.7.57"
+  checksum: 0cc18ff3a38750cccfb50510524959adbb3d34a6a7a507dcbf0650de8de00a9b0a32216ebf6727f40f92b093ab0e67bb20afebcca694efa68ce6786547caf483
+  languageName: node
+  linkType: hard
+
 "abab@npm:^2.0.6":
   version: 2.0.6
   resolution: "abab@npm:2.0.6"
@@ -14527,6 +14534,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": 8.16.0
     "@typescript-eslint/parser": 8.16.0
     "@typescript-eslint/utils": 8.16.0
+    "@zip.js/zip.js": 2.7.57
     assert: 2.1.0
     babel-plugin-transform-import-meta: 2.2.1
     cross-env: 7.0.3

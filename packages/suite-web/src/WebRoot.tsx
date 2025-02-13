@@ -12,7 +12,8 @@ import {
   AppSetting,
   FoxgloveWebSocketDataSourceFactory,
   IDataSourceFactory,
-  IdbExtensionLoader,
+  // IdbExtensionLoader,
+  RemoteExtensionLoader,
   McapLocalDataSourceFactory,
   RemoteDataSourceFactory,
   Ros1LocalBagDataSourceFactory,
@@ -21,6 +22,7 @@ import {
   SampleNuscenesDataSourceFactory,
   SharedRoot,
   UlogLocalDataSourceFactory,
+  ExtensionLoader,
 } from "@lichtblick/suite-base";
 
 import LocalStorageAppConfiguration from "./services/LocalStorageAppConfiguration";
@@ -43,10 +45,16 @@ export function WebRoot(props: {
     [],
   );
 
-  const [extensionLoaders] = useState(() => [
-    new IdbExtensionLoader("org"),
-    new IdbExtensionLoader("local"),
-  ]);
+  const defaultExtensionLoaders: ExtensionLoader[] = [
+    // new IdbExtensionLoader("org"),
+    // new IdbExtensionLoader("local"),
+  ];
+  const url = new URL(window.location.href);
+  const slug = url.searchParams.get("namespace");
+  if (slug) {
+    defaultExtensionLoaders.push(new RemoteExtensionLoader("local", slug));
+  }
+  const [extensionLoaders] = useState(() => defaultExtensionLoaders);
 
   const dataSources = useMemo(() => {
     const sources = [

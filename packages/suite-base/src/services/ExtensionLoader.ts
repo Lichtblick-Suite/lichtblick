@@ -21,7 +21,7 @@ export interface ExtensionLoader {
   loadExtension(id: string): Promise<string>;
 
   // install extension contained within the file data
-  installExtension(foxeFileData: Uint8Array): Promise<ExtensionInfo>;
+  installExtension(foxeFileData: Uint8Array, file?: File): Promise<ExtensionInfo>;
 
   // uninstall extension with id
   uninstallExtension(id: string): Promise<void>;

@@ -12,7 +12,7 @@ export default class LichtblickApi implements ILichtblickApi {
   public readonly layouts: LichtblickApiLayouts;
 
   public constructor(namespace: string) {
-    this.extensions = new LichtblickApiExtensions(this.#baseUrl);
+    this.extensions = new LichtblickApiExtensions(this.#baseUrl, namespace);
     this.layouts = new LichtblickApiLayouts(this.#baseUrl, namespace);
   }
 }

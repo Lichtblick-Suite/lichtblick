@@ -52,4 +52,5 @@ export { reportError, setReportErrorHandler } from "./reportError";
 export { makeWorkspaceContextInitialState } from "./providers/WorkspaceContextProvider";
 export type { AppBarProps } from "./components/AppBar";
 export { IdbExtensionLoader } from "./services/IdbExtensionLoader";
+export { RemoteExtensionLoader } from "./services/RemoteExtensionLoader";
 export { default as BasicBuilder } from "./testing/builders/BasicBuilder";
