@@ -35,11 +35,9 @@ function useEffectOnce() {} // eslint-disable-line id-denylist, @typescript-esli
 class Foo {
   private bar = 1;
   private static baz = 1;
-
   private foo() {
     this.bar = 2;
   }
-
   private static getBaz() {
     this.baz = 3;
     void this.baz;
