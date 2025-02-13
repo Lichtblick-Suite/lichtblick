@@ -127,7 +127,7 @@
     "react-refresh": "0.14.2",
     "rimraf": "5.0.5",
     "semver": "7.5.4",
-    "storybook": "8.5.2",
+    "storybook": "8.5.5",
     "ts-loader": "9.5.1",
     "ts-node": "10.9.2",
     "ts-unused-exports": "10.0.1",
