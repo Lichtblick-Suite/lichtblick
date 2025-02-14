@@ -14,8 +14,8 @@ export function getFilesFromDirectory(arg: string): string[] {
       .filter((file) =>
         allowedExtensions.some((extension) => file.toLocaleLowerCase().endsWith(extension)),
       );
-  } catch (err) {
-    console.error(err);
+  } catch (error: unknown) {
+    console.error(error);
   }
   return [];
 }
@@ -26,7 +26,7 @@ export function isPathToDirectory(paths: string[]): boolean {
   }
   try {
     return fs.statSync(paths[0]!).isDirectory();
-  } catch (error) {
+  } catch (error: unknown) {
     console.error(error);
     return false;
   }

@@ -3,7 +3,9 @@
 
 import fs, { Dirent, Stats } from "fs";
 import mockFs from "mock-fs";
+import { DirectoryItems } from "mock-fs/lib/filesystem";
 import os from "os";
+import randomString from "randomstring";
 
 import { getFilesFromDirectory, isPathToDirectory, resolveSourcePaths } from "./resolveSourcePaths";
 
@@ -22,16 +24,45 @@ jest.mock("./resolveSourcePaths", () => ({
   ...jest.requireActual("./resolveSourcePaths"),
 }));
 
-function setupMockFileSystem(customStructure?: Record<string, any>) {
-  const defaultStructure = {
-    "/folder/mcap_files": {
-      "file1.txt": "content",
-      "file2.txt": "content",
-      "file3.mcap": "mcap content",
+type FileStructure = {
+  name: string;
+  content: string;
+  extension: string;
+};
+
+function genericString(): string {
+  return randomString.generate({ length: 6, charset: "alphanumeric" });
+}
+
+function buildFile(file: Partial<FileStructure> = {}): Pick<FileStructure, "name" | "content"> {
+  return {
+    name: `${genericString()}.${file.extension ?? "mcap"}`,
+    content: genericString(),
+    ...file,
+  };
+}
+
+function buildPath(): string {
+  return `${genericString()}/${genericString()}`;
+}
+
+function setup(fsConfigOverride?: DirectoryItems) {
+  const path = buildPath();
+  const file1 = buildFile({ extension: "txt" });
+  const file2 = buildFile({ extension: "txt" });
+  const file3 = buildFile({ extension: "mcap" });
+  const files = { file1, file2, file3 };
+  const fsConfig: DirectoryItems = fsConfigOverride ?? {
+    [path]: {
+      [file1.name]: file1.content,
+      [file2.name]: file2.content,
+      [file3.name]: file3.content,
     },
   };
 
-  mockFs(customStructure ?? defaultStructure);
+  mockFs(fsConfig);
+
+  return { fsConfig, path, files };
 }
 
 afterEach(() => {
@@ -39,26 +70,35 @@ afterEach(() => {
 });
 
 describe("getFilesFromDirectory", () => {
-  it("should return only the .mcap files from the directory", () => {
-    setupMockFileSystem();
-    const result = getFilesFromDirectory("/folder/mcap_files");
+  let consoleErrorSpy: jest.SpyInstance;
 
-    expect(result).toEqual(["file3.mcap"]);
+  beforeEach(() => {
+    jest.clearAllMocks();
+    consoleErrorSpy = jest.spyOn(console, "error").mockImplementation(() => {});
+  });
+
+  it("should return only the .mcap files from the directory", () => {
+    const { path, files } = setup();
+    const mcapFiles = Object.values(files)
+      .filter((file) => file.name.endsWith(".mcap"))
+      .map((file) => file.name);
+
+    const result = getFilesFromDirectory(path);
+
+    expect(result).toEqual(mcapFiles);
   });
 
   it("should a return a empty array because the directory has no supported files", () => {
-    setupMockFileSystem({
-      "/empty_folder/mcap_files": { "file.txt": "content" },
+    const { path } = setup({
+      [genericString()]: buildFile({ extension: "txt" }),
     });
 
-    const result = getFilesFromDirectory("/empty_folder/mcap_files");
+    const result = getFilesFromDirectory(path);
 
     expect(result).toEqual([]);
   });
 
   it("should return an empty array when an error occurs in fs.readdirSync", () => {
-    const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation(() => {});
-
     const result = getFilesFromDirectory("");
 
     expect(result).toEqual([]);
@@ -74,37 +114,45 @@ describe("getFilesFromDirectory", () => {
 });
 
 describe("isPathToDirectory", () => {
+  let consoleErrorSpy: jest.SpyInstance;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+    consoleErrorSpy = jest.spyOn(console, "error").mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    consoleErrorSpy.mockRestore();
+  });
+
   it("should return false cause there's more than one path", () => {
-    setupMockFileSystem({
-      "/empty_folder/mcap_files": {},
-      "/some_folder/mcap": {},
+    const path1 = buildPath();
+    const path2 = buildPath();
+    setup({
+      [path1]: {},
+      [path2]: {},
     });
 
-    const mockPaths = ["/empty_folder/mcap_files", "/some_folder/mcap"];
-
-    const result = isPathToDirectory(mockPaths);
+    const result = isPathToDirectory([path1, path2]);
 
     expect(result).toBe(false);
   });
 
   it("should return true because the path passed is a path to a directory", () => {
-    setupMockFileSystem({
-      "/empty_folder/mcap_files": {},
+    const path1 = buildPath();
+    setup({
+      [path1]: {},
     });
 
-    const mockPaths = ["/empty_folder/mcap_files"];
-
-    const result = isPathToDirectory(mockPaths);
+    const result = isPathToDirectory([path1]);
 
     expect(result).toBe(true);
   });
 
   it("should return false when a error occurs", () => {
-    const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation(() => {});
+    const paths = [""];
 
-    const mockPaths = [""];
-
-    const result = isPathToDirectory(mockPaths);
+    const result = isPathToDirectory(paths);
 
     expect(result).toBe(false);
     expect(consoleErrorSpy).toHaveBeenCalled();
@@ -113,12 +161,14 @@ describe("isPathToDirectory", () => {
         message: "ENOENT: no such file or directory, stat ''",
       }),
     );
-
-    consoleErrorSpy.mockRestore();
   });
 });
 
 describe("resolveSourcePaths", () => {
+  beforeEach(() => {
+    jest.spyOn(os, "homedir").mockReturnValue(buildPath());
+  });
+
   afterEach(() => {
     jest.resetAllMocks();
   });
@@ -132,58 +182,63 @@ describe("resolveSourcePaths", () => {
   });
 
   it("should return an array with a single path to a file", () => {
-    const mockSourceParameter = "~/Folder/Mcap_folder/file.mcap";
-    jest.spyOn(os, "homedir").mockReturnValue("/home/testuser");
+    const path = buildPath();
+    const file = buildFile({ extension: "mcap" });
+    const sourceParameter = `~/${path}/${file.name}`;
 
-    const result = resolveSourcePaths(mockSourceParameter);
+    const result = resolveSourcePaths(sourceParameter);
 
-    expect(result[0]).toContain("file.mcap");
+    expect(result[0]).toContain(file.name);
   });
 
-  it("should return an array with multiple paths to files", () => {
-    const mockSourceParameter =
-      "c:/test/Folder/Mcap_folder/file.mcap,~/Folder/Mcap_folder/file2.mcap,";
-    jest.spyOn(os, "homedir").mockReturnValue("/home/testuser");
+  it("should return an array with multiple paths to supported files", () => {
+    const path = buildPath();
+    const file1 = buildFile({ extension: "mcap" });
+    const file2 = buildFile({ extension: "mcap" });
+    const sourceParameter = `c:/test/${path}/${file1.name},~/${path}/${file2.name},`;
 
-    const result = resolveSourcePaths(mockSourceParameter);
+    const result = resolveSourcePaths(sourceParameter);
 
-    expect(result[0]).toContain("file.mcap");
-    expect(result[1]).toContain("file2.mcap");
+    expect(result[0]).toContain(file1.name);
+    expect(result[1]).toContain(file2.name);
   });
 
   it("should return an empty array after getting a path to a directory with no mcap files", () => {
-    jest.spyOn(os, "homedir").mockReturnValue("/home/testuser");
     jest.spyOn(fs, "statSync").mockReturnValueOnce({
       isDirectory: () => true,
     } as Stats);
-    const mockSourceParameter = "~/empty_folder/mcap_files";
+    const path = buildPath();
+    const sourceParameter = `~/${path}`;
 
-    const result = resolveSourcePaths(mockSourceParameter);
+    const result = resolveSourcePaths(sourceParameter);
 
     expect(result).toEqual([]);
   });
 
   it("should return an array with mcap files after getting a path to a directory with mcap files", () => {
-    jest.spyOn(os, "homedir").mockReturnValue("/home/testuser");
+    const path = `/${buildPath()}`;
+    const file1 = buildFile({ extension: "mcap" });
+    const file2 = buildFile({ extension: "bag" });
+    const file3 = buildFile({ extension: "mcap" });
     jest.spyOn(fs, "statSync").mockReturnValueOnce({
       isDirectory: () => true,
     } as Stats);
     jest
       .spyOn(fs, "readdirSync")
-      .mockReturnValueOnce(["file1.mcap", "file3.mcap"] as unknown as Dirent[]);
+      .mockReturnValueOnce([file1.name, file3.name] as unknown as Dirent[]);
 
-    setupMockFileSystem({
-      "/some_folder/mcap_files": {
-        "file1.mcap": "mcap content",
-        "file2.bag": "bag content",
-        "file3.mcap": "mcap content",
+    setup({
+      [path]: {
+        [file1.name]: file1.content,
+        [file2.name]: file2.content,
+        [file3.name]: file1.content,
       },
     });
-    const mockSourceParameter = "~/some_folder/mcap_files";
+    const mockSourceParameter = `~${path}`;
 
     const result = resolveSourcePaths(mockSourceParameter);
 
-    expect(result[0]).toContain("file1.mcap");
-    expect(result[1]).toContain("file3.mcap");
+    expect(result[0]).toContain(file1.name);
+    expect(result[1]).toContain(file3.name);
   });
 });
