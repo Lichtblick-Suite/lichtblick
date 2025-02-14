@@ -25,6 +25,15 @@ jobs:
       - name: Enable corepack
         run: corepack enable yarn
 
+      - name: Restore cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            .yarn/cache
+            **/node_modules
+          key: v5-${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: v5-${{ runner.os }}-yarn-
+
       - name: Install dependencies
         run: yarn install
 
@@ -39,7 +48,7 @@ jobs:
         continue-on-error: true
 
       - name: ScanCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
+        uses: sonarsource/sonarqube-scan-action@v4.2.1
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
