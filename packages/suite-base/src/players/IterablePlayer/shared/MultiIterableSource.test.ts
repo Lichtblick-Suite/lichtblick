@@ -30,6 +30,66 @@ describe("MultiIterableSource", () => {
     };
   });
 
+  describe("loadMultipleSources", () => {
+    it("should load multiple file sources", async () => {
+      const file1 = new Blob([BasicBuilder.string()]);
+      const file2 = new Blob([BasicBuilder.string()]);
+      const multiSource = new MultiIterableSource(
+        {
+          type: "files",
+          files: [file1, file2],
+        },
+        mockSourceConstructor,
+      );
+
+      const initializations = await multiSource["loadMultipleSources"]();
+
+      expect(mockSourceConstructor).toHaveBeenCalledTimes(2);
+      expect(mockSourceConstructor).toHaveBeenNthCalledWith(1, {
+        type: "file",
+        file: file1,
+      });
+      expect(mockSourceConstructor).toHaveBeenNthCalledWith(2, {
+        type: "file",
+        file: file2,
+      });
+      expect(initializations).toHaveLength(2);
+    });
+
+    it("should load multiple url sources", async () => {
+      const url1 = BasicBuilder.string();
+      const url2 = BasicBuilder.string();
+      const multiSource = new MultiIterableSource(
+        {
+          type: "urls",
+          urls: [url1, url2],
+        },
+        mockSourceConstructor,
+      );
+
+      const initializations = await multiSource["loadMultipleSources"]();
+
+      expect(mockSourceConstructor).toHaveBeenCalledTimes(2);
+      expect(mockSourceConstructor).toHaveBeenNthCalledWith(1, {
+        type: "url",
+        url: url1,
+      });
+      expect(mockSourceConstructor).toHaveBeenNthCalledWith(2, {
+        type: "url",
+        url: url2,
+      });
+      expect(initializations).toHaveLength(2);
+    });
+
+    it("should call initialize method for each iterable source", async () => {
+      const multiSource = new MultiIterableSource(dataSource, mockSourceConstructor);
+
+      await multiSource["loadMultipleSources"]();
+
+      expect(mockSourceConstructor).toHaveBeenCalledTimes(2);
+    });
+  });
+
   describe("Initialization", () => {
     const mockInitialization = (initialization: Initialization) => {
       const mockSource = {
