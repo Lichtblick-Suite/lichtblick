@@ -12,7 +12,7 @@ import {
   AppSetting,
   FoxgloveWebSocketDataSourceFactory,
   IDataSourceFactory,
-  IdbExtensionLoader,
+  // IdbExtensionLoader,
   RemoteExtensionLoader,
   McapLocalDataSourceFactory,
   RemoteDataSourceFactory,
