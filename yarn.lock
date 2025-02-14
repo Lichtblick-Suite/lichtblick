@@ -3315,6 +3315,7 @@ __metadata:
     "@types/mock-fs": 4.13.4
     "@types/plist": ^3.0.3
     "@types/pngjs": ^6.0.2
+    "@types/randomstring": 1.3.0
     "@types/tinycolor2": 1.4.4
     "@types/utif": ^3.0.2
     "@xmldom/xmldom": 0.8.10
@@ -3337,6 +3338,7 @@ __metadata:
     plist: 3.1.0
     pngjs: 7.0.0
     quicklookjs: 0.0.3
+    randomstring: 1.3.1
     react: 18.3.1
     react-dom: 18.3.1
     react-refresh-typescript: 2.0.9
@@ -5696,7 +5698,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/randomstring@npm:^1":
+"@types/randomstring@npm:1.3.0, @types/randomstring@npm:^1":
   version: 1.3.0
   resolution: "@types/randomstring@npm:1.3.0"
   checksum: 540f470222bef888395576063ba20c260502ac8f2768f9dac988118a9fd1ac5916df36d5a28ec571bbabe49d6d7a56895187fc24ea910a54f19becba37958355
@@ -17329,7 +17331,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"randombytes@npm:^2.0.0, randombytes@npm:^2.0.1, randombytes@npm:^2.0.5, randombytes@npm:^2.1.0":
+"randombytes@npm:2.1.0, randombytes@npm:^2.0.0, randombytes@npm:^2.0.1, randombytes@npm:^2.0.5, randombytes@npm:^2.1.0":
   version: 2.1.0
   resolution: "randombytes@npm:2.1.0"
   dependencies:
@@ -17356,6 +17358,17 @@ __metadata:
   bin:
     randomstring: bin/randomstring
   checksum: ec89fd1337b197edea5a7f60686cc674170f6f0424cb8ac025f7acb043d906fdd30b4a3b21073d0c566efec4921be9e87749b41609954f6656c9d5f3278e2284
+  languageName: node
+  linkType: hard
+
+"randomstring@npm:1.3.1":
+  version: 1.3.1
+  resolution: "randomstring@npm:1.3.1"
+  dependencies:
+    randombytes: 2.1.0
+  bin:
+    randomstring: bin/randomstring
+  checksum: 06e78195fa8e0ce8b59e17659a9dbf63c7b3ccbb2d056fe8fc7892e1132a60905175443c5a88acdc7b12fd628027a7b1659e485c917e9e01b7f2ab08aad6d646
   languageName: node
   linkType: hard
 
