@@ -2,10 +2,12 @@
 // SPDX-License-Identifier: MPL-2.0
 
 import { Initialization } from "@lichtblick/suite-base/players/IterablePlayer/IIterableSource";
+import { InitLoadedTimes } from "@lichtblick/suite-base/players/IterablePlayer/shared/types";
 import BasicBuilder from "@lichtblick/suite-base/testing/builders/BasicBuilder";
 import InitilizationSourceBuilder from "@lichtblick/suite-base/testing/builders/InitilizationSourceBuilder";
+import PlayerBuilder from "@lichtblick/suite-base/testing/builders/PlayerBuilder";
+import RosDatatypesBuilder from "@lichtblick/suite-base/testing/builders/RosDatatypesBuilder";
 import RosTimeBuilder from "@lichtblick/suite-base/testing/builders/RosTimeBuilder";
-import { OptionalMessageDefinition } from "@lichtblick/suite-base/types/RosDatatypes";
 
 import {
   validateOverlap,
@@ -31,13 +33,12 @@ describe("validateInitialization", () => {
     ])(
       "should add a warning if the current MCAP overlaps with the accumulated range",
       (startSec, endSec) => {
-        const loadedTimes = [
+        const loadedTimes: InitLoadedTimes = [
           {
             start: RosTimeBuilder.time({ sec: 10, nsec: 0 }),
             end: RosTimeBuilder.time({ sec: 20, nsec: 0 }),
           },
         ];
-
         current.start = RosTimeBuilder.time({ sec: startSec, nsec: 0 });
         current.end = RosTimeBuilder.time({ sec: endSec, nsec: 0 });
 
@@ -56,7 +57,7 @@ describe("validateInitialization", () => {
       [25, 30], // after
       [20, 25], // after and touching
     ])("should not add a warning if there is no overlap", (startSec, endSec) => {
-      const loadedTimes = [
+      const loadedTimes: InitLoadedTimes = [
         {
           start: RosTimeBuilder.time({ sec: 10, nsec: 0 }),
           end: RosTimeBuilder.time({ sec: 20, nsec: 0 }),
@@ -78,7 +79,7 @@ describe("validateInitialization", () => {
     ])(
       "should not add a warning if the current MCAP is between two loaded times",
       (startSec, endSec) => {
-        const loadedTimes = [
+        const loadedTimes: InitLoadedTimes = [
           {
             start: RosTimeBuilder.time({ sec: 10, nsec: 0 }),
             end: RosTimeBuilder.time({ sec: 20, nsec: 0 }),
@@ -88,7 +89,6 @@ describe("validateInitialization", () => {
             end: RosTimeBuilder.time({ sec: 40, nsec: 0 }),
           },
         ];
-
         current.start = RosTimeBuilder.time({ sec: startSec, nsec: 0 });
         current.end = RosTimeBuilder.time({ sec: endSec, nsec: 0 });
 
@@ -101,21 +101,15 @@ describe("validateInitialization", () => {
 
   describe("validateAndAddDatatypes", () => {
     it("should add a warning if there is a datatype mismatch", () => {
-      const datatype = "example_datatype";
-      const accumulatedDefinition: OptionalMessageDefinition = {
-        definitions: [{ name: "field1", type: "string" }],
-      };
-      const currentDefinition: OptionalMessageDefinition = {
-        definitions: [{ name: "field1", type: "int32" }],
-      };
-
+      const datatype = BasicBuilder.string();
+      const accumulatedDefinition = RosDatatypesBuilder.optionalMessageDefinition();
+      const currentDefinition = RosDatatypesBuilder.optionalMessageDefinition();
       accumulated.datatypes.set(datatype, accumulatedDefinition);
       current.datatypes.set(datatype, currentDefinition);
 
       validateAndAddNewDatatypes(accumulated, current);
 
       expect(accumulated.datatypes.get(datatype)).toEqual(accumulatedDefinition);
-
       expect(accumulated.problems).toHaveLength(1);
       expect(accumulated.problems[0]!.message).toBe(
         `Datatype mismatch detected for "${datatype}". Merging may cause issues.`,
@@ -123,11 +117,8 @@ describe("validateInitialization", () => {
     });
 
     it("should not add a warning if datatypes are consistent", () => {
-      const datatype = "example_datatype";
-      const definition: OptionalMessageDefinition = {
-        definitions: [{ name: "field1", type: "string" }],
-      };
-
+      const datatype = BasicBuilder.string();
+      const definition = RosDatatypesBuilder.optionalMessageDefinition();
       accumulated.datatypes.set(datatype, definition);
       current.datatypes.set(datatype, definition);
 
@@ -138,60 +129,46 @@ describe("validateInitialization", () => {
     });
 
     it("should not add a warning for new datatypes", () => {
-      const datatype = "new_datatype";
-      const definition: OptionalMessageDefinition = {
-        definitions: [{ name: "field1", type: "string" }],
-      };
-
+      const datatype = BasicBuilder.string();
+      const definition = RosDatatypesBuilder.optionalMessageDefinition();
       current.datatypes.set(datatype, definition);
 
       validateAndAddNewDatatypes(accumulated, current);
 
       expect(accumulated.problems).toHaveLength(0);
-
       expect(accumulated.datatypes.get(datatype)).toEqual(definition);
     });
 
     describe("validateAndAddTopics", () => {
       it("should add a warning if there is a schema name mismatch", () => {
         const topicName = BasicBuilder.string();
-
-        const accumulatedTopic = { name: topicName, schemaName: "schema1" };
-        const currentTopic = { name: topicName, schemaName: "schema2" };
-
+        const accumulatedTopic = PlayerBuilder.topic({ name: topicName });
+        const currentTopic = PlayerBuilder.topic({ name: topicName });
         accumulated.topics.push(accumulatedTopic);
         current.topics.push(currentTopic);
 
         validateAndAddNewTopics(accumulated, current);
 
         expect(accumulated.topics).toEqual([accumulatedTopic]);
-
         expect(accumulated.problems).toHaveLength(1);
         expect(accumulated.problems[0]!.message).toBe(
-          `Schema name mismatch detected for topic "${topicName}". Expected "schema1", but found "schema2".`,
+          `Schema name mismatch detected for topic "${topicName}". Expected "${accumulatedTopic.schemaName}", but found "${currentTopic.schemaName}".`,
         );
       });
 
       it("should not add a warning if schema names are consistent", () => {
-        const topicName = BasicBuilder.string();
-        const schemaName = BasicBuilder.string();
-
-        const topic = { name: topicName, schemaName };
-
+        const topic = PlayerBuilder.topic();
         accumulated.topics.push(topic);
         current.topics.push(topic);
 
         validateAndAddNewTopics(accumulated, current);
 
         expect(accumulated.problems).toHaveLength(0);
-
         expect(accumulated.topics).toEqual([topic]);
       });
 
       it("should not add a warning for new topics", () => {
-        const topicName = BasicBuilder.string();
-        const topic = { name: topicName, schemaName: BasicBuilder.string() };
-
+        const topic = PlayerBuilder.topic();
         accumulated.topics = [];
         current.topics.push(topic);
 
@@ -202,15 +179,15 @@ describe("validateInitialization", () => {
       });
 
       it("should add all topics for multiple topics per MCAP", () => {
-        const topic1 = { name: "topic1", schemaName: "schema1" };
-        const topic2 = { name: "topic2", schemaName: "schema2" };
-        const topic3 = { name: "topic3", schemaName: "schema3" };
-        const topic4 = { name: "topic4", schemaName: "schema4" };
-        const topic5 = { name: "topic4", schemaName: "schema4" };
-
+        const topics = PlayerBuilder.topics(4);
+        const topic1 = topics[0]!;
+        const topic2 = topics[1]!;
+        const topic3 = topics[2]!;
+        const topic4 = topics[3]!;
+        const topic5 = topic4;
         accumulated.topics = [];
-
         current.topics = [topic1, topic2];
+
         validateAndAddNewTopics(accumulated, current);
 
         current.topics = [topic3, topic4, topic5];
