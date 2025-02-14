@@ -1,6 +1,7 @@
 // SPDX-FileCopyrightText: Copyright (C) 2023-2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)<lichtblick@bmwgroup.com>
 // SPDX-License-Identifier: MPL-2.0
 
+import { Metadata } from "@lichtblick/suite";
 import { Initialization } from "@lichtblick/suite-base/players/IterablePlayer/IIterableSource";
 import BasicBuilder from "@lichtblick/suite-base/testing/builders/BasicBuilder";
 import RosTimeBuilder from "@lichtblick/suite-base/testing/builders/RosTimeBuilder";
@@ -20,5 +21,16 @@ export default class InitilizationSourceBuilder {
       profile: BasicBuilder.string(),
       name: BasicBuilder.string(),
     });
+  }
+
+  public static metadata(props: Partial<Metadata> = {}): Metadata {
+    return defaults<Metadata>(props, {
+      name: BasicBuilder.string(),
+      metadata: BasicBuilder.genericDictionary(String),
+    });
+  }
+
+  public static metadataList(count = 3): Metadata[] {
+    return BasicBuilder.multiple(InitilizationSourceBuilder.metadata, count);
   }
 }

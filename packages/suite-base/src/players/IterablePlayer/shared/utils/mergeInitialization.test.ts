@@ -14,6 +14,7 @@ import {
 } from "@lichtblick/suite-base/players/IterablePlayer/shared/utils/mergeInitialization";
 import { TopicStats } from "@lichtblick/suite-base/players/types";
 import BasicBuilder from "@lichtblick/suite-base/testing/builders/BasicBuilder";
+import InitilizationSourceBuilder from "@lichtblick/suite-base/testing/builders/InitilizationSourceBuilder";
 import RosTimeBuilder from "@lichtblick/suite-base/testing/builders/RosTimeBuilder";
 
 describe("mergeInitialization utils", () => {
@@ -57,8 +58,8 @@ describe("mergeInitialization utils", () => {
 
   describe("mergeMetadata", () => {
     it("should merge two metadata arrays", () => {
-      const metadata1: InitMetadata = [{ name: "value1", metadata: { key: "value1" } }];
-      const metadata2: InitMetadata = [{ name: "value2", metadata: { key: "value2" } }];
+      const metadata1: InitMetadata = InitilizationSourceBuilder.metadataList(1);
+      const metadata2: InitMetadata = InitilizationSourceBuilder.metadataList(1);
 
       const result = mergeMetadata(metadata1, metadata2);
 
@@ -68,7 +69,7 @@ describe("mergeInitialization utils", () => {
     });
 
     it("should handle undefined metadata", () => {
-      const metadata1: InitMetadata = [{ name: "value1", metadata: { key: "value1" } }];
+      const metadata1: InitMetadata = InitilizationSourceBuilder.metadataList(1);
       const metadata2: InitMetadata = undefined;
       const result = mergeMetadata(metadata1, metadata2);
 
