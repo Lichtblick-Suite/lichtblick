@@ -15,7 +15,7 @@ import {
 } from "@lichtblick/suite-base/players/types";
 import { RosDatatypes } from "@lichtblick/suite-base/types/RosDatatypes";
 
-export type Initalization = {
+export type Initialization = {
   start: Time;
   end: Time;
   topics: Topic[];
@@ -154,7 +154,7 @@ export interface IIterableSource {
   /**
    * Initialize the source.
    */
-  initialize(): Promise<Initalization>;
+  initialize(): Promise<Initialization>;
 
   /**
    * Instantiate an IMessageIterator for the source.

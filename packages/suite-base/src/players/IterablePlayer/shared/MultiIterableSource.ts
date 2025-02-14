@@ -4,27 +4,35 @@
 // This Source Code Form is subject to the terms of the Mozilla Public
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
-import { compare, Time } from "@lichtblick/rostime";
-import { Topic } from "@lichtblick/suite";
-import { mergeAsyncIterators } from "@lichtblick/suite-base/players/IterablePlayer/shared/mergeAsyncIterators";
-import { MessageEvent, TopicStats } from "@lichtblick/suite-base/players/types";
-import { OptionalMessageDefinition } from "@lichtblick/suite-base/types/RosDatatypes";
+
+import { compare } from "@lichtblick/rostime";
+import {
+  InitLoadedTimes,
+  IterableSourceConstructor,
+  MultiSource,
+} from "@lichtblick/suite-base/players/IterablePlayer/shared/types";
+import { mergeAsyncIterators } from "@lichtblick/suite-base/players/IterablePlayer/shared/utils/mergeAsyncIterators";
+import {
+  accumulateMap,
+  mergeMetadata,
+  mergeTopicStats,
+  setEndTime,
+  setStartTime,
+} from "@lichtblick/suite-base/players/IterablePlayer/shared/utils/mergeInitialization";
+import {
+  validateAndAddNewTopics,
+  validateAndAddNewDatatypes,
+  validateOverlap,
+} from "@lichtblick/suite-base/players/IterablePlayer/shared/utils/validateInitialization";
+import { MessageEvent } from "@lichtblick/suite-base/players/types";
 
 import {
   IIterableSource,
   IteratorResult,
-  Initalization,
+  Initialization,
   MessageIteratorArgs,
   GetBackfillMessagesArgs,
 } from "../IIterableSource";
-
-type MultiSource = { type: "files"; files: Blob[] } | { type: "urls"; urls: string[] };
-
-type IterableSourceConstructor<T extends IIterableSource, P> = new (args: P) => T;
-
-type Metadata = Initalization["metadata"];
-
-type TopicStatsMap = Initalization["topicStats"];
 
 export class MultiIterableSource<T extends IIterableSource, P> implements IIterableSource {
   private SourceConstructor: IterableSourceConstructor<T, P>;
@@ -36,7 +44,7 @@ export class MultiIterableSource<T extends IIterableSource, P> implements IItera
     this.SourceConstructor = SourceConstructor;
   }
 
-  private async loadMultipleSources(): Promise<Initalization[]> {
+  private async loadMultipleSources(): Promise<Initialization[]> {
     const { type } = this.dataSource;
 
     const sources: IIterableSource[] =
@@ -46,51 +54,20 @@ export class MultiIterableSource<T extends IIterableSource, P> implements IItera
           )
         : this.dataSource.urls.map((url) => new this.SourceConstructor({ type: "url", url } as P));
 
-    this.sourceImpl = [...this.sourceImpl, ...sources];
+    this.sourceImpl.push(...sources);
 
-    const initializations: Initalization[] = await Promise.all(
+    const initializations: Initialization[] = await Promise.all(
       sources.map(async (source) => await source.initialize()),
     );
 
     return initializations;
   }
 
-  public async initialize(): Promise<Initalization> {
-    const initializations: Initalization[] = await this.loadMultipleSources();
+  public async initialize(): Promise<Initialization> {
+    const initializations: Initialization[] = await this.loadMultipleSources();
 
-    const resultInit: Initalization = {
-      start: { sec: Number.MAX_SAFE_INTEGER, nsec: Number.MAX_SAFE_INTEGER },
-      end: { sec: Number.MIN_SAFE_INTEGER, nsec: Number.MIN_SAFE_INTEGER },
-      datatypes: new Map<string, OptionalMessageDefinition>(),
-      metadata: [],
-      name: "",
-      problems: [],
-      profile: "",
-      publishersByTopic: new Map<string, Set<string>>(),
-      topics: [],
-      topicStats: new Map<string, TopicStats>(),
-    };
+    const resultInit: Initialization = this.mergeInitializations(initializations);
 
-    const uniqueTopics = new Map<string, Topic>();
-
-    for (const init of initializations) {
-      resultInit.start = this.setStartTime(resultInit.start, init.start);
-      resultInit.end = this.setEndTime(resultInit.end, init.end);
-      resultInit.name ??= init.name;
-      resultInit.profile ??= init.profile;
-      resultInit.datatypes = this.accumulateMap(resultInit.datatypes, init.datatypes);
-      resultInit.publishersByTopic = this.accumulateMap(
-        resultInit.publishersByTopic,
-        init.publishersByTopic,
-      );
-      resultInit.topicStats = this.mergeTopicStats(resultInit.topicStats, init.topicStats);
-      resultInit.metadata = this.mergeMetadata(resultInit.metadata, init.metadata);
-      resultInit.problems = [...resultInit.problems, ...init.problems];
-
-      init.topics.forEach((topic) => uniqueTopics.set(topic.name, topic as Topic));
-    }
-
-    resultInit.topics = Array.from(uniqueTopics.values());
     this.sourceImpl.sort((a, b) => compare(a.getStart!()!, b.getStart!()!));
 
     return resultInit;
@@ -111,29 +88,43 @@ export class MultiIterableSource<T extends IIterableSource, P> implements IItera
     return backfillMessages.flat();
   }
 
-  private setStartTime(accumulated: Time, current: Time): Time {
-    return compare(current, accumulated) < 0 ? current : accumulated;
-  }
+  private mergeInitializations(initializations: Initialization[]): Initialization {
+    const resultInit: Initialization = {
+      start: { sec: Number.MAX_SAFE_INTEGER, nsec: Number.MAX_SAFE_INTEGER },
+      end: { sec: Number.MIN_SAFE_INTEGER, nsec: Number.MIN_SAFE_INTEGER },
+      datatypes: new Map(),
+      metadata: [],
+      name: "",
+      problems: [],
+      profile: "",
+      publishersByTopic: new Map(),
+      topics: [],
+      topicStats: new Map(),
+    };
 
-  private setEndTime(accumulated: Time, current: Time): Time {
-    return compare(current, accumulated) > 0 ? current : accumulated;
-  }
+    const loadedTimes: InitLoadedTimes = [];
 
-  private mergeMetadata(accumulated: Metadata, current: Metadata): Metadata {
-    return [...(accumulated ?? []), ...(current ?? [])];
-  }
+    for (const init of initializations) {
+      resultInit.start = setStartTime(resultInit.start, init.start);
+      resultInit.end = setEndTime(resultInit.end, init.end);
+      validateOverlap(loadedTimes, init, resultInit);
+      loadedTimes.push({ start: init.start, end: init.end });
 
-  private accumulateMap<V>(accumulated: Map<string, V>, current: Map<string, V>): Map<string, V> {
-    return new Map<string, V>([...accumulated, ...current]);
-  }
+      resultInit.name = init.name ?? resultInit.name;
+      resultInit.profile = init.profile ?? resultInit.profile;
+      resultInit.publishersByTopic = accumulateMap(
+        resultInit.publishersByTopic,
+        init.publishersByTopic,
+      );
+      resultInit.topicStats = mergeTopicStats(resultInit.topicStats, init.topicStats);
+      resultInit.metadata = mergeMetadata(resultInit.metadata, init.metadata);
+      resultInit.problems.push(...init.problems);
 
-  private mergeTopicStats(accumulated: TopicStatsMap, current: TopicStatsMap): TopicStatsMap {
-    for (const [topic, stats] of current) {
-      if (!accumulated.has(topic)) {
-        accumulated.set(topic, { numMessages: 0 });
-      }
-      accumulated.get(topic)!.numMessages += stats.numMessages;
+      // These methos validate and add to avoid lopp through all topics and datatypes once again
+      validateAndAddNewDatatypes(resultInit, init);
+      validateAndAddNewTopics(resultInit, init);
     }
-    return accumulated;
+
+    return resultInit;
   }
 }
