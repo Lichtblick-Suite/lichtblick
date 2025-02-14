@@ -71,6 +71,7 @@ describe("mergeInitialization utils", () => {
     it("should handle undefined metadata", () => {
       const metadata1: InitMetadata = InitilizationSourceBuilder.metadataList(1);
       const metadata2: InitMetadata = undefined;
+
       const result = mergeMetadata(metadata1, metadata2);
 
       expect(result!.length).toBe(1);
@@ -80,7 +81,9 @@ describe("mergeInitialization utils", () => {
     it("should handle undefined metadata in both", () => {
       const metadata1: InitMetadata = undefined;
       const metadata2: InitMetadata = undefined;
+
       const result = mergeMetadata(metadata1, metadata2);
+
       expect(result).toEqual([]);
     });
   });
@@ -89,7 +92,9 @@ describe("mergeInitialization utils", () => {
     it("should merge two maps", () => {
       const map1 = new Map<string, number>([["key1", 1]]);
       const map2 = new Map<string, number>([["key2", 2]]);
+
       const result = accumulateMap(map1, map2);
+
       expect(result.size).toBe(2);
       expect(result.get("key1")).toBe(1);
       expect(result.get("key2")).toBe(2);
@@ -100,7 +105,6 @@ describe("mergeInitialization utils", () => {
     it("should merge two topic stats maps and set correct first and last message time", () => {
       const topic1 = BasicBuilder.string();
       const topic2 = BasicBuilder.string();
-
       const statsMap1: InitTopicStatsMap = new Map<string, TopicStats>();
       statsMap1.set(topic1, {
         numMessages: 5,
@@ -112,7 +116,6 @@ describe("mergeInitialization utils", () => {
         firstMessageTime: RosTimeBuilder.time({ sec: 10 }),
         lastMessageTime: RosTimeBuilder.time({ sec: 30 }),
       });
-
       const statsMap2: InitTopicStatsMap = new Map<string, TopicStats>();
       statsMap2.set(topic1, { numMessages: 3, firstMessageTime: RosTimeBuilder.time({ sec: 1 }) });
       statsMap2.set(topic2, { numMessages: 7, lastMessageTime: RosTimeBuilder.time({ sec: 20 }) });
@@ -124,7 +127,6 @@ describe("mergeInitialization utils", () => {
         firstMessageTime: { sec: 1, nsec: expect.any(Number) },
         lastMessageTime: { sec: 30, nsec: expect.any(Number) },
       });
-
       expect(result.get(topic2)).toEqual({
         numMessages: 507,
         firstMessageTime: { sec: 10, nsec: expect.any(Number) },
