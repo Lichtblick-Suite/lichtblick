@@ -26,7 +26,6 @@ const createMsgStamp = (overwriteSec?: number): IteratorResult => {
 describe("mergeAsyncIterators", () => {
   it("should merge multiple async iterators in order", async () => {
     const resultStamps = [1, 2, 3, 4].map((sec) => createMsgStamp(sec));
-
     const iterator1 = asyncGenerator([resultStamps[0]!, resultStamps[2]!]);
     const iterator2 = asyncGenerator([resultStamps[1]!, resultStamps[3]!]);
 
@@ -61,7 +60,6 @@ describe("mergeAsyncIterators", () => {
       }),
     };
     const resultStamp = createMsgStamp(2);
-
     const iterator1 = asyncGenerator<IteratorResult>([resultMessage]);
     const iterator2 = asyncGenerator<IteratorResult>([resultStamp]);
 
@@ -76,7 +74,6 @@ describe("mergeAsyncIterators", () => {
 
   it("should handle iterators with different types and empty iterators", async () => {
     const resultStamp = createMsgStamp();
-
     const iterator1 = asyncGenerator<IteratorResult>([]);
     const iterator2 = asyncGenerator<IteratorResult>([resultStamp]);
 
@@ -96,9 +93,7 @@ describe("mergeAsyncIterators", () => {
         receiveTime: { sec: 2, nsec: 0 },
       }),
     };
-
     const resultStamp = createMsgStamp(1);
-
     const iterator1 = asyncGenerator<IteratorResult>([resultMessage]);
     const iterator2 = asyncGenerator<IteratorResult>([resultStamp]);
 
