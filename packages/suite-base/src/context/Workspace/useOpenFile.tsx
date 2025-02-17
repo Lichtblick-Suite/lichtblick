@@ -15,6 +15,8 @@ import {
 } from "@lichtblick/suite-base/context/PlayerSelectionContext";
 import showOpenFilePicker from "@lichtblick/suite-base/util/showOpenFilePicker";
 
+export const MCAP_ACCEPT_TYPE = "application/octet-stream";
+
 export function useOpenFile(sources: readonly IDataSourceFactory[]): () => Promise<void> {
   const { selectSource } = usePlayerSelection();
 
@@ -39,7 +41,7 @@ export function useOpenFile(sources: readonly IDataSourceFactory[]): () => Promi
       types: [
         {
           description: allExtensions.join(", "),
-          accept: { "application/octet-stream": allExtensions },
+          accept: { [MCAP_ACCEPT_TYPE]: allExtensions },
         },
       ],
     });
