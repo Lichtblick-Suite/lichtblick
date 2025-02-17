@@ -23,7 +23,7 @@ concurrency:
 
 jobs:
   build:
-    runs-on: ["atc-ubuntu-latest"]
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
