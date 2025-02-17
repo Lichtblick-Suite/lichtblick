@@ -3120,7 +3120,10 @@ __metadata:
     path-browserify: 1.0.1
     plist: 3.1.0
     pngjs: 7.0.0
+<<<<<<< HEAD
     quicklookjs: 1.0.1
+=======
+>>>>>>> 7eabff2ab (CLI flag to open file(s) or a directory on Lichtblick (#365))
     randomstring: 1.3.1
     react: 18.3.1
     react-dom: 18.3.1
