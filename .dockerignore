@@ -1,7 +1,0 @@
-*.log
-*.tsbuildinfo
-.DS_Store
-.webpack/
-dist/
-node_modules/
-Dockerfile
