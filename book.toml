@@ -1,0 +1,10 @@
+[book]
+authors = ["Gabriela Almeida (CTW02164)"]
+language = "en"
+multilingual = false
+src = "src"
+title = "Lichtblick Documentation"
+
+[output.html]
+additional-css = ["theme/pagetoc.css"]
+additional-js = ["theme/pagetoc.js"]
