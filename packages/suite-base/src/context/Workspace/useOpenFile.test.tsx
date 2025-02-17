@@ -24,7 +24,7 @@ jest.mock("notistack", () => ({
   enqueueSnackbar: jest.fn(),
 }));
 
-const SUPPORTED_FILE_TYLES = [".mcap"];
+const SUPPORTED_FILE_TYPES = [".mcap"];
 
 type Setup = {
   sourcesOverride?: IDataSourceFactory[];
@@ -54,7 +54,7 @@ describe("useOpenFile", () => {
       {
         id: BasicBuilder.string(),
         type: "file",
-        supportedFileTypes: SUPPORTED_FILE_TYLES,
+        supportedFileTypes: SUPPORTED_FILE_TYPES,
       } as IDataSourceFactory,
     ];
 
