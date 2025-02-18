@@ -6,13 +6,13 @@ import { LichtblickApiLayouts } from "@lichtblick/suite-base/services/Lichtblick
 import { ILichtblickApi } from "@lichtblick/suite-base/services/LichtblickApi/types/ILichtblickApi";
 
 export default class LichtblickApi implements ILichtblickApi {
-  #baseUrl: string = "http://localhost:3000";
+  #baseUrl: string | undefined = process.env.API_URL;
 
   public readonly extensions: LichtblickApiExtensions;
   public readonly layouts: LichtblickApiLayouts;
 
   public constructor(namespace: string) {
-    this.extensions = new LichtblickApiExtensions(this.#baseUrl, namespace);
-    this.layouts = new LichtblickApiLayouts(this.#baseUrl, namespace);
+    this.extensions = new LichtblickApiExtensions(this.#baseUrl!, namespace);
+    this.layouts = new LichtblickApiLayouts(this.#baseUrl!, namespace);
   }
 }
