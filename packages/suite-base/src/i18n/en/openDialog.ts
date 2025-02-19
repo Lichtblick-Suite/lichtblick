@@ -22,7 +22,7 @@ export const openDialog = {
   openConnection: "Open connection",
   openConnectionDescription: "Connect to a live robot or server.",
   openDataSource: "Open data source",
-  openLocalFile: "Open local file",
+  openLocalFile: "Open local files",
   openLocalFileDescription: "Visualize data directly from your local filesystem.",
   openUrl: "Upload and share data",
   openUrlDescription: "Use Foxglove Data Platform to share data with your team.",
