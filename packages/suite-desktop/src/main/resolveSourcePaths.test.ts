@@ -9,21 +9,6 @@ import randomString from "randomstring";
 
 import { getFilesFromDirectory, isPathToDirectory, resolveSourcePaths } from "./resolveSourcePaths";
 
-jest.mock("./StudioWindow", () => ({
-  __esModule: true,
-  default: jest.fn(),
-}));
-
-jest.mock("../common/webpackDefines", () => ({
-  LICHTBLICK_PRODUCT_NAME: "Lichtblick",
-  LICHTBLICK_PRODUCT_VERSION: "1.0.0",
-  LICHTBLICK_PRODUCT_HOMEPAGE: "https://lichtblick.com",
-}));
-
-jest.mock("./resolveSourcePaths", () => ({
-  ...jest.requireActual("./resolveSourcePaths"),
-}));
-
 type FileStructure = {
   name: string;
   content: string;
