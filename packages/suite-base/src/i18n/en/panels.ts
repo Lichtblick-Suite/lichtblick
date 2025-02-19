@@ -14,6 +14,8 @@ export const panels = {
   dataSourceInfoDescription: "View details like topics and timestamps for the current data source.",
   gauge: "Gauge",
   gaugeDescription: "Display a colored gauge based on a continuous value.",
+  pieChart: "Pie Chart",
+  pieChartDescription: "Visualize categorical data as segments of a pie, showing proportions or percentages.",
   image: "Image",
   imageDescription: "Display annotated images.",
   indicator: "Indicator",
