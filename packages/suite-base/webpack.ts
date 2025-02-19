@@ -5,6 +5,7 @@
 // License, v2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+import dotenv from "dotenv";
 import { ESBuildMinifyPlugin } from "esbuild-loader";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import MonacoWebpackPlugin from "monaco-editor-webpack-plugin";
@@ -27,6 +28,8 @@ type Options = {
   /** Specify the path to the tsconfig.json file for ForkTsCheckerWebpackPlugin. If unset, the plugin defaults to finding the config file in the webpack `context` directory. */
   tsconfigPath?: string;
 };
+
+dotenv.config();
 
 // Create a partial webpack configuration required to build app using webpack.
 // Returns a webpack configuration containing resolve, module, plugins, and node fields.
@@ -231,6 +234,7 @@ export function makeConfig(
         // Should match webpack-defines.d.ts
         ReactNull: null, // eslint-disable-line no-restricted-syntax
         LICHTBLICK_SUITE_VERSION: JSON.stringify(version),
+        API_URL: JSON.stringify(process.env.API_URL),
       }),
       // https://webpack.js.org/plugins/ignore-plugin/#example-of-ignoring-moment-locales
       new webpack.IgnorePlugin({

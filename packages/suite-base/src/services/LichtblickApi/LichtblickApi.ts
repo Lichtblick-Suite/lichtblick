@@ -6,7 +6,7 @@ import { LichtblickApiLayouts } from "@lichtblick/suite-base/services/Lichtblick
 import { ILichtblickApi } from "@lichtblick/suite-base/services/LichtblickApi/types/ILichtblickApi";
 
 export default class LichtblickApi implements ILichtblickApi {
-  #baseUrl: string | undefined = process.env.API_URL;
+  #baseUrl: string | undefined = API_URL;
 
   public readonly extensions: LichtblickApiExtensions;
   public readonly layouts: LichtblickApiLayouts;
