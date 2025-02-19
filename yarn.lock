@@ -3107,7 +3107,7 @@ __metadata:
     "@storybook/react": 8.5.2
     "@storybook/testing-library": 0.2.2
     "@svgr/webpack": 8.1.0
-    "@tanstack/react-table": 8.11.7
+    "@tanstack/react-table": 8.21.2
     "@testing-library/jest-dom": 6.6.2
     "@testing-library/react": 16.0.0
     "@testing-library/user-event": 14.5.2
@@ -4816,22 +4816,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/react-table@npm:8.11.7":
-  version: 8.11.7
-  resolution: "@tanstack/react-table@npm:8.11.7"
+"@tanstack/react-table@npm:8.21.2":
+  version: 8.21.2
+  resolution: "@tanstack/react-table@npm:8.21.2"
   dependencies:
-    "@tanstack/table-core": 8.11.7
+    "@tanstack/table-core": 8.21.2
   peerDependencies:
-    react: ">=16"
-    react-dom: ">=16"
-  checksum: 47aaf7b94e32de136a218f9afafbae832949560020f344fdbda69bad80d4c4f8be1eff0c4b1b4628e4966b1cda9db0cd219fea1c6815cdbcf042db00b789b026
+    react: ">=16.8"
+    react-dom: ">=16.8"
+  checksum: 3cda97794c10777d48d01de29d087a33edd8af153b3096ac9798c7ebddd31bd34f2b7838ecf4bddaf469d661a777556bd8021e15a41f692eb2e3dd79dd0e5c3b
   languageName: node
   linkType: hard
 
-"@tanstack/table-core@npm:8.11.7":
-  version: 8.11.7
-  resolution: "@tanstack/table-core@npm:8.11.7"
-  checksum: 0db445806a85d2a226225c7a6b31dae0e8be477172c0cabb796ccb2766bfec4c6a8930ebbaa7b4d410de170e1c41f2005bb47762677c059aecba69d65d22e496
+"@tanstack/table-core@npm:8.21.2":
+  version: 8.21.2
+  resolution: "@tanstack/table-core@npm:8.21.2"
+  checksum: 21573388b26cef9c6fcabe3785640c470ea072a6d6ec34543e7eaf54ee742bf5fb12f8a04b172d7e08bd828a35afd7133add5adb4729dd4f94eaf4745b1cab14
   languageName: node
   linkType: hard
 
