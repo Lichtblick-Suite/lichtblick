@@ -49,6 +49,8 @@ export default function ExtensionsSettings(): React.ReactElement {
     return (
       <ExtensionDetails
         installed={focusedExtension.installed}
+        installing={focusedExtension.installing}
+        uninstalling={focusedExtension.uninstalling}
         extension={focusedExtension.entry}
         onClose={() => {
           setFocusedExtension(undefined);

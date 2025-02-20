@@ -23,6 +23,8 @@ export type InstalledExtension = {
 
 export type FocusedExtension = {
   installed: boolean;
+  installing: boolean;
+  uninstalling: boolean;
   entry: Immutable<ExtensionMarketplaceDetail>;
 };
 
