@@ -91,6 +91,7 @@ import WorkspaceContextProvider from "@lichtblick/suite-base/providers/Workspace
 import ICONS from "@lichtblick/suite-base/theme/icons";
 import { parseAppURLState } from "@lichtblick/suite-base/util/appURLState";
 import isDesktopApp from "@lichtblick/suite-base/util/isDesktopApp";
+import { parseTimestampStr } from "@lichtblick/suite-base/util/parseMultipleTimes";
 
 import { useWorkspaceActions } from "./context/Workspace/useWorkspaceActions";
 
@@ -619,26 +620,22 @@ function WorkspaceContent(props: WorkspaceProps): React.JSX.Element {
 
   // Seek to time in Parameters from CLI.
   useEffect(() => {
-    log.debug(`Seeking to time:`, time);
     if (!time || !seek) {
       return;
     }
 
-    console.log("Seeking to time:", time);
     // Wait until player is ready before we try to seek.
     if (playerPresence !== PlayerPresence.PRESENT) {
       return;
     }
 
-    const parsedTime = fromSec(Number(time));
-
-    console.log("Parsed time:", parsedTime);
+    const parsedTime = parseTimestampStr(time);
 
     if (parsedTime == undefined) {
       return;
     }
 
-    seek(parsedTime);
+    seek(fromSec(parsedTime));
   }, [playerPresence, seek, time]);
 
   const appBar = useMemo(

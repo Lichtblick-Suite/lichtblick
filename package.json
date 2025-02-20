@@ -95,6 +95,7 @@
     "@types/case-sensitive-paths-webpack-plugin": "2.1.9",
     "@types/jest": "29.5.14",
     "@types/license-checker": "^25.0.6",
+    "@types/luxon": "^3",
     "@types/node": "22.9.3",
     "@types/react-refresh": "^0",
     "@types/semver": "^7.5.3",
@@ -147,6 +148,8 @@
     "@lichtblick/ros2idl-parser": "1.0.0",
     "@lichtblick/suite": "workspace:*",
     "@mui/material": "5.13.5",
+    "chrono-node": "2.7.8",
+    "luxon": "3.5.0",
     "react-use": "17.5.1",
     "rehype-raw": "6.1.1",
     "vm-browserify": "1.1.2"
