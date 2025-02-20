@@ -15,7 +15,7 @@ export type DataSourceFactoryInitializeArgs = {
   metricsCollector: PlayerMetricsCollectorInterface;
   file?: File;
   files?: File[];
-  params?: Record<string, string | undefined>;
+  params?: Record<string, string | string[] | undefined>;
 };
 
 export type DataSourceFactoryType = "file" | "connection" | "sample";

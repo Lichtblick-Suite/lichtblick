@@ -45,12 +45,19 @@ class RosbridgeDataSourceFactory implements IDataSourceFactory {
   };
 
   public initialize(args: DataSourceFactoryInitializeArgs): Player | undefined {
+    let rosbridgeSource = "";
     const url = args.params?.url;
-    if (!url) {
+    if (url == undefined) {
       return;
+    } else if (Array.isArray(url) && url[0]) {
+      rosbridgeSource = url[0];
     }
 
-    return new RosbridgePlayer({ url, metricsCollector: args.metricsCollector, sourceId: this.id });
+    return new RosbridgePlayer({
+      url: rosbridgeSource,
+      metricsCollector: args.metricsCollector,
+      sourceId: this.id,
+    });
   }
 }
 

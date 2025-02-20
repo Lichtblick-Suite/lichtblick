@@ -31,7 +31,7 @@ class VelodyneDataSourceFactory implements IDataSourceFactory {
       return;
     }
 
-    const port = parseInt(portStr);
+    const port = parseInt(portStr as string);
 
     return new VelodynePlayer({ port, metricsCollector: args.metricsCollector });
   }

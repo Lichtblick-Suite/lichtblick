@@ -49,9 +49,12 @@ class Ros1SocketDataSourceFactory implements IDataSourceFactory {
   };
 
   public initialize(args: DataSourceFactoryInitializeArgs): Player | undefined {
+    let ros1Source = "";
     const url = args.params?.url;
-    if (!url) {
+    if (url == undefined) {
       return;
+    } else if (Array.isArray(url) && url[0]) {
+      ros1Source = url[0];
     }
 
     const hostname = args.params?.hostname;
@@ -60,7 +63,7 @@ class Ros1SocketDataSourceFactory implements IDataSourceFactory {
     }
 
     return new Ros1Player({
-      url,
+      url: ros1Source,
       hostname,
       metricsCollector: args.metricsCollector,
       sourceId: this.id,

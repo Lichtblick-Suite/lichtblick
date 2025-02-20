@@ -71,11 +71,17 @@ export function parseAppURLState(url: URL): AppURLState | undefined {
   const ds = url.searchParams.get("ds") ?? undefined;
   const timeString = url.searchParams.get("time");
   const time = timeString == undefined ? undefined : fromRFC3339String(timeString);
-  const dsParams: Record<string, string> = {};
+  const dsParams: Record<string, string | string[]> = {};
   url.searchParams.forEach((v, k) => {
     if (k && v && k.startsWith("ds.")) {
       const cleanKey = k.replace(/^ds./, "");
-      dsParams[cleanKey] = v;
+      if (dsParams[cleanKey] == undefined) {
+        dsParams[cleanKey] = v;
+      } else if (Array.isArray(dsParams[cleanKey])) {
+        (dsParams[cleanKey] as string[]).push(v);
+      } else {
+        dsParams[cleanKey] = [dsParams[cleanKey] as string, v];
+      }
     }
   });
 

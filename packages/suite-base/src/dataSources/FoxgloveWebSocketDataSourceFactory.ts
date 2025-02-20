@@ -57,13 +57,16 @@ export default class FoxgloveWebSocketDataSourceFactory implements IDataSourceFa
   };
 
   public initialize(args: DataSourceFactoryInitializeArgs): Player | undefined {
+    let foxgloveWSSource = "";
     const url = args.params?.url;
-    if (!url) {
+    if (url == undefined) {
       return;
+    } else if (Array.isArray(url) && url[0]) {
+      foxgloveWSSource = url[0];
     }
 
     return new FoxgloveWebSocketPlayer({
-      url,
+      url: foxgloveWSSource,
       metricsCollector: args.metricsCollector,
       sourceId: this.id,
     });
