@@ -22,6 +22,7 @@ import { Trans, useTranslation } from "react-i18next";
 import { makeStyles } from "tss-react/mui";
 
 import Logger from "@lichtblick/log";
+import { fromNanoSec, fromRFC3339String, fromSec, fromString } from "@lichtblick/rostime";
 import { AppSetting } from "@lichtblick/suite-base/AppSetting";
 import AccountSettings from "@lichtblick/suite-base/components/AccountSettingsSidebar/AccountSettings";
 import { AppBar, AppBarProps } from "@lichtblick/suite-base/components/AppBar";
@@ -60,6 +61,7 @@ import { TopicList } from "@lichtblick/suite-base/components/TopicList";
 import VariablesList from "@lichtblick/suite-base/components/VariablesList";
 import { WorkspaceDialogs } from "@lichtblick/suite-base/components/WorkspaceDialogs";
 import { useAppContext } from "@lichtblick/suite-base/context/AppContext";
+import { useAppParameters } from "@lichtblick/suite-base/context/AppParametersContext";
 import {
   LayoutState,
   useCurrentLayoutSelector,
@@ -612,6 +614,32 @@ function WorkspaceContent(props: WorkspaceProps): React.JSX.Element {
     seek(unappliedTime.time);
     setUnappliedTime({ time: undefined });
   }, [playerPresence, seek, unappliedTime]);
+
+  const { time } = useAppParameters();
+
+  // Seek to time in Parameters from CLI.
+  useEffect(() => {
+    log.debug(`Seeking to time:`, time);
+    if (!time || !seek) {
+      return;
+    }
+
+    console.log("Seeking to time:", time);
+    // Wait until player is ready before we try to seek.
+    if (playerPresence !== PlayerPresence.PRESENT) {
+      return;
+    }
+
+    const parsedTime = fromSec(Number(time));
+
+    console.log("Parsed time:", parsedTime);
+
+    if (parsedTime == undefined) {
+      return;
+    }
+
+    seek(parsedTime);
+  }, [playerPresence, seek, time]);
 
   const appBar = useMemo(
     () => (
