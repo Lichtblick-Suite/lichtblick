@@ -12,6 +12,7 @@ import {
   IDataSourceFactory,
   DataSourceFactoryInitializeArgs,
 } from "@lichtblick/suite-base/context/PlayerSelectionContext";
+import { fileTypesAllowed } from "@lichtblick/suite-base/dataSources/constants";
 import {
   IterablePlayer,
   WorkerIterableSource,
@@ -40,19 +41,15 @@ const initWorkers: Record<string, () => Worker> = {
 };
 
 export function isFileExtensionAllowed(fileExtension: string): void {
-  const allowedExtensions = [".mcap", ".bag"];
-
   if (
-    !allowedExtensions.some(
-      (allowedExtension) => fileExtension.toLocaleLowerCase() === allowedExtension,
-    )
+    !fileTypesAllowed.some((allowedExtension) => fileExtension.toLowerCase() === allowedExtension)
   ) {
     throw new Error(`Unsupported extension: ${fileExtension}`);
   }
 }
 
 export function checkExtensionMatch(fileExtension: string, previousExtension?: string): string {
-  if (!(previousExtension == undefined) && !(previousExtension === fileExtension)) {
+  if (previousExtension != undefined && previousExtension !== fileExtension) {
     throw new Error("All sources need to be from the same type");
   }
   return fileExtension;
@@ -70,7 +67,7 @@ class RemoteDataSourceFactory implements IDataSourceFactory {
   public type: IDataSourceFactory["type"] = "connection";
   public displayName = "Remote file";
   public iconName: IDataSourceFactory["iconName"] = "FileASPX";
-  public supportedFileTypes = [".bag", ".mcap"];
+  public supportedFileTypes = fileTypesAllowed;
   public description = "Open pre-recorded .bag or .mcap files from a remote location.";
   public docsLinks = [
     {
