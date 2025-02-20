@@ -92,7 +92,7 @@ describe("RemoteDataSourceFactory", () => {
     factory = new RemoteDataSourceFactory();
   });
   it("should initialize and return a player", () => {
-    const mockArgs: DataSourceFactoryInitializeArgs = setupArgs({
+    const mockArgs = setupArgs({
       url: "https://example.com/test.mcap",
     });
 
@@ -115,7 +115,7 @@ describe("RemoteDataSourceFactory", () => {
   });
 
   it("should initialize and return a player with multiple files", () => {
-    const mockArgs: DataSourceFactoryInitializeArgs = setupArgs({
+    const mockArgs = setupArgs({
       url: ["https://example.com/test1.mcap", "https://example.com/test2.mcap"],
     });
 
@@ -132,8 +132,16 @@ describe("RemoteDataSourceFactory", () => {
     expect(result).toBe(mockPlayer);
   });
 
+  it("should return undefined if args.params.url is undefined", () => {
+    const mockArgs = setupArgs();
+
+    const result = factory.initialize(mockArgs);
+
+    expect(result).toBeUndefined();
+  });
+
   it("should throw an error for unsupported file extensions", () => {
-    const mockArgs: DataSourceFactoryInitializeArgs = setupArgs({
+    const mockArgs = setupArgs({
       url: "https://example.com/test.txt",
     });
 
@@ -141,7 +149,7 @@ describe("RemoteDataSourceFactory", () => {
   });
 
   it("should throw an error if the multiple sources don't have the same file extension", () => {
-    const mockArgs: DataSourceFactoryInitializeArgs = setupArgs({
+    const mockArgs = setupArgs({
       url: ["https://example.com/test.mcap", "https://example.com/test.bag"],
     });
 
