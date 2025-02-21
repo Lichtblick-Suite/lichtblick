@@ -75,7 +75,13 @@ export const Details: StoryObj = {
       <AppConfigurationContext.Provider value={config}>
         <ExtensionCatalogProvider loaders={[MockExtensionLoader]}>
           <ExtensionMarketplaceContext.Provider value={MockExtensionMarketplace}>
-            <ExtensionDetails extension={extension} onClose={() => {}} installed={false} />
+            <ExtensionDetails
+              extension={extension}
+              onClose={() => {}}
+              installed={false}
+              installing={false}
+              uninstalling={false}
+            />
           </ExtensionMarketplaceContext.Provider>
         </ExtensionCatalogProvider>
       </AppConfigurationContext.Provider>
