@@ -57,7 +57,7 @@ export default function ExtensionList({
             key={entry.id}
             entry={entry}
             onClick={() => {
-              selectExtension({ installed: true, installing: false, uninstalling: false, entry });
+              selectExtension({ installed: true, entry });
             }}
             searchText={filterText}
           />

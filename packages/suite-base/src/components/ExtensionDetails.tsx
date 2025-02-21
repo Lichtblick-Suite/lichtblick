@@ -26,8 +26,6 @@ import isDesktopApp from "@lichtblick/suite-base/util/isDesktopApp";
 
 type Props = {
   installed: boolean;
-  installing: boolean;
-  uninstalling: boolean;
   extension: Immutable<ExtensionMarketplaceDetail>;
   onClose: () => void;
 };
@@ -54,17 +52,12 @@ const useStyles = makeStyles()((theme) => ({
  * @param {Function} props.onClose - Callback function to close the details view.
  * @returns {React.ReactElement} The rendered component.
  */
-export function ExtensionDetails({
-  extension,
-  onClose,
-  installed,
-  installing,
-  uninstalling,
-}: Props): React.ReactElement {
+export function ExtensionDetails({ extension, onClose, installed }: Props): React.ReactElement {
   const { classes } = useStyles();
   const [isInstalled, setIsInstalled] = useState(installed);
-  const [isInstalling, setIsInstalling] = useState(installing);
-  const [isUninstalling, setIsUninstalling] = useState(uninstalling);
+  const [operationStatus, setOperationStatus] = useState<"idle" | "installing" | "uninstalling">(
+    "idle",
+  );
   const [activeTab, setActiveTab] = useState<number>(0);
   const isMounted = useMountedState();
   const downloadExtension = useExtensionCatalog((state) => state.downloadExtension);
@@ -108,29 +101,21 @@ export function ExtensionDetails({
       if (url == undefined) {
         throw new Error(`Cannot install extension ${extension.id}, "foxe" URL is missing`);
       }
-
-      try {
-        setIsInstalling(true);
-        const data = await downloadExtension(url);
-        await installExtension("local", data);
-        enqueueSnackbar(`${extension.name} installed successfully`, { variant: "success" });
-        setIsInstalling(false);
-      } catch (e: unknown) {
-        const err = e as Error;
-        enqueueSnackbar(`Failed to install extension ${extension.id}. ${err.message}`, {
-          variant: "error",
-        });
-      }
-
+      setOperationStatus("installing");
+      const data = await downloadExtension(url);
+      await installExtension("local", data);
+      enqueueSnackbar(`${extension.name} installed successfully`, { variant: "success" });
       if (isMounted()) {
         setIsInstalled(true);
+        setOperationStatus("idle");
         void analytics.logEvent(AppEvent.EXTENSION_INSTALL, { type: extension.id });
       }
     } catch (e: unknown) {
       const err = e as Error;
-      enqueueSnackbar(`Failed to download extension ${extension.id}. ${err.message}`, {
+      enqueueSnackbar(`Failed to install extension ${extension.id}. ${err.message}`, {
         variant: "error",
       });
+      setOperationStatus("idle");
     }
   }, [
     analytics,
@@ -152,20 +137,20 @@ export function ExtensionDetails({
    */
   const uninstall = useCallback(async () => {
     try {
-      setIsUninstalling(true);
+      setOperationStatus("uninstalling");
       await uninstallExtension(extension.namespace ?? "local", extension.id);
       enqueueSnackbar(`${extension.name} uninstalled successfully`, { variant: "success" });
-      setIsUninstalling(false);
+      if (isMounted()) {
+        setIsInstalled(false);
+        setOperationStatus("idle");
+        void analytics.logEvent(AppEvent.EXTENSION_UNINSTALL, { type: extension.id });
+      }
     } catch (e: unknown) {
       const err = e as Error;
       enqueueSnackbar(`Failed to uninstall extension ${extension.id}. ${err.message}`, {
         variant: "error",
       });
-    }
-
-    if (isMounted()) {
-      setIsInstalled(false);
-      void analytics.logEvent(AppEvent.EXTENSION_UNINSTALL, { type: extension.id });
+      setOperationStatus("idle");
     }
   }, [
     analytics,
@@ -220,29 +205,7 @@ export function ExtensionDetails({
             {extension.description}
           </Typography>
         </Stack>
-        {isInstalling ? (
-          <Button
-            className={classes.installButton}
-            size="small"
-            key="installing"
-            color="inherit"
-            variant="contained"
-            disabled
-          >
-            Installing...
-          </Button>
-        ) : isUninstalling ? (
-          <Button
-            className={classes.installButton}
-            size="small"
-            key="uninstalling"
-            color="inherit"
-            variant="contained"
-            disabled
-          >
-            Uninstalling...
-          </Button>
-        ) : isInstalled && canUninstall ? (
+        {isInstalled && canUninstall ? (
           <Button
             className={classes.installButton}
             size="small"
@@ -250,8 +213,9 @@ export function ExtensionDetails({
             color="inherit"
             variant="contained"
             onClick={uninstall}
+            disabled={operationStatus !== "idle"}
           >
-            Uninstall
+            {operationStatus === "uninstalling" ? "Uninstalling..." : "Uninstall"}
           </Button>
         ) : (
           canInstall && (
@@ -262,8 +226,9 @@ export function ExtensionDetails({
               color="inherit"
               variant="contained"
               onClick={downloadAndInstall}
+              disabled={operationStatus !== "idle"}
             >
-              Install
+              {operationStatus === "installing" ? "Installing..." : "Install"}
             </Button>
           )
         )}

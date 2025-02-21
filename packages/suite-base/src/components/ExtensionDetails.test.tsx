@@ -87,15 +87,7 @@ describe("ExtensionDetails Component", () => {
   });
 
   it("renders the extension details correctly", () => {
-    render(
-      <ExtensionDetails
-        extension={mockExtension}
-        onClose={() => {}}
-        installed={false}
-        installing={false}
-        uninstalling={false}
-      />,
-    );
+    render(<ExtensionDetails extension={mockExtension} onClose={() => {}} installed={false} />);
     expect(screen.getByText(new RegExp(mockExtension.name, "i"))).toBeInTheDocument();
     expect(screen.getByText(new RegExp(`v${mockExtension.version}`, "i"))).toBeInTheDocument();
     expect(screen.getByText(new RegExp(mockExtension.license, "i"))).toBeInTheDocument();
@@ -107,15 +99,7 @@ describe("ExtensionDetails Component", () => {
 
   it("calls onClose when the back button is clicked", () => {
     const mockOnClose = jest.fn();
-    render(
-      <ExtensionDetails
-        extension={mockExtension}
-        onClose={mockOnClose}
-        installed={false}
-        installing={false}
-        uninstalling={false}
-      />,
-    );
+    render(<ExtensionDetails extension={mockExtension} onClose={mockOnClose} installed={false} />);
 
     const backButton = screen.getByText("Back");
     fireEvent.click(backButton);
@@ -130,15 +114,7 @@ describe("ExtensionDetails Component", () => {
       mockDownloadExtension.mockResolvedValue(new Uint8Array());
       mockInstallExtension.mockResolvedValue({});
 
-      render(
-        <ExtensionDetails
-          extension={mockExtension}
-          onClose={() => {}}
-          installed={false}
-          installing={false}
-          uninstalling={false}
-        />,
-      );
+      render(<ExtensionDetails extension={mockExtension} onClose={() => {}} installed={false} />);
 
       const installButton = screen.getByText("Install");
       fireEvent.click(installButton);
@@ -159,15 +135,7 @@ describe("ExtensionDetails Component", () => {
     it("displays an error message when not on desktop app", async () => {
       (isDesktopApp as jest.Mock).mockReturnValue(false);
 
-      render(
-        <ExtensionDetails
-          extension={mockExtension}
-          onClose={() => {}}
-          installed={false}
-          installing={false}
-          uninstalling={false}
-        />,
-      );
+      render(<ExtensionDetails extension={mockExtension} onClose={() => {}} installed={false} />);
 
       const installButton = screen.getByText("Install");
       fireEvent.click(installButton);
@@ -187,15 +155,7 @@ describe("ExtensionDetails Component", () => {
 
       mockDownloadExtension.mockRejectedValue(new Error("Download failed"));
 
-      render(
-        <ExtensionDetails
-          extension={mockExtension}
-          onClose={() => {}}
-          installed={false}
-          installing={false}
-          uninstalling={false}
-        />,
-      );
+      render(<ExtensionDetails extension={mockExtension} onClose={() => {}} installed={false} />);
 
       const installButton = screen.getByText("Install");
       fireEvent.click(installButton);
@@ -212,15 +172,7 @@ describe("ExtensionDetails Component", () => {
   it("handles the uninstall process successfully", async () => {
     mockUninstallExtension.mockResolvedValue(undefined);
 
-    render(
-      <ExtensionDetails
-        extension={mockExtension}
-        onClose={() => {}}
-        installed={true}
-        installing={false}
-        uninstalling={false}
-      />,
-    );
+    render(<ExtensionDetails extension={mockExtension} onClose={() => {}} installed={true} />);
 
     const uninstallButton = screen.getByText("Uninstall");
     fireEvent.click(uninstallButton);
@@ -243,15 +195,7 @@ describe("ExtensionDetails Component", () => {
   it("displays an error message when the uninstall process fails", async () => {
     mockUninstallExtension.mockRejectedValue(new Error("Uninstall failed"));
 
-    render(
-      <ExtensionDetails
-        extension={mockExtension}
-        onClose={() => {}}
-        installed={true}
-        installing={false}
-        uninstalling={false}
-      />,
-    );
+    render(<ExtensionDetails extension={mockExtension} onClose={() => {}} installed={true} />);
 
     const uninstallButton = screen.getByText("Uninstall");
     fireEvent.click(uninstallButton);
