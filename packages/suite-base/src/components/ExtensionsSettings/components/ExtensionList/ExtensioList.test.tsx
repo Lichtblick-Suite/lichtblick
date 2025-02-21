@@ -127,6 +127,8 @@ describe("ExtensionList Component", () => {
 
     expect(mockSelectExtension).toHaveBeenCalledWith({
       installed: true,
+      installing: false,
+      uninstalling: false,
       entry: mockEntries[0],
     });
   });
