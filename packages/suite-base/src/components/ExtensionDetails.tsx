@@ -42,6 +42,18 @@ const useStyles = makeStyles()((theme) => ({
   },
 }));
 
+/**
+ * ExtensionDetails component displays detailed information about a specific extension.
+ * It allows users to install, uninstall, and view the README and CHANGELOG of the extension.
+ *
+ * @param {Object} props - The component props.
+ * @param {boolean} props.installed - Indicates if the extension is already installed.
+ * @param {boolean} props.installing - Indicates if the extension is currently being installed.
+ * @param {boolean} props.uninstalling - Indicates if the extension is currently being uninstalled.
+ * @param {Immutable<ExtensionMarketplaceDetail>} props.extension - The extension details.
+ * @param {Function} props.onClose - Callback function to close the details view.
+ * @returns {React.ReactElement} The rendered component.
+ */
 export function ExtensionDetails({
   extension,
   onClose,
@@ -76,6 +88,13 @@ export function ExtensionDetails({
 
   const analytics = useAnalytics();
 
+  /**
+   * Handles the download and installation of the extension.
+   *
+   * @async
+   * @function downloadAndInstall
+   * @returns {Promise<void>}
+   */
   const downloadAndInstall = useCallback(async () => {
     if (!isDesktopApp()) {
       enqueueSnackbar("Download the desktop app to use marketplace extensions.", {
@@ -124,6 +143,13 @@ export function ExtensionDetails({
     extension.name,
   ]);
 
+  /**
+   * Handles the uninstallation of the extension.
+   *
+   * @async
+   * @function uninstall
+   * @returns {Promise<void>}
+   */
   const uninstall = useCallback(async () => {
     try {
       setIsUninstalling(true);
