@@ -89,10 +89,10 @@ export function ExtensionDetails({
       if (url == undefined) {
         throw new Error(`Cannot install extension ${extension.id}, "foxe" URL is missing`);
       }
-      const data = await downloadExtension(url);
 
       try {
         setIsInstalling(true);
+        const data = await downloadExtension(url);
         await installExtension("local", data);
         enqueueSnackbar(`${extension.name} installed successfully`, { variant: "success" });
         setIsInstalling(false);
