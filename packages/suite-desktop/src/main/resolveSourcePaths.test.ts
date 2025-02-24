@@ -31,13 +31,6 @@ function buildPath(): string {
   return `${genericString()}/${genericString()}`;
 }
 
-function buildArgv(homeDir: string, path?: string): void {
-  const electronPath = `~/${homeDir}lichtblick/node_modules/electron/dist/electron.exe`;
-  process.argv = path
-    ? [electronPath, "desktop/.webpack", path]
-    : [electronPath, "desktop/.webpack"];
-}
-
 function setup(fsConfigOverride?: DirectoryItems) {
   const path = buildPath();
   const file1 = buildFile({ extension: "txt" });
@@ -165,137 +158,72 @@ describe("resolveSourcePaths", () => {
     jest.resetAllMocks();
   });
 
-  it("should return an empty array because there was no files or a directory passed", () => {
-    const homeDir = buildPath();
-    buildArgv(homeDir);
+  it("should return an empty array because there was no source parameter provided", () => {
+    const mockSourceParameter = undefined;
 
-    const result = resolveSourcePaths();
+    const result = resolveSourcePaths(mockSourceParameter);
 
     expect(result).toEqual([]);
   });
 
-  it("should return an array with a single file passed through process.argv not using source CLI parameter", () => {
-    const homeDir = buildPath();
-    const file = buildFile({ extension: ".mcap" });
-    const pathToFile = `~/${homeDir}/${file.name}`;
-    buildArgv(homeDir, pathToFile);
+  it("should return an array with a single path to a file", () => {
+    const path = buildPath();
+    const file = buildFile({ extension: "mcap" });
+    const sourceParameter = `~/${path}/${file.name}`;
 
-    const result = resolveSourcePaths();
-
-    expect(result[0]).toContain(file.name);
-  });
-
-  it("should return an array with a single file passed through process.argv using source CLI parameter", () => {
-    const homeDir = buildPath();
-    const file = buildFile({ extension: ".mcap" });
-    const pathToFile = `--source=~/${homeDir}/${file.name}`;
-    buildArgv(homeDir, pathToFile);
-
-    const result = resolveSourcePaths();
+    const result = resolveSourcePaths(sourceParameter);
 
     expect(result[0]).toContain(file.name);
   });
 
-  it("should return an array with both files passed through process.argv not using source CLI parameter", () => {
-    const homeDir = buildPath();
-    const file1 = buildFile({ extension: ".mcap" });
-    const file2 = buildFile({ extension: ".mcap" });
-    const pathToFile = `~/${homeDir}/${file1.name},~/${homeDir}/${file2.name}`;
-    buildArgv(homeDir, pathToFile);
+  it("should return an array with multiple paths to supported files", () => {
+    const path = buildPath();
+    const file1 = buildFile({ extension: "mcap" });
+    const file2 = buildFile({ extension: "mcap" });
+    const sourceParameter = `c:/test/${path}/${file1.name},~/${path}/${file2.name},`;
 
-    const result = resolveSourcePaths();
+    const result = resolveSourcePaths(sourceParameter);
 
     expect(result[0]).toContain(file1.name);
     expect(result[1]).toContain(file2.name);
   });
 
-  it("should return an array with all files passed through process.argv using source CLI parameter", () => {
-    const homeDir = buildPath();
-    const file1 = buildFile({ extension: ".mcap" });
-    const file2 = buildFile({ extension: ".mcap" });
-    const file3 = buildFile({ extension: ".mcap" });
-    const pathToFile = `--source=~/${homeDir}/${file1.name},~/${homeDir}/${file2.name},~/${homeDir}/${file3.name}`;
-    buildArgv(homeDir, pathToFile);
+  it("should return an empty array after getting a path to a directory with no mcap files", () => {
+    jest.spyOn(fs, "statSync").mockReturnValueOnce({
+      isDirectory: () => true,
+    } as Stats);
+    const path = buildPath();
+    const sourceParameter = `~/${path}`;
 
-    const result = resolveSourcePaths();
-
-    expect(result[0]).toContain(file1.name);
-    expect(result[1]).toContain(file2.name);
-    expect(result[2]).toContain(file3.name);
-  });
-
-  it("should return an empty array after getting a path to a directory with no mcap files while not using source CLI parameter", () => {
-    jest.spyOn(fs, "statSync").mockReturnValueOnce({ isDirectory: () => true } as Stats);
-    const homeDir = buildPath();
-    buildArgv(homeDir, homeDir);
-
-    const result = resolveSourcePaths();
+    const result = resolveSourcePaths(sourceParameter);
 
     expect(result).toEqual([]);
   });
 
-  it("should return an empty array after getting a path to a directory with no mcap files while using source CLI parameter", () => {
-    jest.spyOn(fs, "statSync").mockReturnValueOnce({ isDirectory: () => true } as Stats);
-    const homePath = buildPath();
-    const pathToFile = `--source=${homePath}`;
-    buildArgv(homePath, pathToFile);
-
-    const result = resolveSourcePaths();
-
-    expect(result).toEqual([]);
-  });
-
-  it("should return an array with mcap files after getting a path to a directory with multiple files, some being .mcap, while not using source CLI parameter", () => {
-    const homeDir = buildPath();
+  it("should return an array with mcap files after getting a path to a directory with mcap files", () => {
+    const path = `/${buildPath()}`;
     const file1 = buildFile({ extension: "mcap" });
     const file2 = buildFile({ extension: "bag" });
     const file3 = buildFile({ extension: "mcap" });
-    jest.spyOn(fs, "statSync").mockReturnValueOnce({ isDirectory: () => true } as Stats);
+    jest.spyOn(fs, "statSync").mockReturnValueOnce({
+      isDirectory: () => true,
+    } as Stats);
     jest
       .spyOn(fs, "readdirSync")
       .mockReturnValueOnce([file1.name, file3.name] as unknown as Dirent[]);
 
     setup({
-      [homeDir]: {
+      [path]: {
         [file1.name]: file1.content,
         [file2.name]: file2.content,
-        [file3.name]: file3.content,
+        [file3.name]: file1.content,
       },
     });
+    const mockSourceParameter = `~${path}`;
 
-    buildArgv(homeDir, homeDir);
+    const result = resolveSourcePaths(mockSourceParameter);
 
-    const result = resolveSourcePaths();
-
-    expect(result.length).toBe(2);
     expect(result[0]).toContain(file1.name);
     expect(result[1]).toContain(file3.name);
-  });
-
-  it("should return an array with mcap files after getting a path to a directory with multiple files, some being .mcap, while using source CLI parameter", () => {
-    const homeDir = buildPath();
-    const pathToFile = `--source=${homeDir}`;
-    const file1 = buildFile({ extension: "bag" });
-    const file2 = buildFile({ extension: "bag" });
-    const file3 = buildFile({ extension: "mcap" });
-    jest.spyOn(fs, "statSync").mockReturnValueOnce({ isDirectory: () => true } as Stats);
-    jest
-      .spyOn(fs, "readdirSync")
-      .mockReturnValueOnce([file1.name, file3.name] as unknown as Dirent[]);
-
-    setup({
-      [homeDir]: {
-        [file1.name]: file1.content,
-        [file2.name]: file2.content,
-        [file3.name]: file3.content,
-      },
-    });
-
-    buildArgv(homeDir, pathToFile);
-
-    const result = resolveSourcePaths();
-
-    expect(result.length).toBe(1);
-    expect(result[0]).toContain(file3.name);
   });
 });
