@@ -142,10 +142,8 @@ export async function main(): Promise<void> {
       log.warn("Could not set app as handler for lichtblick://");
     }
   }
-  // Get the command line flags passed to the app when it was launched
-  const parsedCLIFlags = parseCLIFlags(process.argv);
 
-  const filesToOpen = resolveSourcePaths(parsedCLIFlags.source);
+  const filesToOpen = resolveSourcePaths(process.argv);
 
   const verifiedFilesToOpen: string[] = filesToOpen.filter(isFileToOpen);
 
@@ -212,6 +210,8 @@ export async function main(): Promise<void> {
   ipcMain.handle("getUserDataPath", () => app.getPath("userData"));
   ipcMain.handle("getHomePath", () => app.getPath("home"));
 
+  // Get the command line flags passed to the app when it was launched
+  const parsedCLIFlags = parseCLIFlags(process.argv);
   ipcMain.handle("getCLIFlags", () => parsedCLIFlags);
 
   // Must be called before app.ready event

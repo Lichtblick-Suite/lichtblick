@@ -32,7 +32,13 @@ export function isPathToDirectory(paths: string[]): boolean {
   }
 }
 
-export function resolveSourcePaths(sourceParameter: string | undefined): string[] {
+export function resolveSourcePaths(argv: string[]): string[] {
+  const initializationArgs: string[] = argv
+    .slice(2)
+    .filter((arg) => !arg.startsWith("--") || arg.startsWith("--source="));
+
+  const sourceParameter = initializationArgs[0]?.replace("--source=", "");
+
   if (!sourceParameter) {
     return [];
   }
