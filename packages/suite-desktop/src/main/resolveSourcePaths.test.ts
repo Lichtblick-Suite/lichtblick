@@ -223,6 +223,7 @@ describe("resolveSourcePaths", () => {
 
     const result = resolveSourcePaths(mockSourceParameter);
 
+    expect(result.length).toBe(2)
     expect(result[0]).toContain(file1.name);
     expect(result[1]).toContain(file3.name);
   });
