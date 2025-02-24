@@ -9,10 +9,11 @@ import {
   IDataSourceFactory,
   usePlayerSelection,
 } from "@lichtblick/suite-base/context/PlayerSelectionContext";
+import { MCAP_ACCEPT_TYPE } from "@lichtblick/suite-base/context/Workspace/constants";
 import BasicBuilder from "@lichtblick/suite-base/testing/builders/BasicBuilder";
 import showOpenFilePicker from "@lichtblick/suite-base/util/showOpenFilePicker";
 
-import { MCAP_ACCEPT_TYPE, useOpenFile } from "./useOpenFile";
+import { useOpenFile } from "./useOpenFile";
 
 jest.mock("@lichtblick/suite-base/context/PlayerSelectionContext", () => ({
   usePlayerSelection: jest.fn(),
