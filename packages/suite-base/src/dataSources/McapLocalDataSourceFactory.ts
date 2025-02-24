@@ -24,11 +24,8 @@ class McapLocalDataSourceFactory implements IDataSourceFactory {
   public supportsMultiFile = true;
 
   public initialize(args: DataSourceFactoryInitializeArgs): Player | undefined {
-    const files = args.files ?? [];
+    const files = [...(args.files ?? []), ...(args.file ? [args.file] : [])];
 
-    if (args.file) {
-      files.push(args.file);
-    }
     if (files.length === 0) {
       return;
     }
