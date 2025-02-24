@@ -142,8 +142,7 @@ export async function main(): Promise<void> {
       log.warn("Could not set app as handler for lichtblick://");
     }
   }
-
-  const filesToOpen = resolveSourcePaths(process.argv);
+  const filesToOpen = resolveSourcePaths();
 
   const verifiedFilesToOpen: string[] = filesToOpen.filter(isFileToOpen);
 

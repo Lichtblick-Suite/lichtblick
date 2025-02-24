@@ -32,8 +32,8 @@ export function isPathToDirectory(paths: string[]): boolean {
   }
 }
 
-export function resolveSourcePaths(argv: string[]): string[] {
-  const initializationArgs: string[] = argv
+export function resolveSourcePaths(): string[] {
+  const initializationArgs: string[] = process.argv
     .slice(2)
     .filter((arg) => !arg.startsWith("--") || arg.startsWith("--source="));
 

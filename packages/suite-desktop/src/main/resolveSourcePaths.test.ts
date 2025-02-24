@@ -31,9 +31,11 @@ function buildPath(): string {
   return `${genericString()}/${genericString()}`;
 }
 
-function buildArgv(homeDir: string, path?: string): string[] {
+function buildArgv(homeDir: string, path?: string): void {
   const electronPath = `~/${homeDir}lichtblick/node_modules/electron/dist/electron.exe`;
-  return path ? [electronPath, "desktop/.webpack", path] : [electronPath, "desktop/.webpack"];
+  process.argv = path
+    ? [electronPath, "desktop/.webpack", path]
+    : [electronPath, "desktop/.webpack"];
 }
 
 function setup(fsConfigOverride?: DirectoryItems) {
@@ -165,9 +167,9 @@ describe("resolveSourcePaths", () => {
 
   it("should return an empty array because there was no files or a directory passed", () => {
     const homeDir = buildPath();
-    const mockArgv = buildArgv(homeDir);
+    buildArgv(homeDir);
 
-    const result = resolveSourcePaths(mockArgv);
+    const result = resolveSourcePaths();
 
     expect(result).toEqual([]);
   });
@@ -176,9 +178,9 @@ describe("resolveSourcePaths", () => {
     const homeDir = buildPath();
     const file = buildFile({ extension: ".mcap" });
     const pathToFile = `~/${homeDir}/${file.name}`;
-    const mockArgv = buildArgv(homeDir, pathToFile);
+    buildArgv(homeDir, pathToFile);
 
-    const result = resolveSourcePaths(mockArgv);
+    const result = resolveSourcePaths();
 
     expect(result[0]).toContain(file.name);
   });
@@ -187,9 +189,9 @@ describe("resolveSourcePaths", () => {
     const homeDir = buildPath();
     const file = buildFile({ extension: ".mcap" });
     const pathToFile = `--source=~/${homeDir}/${file.name}`;
-    const mockArgv = buildArgv(homeDir, pathToFile);
+    buildArgv(homeDir, pathToFile);
 
-    const result = resolveSourcePaths(mockArgv);
+    const result = resolveSourcePaths();
 
     expect(result[0]).toContain(file.name);
   });
@@ -199,9 +201,9 @@ describe("resolveSourcePaths", () => {
     const file1 = buildFile({ extension: ".mcap" });
     const file2 = buildFile({ extension: ".mcap" });
     const pathToFile = `~/${homeDir}/${file1.name},~/${homeDir}/${file2.name}`;
-    const mockArgv = buildArgv(homeDir, pathToFile);
+    buildArgv(homeDir, pathToFile);
 
-    const result = resolveSourcePaths(mockArgv);
+    const result = resolveSourcePaths();
 
     expect(result[0]).toContain(file1.name);
     expect(result[1]).toContain(file2.name);
@@ -213,9 +215,9 @@ describe("resolveSourcePaths", () => {
     const file2 = buildFile({ extension: ".mcap" });
     const file3 = buildFile({ extension: ".mcap" });
     const pathToFile = `--source=~/${homeDir}/${file1.name},~/${homeDir}/${file2.name},~/${homeDir}/${file3.name}`;
-    const mockArgv = buildArgv(homeDir, pathToFile);
+    buildArgv(homeDir, pathToFile);
 
-    const result = resolveSourcePaths(mockArgv);
+    const result = resolveSourcePaths();
 
     expect(result[0]).toContain(file1.name);
     expect(result[1]).toContain(file2.name);
@@ -225,9 +227,9 @@ describe("resolveSourcePaths", () => {
   it("should return an empty array after getting a path to a directory with no mcap files while not using source CLI parameter", () => {
     jest.spyOn(fs, "statSync").mockReturnValueOnce({ isDirectory: () => true } as Stats);
     const homeDir = buildPath();
-    const mockArgv = buildArgv(homeDir, homeDir);
+    buildArgv(homeDir, homeDir);
 
-    const result = resolveSourcePaths(mockArgv);
+    const result = resolveSourcePaths();
 
     expect(result).toEqual([]);
   });
@@ -236,9 +238,9 @@ describe("resolveSourcePaths", () => {
     jest.spyOn(fs, "statSync").mockReturnValueOnce({ isDirectory: () => true } as Stats);
     const homePath = buildPath();
     const pathToFile = `--source=${homePath}`;
-    const mockArgv = buildArgv(homePath, pathToFile);
+    buildArgv(homePath, pathToFile);
 
-    const result = resolveSourcePaths(mockArgv);
+    const result = resolveSourcePaths();
 
     expect(result).toEqual([]);
   });
@@ -261,9 +263,9 @@ describe("resolveSourcePaths", () => {
       },
     });
 
-    const mockArgv = buildArgv(homeDir, homeDir);
+    buildArgv(homeDir, homeDir);
 
-    const result = resolveSourcePaths(mockArgv);
+    const result = resolveSourcePaths();
 
     expect(result.length).toBe(2);
     expect(result[0]).toContain(file1.name);
@@ -289,9 +291,9 @@ describe("resolveSourcePaths", () => {
       },
     });
 
-    const mockArgv = buildArgv(homeDir, pathToFile);
+    buildArgv(homeDir, pathToFile);
 
-    const result = resolveSourcePaths(mockArgv);
+    const result = resolveSourcePaths();
 
     expect(result.length).toBe(1);
     expect(result[0]).toContain(file3.name);
