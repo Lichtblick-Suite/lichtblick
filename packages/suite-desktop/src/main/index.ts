@@ -158,7 +158,9 @@ export async function main(): Promise<void> {
 
   filesToOpen.push(...filesToOpenFromSourceParameter);
 
-  const verifiedFilesToOpen: string[] = filesToOpen.filter(isFileToOpen);
+  const uniqueFilesToOpen = [...new Set(filesToOpen)];
+
+  const verifiedFilesToOpen: string[] = uniqueFilesToOpen.filter(isFileToOpen);
 
   // indicates the preloader has setup the file input used to inject which files to open
   let preloaderFileInputIsReady = false;
