@@ -19,7 +19,6 @@ export default class InitilizationSourceBuilder {
       topics: [],
       metadata: [],
       profile: BasicBuilder.string(),
-      name: BasicBuilder.string(),
     });
   }
 

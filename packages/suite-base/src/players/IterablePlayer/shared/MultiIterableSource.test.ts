@@ -135,7 +135,6 @@ describe("MultiIterableSource", () => {
       expect(result.topics.length).toBe(1);
       expect(result.topicStats.size).toBe(1);
       expect(result.topicStats.get(topicName)!.numMessages).toBe(30);
-      expect(result.name).toBe(init2.name);
       expect(result.metadata!.length).toBe(2);
       expect(result.metadata).toContainEqual(init1.metadata![0]);
       expect(result.metadata).toContainEqual(init2.metadata![0]);

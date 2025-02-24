@@ -94,7 +94,6 @@ export class MultiIterableSource<T extends IIterableSource, P> implements IItera
       end: { sec: Number.MIN_SAFE_INTEGER, nsec: Number.MIN_SAFE_INTEGER },
       datatypes: new Map(),
       metadata: [],
-      name: "",
       problems: [],
       profile: "",
       publishersByTopic: new Map(),
@@ -109,8 +108,6 @@ export class MultiIterableSource<T extends IIterableSource, P> implements IItera
       resultInit.end = setEndTime(resultInit.end, init.end);
       validateOverlap(loadedTimes, init, resultInit);
       loadedTimes.push({ start: init.start, end: init.end });
-
-      resultInit.name = init.name ?? resultInit.name;
       resultInit.profile = init.profile ?? resultInit.profile;
       resultInit.publishersByTopic = accumulateMap(
         resultInit.publishersByTopic,
