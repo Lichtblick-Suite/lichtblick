@@ -209,7 +209,7 @@ export default function PlayerManager(
             // files we can try loading immediately
             // We do not add these to recents entries because putting File in indexedb results in
             // the entire file being stored in the database.
-            if (files) {
+            if (files && files.length > 1) {
               let file = files[0];
               const fileList: File[] = [];
 
