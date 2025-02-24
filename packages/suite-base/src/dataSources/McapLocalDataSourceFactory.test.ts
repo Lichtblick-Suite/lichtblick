@@ -2,8 +2,10 @@
 // SPDX-License-Identifier: MPL-2.0
 
 import { DataSourceFactoryInitializeArgs } from "@lichtblick/suite-base/context/PlayerSelectionContext";
-import { WorkerIterableSource } from "@lichtblick/suite-base/players/IterablePlayer";
-import { IterablePlayer } from "@lichtblick/suite-base/players/IterablePlayer";
+import {
+  WorkerIterableSource,
+  IterablePlayer,
+} from "@lichtblick/suite-base/players/IterablePlayer";
 import BasicBuilder from "@lichtblick/suite-base/testing/builders/BasicBuilder";
 
 import McapLocalDataSourceFactory from "./McapLocalDataSourceFactory";
