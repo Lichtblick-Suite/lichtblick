@@ -3116,7 +3116,7 @@ __metadata:
     path-browserify: 1.0.1
     plist: 3.1.0
     pngjs: 7.0.0
-    quicklookjs: 0.0.3
+    quicklookjs: 1.0.1
     react: 18.3.1
     react-dom: 18.3.1
     react-refresh-typescript: 2.0.9
@@ -16830,10 +16830,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"quicklookjs@npm:0.0.3":
-  version: 0.0.3
-  resolution: "quicklookjs@npm:0.0.3"
-  checksum: e11d4a5976233c686c69ff6da8efe5fb7ac203d789ccb51d7d69d402fcfe634da39dac056a9c8a4325b7e5efea729819b2e5b445578a12ddbaf35b233a66b78c
+"quicklookjs@npm:1.0.1":
+  version: 1.0.1
+  resolution: "quicklookjs@npm:1.0.1"
+  checksum: 8a9098bf99a986e7fbb28ad9e6bb4b5fa57f385d9e88fc111e6b5eb9def49afe47cf81874af1984edea432419aebca60df132ed982c6e75e725a96b667815787
   languageName: node
   linkType: hard
 
