@@ -46,8 +46,6 @@ const useStyles = makeStyles()((theme) => ({
  *
  * @param {Object} props - The component props.
  * @param {boolean} props.installed - Indicates if the extension is already installed.
- * @param {boolean} props.installing - Indicates if the extension is currently being installed.
- * @param {boolean} props.uninstalling - Indicates if the extension is currently being uninstalled.
  * @param {Immutable<ExtensionMarketplaceDetail>} props.extension - The extension details.
  * @param {Function} props.onClose - Callback function to close the details view.
  * @returns {React.ReactElement} The rendered component.

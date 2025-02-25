@@ -44,7 +44,7 @@ export default function ExtensionList({
   selectExtension,
 }: ExtensionListProps): React.JSX.Element {
   const { t } = useTranslation("extensionsSettings");
-  const installedExtensions = useExtensionCatalog((state) => state.installedExtensions) ?? [];
+  const installedExtensions = useExtensionCatalog((state) => state.installedExtensions);
 
   const renderComponent = () => {
     if (entries.length === 0 && filterText) {
@@ -55,7 +55,9 @@ export default function ExtensionList({
     return (
       <>
         {entries.map((entry) => {
-          const isInstalled = installedExtensions.some((installed) => installed.id === entry.id);
+          const isInstalled = installedExtensions
+            ? installedExtensions.some((installed) => installed.id === entry.id)
+            : false;
 
           return (
             <ExtensionListEntry
