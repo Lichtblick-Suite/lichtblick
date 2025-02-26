@@ -54,8 +54,6 @@ afterEach(() => {
   mockFs.restore();
 });
 
-jest.spyOn(console, "error");
-
 describe("getFilesFromDirectory", () => {
 
   it("should return only the .mcap files from the directory", () => {
@@ -160,6 +158,13 @@ describe("resolveSourcePaths", () => {
     const result = resolveSourcePaths(sourceParameter);
 
     expect(result[0]).toContain(file.name);
+    expect(console.error).toHaveBeenCalledTimes(1);
+    expect(console.error).toHaveBeenCalledWith(
+      expect.objectContaining({
+        message: expect.stringContaining("ENOENT: no such file or directory"),
+      }),
+    );
+    (console.error as jest.Mock).mockClear();
   });
 
   it("should return an array with multiple paths to supported files", () => {
@@ -184,6 +189,14 @@ describe("resolveSourcePaths", () => {
     const result = resolveSourcePaths(sourceParameter);
 
     expect(result).toEqual([]);
+
+    expect(console.error).toHaveBeenCalled();
+    expect(console.error).toHaveBeenCalledWith(
+      expect.objectContaining({
+        message: expect.stringContaining("ENOENT: no such file or directory"),
+      }),
+    );
+    (console.error as jest.Mock).mockClear();
   });
 
   it("should return an array with mcap files after getting a path to a directory with mcap files", () => {
