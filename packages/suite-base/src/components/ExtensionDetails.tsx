@@ -40,6 +40,12 @@ const useStyles = makeStyles()((theme) => ({
   },
 }));
 
+enum OperationStatus {
+  IDLE = "idle",
+  INSTALLING = "installing",
+  UNINSTALLING = "uninstalling",
+}
+
 /**
  * ExtensionDetails component displays detailed information about a specific extension.
  * It allows users to install, uninstall, and view the README and CHANGELOG of the extension.
@@ -53,9 +59,7 @@ const useStyles = makeStyles()((theme) => ({
 export function ExtensionDetails({ extension, onClose, installed }: Props): React.ReactElement {
   const { classes } = useStyles();
   const [isInstalled, setIsInstalled] = useState(installed);
-  const [operationStatus, setOperationStatus] = useState<"idle" | "installing" | "uninstalling">(
-    "idle",
-  );
+  const [operationStatus, setOperationStatus] = useState<OperationStatus>(OperationStatus.IDLE);
   const [activeTab, setActiveTab] = useState<number>(0);
   const isMounted = useMountedState();
   const downloadExtension = useExtensionCatalog((state) => state.downloadExtension);
@@ -99,13 +103,13 @@ export function ExtensionDetails({ extension, onClose, installed }: Props): Reac
       if (url == undefined) {
         throw new Error(`Cannot install extension ${extension.id}, "foxe" URL is missing`);
       }
-      setOperationStatus("installing");
+      setOperationStatus(OperationStatus.INSTALLING);
       const data = await downloadExtension(url);
       await installExtension("local", data);
       enqueueSnackbar(`${extension.name} installed successfully`, { variant: "success" });
       if (isMounted()) {
         setIsInstalled(true);
-        setOperationStatus("idle");
+        setOperationStatus(OperationStatus.IDLE);
         void analytics.logEvent(AppEvent.EXTENSION_INSTALL, { type: extension.id });
       }
     } catch (e: unknown) {
@@ -113,7 +117,7 @@ export function ExtensionDetails({ extension, onClose, installed }: Props): Reac
       enqueueSnackbar(`Failed to install extension ${extension.id}. ${err.message}`, {
         variant: "error",
       });
-      setOperationStatus("idle");
+      setOperationStatus(OperationStatus.IDLE);
     }
   }, [
     analytics,
@@ -135,12 +139,12 @@ export function ExtensionDetails({ extension, onClose, installed }: Props): Reac
    */
   const uninstall = useCallback(async () => {
     try {
-      setOperationStatus("uninstalling");
+      setOperationStatus(OperationStatus.UNINSTALLING);
       await uninstallExtension(extension.namespace ?? "local", extension.id);
       enqueueSnackbar(`${extension.name} uninstalled successfully`, { variant: "success" });
       if (isMounted()) {
         setIsInstalled(false);
-        setOperationStatus("idle");
+        setOperationStatus(OperationStatus.IDLE);
         void analytics.logEvent(AppEvent.EXTENSION_UNINSTALL, { type: extension.id });
       }
     } catch (e: unknown) {
@@ -148,7 +152,7 @@ export function ExtensionDetails({ extension, onClose, installed }: Props): Reac
       enqueueSnackbar(`Failed to uninstall extension ${extension.id}. ${err.message}`, {
         variant: "error",
       });
-      setOperationStatus("idle");
+      setOperationStatus(OperationStatus.IDLE);
     }
   }, [
     analytics,
@@ -211,9 +215,9 @@ export function ExtensionDetails({ extension, onClose, installed }: Props): Reac
             color="inherit"
             variant="contained"
             onClick={uninstall}
-            disabled={operationStatus !== "idle"}
+            disabled={operationStatus !== OperationStatus.IDLE}
           >
-            {operationStatus === "uninstalling" ? "Uninstalling..." : "Uninstall"}
+            {operationStatus === OperationStatus.UNINSTALLING ? "Uninstalling..." : "Uninstall"}
           </Button>
         ) : (
           canInstall && (
@@ -226,7 +230,7 @@ export function ExtensionDetails({ extension, onClose, installed }: Props): Reac
               onClick={downloadAndInstall}
               disabled={operationStatus !== "idle"}
             >
-              {operationStatus === "installing" ? "Installing..." : "Install"}
+              {operationStatus === OperationStatus.INSTALLING ? "Installing..." : "Install"}
             </Button>
           )
         )}
