@@ -140,6 +140,8 @@ export function ExtensionDetails({ extension, onClose, installed }: Props): Reac
   const uninstall = useCallback(async () => {
     try {
       setOperationStatus(OperationStatus.UNINSTALLING);
+      // UX - Avoids the button from blinking when operation completes too fast
+      await new Promise((resolve) => setTimeout(resolve, 200));
       await uninstallExtension(extension.namespace ?? "local", extension.id);
       enqueueSnackbar(`${extension.name} uninstalled successfully`, { variant: "success" });
       if (isMounted()) {

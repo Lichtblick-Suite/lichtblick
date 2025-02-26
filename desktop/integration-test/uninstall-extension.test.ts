@@ -35,15 +35,12 @@ describe("Uninstall extension", () => {
       .filter({ hasText: "0.0.1" });
     await extensionListItem.click();
 
-    // Wait for the installation to complete
-    await app.renderer.getByText("Uninstall").waitFor({ state: "visible", timeout: 30_000 });
-
+    // Click on Uninstall and verifies if uninstalling occurs
+    app.renderer.getByText("Uninstall");
     expect(await app.renderer.getByText("Uninstall").isVisible()).toBe(true);
-
     await app.renderer.getByText("Uninstall").click();
 
-    const uninstallingButton = app.renderer.getByText("Uninstalling...");
-    await uninstallingButton.waitFor({ state: "visible", timeout: 15_000 });
-    expect(await uninstallingButton.isEnabled()).toBe(false);
+    expect(await app.renderer.getByText("Uninstalling...").isVisible()).toBe(true);
+    expect(await app.renderer.getByText("Uninstalling...").isEnabled()).toBe(false);
   }, 60_000);
 });
