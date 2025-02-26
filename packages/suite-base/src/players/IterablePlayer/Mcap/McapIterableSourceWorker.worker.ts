@@ -32,7 +32,7 @@ export function initialize(args: IterableSourceInitializeArgs): WorkerIterableSo
   } else if (args.urls && args.urls.length > 1) {
     const source = new MultiIterableSource({ type: "urls", urls: args.urls }, McapIterableSource);
     const wrapped = new WorkerIterableSourceWorker(source);
-    return Comlink.proxy(wrapped)
+    return Comlink.proxy(wrapped);
   }
 
   throw new Error("file or url required");

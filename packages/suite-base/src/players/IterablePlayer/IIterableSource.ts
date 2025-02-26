@@ -204,7 +204,7 @@ export type IterableSourceInitializeArgs = {
   file?: File;
   url?: string;
   files?: File[];
-  urls?: string[]
+  urls?: string[];
   params?: Record<string, string | undefined>;
 
   api?: {
