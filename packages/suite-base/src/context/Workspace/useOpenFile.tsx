@@ -13,7 +13,7 @@ import {
   IDataSourceFactory,
   usePlayerSelection,
 } from "@lichtblick/suite-base/context/PlayerSelectionContext";
-import { MCAP_ACCEPT_TYPE } from "@lichtblick/suite-base/context/Workspace/constants";
+import { FILE_ACCEPT_TYPE } from "@lichtblick/suite-base/context/Workspace/constants";
 import showOpenFilePicker from "@lichtblick/suite-base/util/showOpenFilePicker";
 
 export function useOpenFile(sources: readonly IDataSourceFactory[]): () => Promise<void> {
@@ -40,7 +40,7 @@ export function useOpenFile(sources: readonly IDataSourceFactory[]): () => Promi
       types: [
         {
           description: allExtensions.join(", "),
-          accept: { [MCAP_ACCEPT_TYPE]: allExtensions },
+          accept: { [FILE_ACCEPT_TYPE]: allExtensions },
         },
       ],
     });

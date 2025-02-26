@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MPL-2.0
 
 import { DataSourceFactoryInitializeArgs } from "@lichtblick/suite-base/context/PlayerSelectionContext";
+import { FILE_ACCEPT_TYPE } from "@lichtblick/suite-base/context/Workspace/constants";
 import {
   WorkerIterableSource,
   IterablePlayer,
@@ -10,7 +11,6 @@ import BasicBuilder from "@lichtblick/suite-base/testing/builders/BasicBuilder";
 
 import McapLocalDataSourceFactory from "./McapLocalDataSourceFactory";
 
-const MCAP_ACCEPT_TYPE = "application/octet-stream";
 const MCAP_LOCAL_FILE_ID = "mcap-local-file";
 
 // Worker mock to avoid real execution in tests
@@ -34,7 +34,7 @@ describe("McapLocalDataSourceFactory", () => {
 
   function buildMcapFile(): File {
     return new File([BasicBuilder.string()], `${BasicBuilder.string()}.mcap`, {
-      type: MCAP_ACCEPT_TYPE,
+      type: FILE_ACCEPT_TYPE,
     });
   }
 

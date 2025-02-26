@@ -9,7 +9,7 @@ import {
   IDataSourceFactory,
   usePlayerSelection,
 } from "@lichtblick/suite-base/context/PlayerSelectionContext";
-import { MCAP_ACCEPT_TYPE } from "@lichtblick/suite-base/context/Workspace/constants";
+import { FILE_ACCEPT_TYPE } from "@lichtblick/suite-base/context/Workspace/constants";
 import BasicBuilder from "@lichtblick/suite-base/testing/builders/BasicBuilder";
 import showOpenFilePicker from "@lichtblick/suite-base/util/showOpenFilePicker";
 
@@ -60,7 +60,7 @@ describe("useOpenFile", () => {
     ];
 
     const fsHandles: FileSystemFileHandle[] = [];
-    const files = filesOverride ?? [buildFile("mcap", MCAP_ACCEPT_TYPE)];
+    const files = filesOverride ?? [buildFile("mcap", FILE_ACCEPT_TYPE)];
     files.forEach((file) => {
       fsHandles.push({
         getFile: jest.fn().mockResolvedValue(file),
@@ -91,7 +91,7 @@ describe("useOpenFile", () => {
 
   it("should show error if multiple file extensions are selected", async () => {
     const { result } = setup({
-      filesOverride: [buildFile("mcap", MCAP_ACCEPT_TYPE), buildFile("txt", "text/plain")],
+      filesOverride: [buildFile("mcap", FILE_ACCEPT_TYPE), buildFile("txt", "text/plain")],
     });
 
     await expect(result.current()).rejects.toThrow(
