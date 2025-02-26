@@ -5,7 +5,7 @@
     "@lichtblick/suite-base": "workspace:*"
   },
   "devDependencies": {
-    "@foxglove/schemas": "1.6.3",
+    "@foxglove/schemas": "1.6.6",
     "@lichtblick/den": "workspace:*",
     "@lichtblick/log": "workspace:*",
     "@lichtblick/rostime": "1.0.0",
@@ -19,7 +19,7 @@
     "mathjs": "11.11.1",
     "react": "18.3.1",
     "react-dom": "18.2.0",
-    "webpack": "5.96.1",
-    "webpack-dev-server": "5.1.0"
+    "webpack": "5.97.1",
+    "webpack-dev-server": "5.2.0"
   }
 }
