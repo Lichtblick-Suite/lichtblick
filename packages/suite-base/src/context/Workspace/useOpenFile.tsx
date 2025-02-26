@@ -93,11 +93,9 @@ export function useOpenFile(sources: readonly IDataSourceFactory[]): () => Promi
     if (extension !== ".mcap" && processedFiles.length > 1) {
       throwErrorAndSnackbar(`The application only support multiple files for MCAP extension.`);
     }
-
     selectSource(matchingSources[0]!.id, {
       type: "file",
-      files: processedFiles.map((item) => item.file),
-      handle: filesHandle[0],
+      handles: filesHandle,
     });
   }, [allExtensions, selectSource, sources]);
 }

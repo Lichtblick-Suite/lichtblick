@@ -14,6 +14,7 @@ import {
   WorkerIterableSource,
 } from "@lichtblick/suite-base/players/IterablePlayer";
 import { Player } from "@lichtblick/suite-base/players/types";
+import { mergeMultipleFileNames } from "@lichtblick/suite-base/util/mergeMultipleFileName";
 
 class McapLocalDataSourceFactory implements IDataSourceFactory {
   public id = "mcap-local-file";
@@ -46,7 +47,7 @@ class McapLocalDataSourceFactory implements IDataSourceFactory {
     return new IterablePlayer({
       metricsCollector: args.metricsCollector,
       source,
-      name: files.map((file) => file.name).join(),
+      name: mergeMultipleFileNames(files.map((file) => file.name)),
       sourceId: this.id,
     });
   }
