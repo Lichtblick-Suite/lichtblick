@@ -82,7 +82,7 @@ describe("McapLocalDataSourceFactory", () => {
     expect(IterablePlayer).toHaveBeenCalledWith({
       metricsCollector: args.metricsCollector,
       source: expect.any(Object),
-      name: `${files[0]!.name},${files[1]!.name}`,
+      name: `${files[0]!.name}, ${files[1]!.name}`,
       sourceId: MCAP_LOCAL_FILE_ID,
     });
     expect(player).toBeInstanceOf(IterablePlayer);
@@ -131,7 +131,7 @@ describe("McapLocalDataSourceFactory", () => {
     expect(IterablePlayer).toHaveBeenCalledWith({
       metricsCollector: args.metricsCollector,
       source: expect.any(Object),
-      name: `${files[0]?.name},${file.name}`,
+      name: `${files[0]?.name}, ${file.name}`,
       sourceId: MCAP_LOCAL_FILE_ID,
     });
     expect(player).toBeInstanceOf(IterablePlayer);

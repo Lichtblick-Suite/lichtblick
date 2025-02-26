@@ -78,14 +78,13 @@ describe("useOpenFile", () => {
   }
 
   it("should select a valid file source", async () => {
-    const { files, result, sources, fsHandles } = setup();
+    const { result, sources, fsHandles } = setup();
 
     await result.current();
 
     expect(selectSource).toHaveBeenCalledWith(sources[0]?.id, {
       type: "file",
-      files: [files[0]],
-      handle: fsHandles[0],
+      handles: fsHandles,
     });
   });
 
