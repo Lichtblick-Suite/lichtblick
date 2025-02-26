@@ -97,6 +97,7 @@ export function useOpenFile(sources: readonly IDataSourceFactory[]): () => Promi
     selectSource(matchingSources[0]!.id, {
       type: "file",
       files: processedFiles.map((item) => item.file),
+      handle: filesHandle[0],
     });
   }, [allExtensions, selectSource, sources]);
 }

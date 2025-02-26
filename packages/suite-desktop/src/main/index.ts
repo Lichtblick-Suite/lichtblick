@@ -7,6 +7,7 @@
 
 import { app, BrowserWindow, ipcMain, Menu, nativeTheme, session } from "electron";
 import fs from "fs";
+import path from "path";
 
 import Logger from "@lichtblick/log";
 import { AppSetting } from "@lichtblick/suite-base/src/AppSetting";
@@ -142,12 +143,24 @@ export async function main(): Promise<void> {
       log.warn("Could not set app as handler for lichtblick://");
     }
   }
+
+  const filesToOpen: string[] = process.argv
+    .slice(1)
+    .filter((arg) => !arg.startsWith("--")) // Filter out flags
+    .map((filePath) => path.resolve(filePath)) // Convert to absolute path, linux has some problems to resolve relative paths
+    .filter(isFileToOpen);
+
   // Get the command line flags passed to the app when it was launched
   const parsedCLIFlags = parseCLIFlags(process.argv);
 
-  const filesToOpen = resolveSourcePaths(parsedCLIFlags.source);
+  // Get file paths passed through the parameter "--source="
+  const filesToOpenFromSourceParameter = resolveSourcePaths(parsedCLIFlags.source);
 
-  const verifiedFilesToOpen: string[] = filesToOpen.filter(isFileToOpen);
+  filesToOpen.push(...filesToOpenFromSourceParameter);
+
+  const uniqueFilesToOpen = [...new Set(filesToOpen)];
+
+  const verifiedFilesToOpen: string[] = uniqueFilesToOpen.filter(isFileToOpen);
 
   // indicates the preloader has setup the file input used to inject which files to open
   let preloaderFileInputIsReady = false;

@@ -32,7 +32,7 @@ export function isPathToDirectory(paths: string[]): boolean {
   }
 }
 
-export function resolveSourcePaths(sourceParameter: string | undefined): string[] {
+export function resolveSourcePaths(sourceParameter?: string): string[] {
   if (!sourceParameter) {
     return [];
   }
