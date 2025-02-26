@@ -55,7 +55,6 @@ afterEach(() => {
 });
 
 describe("getFilesFromDirectory", () => {
-
   it("should return only the .mcap files from the directory", () => {
     const { path, files } = setup();
     const mcapFiles = Object.values(files)
@@ -135,7 +134,7 @@ describe("isPathToDirectory", () => {
         message: "ENOENT: no such file or directory, stat ''",
       }),
     );
-   (console.error as jest.Mock).mockClear();
+    (console.error as jest.Mock).mockClear();
   });
 });
 

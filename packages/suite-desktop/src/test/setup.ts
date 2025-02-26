@@ -1,7 +1,6 @@
 // SPDX-FileCopyrightText: Copyright (C) 2023-2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)<lichtblick@bmwgroup.com>
 // SPDX-License-Identifier: MPL-2.0
 
-
 // intercept console.error and console.warn calls to fail tests if they are called
 // the user can indicate they expect the call to happen by checking the mock.calls
 // and then clearing the mock via mockClear()
