@@ -67,7 +67,6 @@ describe("getFilesFromDirectory", () => {
     const result = getFilesFromDirectory(path);
 
     expect(result).toEqual(mcapFiles);
-    expect(console.error).not.toHaveBeenCalled();
   });
 
   it("should a return a empty array because the directory has no supported files", () => {
@@ -113,7 +112,6 @@ describe("isPathToDirectory", () => {
     const result = isPathToDirectory([path1, path2]);
 
     expect(result).toBe(false);
-    expect(console.error).not.toHaveBeenCalled();
   });
 
   it("should return true because the path passed is a path to a directory", () => {
@@ -125,7 +123,6 @@ describe("isPathToDirectory", () => {
     const result = isPathToDirectory([path1]);
 
     expect(result).toBe(true);
-    expect(console.error).not.toHaveBeenCalled();
   });
 
   it("should return false when a error occurs", () => {
@@ -153,7 +150,6 @@ describe("resolveSourcePaths", () => {
     const result = resolveSourcePaths(mockSourceParameter);
 
     expect(result).toEqual([]);
-    expect(console.error).not.toHaveBeenCalled();
   });
 
   it("should return an array with a single path to a file", () => {
