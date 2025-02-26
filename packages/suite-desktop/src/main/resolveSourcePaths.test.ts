@@ -54,13 +54,9 @@ afterEach(() => {
   mockFs.restore();
 });
 
-describe("getFilesFromDirectory", () => {
-  let consoleErrorSpy: jest.SpyInstance;
+jest.spyOn(console, "error");
 
-  beforeEach(() => {
-    jest.clearAllMocks();
-    consoleErrorSpy = jest.spyOn(console, "error").mockImplementation(() => {});
-  });
+describe("getFilesFromDirectory", () => {
 
   it("should return only the .mcap files from the directory", () => {
     const { path, files } = setup();
@@ -71,6 +67,7 @@ describe("getFilesFromDirectory", () => {
     const result = getFilesFromDirectory(path);
 
     expect(result).toEqual(mcapFiles);
+    expect(console.error).not.toHaveBeenCalled();
   });
 
   it("should a return a empty array because the directory has no supported files", () => {
@@ -81,35 +78,30 @@ describe("getFilesFromDirectory", () => {
     const result = getFilesFromDirectory(path);
 
     expect(result).toEqual([]);
+    expect(console.error).toHaveBeenCalled();
+    expect(console.error).toHaveBeenCalledWith(
+      expect.objectContaining({
+        message: expect.stringContaining("ENOENT, no such file or directory"),
+      }),
+    );
+    (console.error as jest.Mock).mockClear();
   });
 
   it("should return an empty array when an error occurs in fs.readdirSync", () => {
     const result = getFilesFromDirectory("");
 
     expect(result).toEqual([]);
-    expect(consoleErrorSpy).toHaveBeenCalled();
-    expect(consoleErrorSpy).toHaveBeenCalledWith(
+    expect(console.error).toHaveBeenCalled();
+    expect(console.error).toHaveBeenCalledWith(
       expect.objectContaining({
         message: "ENOENT: no such file or directory, scandir ''",
       }),
     );
-
-    consoleErrorSpy.mockRestore();
+    (console.error as jest.Mock).mockClear();
   });
 });
 
 describe("isPathToDirectory", () => {
-  let consoleErrorSpy: jest.SpyInstance;
-
-  beforeEach(() => {
-    jest.clearAllMocks();
-    consoleErrorSpy = jest.spyOn(console, "error").mockImplementation(() => {});
-  });
-
-  afterEach(() => {
-    consoleErrorSpy.mockRestore();
-  });
-
   it("should return false cause there's more than one path", () => {
     const path1 = buildPath();
     const path2 = buildPath();
@@ -121,6 +113,7 @@ describe("isPathToDirectory", () => {
     const result = isPathToDirectory([path1, path2]);
 
     expect(result).toBe(false);
+    expect(console.error).not.toHaveBeenCalled();
   });
 
   it("should return true because the path passed is a path to a directory", () => {
@@ -132,6 +125,7 @@ describe("isPathToDirectory", () => {
     const result = isPathToDirectory([path1]);
 
     expect(result).toBe(true);
+    expect(console.error).not.toHaveBeenCalled();
   });
 
   it("should return false when a error occurs", () => {
@@ -140,23 +134,18 @@ describe("isPathToDirectory", () => {
     const result = isPathToDirectory(paths);
 
     expect(result).toBe(false);
-    expect(consoleErrorSpy).toHaveBeenCalled();
-    expect(consoleErrorSpy).toHaveBeenCalledWith(
+    expect(console.error).toHaveBeenCalled();
+    expect(console.error).toHaveBeenCalledWith(
       expect.objectContaining({
         message: "ENOENT: no such file or directory, stat ''",
       }),
     );
+   (console.error as jest.Mock).mockClear();
   });
 });
 
 describe("resolveSourcePaths", () => {
-  beforeEach(() => {
-    jest.spyOn(os, "homedir").mockReturnValue(buildPath());
-  });
-
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
+  jest.spyOn(os, "homedir").mockReturnValue(buildPath());
 
   it("should return an empty array because there was no source parameter provided", () => {
     const mockSourceParameter = undefined;
@@ -164,6 +153,7 @@ describe("resolveSourcePaths", () => {
     const result = resolveSourcePaths(mockSourceParameter);
 
     expect(result).toEqual([]);
+    expect(console.error).not.toHaveBeenCalled();
   });
 
   it("should return an array with a single path to a file", () => {
