@@ -45,6 +45,7 @@ describe("ExtensionCatalogProvider", () => {
     const loadExtension = jest.fn().mockResolvedValue(source);
     const mockPrivateLoader: ExtensionLoader = {
       namespace: "org",
+      getExtension: jest.fn(),
       getExtensions: jest
         .fn()
         .mockResolvedValue([fakeExtension({ namespace: "org", name: "sample", version: "1" })]),
@@ -94,6 +95,7 @@ describe("ExtensionCatalogProvider", () => {
     const loadExtension2 = jest.fn().mockResolvedValue(source2);
     const mockPrivateLoader1: ExtensionLoader = {
       namespace: "org",
+      getExtension: jest.fn(),
       getExtensions: jest
         .fn()
         .mockResolvedValue([fakeExtension({ namespace: "org", name: "sample", version: "1" })]),
@@ -103,6 +105,7 @@ describe("ExtensionCatalogProvider", () => {
     };
     const mockPrivateLoader2: ExtensionLoader = {
       namespace: "org",
+      getExtension: jest.fn(),
       getExtensions: jest
         .fn()
         .mockResolvedValue([fakeExtension({ namespace: "local", name: "sample", version: "2" })]),
@@ -172,6 +175,7 @@ describe("ExtensionCatalogProvider", () => {
     const loadExtension = jest.fn().mockResolvedValue(source);
     const mockPrivateLoader: ExtensionLoader = {
       namespace: "org",
+      getExtension: jest.fn(),
       getExtensions: jest
         .fn()
         .mockResolvedValue([fakeExtension({ namespace: "org", name: "sample", version: "1" })]),
@@ -198,6 +202,7 @@ describe("ExtensionCatalogProvider", () => {
         toSchemaName: "to.Schema",
         converter: expect.any(Function),
         extensionNamespace: "org",
+        extensionId: expect.any(String),
       },
     ]);
   });
@@ -235,6 +240,7 @@ describe("ExtensionCatalogProvider", () => {
     const loadExtension = jest.fn().mockResolvedValue(source);
     const mockPrivateLoader: ExtensionLoader = {
       namespace: "org",
+      getExtension: jest.fn(),
       getExtensions: jest
         .fn()
         .mockResolvedValue([fakeExtension({ namespace: "org", name: "sample", version: "1" })]),
@@ -280,6 +286,7 @@ describe("ExtensionCatalogProvider", () => {
     const loadExtension = jest.fn().mockResolvedValue(source);
     const mockPrivateLoader: ExtensionLoader = {
       namespace: "org",
+      getExtension: jest.fn(),
       getExtensions: jest
         .fn()
         .mockResolvedValue([fakeExtension({ namespace: "org", name: "sample", version: "1" })]),

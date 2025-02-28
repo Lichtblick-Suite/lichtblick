@@ -230,7 +230,6 @@ function WorkspaceContent(props: WorkspaceProps): React.JSX.Element {
   const { enqueueSnackbar } = useSnackbar();
 
   const installExtensions = useExtensionCatalog((state) => state.installExtensions);
-  const refreshExtensions = useExtensionCatalog((state) => state.refreshExtensions);
 
   const handleFiles = useCallback(
     async (files: File[]) => {
@@ -254,22 +253,17 @@ function WorkspaceContent(props: WorkspaceProps): React.JSX.Element {
       try {
         const result = await installExtensions("local", data);
         const installed = result.filter(({ success }) => success);
+        const progressText = `${installed.length}/${result.length}`;
 
         if (installed.length === result.length) {
-          enqueueSnackbar(`Installed all extensions (${installed.length}/${result.length})`, {
-            variant: "success",
-          });
+          enqueueSnackbar(`Installed all extensions (${progressText})`, { variant: "success" });
         } else {
-          enqueueSnackbar(`Installed ${installed.length}/${result.length} extensions.`, {
-            variant: "warning",
-          });
+          enqueueSnackbar(`Installed ${progressText} extensions.`, { variant: "warning" });
         }
       } catch (error) {
         enqueueSnackbar(`An error occurred during extension installation: ${error.message}`, {
           variant: "error",
         });
-      } finally {
-        await refreshExtensions();
       }
 
       if (otherFiles.length > 0) {
@@ -288,7 +282,7 @@ function WorkspaceContent(props: WorkspaceProps): React.JSX.Element {
         }
       }
     },
-    [availableSources, enqueueSnackbar, installExtensions, refreshExtensions, selectSource],
+    [availableSources, enqueueSnackbar, installExtensions, selectSource],
   );
 
   // files the main thread told us to open

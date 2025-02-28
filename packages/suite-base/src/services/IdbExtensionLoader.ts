@@ -62,6 +62,12 @@ export class IdbExtensionLoader implements ExtensionLoader {
     this.#storage = new IdbExtensionStorage(namespace);
   }
 
+  public async getExtension(id: string): Promise<ExtensionInfo | undefined> {
+    log.debug("Get extension", id);
+    const storedExtension = await this.#storage.get(id);
+    return storedExtension?.info;
+  }
+
   public async getExtensions(): Promise<ExtensionInfo[]> {
     log.debug("Listing extensions");
 
@@ -76,6 +82,9 @@ export class IdbExtensionLoader implements ExtensionLoader {
       throw new Error("Extension is corrupted");
     }
 
+    /**
+     * It's a hard processing. Can we save it (srcText) in IDB?
+     */
     const content = await new JSZip().loadAsync(extension.content);
     const srcText = await content.file("dist/extension.js")?.async("string");
 

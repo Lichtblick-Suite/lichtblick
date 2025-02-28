@@ -456,6 +456,7 @@ export interface PanelSettings<ExtensionSettings> {
    */
   handler: (action: SettingsTreeAction, config?: ExtensionSettings) => void;
   defaultConfig?: ExtensionSettings;
+  extensionId?: string;
 }
 
 export type RegisterMessageConverterArgs<Src> = {
@@ -466,6 +467,7 @@ export type RegisterMessageConverterArgs<Src> = {
    * Custom settings for the topics using the schema specified in the *toSchemaName* property
    */
   panelSettings?: Record<string, PanelSettings<unknown>>;
+  extensionId?: string;
 };
 
 type BaseTopic = { name: string; schemaName?: string };

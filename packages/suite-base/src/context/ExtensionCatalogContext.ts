@@ -19,35 +19,32 @@ import { TopicAliasFunctions } from "@lichtblick/suite-base/players/TopicAliasin
 import { ExtensionInfo, ExtensionNamespace } from "@lichtblick/suite-base/types/Extensions";
 
 export type RegisteredPanel = {
+  extensionId: string;
   extensionName: string;
   extensionNamespace?: ExtensionNamespace;
   registration: ExtensionPanelRegistration;
 };
 
-export type InstallExtensionsResponse = {
+export type InstallExtensionsResult = {
   success: boolean;
   info?: ExtensionInfo;
   error?: unknown;
 };
 
 export type ExtensionCatalog = Immutable<{
-  loadedExtensions: Set<string>;
-  isExtensionLoaded: (extensionId: string) => boolean;
-  markExtensionAsLoaded: (extensionId: string) => void;
-  unmarkExtensionAsLoaded: (extensionId: string) => void;
   downloadExtension: (url: string) => Promise<Uint8Array>;
-  installExtension: (
-    namespace: ExtensionNamespace,
-    foxeFileData: Uint8Array,
-  ) => Promise<ExtensionInfo>;
   installExtensions: (
     namespace: ExtensionNamespace,
     data: Uint8Array[],
-  ) => Promise<InstallExtensionsResponse[]>;
+  ) => Promise<InstallExtensionsResult[]>;
+  isExtensionInstalled: (extensionId: string) => boolean;
+  markExtensionAsInstalled: (extensionId: string) => void;
+  mergeState: (info: ExtensionInfo, contributionPoints: ContributionPoints) => void;
   refreshAllExtensions: () => Promise<void>;
-  refreshExtensions: () => Promise<void>;
   uninstallExtension: (namespace: ExtensionNamespace, id: string) => Promise<void>;
+  unMarkExtensionAsInstalled: (extensionId: string) => void;
 
+  loadedExtensions: Set<string>;
   installedExtensions: undefined | ExtensionInfo[];
   installedPanels: undefined | Record<string, RegisteredPanel>;
   installedMessageConverters:
@@ -56,6 +53,17 @@ export type ExtensionCatalog = Immutable<{
   installedTopicAliasFunctions: undefined | TopicAliasFunctions;
   panelSettings: undefined | Record<string, Record<string, PanelSettings<unknown>>>;
 }>;
+
+export type MessageConverter = RegisterMessageConverterArgs<unknown> & {
+  extensionNamespace?: ExtensionNamespace;
+};
+
+export type ContributionPoints = {
+  panels: Record<string, RegisteredPanel>;
+  messageConverters: MessageConverter[];
+  topicAliasFunctions: TopicAliasFunctions;
+  panelSettings: Record<string, Record<string, PanelSettings<unknown>>>;
+};
 
 export const ExtensionCatalogContext = createContext<undefined | StoreApi<ExtensionCatalog>>(
   undefined,

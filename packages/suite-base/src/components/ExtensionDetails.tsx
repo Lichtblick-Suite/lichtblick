@@ -46,7 +46,7 @@ export function ExtensionDetails({ extension, onClose, installed }: Props): Reac
   const [activeTab, setActiveTab] = useState<number>(0);
   const isMounted = useMountedState();
   const downloadExtension = useExtensionCatalog((state) => state.downloadExtension);
-  const installExtension = useExtensionCatalog((state) => state.installExtension);
+  const installExtensions = useExtensionCatalog((state) => state.installExtensions);
   const uninstallExtension = useExtensionCatalog((state) => state.uninstallExtension);
   const marketplace = useExtensionMarketplace();
   const { enqueueSnackbar } = useSnackbar();
@@ -80,7 +80,7 @@ export function ExtensionDetails({ extension, onClose, installed }: Props): Reac
         throw new Error(`Cannot install extension ${extension.id}, "foxe" URL is missing`);
       }
       const data = await downloadExtension(url);
-      await installExtension("local", data);
+      await installExtensions("local", [data]);
       if (isMounted()) {
         setIsInstalled(true);
         void analytics.logEvent(AppEvent.EXTENSION_INSTALL, { type: extension.id });
@@ -97,7 +97,7 @@ export function ExtensionDetails({ extension, onClose, installed }: Props): Reac
     enqueueSnackbar,
     extension.foxe,
     extension.id,
-    installExtension,
+    installExtensions,
     isMounted,
   ]);
 

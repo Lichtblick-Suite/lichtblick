@@ -37,15 +37,17 @@ const pkgInfo = {
   version: "0.0.1",
 };
 
-describe("IdbExtensionLoader", () => {
-  const mockDBPut = jest.fn();
+const EXT_FILE_TURTLESIM = `${__dirname}/../test/fixtures/lichtblick.suite-extension-turtlesim-0.0.1.foxe`;
+const EXT_FILE_PREFIXED = `${__dirname}/../test/fixtures/prefixed-name-extension.foxe`;
 
-  const mockDBGetAll = jest.fn();
+describe("IdbExtensionLoader", () => {
+  const put = jest.fn();
+  const getAll = jest.fn();
 
   beforeEach(() => {
     (openDB as jest.Mock).mockReturnValue({
-      transaction: jest.fn().mockReturnValue({ db: { put: mockDBPut } }),
-      getAll: mockDBGetAll,
+      transaction: jest.fn().mockReturnValue({ db: { put } }),
+      getAll,
     });
   });
 
@@ -55,56 +57,44 @@ describe("IdbExtensionLoader", () => {
     });
 
     it("Installs local extensions", async () => {
-      const foxe = fs.readFileSync(
-        `${__dirname}/../test/fixtures/lichtblick.suite-extension-turtlesim-0.0.1.foxe`,
-      );
-
+      const foxe = fs.readFileSync(EXT_FILE_TURTLESIM);
       const expectedInfo = {
         ...pkgInfo,
         namespace: "local",
         qualifiedName: "turtlesim",
       };
-
-      mockDBGetAll.mockReturnValue([expectedInfo]);
-
+      getAll.mockReturnValue([expectedInfo]);
       const loader = new IdbExtensionLoader("local");
-      await loader.installExtension(foxe);
 
-      expect(mockDBPut).toHaveBeenCalledWith("metadata", expectedInfo);
+      await loader.installExtension(foxe as unknown as Uint8Array);
 
-      expect(mockDBPut).toHaveBeenCalledWith("extensions", { content: foxe, info: expectedInfo });
-
+      expect(put).toHaveBeenCalledWith("metadata", expectedInfo);
+      expect(put).toHaveBeenCalledWith("extensions", { content: foxe, info: expectedInfo });
       expect((await loader.getExtensions())[0]).toBe(expectedInfo);
     });
 
     it("Installs private extensions", async () => {
-      const foxe = fs.readFileSync(
-        `${__dirname}/../test/fixtures/lichtblick.suite-extension-turtlesim-0.0.1.foxe`,
-      );
-
+      const foxe = fs.readFileSync(EXT_FILE_TURTLESIM);
       const expectedInfo = {
         ...pkgInfo,
         namespace: "org",
         qualifiedName: "org:Foxglove Inc:studio-extension-turtlesim",
       };
-
-      mockDBGetAll.mockReturnValue([expectedInfo]);
-
+      getAll.mockReturnValue([expectedInfo]);
       const loader = new IdbExtensionLoader("org");
-      await loader.installExtension(foxe);
 
-      expect(mockDBPut).toHaveBeenCalledWith("metadata", expectedInfo);
+      await loader.installExtension(foxe as unknown as Uint8Array);
 
-      expect(mockDBPut).toHaveBeenCalledWith("extensions", {
+      expect(put).toHaveBeenCalledWith("metadata", expectedInfo);
+      expect(put).toHaveBeenCalledWith("extensions", {
         content: foxe,
         info: expectedInfo,
       });
-
       expect((await loader.getExtensions())[0]).toBe(expectedInfo);
     });
 
     it("Parses package prefixes", async () => {
-      const foxe = fs.readFileSync(`${__dirname}/../test/fixtures/prefixed-name-extension.foxe`);
+      const foxe = fs.readFileSync(EXT_FILE_PREFIXED);
       const expectedInfo = {
         id: "Prefix.package-name",
         name: "package-name",
@@ -113,18 +103,16 @@ describe("IdbExtensionLoader", () => {
         qualifiedName: "org:Prefix:package-name",
       };
 
-      mockDBGetAll.mockReturnValue([expectedInfo]);
-
+      getAll.mockReturnValue([expectedInfo]);
       const loader = new IdbExtensionLoader("org");
-      await loader.installExtension(foxe);
 
-      expect(mockDBPut).toHaveBeenCalledWith("metadata", expectedInfo);
+      await loader.installExtension(foxe as unknown as Uint8Array);
 
-      expect(mockDBPut).toHaveBeenCalledWith("extensions", {
+      expect(put).toHaveBeenCalledWith("metadata", expectedInfo);
+      expect(put).toHaveBeenCalledWith("extensions", {
         content: foxe,
         info: expectedInfo,
       });
-
       expect((await loader.getExtensions())[0]).toBe(expectedInfo);
     });
   });
