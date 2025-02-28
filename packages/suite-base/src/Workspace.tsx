@@ -251,6 +251,7 @@ function WorkspaceContent(props: WorkspaceProps): React.JSX.Element {
       }
 
       try {
+        enqueueSnackbar(`Installing ${data.length} extensions`, { variant: "info" });
         const result = await installExtensions("local", data);
         const installed = result.filter(({ success }) => success);
         const progressText = `${installed.length}/${result.length}`;
