@@ -1,10 +1,6 @@
 // SPDX-FileCopyrightText: Copyright (C) 2023-2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)<lichtblick@bmwgroup.com>
 // SPDX-License-Identifier: MPL-2.0
 
-// This Source Code Form is subject to the terms of the Mozilla Public
-// License, v2.0. If a copy of the MPL was not distributed with this
-// file, You can obtain one at http://mozilla.org/MPL/2.0/
-
 import { compare } from "@lichtblick/rostime";
 import {
   InitLoadedTimes,
@@ -38,7 +34,6 @@ export class MultiIterableSource<T extends IIterableSource, P> implements IItera
   private SourceConstructor: IterableSourceConstructor<T, P>;
   private dataSource: MultiSource;
   private sourceImpl: IIterableSource[] = [];
-
   public constructor(dataSource: MultiSource, SourceConstructor: IterableSourceConstructor<T, P>) {
     this.dataSource = dataSource;
     this.SourceConstructor = SourceConstructor;
@@ -79,7 +74,6 @@ export class MultiIterableSource<T extends IIterableSource, P> implements IItera
     const iterators = this.sourceImpl.map((source) => source.messageIterator(opt));
     yield* mergeAsyncIterators(iterators);
   }
-
   public async getBackfillMessages(args: GetBackfillMessagesArgs): Promise<MessageEvent[]> {
     const backfillMessages = await Promise.all(
       this.sourceImpl.map(async (source) => await source.getBackfillMessages(args)),
@@ -116,12 +110,10 @@ export class MultiIterableSource<T extends IIterableSource, P> implements IItera
       resultInit.topicStats = mergeTopicStats(resultInit.topicStats, init.topicStats);
       resultInit.metadata = mergeMetadata(resultInit.metadata, init.metadata);
       resultInit.problems.push(...init.problems);
-
       // These methos validate and add to avoid lopp through all topics and datatypes once again
       validateAndAddNewDatatypes(resultInit, init);
       validateAndAddNewTopics(resultInit, init);
     }
-
     return resultInit;
   }
 }

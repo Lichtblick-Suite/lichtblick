@@ -12,7 +12,6 @@ import { IIterableSource, Initialization } from "../IIterableSource";
 describe("MultiIterableSource", () => {
   let mockSourceConstructor: jest.Mock;
   let dataSource: MultiSource;
-
   beforeEach(() => {
     mockSourceConstructor = jest.fn().mockImplementation(
       () =>
@@ -23,13 +22,11 @@ describe("MultiIterableSource", () => {
           getStart: jest.fn().mockResolvedValue(RosTimeBuilder.time()),
         }) as jest.Mocked<IIterableSource>,
     );
-
     dataSource = {
       type: "files",
       files: [new Blob(), new Blob()],
     };
   });
-
   describe("loadMultipleSources", () => {
     it("should load multiple file sources", async () => {
       const file1 = new Blob([BasicBuilder.string()]);
@@ -55,7 +52,6 @@ describe("MultiIterableSource", () => {
       });
       expect(initializations).toHaveLength(2);
     });
-
     it("should load multiple url sources", async () => {
       const url1 = BasicBuilder.string();
       const url2 = BasicBuilder.string();
@@ -80,16 +76,12 @@ describe("MultiIterableSource", () => {
       });
       expect(initializations).toHaveLength(2);
     });
-
     it("should call initialize method for each iterable source", async () => {
       const multiSource = new MultiIterableSource(dataSource, mockSourceConstructor);
-
       await multiSource["loadMultipleSources"]();
-
       expect(mockSourceConstructor).toHaveBeenCalledTimes(2);
     });
   });
-
   describe("Initialization", () => {
     const mockInitialization = (initialization: Initialization) => {
       const mockSource = {
@@ -100,12 +92,10 @@ describe("MultiIterableSource", () => {
     };
     it("should merge initializations correctly with no problems", async () => {
       const multiSource = new MultiIterableSource(dataSource, mockSourceConstructor);
-
       const dataTypeName = BasicBuilder.string();
       const dataType = { definitions: [{ name: "field1", type: "int64" }] };
       const topicName = BasicBuilder.string();
       const topic = { name: topicName, schemaName: BasicBuilder.string() };
-
       const init1 = InitilizationSourceBuilder.initialization({
         start: RosTimeBuilder.time({ sec: 0 }),
         end: RosTimeBuilder.time({ sec: 20, nsec: 0 }),
@@ -114,7 +104,6 @@ describe("MultiIterableSource", () => {
         topicStats: new Map([[topicName, { numMessages: 10 }]]),
         metadata: [{ name: "key", metadata: { key: "value" } }],
       });
-
       const init2 = InitilizationSourceBuilder.initialization({
         start: RosTimeBuilder.time({ sec: 20, nsec: 0 }),
         end: RosTimeBuilder.time({ sec: 40 }),
@@ -156,7 +145,6 @@ describe("MultiIterableSource", () => {
         datatypes: new Map([[dataTypeName, { definitions: [{ name: "field1", type: "int64" }] }]]),
         topics: [{ name: topicName, schemaName: BasicBuilder.string() }],
       });
-
       const init2 = InitilizationSourceBuilder.initialization({
         start: RosTimeBuilder.time({ sec: 10 }),
         end: RosTimeBuilder.time({ sec: 30 }),
@@ -173,7 +161,6 @@ describe("MultiIterableSource", () => {
       expect(result.end.sec).toBe(30);
       expect(result.datatypes.size).toBe(1);
       expect(result.topics.length).toBe(1);
-
       expect(result.problems.length).toBe(3);
       expect(result.problems[0]!.message).toBe(
         "MCAP time overlap detected. Some functionalities may not work as expected.",
