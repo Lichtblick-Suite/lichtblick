@@ -274,20 +274,36 @@ function createExtensionRegistryStore(
       }
 
       await namespaceLoader.uninstallExtension(extension.id);
-      set((state) => ({
+
+      set((state) => {
+        const {
+          installedExtensions,
+          installedPanels,
+          installedMessageConverters,
+          installedTopicAliasFunctions,
+        } = state;
+
         // eslint-disable-next-line @typescript-eslint/no-shadow
-        installedExtensions: state.installedExtensions!.filter(({ id }) => id !== extension.id),
-        installedPanels: _.pickBy(
-          state.installedPanels,
+        const filteredExtensions = installedExtensions!.filter(({ id }) => id !== extension.id);
+        const filteredPanels = _.pickBy(
+          installedPanels,
           ({ extensionId }) => extensionId !== extension.id,
-        ),
-        installedMessageConverters: state.installedMessageConverters!.filter(
+        );
+        const filteredMessageConverters = installedMessageConverters!.filter(
           ({ extensionId }) => extensionId !== extension.id,
-        ),
-        installedTopicAliasFunctions: state.installedTopicAliasFunctions!.filter(
+        );
+        const filteredTopicAliasFunctions = installedTopicAliasFunctions!.filter(
           ({ extensionId }) => extensionId !== extension.id,
-        ),
-      }));
+        );
+
+        return {
+          installedExtensions: filteredExtensions,
+          installedPanels: filteredPanels,
+          installedMessageConverters: filteredMessageConverters,
+          installedTopicAliasFunctions: filteredTopicAliasFunctions,
+        };
+      });
+
       get().unMarkExtensionAsInstalled(id);
     },
 
