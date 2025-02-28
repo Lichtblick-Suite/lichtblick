@@ -24,8 +24,13 @@ export function initialize(args: IterableSourceInitializeArgs): WorkerIterableSo
     );
     const wrapped = new WorkerIterableSourceWorker(source);
     return Comlink.proxy(wrapped);
-  } else if (args.url) {
-    const source = new McapIterableSource({ type: "url", url: args.url });
+  } else if (args.urls?.length === 1) {
+    const singleUrl = args.urls[0]!;
+    const source = new McapIterableSource({ type: "url", url: singleUrl });
+    const wrapped = new WorkerIterableSourceWorker(source);
+    return Comlink.proxy(wrapped);
+  } else if (args.urls && args.urls.length > 1) {
+    const source = new MultiIterableSource({ type: "urls", urls: args.urls }, McapIterableSource);
     const wrapped = new WorkerIterableSourceWorker(source);
     return Comlink.proxy(wrapped);
   }
