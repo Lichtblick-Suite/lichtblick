@@ -179,22 +179,22 @@ function createExtensionRegistryStore(
       return results;
     },
 
-    mergeState: (info: ExtensionInfo, contributionPoints: ContributionPoints) => {
-      /**
-       * Implement the control if the ext is mounted here.
-       */
+    mergeState: (
+      info: ExtensionInfo,
+      { messageConverters, panelSettings, panels, topicAliasFunctions }: ContributionPoints,
+    ) => {
       set((state) => ({
-        installedExtensions: [...state.installedExtensions!, info],
-        installedPanels: { ...state.installedPanels, ...contributionPoints.panels },
-        installedMessageConverters: [
-          ...state.installedMessageConverters!,
-          ...contributionPoints.messageConverters,
-        ],
-        installedTopicAliasFunctions: [
-          ...state.installedTopicAliasFunctions!,
-          ...contributionPoints.topicAliasFunctions,
-        ],
-        panelSettings: { ...state.panelSettings, ...contributionPoints.panelSettings },
+        installedExtensions: _.uniqBy([...state.installedExtensions!, info], "id"),
+        installedPanels: { ...state.installedPanels, ...panels },
+        installedMessageConverters: _.uniqBy(
+          [...state.installedMessageConverters!, ...messageConverters],
+          "extensionId",
+        ),
+        installedTopicAliasFunctions: _.uniqBy(
+          [...state.installedTopicAliasFunctions!, ...topicAliasFunctions],
+          "extensionId",
+        ),
+        panelSettings: { ...state.panelSettings, ...panelSettings },
       }));
     },
 
