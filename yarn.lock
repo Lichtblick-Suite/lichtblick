@@ -2955,7 +2955,7 @@ __metadata:
     "@testing-library/react": 16.0.0
     "@testing-library/user-event": 14.5.2
     "@types/base16": ^1.0.5
-    "@types/cytoscape": ^3.19.16
+    "@types/cytoscape": ^3.21.9
     "@types/geojson": 7946.0.11
     "@types/gl-matrix": 3.2.0
     "@types/hammerjs": 2.0.46
@@ -2992,7 +2992,7 @@ __metadata:
     chromatic: 11.5.6
     crypto-browserify: 3.12.0
     css-loader: 6.8.1
-    cytoscape: 3.30.4
+    cytoscape: 3.31.1
     cytoscape-dagre: 2.5.0
     esbuild-loader: 2.21.0
     eventemitter3: 5.0.1
@@ -4967,10 +4967,10 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@types/cytoscape@npm:^3.19.16":
-  version: 3.21.8
-  resolution: "@types/cytoscape@npm:3.21.8"
-  checksum: ad56bbab57e4d94af238d394d280f6f8faf6a0b506944d944284bb64124db29d62ad5cd2e278d3f5c2fb6311fc97253f27c307aab6f4f45c3f70d0d51e574131
+"@types/cytoscape@npm:^3.21.9":
+  version: 3.21.9
+  resolution: "@types/cytoscape@npm:3.21.9"
+  checksum: a1bc31f137d4170a5b710f381e1462aa1f4c8e9739273048f457ca9b6b6ce004769ff36d3ff3625389eb38f899ea75f3b4d912a648e577eff6c1942a0bc848d6
   languageName: node
   linkType: hard
 
@@ -8801,10 +8801,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cytoscape@npm:3.30.4":
-  version: 3.30.4
-  resolution: "cytoscape@npm:3.30.4"
-  checksum: a6b33f018456766c3e49a34fd5860716a2008c29b804b105a8409520d81c778a747ef90a9eba877001c770a077c5b4d87f7cbef0b9d3686aaffc4fd1a86b051e
+"cytoscape@npm:3.31.1":
+  version: 3.31.1
+  resolution: "cytoscape@npm:3.31.1"
+  checksum: 88dabf36caa2fdd01ff6f511989a436424f90f95a5a81b7062574f6dcaf5079bbb91f9b70dc0549ba6dadbea3b96b4ad7538948f2ff6ed866db8a10593597ed6
   languageName: node
   linkType: hard
 
