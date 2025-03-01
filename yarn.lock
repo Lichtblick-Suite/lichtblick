@@ -2981,7 +2981,7 @@ __metadata:
     "@types/tinycolor2": 1.4.4
     "@types/uuid": 9.0.7
     "@types/wicg-file-system-access": 2020.9.6
-    "@uiw/react-textarea-code-editor": 3.0.2
+    "@uiw/react-textarea-code-editor": 3.1.0
     async-mutex: 0.5.0
     babel-jest: 29.7.0
     babel-plugin-transform-import-meta: 2.2.1
@@ -6114,18 +6114,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@uiw/react-textarea-code-editor@npm:3.0.2":
-  version: 3.0.2
-  resolution: "@uiw/react-textarea-code-editor@npm:3.0.2"
+"@uiw/react-textarea-code-editor@npm:3.1.0":
+  version: 3.1.0
+  resolution: "@uiw/react-textarea-code-editor@npm:3.1.0"
   dependencies:
     "@babel/runtime": ^7.18.6
     rehype: ~13.0.0
-    rehype-prism-plus: 1.6.3
+    rehype-prism-plus: 2.0.0
   peerDependencies:
     "@babel/runtime": ">=7.10.0"
     react: ">=16.9.0"
     react-dom: ">=16.9.0"
-  checksum: ef9cd7e5790200e2e7160b7c0338ed63f40af76ddc2d0d8ee18a3d408122ea0f00bb24295fdaf555b526ff08fe18322ab060a6384b5bf54352665bcedfd50618
+  checksum: 41051c7d9d3e7ab05f8e2f67c6e85952e2496cfeb249ff4e91f61005ebfbae1622f8f9748cb4de8af0dae834407100a6c6c26d255dbd45fb7da1bab0e1b8aabf
   languageName: node
   linkType: hard
 
@@ -11870,12 +11870,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hast-util-to-string@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "hast-util-to-string@npm:2.0.0"
+"hast-util-to-string@npm:^3.0.0":
+  version: 3.0.1
+  resolution: "hast-util-to-string@npm:3.0.1"
   dependencies:
-    "@types/hast": ^2.0.0
-  checksum: 0c087f8dee4238741cbad65d28adb8bf800252c763a3c643df2fcb4ef97232056837928c2ae73f841f310e4d336c3b183ee380a5e6eb24bda5c117f78ed600d4
+    "@types/hast": ^3.0.0
+  checksum: 556f3cb118fc09e3a6cd149ee4b4056a49028a3858a7d37617e4c6d2c9c5e2336d5fb87eb5f41211b1977a964c705aa70e419464c12debc1959ed03fdad5bed6
   languageName: node
   linkType: hard
 
@@ -17685,18 +17685,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rehype-parse@npm:^8.0.2":
-  version: 8.0.5
-  resolution: "rehype-parse@npm:8.0.5"
-  dependencies:
-    "@types/hast": ^2.0.0
-    hast-util-from-parse5: ^7.0.0
-    parse5: ^6.0.0
-    unified: ^10.0.0
-  checksum: ca41df7ac2f7805348eec547515de2fb3cda42bebf32892ffff21f539385519649179977dcd70e02897f8b0a5a45463d7e9cf8e29e292239cb82f5c9c8f564fe
-  languageName: node
-  linkType: hard
-
 "rehype-parse@npm:^9.0.0":
   version: 9.0.1
   resolution: "rehype-parse@npm:9.0.1"
@@ -17708,17 +17696,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rehype-prism-plus@npm:1.6.3":
-  version: 1.6.3
-  resolution: "rehype-prism-plus@npm:1.6.3"
+"rehype-prism-plus@npm:2.0.0":
+  version: 2.0.0
+  resolution: "rehype-prism-plus@npm:2.0.0"
   dependencies:
-    hast-util-to-string: ^2.0.0
+    hast-util-to-string: ^3.0.0
     parse-numeric-range: ^1.3.0
     refractor: ^4.8.0
-    rehype-parse: ^8.0.2
-    unist-util-filter: ^4.0.0
-    unist-util-visit: ^4.0.0
-  checksum: 418b31bce05131b86cb759a4789e1842e576f7f0642c8ed8ed43f42785271dd15997c7c4d34778586f656b66a7e09bda405019db006c1f552a284beda685adca
+    rehype-parse: ^9.0.0
+    unist-util-filter: ^5.0.0
+    unist-util-visit: ^5.0.0
+  checksum: c025f5b96d55431000cb4c688c9cbb174e6ed87c683d8499683f840d55e621b619365316b3d01f3c788086dd7a7abcdddca77f3054ba61c14ce6e73e31eb37e6
   languageName: node
   linkType: hard
 
@@ -20101,14 +20089,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"unist-util-filter@npm:^4.0.0":
-  version: 4.0.1
-  resolution: "unist-util-filter@npm:4.0.1"
+"unist-util-filter@npm:^5.0.0":
+  version: 5.0.1
+  resolution: "unist-util-filter@npm:5.0.1"
   dependencies:
-    "@types/unist": ^2.0.0
-    unist-util-is: ^5.0.0
-    unist-util-visit-parents: ^5.0.0
-  checksum: 0e7a24db8ee90bb0bca2109995b63b11db95687d3ae5efe992571094670363211c21d1c3c1d3972fbe4284ce0e82341c8552c7be4c8e491a15b78d1f59cde5b9
+    "@types/unist": ^3.0.0
+    unist-util-is: ^6.0.0
+    unist-util-visit-parents: ^6.0.0
+  checksum: d9d1d9dfd89a91f15ced255aa8dc61cb7648273eb791e3d9e9385c05995fe24ccf1f2119c2f7e2c671c61f7275ffa93f13440e4adfad1d0e494e8507cb818981
   languageName: node
   linkType: hard
 
@@ -20166,7 +20154,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"unist-util-visit-parents@npm:^5.0.0, unist-util-visit-parents@npm:^5.1.1":
+"unist-util-visit-parents@npm:^5.1.1":
   version: 5.1.3
   resolution: "unist-util-visit-parents@npm:5.1.3"
   dependencies:
