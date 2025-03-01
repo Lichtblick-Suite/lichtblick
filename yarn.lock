@@ -3011,7 +3011,7 @@ __metadata:
     immer: 10.0.2
     intervals-fn: 3.0.3
     jest-canvas-mock: 2.5.2
-    jszip: 3.10.0
+    jszip: 3.10.1
     just-diff: 6.0.2
     leaflet: 1.9.4
     leaflet-ellipse: 0.9.1
@@ -13930,18 +13930,6 @@ __metadata:
     object.assign: ^4.1.4
     object.values: ^1.1.6
   checksum: f4b05fa4d7b5234230c905cfa88d36dc8a58a6666975a3891429b1a8cdc8a140bca76c297225cb7a499fad25a2c052ac93934449a2c31a44fc9edd06c773780a
-  languageName: node
-  linkType: hard
-
-"jszip@npm:3.10.0":
-  version: 3.10.0
-  resolution: "jszip@npm:3.10.0"
-  dependencies:
-    lie: ~3.3.0
-    pako: ~1.0.2
-    readable-stream: ~2.3.6
-    setimmediate: ^1.0.5
-  checksum: 80cc8e0e466467e9e21447f604f9262509b29a9c65170a3fee415ac0a403beb370840973cdc17f75d2b92ab3e60685f94d267706510d46bed2dd14858a38e459
   languageName: node
   linkType: hard
 
