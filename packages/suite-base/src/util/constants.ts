@@ -2,3 +2,5 @@
 // SPDX-License-Identifier: MPL-2.0
 
 export const keyMap: Record<string, string> = { urls: "url" };
+
+export const DEFAULT_TIMEZONE = "CET";

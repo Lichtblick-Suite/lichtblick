@@ -4,6 +4,8 @@
 import { Chrono } from "chrono-node";
 import { DateTime } from "luxon";
 
+import { DEFAULT_TIMEZONE } from "@lichtblick/suite-base/util/constants";
+
 export const parseTimestampStr = (timeStr: string): number | undefined => {
   if (!timeStr.trim()) {
     return undefined;
@@ -12,16 +14,14 @@ export const parseTimestampStr = (timeStr: string): number | undefined => {
   const timeNumber = Number(timeStr);
 
   if (!isNaN(timeNumber)) {
-    // If input is a number, assume it's a Unix timestamp
-    return timeNumber > 10_000_000_000
-      ? timeNumber / 1000 // Convert milliseconds to seconds
-      : timeNumber; // Already in seconds
+    // If input is a number, assume it's a Unix timestamp in seconds
+    return timeNumber;
   }
 
   // Use Chrono to parse various string formats
-  const parsed = new Chrono().parseDate(timeStr);
+  const parsed = new Chrono().parseDate(timeStr, { timezone: DEFAULT_TIMEZONE });
   if (parsed instanceof Date) {
-    return DateTime.fromJSDate(parsed).toSeconds();
+    return DateTime.fromJSDate(parsed).setZone(DEFAULT_TIMEZONE).toSeconds();
   }
 
   return undefined; // Explicitly return undefined if parsing fails
