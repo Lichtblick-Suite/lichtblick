@@ -43,11 +43,13 @@ const EXT_FILE_PREFIXED = `${__dirname}/../test/fixtures/prefixed-name-extension
 describe("IdbExtensionLoader", () => {
   const put = jest.fn();
   const getAll = jest.fn();
+  const get = jest.fn();
 
   beforeEach(() => {
     (openDB as jest.Mock).mockReturnValue({
       transaction: jest.fn().mockReturnValue({ db: { put } }),
       getAll,
+      get,
     });
   });
 
@@ -114,6 +116,24 @@ describe("IdbExtensionLoader", () => {
         info: expectedInfo,
       });
       expect((await loader.getExtensions())[0]).toBe(expectedInfo);
+    });
+
+    it("should return the proper extension when call get extension", async () => {
+      const foxe = fs.readFileSync(EXT_FILE_TURTLESIM);
+      const expectedInfo = {
+        ...pkgInfo,
+        namespace: "local",
+        qualifiedName: "turtlesim",
+      };
+      get.mockReturnValue({
+        info: expectedInfo,
+      });
+      const loader = new IdbExtensionLoader("local");
+
+      await loader.installExtension(foxe as unknown as Uint8Array);
+      const result = await loader.getExtension(expectedInfo.id);
+
+      expect(result).toBe(expectedInfo);
     });
   });
 });
