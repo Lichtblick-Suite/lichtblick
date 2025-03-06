@@ -1,6 +1,7 @@
 // SPDX-FileCopyrightText: Copyright (C) 2023-2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)<lichtblick@bmwgroup.com>
 // SPDX-License-Identifier: MPL-2.0
 
+import { enqueueSnackbar } from "notistack";
 import { useEffect } from "react";
 
 import { useMessagePipelineGetter } from "@lichtblick/suite-base/components/MessagePipeline";
@@ -29,9 +30,14 @@ const useSeekTimeFromCLI = (): void => {
     const parsedTime = parseTimestampStr(time);
 
     if (parsedTime == undefined) {
-      console.error("error parsing time", time);
+      // Show an error message to the user indicating that the time format is invalid
+      enqueueSnackbar(
+        "Invalid time format using 'time' parameter on CLI. Please check and try again.",
+        { variant: "warning" },
+      );
       return;
     }
+
     seekPlayback(parsedTime);
   }, [time, seekPlayback, presence]);
 };

@@ -4,6 +4,7 @@
 // SPDX-License-Identifier: MPL-2.0
 
 import { renderHook } from "@testing-library/react";
+import { enqueueSnackbar } from "notistack";
 
 import { useMessagePipelineGetter } from "@lichtblick/suite-base/components/MessagePipeline";
 import { useAppParameters } from "@lichtblick/suite-base/context/AppParametersContext";
@@ -11,6 +12,10 @@ import { PlayerPresence } from "@lichtblick/suite-base/players/types";
 import { parseTimestampStr } from "@lichtblick/suite-base/util/parseMultipleTimes";
 
 import useSeekTimeFromCLI from "./useSeekTimeFromCLI";
+
+jest.mock("notistack", () => ({
+  enqueueSnackbar: jest.fn(),
+}));
 
 jest.mock("@lichtblick/suite-base/components/MessagePipeline");
 jest.mock("@lichtblick/suite-base/context/AppParametersContext");
@@ -30,6 +35,9 @@ describe("useSeekTimeFromCLI", () => {
     }));
     mockUseAppParameters.mockReturnValue({ time: "00:01:00" });
     mockParseTimestampStr.mockReturnValue(60000); // 1 minute in milliseconds
+    jest.mock("notistack", () => ({
+      enqueueSnackbar: jest.fn(),
+    }));
   });
 
   it("should seek playback when time and seekPlayback are defined and player is present", () => {
@@ -88,8 +96,11 @@ describe("useSeekTimeFromCLI", () => {
     });
 
     expect(mockSeekPlayback).not.toHaveBeenCalled();
-    expect(console.error).toHaveBeenCalledWith("error parsing time", "00:01:00");
-    expect(console.error).toHaveBeenCalledTimes(1);
-    (console.error as jest.Mock).mockClear();
+    expect(enqueueSnackbar).toHaveBeenCalledWith(
+      "Invalid time format. Please check and try again.",
+      {
+        variant: "error",
+      },
+    );
   });
 });

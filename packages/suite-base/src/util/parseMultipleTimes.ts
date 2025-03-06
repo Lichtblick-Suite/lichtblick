@@ -19,7 +19,6 @@ export const parseTimestampStr = (timeStr: string): Time | undefined => {
   }
 
   // Use Chrono to parse various string formats
-
   const parsed = new Chrono().parseDate(timeStr);
   if (parsed instanceof Date) {
     return fromSec(DateTime.fromJSDate(parsed).toSeconds());
