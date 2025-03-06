@@ -97,9 +97,9 @@ describe("useSeekTimeFromCLI", () => {
 
     expect(mockSeekPlayback).not.toHaveBeenCalled();
     expect(enqueueSnackbar).toHaveBeenCalledWith(
-      "Invalid time format. Please check and try again.",
+      "Invalid time format using 'time' parameter on CLI. Please check and try again.",
       {
-        variant: "error",
+        variant: "warning",
       },
     );
   });
