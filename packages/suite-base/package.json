@@ -74,6 +74,7 @@
     "@types/hammerjs": "2.0.46",
     "@types/leaflet": "1.9.7",
     "@types/lichtblick__roslibjs": "workspace:*",
+    "@types/luxon": "^3",
     "@types/memoize-weak": "workspace:*",
     "@types/moment-duration-format": "2.2.6",
     "@types/nearley": "2.11.5",
@@ -188,5 +189,9 @@
     "vm-browserify": "1.1.2",
     "webpack": "5.97.1",
     "zustand": "4.4.1"
+  },
+  "dependencies": {
+    "chrono-node": "2.7.8",
+    "luxon": "3.5.0"
   }
 }

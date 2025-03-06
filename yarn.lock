@@ -2961,6 +2961,7 @@ __metadata:
     "@types/hammerjs": 2.0.46
     "@types/leaflet": 1.9.7
     "@types/lichtblick__roslibjs": "workspace:*"
+    "@types/luxon": ^3
     "@types/memoize-weak": "workspace:*"
     "@types/moment-duration-format": 2.2.6
     "@types/nearley": 2.11.5
@@ -2990,6 +2991,7 @@ __metadata:
     chartjs-plugin-annotation: 3.0.1
     chartjs-plugin-datalabels: 2.2.0
     chromatic: 11.5.6
+    chrono-node: 2.7.8
     crypto-browserify: 3.12.0
     css-loader: 6.8.1
     cytoscape: 3.30.4
@@ -3016,6 +3018,7 @@ __metadata:
     leaflet: 1.9.4
     leaflet-ellipse: 0.9.1
     lodash-es: 4.17.21
+    luxon: 3.5.0
     mathjs: 11.11.1
     memoize-weak: 1.0.2
     meshoptimizer: 0.19.0
