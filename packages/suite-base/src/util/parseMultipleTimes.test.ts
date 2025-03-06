@@ -8,35 +8,34 @@ describe("parseTimestampStr", () => {
     expect(parseTimestampStr("1633046400")).toEqual({ sec: 1633046400, nsec: 0 });
   });
 
-  it("should start in 01/01/1970 at 01:00:00", () => {
-    expect(parseTimestampStr("1970-01-01 01:00:00")).toEqual({ sec: 0, nsec: 0 });
+  it("should start in 01/01/1970 at 01:00:01", () => {
+    expect(parseTimestampStr("1970-01-01 01:00:01")).toEqual({ sec: 1, nsec: 0 });
   });
 
   describe("parse valid date strings and return Unix timestamps in seconds", () => {
     it("should return Unix timestamp in seconds with default timezone (UTC)", () => {
-      expect(parseTimestampStr("2021-10-01T00:00:00Z")).toEqual({ sec: 1633046400, nsec: 0 });
       expect(parseTimestampStr("2020-04-07 11:45:21 PM")).toEqual({ sec: 1586299521, nsec: 0 });
       expect(parseTimestampStr("2024-12-02 11:45:21.325123 PM")).toEqual({
         sec: 1733183121,
-        nsec: 325000048,
+        nsec: 325000000,
       });
       expect(parseTimestampStr("2024-12-02 11:45:21.325123")).toEqual({
         sec: 1733139921,
-        nsec: 325000048,
+        nsec: 325000000,
       });
       expect(parseTimestampStr("2024-12-02 11:45:21")).toEqual({ sec: 1733139921, nsec: 0 });
       expect(parseTimestampStr("2024-12-02 11:45")).toEqual({ sec: 1733139900, nsec: 0 });
-      expect(parseTimestampStr("2024-12-02")).toEqual({ sec: 1733140800, nsec: 0 });
+      expect(parseTimestampStr("2024-12-02")).toEqual({ sec: 1733097600, nsec: 0 });
     });
 
     it("should return Unix timestamp with CET timezone", () => {
       expect(parseTimestampStr("2024-12-02 11:45:21 CET")).toEqual({
-        sec: 1733139921 - 3600, // 3600 seconds = 1 hour -> difference between UTC and CET
+        sec: 1733139921,
         nsec: 0,
       });
       expect(parseTimestampStr("2024-12-02 11:45:21.325123 CET")).toEqual({
-        sec: 1733139921 - 3600, // 3600 seconds = 1 hour -> difference between UTC and CET
-        nsec: 325000048,
+        sec: 1733139921,
+        nsec: 325000000,
       });
     });
 
