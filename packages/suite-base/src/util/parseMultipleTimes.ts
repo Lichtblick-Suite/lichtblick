@@ -4,7 +4,9 @@
 import { Chrono } from "chrono-node";
 import { DateTime } from "luxon";
 
-export const parseTimestampStr = (timeStr: string): number | undefined => {
+import { fromSec, Time } from "@lichtblick/rostime";
+
+export const parseTimestampStr = (timeStr: string): Time | undefined => {
   if (!timeStr.trim()) {
     return undefined;
   } // Handle empty strings explicitly
@@ -13,14 +15,14 @@ export const parseTimestampStr = (timeStr: string): number | undefined => {
 
   if (!isNaN(timeNumber)) {
     // If input is a number, assume it's a Unix timestamp in seconds
-    return timeNumber;
+    return fromSec(timeNumber);
   }
 
   // Use Chrono to parse various string formats
 
   const parsed = new Chrono().parseDate(timeStr);
   if (parsed instanceof Date) {
-    return DateTime.fromJSDate(parsed).toSeconds();
+    return fromSec(DateTime.fromJSDate(parsed).toSeconds());
   }
 
   return undefined; // Explicitly return undefined if parsing fails

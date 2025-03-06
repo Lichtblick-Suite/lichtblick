@@ -22,7 +22,6 @@ import { Trans, useTranslation } from "react-i18next";
 import { makeStyles } from "tss-react/mui";
 
 import Logger from "@lichtblick/log";
-import { fromSec } from "@lichtblick/rostime";
 import { AppSetting } from "@lichtblick/suite-base/AppSetting";
 import AccountSettings from "@lichtblick/suite-base/components/AccountSettingsSidebar/AccountSettings";
 import { AppBar, AppBarProps } from "@lichtblick/suite-base/components/AppBar";
@@ -61,7 +60,6 @@ import { TopicList } from "@lichtblick/suite-base/components/TopicList";
 import VariablesList from "@lichtblick/suite-base/components/VariablesList";
 import { WorkspaceDialogs } from "@lichtblick/suite-base/components/WorkspaceDialogs";
 import { useAppContext } from "@lichtblick/suite-base/context/AppContext";
-import { useAppParameters } from "@lichtblick/suite-base/context/AppParametersContext";
 import {
   LayoutState,
   useCurrentLayoutSelector,
@@ -89,9 +87,9 @@ import { PlayerPresence } from "@lichtblick/suite-base/players/types";
 import { PanelStateContextProvider } from "@lichtblick/suite-base/providers/PanelStateContextProvider";
 import WorkspaceContextProvider from "@lichtblick/suite-base/providers/WorkspaceContextProvider";
 import ICONS from "@lichtblick/suite-base/theme/icons";
+import useSeekTimeFromCLI from "@lichtblick/suite-base/useSeekTimeFromCLI";
 import { parseAppURLState } from "@lichtblick/suite-base/util/appURLState";
 import isDesktopApp from "@lichtblick/suite-base/util/isDesktopApp";
-import { parseTimestampStr } from "@lichtblick/suite-base/util/parseMultipleTimes";
 
 import { useWorkspaceActions } from "./context/Workspace/useWorkspaceActions";
 
@@ -616,27 +614,7 @@ function WorkspaceContent(props: WorkspaceProps): React.JSX.Element {
     setUnappliedTime({ time: undefined });
   }, [playerPresence, seek, unappliedTime]);
 
-  const { time } = useAppParameters();
-
-  // Seek to time in Parameters from CLI.
-  useEffect(() => {
-    if (!time || !seek) {
-      return;
-    }
-
-    // Wait until player is ready before we try to seek.
-    if (playerPresence !== PlayerPresence.PRESENT) {
-      return;
-    }
-
-    const parsedTime = parseTimestampStr(time);
-
-    if (parsedTime == undefined) {
-      return;
-    }
-
-    seek(fromSec(parsedTime));
-  }, [playerPresence, seek, time]);
+  useSeekTimeFromCLI();
 
   const appBar = useMemo(
     () => (
