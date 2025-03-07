@@ -83,6 +83,7 @@ import { useAppConfigurationValue } from "@lichtblick/suite-base/hooks";
 import useAddPanel from "@lichtblick/suite-base/hooks/useAddPanel";
 import { useDefaultWebLaunchPreference } from "@lichtblick/suite-base/hooks/useDefaultWebLaunchPreference";
 import useElectronFilesToOpen from "@lichtblick/suite-base/hooks/useElectronFilesToOpen";
+import useSeekTimeFromCLI from "@lichtblick/suite-base/hooks/useSeekTimeFromCLI";
 import { PlayerPresence } from "@lichtblick/suite-base/players/types";
 import { PanelStateContextProvider } from "@lichtblick/suite-base/providers/PanelStateContextProvider";
 import WorkspaceContextProvider from "@lichtblick/suite-base/providers/WorkspaceContextProvider";
@@ -612,6 +613,8 @@ function WorkspaceContent(props: WorkspaceProps): React.JSX.Element {
     seek(unappliedTime.time);
     setUnappliedTime({ time: undefined });
   }, [playerPresence, seek, unappliedTime]);
+
+  useSeekTimeFromCLI();
 
   const appBar = useMemo(
     () => (
