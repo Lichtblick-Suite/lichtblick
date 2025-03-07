@@ -62,11 +62,15 @@ jobs:
           FORMATTED_VERSION=$(echo "$VERSION" | sed 's/^v//')
           echo "::set-output name=formatted_version::$FORMATTED_VERSION"
 
+      - name: lowercase github.repository
+        run: |
+          echo "IMAGE_NAME=${GITHUB_REPOSITORY@L}" >> ${GITHUB_ENV}
+
       - name: Build and Push Docker image
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
           tags: |
-            ghcr.io/${{ github.repository }}:latest
-            ghcr.io/${{ github.repository }}:${{ steps.format_version.outputs.formatted_version }}
+            ghcr.io/${{ env.IMAGE_NAME }}:latest
+            ghcr.io/${{ env.IMAGE_NAME }}:${{ steps.format_version.outputs.formatted_version }}
