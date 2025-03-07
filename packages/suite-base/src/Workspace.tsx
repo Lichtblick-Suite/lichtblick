@@ -83,6 +83,7 @@ import { useAppConfigurationValue } from "@lichtblick/suite-base/hooks";
 import useAddPanel from "@lichtblick/suite-base/hooks/useAddPanel";
 import { useDefaultWebLaunchPreference } from "@lichtblick/suite-base/hooks/useDefaultWebLaunchPreference";
 import useElectronFilesToOpen from "@lichtblick/suite-base/hooks/useElectronFilesToOpen";
+import useSeekTimeFromCLI from "@lichtblick/suite-base/hooks/useSeekTimeFromCLI";
 import { PlayerPresence } from "@lichtblick/suite-base/players/types";
 import { PanelStateContextProvider } from "@lichtblick/suite-base/providers/PanelStateContextProvider";
 import WorkspaceContextProvider from "@lichtblick/suite-base/providers/WorkspaceContextProvider";
@@ -231,38 +232,40 @@ function WorkspaceContent(props: WorkspaceProps): React.JSX.Element {
 
   const installExtension = useExtensionCatalog((state) => state.installExtension);
 
-  const openHandle = useCallback(
+  const openHandles = useCallback(
     async (
-      handle: FileSystemFileHandle /* foxglove-depcheck-used: @types/wicg-file-system-access */,
+      handles: FileSystemFileHandle[] /* foxglove-depcheck-used: @types/wicg-file-system-access */,
     ) => {
-      log.debug("open handle", handle);
-      const file = await handle.getFile();
+      log.debug("open handles", handles);
+      const files = await Promise.all(handles.map(async (handle) => await handle.getFile()));
 
-      if (file.name.endsWith(".foxe")) {
-        // Extension installation
-        try {
-          const arrayBuffer = await file.arrayBuffer();
-          const data = new Uint8Array(arrayBuffer);
-          const url = new URL(window.location.href);
-          const namespace = url.searchParams.get("namespace") ? "org" : "local";
-          const extension = await installExtension(namespace, data, file);
-          enqueueSnackbar(`Installed extension ${extension.id}`, { variant: "success" });
-        } catch (e: unknown) {
-          const err = e as Error;
-          log.error(err);
-          enqueueSnackbar(`Failed to install extension ${file.name}: ${err.message}`, {
-            variant: "error",
-          });
+      for (const file of files) {
+        if (file.name.endsWith(".foxe")) {
+          // Extension installation
+          try {
+            const arrayBuffer = await file.arrayBuffer();
+            const data = new Uint8Array(arrayBuffer);
+            const url = new URL(window.location.href);
+            const namespace = url.searchParams.get("namespace") ? "org" : "local";
+            const extension = await installExtension(namespace, data, file);
+            enqueueSnackbar(`Installed extension ${extension.id}`, { variant: "success" });
+          } catch (e: unknown) {
+            const err = e as Error;
+            log.error(err);
+            enqueueSnackbar(`Failed to install extension ${file.name}: ${err.message}`, {
+              variant: "error",
+            });
+          }
         }
       }
 
       // Look for a source that supports the file extensions
       const matchedSource = availableSources.find((source) => {
-        const ext = extname(file.name);
+        const ext = extname(files[0]!.name);
         return source.supportedFileTypes?.includes(ext);
       });
       if (matchedSource) {
-        selectSource(matchedSource.id, { type: "file", handle });
+        selectSource(matchedSource.id, { type: "file", handles });
       }
     },
     [availableSources, enqueueSnackbar, installExtension, selectSource],
@@ -323,17 +326,16 @@ function WorkspaceContent(props: WorkspaceProps): React.JSX.Element {
 
   const dropHandler = useCallback(
     (event: { files?: File[]; handles?: FileSystemFileHandle[] }) => {
-      const handle = event.handles?.[0];
       // When selecting sources with handles we can only select with a single handle since we haven't
       // written the code to store multiple handles for recents. When there are multiple handles, we
       // fall back to opening regular files.
-      if (handle && event.handles?.length === 1) {
-        void openHandle(handle);
+      if (event.handles) {
+        void openHandles(event.handles);
       } else if (event.files) {
         void openFiles(event.files);
       }
     },
-    [openFiles, openHandle],
+    [openFiles, openHandles],
   );
 
   // Since the _component_ field of a sidebar item entry is a component and accepts no additional
@@ -615,6 +617,8 @@ function WorkspaceContent(props: WorkspaceProps): React.JSX.Element {
     seek(unappliedTime.time);
     setUnappliedTime({ time: undefined });
   }, [playerPresence, seek, unappliedTime]);
+
+  useSeekTimeFromCLI();
 
   const appBar = useMemo(
     () => (
