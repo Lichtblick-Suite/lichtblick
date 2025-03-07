@@ -19,28 +19,22 @@ import {
   TopicAliasFunction,
 } from "@lichtblick/suite";
 import {
+  ContributionPoints,
   ExtensionCatalog,
   ExtensionCatalogContext,
+  InstallExtensionsResult,
+  MessageConverter,
   RegisteredPanel,
 } from "@lichtblick/suite-base/context/ExtensionCatalogContext";
-import { TopicAliasFunctions } from "@lichtblick/suite-base/players/TopicAliasingPlayer/aliasing";
 import { ExtensionLoader } from "@lichtblick/suite-base/services/ExtensionLoader";
 import { ExtensionInfo, ExtensionNamespace } from "@lichtblick/suite-base/types/Extensions";
 
 const log = Logger.getLogger(__filename);
 
-type MessageConverter = RegisterMessageConverterArgs<unknown> & {
-  extensionNamespace?: ExtensionNamespace;
-};
+const REFRESH_EXTENSIONS_BATCH = 3;
+const INSTALL_EXTENSIONS_BATCH = 3;
 
-type ContributionPoints = {
-  panels: Record<string, RegisteredPanel>;
-  messageConverters: MessageConverter[];
-  topicAliasFunctions: TopicAliasFunctions;
-  panelSettings: Record<string, Record<string, PanelSettings<unknown>>>;
-};
-
-function activateExtension(
+function mountExtension(
   extension: ExtensionInfo,
   unwrappedExtensionSource: string,
 ): ContributionPoints {
@@ -54,7 +48,7 @@ function activateExtension(
 
   const topicAliasFunctions: ContributionPoints["topicAliasFunctions"] = [];
 
-  log.debug(`Activating extension ${extension.qualifiedName}`);
+  log.debug(`Mounting extension ${extension.qualifiedName}`);
 
   const module = { exports: {} };
   const require = (name: string) => {
@@ -81,6 +75,7 @@ function activateExtension(
       }
 
       panels[fullId] = {
+        extensionId: extension.id,
         extensionName: extension.qualifiedName,
         extensionNamespace: extension.namespace,
         registration: params,
@@ -94,6 +89,7 @@ function activateExtension(
       messageConverters.push({
         ...args,
         extensionNamespace: extension.namespace,
+        extensionId: extension.id,
       } as MessageConverter);
 
       const converterSettings = _.mapValues(args.panelSettings, (settings) => ({
@@ -128,74 +124,189 @@ function activateExtension(
     panelSettings,
   };
 }
-
 function createExtensionRegistryStore(
   loaders: readonly ExtensionLoader[],
   mockMessageConverters: readonly RegisterMessageConverterArgs<unknown>[] | undefined,
 ): StoreApi<ExtensionCatalog> {
   return createStore((set, get) => ({
+    isExtensionInstalled: (extensionId: string) => {
+      return get().loadedExtensions.has(extensionId);
+    },
+    markExtensionAsInstalled: (extensionId: string) => {
+      const updatedExtensions = new Set(get().loadedExtensions);
+      updatedExtensions.add(extensionId);
+      set({ loadedExtensions: updatedExtensions });
+    },
+    unMarkExtensionAsInstalled: (extensionId: string) => {
+      const updatedExtensions = new Set(get().loadedExtensions);
+      updatedExtensions.delete(extensionId);
+      set({ loadedExtensions: updatedExtensions });
+    },
     downloadExtension: async (url: string) => {
       const res = await fetch(url);
       return new Uint8Array(await res.arrayBuffer());
     },
-
-    installExtension: async (namespace: ExtensionNamespace, foxeFileData: Uint8Array) => {
-      const namespacedLoader = loaders.find((loader) => loader.namespace === namespace);
-      if (namespacedLoader == undefined) {
-        throw new Error("No extension loader found for namespace " + namespace);
+    installExtensions: async (namespace: ExtensionNamespace, data: Uint8Array[]) => {
+      const namespaceLoader = loaders.find((loader) => loader.namespace === namespace);
+      if (namespaceLoader == undefined) {
+        throw new Error(`No extension loader found for namespace ${namespace}`);
       }
-      const info = await namespacedLoader.installExtension(foxeFileData);
-      await get().refreshExtensions();
-      return info;
+
+      const batchPromises = async (batch: Uint8Array[]): Promise<InstallExtensionsResult[]> => {
+        return await Promise.all(
+          batch.map(async (extensionData: Uint8Array) => {
+            try {
+              const info = await namespaceLoader.installExtension(extensionData);
+              const unwrappedExtensionSource = await namespaceLoader.loadExtension(info.id);
+              const contributionPoints = mountExtension(info, unwrappedExtensionSource);
+
+              get().mergeState(info, contributionPoints);
+              get().markExtensionAsInstalled(info.id);
+              return { success: true, info };
+            } catch (error) {
+              return { success: false, error };
+            }
+          }),
+        );
+      };
+
+      const results: InstallExtensionsResult[] = [];
+      for (let i = 0; i < data.length; i += INSTALL_EXTENSIONS_BATCH) {
+        const chunk = data.slice(i, i + INSTALL_EXTENSIONS_BATCH);
+        const result = await batchPromises(chunk);
+        results.push(...result);
+      }
+      return results;
     },
 
-    refreshExtensions: async () => {
+    mergeState: (
+      info: ExtensionInfo,
+      { messageConverters, panelSettings, panels, topicAliasFunctions }: ContributionPoints,
+    ) => {
+      set((state) => ({
+        installedExtensions: _.uniqBy([...(state.installedExtensions ?? []), info], "id"),
+        installedPanels: { ...state.installedPanels, ...panels },
+        installedMessageConverters: _.uniqBy(
+          [...state.installedMessageConverters!, ...messageConverters],
+          "extensionId",
+        ),
+        installedTopicAliasFunctions: _.uniqBy(
+          [...state.installedTopicAliasFunctions!, ...topicAliasFunctions],
+          "extensionId",
+        ),
+        panelSettings: { ...state.panelSettings, ...panelSettings },
+      }));
+    },
+
+    refreshAllExtensions: async () => {
+      log.debug("Refreshing all extensions");
       if (loaders.length === 0) {
         return;
       }
 
       const start = performance.now();
-      const extensionList: ExtensionInfo[] = [];
-      const allContributionPoints: ContributionPoints = {
-        panels: {},
-        messageConverters: [],
-        topicAliasFunctions: [],
-        panelSettings: {},
-      };
-      for (const loader of loaders) {
-        try {
-          for (const extension of await loader.getExtensions()) {
+      const installedExtensions: ExtensionInfo[] = [];
+      const { messageConverters, panels, panelSettings, topicAliasFunctions }: ContributionPoints =
+        {
+          messageConverters: [],
+          panels: {},
+          panelSettings: {},
+          topicAliasFunctions: [],
+        };
+
+      const loadInBatch = async (extensionsBatch: ExtensionInfo[], loader: ExtensionLoader) => {
+        await Promise.all(
+          extensionsBatch.map(async (extension) => {
             try {
-              extensionList.push(extension);
+              installedExtensions.push(extension);
+
               const unwrappedExtensionSource = await loader.loadExtension(extension.id);
-              const contributionPoints = activateExtension(extension, unwrappedExtensionSource);
-              Object.assign(allContributionPoints.panels, contributionPoints.panels);
-              _.merge(allContributionPoints.panelSettings, contributionPoints.panelSettings);
-              allContributionPoints.messageConverters.push(...contributionPoints.messageConverters);
-              allContributionPoints.topicAliasFunctions.push(
-                ...contributionPoints.topicAliasFunctions,
-              );
+              const contributionPoints = mountExtension(extension, unwrappedExtensionSource);
+
+              _.assign(panels, contributionPoints.panels);
+              _.merge(panelSettings, contributionPoints.panelSettings);
+              messageConverters.push(...contributionPoints.messageConverters);
+              topicAliasFunctions.push(...contributionPoints.topicAliasFunctions);
+
+              get().markExtensionAsInstalled(extension.id);
             } catch (err: unknown) {
-              log.error("Error loading extension", err);
+              log.error(`Error loading extension ${extension.id}`, err);
             }
+          }),
+        );
+      };
+
+      const processLoader = async (loader: ExtensionLoader) => {
+        try {
+          const extensions = await loader.getExtensions();
+          const chunks = _.chunk(extensions, REFRESH_EXTENSIONS_BATCH);
+          for (const chunk of chunks) {
+            await loadInBatch(chunk, loader);
           }
         } catch (err: unknown) {
           log.error("Error loading extension list", err);
         }
-      }
+      };
+      await Promise.all(loaders.map(processLoader));
+
       log.info(
-        `Loaded ${extensionList.length} extensions in ${(performance.now() - start).toFixed(1)}ms`,
+        `Loaded ${installedExtensions.length} extensions in ${(performance.now() - start).toFixed(1)}ms`,
       );
+
       set({
-        installedExtensions: extensionList,
-        installedPanels: allContributionPoints.panels,
-        installedMessageConverters: allContributionPoints.messageConverters,
-        installedTopicAliasFunctions: allContributionPoints.topicAliasFunctions,
-        panelSettings: allContributionPoints.panelSettings,
+        installedExtensions,
+        installedPanels: panels,
+        installedMessageConverters: messageConverters,
+        installedTopicAliasFunctions: topicAliasFunctions,
+        panelSettings,
       });
     },
 
-    // If there are no loaders then we know there will not be any installed extensions
+    uninstallExtension: async (namespace: ExtensionNamespace, id: string) => {
+      const namespaceLoader = loaders.find((loader) => loader.namespace === namespace);
+      if (namespaceLoader == undefined) {
+        throw new Error("No extension loader found for namespace " + namespace);
+      }
+
+      const extension = await namespaceLoader.getExtension(id);
+      if (!extension) {
+        return;
+      }
+
+      await namespaceLoader.uninstallExtension(extension.id);
+
+      set((state) => {
+        const {
+          installedExtensions,
+          installedPanels,
+          installedMessageConverters,
+          installedTopicAliasFunctions,
+        } = state;
+
+        // eslint-disable-next-line @typescript-eslint/no-shadow
+        const filteredExtensions = installedExtensions!.filter(({ id }) => id !== extension.id);
+        const filteredPanels = _.pickBy(
+          installedPanels,
+          ({ extensionId }) => extensionId !== extension.id,
+        );
+        const filteredMessageConverters = installedMessageConverters!.filter(
+          ({ extensionId }) => extensionId !== extension.id,
+        );
+        const filteredTopicAliasFunctions = installedTopicAliasFunctions!.filter(
+          ({ extensionId }) => extensionId !== extension.id,
+        );
+
+        return {
+          installedExtensions: filteredExtensions,
+          installedPanels: filteredPanels,
+          installedMessageConverters: filteredMessageConverters,
+          installedTopicAliasFunctions: filteredTopicAliasFunctions,
+        };
+      });
+
+      get().unMarkExtensionAsInstalled(id);
+    },
+
     installedExtensions: loaders.length === 0 ? [] : undefined,
 
     installedPanels: {},
@@ -204,21 +315,14 @@ function createExtensionRegistryStore(
 
     installedTopicAliasFunctions: [],
 
+    loadedExtensions: new Set<string>(),
+
     panelSettings: _.merge(
       {},
       ...(mockMessageConverters ?? []).map(({ fromSchemaName, panelSettings }) =>
         _.mapValues(panelSettings, (settings) => ({ [fromSchemaName]: settings })),
       ),
     ),
-
-    uninstallExtension: async (namespace: ExtensionNamespace, id: string) => {
-      const namespacedLoader = loaders.find((loader) => loader.namespace === namespace);
-      if (namespacedLoader == undefined) {
-        throw new Error("No extension loader found for namespace " + namespace);
-      }
-      await namespacedLoader.uninstallExtension(id);
-      await get().refreshExtensions();
-    },
   }));
 }
 
@@ -233,12 +337,12 @@ export default function ExtensionCatalogProvider({
   const [store] = useState(createExtensionRegistryStore(loaders, mockMessageConverters));
 
   // Request an initial refresh on first mount
-  const refreshExtensions = store.getState().refreshExtensions;
+  const refreshAllExtensions = store.getState().refreshAllExtensions;
   useEffect(() => {
-    refreshExtensions().catch((err: unknown) => {
+    refreshAllExtensions().catch((err: unknown) => {
       log.error(err);
     });
-  }, [refreshExtensions]);
+  }, [refreshAllExtensions]);
 
   return (
     <ExtensionCatalogContext.Provider value={store}>{children}</ExtensionCatalogContext.Provider>
