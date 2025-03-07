@@ -5,9 +5,6 @@ import moment from "moment-timezone";
 
 import { parseTimestampStr } from "./parseMultipleTimes";
 
-// Set default timezone to UTC for consistent results across different environments
-moment.tz.setDefault("UTC");
-
 describe("parseTimestampStr", () => {
   const originalTz = moment.tz.guess();
 
