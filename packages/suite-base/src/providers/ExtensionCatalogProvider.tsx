@@ -156,32 +156,35 @@ function createExtensionRegistryStore(
         throw new Error(`No extension loader found for namespace ${namespace}`);
       }
 
-      const batchPromises = async (batch: Uint8Array[]): Promise<InstallExtensionsResult[]> => {
-        return await Promise.all(
-          batch.map(async (extensionData: Uint8Array) => {
-            try {
-              const info = await namespaceLoader.installExtension(extensionData);
-              const unwrappedExtensionSource = await namespaceLoader.loadExtension(info.id);
-              const contributionPoints = mountExtension(info, unwrappedExtensionSource);
-
-              get().mergeState(info, contributionPoints);
-              get().markExtensionAsInstalled(info.id);
-              return { success: true, info };
-            } catch (error) {
-              return { success: false, error };
-            }
-          }),
-        );
-      };
-
       const results: InstallExtensionsResult[] = [];
       for (let i = 0; i < data.length; i += INSTALL_EXTENSIONS_BATCH) {
         const chunk = data.slice(i, i + INSTALL_EXTENSIONS_BATCH);
-        const result = await batchPromises(chunk);
+        const result = await promisesInBatch(chunk, namespaceLoader);
         results.push(...result);
       }
       return results;
     };
+
+    async function promisesInBatch(
+      batch: Uint8Array[],
+      loader: ExtensionLoader,
+    ): Promise<InstallExtensionsResult[]> {
+      return await Promise.all(
+        batch.map(async (extensionData: Uint8Array) => {
+          try {
+            const info = await loader.installExtension(extensionData);
+            const unwrappedExtensionSource = await loader.loadExtension(info.id);
+            const contributionPoints = mountExtension(info, unwrappedExtensionSource);
+
+            get().mergeState(info, contributionPoints);
+            get().markExtensionAsInstalled(info.id);
+            return { success: true, info };
+          } catch (error) {
+            return { success: false, error };
+          }
+        }),
+      );
+    }
 
     const mergeState = (
       info: ExtensionInfo,
@@ -202,6 +205,40 @@ function createExtensionRegistryStore(
       }));
     };
 
+    async function loadInBatch({
+      batch,
+      loader,
+      installedExtensions,
+      contributionPoints,
+    }: {
+      batch: ExtensionInfo[];
+      loader: ExtensionLoader;
+      installedExtensions: ExtensionInfo[];
+      contributionPoints: ContributionPoints;
+    }) {
+      await Promise.all(
+        batch.map(async (extension) => {
+          try {
+            installedExtensions.push(extension);
+
+            const { messageConverters, panelSettings, panels, topicAliasFunctions } =
+              contributionPoints;
+            const unwrappedExtensionSource = await loader.loadExtension(extension.id);
+            const newContributionPoints = mountExtension(extension, unwrappedExtensionSource);
+
+            _.assign(panels, newContributionPoints.panels);
+            _.merge(panelSettings, newContributionPoints.panelSettings);
+            messageConverters.push(...newContributionPoints.messageConverters);
+            topicAliasFunctions.push(...newContributionPoints.topicAliasFunctions);
+
+            get().markExtensionAsInstalled(extension.id);
+          } catch (err) {
+            log.error(`Error loading extension ${extension.id}`, err);
+          }
+        }),
+      );
+    }
+
     const refreshAllExtensions = async () => {
       log.debug("Refreshing all extensions");
       if (loaders.length === 0) {
@@ -210,34 +247,11 @@ function createExtensionRegistryStore(
 
       const start = performance.now();
       const installedExtensions: ExtensionInfo[] = [];
-      const { messageConverters, panels, panelSettings, topicAliasFunctions }: ContributionPoints =
-        {
-          messageConverters: [],
-          panels: {},
-          panelSettings: {},
-          topicAliasFunctions: [],
-        };
-
-      const loadInBatch = async (extensionsBatch: ExtensionInfo[], loader: ExtensionLoader) => {
-        await Promise.all(
-          extensionsBatch.map(async (extension) => {
-            try {
-              installedExtensions.push(extension);
-
-              const unwrappedExtensionSource = await loader.loadExtension(extension.id);
-              const contributionPoints = mountExtension(extension, unwrappedExtensionSource);
-
-              _.assign(panels, contributionPoints.panels);
-              _.merge(panelSettings, contributionPoints.panelSettings);
-              messageConverters.push(...contributionPoints.messageConverters);
-              topicAliasFunctions.push(...contributionPoints.topicAliasFunctions);
-
-              get().markExtensionAsInstalled(extension.id);
-            } catch (err: unknown) {
-              log.error(`Error loading extension ${extension.id}`, err);
-            }
-          }),
-        );
+      const contributionPoints: ContributionPoints = {
+        messageConverters: [],
+        panels: {},
+        panelSettings: {},
+        topicAliasFunctions: [],
       };
 
       const processLoader = async (loader: ExtensionLoader) => {
@@ -245,7 +259,12 @@ function createExtensionRegistryStore(
           const extensions = await loader.getExtensions();
           const chunks = _.chunk(extensions, REFRESH_EXTENSIONS_BATCH);
           for (const chunk of chunks) {
-            await loadInBatch(chunk, loader);
+            await loadInBatch({
+              batch: chunk,
+              contributionPoints,
+              installedExtensions,
+              loader,
+            });
           }
         } catch (err: unknown) {
           log.error("Error loading extension list", err);
@@ -259,10 +278,10 @@ function createExtensionRegistryStore(
 
       set({
         installedExtensions,
-        installedPanels: panels,
-        installedMessageConverters: messageConverters,
-        installedTopicAliasFunctions: topicAliasFunctions,
-        panelSettings,
+        installedPanels: contributionPoints.panels,
+        installedMessageConverters: contributionPoints.messageConverters,
+        installedTopicAliasFunctions: contributionPoints.topicAliasFunctions,
+        panelSettings: contributionPoints.panelSettings,
       });
     };
 
