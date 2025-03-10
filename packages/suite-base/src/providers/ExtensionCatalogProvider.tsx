@@ -285,6 +285,40 @@ function createExtensionRegistryStore(
       });
     };
 
+    function removeExtensionData({
+      id, // deleted extension id
+      state,
+    }: {
+      id: string;
+      state: Pick<
+        ExtensionCatalog,
+        | "installedExtensions"
+        | "installedPanels"
+        | "installedMessageConverters"
+        | "installedTopicAliasFunctions"
+      >;
+    }) {
+      const {
+        installedExtensions,
+        installedPanels,
+        installedMessageConverters,
+        installedTopicAliasFunctions,
+      } = state;
+
+      return {
+        installedExtensions: installedExtensions?.filter(
+          ({ id: extensionId }) => extensionId !== id,
+        ),
+        installedPanels: _.pickBy(installedPanels, ({ extensionId }) => extensionId !== id),
+        installedMessageConverters: installedMessageConverters?.filter(
+          ({ extensionId }) => extensionId !== id,
+        ),
+        installedTopicAliasFunctions: installedTopicAliasFunctions?.filter(
+          ({ extensionId }) => extensionId !== id,
+        ),
+      };
+    }
+
     const uninstallExtension = async (namespace: ExtensionNamespace, id: string) => {
       const namespaceLoader = loaders.find((loader) => loader.namespace === namespace);
       if (namespaceLoader == undefined) {
@@ -297,36 +331,7 @@ function createExtensionRegistryStore(
       }
 
       await namespaceLoader.uninstallExtension(extension.id);
-
-      set((state) => {
-        const {
-          installedExtensions,
-          installedPanels,
-          installedMessageConverters,
-          installedTopicAliasFunctions,
-        } = state;
-
-        // eslint-disable-next-line @typescript-eslint/no-shadow
-        const filteredExtensions = installedExtensions!.filter(({ id }) => id !== extension.id);
-        const filteredPanels = _.pickBy(
-          installedPanels,
-          ({ extensionId }) => extensionId !== extension.id,
-        );
-        const filteredMessageConverters = installedMessageConverters!.filter(
-          ({ extensionId }) => extensionId !== extension.id,
-        );
-        const filteredTopicAliasFunctions = installedTopicAliasFunctions!.filter(
-          ({ extensionId }) => extensionId !== extension.id,
-        );
-
-        return {
-          installedExtensions: filteredExtensions,
-          installedPanels: filteredPanels,
-          installedMessageConverters: filteredMessageConverters,
-          installedTopicAliasFunctions: filteredTopicAliasFunctions,
-        };
-      });
-
+      set((state) => removeExtensionData({ id: extension.id, state }));
       get().unMarkExtensionAsInstalled(id);
     };
 
