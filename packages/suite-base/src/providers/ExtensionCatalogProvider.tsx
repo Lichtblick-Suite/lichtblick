@@ -128,25 +128,29 @@ function createExtensionRegistryStore(
   loaders: readonly ExtensionLoader[],
   mockMessageConverters: readonly RegisterMessageConverterArgs<unknown>[] | undefined,
 ): StoreApi<ExtensionCatalog> {
-  return createStore((set, get) => ({
-    isExtensionInstalled: (extensionId: string) => {
+  return createStore((set, get) => {
+    const isExtensionInstalled = (extensionId: string) => {
       return get().loadedExtensions.has(extensionId);
-    },
-    markExtensionAsInstalled: (extensionId: string) => {
+    };
+
+    const markExtensionAsInstalled = (extensionId: string) => {
       const updatedExtensions = new Set(get().loadedExtensions);
       updatedExtensions.add(extensionId);
       set({ loadedExtensions: updatedExtensions });
-    },
-    unMarkExtensionAsInstalled: (extensionId: string) => {
+    };
+
+    const unMarkExtensionAsInstalled = (extensionId: string) => {
       const updatedExtensions = new Set(get().loadedExtensions);
       updatedExtensions.delete(extensionId);
       set({ loadedExtensions: updatedExtensions });
-    },
-    downloadExtension: async (url: string) => {
+    };
+
+    const downloadExtension = async (url: string) => {
       const res = await fetch(url);
       return new Uint8Array(await res.arrayBuffer());
-    },
-    installExtensions: async (namespace: ExtensionNamespace, data: Uint8Array[]) => {
+    };
+
+    const installExtensions = async (namespace: ExtensionNamespace, data: Uint8Array[]) => {
       const namespaceLoader = loaders.find((loader) => loader.namespace === namespace);
       if (namespaceLoader == undefined) {
         throw new Error(`No extension loader found for namespace ${namespace}`);
@@ -177,9 +181,9 @@ function createExtensionRegistryStore(
         results.push(...result);
       }
       return results;
-    },
+    };
 
-    mergeState: (
+    const mergeState = (
       info: ExtensionInfo,
       { messageConverters, panelSettings, panels, topicAliasFunctions }: ContributionPoints,
     ) => {
@@ -196,9 +200,9 @@ function createExtensionRegistryStore(
         ),
         panelSettings: { ...state.panelSettings, ...panelSettings },
       }));
-    },
+    };
 
-    refreshAllExtensions: async () => {
+    const refreshAllExtensions = async () => {
       log.debug("Refreshing all extensions");
       if (loaders.length === 0) {
         return;
@@ -260,9 +264,9 @@ function createExtensionRegistryStore(
         installedTopicAliasFunctions: topicAliasFunctions,
         panelSettings,
       });
-    },
+    };
 
-    uninstallExtension: async (namespace: ExtensionNamespace, id: string) => {
+    const uninstallExtension = async (namespace: ExtensionNamespace, id: string) => {
       const namespaceLoader = loaders.find((loader) => loader.namespace === namespace);
       if (namespaceLoader == undefined) {
         throw new Error("No extension loader found for namespace " + namespace);
@@ -305,25 +309,30 @@ function createExtensionRegistryStore(
       });
 
       get().unMarkExtensionAsInstalled(id);
-    },
+    };
 
-    installedExtensions: loaders.length === 0 ? [] : undefined,
-
-    installedPanels: {},
-
-    installedMessageConverters: mockMessageConverters ?? [],
-
-    installedTopicAliasFunctions: [],
-
-    loadedExtensions: new Set<string>(),
-
-    panelSettings: _.merge(
-      {},
-      ...(mockMessageConverters ?? []).map(({ fromSchemaName, panelSettings }) =>
-        _.mapValues(panelSettings, (settings) => ({ [fromSchemaName]: settings })),
+    return {
+      downloadExtension,
+      installExtensions,
+      isExtensionInstalled,
+      markExtensionAsInstalled,
+      mergeState,
+      refreshAllExtensions,
+      uninstallExtension,
+      unMarkExtensionAsInstalled,
+      installedExtensions: loaders.length === 0 ? [] : undefined,
+      installedMessageConverters: mockMessageConverters ?? [],
+      installedPanels: {},
+      installedTopicAliasFunctions: [],
+      loadedExtensions: new Set<string>(),
+      panelSettings: _.merge(
+        {},
+        ...(mockMessageConverters ?? []).map(({ fromSchemaName, panelSettings }) =>
+          _.mapValues(panelSettings, (settings) => ({ [fromSchemaName]: settings })),
+        ),
       ),
-    ),
-  }));
+    };
+  });
 }
 
 export default function ExtensionCatalogProvider({
