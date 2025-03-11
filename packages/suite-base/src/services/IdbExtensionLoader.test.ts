@@ -131,10 +131,6 @@ describe("IdbExtensionLoader", () => {
   });
 
   describe("loadExtension", () => {
-    beforeAll(() => {
-      (console.error as jest.Mock).mockClear();
-    });
-
     it("should successfully load an extension with valid files", async () => {
       const loader = new IdbExtensionLoader("local");
       const rawContent = "console.log('valid extension');";
