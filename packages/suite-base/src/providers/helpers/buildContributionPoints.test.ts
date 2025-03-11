@@ -1,9 +1,7 @@
 // SPDX-FileCopyrightText: Copyright (C) 2023-2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)<lichtblick@bmwgroup.com>
 // SPDX-License-Identifier: MPL-2.0
 
-// SPDX-FileCopyrightText: Copyright (C) 2023-2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)<lichtblick@bmwgroup.com>
-// SPDX-License-Identifier: MPL-2.0
-
+import Logger from "@lichtblick/log";
 import {
   RegisterMessageConverterArgs,
   TopicAliasFunction,
@@ -15,19 +13,13 @@ import ExtensionBuilder from "@lichtblick/suite-base/testing/builders/ExtensionB
 
 import { buildContributionPoints } from "./buildContributionPoints";
 
-jest.mock("@lichtblick/log", () => ({
-  getLogger: jest.fn(() => ({
-    debug: jest.fn(),
-    error: jest.fn(),
-  })),
-}));
-
 describe("buildContributionPoints", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
   it("should initialize contribution objects", () => {
+    const consoleErrorMock = jest.spyOn(console, "error").mockImplementation(() => {});
     const extensionInfo = ExtensionBuilder.extension();
 
     const result = buildContributionPoints(extensionInfo, "");
@@ -36,6 +28,7 @@ describe("buildContributionPoints", () => {
     expect(result).toHaveProperty("messageConverters", []);
     expect(result).toHaveProperty("topicAliasFunctions", []);
     expect(result).toHaveProperty("panelSettings", {});
+    consoleErrorMock.mockRestore();
   });
 
   it("should register a panel", () => {
@@ -70,6 +63,37 @@ describe("buildContributionPoints", () => {
         } as ExtensionPanelRegistration),
       }),
     );
+    delete (globalThis as any).panel;
+  });
+
+  it("should warn when trying to register a duplicate panel", () => {
+    const logWarnMock = jest.spyOn(console, "warn").mockImplementation(() => {});
+    const extensionInfo = ExtensionBuilder.extension();
+    const panelName = BasicBuilder.string();
+    const panelId = `${extensionInfo.qualifiedName}.${panelName}`;
+    const registration: ExtensionPanelRegistration = {
+      name: panelName,
+      initPanel: jest.fn(),
+    };
+
+    (globalThis as any).panel = registration;
+    const extensionSource = `
+      module.exports = {
+        activate: (ctx) => {
+          ctx.registerPanel(globalThis.panel);
+          ctx.registerPanel(globalThis.panel);
+        }
+      };
+    `;
+
+    const result = buildContributionPoints(extensionInfo, extensionSource);
+
+    expect(result.panels[panelId]).toBeDefined();
+    expect(logWarnMock).toHaveBeenCalledWith(
+      expect.stringContaining(`Panel ${panelId} is already registered`),
+    );
+    delete (globalThis as any).panel;
+    logWarnMock.mockRestore();
   });
 
   it("should register a message converter", () => {
