@@ -69,6 +69,7 @@ export class IdbExtensionLoader implements ExtensionLoader {
 
   public async getExtension(id: string): Promise<ExtensionInfo | undefined> {
     log.debug("Get extension", id);
+
     const storedExtension = await this.#storage.get(id);
     return storedExtension?.info;
   }

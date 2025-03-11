@@ -7,6 +7,10 @@
 
 import fs from "fs";
 import { openDB } from "idb/with-async-ittr";
+import { PackageJson } from "storybook/internal/types";
+
+import { StoredExtension } from "@lichtblick/suite-base/services/IExtensionStorage";
+import { ExtensionInfo } from "@lichtblick/suite-base/types/Extensions";
 
 import { IdbExtensionLoader } from "./IdbExtensionLoader";
 
@@ -14,7 +18,7 @@ jest.mock("idb/with-async-ittr", () => ({
   openDB: jest.fn(),
 }));
 
-const pkgInfo = {
+const packageJson: PackageJson = {
   description: "",
   devDependencies: {
     "@foxglove/fox": "file:../fox",
@@ -61,7 +65,7 @@ describe("IdbExtensionLoader", () => {
     it("Installs local extensions", async () => {
       const foxe = fs.readFileSync(EXT_FILE_TURTLESIM);
       const expectedInfo = {
-        ...pkgInfo,
+        ...packageJson,
         namespace: "local",
         qualifiedName: "turtlesim",
       };
@@ -78,7 +82,7 @@ describe("IdbExtensionLoader", () => {
     it("Installs private extensions", async () => {
       const foxe = fs.readFileSync(EXT_FILE_TURTLESIM);
       const expectedInfo = {
-        ...pkgInfo,
+        ...packageJson,
         namespace: "org",
         qualifiedName: "org:Foxglove Inc:studio-extension-turtlesim",
       };
@@ -120,14 +124,14 @@ describe("IdbExtensionLoader", () => {
 
     it("should return the proper extension when call get extension", async () => {
       const foxe = fs.readFileSync(EXT_FILE_TURTLESIM);
-      const expectedInfo = {
-        ...pkgInfo,
+      const expectedInfo: ExtensionInfo = {
+        ...packageJson,
         namespace: "local",
         qualifiedName: "turtlesim",
-      };
+      } as ExtensionInfo;
       get.mockReturnValue({
         info: expectedInfo,
-      });
+      } as StoredExtension);
       const loader = new IdbExtensionLoader("local");
 
       await loader.installExtension(foxe as unknown as Uint8Array);
