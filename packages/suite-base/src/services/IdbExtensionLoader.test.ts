@@ -8,7 +8,6 @@
 import fs from "fs";
 import { openDB } from "idb/with-async-ittr";
 import JSZip from "jszip";
-import { PackageJson } from "storybook/internal/types";
 
 import { StoredExtension } from "@lichtblick/suite-base/services/IExtensionStorage";
 import {
@@ -25,7 +24,7 @@ jest.mock("idb/with-async-ittr", () => ({
   openDB: jest.fn(),
 }));
 
-const packageJson: PackageJson = {
+const packageJson: any = {
   description: "",
   devDependencies: {
     "@foxglove/fox": "file:../fox",
