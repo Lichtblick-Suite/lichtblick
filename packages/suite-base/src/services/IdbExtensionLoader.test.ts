@@ -51,6 +51,12 @@ const packageJson: PackageJson = {
 const EXT_FILE_TURTLESIM = `${__dirname}/../test/fixtures/lichtblick.suite-extension-turtlesim-0.0.1.foxe`;
 const EXT_FILE_PREFIXED = `${__dirname}/../test/fixtures/prefixed-name-extension.foxe`;
 
+jest.mock("@lichtblick/log", () => ({
+  getLogger: jest.fn(() => ({
+    debug: jest.fn(),
+  })),
+}));
+
 describe("IdbExtensionLoader", () => {
   const mockGet = jest.fn();
   const mockGetAll = jest.fn();
