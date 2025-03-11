@@ -9,24 +9,28 @@ import JSZip from "jszip";
 
 import Log from "@lichtblick/log";
 import { ExtensionLoader } from "@lichtblick/suite-base/services/ExtensionLoader";
-import { IExtensionStorage } from "@lichtblick/suite-base/services/IExtensionStorage";
+import {
+  IExtensionStorage,
+  StoredExtension,
+} from "@lichtblick/suite-base/services/IExtensionStorage";
 import { ExtensionInfo, ExtensionNamespace } from "@lichtblick/suite-base/types/Extensions";
 
 import { IdbExtensionStorage } from "./IdbExtensionStorage";
 
 const log = Log.getLogger(__filename);
 
-enum ALLOWED_FILES {
+export enum ALLOWED_FILES {
   EXTENSION = "dist/extension.js",
   PACKAGE = "package.json",
 }
 
 function parsePackageName(name: string): { publisher?: string; name: string } {
-  const res = /^@([^/]+)\/(.+)/.exec(name);
-  if (!res) {
+  const match = new RegExp(/^@([^/]+)\/(.+)/).exec(name);
+  if (!match) {
     return { name };
   }
-  return { publisher: res[1], name: res[2]! };
+
+  return { publisher: match[1], name: match[2]! };
 }
 
 function qualifiedName(
@@ -45,7 +49,7 @@ function qualifiedName(
   }
 }
 
-function validatePackageInfo(info: Partial<ExtensionInfo>): ExtensionInfo {
+export function validatePackageInfo(info: Partial<ExtensionInfo>): ExtensionInfo {
   if (!info.name || info.name.length === 0) {
     throw new Error("Invalid extension: missing name");
   }
@@ -83,27 +87,18 @@ export class IdbExtensionLoader implements ExtensionLoader {
   public async loadExtension(id: string): Promise<string> {
     log.debug("Loading extension", id);
 
-    const extension = await this.#storage.get(id);
-    if (!extension?.content) {
-      throw new Error("Extension is corrupted");
+    const extension: StoredExtension | undefined = await this.#storage.get(id);
+    if (!extension) {
+      throw new Error("Extension not found");
     }
-
-    // Allow only the expected files. Preventing zip attacks.
-    const allowedFiles = new Set<string>(Object.values(ALLOWED_FILES));
 
     const content = await new JSZip().loadAsync(extension.content);
-    const invalidFiles = Object.keys(content.files).filter((file) => !allowedFiles.has(file));
-    if (invalidFiles.length > 0) {
-      log.error("Unexpected files found in extension ZIP:", invalidFiles);
-      throw new Error("Extension contains unexpected files");
+    const rawContent = await content.file(ALLOWED_FILES.EXTENSION)?.async("string");
+    if (!rawContent) {
+      throw new Error(`Extension is corrupted: missing ${ALLOWED_FILES.EXTENSION}`);
     }
 
-    const srcText = await content.file(ALLOWED_FILES.EXTENSION)?.async("string");
-    if (!srcText) {
-      throw new Error("Extension is corrupted");
-    }
-
-    return srcText;
+    return rawContent;
   }
 
   public async installExtension(foxeFileData: Uint8Array): Promise<ExtensionInfo> {
@@ -112,9 +107,9 @@ export class IdbExtensionLoader implements ExtensionLoader {
     const zip = new JSZip();
     const content = await zip.loadAsync(foxeFileData);
 
-    const pkgInfoText = await content.file("package.json")?.async("string");
+    const pkgInfoText = await content.file(ALLOWED_FILES.PACKAGE)?.async("string");
     if (!pkgInfoText) {
-      throw new Error("Invalid extension: missing package.json");
+      throw new Error(`Invalid extension: missing ${ALLOWED_FILES.PACKAGE}`);
     }
 
     const rawInfo = validatePackageInfo(JSON.parse(pkgInfoText) as Partial<ExtensionInfo>);
