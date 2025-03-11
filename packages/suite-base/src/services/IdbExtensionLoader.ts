@@ -16,9 +16,14 @@ import { IdbExtensionStorage } from "./IdbExtensionStorage";
 
 const log = Log.getLogger(__filename);
 
+enum ALLOWED_FILES {
+  EXTENSION = "dist/extension.js",
+  PACKAGE = "package.json",
+}
+
 function parsePackageName(name: string): { publisher?: string; name: string } {
   const res = /^@([^/]+)\/(.+)/.exec(name);
-  if (res == undefined) {
+  if (!res) {
     return { name };
   }
   return { publisher: res[1], name: res[2]! };
@@ -41,12 +46,12 @@ function qualifiedName(
 }
 
 function validatePackageInfo(info: Partial<ExtensionInfo>): ExtensionInfo {
-  if (info.name == undefined || info.name.length === 0) {
+  if (!info.name || info.name.length === 0) {
     throw new Error("Invalid extension: missing name");
   }
   const { publisher: parsedPublisher, name } = parsePackageName(info.name);
   const publisher = info.publisher ?? parsedPublisher;
-  if (publisher == undefined || publisher.length === 0) {
+  if (!publisher || publisher.length === 0) {
     throw new Error("Invalid extension: missing publisher");
   }
 
@@ -78,17 +83,22 @@ export class IdbExtensionLoader implements ExtensionLoader {
     log.debug("Loading extension", id);
 
     const extension = await this.#storage.get(id);
-    if (extension?.content == undefined) {
+    if (!extension?.content) {
       throw new Error("Extension is corrupted");
     }
 
-    /**
-     * It's a hard processing. Can we save it (srcText) in IDB?
-     */
-    const content = await new JSZip().loadAsync(extension.content);
-    const srcText = await content.file("dist/extension.js")?.async("string");
+    // Allow only the expected files. Preventing zip attacks.
+    const allowedFiles = new Set<string>(Object.values(ALLOWED_FILES));
 
-    if (srcText == undefined) {
+    const content = await new JSZip().loadAsync(extension.content);
+    const invalidFiles = Object.keys(content.files).filter((file) => !allowedFiles.has(file));
+    if (invalidFiles.length > 0) {
+      log.error("Unexpected files found in extension ZIP:", invalidFiles);
+      throw new Error("Extension contains unexpected files");
+    }
+
+    const srcText = await content.file(ALLOWED_FILES.EXTENSION)?.async("string");
+    if (!srcText) {
       throw new Error("Extension is corrupted");
     }
 
@@ -102,7 +112,7 @@ export class IdbExtensionLoader implements ExtensionLoader {
     const content = await zip.loadAsync(foxeFileData);
 
     const pkgInfoText = await content.file("package.json")?.async("string");
-    if (pkgInfoText == undefined) {
+    if (!pkgInfoText) {
       throw new Error("Invalid extension: missing package.json");
     }
 
