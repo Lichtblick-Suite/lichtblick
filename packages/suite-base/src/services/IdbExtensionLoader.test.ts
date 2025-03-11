@@ -52,15 +52,17 @@ const EXT_FILE_TURTLESIM = `${__dirname}/../test/fixtures/lichtblick.suite-exten
 const EXT_FILE_PREFIXED = `${__dirname}/../test/fixtures/prefixed-name-extension.foxe`;
 
 describe("IdbExtensionLoader", () => {
-  const put = jest.fn();
-  const getAll = jest.fn();
-  const get = jest.fn();
+  const mockGet = jest.fn();
+  const mockGetAll = jest.fn();
+  const mockPut = jest.fn();
+  const mockDelete = jest.fn();
 
   beforeEach(() => {
     (openDB as jest.Mock).mockReturnValue({
-      transaction: jest.fn().mockReturnValue({ db: { put } }),
-      getAll,
-      get,
+      transaction: jest.fn().mockReturnValue({ db: { put: mockPut, delete: mockDelete } }),
+      getAll: mockGetAll,
+      get: mockGet,
+      delete: mockDelete,
     });
   });
 
@@ -69,64 +71,65 @@ describe("IdbExtensionLoader", () => {
       jest.clearAllMocks();
     });
 
-    it("Installs local extensions", async () => {
+    it("should install local extensions", async () => {
       const foxe = fs.readFileSync(EXT_FILE_TURTLESIM);
-      const expectedInfo = {
+      const info: ExtensionInfo = {
         ...packageJson,
         namespace: "local",
         qualifiedName: "turtlesim",
-      };
-      getAll.mockReturnValue([expectedInfo]);
+      } as ExtensionInfo;
       const loader = new IdbExtensionLoader("local");
 
       await loader.installExtension(foxe as unknown as Uint8Array);
 
-      expect(put).toHaveBeenCalledWith(METADATA_STORE_NAME, expectedInfo);
-      expect(put).toHaveBeenCalledWith(EXTENSION_STORE_NAME, { content: foxe, info: expectedInfo });
-      expect((await loader.getExtensions())[0]).toBe(expectedInfo);
+      expect(mockPut).toHaveBeenCalledWith(METADATA_STORE_NAME, info);
+      expect(mockPut).toHaveBeenCalledWith(EXTENSION_STORE_NAME, {
+        content: foxe,
+        info,
+      });
     });
 
-    it("Installs private extensions", async () => {
+    it("should install private extensions", async () => {
       const foxe = fs.readFileSync(EXT_FILE_TURTLESIM);
-      const expectedInfo = {
+      const info: ExtensionInfo = {
         ...packageJson,
         namespace: "org",
         qualifiedName: "org:Foxglove Inc:studio-extension-turtlesim",
-      };
-      getAll.mockReturnValue([expectedInfo]);
+      } as ExtensionInfo;
+      mockGetAll.mockReturnValue([info]);
       const loader = new IdbExtensionLoader("org");
 
       await loader.installExtension(foxe as unknown as Uint8Array);
 
-      expect(put).toHaveBeenCalledWith(METADATA_STORE_NAME, expectedInfo);
-      expect(put).toHaveBeenCalledWith(EXTENSION_STORE_NAME, {
+      expect(mockPut).toHaveBeenCalledWith(METADATA_STORE_NAME, info);
+      expect(mockPut).toHaveBeenCalledWith(EXTENSION_STORE_NAME, {
         content: foxe,
-        info: expectedInfo,
+        info,
       });
-      expect((await loader.getExtensions())[0]).toBe(expectedInfo);
+      expect((await loader.getExtensions())[0]).toBe(info);
     });
 
-    it("Parses package prefixes", async () => {
+    it("should parse package prefixes", async () => {
       const foxe = fs.readFileSync(EXT_FILE_PREFIXED);
-      const expectedInfo = {
+      const info: ExtensionInfo = {
         id: "Prefix.package-name",
         name: "package-name",
         namespace: "org",
         publisher: "Prefix",
         qualifiedName: "org:Prefix:package-name",
-      };
+      } as ExtensionInfo;
 
-      getAll.mockReturnValue([expectedInfo]);
+      mockGetAll.mockReturnValue([info]);
       const loader = new IdbExtensionLoader("org");
 
       await loader.installExtension(foxe as unknown as Uint8Array);
 
-      expect(put).toHaveBeenCalledWith(METADATA_STORE_NAME, expectedInfo);
-      expect(put).toHaveBeenCalledWith(EXTENSION_STORE_NAME, {
+      expect(mockPut).toHaveBeenCalledWith(METADATA_STORE_NAME, info);
+      expect(mockPut).toHaveBeenCalledWith(EXTENSION_STORE_NAME, {
         content: foxe,
-        info: expectedInfo,
+        info,
       });
-      expect((await loader.getExtensions())[0]).toBe(expectedInfo);
+      expect((await loader.getExtensions())[0]).toBe(info);
     });
   });
 
@@ -143,17 +146,17 @@ describe("IdbExtensionLoader", () => {
         } as ExtensionInfo,
         content: await jsZip.generateAsync({ type: "uint8array" }),
       };
-      get.mockReturnValueOnce(extension);
+      mockGet.mockReturnValueOnce(extension);
 
       const result = await loader.loadExtension(extension.info.id);
 
-      expect(get).toHaveBeenCalledWith(EXTENSION_STORE_NAME, extension.info.id);
+      expect(mockGet).toHaveBeenCalledWith(EXTENSION_STORE_NAME, extension.info.id);
       expect(result).toContain(rawContent);
     });
 
     it("should throw an error if the extension is not found", async () => {
       const loader = new IdbExtensionLoader("local");
-      get.mockResolvedValue(undefined);
+      mockGet.mockResolvedValue(undefined);
 
       await expect(loader.loadExtension(BasicBuilder.string())).rejects.toThrow(
         "Extension not found",
@@ -168,7 +171,7 @@ describe("IdbExtensionLoader", () => {
         } as ExtensionInfo,
         content: undefined as any,
       };
-      get.mockResolvedValue(undefined);
+      mockGet.mockResolvedValue(undefined);
 
       await expect(loader.loadExtension(extension.info.id)).rejects.toThrow("Extension not found");
     });
@@ -185,7 +188,7 @@ describe("IdbExtensionLoader", () => {
         } as ExtensionInfo,
         content: await jsZip.generateAsync({ type: "uint8array" }),
       };
-      get.mockReturnValueOnce(extension);
+      mockGet.mockReturnValueOnce(extension);
 
       await expect(loader.loadExtension(extension.info.id)).rejects.toThrow(
         `Extension is corrupted: missing ${ALLOWED_FILES.EXTENSION}`,
@@ -201,7 +204,7 @@ describe("IdbExtensionLoader", () => {
         namespace: "local",
         qualifiedName: "turtlesim",
       } as ExtensionInfo;
-      get.mockReturnValue({
+      mockGet.mockReturnValue({
         info: expectedInfo,
       } as StoredExtension);
       const loader = new IdbExtensionLoader("local");
@@ -209,6 +212,7 @@ describe("IdbExtensionLoader", () => {
       await loader.installExtension(foxe as unknown as Uint8Array);
       const result = await loader.getExtension(expectedInfo.id);
 
+      expect(mockGet).toHaveBeenCalledWith(EXTENSION_STORE_NAME, expectedInfo.id);
       expect(result).toBe(expectedInfo);
     });
   });
@@ -311,6 +315,19 @@ describe("IdbExtensionLoader", () => {
       });
 
       expect(() => validatePackageInfo(info)).toThrow("Invalid extension: missing publisher");
+    });
+  });
+
+  describe("uninstallExtension", () => {
+    it("should successfully uninstall an extension", async () => {
+      const extensionId = BasicBuilder.string();
+      const loader = new IdbExtensionLoader("local");
+
+      await loader.uninstallExtension(extensionId);
+
+      expect(mockDelete).toHaveBeenCalledTimes(2);
+      expect(mockDelete).toHaveBeenNthCalledWith(1, METADATA_STORE_NAME, extensionId);
+      expect(mockDelete).toHaveBeenNthCalledWith(2, EXTENSION_STORE_NAME, extensionId);
     });
   });
 });
