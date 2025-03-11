@@ -7,25 +7,17 @@
 
 import * as _ from "lodash-es";
 import React, { PropsWithChildren, useEffect, useState } from "react";
-import ReactDOM from "react-dom";
 import { StoreApi, createStore } from "zustand";
 
 import Logger from "@lichtblick/log";
-import {
-  ExtensionContext,
-  ExtensionModule,
-  PanelSettings,
-  RegisterMessageConverterArgs,
-  TopicAliasFunction,
-} from "@lichtblick/suite";
+import { RegisterMessageConverterArgs } from "@lichtblick/suite";
 import {
   ContributionPoints,
   ExtensionCatalog,
   ExtensionCatalogContext,
   InstallExtensionsResult,
-  MessageConverter,
-  RegisteredPanel,
 } from "@lichtblick/suite-base/context/ExtensionCatalogContext";
+import { buildContributionPoints } from "@lichtblick/suite-base/providers/helpers/buildContributionPoints";
 import { ExtensionLoader } from "@lichtblick/suite-base/services/ExtensionLoader";
 import { ExtensionInfo, ExtensionNamespace } from "@lichtblick/suite-base/types/Extensions";
 
@@ -34,96 +26,6 @@ const log = Logger.getLogger(__filename);
 const REFRESH_EXTENSIONS_BATCH = 3;
 const INSTALL_EXTENSIONS_BATCH = 3;
 
-function mountExtension(
-  extension: ExtensionInfo,
-  unwrappedExtensionSource: string,
-): ContributionPoints {
-  // registered panels stored by their fully qualified id
-  // the fully qualified id is the extension name + panel name
-  const panels: Record<string, RegisteredPanel> = {};
-
-  const messageConverters: RegisterMessageConverterArgs<unknown>[] = [];
-
-  const panelSettings: Record<string, Record<string, PanelSettings<unknown>>> = {};
-
-  const topicAliasFunctions: ContributionPoints["topicAliasFunctions"] = [];
-
-  log.debug(`Mounting extension ${extension.qualifiedName}`);
-
-  const module = { exports: {} };
-  const require = (name: string) => {
-    return { react: React, "react-dom": ReactDOM }[name];
-  };
-
-  const extensionMode =
-    process.env.NODE_ENV === "production"
-      ? "production"
-      : process.env.NODE_ENV === "test"
-        ? "test"
-        : "development";
-
-  const ctx: ExtensionContext = {
-    mode: extensionMode,
-
-    registerPanel: (params) => {
-      log.debug(`Extension ${extension.qualifiedName} registering panel: ${params.name}`);
-
-      const fullId = `${extension.qualifiedName}.${params.name}`;
-      if (panels[fullId]) {
-        log.warn(`Panel ${fullId} is already registered`);
-        return;
-      }
-
-      panels[fullId] = {
-        extensionId: extension.id,
-        extensionName: extension.qualifiedName,
-        extensionNamespace: extension.namespace,
-        registration: params,
-      };
-    },
-
-    registerMessageConverter: <Src,>(args: RegisterMessageConverterArgs<Src>) => {
-      log.debug(
-        `Extension ${extension.qualifiedName} registering message converter from: ${args.fromSchemaName} to: ${args.toSchemaName}`,
-      );
-      messageConverters.push({
-        ...args,
-        extensionNamespace: extension.namespace,
-        extensionId: extension.id,
-      } as MessageConverter);
-
-      const converterSettings = _.mapValues(args.panelSettings, (settings) => ({
-        [args.fromSchemaName]: settings,
-      }));
-
-      _.merge(panelSettings, converterSettings);
-    },
-
-    registerTopicAliases: (aliasFunction: TopicAliasFunction) => {
-      topicAliasFunctions.push({ aliasFunction, extensionId: extension.id });
-    },
-  };
-
-  try {
-    // eslint-disable-next-line no-new-func, @typescript-eslint/no-implied-eval
-    const fn = new Function("module", "require", unwrappedExtensionSource);
-
-    // load the extension module exports
-    fn(module, require, {});
-    const wrappedExtensionModule = module.exports as ExtensionModule;
-
-    wrappedExtensionModule.activate(ctx);
-  } catch (err: unknown) {
-    log.error(err);
-  }
-
-  return {
-    panels,
-    messageConverters,
-    topicAliasFunctions,
-    panelSettings,
-  };
-}
 function createExtensionRegistryStore(
   loaders: readonly ExtensionLoader[],
   mockMessageConverters: readonly RegisterMessageConverterArgs<unknown>[] | undefined,
@@ -174,7 +76,7 @@ function createExtensionRegistryStore(
           try {
             const info = await loader.installExtension(extensionData);
             const unwrappedExtensionSource = await loader.loadExtension(info.id);
-            const contributionPoints = mountExtension(info, unwrappedExtensionSource);
+            const contributionPoints = buildContributionPoints(info, unwrappedExtensionSource);
 
             get().mergeState(info, contributionPoints);
             get().markExtensionAsInstalled(info.id);
@@ -224,7 +126,10 @@ function createExtensionRegistryStore(
             const { messageConverters, panelSettings, panels, topicAliasFunctions } =
               contributionPoints;
             const unwrappedExtensionSource = await loader.loadExtension(extension.id);
-            const newContributionPoints = mountExtension(extension, unwrappedExtensionSource);
+            const newContributionPoints = buildContributionPoints(
+              extension,
+              unwrappedExtensionSource,
+            );
 
             _.assign(panels, newContributionPoints.panels);
             _.merge(panelSettings, newContributionPoints.panelSettings);

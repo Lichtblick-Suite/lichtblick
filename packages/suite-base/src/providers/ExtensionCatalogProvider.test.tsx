@@ -295,144 +295,154 @@ describe("ExtensionCatalogProvider", () => {
     (console.error as jest.Mock).mockRestore();
   });
 
-  it("should check if an extension is installed", async () => {
-    const { loadExtension, result, extensionInfo } = setup();
+  describe("isExtensionInstalled", () => {
+    it("should check if an extension is installed", async () => {
+      const { loadExtension, result, extensionInfo } = setup();
 
-    await waitFor(() => {
-      expect(loadExtension).toHaveBeenCalled();
+      await waitFor(() => {
+        expect(loadExtension).toHaveBeenCalled();
+      });
+
+      expect(result.current.isExtensionInstalled(extensionInfo.id)).toBe(true);
+    });
+  });
+
+  describe("unMarkExtensionAsInstalled", () => {
+    it("should unmark an extension as installed", async () => {
+      const { loadExtension, result, extensionInfo } = setup();
+
+      await waitFor(() => {
+        expect(loadExtension).toHaveBeenCalled();
+      });
+
+      expect(result.current.isExtensionInstalled(extensionInfo.id)).toBe(true);
+      act(() => {
+        result.current.unMarkExtensionAsInstalled(extensionInfo.id);
+      });
+      expect(result.current.isExtensionInstalled(extensionInfo.id)).toBe(false);
+      expect(result.current.loadedExtensions.size).toBe(0);
+    });
+  });
+
+  describe("installExtensions", () => {
+    it("should install an extension", async () => {
+      const { result, extensionInfo } = setup();
+
+      await act(async () => {
+        const response = await result.current.installExtensions(extensionInfo.namespace!, [
+          new Uint8Array(),
+        ]);
+        expect(response.length).toBe(1);
+        expect(response[0]?.success).toBe(true);
+        expect(response[0]?.info).toEqual(extensionInfo);
+      });
+      expect(result.current.isExtensionInstalled(extensionInfo.id)).toBe(true);
     });
 
-    expect(result.current.isExtensionInstalled(extensionInfo.id)).toBe(true);
+    it("should throw an error when install with no registered loader to the namespace", async () => {
+      const invalidNamespace = BasicBuilder.string() as ExtensionNamespace;
+      const { result } = setup();
+
+      await expect(
+        act(async () => {
+          await result.current.installExtensions(invalidNamespace, [new Uint8Array()]);
+        }),
+      ).rejects.toThrow(`No extension loader found for namespace ${invalidNamespace}`);
+    });
   });
 
-  it("should unmark an extension as installed", async () => {
-    const { loadExtension, result, extensionInfo } = setup();
+  describe("uninstallExtension", () => {
+    it("should uninstall an extension", async () => {
+      const { result, extensionInfo, loaders } = setup();
+      // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+      const namespace: ExtensionNamespace = loaders[0]?.namespace!;
 
-    await waitFor(() => {
-      expect(loadExtension).toHaveBeenCalled();
+      await act(async () => {
+        await result.current.installExtensions(namespace, [new Uint8Array()]);
+        await result.current.uninstallExtension(namespace, extensionInfo.id);
+      });
+
+      expect(result.current.isExtensionInstalled(extensionInfo.id)).toBe(false);
+      expect(result.current.installedExtensions?.length).toBe(0);
+      expect(result.current.installedPanels).toEqual({});
+      expect(result.current.installedMessageConverters?.length).toBe(0);
+      expect(result.current.installedTopicAliasFunctions?.length).toBe(0);
     });
 
-    expect(result.current.isExtensionInstalled(extensionInfo.id)).toBe(true);
-    act(() => {
-      result.current.unMarkExtensionAsInstalled(extensionInfo.id);
+    it("should throw an error when uninstall with no registered loader to the namespace", async () => {
+      const invalidNamespace = BasicBuilder.string() as ExtensionNamespace;
+      const { result } = setup();
+
+      await expect(
+        act(async () => {
+          await result.current.uninstallExtension(invalidNamespace, "");
+        }),
+      ).rejects.toThrow(`No extension loader found for namespace ${invalidNamespace}`);
     });
-    expect(result.current.isExtensionInstalled(extensionInfo.id)).toBe(false);
-    expect(result.current.loadedExtensions.size).toBe(0);
   });
 
-  it("should install an extension", async () => {
-    const { result, extensionInfo } = setup();
-
-    await act(async () => {
-      const response = await result.current.installExtensions(extensionInfo.namespace!, [
-        new Uint8Array(),
-      ]);
-      expect(response.length).toBe(1);
-      expect(response[0]?.success).toBe(true);
-      expect(response[0]?.info).toEqual(extensionInfo);
-    });
-    expect(result.current.isExtensionInstalled(extensionInfo.id)).toBe(true);
-  });
-
-  it("should throw an error when install with no registered loader to the namespace", async () => {
-    const invalidNamespace = BasicBuilder.string() as ExtensionNamespace;
-    const { result } = setup();
-
-    await expect(
-      act(async () => {
-        await result.current.installExtensions(invalidNamespace, [new Uint8Array()]);
-      }),
-    ).rejects.toThrow(`No extension loader found for namespace ${invalidNamespace}`);
-  });
-
-  it("should uninstall an extension", async () => {
-    const { result, extensionInfo, loaders } = setup();
-    // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
-    const namespace: ExtensionNamespace = loaders[0]?.namespace!;
-
-    await act(async () => {
-      await result.current.installExtensions(namespace, [new Uint8Array()]);
-      await result.current.uninstallExtension(namespace, extensionInfo.id);
-    });
-
-    expect(result.current.isExtensionInstalled(extensionInfo.id)).toBe(false);
-    expect(result.current.installedExtensions?.length).toBe(0);
-    expect(result.current.installedPanels).toEqual({});
-    expect(result.current.installedMessageConverters?.length).toBe(0);
-    expect(result.current.installedTopicAliasFunctions?.length).toBe(0);
-  });
-
-  it("should throw an error when uninstall with no registered loader to the namespace", async () => {
-    const invalidNamespace = BasicBuilder.string() as ExtensionNamespace;
-    const { result } = setup();
-
-    await expect(
-      act(async () => {
-        await result.current.uninstallExtension(invalidNamespace, "");
-      }),
-    ).rejects.toThrow(`No extension loader found for namespace ${invalidNamespace}`);
-  });
-
-  it("should merge state correctly using mergeState", async () => {
-    const { result, extensionInfo } = setup();
-    const panelName = BasicBuilder.string();
-    const messageConverter: MessageConverter = {
-      fromSchemaName: BasicBuilder.string(),
-      toSchemaName: BasicBuilder.string(),
-      converter: jest.fn(),
-      extensionId: extensionInfo.id,
-      extensionNamespace: extensionInfo.namespace,
-    };
-    const topicAliasFunctions: TopicAliasFunctions = [
-      { extensionId: extensionInfo.id, aliasFunction: jest.fn() },
-    ];
-    const contributionPoints: ContributionPoints = {
-      messageConverters: [messageConverter],
-      topicAliasFunctions,
-      panelSettings: {
-        panelA: {
-          schemaA: {
-            defaultConfig: {},
-            handler: jest.fn(),
-            settings: jest.fn(),
+  describe("mergeState", () => {
+    it("should merge state correctly using mergeState", async () => {
+      const { result, extensionInfo } = setup();
+      const panelName = BasicBuilder.string();
+      const messageConverter: MessageConverter = {
+        fromSchemaName: BasicBuilder.string(),
+        toSchemaName: BasicBuilder.string(),
+        converter: jest.fn(),
+        extensionId: extensionInfo.id,
+        extensionNamespace: extensionInfo.namespace,
+      };
+      const topicAliasFunctions: TopicAliasFunctions = [
+        { extensionId: extensionInfo.id, aliasFunction: jest.fn() },
+      ];
+      const contributionPoints: ContributionPoints = {
+        messageConverters: [messageConverter],
+        topicAliasFunctions,
+        panelSettings: {
+          panelA: {
+            schemaA: {
+              defaultConfig: {},
+              handler: jest.fn(),
+              settings: jest.fn(),
+            },
           },
         },
-      },
-      panels: {
-        [panelName]: {
-          extensionId: extensionInfo.id,
-          extensionName: extensionInfo.qualifiedName,
-          extensionNamespace: extensionInfo.namespace,
-          registration: {} as ExtensionPanelRegistration,
+        panels: {
+          [panelName]: {
+            extensionId: extensionInfo.id,
+            extensionName: extensionInfo.qualifiedName,
+            extensionNamespace: extensionInfo.namespace,
+            registration: {} as ExtensionPanelRegistration,
+          },
         },
-      },
-    };
+      };
 
-    await act(async () => {
-      await result.current.installExtensions(extensionInfo.namespace!, [new Uint8Array()]);
-    });
+      await act(async () => {
+        await result.current.installExtensions(extensionInfo.namespace!, [new Uint8Array()]);
+      });
 
-    act(() => {
-      result.current.mergeState(extensionInfo, contributionPoints);
-    });
+      act(() => {
+        result.current.mergeState(extensionInfo, contributionPoints);
+      });
 
-    expect(result.current.installedExtensions).toContainEqual(
-      expect.objectContaining({ id: extensionInfo.id }),
-    );
-    expect(result.current.installedMessageConverters).toHaveLength(1);
-    expect(result.current.installedMessageConverters![0]).toEqual({
-      ...messageConverter,
-      converter: expect.any(Function),
-    });
-    expect(result.current.installedPanels).toEqual({ [panelName]: expect.any(Object) });
-    expect(result.current.installedPanels![panelName]).toMatchObject({
-      extensionId: extensionInfo.id,
-      extensionName: extensionInfo.qualifiedName,
-      extensionNamespace: extensionInfo.namespace,
-    });
-    expect(result.current.installedTopicAliasFunctions).toHaveLength(1);
-    expect(result.current.installedTopicAliasFunctions![0]).toMatchObject({
-      extensionId: extensionInfo.id,
+      expect(result.current.installedExtensions).toContainEqual(
+        expect.objectContaining({ id: extensionInfo.id }),
+      );
+      expect(result.current.installedMessageConverters).toHaveLength(1);
+      expect(result.current.installedMessageConverters![0]).toEqual({
+        ...messageConverter,
+        converter: expect.any(Function),
+      });
+      expect(result.current.installedPanels).toEqual({ [panelName]: expect.any(Object) });
+      expect(result.current.installedPanels![panelName]).toMatchObject({
+        extensionId: extensionInfo.id,
+        extensionName: extensionInfo.qualifiedName,
+        extensionNamespace: extensionInfo.namespace,
+      });
+      expect(result.current.installedTopicAliasFunctions).toHaveLength(1);
+      expect(result.current.installedTopicAliasFunctions![0]).toMatchObject({
+        extensionId: extensionInfo.id,
+      });
     });
   });
 });
