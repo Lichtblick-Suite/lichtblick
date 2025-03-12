@@ -18,6 +18,14 @@ Lichtblick is an integrated visualization and diagnosis tool for robotics, avail
   </p>
 </div>
 
+## Documentation
+
+All dev documentation from foxglove can be found at [Lichtblick Documentation](https://lichtblick-suite.github.io/docs/).
+
+For new increments done to Lichtblick, user documentation will be added soon.
+
+Stay tunned 🚀
+
 **Dependencies:**
 
 - [Node.js](https://nodejs.org/en/) v16.10+
@@ -65,6 +73,7 @@ $ yarn run web:serve        # it will be avaiable in http://localhost:8080
 ```
 
 :warning: Ubuntu users: the application may present some issues using GPU. In order to bypass the GPU and process it using directly the CPU (software), please run lichtblick using the variable `LIBGL_ALWAYS_SOFTWARE` set to `1`:
+
 ```sh
 $ LIBGL_ALWAYS_SOFTWARE=1 yarn desktop:start
 ```
