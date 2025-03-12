@@ -3,7 +3,7 @@
 
 import { AnnotationOptions } from "chartjs-plugin-annotation";
 
-import { PlotConfig } from "@lichtblick/suite-base/panels/Plot/config";
+import { PlotConfig, PlotPath } from "@lichtblick/suite-base/panels/Plot/config";
 import { MathFunction } from "@lichtblick/suite-base/panels/Plot/mathFunctions";
 
 export const MATH_FUNCTIONS: { [fn: string]: MathFunction } = {
@@ -49,3 +49,9 @@ export const DEFAULT_PLOT_CONFIG: PlotConfig = {
   xAxisVal: "timestamp",
   sidebarDimension: DEFAULT_SIDEBAR_DIMENSION,
 };
+
+export const DEFAULT_PLOT_PATH: PlotPath = Object.freeze({
+  timestampMethod: "receiveTime",
+  value: "",
+  enabled: true,
+});
