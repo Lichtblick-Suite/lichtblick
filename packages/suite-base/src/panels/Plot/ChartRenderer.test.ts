@@ -6,7 +6,7 @@ import { Zoom as ZoomPlugin } from "@lichtblick/chartjs-plugin-zoom";
 import { Immutable } from "@lichtblick/suite";
 import { ChartRenderer } from "@lichtblick/suite-base/panels/Plot/ChartRenderer";
 import { DEFAULT_ANNOTATION } from "@lichtblick/suite-base/panels/Plot/constants";
-import { getChartOptions } from "@lichtblick/suite-base/panels/Plot/getChartOptions";
+import { getChartOptions } from "@lichtblick/suite-base/panels/Plot/utils/getChartOptions";
 import BasicBuilder from "@lichtblick/suite-base/testing/builders/BasicBuilder";
 
 import {

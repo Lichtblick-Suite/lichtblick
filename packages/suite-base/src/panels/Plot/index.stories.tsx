@@ -23,9 +23,9 @@ import { makeStyles } from "tss-react/mui";
 import PanelSetup, { Fixture, triggerWheel } from "@lichtblick/suite-base/stories/PanelSetup";
 import delay from "@lichtblick/suite-base/util/delay";
 
-import { PlotConfig } from "./config";
 import Plot from "./index";
 import { fixture } from "./storyFixtures";
+import { PlotConfig } from "./utils/config";
 
 const withEndTime = (testFixture: Fixture, endTime: any) => ({
   ...testFixture,

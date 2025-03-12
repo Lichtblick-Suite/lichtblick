@@ -25,7 +25,7 @@ import { SaveConfig } from "@lichtblick/suite-base/types/panels";
 
 import type { PlotCoordinator } from "./PlotCoordinator";
 import { PlotLegendRow, ROW_HEIGHT } from "./PlotLegendRow";
-import { PlotPath, PlotConfig } from "./config";
+import { PlotPath, PlotConfig } from "./utils/config";
 
 const minLegendWidth = 25;
 const maxLegendWidth = 800;

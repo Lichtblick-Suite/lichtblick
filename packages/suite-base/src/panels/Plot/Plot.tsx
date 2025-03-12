@@ -37,7 +37,7 @@ import useGlobalSync from "./hooks/useGlobalSync";
 import usePlotDataHandling from "./hooks/usePlotDataHandling";
 import useRenderer from "./hooks/useRenderer";
 import useSubscriptions from "./hooks/useSubscriptions";
-import { usePlotPanelSettings } from "./settings";
+import { usePlotPanelSettings } from "./utils/settings";
 
 const Plot = (props: PlotProps): React.JSX.Element => {
   const { saveConfig, config } = props;

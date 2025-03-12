@@ -6,13 +6,13 @@ import * as _ from "lodash-es";
 import memoizeWeak from "memoize-weak";
 
 import { SettingsTreeNode, SettingsTreeNodes } from "@lichtblick/suite";
+import { DEFAULT_PLOT_PATH } from "@lichtblick/suite-base/panels/Plot/constants";
+import { PLOTABLE_ROS_TYPES } from "@lichtblick/suite-base/panels/Plot/plotableRosTypes";
 import {
   PlotConfig,
   PlotPath,
   plotPathDisplayName,
-} from "@lichtblick/suite-base/panels/Plot/config";
-import { DEFAULT_PLOT_PATH } from "@lichtblick/suite-base/panels/Plot/constants";
-import { PLOTABLE_ROS_TYPES } from "@lichtblick/suite-base/panels/Plot/plotableRosTypes";
+} from "@lichtblick/suite-base/panels/Plot/utils/config";
 import { lineColors } from "@lichtblick/suite-base/util/plotColors";
 
 type MakeSeriesNode = {

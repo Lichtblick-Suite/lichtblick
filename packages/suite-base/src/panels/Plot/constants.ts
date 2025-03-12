@@ -3,8 +3,8 @@
 
 import { AnnotationOptions } from "chartjs-plugin-annotation";
 
-import { PlotConfig, PlotPath } from "@lichtblick/suite-base/panels/Plot/config";
-import { MathFunction } from "@lichtblick/suite-base/panels/Plot/mathFunctions";
+import { PlotConfig, PlotPath } from "@lichtblick/suite-base/panels/Plot/utils/config";
+import { MathFunction } from "@lichtblick/suite-base/panels/Plot/utils/mathFunctions";
 
 export const MATH_FUNCTIONS: { [fn: string]: MathFunction } = {
   abs: Math.abs,

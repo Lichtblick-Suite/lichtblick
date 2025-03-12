@@ -31,8 +31,8 @@ import {
   SeriesItem,
   Viewport,
 } from "./builders/IDatasetsBuilder";
-import { isReferenceLinePlotPathType, PlotConfig } from "./config";
 import { Dataset, InteractionEvent, Scale, UpdateAction } from "./types";
+import { isReferenceLinePlotPathType, PlotConfig } from "./utils/config";
 
 type EventTypes = {
   timeseriesBounds(bounds: Immutable<Bounds1D>): void;

@@ -3,9 +3,9 @@
 import { TFunction } from "i18next";
 
 import { SettingsTreeNode, SettingsTreeNodeActionItem } from "@lichtblick/suite";
-import { PlotConfig } from "@lichtblick/suite-base/panels/Plot/config";
 import { DEFAULT_PLOT_PATH } from "@lichtblick/suite-base/panels/Plot/constants";
 import { PLOTABLE_ROS_TYPES } from "@lichtblick/suite-base/panels/Plot/plotableRosTypes";
+import { PlotConfig } from "@lichtblick/suite-base/panels/Plot/utils/config";
 import BasicBuilder from "@lichtblick/suite-base/testing/builders/BasicBuilder";
 import PlotBuilder from "@lichtblick/suite-base/testing/builders/PlotBuilder";
 import { lineColors } from "@lichtblick/suite-base/util/plotColors";
