@@ -33,11 +33,9 @@ export default class PlotBuilder {
 
   public static path(props: Partial<PlotPath> = {}): PlotPath {
     return defaults<PlotPath>(props, {
-      value: BasicBuilder.string(),
-      label: BasicBuilder.string(),
-      color: BasicBuilder.string(),
       enabled: BasicBuilder.boolean(),
       timestampMethod: BasicBuilder.sample(["headerStamp", "receiveTime"] as TimestampMethod[]),
+      value: BasicBuilder.string(),
     });
   }
 
