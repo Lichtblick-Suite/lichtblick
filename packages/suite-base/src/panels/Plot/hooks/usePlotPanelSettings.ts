@@ -16,9 +16,9 @@ import { buildSettingsTree } from "@lichtblick/suite-base/panels/Plot/utils/buil
 import { usePanelSettingsTreeUpdate } from "@lichtblick/suite-base/providers/PanelStateContextProvider";
 import { SaveConfig } from "@lichtblick/suite-base/types/panels";
 
-import { PlotConfig } from "./config";
+import { PlotConfig } from "../utils/config";
 
-export function usePlotPanelSettings(
+export default function usePlotPanelSettings(
   config: PlotConfig,
   saveConfig: SaveConfig<PlotConfig>,
   focusedPath?: readonly string[],
