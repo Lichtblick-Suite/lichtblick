@@ -25,8 +25,6 @@ type HandleAction = {
   draft: PlotConfig;
 };
 
-export type HandleAddSeriesAction = HandleAction;
-
 export type HandleDeleteSeriesAction = HandleAction & {
   index: number;
 };
@@ -62,7 +60,7 @@ export function handleUpdateAction({ draft, path, value }: HandleUpdateAction): 
   }
 }
 
-export function handleAddSeriesAction({ draft }: HandleAddSeriesAction): void {
+export function handleAddSeriesAction({ draft }: HandleAction): void {
   if (draft.paths.length === 0) {
     draft.paths.push({ ...DEFAULT_PLOT_PATH });
   }
