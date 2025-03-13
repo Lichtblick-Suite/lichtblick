@@ -16,7 +16,7 @@ import BasicBuilder from "@lichtblick/suite-base/testing/builders/BasicBuilder";
 import PlotBuilder from "@lichtblick/suite-base/testing/builders/PlotBuilder";
 
 import usePlotPanelSettings, {
-  HandleAddSeriesAction,
+  HandleAction,
   handleAddSeriesAction,
   HandleDeleteSeriesAction,
   handleDeleteSeriesAction,
@@ -123,7 +123,7 @@ describe("handleUpdateAction", () => {
 describe("handleAddSeriesAction", () => {
   it.each([{ paths: PlotBuilder.paths() }, { paths: [] }])("should add series", ({ paths }) => {
     const initialConfig = PlotBuilder.config({ paths });
-    const input: HandleAddSeriesAction = {
+    const input: HandleAction = {
       draft: _.cloneDeep(initialConfig),
     };
 
