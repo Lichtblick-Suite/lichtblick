@@ -18,13 +18,11 @@ Lichtblick is an integrated visualization and diagnosis tool for robotics, avail
   </p>
 </div>
 
-## Documentation
+## :book: Documentation
 
-All dev documentation from foxglove can be found at [Lichtblick Documentation](https://lichtblick-suite.github.io/docs/).
+Looking for guidance on using Lichtblick? Check out our [official documentation here!](https://lichtblick-suite.github.io/docs/)
 
-For new increments done to Lichtblick, user documentation will be added soon.
-
-Stay tunned 🚀
+We are actively updating our documentation with new features, stay tunned! :rocket:
 
 **Dependencies:**
 
