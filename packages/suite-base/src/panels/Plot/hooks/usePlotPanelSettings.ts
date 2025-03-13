@@ -21,7 +21,7 @@ import { SaveConfig } from "@lichtblick/suite-base/types/panels";
 
 import { PlotConfig, PlotLegendDisplay } from "../utils/config";
 
-type HandleAction = {
+export type HandleAction = {
   draft: PlotConfig;
 };
 
