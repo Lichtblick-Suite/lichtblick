@@ -7,12 +7,12 @@ import memoizeWeak from "memoize-weak";
 
 import { SettingsTreeNode, SettingsTreeNodes } from "@lichtblick/suite";
 import { DEFAULT_PLOT_PATH } from "@lichtblick/suite-base/panels/Plot/constants";
-import { PLOTABLE_ROS_TYPES } from "@lichtblick/suite-base/panels/Plot/plotableRosTypes";
 import {
   PlotConfig,
   PlotPath,
   plotPathDisplayName,
 } from "@lichtblick/suite-base/panels/Plot/utils/config";
+import { PLOTABLE_ROS_TYPES } from "@lichtblick/suite-base/panels/shared/constants";
 import { lineColors } from "@lichtblick/suite-base/util/plotColors";
 
 type MakeSeriesNode = {
