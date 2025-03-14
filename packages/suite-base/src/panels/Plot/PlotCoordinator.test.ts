@@ -8,7 +8,7 @@ import { parseMessagePath } from "@lichtblick/message-path";
 import { simpleGetMessagePathDataItems } from "@lichtblick/suite-base/components/MessagePathSyntax/simpleGetMessagePathDataItems";
 import { stringifyMessagePath } from "@lichtblick/suite-base/components/MessagePathSyntax/stringifyRosPath";
 import { fillInGlobalVariablesInPath } from "@lichtblick/suite-base/components/MessagePathSyntax/useCachedGetMessagePathDataItems";
-import { InteractionEvent } from "@lichtblick/suite-base/panels/Plot/types";
+import { InteractionEvent, Scale } from "@lichtblick/suite-base/panels/Plot/types";
 import { PlotXAxisVal } from "@lichtblick/suite-base/panels/Plot/utils/config";
 import { MessageBlock } from "@lichtblick/suite-base/players/types";
 import BasicBuilder from "@lichtblick/suite-base/testing/builders/BasicBuilder";
@@ -351,6 +351,137 @@ describe("PlotCoordinator", () => {
 
       expect(queueDispatchRender).toHaveBeenCalled();
       expect(queueDispatchDownsample).toHaveBeenCalled();
+    });
+  });
+
+  describe("setGlobalBounds", () => {
+    it("should set globalBounds and reset interactionBounds", () => {
+      const queueDispatchRender = jest.spyOn(plotCoordinator as any, "queueDispatchRender");
+      const bounds = { min: 0, max: 10 };
+
+      plotCoordinator.setGlobalBounds(bounds);
+
+      expect(plotCoordinator["globalBounds"]).toEqual(bounds);
+      expect(plotCoordinator["interactionBounds"]).toBeUndefined();
+      expect(queueDispatchRender).toHaveBeenCalled();
+    });
+
+    it("should reset Y bounds when globalBounds is undefined", () => {
+      const queueDispatchRenderSpy = jest
+        .spyOn(plotCoordinator as any, "queueDispatchRender")
+        .mockImplementation(() => {});
+      plotCoordinator["shouldResetY"] = false;
+
+      plotCoordinator.setGlobalBounds(undefined);
+
+      expect(plotCoordinator["globalBounds"]).toBeUndefined();
+      expect(plotCoordinator["shouldResetY"]).toBe(true);
+      queueDispatchRenderSpy.mockRestore();
+    });
+  });
+
+  describe("setZoomMode", () => {
+    it.each(["x", "xy", "y"])("should update zoomMode in updateAction", (mode: string) => {
+      const queueDispatchRenderSpy = jest
+        .spyOn(plotCoordinator as any, "queueDispatchRender")
+        .mockImplementation(() => {});
+
+      plotCoordinator.setZoomMode(mode as "x" | "xy" | "y");
+
+      expect(plotCoordinator["updateAction"].zoomMode).toBe(mode);
+      expect(queueDispatchRenderSpy).toHaveBeenCalled();
+    });
+  });
+
+  describe("setSize", () => {
+    it("should update viewport size", () => {
+      const queueDispatchRenderSpy = jest
+        .spyOn(plotCoordinator as any, "queueDispatchRender")
+        .mockImplementation(() => {});
+      const queueDispatchDownsampleSpy = jest
+        .spyOn(plotCoordinator as any, "queueDispatchDownsample")
+        .mockImplementation(() => {});
+      const newSize = { width: 800, height: 600 };
+
+      plotCoordinator.setSize(newSize);
+
+      expect(plotCoordinator["viewport"].size).toEqual(newSize);
+      expect(plotCoordinator["updateAction"].size).toEqual(newSize);
+      expect(queueDispatchRenderSpy).toHaveBeenCalled();
+      expect(queueDispatchDownsampleSpy).toHaveBeenCalled();
+    });
+  });
+
+  describe("getXValueAtPixel", () => {
+    function buildXScale(scale: Partial<Scale> = {}): Scale {
+      return {
+        left: BasicBuilder.number(),
+        right: BasicBuilder.number(),
+        min: BasicBuilder.number(),
+        max: BasicBuilder.number(),
+        ...scale,
+      };
+    }
+
+    it("should return -1 when latestXScale is undefined", () => {
+      const result = plotCoordinator.getXValueAtPixel(100);
+
+      expect(result).toBe(-1);
+    });
+
+    it("should return -1 when pixelRange is zero or negative", () => {
+      plotCoordinator["latestXScale"] = buildXScale({ left: 50, right: 50, min: 0, max: 10 });
+
+      const result = plotCoordinator.getXValueAtPixel(100);
+
+      expect(result).toBe(-1);
+    });
+
+    it("should correctly map pixelX to x value", () => {
+      plotCoordinator["latestXScale"] = buildXScale({ left: 0, right: 200, min: 10, max: 50 });
+
+      const result = plotCoordinator.getXValueAtPixel(100);
+
+      expect(result).toBe(30);
+    });
+
+    it("should return min value when pixelX is at left boundary", () => {
+      plotCoordinator["latestXScale"] = buildXScale({ left: 0, right: 200, min: 10, max: 50 });
+
+      const result = plotCoordinator.getXValueAtPixel(0);
+
+      expect(result).toBe(10);
+    });
+
+    it("should return max value when pixelX is at right boundary", () => {
+      plotCoordinator["latestXScale"] = buildXScale({ left: 0, right: 200, min: 10, max: 50 });
+
+      const result = plotCoordinator.getXValueAtPixel(200);
+
+      expect(result).toBe(50);
+    });
+  });
+
+  describe("getCsvData", () => {
+    it("should return an empty array when destroyed", async () => {
+      plotCoordinator["destroyed"] = true;
+
+      const result = await plotCoordinator.getCsvData();
+      expect(result).toEqual([]);
+    });
+
+    it("should return datasets from datasetsBuilder.getCsvData", async () => {
+      const mockData = [
+        { name: "dataset1", data: [1, 2, 3] },
+        { name: "dataset2", data: [4, 5, 6] },
+      ];
+      datasetsBuilder.getCsvData = jest.fn().mockResolvedValue(mockData);
+
+      const result = await plotCoordinator.getCsvData();
+
+      const getCsvDataSpy = jest.spyOn(datasetsBuilder, "getCsvData");
+      expect(result).toEqual(mockData);
+      expect(getCsvDataSpy).toHaveBeenCalled();
     });
   });
 });
