@@ -33,11 +33,11 @@ jest.mock(
   }),
 );
 
-jest.mock("../config", () => ({
+jest.mock("../utils/config", () => ({
   isReferenceLinePlotPathType: jest.fn(),
 }));
 
-jest.mock("../subscription", () => ({
+jest.mock("../utils/subscription", () => ({
   pathToSubscribePayload: jest.fn(),
 }));
 
