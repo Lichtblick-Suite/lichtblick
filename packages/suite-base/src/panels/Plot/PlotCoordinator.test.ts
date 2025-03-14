@@ -4,11 +4,16 @@ import type { Theme } from "@mui/material";
 import { EventEmitter } from "eventemitter3";
 import * as _ from "lodash-es";
 
+import { parseMessagePath } from "@lichtblick/message-path";
 import { simpleGetMessagePathDataItems } from "@lichtblick/suite-base/components/MessagePathSyntax/simpleGetMessagePathDataItems";
+import { stringifyMessagePath } from "@lichtblick/suite-base/components/MessagePathSyntax/stringifyRosPath";
+import { fillInGlobalVariablesInPath } from "@lichtblick/suite-base/components/MessagePathSyntax/useCachedGetMessagePathDataItems";
 import { InteractionEvent } from "@lichtblick/suite-base/panels/Plot/types";
+import { PlotXAxisVal } from "@lichtblick/suite-base/panels/Plot/utils/config";
 import { MessageBlock } from "@lichtblick/suite-base/players/types";
 import BasicBuilder from "@lichtblick/suite-base/testing/builders/BasicBuilder";
 import PlayerBuilder from "@lichtblick/suite-base/testing/builders/PlayerBuilder";
+import PlotBuilder from "@lichtblick/suite-base/testing/builders/PlotBuilder";
 import RosTimeBuilder from "@lichtblick/suite-base/testing/builders/RosTimeBuilder";
 import { Bounds } from "@lichtblick/suite-base/types/Bounds";
 
@@ -39,6 +44,21 @@ jest.mock(
     simpleGetMessagePathDataItems: jest.fn(),
   }),
 );
+
+jest.mock("@lichtblick/message-path", () => ({
+  parseMessagePath: jest.fn(),
+}));
+
+jest.mock(
+  "@lichtblick/suite-base/components/MessagePathSyntax/useCachedGetMessagePathDataItems",
+  () => ({
+    fillInGlobalVariablesInPath: jest.fn(),
+  }),
+);
+
+jest.mock("@lichtblick/suite-base/components/MessagePathSyntax/stringifyRosPath", () => ({
+  stringifyMessagePath: jest.fn(),
+}));
 
 describe("PlotCoordinator", () => {
   let renderer: jest.Mocked<OffscreenCanvasRenderer>;
@@ -250,6 +270,87 @@ describe("PlotCoordinator", () => {
 
       const handleBlocksSpyOn = jest.spyOn(datasetsBuilder, "handleBlocks");
       expect(handleBlocksSpyOn).toHaveBeenCalled();
+    });
+  });
+
+  describe("handleConfig", () => {
+    it("should set isTimeseriesPlot to true when xAxisVal is 'timestamp'", () => {
+      const config = PlotBuilder.config({
+        xAxisVal: "timestamp",
+        followingViewWidth: 10,
+        paths: [],
+      });
+
+      plotCoordinator.handleConfig(config, "light", {});
+
+      expect(plotCoordinator["isTimeseriesPlot"]).toBe(true);
+      expect(plotCoordinator["followRange"]).toBe(config.followingViewWidth);
+    });
+
+    it("should set isTimeseriesPlot to false when xAxisVal is not 'timestamp'", () => {
+      const config = PlotBuilder.config({
+        xAxisVal: BasicBuilder.sample(["index", "custom", "currentCustom"] as PlotXAxisVal[]),
+        paths: [],
+      });
+
+      plotCoordinator.handleConfig(config, "dark", {});
+
+      expect(plotCoordinator["isTimeseriesPlot"]).toBe(false);
+      expect(plotCoordinator["currentSeconds"]).toBeUndefined();
+    });
+
+    it("should update configBounds correctly", () => {
+      const config = PlotBuilder.config();
+
+      plotCoordinator.handleConfig(config, "light", {});
+
+      expect(plotCoordinator["configBounds"]).toEqual({
+        x: { min: config.minXValue, max: config.maxXValue },
+        y: { min: config.minYValue, max: config.maxYValue },
+      });
+    });
+
+    it("should set updateAction.yBounds if configYBoundsChanged", () => {
+      const config = PlotBuilder.config({
+        minYValue: 1,
+        maxYValue: 5,
+      });
+      // avoid queueDispatchRender() overwrite updateAction
+      jest.spyOn(plotCoordinator as any, "queueDispatchRender").mockImplementation(() => {});
+
+      plotCoordinator.handleConfig(config, "light", {});
+
+      expect(plotCoordinator["updateAction"].yBounds).toEqual({
+        min: config.minYValue,
+        max: config.maxYValue,
+      });
+    });
+
+    it("should correctly process paths and generate series", () => {
+      const config = PlotBuilder.config();
+      (parseMessagePath as jest.Mock).mockReturnValue(BasicBuilder.string());
+      (fillInGlobalVariablesInPath as jest.Mock).mockReturnValue(undefined);
+      (stringifyMessagePath as jest.Mock).mockReturnValue("");
+
+      plotCoordinator.handleConfig(config, "light", {});
+
+      expect(plotCoordinator["series"].length).toBe(config.paths.length);
+      expect(plotCoordinator["series"][0]?.messagePath).toBe(config.paths[0]?.value);
+      expect(plotCoordinator["series"][1]?.messagePath).toBe(config.paths[1]?.value);
+      expect(plotCoordinator["series"][2]?.messagePath).toBe(config.paths[2]?.value);
+      const setSeriesSpy = jest.spyOn(datasetsBuilder, "setSeries");
+      expect(setSeriesSpy).toHaveBeenCalledWith(plotCoordinator["series"]);
+    });
+
+    it("should dispatch render and queue downsample", async () => {
+      const queueDispatchRender = jest.spyOn(plotCoordinator as any, "queueDispatchRender");
+      const queueDispatchDownsample = jest.spyOn(plotCoordinator as any, "queueDispatchDownsample");
+      const config = PlotBuilder.config();
+
+      plotCoordinator.handleConfig(config, "light", {});
+
+      expect(queueDispatchRender).toHaveBeenCalled();
+      expect(queueDispatchDownsample).toHaveBeenCalled();
     });
   });
 });
