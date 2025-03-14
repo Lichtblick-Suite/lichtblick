@@ -76,7 +76,7 @@ jest.mock("@lichtblick/chartjs-plugin-zoom", () => ({
   },
 }));
 
-jest.mock("@lichtblick/suite-base/panels/Plot/getChartOptions", () => ({
+jest.mock("@lichtblick/suite-base/panels/Plot/utils/getChartOptions", () => ({
   getChartOptions: jest.fn().mockReturnValue({}),
 }));
 
