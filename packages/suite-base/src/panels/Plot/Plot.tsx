@@ -64,7 +64,7 @@ const Plot = (props: PlotProps): React.JSX.Element => {
   const [subscriberId] = useState(() => uuidv4());
   const [canvasDiv, setCanvasDiv] = useState<HTMLDivElement | ReactNull>(ReactNull);
   const [coordinator, setCoordinator] = useState<PlotCoordinator | undefined>(undefined);
-  const shouldSync = config.xAxisVal === "timestamp" && config.isSynced;
+  const shouldSync = config.isSynced;
   const renderer = useRenderer(canvasDiv, theme);
   const { globalVariables } = useGlobalVariables();
   const getMessagePipelineState = useMessagePipelineGetter();
