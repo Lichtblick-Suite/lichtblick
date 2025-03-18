@@ -241,13 +241,17 @@ function WorkspaceContent(props: WorkspaceProps): React.JSX.Element {
       log.debug("open files", files);
 
       const data: Uint8Array[] = [];
-      for (const file of files) {
-        if (file.name.endsWith(".foxe")) {
-          const arrayBuffer = await file.arrayBuffer();
-          data.push(new Uint8Array(arrayBuffer));
-        } else {
-          otherFiles.push(file);
+      try {
+        for (const file of files) {
+          if (file.name.endsWith(".foxe")) {
+            const arrayBuffer = await file.arrayBuffer();
+            data.push(new Uint8Array(arrayBuffer));
+          } else {
+            otherFiles.push(file);
+          }
         }
+      } catch (error) {
+        console.error(`Error loading foxe files:`, error);
       }
 
       try {
