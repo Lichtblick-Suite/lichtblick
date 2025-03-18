@@ -15,6 +15,7 @@ import {
   PanelSettings,
   RegisterMessageConverterArgs,
 } from "@lichtblick/suite";
+import { ExtensionSettings } from "@lichtblick/suite-base/components/PanelSettings/types";
 import { TopicAliasFunctions } from "@lichtblick/suite-base/players/TopicAliasingPlayer/TopicAliasingPlayer";
 import { ExtensionInfo, ExtensionNamespace } from "@lichtblick/suite-base/types/Extensions";
 
@@ -47,22 +48,21 @@ export type ExtensionCatalog = Immutable<{
   loadedExtensions: Set<string>;
   installedExtensions: undefined | ExtensionInfo[];
   installedPanels: undefined | Record<string, RegisteredPanel>;
-  installedMessageConverters:
-    | undefined
-    | Omit<RegisterMessageConverterArgs<unknown>, "panelSettings">[];
+  installedMessageConverters: undefined | Omit<MessageConverter, "panelSettings">[];
   installedTopicAliasFunctions: undefined | TopicAliasFunctions;
-  panelSettings: undefined | Record<string, Record<string, PanelSettings<unknown>>>;
+  panelSettings: undefined | ExtensionSettings;
 }>;
 
 export type MessageConverter = RegisterMessageConverterArgs<unknown> & {
   extensionNamespace?: ExtensionNamespace;
+  extensionId?: string;
 };
 
 export type ContributionPoints = {
   panels: Record<string, RegisteredPanel>;
   messageConverters: MessageConverter[];
   topicAliasFunctions: TopicAliasFunctions;
-  panelSettings: Record<string, Record<string, PanelSettings<unknown>>>;
+  panelSettings: ExtensionSettings;
 };
 
 export const ExtensionCatalogContext = createContext<undefined | StoreApi<ExtensionCatalog>>(

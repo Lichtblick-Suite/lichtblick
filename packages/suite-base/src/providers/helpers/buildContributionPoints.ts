@@ -7,12 +7,12 @@ import ReactDOM from "react-dom";
 import Logger from "@lichtblick/log";
 import {
   RegisterMessageConverterArgs,
-  PanelSettings,
   ExtensionContext,
   TopicAliasFunction,
   ExtensionModule,
   ExtensionPanelRegistration,
 } from "@lichtblick/suite";
+import { ExtensionSettings } from "@lichtblick/suite-base/components/PanelSettings/types";
 import {
   ContributionPoints,
   RegisteredPanel,
@@ -30,7 +30,7 @@ export function buildContributionPoints(
   // the fully qualified id is the extension name + panel name
   const panels: Record<string, RegisteredPanel> = {};
   const messageConverters: RegisterMessageConverterArgs<unknown>[] = [];
-  const panelSettings: Record<string, Record<string, PanelSettings<unknown>>> = {};
+  const panelSettings: ExtensionSettings = {};
   const topicAliasFunctions: ContributionPoints["topicAliasFunctions"] = [];
 
   log.debug(`Mounting extension ${extension.qualifiedName}`);

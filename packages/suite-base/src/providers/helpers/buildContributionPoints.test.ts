@@ -1,12 +1,8 @@
 // SPDX-FileCopyrightText: Copyright (C) 2023-2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)<lichtblick@bmwgroup.com>
 // SPDX-License-Identifier: MPL-2.0
 
-import {
-  RegisterMessageConverterArgs,
-  TopicAliasFunction,
-  ExtensionPanelRegistration,
-  PanelSettings,
-} from "@lichtblick/suite";
+import { TopicAliasFunction, ExtensionPanelRegistration, PanelSettings } from "@lichtblick/suite";
+import { MessageConverter } from "@lichtblick/suite-base/context/ExtensionCatalogContext";
 import BasicBuilder from "@lichtblick/suite-base/testing/builders/BasicBuilder";
 import ExtensionBuilder from "@lichtblick/suite-base/testing/builders/ExtensionBuilder";
 
@@ -97,7 +93,7 @@ describe("buildContributionPoints", () => {
 
   it("should register a message converter", () => {
     const extensionInfo = ExtensionBuilder.extension();
-    const messageConverter: RegisterMessageConverterArgs<unknown> = {
+    const messageConverter: MessageConverter = {
       fromSchemaName: BasicBuilder.string(),
       toSchemaName: BasicBuilder.string(),
       panelSettings: {},
@@ -128,26 +124,23 @@ describe("buildContributionPoints", () => {
 
   it("should register a message converter with panel settings", () => {
     const extensionInfo = ExtensionBuilder.extension();
-    const panelA: PanelSettings<unknown> = {
+    const panelSettingsA: PanelSettings<unknown> = {
       defaultConfig: BasicBuilder.genericDictionary(String),
-      extensionId: extensionInfo.id,
       handler: jest.fn(),
       settings: jest.fn(),
     };
-    const panelB: PanelSettings<unknown> = {
+    const panelSettingsB: PanelSettings<unknown> = {
       defaultConfig: BasicBuilder.genericDictionary(String),
-      extensionId: extensionInfo.id,
       handler: jest.fn(),
       settings: jest.fn(),
     };
-    const messageConverter: RegisterMessageConverterArgs<unknown> = {
+    const messageConverter: MessageConverter = {
       fromSchemaName: BasicBuilder.string(),
       toSchemaName: BasicBuilder.string(),
       panelSettings: {
-        panelA,
-        panelB,
+        panelSettingsA,
+        panelSettingsB,
       },
-      extensionId: extensionInfo.id,
       converter: jest.fn(),
     };
 
@@ -164,10 +157,16 @@ describe("buildContributionPoints", () => {
 
     expect(result.panelSettings).toBeDefined();
     expect(Object.keys(result.panelSettings)).toHaveLength(2);
-    expect(result.panelSettings.panelA).toHaveProperty(messageConverter.fromSchemaName);
-    expect(result.panelSettings.panelA![messageConverter.fromSchemaName]).toEqual(panelA);
-    expect(result.panelSettings.panelB).toHaveProperty(messageConverter.fromSchemaName);
-    expect(result.panelSettings.panelB![messageConverter.fromSchemaName]).toEqual(panelB);
+    expect(result.messageConverters).toHaveLength(1);
+    expect(result.messageConverters[0]?.extensionId).toEqual(extensionInfo.id);
+    expect(result.panelSettings.panelSettingsA).toHaveProperty(messageConverter.fromSchemaName);
+    expect(result.panelSettings.panelSettingsA![messageConverter.fromSchemaName]).toEqual(
+      panelSettingsA,
+    );
+    expect(result.panelSettings.panelSettingsB).toHaveProperty(messageConverter.fromSchemaName);
+    expect(result.panelSettings.panelSettingsB![messageConverter.fromSchemaName]).toEqual(
+      panelSettingsB,
+    );
     delete (globalThis as any).messageConverter;
   });
 
