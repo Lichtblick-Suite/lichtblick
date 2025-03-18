@@ -49,6 +49,7 @@ const marketplaceExtensions: ExtensionInfo[] = [
 
 const MockExtensionLoader: ExtensionLoader = {
   namespace: "local",
+  getExtension: async () => installedExtensions[0],
   getExtensions: async () => installedExtensions,
   loadExtension: async (_id: string) => "",
   installExtension: async (_foxeFileData: Uint8Array) => {
