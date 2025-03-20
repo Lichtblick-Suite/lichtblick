@@ -277,7 +277,8 @@ function WorkspaceContent(props: WorkspaceProps): React.JSX.Element {
         for (const source of availableSources) {
           const filteredFiles = otherFiles.filter((file) => {
             const ext = extname(file.name);
-            return source.supportedFileTypes?.includes(ext);
+
+            return source.supportedFileTypes ? source.supportedFileTypes.includes(ext) : false;
           });
 
           // select the first source that has files that match the supported extensions

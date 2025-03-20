@@ -55,6 +55,7 @@ const storybookConfig: StorybookConfig = {
       resolve: {
         ...studioWebpackConfig.resolve,
         fallback: {
+          // eslint-disable-next-line @typescript-eslint/no-misused-spread
           ...studioWebpackConfig.resolve?.fallback,
           constants: (config.resolve!.fallback as Record<string, string | false | string[]>)
             .constants!,
