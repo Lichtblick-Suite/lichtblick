@@ -159,7 +159,8 @@ function NodeEditorComponent(props: NodeEditorProps): React.JSX.Element {
   );
 
   const fieldEditors = useMemo(
-    () => entries.filter(([, field]) => field).map(([key, field]) => renderFieldEditor(key, field)),
+    () =>
+      entries.filter(([, field]) => field).map(([key, field]) => renderFieldEditor(key, field!)),
     [entries, renderFieldEditor],
   );
 
