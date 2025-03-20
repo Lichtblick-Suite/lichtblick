@@ -5893,6 +5893,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@typescript-eslint/rule-tester@npm:8.25.0":
+  version: 8.25.0
+  resolution: "@typescript-eslint/rule-tester@npm:8.25.0"
+  dependencies:
+    "@typescript-eslint/typescript-estree": 8.25.0
+    "@typescript-eslint/utils": 8.25.0
+    ajv: ^6.12.6
+    json-stable-stringify-without-jsonify: ^1.0.1
+    lodash.merge: 4.6.2
+    semver: ^7.6.0
+  peerDependencies:
+    eslint: ^8.57.0 || ^9.0.0
+  checksum: 55e0953c64ac5c888234f6163c08e1da4518319572609a7ea05d3a68bd2e095fa3c73f68d6ffc17f1c82f9a82ad27a12b31fb5d45ef9d729d483c8aa9a8144ad
+  languageName: node
+  linkType: hard
+
 "@typescript-eslint/scope-manager@npm:5.62.0":
   version: 5.62.0
   resolution: "@typescript-eslint/scope-manager@npm:5.62.0"
@@ -14141,6 +14157,7 @@ __metadata:
     "@types/semver": ^7.5.3
     "@typescript-eslint/eslint-plugin": 8.25.0
     "@typescript-eslint/parser": 8.25.0
+    "@typescript-eslint/rule-tester": 8.25.0
     "@typescript-eslint/utils": 8.25.0
     assert: 2.1.0
     babel-plugin-transform-import-meta: 2.2.1
