@@ -28,6 +28,10 @@ import {
 } from "@lichtblick/suite";
 import { HighlightedText } from "@lichtblick/suite-base/components/HighlightedText";
 import { useStyles } from "@lichtblick/suite-base/components/SettingsTreeEditor/NodeEditor.style";
+import {
+  NodeEditorProps,
+  SelectVisibilityFilterValue,
+} from "@lichtblick/suite-base/components/SettingsTreeEditor/types";
 import Stack from "@lichtblick/suite-base/components/Stack";
 import { useAppContext } from "@lichtblick/suite-base/context/AppContext";
 
@@ -36,15 +40,6 @@ import { NodeActionsMenu } from "./NodeActionsMenu";
 import { VisibilityToggle } from "./VisibilityToggle";
 import { icons } from "./icons";
 import { prepareSettingsNodes } from "./utils";
-
-type NodeEditorProps = {
-  actionHandler: (action: SettingsTreeAction) => void;
-  defaultOpen?: boolean;
-  filter?: string;
-  focusedPath?: readonly string[];
-  path: readonly string[];
-  settings?: Immutable<SettingsTreeNode>;
-};
 
 function ExpansionArrow({ expanded }: { expanded: boolean }): React.JSX.Element {
   const { classes } = useStyles();
@@ -59,7 +54,6 @@ function ExpansionArrow({ expanded }: { expanded: boolean }): React.JSX.Element 
 
 const makeStablePath = memoizeWeak((path: readonly string[], key: string) => [...path, key]);
 
-type SelectVisibilityFilterValue = "all" | "visible" | "invisible";
 const SelectVisibilityFilterOptions: (t: TFunction<"settingsEditor">) => {
   label: string;
   value: SelectVisibilityFilterValue;
@@ -165,8 +159,7 @@ function NodeEditorComponent(props: NodeEditorProps): React.JSX.Element {
   );
 
   const fieldEditors = useMemo(
-    () =>
-      entries.filter(([, field]) => field).map(([key, field]) => renderFieldEditor(key, field!)),
+    () => entries.filter(([, field]) => field).map(([key, field]) => renderFieldEditor(key, field)),
     [entries, renderFieldEditor],
   );
 
