@@ -333,7 +333,10 @@ function RawMessages(props: Props) {
             );
           }
 
-          let constantName: string | undefined;
+          let constantName: string | undefined =
+            typeof label === "number" && queriedData[label]
+              ? queriedData[label]?.constantName
+              : undefined;
           if (structureItem) {
             const childStructureItem = getStructureItemForPath(
               structureItem,
