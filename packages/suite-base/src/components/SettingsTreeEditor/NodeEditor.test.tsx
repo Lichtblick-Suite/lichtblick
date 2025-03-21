@@ -33,11 +33,7 @@ const changeVisibilityFilter = (visibility: SelectVisibilityFilterValue) => {
 };
 
 describe("NodeEditor childNodes filtering", () => {
-  const nodes: [string, string, string] = BasicBuilder.strings({ count: 3 }) as [
-    string,
-    string,
-    string,
-  ];
+  const nodes = BasicBuilder.strings({ count: 3 }) as [string, string, string];
 
   const tree: Immutable<SettingsTreeNode> = {
     enableVisibilityFilter: true,
