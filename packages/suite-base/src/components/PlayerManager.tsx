@@ -155,7 +155,9 @@ export default function PlayerManager(
       log.debug(`Select Source: ${sourceId}`);
 
       const foundSource = playerSources.find(
-        (source) => source.id === sourceId || source.legacyIds?.includes(sourceId),
+        (source) =>
+          source.id === sourceId ||
+          (source.legacyIds ? source.legacyIds.includes(sourceId) : false),
       );
       if (!foundSource) {
         enqueueSnackbar(`Unknown data source: ${sourceId}`, { variant: "warning" });
